@@ -25,3 +25,6 @@
 #-renamesourcefileattribute SourceFile
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
+-keep class com.just.library.** {*;}
+-dontwarn com.just.library.**
+-keepclassmembers class com.just.library.agentweb.AndroidInterface{ *; }

@@ -129,4 +129,8 @@
 
     <string name="viewfinderview_status_text1">将二维码/条码放入取景框内</string>
     <string name="viewfinderview_status_text2">即可自动扫描</string>
+    <string name="password">password</string>
+    <string name="user_name">username</string>
+    <string name="login">登陆</string>
+    <string name="register">注册</string>
 </resources>

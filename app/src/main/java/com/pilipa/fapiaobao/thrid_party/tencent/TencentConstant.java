@@ -1,4 +1,4 @@
-package com.pilipa.fapiaobao.Constants;
+package com.pilipa.fapiaobao.thrid_party.tencent;
 
 /**
  * Created by lyt on 2017/10/11.

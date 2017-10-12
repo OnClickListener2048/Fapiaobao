@@ -21,6 +21,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -217,15 +218,19 @@ public final class CameraManager {
 				return null;
 			}
 
-//			int width = findDesiredDimensionInRange(screenResolution.x,
-//					MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
-//			int height = findDesiredDimensionInRange(screenResolution.y,
-//					MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
-			
 			int width = findDesiredDimensionInRange(screenResolution.x,
-					MIN_FRAME_WIDTH, MAX_FRAME_WIDTH)*4/5;
+					MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
 			int height = findDesiredDimensionInRange(screenResolution.y,
-					MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT)*4/5;
+					MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
+//
+//			int width = findDesiredDimensionInRange(screenResolution.x,
+//					MIN_FRAME_WIDTH, MAX_FRAME_WIDTH)*4/5;
+//			int height = findDesiredDimensionInRange(screenResolution.y,
+//					MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT)*4/5;
+//			DisplayMetrics dm = context.getResources().getDisplayMetrics();
+//			int width = (int)(dm.widthPixels * 0.6);
+//			int height = (int)(width * 0.9);
+
 
 			int leftOffset = (screenResolution.x - width) / 2;
 			int topOffset = (screenResolution.y - height) / 2;

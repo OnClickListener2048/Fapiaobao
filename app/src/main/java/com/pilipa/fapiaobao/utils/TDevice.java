@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -34,6 +35,11 @@ import java.util.List;
  */
 
 public class TDevice {
+    public final static String DEFAULT_SAVE_FILE_PATH = Environment
+            .getExternalStorageDirectory()
+            + File.separator
+            + "Borderless"
+            + File.separator + "download" + File.separator;
     /**
      * Change SP to PX
      *

@@ -14,4 +14,24 @@
     <color name="transparent">#00000000</color>
     <color name="viewfinder_laser">#ffcc0000</color> <!-- Android standard ICS color -->
     <color name="viewfinder_mask">#60000000</color>
+    <color name="black">#000000</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="gray_line">#E7E7E7</color>
+    <color name="gray_hint">#AEAEAE</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="login">#244C61</color>
+    <color name="register">#218ADA</color>
+    <color name="btn_reception">#ffb94a</color>
+    <color name="btn_reception_end">#f39002</color>
+    <color name="sendout_start">#44a8ff</color>
+    <color name="sendout_end">#0082e2</color>
+    <!--scan code -->
+
+
+    <color name="red">#ffcc0000</color>
+    <color name="reception_item">#fc5353</color>
+    <color name="cancel">#999999</color>
+
+    <color name="main_ed">#00A2F2</color>
+    <color name="main">#849EAF</color>
 </resources>
