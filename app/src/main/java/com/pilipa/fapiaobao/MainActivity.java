@@ -15,17 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mylibrary.utils.TLog;
 import com.just.library.AgentWeb;
 import com.just.library.ChromeClientCallbackManager;
-import com.pilipa.fapiaobao.thrid_party.tencent.TencentConstant;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
-import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
-import com.tencent.tauth.UiError;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,DownloadListener {
 
@@ -36,8 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private static final int REQUEST_CODE_SCAN = 0x0000;
-    private Tencent mTencent;
-    private String Scope = "all";
+
     private AgentWeb.PreAgentWeb mAgentWeb;
     private ChromeClientCallbackManager.ReceivedTitleCallback mCallback = new ChromeClientCallbackManager.ReceivedTitleCallback() {
         @Override
@@ -51,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTencent = Tencent.createInstance(TencentConstant.APP_ID, this.getApplicationContext());
+
         initView();
 
         // AgentWeb 保持了 WebView 的使用 ，
@@ -115,46 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            "access_token":"xxxxxxxxxxxxxxxxxxxxx"
 //    }
 
-    public void login() {
-        mTencent = Tencent.createInstance(TencentConstant.APP_ID, this.getApplicationContext());
-        if (!mTencent.isSessionValid()) {
-            mTencent.login(this, Scope, new IUiListener() {
-                @Override
-                public void onComplete(Object o) {
-                    JSONObject jsonObject = (JSONObject) o;
-                    try {
-                        String ret = (String) jsonObject.get("ret");
-                        TLog.log(ret);
-                        String pf = (String) jsonObject.get("pf");
-                        TLog.log(pf);
-                        String expires_in = (String) jsonObject.get("expires_in");
-                        TLog.log(expires_in);
-                        String openid = (String) jsonObject.get("openid");
-                        TLog.log(openid);
-                        String pfkey = (String) jsonObject.get("pfkey");
-                        TLog.log(ret);
-                        String msg = (String) jsonObject.get("msg");
-                        TLog.log(ret);
-                        String access_token = (String) jsonObject.get("access_token");
-                        TLog.log(ret);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    TLog.log("onComplete ");
-                }
 
-                @Override
-                public void onError(UiError uiError) {
-                    TLog.log("onError");
-                }
-
-                @Override
-                public void onCancel() {
-                    TLog.log("onCancel");
-                }
-            });
-        }
-    }
 
     private void initView() {
         scanBtn = (Button) findViewById(R.id.scanBtn);

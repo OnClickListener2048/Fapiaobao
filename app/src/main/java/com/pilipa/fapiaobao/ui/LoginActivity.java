@@ -1,15 +1,35 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by lyt on 2017/10/12.
  */
 
-public class LoginActivity extends BaseActivity{
+public class LoginActivity extends BaseActivity {
+
+    @BindView(R.id.et_username)
+    EditText etUsername;
+    @BindView(R.id.et_password)
+    EditText etPassword;
+    @BindView(R.id.eye_login)
+    ImageView eyeLogin;
+    @BindView(R.id.tv_newAccount)
+    TextView tvNewAccount;
+    @BindView(R.id.login)
+    Button login;
 
     @Override
     protected int getLayoutId() {
@@ -29,5 +49,23 @@ public class LoginActivity extends BaseActivity{
     @Override
     public void initData() {
 
+    }
+
+
+
+    @OnClick({R.id.et_username, R.id.et_password, R.id.eye_login, R.id.tv_newAccount, R.id.login})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.et_username:
+                break;
+            case R.id.et_password:
+                break;
+            case R.id.eye_login:
+                break;
+            case R.id.tv_newAccount:
+                break;
+            case R.id.login:
+                break;
+        }
     }
 }
