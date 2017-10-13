@@ -59,6 +59,7 @@
         </activity>
         <activity android:name=".ui.LeadActivity" />
         <activity android:name=".ui.LoginActivity" />
+
     </application>
 
 </manifest>

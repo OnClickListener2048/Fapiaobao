@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 
-import butterknife.BindView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -20,15 +20,17 @@ import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
 
-    @BindView(R.id.et_username)
+
+
+    @Bind(R.id.et_username)
     EditText etUsername;
-    @BindView(R.id.et_password)
+    @Bind(R.id.et_password)
     EditText etPassword;
-    @BindView(R.id.eye_login)
+    @Bind(R.id.eye_login)
     ImageView eyeLogin;
-    @BindView(R.id.tv_newAccount)
+    @Bind(R.id.tv_newAccount)
     TextView tvNewAccount;
-    @BindView(R.id.login)
+    @Bind(R.id.login)
     Button login;
 
     @Override
@@ -52,7 +54,6 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-
     @OnClick({R.id.et_username, R.id.et_password, R.id.eye_login, R.id.tv_newAccount, R.id.login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -68,4 +69,6 @@ public class LoginActivity extends BaseActivity {
                 break;
         }
     }
+
+
 }

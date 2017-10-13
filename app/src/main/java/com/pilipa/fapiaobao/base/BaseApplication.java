@@ -7,9 +7,14 @@ import android.support.v4.content.SharedPreferencesCompat;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.widget.SimplexToast;
 import com.pilipa.fapiaobao.Constants.Bugly;
+import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 
 /**
  * Created by lyt on 2017/10/9.
@@ -25,6 +30,20 @@ public class BaseApplication extends Application {
         _context = getApplicationContext();
         //LeakCanary.install(this);
         CrashReport.initCrashReport(getApplicationContext(), Bugly.APP_ID, Bugly.TOOGLE);
+        UMConfigure.init(this, PushConstant.APP_KEY, PushConstant.Umeng_Message_Secret, UMConfigure.DEVICE_TYPE_PHONE, PushConstant.Umeng_Message_Secret);
+        PushAgent mPushAgent = PushAgent.getInstance(_context);
+        mPushAgent.onAppStart();
+        mPushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String s) {
+                TLog.log(s);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+
+            }
+        });
     }
 
     public static synchronized BaseApplication context() {

@@ -78,4 +78,8 @@
     <dimen name="d18">18dp</dimen>
     <dimen name="d0">0dp</dimen>
     <dimen name="d23">23dp</dimen>
+    <dimen name="d170">170dp</dimen>
+    <dimen name="d38">38dp</dimen>
+    <dimen name="s5">5sp</dimen>
+    <dimen name="d90">90dp</dimen>
 </resources>

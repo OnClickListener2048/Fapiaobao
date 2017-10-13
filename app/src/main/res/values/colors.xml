@@ -34,4 +34,6 @@
 
     <color name="main_ed">#00A2F2</color>
     <color name="main">#849EAF</color>
+    <color name="user_info_message_notice">#318923</color>
+
 </resources>

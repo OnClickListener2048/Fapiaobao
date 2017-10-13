@@ -1,7 +1,5 @@
 <resources>
-    <string name="app_name">Fapiaobao</string>
-
-
+    <string name="app_name">发票宝</string>
 
 
     <string name="app_picker_name">Applications</string>
@@ -133,4 +131,17 @@
     <string name="user_name">username</string>
     <string name="login">登陆</string>
     <string name="register">注册</string>
+    <string name="main_tab_name_tex">发票广场</string>
+    <string name="main_tab_name_publish">发布需求</string>
+    <string name="main_tab_name_me">个人中心</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="all">全部</string>
+    <string name="collection">收藏</string>
+    <string name="general">综合</string>
+    <string name="bonus">奖金值</string>
+    <string name="credit">信用值</string>
+    <string name="filter">筛选</string>
+    <string name="errorview">网络不通</string>
 </resources>

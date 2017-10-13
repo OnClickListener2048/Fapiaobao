@@ -28,3 +28,10 @@
 -keep class com.just.library.** {*;}
 -dontwarn com.just.library.**
 -keepclassmembers class com.just.library.agentweb.AndroidInterface{ *; }
+-keep class com.umeng.error.UMError{ public ; }
+
+-keep class com.umeng.error.UMErrorCatch{ public ; }
+
+-keep class com.umeng.error.UMErrorDataManger{ public ; }
+
+-keep class com.umeng.error.BatteryUtils{ public ; }
