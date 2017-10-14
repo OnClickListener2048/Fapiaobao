@@ -82,4 +82,5 @@
     <dimen name="d38">38dp</dimen>
     <dimen name="s5">5sp</dimen>
     <dimen name="d90">90dp</dimen>
+    <dimen name="d24">24dp</dimen>
 </resources>

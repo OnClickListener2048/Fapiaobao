@@ -47,7 +47,7 @@ dependencies {
     compile 'com.squareup.okio:okio:1.13.0'
     compile 'com.lzy.net:okgo:3.0.4'
     compile 'com.jakewharton:butterknife:7.0.1'
-
+    compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
     compile('com.alibaba.android:ultraviewpager:1.0.6.1@aar') {
         transitive = true
     }

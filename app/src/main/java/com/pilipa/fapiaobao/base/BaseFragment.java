@@ -206,6 +206,10 @@ public abstract class BaseFragment extends Fragment {
         return view;
     }
 
+    protected void showToast(String string) {
+        BaseApplication.showToast(string);
+    }
+
     protected void setInVisibility(int id) {
         findView(id).setVisibility(View.INVISIBLE);
     }
@@ -215,9 +219,6 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void addFragment(int frameLayoutId, Fragment fragment) {
-        if (!TDevice.hasInternet()) {
-
-        }
         if (fragment != null) {
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             if (fragment.isAdded()) {
@@ -234,6 +235,24 @@ public abstract class BaseFragment extends Fragment {
                 }
             }
             mFragment = fragment;
+            transaction.commit();
+        }
+    }
+
+    protected void addDrawerFragment(int frameLayoutId, Fragment fragment) {
+        if (fragment != null) {
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            if (fragment.isAdded()) {
+                if (mFragment != null) {
+                    transaction.show(fragment);
+                }
+            } else {
+                if (mFragment != null) {
+                    transaction.add(frameLayoutId, fragment);
+                } else {
+                    transaction.add(frameLayoutId, fragment);
+                }
+            }
             transaction.commit();
         }
     }

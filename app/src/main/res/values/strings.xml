@@ -144,4 +144,17 @@
     <string name="credit">信用值</string>
     <string name="filter">筛选</string>
     <string name="errorview">网络不通</string>
+    <string name="search">搜索</string>
+    <string name="tex_kind">发票类型</string>
+    <string name="show_more">显示更多</string>
+    <string name="deadline">截止日期</string>
+    <string name="need_total">需求总额</string>
+    <string name="yuan">元</string>
+    <string name="texi">出租车票</string>
+    <string name="subway">地铁票</string>
+    <string name="express">快递票</string>
+    <string name="hotel">住宿票</string>
+    <string name="phone">通讯票</string>
+    <string name="food">餐饮票</string>
+    <string name="gas">加油票</string>
 </resources>

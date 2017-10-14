@@ -4,7 +4,10 @@ package com.pilipa.fapiaobao.ui.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.utils.TDevice;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -62,8 +66,17 @@ public class TexFragment extends BaseFragment {
     Button btn_collection;
     @Bind(R.id.errorview)
     FrameLayout fl_error;
+    @Bind(R.id.container)
+    FrameLayout fl_container;
+    @Bind(R.id.dl)
+    DrawerLayout dl;
+    @Bind(R.id.dl_container)
+    FrameLayout fl_dl_container;
     private FragmentCollection fragmentCollection;
+
     private FragmentAll fragmentAll;
+    private static String currentFragment = "all";
+    private Fragment fragmentDrawer;
 
     public TexFragment() {
         // Required empty public constructor
@@ -97,7 +110,21 @@ public class TexFragment extends BaseFragment {
         fl_error.setVisibility(View.GONE);
         fragmentAll = new FragmentAll();
         fragmentCollection = new FragmentCollection();
+        fragmentDrawer = new DrawerFragment();
         addFragment(R.id.container, fragmentAll);
+        addDrawerFragment(R.id.dl_container, fragmentDrawer);
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
+        if (!TDevice.hasInternet()) {
+            setVisibility(R.id.errorview);
+            setGone(R.id.container);
+        } else {
+            setVisibility(R.id.container);
+            setGone(R.id.errorview);
+        }
     }
 
     @Override
@@ -107,9 +134,23 @@ public class TexFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.title, R.id.scan, R.id.message, R.id.all, R.id.collection, R.id.general, R.id.ll_general, R.id.bonus, R.id.ll_bonus, R.id.credit, R.id.ll_credit, R.id.filter, R.id.ll_filter, R.id.btn_collection})
+    @OnClick({R.id.title, R.id.scan, R.id.message, R.id.all
+            , R.id.collection, R.id.errorview
+            , R.id.general, R.id.ll_general, R.id.bonus
+            , R.id.ll_bonus, R.id.credit, R.id.ll_credit
+            , R.id.filter, R.id.ll_filter, R.id.btn_collection})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.errorview:
+                if (!TDevice.hasInternet()) {
+                    setVisibility(R.id.errorview);
+                    setGone(R.id.container);
+                } else {
+                    //refreshing
+                    setVisibility(R.id.container);
+                    setGone(R.id.errorview);
+                }
+                break;
             case R.id.title:
                 BaseApplication.showToast("title");
                 break;
@@ -123,12 +164,15 @@ public class TexFragment extends BaseFragment {
                 BaseApplication.showToast("all");
                 allonSelect();
                 addFragment(R.id.container, fragmentAll);
+                currentFragment = "all";
                 break;
             case R.id.collection:
             case R.id.btn_collection:
                 BaseApplication.showToast("collection");
                 collectionOnSelect();
                 addFragment(R.id.container, fragmentCollection);
+                currentFragment = "collection";
+
                 break;
             case R.id.general:
             case R.id.ll_general:
@@ -145,7 +189,30 @@ public class TexFragment extends BaseFragment {
             case R.id.filter:
             case R.id.ll_filter:
                 BaseApplication.showToast("filter");
+
+                if (dl.isDrawerOpen(Gravity.END)) {
+                    dl.closeDrawer(Gravity.END);
+                } else {
+
+                    dl.openDrawer(Gravity.END);
+                }
                 break;
+        }
+    }
+
+    public void openDrawer() {
+        if (dl != null) {
+            if (!dl.isDrawerOpen(Gravity.END)) {
+                dl.openDrawer(Gravity.END);
+            }
+        }
+    }
+
+    public void closeDrawer() {
+        if (dl != null) {
+            if (dl.isDrawerOpen(Gravity.END)) {
+                dl.closeDrawer(Gravity.END);
+            }
         }
     }
 
@@ -174,8 +241,6 @@ public class TexFragment extends BaseFragment {
             btn_collection.setBackgroundColor(getResources().getColor(R.color.white));
         }
     }
-
-
 
 
 }
