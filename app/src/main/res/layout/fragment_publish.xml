@@ -1,9 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="publishfragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/supply_receipt" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_launcher"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_publish_pub_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_launcher"
+                android:text="@string/pub_history" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d1"
+            android:background="@color/gray_line" />
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/whatineed" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="@dimen/d10"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/tv_publish_normal_receipt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_rect_demand_info"
+                        android:paddingBottom="@dimen/d5"
+                        android:paddingLeft="@dimen/d10"
+                        android:paddingRight="@dimen/d10"
+                        android:paddingTop="@dimen/d5"
+                        android:text="@string/normal_receipt" />
+
+                    <View
+                        android:layout_width="@dimen/d10"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/tv_publish_special_receipt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_rect_demand_info"
+                        android:paddingBottom="@dimen/d5"
+                        android:paddingLeft="@dimen/d10"
+                        android:paddingRight="@dimen/d10"
+                        android:paddingTop="@dimen/d5"
+                        android:text="@string/special_receipt" />
+
+                    <View
+                        android:layout_width="@dimen/d10"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/tv_publish_normal_and_special_receipt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_rect_demand_info"
+                        android:paddingBottom="@dimen/d5"
+                        android:paddingLeft="@dimen/d10"
+                        android:paddingRight="@dimen/d10"
+                        android:paddingTop="@dimen/d5"
+                        android:text="@string/normal_and_special_receipt" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d20" />
+
+            <FrameLayout
+                android:id="@+id/fl_publish_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></FrameLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
 </LinearLayout>

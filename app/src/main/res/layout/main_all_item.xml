@@ -1,6 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tex_special_or_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|top"
+            android:text="专+普" />
+
+        <TextView
+            android:id="@+id/tex_electricity_or_paper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:text="电子" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/d50"
+                android:layout_marginTop="@dimen/d20"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/company_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="北京康达科技有限公司" />
+
+                <TextView
+                    android:id="@+id/collect_final_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="距离收集结束：2天" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/d30"
+                android:layout_marginTop="@dimen/d20"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_red_bag"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@mipmap/ic_launcher_round" />
+
+                    <TextView
+                        android:id="@+id/tv_red_bag_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="总¥120元 " />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d1"
+        android:layout_marginLeft="@dimen/d10"
+        android:layout_marginRight="@dimen/d10"
+        android:background="@color/gray_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_all_need"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="1200元" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="需求总额" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/d1"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/d5"
+            android:layout_marginTop="@dimen/d5"
+            android:background="@color/gray_line" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="已收集" />
+
+            <TextView
+                android:id="@+id/tv_total_need"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="800元" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/d1"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/d5"
+            android:layout_marginTop="@dimen/d5"
+            android:background="@color/gray_line" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="待收集" />
+
+            <TextView
+                android:id="@+id/tv_still_need"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="400元" />
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>

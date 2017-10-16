@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.fragment.model.DrawerFrag;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -76,6 +78,13 @@ public class DrawerFragment extends BaseFragment implements LabelsView.OnLabelCl
 
         }
     };
+    private ArrayList<String> strings;
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
 
     @Override
     protected int getLayoutId() {
@@ -93,10 +102,16 @@ public class DrawerFragment extends BaseFragment implements LabelsView.OnLabelCl
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        labels.setLabels(strings);
+    }
+
+    @Override
     protected void initData() {
         super.initData();
+        strings = DrawerFrag.initData(getContext());
 
-        labels.setLabels(DrawerFrag.initData(getContext()));
 
     }
 

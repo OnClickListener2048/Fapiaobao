@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/publish_company_info" />
+
+    <include layout="@layout/publish_setting" />
+
+    <include layout="@layout/publish_receipt_kind" />
+
+    <include layout="@layout/publish_receive_receipt_info" />
+
+    <include layout="@layout/publish_caution" />
+</LinearLayout>

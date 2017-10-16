@@ -83,4 +83,6 @@
     <dimen name="s5">5sp</dimen>
     <dimen name="d90">90dp</dimen>
     <dimen name="d24">24dp</dimen>
+    <dimen name="d500">500dp</dimen>
+    <dimen name="d300">300dp</dimen>
 </resources>
