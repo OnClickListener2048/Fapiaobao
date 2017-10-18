@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 /**
  * Created by lyt on 2017/10/16.
  */
-
+@Deprecated
 public class HistoryActivity extends BaseActivity {
 
     @Bind(R.id.tab_indicator_publish_history)

@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.ui.HistoryActivity;
+import com.pilipa.fapiaobao.ui.HistoryActivity2;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -70,6 +73,7 @@ public class PublishFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_publish_pub_history:
+                startActivity(new Intent(getContext(), HistoryActivity2.class));
                 break;
             case R.id.tv_publish_normal_receipt:
                 addFragment(R.id.fl_publish_container, normalReceiptFragment);

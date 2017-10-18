@@ -1,2 +1,2 @@
-include ':app', ':mylibrary', ':push'
+include ':app', ':mylibrary', ':push', ':share', ':matisse'
 include ':viewpagerindicator'

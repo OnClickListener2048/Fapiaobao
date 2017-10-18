@@ -22,4 +22,7 @@
   <item type="id" name="quit"/>
   <item type="id" name="restart_preview"/>
   <item type="id" name="return_scan_result"/>
+    <item name="processing" type="id">进行中</item>
+  <item name="finished" type="id">已完成</item>
+  <item name="closed" type="id">已关闭</item>
 </resources>

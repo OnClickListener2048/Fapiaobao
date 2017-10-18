@@ -51,6 +51,7 @@ dependencies {
     compile('com.alibaba.android:ultraviewpager:1.0.6.1@aar') {
         transitive = true
     }
+    compile 'com.android.support:design:23.2.0'
     compile project(path: ':viewpagerindicator')
     compile 'com.just.agentweb:agentweb:2.0.1'
     compile 'com.google.code.gson:gson:2.2.4'
