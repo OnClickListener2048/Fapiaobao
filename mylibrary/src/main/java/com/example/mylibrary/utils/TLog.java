@@ -11,7 +11,7 @@ import com.example.mylibrary.BuildConfig;
 
 public class TLog {
     private static final String LOG_TAG = "fapiaobao";
-    private static boolean DEBUG = BuildConfig.DEBUG;
+    private static boolean DEBUG = true;
 
     private TLog() {
     }

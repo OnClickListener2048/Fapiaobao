@@ -189,4 +189,7 @@
     <string name="finished">已完成</string>
     <string name="closed">已关闭</string>
     <string name="my_published">我的发布</string>
+    <string name="delete">删除</string>
+    <string name="back">返回</string>
+    <string name="select">选择</string>
 </resources>

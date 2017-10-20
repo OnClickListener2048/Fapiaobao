@@ -50,7 +50,7 @@ public class BaseApplication extends Application {
 //        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
         PlatformConfig.setQQZone("1106395149", "gtn8LLR4FxWRvwWb");
         PlatformConfig.setSinaWeibo("3639386105", "63143b3cc202fed0c17baf57030a88a0", "http://sns.whalecloud.com");
-
+        PlatformConfig.setWeixin("wxb704e8dd773cc94e", "7df3fe092b8d88ebc28a94b84b5388c3");
         UMShareAPI.get(this);
     }
 

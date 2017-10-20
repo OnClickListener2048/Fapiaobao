@@ -18,11 +18,6 @@ import butterknife.ButterKnife;
 @Deprecated
 public class HistoryActivity extends BaseActivity {
 
-    @Bind(R.id.tab_indicator_publish_history)
-    com.viewpagerindicator.TabPageIndicator tabIndicatorPublishHistory;
-    @Bind(R.id.viewpager_publish_history)
-    ViewPager viewpagerPublishHistory;
-    private FragmentPagerAdapter fragmentPagerAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -39,9 +34,6 @@ public class HistoryActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        fragmentPagerAdapter = new TabPageIndicatorAdapter(getSupportFragmentManager());
-        viewpagerPublishHistory.setAdapter(fragmentPagerAdapter);
-        tabIndicatorPublishHistory.setViewPager(viewpagerPublishHistory);
     }
 
     @Override
