@@ -1,4 +1,4 @@
-package com.pilipa.fapiaobao.ui;
+package com.pilipa.fapiaobao.ui.fragment;
 
 import android.Manifest;
 import android.content.Context;
@@ -12,13 +12,17 @@ import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.UploadReceiptAdapter;
-import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
+import com.pilipa.fapiaobao.ui.PreviewActivity;
+import com.pilipa.fapiaobao.ui.UploadReceiptActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
@@ -39,80 +43,54 @@ import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+import static android.app.Activity.RESULT_OK;
+import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.EXTRA_ALL_DATA;
+import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.EXTRA_BUNDLE;
+import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.EXTRA_CURRENT_POSITION;
+import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.REQUEST_CODE_CAPTURE;
+import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.REQUEST_CODE_CHOOSE;
+import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.REQUEST_CODE_IMAGE_CLICK;
+import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.RESULT_CODE_BACK;
+
 /**
- * Created by edz on 2017/10/20.
+ * Created by edz on 2017/10/21.
  */
 
-public class UploadReceiptActivity extends BaseActivity implements
-        UploadReceiptAdapter.OnPhotoCapture
-        , UploadReceiptAdapter.OnImageClickListener, UploadReceiptAdapter.OnImageSelectListener {
-    private static final String TAG = UploadReceiptActivity.class.getSimpleName();
-
-    public static final int REQUEST_CODE_CAPTURE = 0x0003;
-    public static final int REQUEST_CODE_IMAGE_CLICK = 0x0004;
-    public static final int RESULT_CODE_BACK = 0x0005;
-    public static final int REQUEST_CODE_CHOOSE = 0x0006;
-    public static final String EXTRA_ALL_DATA = "EXTRA_ALL_DATA";
-    public static final String EXTRA_CURRENT_POSITION = "EXTRA_CURRENT_POSITION";
-    public static final String EXTRA_BUNDLE = "EXTRA_BUNDLE";
-
-    @Bind(R.id.rv_upload_receipt)
-    RecyclerView rvUploadReceipt;
+public class UploadNormalReceiptFragment extends BaseFragment implements UploadReceiptAdapter.OnImageClickListener, UploadReceiptAdapter.OnImageSelectListener, UploadReceiptAdapter.OnPhotoCapture {
+    private static final String TAG = "UploadNormalReceiptFragment";
     @Bind(R.id.media)
     TextView media;
     @Bind(R.id.capture)
     TextView capture;
+    @Bind(R.id.rv_upload_receipt)
+    RecyclerView rvUploadReceipt;
     private int mImageResize;
     private ArrayList<Image> images;
     private MediaStoreCompat mediaStoreCompat;
     private int mPreviousPosition = -1;
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_upload_receipt;
     }
 
-    @Override
-    public void onClick(View v) {
-
+    public static UploadNormalReceiptFragment newInstance(Bundle b) {
+        UploadNormalReceiptFragment u = new UploadNormalReceiptFragment();
+        u.setArguments(b);
+        return u;
     }
 
     @Override
-    public void initView() {
-        mediaStoreCompat = new MediaStoreCompat(this);
-        GridLayoutManager grid = new GridLayoutManager(this, 3){
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
-        rvUploadReceipt.setLayoutManager(grid);
-        int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
-        rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, false));
-        Image image = new Image();
-        image.isFromNet = false;
-        image.isCapture = true;
-        images = new ArrayList<>();
-        images.add(image);
-        mPreviousPosition = images.size();
-        UploadReceiptAdapter uploadReceiptAdapter = new UploadReceiptAdapter(images, getImageResize(this));
-        uploadReceiptAdapter.setOnImageClickListener(this);
-        uploadReceiptAdapter.setOnImageSelectListener(this);
-        uploadReceiptAdapter.setOnPhotoCapture(this);
-        rvUploadReceipt.setAdapter(uploadReceiptAdapter);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 
     @Override
-    public void initData() {
-
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     @OnClick({R.id.media, R.id.capture})
@@ -122,16 +100,17 @@ public class UploadReceiptActivity extends BaseActivity implements
                 openMedia();
                 break;
             case R.id.capture:
-                if (MediaStoreCompat.hasCameraFeature(this)) {
-                    mediaStoreCompat.dispatchCaptureIntent(this, REQUEST_CODE_CAPTURE);
+                if (MediaStoreCompat.hasCameraFeature(getActivity())) {
+                    mediaStoreCompat.dispatchCaptureIntent(getActivity(), REQUEST_CODE_CAPTURE);
                 }
                 break;
             default:
+                break;
         }
     }
 
     private void openMedia() {
-        RxPermissions rxPermissions = new RxPermissions(this);
+        RxPermissions rxPermissions = new RxPermissions(getActivity());
         rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Observer<Boolean>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -141,7 +120,7 @@ public class UploadReceiptActivity extends BaseActivity implements
             @Override
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
-                    Matisse.from(UploadReceiptActivity.this)
+                    Matisse.from(UploadNormalReceiptFragment.this)
                             .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
                             .countable(true)
                             .captureStrategy(
@@ -169,8 +148,71 @@ public class UploadReceiptActivity extends BaseActivity implements
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void initWidget(View root) {
+        super.initWidget(root);
+        mediaStoreCompat = new MediaStoreCompat(getActivity(),this);
+        GridLayoutManager grid = new GridLayoutManager(getActivity(), 3){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        rvUploadReceipt.setLayoutManager(grid);
+        int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
+        rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, false));
+        Image image = new Image();
+        image.isFromNet = false;
+        image.isCapture = true;
+        images = new ArrayList<>();
+        images.add(image);
+        mPreviousPosition = images.size();
+        UploadReceiptAdapter uploadReceiptAdapter = new UploadReceiptAdapter(images, getImageResize(getActivity()));
+        uploadReceiptAdapter.setOnImageClickListener(this);
+        uploadReceiptAdapter.setOnImageSelectListener(this);
+        uploadReceiptAdapter.setOnPhotoCapture(this);
+        rvUploadReceipt.setAdapter(uploadReceiptAdapter);
+    }
+
+    private int getImageResize(Context context) {
+
+        if (mImageResize == 0) {
+            RecyclerView.LayoutManager lm = rvUploadReceipt.getLayoutManager();
+            int spanCount = ((GridLayoutManager) lm).getSpanCount();
+            int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+            int availableWidth = screenWidth - context.getResources().getDimensionPixelSize(
+                    R.dimen.spacing) * (spanCount - 1);
+            mImageResize = availableWidth / spanCount;
+            mImageResize = (int) (mImageResize * 0.5);
+        }
+        return mImageResize;
+    }
+
+    @Override
+    public void onImageClick(ArrayList<Image> allItemList, int position) {
+        Image image = allItemList.get(position);
+        Intent intent = new Intent(getActivity(), PreviewActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(EXTRA_ALL_DATA, allItemList);
+        bundle.putInt(EXTRA_CURRENT_POSITION, image.position);
+        intent.putExtra(EXTRA_BUNDLE, bundle);
+        Log.d(TAG, "onImageClick: image.position" + image.position);
+        startActivityForResult(intent, REQUEST_CODE_IMAGE_CLICK);
+    }
+
+    @Override
+    public void onImageSelect(Image image) {
+
+    }
+
+    @Override
+    public void capture() {
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: ");
 //        if (resultCode != RESULT_OK) {
 //            return;
 //        }
@@ -179,8 +221,8 @@ public class UploadReceiptActivity extends BaseActivity implements
             Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
             String path = mediaStoreCompat.getCurrentPhotoPath();
             try {
-                MediaStore.Images.Media.insertImage(getContentResolver(), path, new File(path).getName(), null);
-                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,contentUri));
+                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
+                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,contentUri));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -199,7 +241,7 @@ public class UploadReceiptActivity extends BaseActivity implements
             mPreviousPosition = images.size();
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                UploadReceiptActivity.this.revokeUriPermission(contentUri,
+                getActivity().revokeUriPermission(contentUri,
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
             }
         } else if (REQUEST_CODE_IMAGE_CLICK == requestCode) {
@@ -233,42 +275,6 @@ public class UploadReceiptActivity extends BaseActivity implements
             }
 
         }
-    }
-
-    private int getImageResize(Context context) {
-
-        if (mImageResize == 0) {
-            RecyclerView.LayoutManager lm = rvUploadReceipt.getLayoutManager();
-            int spanCount = ((GridLayoutManager) lm).getSpanCount();
-            int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
-            int availableWidth = screenWidth - context.getResources().getDimensionPixelSize(
-                    R.dimen.spacing) * (spanCount - 1);
-            mImageResize = availableWidth / spanCount;
-            mImageResize = (int) (mImageResize * 0.5);
-        }
-        Log.d(TAG, "getImageResize: " + mImageResize);
-        return mImageResize;
-    }
-
-    @Override
-    public void capture() {
-        Log.d(TAG, "capture: ");
-    }
-
-    @Override
-    public void onImageClick(ArrayList<Image> allItemList, int position) {
-        Image image = allItemList.get(position);
-        Intent intent = new Intent(this, PreviewActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(EXTRA_ALL_DATA, allItemList);
-        bundle.putInt(EXTRA_CURRENT_POSITION, image.position);
-        intent.putExtra(EXTRA_BUNDLE, bundle);
-        Log.d(TAG, "onImageClick: image.position" + image.position);
-        startActivityForResult(intent, REQUEST_CODE_IMAGE_CLICK);
-    }
-
-    @Override
-    public void onImageSelect(Image image) {
 
     }
 }
