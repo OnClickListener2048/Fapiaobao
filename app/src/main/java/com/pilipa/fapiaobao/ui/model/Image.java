@@ -14,10 +14,12 @@ public class Image implements Parcelable {
     public int position;
     public boolean isSelected = false;
     public boolean isFromNet;
+    public boolean isCapture;
     public Uri uri;
     public Image() {
 
     }
+
 
     protected Image(Parcel in) {
         path = in.readString();
@@ -25,6 +27,8 @@ public class Image implements Parcelable {
         position = in.readInt();
         isSelected = in.readByte() != 0;
         isFromNet = in.readByte() != 0;
+        isCapture = in.readByte() != 0;
+        uri = in.readParcelable(Uri.class.getClassLoader());
     }
 
     public static final Creator<Image> CREATOR = new Creator<Image>() {
@@ -51,5 +55,7 @@ public class Image implements Parcelable {
         dest.writeInt(position);
         dest.writeByte((byte) (isSelected ? 1 : 0));
         dest.writeByte((byte) (isFromNet ? 1 : 0));
+        dest.writeByte((byte) (isCapture ? 1 : 0));
+        dest.writeParcelable(uri, flags);
     }
 }

@@ -2,6 +2,7 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
  */
 
 public class PreviewImageFragment extends BaseFragment {
+    private static final String TAG = "PreviewImageFragment";
     private static final String FRAG_IMAGE = "fragment_image";
     @Bind(R.id.image_view)
     ImageViewTouch imageView;
@@ -61,7 +63,9 @@ public class PreviewImageFragment extends BaseFragment {
 
         ImageViewTouch image = (ImageViewTouch) view.findViewById(R.id.image_view);
         image.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
-
+        Log.d(TAG, "onViewCreated: imageItem.isFromNet ?---"
+                + imageItem.isFromNet + "imageItem.path----" +
+                imageItem.path + "imageItem.uri)-----" + imageItem.uri);
         Glide.with(getActivity())
                 .load(imageItem.isFromNet ? imageItem.path : imageItem.uri)
                 .asBitmap()

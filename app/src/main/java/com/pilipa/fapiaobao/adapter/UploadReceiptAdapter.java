@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,18 @@ import java.util.ArrayList;
  */
 
 public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = "UploadReceiptAdapter";
 
     private static final int TYPE_CAPTURE = 0x0001;
     private static final int TYPE_MEDIA = 0x0002;
 
 
-    private final ArrayList<Image> images;
+    private ArrayList<Image> images;
     private final int imageResize;
     private RequestManager requestManager;
+    private OnPhotoCapture onPhotoCapture;
+    private OnImageClickListener onImageClickListener;
+    private OnImageSelectListener onImageSelectListener;
 
     public UploadReceiptAdapter(ArrayList<Image> images, int imageResize) {
         this.images = images;
@@ -54,12 +59,13 @@ public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
             captureHolder.mHint.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (v.getContext() instanceof OnPhotoCapture) {
-                        ((OnPhotoCapture) v.getContext()).capture();
+                    if (onPhotoCapture != null) {
+                        onPhotoCapture.capture();
                     }
                 }
             });
         } else if (holder instanceof ImageViewHolder) {
+            Log.d(TAG, "onBindViewHolder: (holder instanceof ImageViewHolder");
             ImageViewHolder imageHolder = (ImageViewHolder) holder;
             requestManager
                     .load(images.get(position).uri)
@@ -68,11 +74,12 @@ public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
                     .override(imageResize, imageResize)
                     .thumbnail(0.1f)
                     .into(imageHolder.iv_image_item);
+            Log.d(TAG, "onBindViewHolder: requestManager.load");
             imageHolder.iv_image_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (v.getContext() instanceof OnImageClickListener) {
-                        ((OnImageClickListener) v.getContext()).onImageClick(images,position);
+                    if (onImageClickListener != null) {
+                        onImageClickListener.onImageClick(images, position);
                     }
                 }
             });
@@ -96,17 +103,39 @@ public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
         return images.size();
     }
 
+    public void refresh(ArrayList<Image> images) {
+        this.images = images;
+        notifyDataSetChanged();
+    }
+
     public interface OnPhotoCapture {
         void capture();
+    }
+
+    public void setOnPhotoCapture(OnPhotoCapture onPhotoCapture) {
+        this.onPhotoCapture = onPhotoCapture;
+    }
+
+
+    public void setOnImageClickListener(OnImageClickListener onImageClickListener) {
+        this.onImageClickListener = onImageClickListener;
+    }
+
+
+
+    public interface OnImageClickListener {
+        void onImageClick(ArrayList<Image> allItemList, int position);
     }
 
     public interface OnImageSelectListener {
         void onImageSelect(Image image);
     }
 
-    public interface OnImageClickListener {
-        void onImageClick(ArrayList<Image> allItemList, int position);
+    public void setOnImageSelectListener(OnImageSelectListener onImageSelectListener) {
+        this.onImageSelectListener = onImageSelectListener;
     }
+
+
 
     private static class CaptureViewHolder extends RecyclerView.ViewHolder {
 

@@ -24,6 +24,7 @@
         android:layout_gravity="right|bottom"
         android:layout_margin="10dp"
         android:text="@string/delete"
+        android:visibility="gone"
         android:textColor="@color/white"
         android:textSize="15sp" />
 </FrameLayout>
