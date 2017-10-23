@@ -27,7 +27,7 @@ import java.util.Locale;
 
 public class MediaStoreCompat {
     private final WeakReference<Activity> mContext;
-    private final WeakReference<Fragment> mFragment;
+    private final Fragment mFragment;
     private Uri mCurrentPhotoUri;
     private String mCurrentPhotoPath;
     private String authority = "com.pilipa.fapiaobao.fileprovider";
@@ -39,7 +39,7 @@ public class MediaStoreCompat {
 
     public MediaStoreCompat(Activity activity, Fragment fragment) {
         mContext = new WeakReference<>(activity);
-        mFragment = new WeakReference<>(fragment);
+        mFragment = fragment;
     }
 
     /**
@@ -80,7 +80,7 @@ public class MediaStoreCompat {
                     }
                 }
                 if (mFragment != null) {
-                    mFragment.get().startActivityForResult(captureIntent, requestCode);
+                    mFragment.startActivityForResult(captureIntent, requestCode);
                 } else {
                     mContext.get().startActivityForResult(captureIntent, requestCode);
                 }
