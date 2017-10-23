@@ -9,13 +9,15 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import butterknife.ButterKnife;
 
 /**
- * Created by lyt on 2017/10/16.
+ * Created by lyt on 2017/10/17.
  */
 
-public class DemandActivity extends BaseActivity {
+public class MyWalletActivity extends BaseActivity {
+
+
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_demand;
+        return R.layout.activity_wallet;
     }
 
     @Override

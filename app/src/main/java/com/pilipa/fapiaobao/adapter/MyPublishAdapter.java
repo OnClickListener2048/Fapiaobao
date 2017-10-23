@@ -55,6 +55,7 @@ public class MyPublishAdapter extends BaseAdapter {
         }
         String endFormat = mContext.getResources().getString(R.string.end_of_distance);
         viewHolder.tvEndOfDistance.setText(String.format(endFormat, 100));
+
         return convertView;
     }
 

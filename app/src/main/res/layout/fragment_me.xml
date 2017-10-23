@@ -1,9 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_head"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="24dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_head_circle_default_small"
+                app:riv_corner_radius="30dp"
+                android:layout_marginStart="24dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+            <TextView
+                android:id="@+id/tv_userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/img_head"
+                android:text="用户名"/>
+            <LinearLayout
+                android:layout_below="@+id/tv_userName"
+                android:layout_toEndOf="@+id/img_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credit_rating"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="****"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+
+    <LinearLayout
+        android:padding="20dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="mefrgament" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_mPublish"
+            android:drawableTop="@drawable/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_published"
+            android:layout_weight="1"
+            android:background="@null"/>
+        <Button
+            android:id="@+id/btn_manager"
+            android:drawableTop="@drawable/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/company_manager"
+            android:layout_weight="1"
+            android:background="@null"/>
+        <Button
+            android:id="@+id/btn_receipt_folder"
+            android:drawableTop="@drawable/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/receipt_folder"
+            android:layout_weight="1"
+            android:background="@null"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="#cbcacf" />
+        <RelativeLayout
+            android:id="@+id/my_wallet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_wallet"/>
+            <TextView
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="200"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="#cbcacf" />
+        <TextView
+            android:id="@+id/tv_feedback"
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/feedback"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="#cbcacf" />
+        <TextView
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/encyclopedia"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="#cbcacf" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="@string/help_center" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="#cbcacf" />
+    </LinearLayout>
+
 </LinearLayout>

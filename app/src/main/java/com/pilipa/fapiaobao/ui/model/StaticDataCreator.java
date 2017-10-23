@@ -18,9 +18,29 @@ public class StaticDataCreator {
         if (list == null) {
             list = new ArrayList();
         }
+        list.clear();
         list.add(context.getString(R.string.processing));
         list.add(context.getString(R.string.finished));
         list.add(context.getString(R.string.closed));
+        return list;
+    }
+
+    public static List initCompanyManagerTabData(Context context) {
+        if (list == null) {
+            list = new ArrayList();
+        }
+        list.clear();
+        list.add(context.getString(R.string.my_collection));
+        list.add(context.getString(R.string.my_company));
+        return list;
+    }
+    public static List initReceiptFolderTabData(Context context) {
+        if (list == null) {
+            list = new ArrayList();
+        }
+        list.clear();
+        list.add(context.getString(R.string.provided));
+        list.add(context.getString(R.string.not_used));
         return list;
     }
 }

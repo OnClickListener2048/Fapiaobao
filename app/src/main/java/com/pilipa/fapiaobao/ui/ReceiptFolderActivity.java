@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.example.mylibrary.utils.ImageUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -21,19 +20,20 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by lyt on 2017/10/17.
+ * Created by wjn on 2017/10/23.
  */
 
-public class HistoryActivity2 extends BaseActivity {
+public class ReceiptFolderActivity extends BaseActivity {
 
-    @Bind(R.id.tl_publish_history)
-    TabLayout tlPublishHistory;
-    @Bind(R.id.vp_publish_history)
-    ViewPager vpPublishHistory;
+    @Bind(R.id.tl_tabLayout)
+    TabLayout tlTabLayout;
+    @Bind(R.id.vp_verpager)
+    ViewPager vpVerpager;
     private List<Fragment> fragmentList;
+
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_publish_history2;
+        return R.layout.activity_company_manager;
     }
 
     @Override
@@ -43,13 +43,12 @@ public class HistoryActivity2 extends BaseActivity {
 
     @Override
     public void initView() {
-        List list = StaticDataCreator.initMyPublishTabData(BaseApplication.context());
+        List list = StaticDataCreator.initReceiptFolderTabData(BaseApplication.context());
         fragmentList = new ArrayList<>();
         fragmentList.add(new MyPublishViewPagerFragment());
         fragmentList.add(new MyPublishViewPagerFragment());
-        fragmentList.add(new MyPublishViewPagerFragment());
-        vpPublishHistory.setAdapter(new TabPageIndicatorAdapter(getSupportFragmentManager(),list,fragmentList));
-        tlPublishHistory.setupWithViewPager(vpPublishHistory);
+        vpVerpager.setAdapter(new TabPageIndicatorAdapter(getSupportFragmentManager(),list,fragmentList));
+        tlTabLayout.setupWithViewPager(vpVerpager);
     }
 
     @Override

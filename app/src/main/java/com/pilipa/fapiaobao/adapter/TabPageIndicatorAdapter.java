@@ -15,24 +15,26 @@ import java.util.List;
  */
 
 public class TabPageIndicatorAdapter extends FragmentPagerAdapter {
-    private final List titleList;
-    private List list;
+    private List titleList;
+    private List<Fragment> fragmnetList;
 
-    public TabPageIndicatorAdapter(FragmentManager fm) {
+    public TabPageIndicatorAdapter(FragmentManager fm,List titleList,List fragmnetList) {
         super(fm);
-         titleList = StaticDataCreator.initMyPublishTabData(BaseApplication.context());
+        this.titleList =titleList;
+        this.fragmnetList =fragmnetList;
+//         titleList = StaticDataCreator.initMyPublishTabData(BaseApplication.context());
     }
 
     @Override
     public Fragment getItem(int position) {
-        Fragment fragment = new MyPublishViewPagerFragment();
-        return fragment;
+//        Fragment fragment = new MyPublishViewPagerFragment();
+        return fragmnetList.get(position);
     }
 
 
     @Override
     public int getCount() {
-        return 3;
+        return titleList.size();
     }
 
     @Override
@@ -48,7 +50,7 @@ public class TabPageIndicatorAdapter extends FragmentPagerAdapter {
     }
 
     public void initData(List list) {
-        this.list = list;
+        this.fragmnetList = list;
         notifyDataSetChanged();
     }
 }
