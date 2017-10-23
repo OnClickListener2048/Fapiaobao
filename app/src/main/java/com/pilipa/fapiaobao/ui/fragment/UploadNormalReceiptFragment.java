@@ -44,13 +44,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 import static android.app.Activity.RESULT_OK;
-import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.EXTRA_ALL_DATA;
-import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.EXTRA_BUNDLE;
-import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.EXTRA_CURRENT_POSITION;
-import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.REQUEST_CODE_CAPTURE;
-import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.REQUEST_CODE_CHOOSE;
-import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.REQUEST_CODE_IMAGE_CLICK;
-import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.RESULT_CODE_BACK;
+
 
 /**
  * Created by edz on 2017/10/21.
@@ -58,6 +52,13 @@ import static com.pilipa.fapiaobao.ui.UploadReceiptActivity.RESULT_CODE_BACK;
 
 public class UploadNormalReceiptFragment extends BaseFragment implements UploadReceiptAdapter.OnImageClickListener, UploadReceiptAdapter.OnImageSelectListener, UploadReceiptAdapter.OnPhotoCapture {
     private static final String TAG = "UploadNormalReceiptFragment";
+    public static final int REQUEST_CODE_CAPTURE = 10;
+    public static final int REQUEST_CODE_CHOOSE = 20;
+    public static final String EXTRA_ALL_DATA = "EXTRA_ALL_DATA";
+    public static final String EXTRA_CURRENT_POSITION = "EXTRA_CURRENT_POSITION";
+    public static final String EXTRA_BUNDLE = "EXTRA_BUNDLE";
+    public static final int REQUEST_CODE_IMAGE_CLICK = 30;
+    public static final int RESULT_CODE_BACK = 40;
     @Bind(R.id.media)
     TextView media;
     @Bind(R.id.capture)
@@ -190,7 +191,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
     @Override
     public void onImageClick(ArrayList<Image> allItemList, int position) {
         Image image = allItemList.get(position);
-        Intent intent = new Intent(getActivity(), PreviewActivity.class);
+        Intent intent = new Intent(mContext, PreviewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(EXTRA_ALL_DATA, allItemList);
         bundle.putInt(EXTRA_CURRENT_POSITION, image.position);

@@ -101,7 +101,6 @@
                             android:paddingLeft="3dp"
                             android:paddingRight="3dp"
                             android:singleLine="true"
-                            android:text="3"
                             android:textColor="@color/white"
                             android:textSize="@dimen/s10"
                             tools:text="1"

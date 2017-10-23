@@ -39,7 +39,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/s10"
             android:visibility="gone"
-            tools:text="1"
+            tools:text="3"
             tools:visibility="visible" />
     </FrameLayout>
 

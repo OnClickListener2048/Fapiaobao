@@ -56,6 +56,7 @@ public class NavigationButton extends FrameLayout {
         mDot = (TextView) findViewById(R.id.nav_tv_dot);
     }
 
+    @Override
     public void setSelected(boolean selected) {
         super.setSelected(selected);
         mIconView.setSelected(selected);
@@ -86,6 +87,7 @@ public class NavigationButton extends FrameLayout {
         this.mFragment = fragment;
     }
 
+    @Override
     public String getTag() {
         return mTag;
     }

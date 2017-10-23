@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
@@ -28,10 +29,10 @@ public class NavFragment extends BaseFragment {
 
     @Bind(R.id.nav_item_tex)
     NavigationButton navItemTex;
-    @Bind(R.id.nav_item_publish)
-    NavigationButton navItemPublish;
     @Bind(R.id.nav_item_me)
     NavigationButton navItemMe;
+    @Bind(R.id.nav_item_publish)
+    ImageView navItemPublish;
     private Context mContext;
     private int mContainerId;
     private FragmentManager mFragmentManager;
@@ -53,15 +54,15 @@ public class NavFragment extends BaseFragment {
         super.initWidget(root);
 
 
-        navItemTex.init(R.mipmap.ic_launcher,
+        navItemTex.init(R.drawable.selector_finance_tab,
                 R.string.main_tab_name_tex,
-                TexFragment.class);
+                FinanceFragment.class);
 
-        navItemPublish.init(R.mipmap.ic_launcher,
-                R.string.main_tab_name_publish,
-                PublishFragment.class);
+//        navItemPublish.init(R.mipmap.ic_launcher,
+//                R.string.main_tab_name_publish,
+//                PublishFragment.class);
 
-        navItemMe.init(R.mipmap.ic_launcher,
+        navItemMe.init(R.drawable.selector_me_tab,
                 R.string.main_tab_name_me,
                 MeFragment.class);
 
@@ -178,6 +179,8 @@ public class NavFragment extends BaseFragment {
         if (view instanceof NavigationButton) {
             NavigationButton nav = (NavigationButton) view;
             doSelect(nav);
+        } else {
+
         }
     }
 

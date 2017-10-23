@@ -96,6 +96,13 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             transaction.commit();
         }
     }
+    protected void addCaptureFragment(int frameLayoutId, Fragment fragment) {
+        if (fragment != null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(frameLayoutId, fragment).show(fragment);
+            transaction.commit();
+        }
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

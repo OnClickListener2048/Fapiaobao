@@ -11,6 +11,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.ui.fragment.PreviewImageFragment;
+import com.pilipa.fapiaobao.ui.fragment.UploadNormalReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.PreviewViewpager;
 
@@ -96,7 +97,7 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
                     Bundle bundle2 = new Bundle();
                     bundle2.putParcelableArrayList(UploadReceiptActivity.EXTRA_ALL_DATA, allList);
                     intent2.putExtra(UploadReceiptActivity.EXTRA_BUNDLE, bundle2);
-                    setResult(UploadReceiptActivity.RESULT_CODE_BACK, intent2);
+                    setResult(UploadNormalReceiptFragment.RESULT_CODE_BACK, intent2);
                     finish();
                 }
                 break;
@@ -105,7 +106,7 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList(UploadReceiptActivity.EXTRA_ALL_DATA, allList);
                 intent.putExtra(UploadReceiptActivity.EXTRA_BUNDLE, bundle);
-                setResult(UploadReceiptActivity.RESULT_CODE_BACK, intent);
+                setResult(UploadNormalReceiptFragment.RESULT_CODE_BACK, intent);
                 finish();
                 break;
             case R.id.click:

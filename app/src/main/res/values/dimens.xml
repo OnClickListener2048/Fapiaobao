@@ -87,4 +87,6 @@
     <dimen name="d300">300dp</dimen>
     <dimen name="spacing">8dp</dimen>
     <dimen name="grid_expected_size">120dp</dimen>
+    <dimen name="s13">13sp</dimen>
+    <dimen name="s8">8sp</dimen>
 </resources>

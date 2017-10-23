@@ -54,7 +54,7 @@ public class UltraPagerAdapter extends PagerAdapter {
             viewGroup.findViewById(R.id.go).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    container.getContext().startActivity(new Intent(container.getContext(), LoginActivity.class));
+                    container.getContext().startActivity(new Intent(container.getContext(), MainActivity.class));
                     BaseApplication.set(Config.IS_FIRST_COMING, false);
                     activity.finish();
                 }

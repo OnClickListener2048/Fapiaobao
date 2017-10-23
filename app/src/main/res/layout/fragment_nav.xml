@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:gravity="center_vertical"
-    android:background="@color/cancel"
+    android:background="@mipmap/tab"
     android:layout_height="match_parent">
     <com.pilipa.fapiaobao.ui.widget.NavigationButton
+        android:paddingTop="@dimen/d5"
         android:id="@+id/nav_item_tex"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -12,15 +13,19 @@
         android:paddingLeft="@dimen/d12"
         android:paddingRight="@dimen/d12" />
 
-    <com.pilipa.fapiaobao.ui.widget.NavigationButton
+    <ImageView
+        android:src="@mipmap/publish"
         android:id="@+id/nav_item_publish"
         android:layout_width="0dp"
+        android:paddingTop="@dimen/d2"
+        android:paddingBottom="@dimen/d2"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:paddingLeft="@dimen/d12"
         android:paddingRight="@dimen/d12" />
 
     <com.pilipa.fapiaobao.ui.widget.NavigationButton
+        android:paddingTop="@dimen/d5"
         android:id="@+id/nav_item_me"
         android:layout_width="0dp"
         android:layout_height="match_parent"

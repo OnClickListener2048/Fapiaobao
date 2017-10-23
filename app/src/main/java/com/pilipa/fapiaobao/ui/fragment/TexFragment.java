@@ -197,6 +197,7 @@ public class TexFragment extends BaseFragment {
                     dl.openDrawer(Gravity.END);
                 }
                 break;
+            default:
         }
     }
 

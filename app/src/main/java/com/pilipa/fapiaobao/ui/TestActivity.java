@@ -41,7 +41,8 @@ public class TestActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        addFragment(R.id.container, UploadNormalReceiptFragment.newInstance(new Bundle()));
+        addCaptureFragment(R.id.container, UploadNormalReceiptFragment.newInstance(new Bundle()));
+        addCaptureFragment(R.id.container2, UploadNormalReceiptFragment.newInstance(new Bundle()));
     }
 
     @Override
@@ -56,41 +57,41 @@ public class TestActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult: ");
-        FragmentManager fm = getSupportFragmentManager();
-        int index = requestCode >> 16;
-        if (index != 0) {
-            index--;
-            if (fm.getFragments() == null || index < 0
-                    || index >= fm.getFragments().size()) {
-                Log.w(TAG, "Activity result fragment index out of range: 0x"
-                        + Integer.toHexString(requestCode));
-                return;
-            }
-            Fragment frag = fm.getFragments().get(index);
-            if (frag == null) {
-                Log.w(TAG, "Activity result no fragment exists for index: 0x"
-                        + Integer.toHexString(requestCode));
-            } else {
-                handleResult(frag, requestCode, resultCode, data);
-            }
-            return;
-        }
-
-    }
-
-    private void handleResult(Fragment frag, int requestCode, int resultCode,
-                              Intent data) {
-        frag.onActivityResult(requestCode & 0xffff, resultCode, data);
-        List<Fragment> frags = frag.getChildFragmentManager().getFragments();
-        if (frags != null) {
-            for (Fragment f : frags) {
-                if (f != null){
-                    handleResult(f, requestCode, resultCode, data);
-                }
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        Log.d(TAG, "onActivityResult: ");
+//        FragmentManager fm = getSupportFragmentManager();
+//        int index = requestCode >> 16;
+//        if (index != 0) {
+//            index--;
+//            if (fm.getFragments() == null || index < 0
+//                    || index >= fm.getFragments().size()) {
+//                Log.w(TAG, "Activity result fragment index out of range: 0x"
+//                        + Integer.toHexString(requestCode));
+//                return;
+//            }
+//            Fragment frag = fm.getFragments().get(index);
+//            if (frag == null) {
+//                Log.w(TAG, "Activity result no fragment exists for index: 0x"
+//                        + Integer.toHexString(requestCode));
+//            } else {
+//                handleResult(frag, requestCode, resultCode, data);
+//            }
+//            return;
+//        }
+//
+//    }
+//
+//    private void handleResult(Fragment frag, int requestCode, int resultCode,
+//                              Intent data) {
+//        frag.onActivityResult(requestCode & 0xffff, resultCode, data);
+//        List<Fragment> frags = frag.getChildFragmentManager().getFragments();
+//        if (frags != null) {
+//            for (Fragment f : frags) {
+//                if (f != null){
+//                    handleResult(f, requestCode, resultCode, data);
+//                }
+//            }
+//        }
+//    }
 }

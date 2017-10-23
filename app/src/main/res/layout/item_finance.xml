@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:elevation="5dp"
+    android:layout_gravity="center"
+    android:translationZ="5dp"
+    android:layout_height="wrap_content">
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/iv_finance_kind"
+            android:src="@mipmap/receipt_001"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_finance_kind"
+            android:layout_marginLeft="@dimen/d9"
+            android:textSize="@dimen/s14"
+            android:layout_gravity="center"
+            android:text="汽车票"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+</FrameLayout>

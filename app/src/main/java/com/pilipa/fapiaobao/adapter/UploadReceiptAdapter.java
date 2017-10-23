@@ -65,7 +65,7 @@ public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
         } else if (holder instanceof ImageViewHolder) {
-            Log.d(TAG, "onBindViewHolder: (holder instanceof ImageViewHolder");
+            Log.d(TAG, "onBindViewHolder: (Financeholder instanceof ImageViewHolder");
             ImageViewHolder imageHolder = (ImageViewHolder) holder;
             requestManager
                     .load(images.get(position).uri)
