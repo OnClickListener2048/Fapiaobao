@@ -9,8 +9,6 @@ import android.widget.Toast;
 
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.widget.SimplexToast;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.pilipa.fapiaobao.Constants.Bugly;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -54,7 +52,6 @@ public class BaseApplication extends Application {
         PlatformConfig.setSinaWeibo("3639386105", "63143b3cc202fed0c17baf57030a88a0", "http://sns.whalecloud.com");
         PlatformConfig.setWeixin("wxb704e8dd773cc94e", "7df3fe092b8d88ebc28a94b84b5388c3");
         UMShareAPI.get(this);
-        setupImageLoader();
     }
 
     public static synchronized BaseApplication context() {
@@ -150,13 +147,4 @@ public class BaseApplication extends Application {
         if (context != null)
             SimplexToast.show(context, message, gravity, duration);
     }
-
-    // 设置图片加载配置 by wjn 2017-10-23
-    private void setupImageLoader() {
-        ImageLoaderConfiguration config;
-        // TODO 未来考虑优化设置,暂时采用默认设置.
-        config = ImageLoaderConfiguration.createDefault(this);
-        ImageLoader.getInstance().init(config);
-    }
-
 }
