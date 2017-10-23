@@ -150,6 +150,7 @@ public class BaseApplication extends Application {
         if (context != null)
             SimplexToast.show(context, message, gravity, duration);
     }
+
     // 设置图片加载配置 by wjn 2017-10-23
     private void setupImageLoader() {
         ImageLoaderConfiguration config;
