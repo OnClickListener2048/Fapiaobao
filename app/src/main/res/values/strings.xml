@@ -227,6 +227,8 @@
     <string name="publish_time">发布时间</string>
     <string name="early_end_collection">提前结束收集</string>
     <string name="collection_ing">收集中</string>
+    <string name="select_your_receipt_kind">请选择你要开具的发票类型</string>
+    <string name="normal_kind_receipt">常用类型</string>
 
 
 </resources>
