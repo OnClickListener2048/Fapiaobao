@@ -24,17 +24,12 @@ import butterknife.ButterKnife;
  * Created by wjn on 2017/10/23.
  */
 
-public class ReceiptFolderActivity extends BaseActivity {
+public class AddCompanyInfoActivity extends BaseActivity {
 
-    @Bind(R.id.tl_tabLayout)
-    TabLayout tlTabLayout;
-    @Bind(R.id.vp_verpager)
-    ViewPager vpVerpager;
-    private List<Fragment> fragmentList;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_receipt_folder;
+        return R.layout.activity_company_info_add;
     }
 
     @Override
@@ -44,12 +39,6 @@ public class ReceiptFolderActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        List list = StaticDataCreator.initReceiptFolderTabData(BaseApplication.context());
-        fragmentList = new ArrayList<>();
-        fragmentList.add(new MyReceiptViewPagerFragment());
-        fragmentList.add(new MyPublishViewPagerFragment());
-        vpVerpager.setAdapter(new TabPageIndicatorAdapter(getSupportFragmentManager(),list,fragmentList));
-        tlTabLayout.setupWithViewPager(vpVerpager);
     }
 
     @Override
@@ -60,7 +49,5 @@ public class ReceiptFolderActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

@@ -24,7 +24,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -62,20 +66,24 @@
         <activity android:name=".ui.SupplyActivity" />
         <activity android:name=".ui.SupplyDetailsActivity" />
         <activity android:name=".ui.HistoryActivity2" />
-        <activity android:name=".ShareActivity">
+        <activity android:name=".ShareActivity"> </activity>
+        <activity android:name=".ui.UserInfoActivity" />
+        <activity android:name=".ui.CompanyManagerActivity" />
+        <activity android:name=".ui.ReceiptFolderActivity" />
+        <activity android:name=".ui.MyWalletActivity" />
+        <activity android:name=".ui.FeedbackActivity" />
+        <activity android:name=".ui.AddCompanyInfoActivity" />
+        <activity android:name=".ui.UploadReceiptActivity"/>
+        <activity android:name=".ui.CompanyDetailsActivity"/>
+        <activity android:name=".ui.ProvidedActivity"/>
 
-        </activity>
-
-        <activity android:name=".ui.UploadReceiptActivity">
-
-        </activity>
         <activity android:name=".ui.PreviewActivity" />
         <activity android:name=".ui.TestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <provider
             android:name="android.support.v4.content.FileProvider"

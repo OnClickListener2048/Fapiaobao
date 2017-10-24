@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v7.widget.CardView
+        android:layout_margin="@dimen/d20"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="@dimen/d10"
+                android:src="@drawable/ic_launcher"/>
+            <LinearLayout
+                android:visibility="invisible"
+                android:id="@+id/ll_qr_code"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/d20"
+                    android:text="@string/scan_campany_info"/>
+                <ImageView
+                    android:layout_marginTop="@dimen/d20"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_launcher"
+                    android:layout_width="@dimen/d160"
+                    android:layout_height="@dimen/d160" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/d20"
+                    android:text="@string/view_directly"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_qr_code_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/d10"
+                android:layout_marginTop="@dimen/d20"
+                >
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    layout="@layout/layout_company_info">
+                </include>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

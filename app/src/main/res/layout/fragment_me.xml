@@ -1,140 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <ImageView
+            android:layout_marginRight="@dimen/d10"
+            android:id="@+id/notification"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/notification" />
+    </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d1"
+        android:background="@color/gray_line" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/img_head"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_head_circle_default_small"
+            app:riv_corner_radius="30dp" />
+
+        <TextView
+            android:id="@+id/tv_userName"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="20dp">
+            android:layout_toEndOf="@+id/img_head"
+            android:text="用户名" />
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/img_head"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="24dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_head_circle_default_small"
-                app:riv_corner_radius="30dp"
-                android:layout_marginStart="24dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_userName"
+            android:layout_toEndOf="@+id/img_head"
+            android:orientation="horizontal">
+
             <TextView
-                android:id="@+id/tv_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/img_head"
-                android:text="用户名"/>
-            <LinearLayout
-                android:layout_below="@+id/tv_userName"
-                android:layout_toEndOf="@+id/img_head"
+                android:text="@string/credit_rating" />
+
+            <RatingBar
+                android:id="@+id/ratingbar_Small"
+                style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/credit_rating"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="****"/>
-            </LinearLayout>
-        </RelativeLayout>
+                android:numStars="5"
+                android:rating="3.5"
+                />
+        </LinearLayout>
+    </RelativeLayout>
 
 
     <LinearLayout
-        android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="20dp">
+
         <Button
             android:id="@+id/btn_mPublish"
-            android:drawableTop="@drawable/ic_launcher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/my_published"
             android:layout_weight="1"
-            android:background="@null"/>
-        <Button
-            android:id="@+id/btn_manager"
+            android:background="@null"
             android:drawableTop="@drawable/ic_launcher"
+            android:text="@string/my_published" />
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/company_manager"
-            android:layout_weight="1"
-            android:background="@null"/>
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_manager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:drawableTop="@drawable/ic_launcher"
+                android:text="@string/company_manager" />
+            <TextView
+                android:id="@+id/main_tab_unread_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_red_dot"
+                android:gravity="center"
+                android:textSize="10dp"
+                android:text="4"
+                android:layout_marginLeft="@dimen/d60"
+                android:layout_marginTop="@dimen/d30"
+                android:textColor="@android:color/white"
+                />
+
+
+        </FrameLayout>
+
         <Button
             android:id="@+id/btn_receipt_folder"
-            android:drawableTop="@drawable/ic_launcher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/receipt_folder"
             android:layout_weight="1"
-            android:background="@null"/>
+            android:background="@null"
+            android:drawableTop="@drawable/ic_launcher"
+            android:text="@string/receipt_folder" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
             android:background="#cbcacf" />
+
         <RelativeLayout
             android:id="@+id/my_wallet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            >
+            android:padding="20dp">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/my_wallet"/>
+                android:text="@string/my_wallet" />
+
             <TextView
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="200"/>
+                android:layout_alignParentRight="true"
+                android:text="200" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
             android:background="#cbcacf" />
+
         <TextView
             android:id="@+id/tv_feedback"
-            android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/feedback"/>
+            android:padding="20dp"
+            android:text="@string/feedback" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
             android:background="#cbcacf" />
+
         <TextView
-            android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/encyclopedia"/>
+            android:padding="20dp"
+            android:text="@string/encyclopedia" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_alignParentBottom="true"
             android:background="#cbcacf" />
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
             android:text="@string/help_center" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"

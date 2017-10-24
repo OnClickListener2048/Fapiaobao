@@ -3,19 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
+
         <ImageView
+            android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher"/>
-        <TextView
-            android:drawableRight="@drawable/btn_back_normal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center|left"
-            android:text="北京爱仕达有限公司"/>
+            android:src="@drawable/ic_launcher" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/image"
+            android:text="北京爱仕达有限公司" />
+
+        <TextView
+            android:id="@+id/main_tab_unread_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_red_dot"
+            android:layout_marginRight="@dimen/d40"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:text="4"
+            android:visibility="gone"
+            android:textColor="@android:color/white"
+            android:textSize="10dp" />
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/d20"
+            android:layout_centerVertical="true"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/selector_capture_back" />
+    </RelativeLayout>
+
 </LinearLayout>
