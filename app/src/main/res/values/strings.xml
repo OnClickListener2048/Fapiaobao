@@ -192,4 +192,41 @@
     <string name="delete">删除</string>
     <string name="back">返回</string>
     <string name="select">选择</string>
+
+    <string name="company_manager">公司管理</string>
+    <string name="receipt_folder">发票夹</string>
+    <string name="credit_rating">信用等级</string>
+    <string name="my_wallet">我的钱包</string>
+    <string name="feedback">意见反馈</string>
+    <string name="encyclopedia">财税小百科</string>
+    <string name="help_center">帮助中心</string>
+    <string name="userinfo">我的资料</string>
+    <!--发票金额信息-->
+    <string name="total">需求总额</string>
+    <string name="end_of_distance">距离收集结束：%1$d天</string>
+    <string name="price">¥ %1$d</string>
+    <string name="collected_price">已收集 %1$d元</string>
+    <string name="collected_details">已收集%1$d张发票</string>
+    <string name="urplus">剩余%1$d元红包待领取</string>
+    <string name="collected_total">合计%1$d元</string>
+    <string name="to_collected_price">待收集 %1$d元</string>
+    <string name="to_provided_price">待提供 %1$d元</string>
+    <string name="zong">总</string>
+
+    <string name="my_collection">我的收藏</string>
+    <string name="my_company">我的公司</string>
+    <string name="provided">已提供</string>
+    <string name="not_used">未使用</string>
+    <string name="balance">我的余额</string>
+    <string name="recharge">充值</string>
+    <string name="withdraw">提现</string>
+    <string name="feedback_hint">请输入您的投诉或建议</string>
+    <string name="submit">提交</string>
+    <string name="demand_details">需求详情</string>
+    <string name="collected_recript">已收集发票</string>
+    <string name="publish_time">发布时间</string>
+    <string name="early_end_collection">提前结束收集</string>
+    <string name="collection_ing">收集中</string>
+
+
 </resources>
