@@ -10,37 +10,60 @@
         android:textStyle="bold"
         android:textColor="@color/result_points"
         />
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:padding="@dimen/d10"
+            android:layout_centerVertical="true"
             android:id="@+id/tv_end_of_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/end_of_distance"/>
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/ic_launcher"/>
-        <TextView
+        <LinearLayout
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/d5"
+            android:layout_marginRight="@dimen/d20"
+            android:gravity="bottom"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/zong"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/red"
-            android:text="@string/price"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/yuan"/>
-    </LinearLayout>
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/hb_amount"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zong"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/red"
+                android:text="@string/price"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yuan"/>
+        </LinearLayout>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginRight="@dimen/d10"
+        android:layout_marginLeft="@dimen/d10"
+        android:layout_alignParentBottom="true"
+        android:background="#cbcacf" />
     <LinearLayout
+        android:paddingLeft="@dimen/d20"
+        android:paddingRight="@dimen/d20"
+        android:layout_marginRight="@dimen/d10"
+        android:layout_marginLeft="@dimen/d10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
+            android:layout_weight="1"
+            android:padding="@dimen/d2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             >
@@ -62,11 +85,13 @@
         </RelativeLayout>
 
         <TextView
+            android:layout_weight="1"
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/collected_price"/>
         <TextView
+            android:layout_weight="1"
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

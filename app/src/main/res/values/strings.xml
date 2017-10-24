@@ -195,7 +195,7 @@
 
     <string name="company_manager">公司管理</string>
     <string name="receipt_folder">发票夹</string>
-    <string name="credit_rating">信用等级</string>
+    <string name="credit_rating">积分: %1$d </string>
     <string name="my_wallet">我的钱包</string>
     <string name="feedback">意见反馈</string>
     <string name="encyclopedia">财税小百科</string>
@@ -203,7 +203,7 @@
     <string name="userinfo">我的资料</string>
     <!--发票金额信息-->
     <string name="total">需求总额</string>
-    <string name="end_of_distance">距离收集结束：%1$d天</string>
+    <string name="end_of_distance">距离结束还有：%1$d天</string>
     <string name="price">¥ %1$d</string>
     <string name="collected_price">已收集 %1$d元</string>
     <string name="collected_details">已收集%1$d张发票</string>

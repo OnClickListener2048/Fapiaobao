@@ -37,8 +37,6 @@ public class MeFragment extends BaseFragment{
     TextView btnManager;
     @Bind(R.id.btn_receipt_folder)
     TextView btnReceiptFolder;
-    @Bind(R.id.ratingbar_Small)
-    RatingBar ratingbarSmall;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_me;
