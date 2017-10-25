@@ -112,9 +112,6 @@
         <activity android:name=".ui.PreviewActivity" />
         <activity android:name=".ui.TestActivity">
         </activity>
-        <activity android:name=".ui.EstimateActivity">
-
-        </activity>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.pilipa.fapiaobao.fileprovider"
