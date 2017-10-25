@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Created by edz on 2017/10/20.
  */
 
-public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class UploadReceiptPreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "UploadReceiptAdapter";
 
     private static final int TYPE_CAPTURE = 0x0001;
@@ -33,7 +33,7 @@ public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
     private OnImageClickListener onImageClickListener;
     private OnImageSelectListener onImageSelectListener;
 
-    public UploadReceiptAdapter(ArrayList<Image> images, int imageResize) {
+    public UploadReceiptPreviewAdapter(ArrayList<Image> images, int imageResize) {
         this.images = images;
         this.imageResize = imageResize;
     }
@@ -42,30 +42,15 @@ public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         requestManager = Glide.with(parent.getContext());
         View view;
-        if (viewType == TYPE_CAPTURE) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_upload_myreceipt_capture, parent, false);
-            return new CaptureViewHolder(view);
-        } else if (viewType == TYPE_MEDIA) {
+
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_upload_receipt_image, parent, false);
             return new ImageViewHolder(view);
-        }
-        return null;
+
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof CaptureViewHolder) {
-            CaptureViewHolder captureHolder = (CaptureViewHolder) holder;
-            captureHolder.mHint.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onPhotoCapture != null) {
-                        onPhotoCapture.capture();
-                    }
-                }
-            });
-        } else if (holder instanceof ImageViewHolder) {
-            Log.d(TAG, "onBindViewHolder: (Financeholder instanceof ImageViewHolder");
+
             ImageViewHolder imageHolder = (ImageViewHolder) holder;
             requestManager
                     .load(images.get(position).uri)
@@ -83,19 +68,15 @@ public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                 }
             });
-        }
+
     }
 
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return TYPE_CAPTURE;
-        }
-        if (position > 0) {
+
             return TYPE_MEDIA;
-        }
-        return super.getItemViewType(position);
+
     }
 
     @Override
@@ -133,18 +114,6 @@ public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void setOnImageSelectListener(OnImageSelectListener onImageSelectListener) {
         this.onImageSelectListener = onImageSelectListener;
-    }
-
-
-
-    private static class CaptureViewHolder extends RecyclerView.ViewHolder {
-
-        private ImageView mHint;
-
-        CaptureViewHolder(View itemView) {
-            super(itemView);
-            mHint = (ImageView) itemView.findViewById(R.id.capture);
-        }
     }
 
     public static class ImageViewHolder extends RecyclerView.ViewHolder {

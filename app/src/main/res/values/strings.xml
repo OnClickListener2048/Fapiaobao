@@ -272,6 +272,12 @@
     <string name="confirm_upload">将开好的发票保存至手机，就可以上传啦~</string>
     <string name="upload_receipt">上传发票</string>
     <string name="hurry_up">快来上传您的发票吧~</string>
+    <string name="my_provide">我提供的</string>
+    <string name="receipt_number">发票张数:</string>
+    <string name="piece">张</string>
+    <string name="receipt_money">发票金额:</string>
+    <string name="estimate_money">预估红包:</string>
+    <string name="if_money_isnt_right">如果金额不符，请继续添加</string>
 
 
 </resources>

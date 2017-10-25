@@ -1,13 +1,19 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.ui.fragment.UploadNormalReceiptFragment;
+import com.pilipa.fapiaobao.ui.model.Image;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,7 +24,7 @@ import butterknife.OnClick;
  */
 
 public class UploadReceiptActivity extends BaseActivity {
-    private static final String TAG = UploadReceiptActivity.class.getSimpleName();
+    public static final String TAG = UploadReceiptActivity.class.getSimpleName();
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.upload_back)
@@ -31,6 +37,15 @@ public class UploadReceiptActivity extends BaseActivity {
     FrameLayout containerPaperSpecialReceipt;
     @Bind(R.id.container_paper_elec_receipt)
     FrameLayout containerPaperElecReceipt;
+    @Bind(R.id.upload_receipt)
+    Button uploadReceipt;
+    private UploadNormalReceiptFragment paperNormalReceiptFragment;
+    private UploadNormalReceiptFragment paperSpecialReceiptFragment;
+    private UploadNormalReceiptFragment paperElecReceiptFragment;
+
+    public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
+    public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
+    public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
 
 
     @Override
@@ -38,14 +53,15 @@ public class UploadReceiptActivity extends BaseActivity {
         return R.layout.activity_upload_receipt;
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 
     @Override
     public void initView() {
-
+        paperNormalReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
+        addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
+        paperSpecialReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
+        addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
+        paperElecReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
+        addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
     }
 
     @Override
@@ -68,5 +84,25 @@ public class UploadReceiptActivity extends BaseActivity {
             case R.id.upload_scan:
                 break;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+
+    @OnClick(R.id.upload_receipt)
+    public void onViewClicked() {
+        Intent intent = new Intent(this, UploadReceiptPreviewActivity.class);
+        Bundle bundle = new Bundle();
+        ArrayList<Image> currentImagesPN = paperNormalReceiptFragment.getCurrentImages();
+        ArrayList<Image> currentImagesPS = paperSpecialReceiptFragment.getCurrentImages();
+        ArrayList<Image> currentImagesPE = paperElecReceiptFragment.getCurrentImages();
+        bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, currentImagesPN);
+        bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, currentImagesPS);
+        bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, currentImagesPE);
+        intent.putExtra(TAG, bundle);
+        startActivity(intent);
     }
 }

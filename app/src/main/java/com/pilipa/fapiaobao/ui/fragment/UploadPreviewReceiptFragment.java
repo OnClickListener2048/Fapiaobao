@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,13 +21,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.UploadReceiptAdapter;
+import com.pilipa.fapiaobao.adapter.UploadReceiptPreviewAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.ui.PreviewActivity;
+import com.pilipa.fapiaobao.ui.UploadReceiptPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
@@ -43,7 +44,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -54,8 +54,14 @@ import static android.app.Activity.RESULT_OK;
  * Created by edz on 2017/10/21.
  */
 
-public class UploadNormalReceiptFragment extends BaseFragment implements UploadReceiptAdapter.OnImageClickListener, UploadReceiptAdapter.OnImageSelectListener, UploadReceiptAdapter.OnPhotoCapture, View.OnClickListener {
-    private static final String TAG = "UploadNormalReceiptFragment";
+public class UploadPreviewReceiptFragment extends BaseFragment implements
+        View.OnClickListener
+        , UploadReceiptPreviewAdapter.OnImageClickListener
+        , UploadReceiptPreviewAdapter.OnImageSelectListener
+        , UploadReceiptPreviewAdapter.OnPhotoCapture {
+
+
+    private static final String TAG = "UploadPreviewReceiptFragment";
     public static final int REQUEST_CODE_CAPTURE = 10;
     public static final int REQUEST_CODE_CHOOSE = 20;
     public static final String EXTRA_ALL_DATA = "EXTRA_ALL_DATA";
@@ -63,6 +69,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
     public static final String EXTRA_BUNDLE = "EXTRA_BUNDLE";
     public static final int REQUEST_CODE_IMAGE_CLICK = 30;
     public static final int RESULT_CODE_BACK = 40;
+    public static final String IS_SHOW_SELECT_AND_DELETE = "is_show_select_and_delete";
 
     @Bind(R.id.rv_upload_receipt)
     RecyclerView rvUploadReceipt;
@@ -77,17 +84,45 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         return R.layout.fragment_upload_receipt;
     }
 
-    public static UploadNormalReceiptFragment newInstance(Bundle b) {
-        UploadNormalReceiptFragment u = new UploadNormalReceiptFragment();
+    public static UploadPreviewReceiptFragment newInstance(Bundle b) {
+        UploadPreviewReceiptFragment u = new UploadPreviewReceiptFragment();
         u.setArguments(b);
         return u;
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
+        Bundle arguments = getArguments();
+        ArrayList<Image> arrayList;
+        if (images == null) {
+            images = new ArrayList<>();
+        }
+        arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_ELEC_RECEIPT_DATA);
+        if (arrayList == null) {
+            arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_SPECIAL_RECEIPT_DATA);
+        }
+
+        if (arrayList == null) {
+            arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_NORMAL_RECEIPT_DATA);
+        }
+        Log.d(TAG, "onCreateView: ");
+        if (arrayList != null) {
+            for (Image image : arrayList) {
+                if (!image.isCapture) {
+                    images.add(image);
+                }
+            }
+        }
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+
         return rootView;
     }
 
@@ -96,7 +131,6 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
 
 
     private void openMedia() {
@@ -110,7 +144,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             @Override
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
-                    Matisse.from(UploadNormalReceiptFragment.this)
+                    Matisse.from(UploadPreviewReceiptFragment.this)
                             .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
                             .countable(true)
                             .captureStrategy(
@@ -140,8 +174,8 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
-        mediaStoreCompat = new MediaStoreCompat(getActivity(),this);
-        GridLayoutManager grid = new GridLayoutManager(getActivity(), 3){
+        mediaStoreCompat = new MediaStoreCompat(getActivity(), this);
+        GridLayoutManager grid = new GridLayoutManager(getActivity(), 3) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -150,13 +184,13 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         rvUploadReceipt.setLayoutManager(grid);
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
         rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, false));
-        Image image = new Image();
-        image.isFromNet = false;
-        image.isCapture = true;
-        images = new ArrayList<>();
-        images.add(image);
+//        Image image = new Image();
+//        image.isFromNet = false;
+//        image.isCapture = true;
+//        images = new ArrayList<>();
+//        images.add(image);
         mPreviousPosition = images.size();
-        UploadReceiptAdapter uploadReceiptAdapter = new UploadReceiptAdapter(images, getImageResize(getActivity()));
+        UploadReceiptPreviewAdapter uploadReceiptAdapter = new UploadReceiptPreviewAdapter(images, getImageResize(getActivity()));
         uploadReceiptAdapter.setOnImageClickListener(this);
         uploadReceiptAdapter.setOnImageSelectListener(this);
         uploadReceiptAdapter.setOnPhotoCapture(this);
@@ -182,6 +216,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         Image image = allItemList.get(position);
         Intent intent = new Intent(mContext, PreviewActivity.class);
         Bundle bundle = new Bundle();
+        bundle.putBoolean(IS_SHOW_SELECT_AND_DELETE,false);
         bundle.putParcelableArrayList(EXTRA_ALL_DATA, allItemList);
         bundle.putInt(EXTRA_CURRENT_POSITION, image.position);
         intent.putExtra(EXTRA_BUNDLE, bundle);
@@ -205,12 +240,12 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
 //            return;
 //        }
 
-        if (requestCode == REQUEST_CODE_CAPTURE&&resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_CAPTURE && resultCode == RESULT_OK) {
             Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
             String path = mediaStoreCompat.getCurrentPhotoPath();
             try {
                 MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
-                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,contentUri));
+                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -221,7 +256,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             image.position = mPreviousPosition;
             image.uri = contentUri;
             images.add(image);
-            UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
+            UploadReceiptPreviewAdapter uploadReceiptAdapter = (UploadReceiptPreviewAdapter) rvUploadReceipt.getAdapter();
             uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
             mPreviousPosition = images.size();
 
@@ -234,7 +269,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                 case RESULT_CODE_BACK:
                     Bundle bundleExtra = data.getBundleExtra(EXTRA_BUNDLE);
                     ArrayList<Image> images = bundleExtra.getParcelableArrayList(EXTRA_ALL_DATA);
-                    UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
+                    UploadReceiptPreviewAdapter uploadReceiptAdapter = (UploadReceiptPreviewAdapter) rvUploadReceipt.getAdapter();
                     uploadReceiptAdapter.refresh(images);
                     DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
                     diffResult.dispatchUpdatesTo(uploadReceiptAdapter);
@@ -253,11 +288,12 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                 image.uri = uri;
                 image.isFromNet = false;
                 images.add(image);
-                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
+                UploadReceiptPreviewAdapter uploadReceiptAdapter = (UploadReceiptPreviewAdapter) rvUploadReceipt.getAdapter();
                 uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
             }
 
         }
+
     }
 
     private void setDialog() {
@@ -306,10 +342,20 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         }
     }
 
-    public ArrayList<Image> getCurrentImages(){
-        if (images!= null) {
+    public ArrayList<Image> getCurrentImages() {
+        if (images != null) {
             return images;
         }
         return null;
+    }
+
+    public int getCurrentImageCount() {
+        Log.d(TAG, "getCurrentImageCount: ");
+        if (images!= null) {
+            Log.d(TAG, "getCurrentImageCount: ");
+            return images.size();
+        }
+
+        return 0;
     }
 }

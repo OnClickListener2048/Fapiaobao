@@ -12,6 +12,7 @@ import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.ui.fragment.PreviewImageFragment;
 import com.pilipa.fapiaobao.ui.fragment.UploadNormalReceiptFragment;
+import com.pilipa.fapiaobao.ui.fragment.UploadPreviewReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.PreviewViewpager;
 
@@ -54,6 +55,14 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
     @Override
     public void initView() {
         Bundle bundleExtra = getIntent().getBundleExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE);
+        boolean aBoolean = bundleExtra.getBoolean(UploadPreviewReceiptFragment.IS_SHOW_SELECT_AND_DELETE, true);
+        if (aBoolean) {
+            delete.setVisibility(View.VISIBLE);
+            click.setVisibility(View.VISIBLE);
+        } else {
+            delete.setVisibility(View.INVISIBLE);
+            click.setVisibility(View.INVISIBLE);
+        }
         allList = bundleExtra.getParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA);
         FragmentList  = new ArrayList<>();
         for (Image image : allList) {
