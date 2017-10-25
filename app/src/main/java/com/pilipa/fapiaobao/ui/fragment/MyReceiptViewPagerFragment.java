@@ -13,11 +13,11 @@ import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.AllFragmentAdapter;
 import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
-import com.pilipa.fapiaobao.adapter.UploadReceiptAdapter;
+import com.pilipa.fapiaobao.adapter.MyReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.ui.DemandActivity;
+import com.pilipa.fapiaobao.ui.ProvidedActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,13 +26,13 @@ import butterknife.ButterKnife;
  * Created by lyt on 2017/10/17.
  */
 
-public class MyPublishViewPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+public class MyReceiptViewPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
     @Bind(R.id.recyclerview)
     ListView listView;
     @Bind(R.id.trl)
     TwinklingRefreshLayout trl;
-    private MyPublishAdapter mAdapter;
-    public MyPublishViewPagerFragment() {
+    private MyReceiptAdapter mAdapter;
+    public MyReceiptViewPagerFragment() {
 
     }
     @Override
@@ -63,7 +63,7 @@ public class MyPublishViewPagerFragment extends BaseFragment implements AdapterV
         trl.setOverScrollBottomShow(false);
         trl.setOverScrollTopShow(false);
         trl.setEnableOverScroll(false);
-        listView.setAdapter(mAdapter = new MyPublishAdapter(mContext));
+        listView.setAdapter(mAdapter = new MyReceiptAdapter(mContext));
         listView.setOnItemClickListener(this);
     }
 
@@ -149,6 +149,6 @@ public class MyPublishViewPagerFragment extends BaseFragment implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(mContext, DemandActivity.class));
+        startActivity(new Intent(mContext, ProvidedActivity.class));
     }
 }

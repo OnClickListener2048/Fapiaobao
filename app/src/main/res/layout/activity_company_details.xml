@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/company_manager" />
+                android:text="@string/company_details" />
 
             <ImageView
                 android:id="@+id/iv_publish_history_back"
@@ -43,23 +43,13 @@
             android:layout_height="@dimen/d1"
             android:background="@color/gray_line" />
     </LinearLayout>
-
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tl_tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabBackground="@color/cancel"
-        app:tabIndicatorColor="@android:color/holo_orange_light"
-        app:tabSelectedTextColor="@android:color/holo_orange_light"
-        app:tabTextColor="@color/colorPrimary">
-
-    </android.support.design.widget.TabLayout>
-
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_verpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingLeft="@dimen/d30"
+        android:paddingRight="@dimen/d30"
+         />
 </LinearLayout>
