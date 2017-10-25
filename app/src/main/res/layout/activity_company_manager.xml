@@ -21,12 +21,13 @@
                 android:text="@string/company_manager" />
 
             <ImageView
-                android:id="@+id/iv_publish_history_back"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/company_manager_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_marginLeft="@dimen/d10"
+                android:src="@mipmap/estimate_back_brawn" />
 
             <ImageView
                 android:id="@+id/img_add"
@@ -49,10 +50,10 @@
         android:id="@+id/tl_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabBackground="@color/cancel"
-        app:tabIndicatorColor="@android:color/holo_orange_light"
-        app:tabSelectedTextColor="@android:color/holo_orange_light"
-        app:tabTextColor="@color/colorPrimary">
+        app:tabBackground="@color/white"
+        app:tabIndicatorColor="@color/main_style"
+        app:tabSelectedTextColor="@color/main_style"
+        app:tabTextColor="@color/contents_text">
 
     </android.support.design.widget.TabLayout>
 

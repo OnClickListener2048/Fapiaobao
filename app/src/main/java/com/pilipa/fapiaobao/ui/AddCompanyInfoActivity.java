@@ -1,24 +1,12 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
-import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.ui.fragment.MyPublishViewPagerFragment;
-import com.pilipa.fapiaobao.ui.fragment.MyReceiptViewPagerFragment;
-import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by wjn on 2017/10/23.
@@ -32,9 +20,14 @@ public class AddCompanyInfoActivity extends BaseActivity {
         return R.layout.activity_company_info_add;
     }
 
+    @OnClick({R.id.add_back})
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.add_back:{
+                finish();
+            }break;
+        }
     }
 
     @Override

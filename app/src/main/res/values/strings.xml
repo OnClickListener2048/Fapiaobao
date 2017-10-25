@@ -205,11 +205,11 @@
     <string name="total">需求总额</string>
     <string name="end_of_distance">距离收集结束：%1$d天</string>
     <string name="price">¥ %1$d</string>
-    <string name="collected_price">已收集 %1$d元</string>
+    <string name="collected_price">已收集  %1$d 元</string>
     <string name="collected_details">已收集%1$d张发票</string>
     <string name="urplus">剩余%1$d元红包待领取</string>
     <string name="collected_total">合计%1$d元</string>
-    <string name="to_collected_price">待收集 %1$d元</string>
+    <string name="to_collected_price">待收集  %1$d 元</string>
     <string name="to_provided_price">待提供 %1$d元</string>
     <string name="zong">总</string>
     <string name="yu">余</string>
@@ -220,7 +220,7 @@
     <string name="balance">我的余额</string>
     <string name="recharge">充值</string>
     <string name="withdraw">提现</string>
-    <string name="feedback_hint">请输入您的投诉或建议</string>
+    <string name="feedback_hint">请输入您的意见或建议...</string>
     <string name="submit">提交</string>
     <string name="demand_details">需求详情</string>
     <string name="collected_recript">已收集发票</string>
@@ -231,7 +231,7 @@
     <string name="normal_kind_receipt">常用类型</string>
     <string name="offered">我提供了</string>
     <string name="receive">收到红包 %1$d元</string>
-    <string name="offered_time">提供时间</string>
+    <string name="offered_time">提供时间: </string>
     <string name="arrival">红包到账</string>
     <string name="arrival_part">部分到账</string>
     <string name="arrival_ing">到账中</string>
@@ -278,6 +278,13 @@
     <string name="receipt_money">发票金额:</string>
     <string name="estimate_money">预估红包:</string>
     <string name="if_money_isnt_right">如果金额不符，请继续添加</string>
+
+    <!--wjn add-->
+    <string name="details">明细</string>
+    <string name="thanks">感谢您的反馈</string>
+    <string name="link_to">稍后会有专人联系到您</string>
+    <string name="link_too">的手机上。</string>
+
 
 
 </resources>

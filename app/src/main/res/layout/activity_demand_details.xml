@@ -20,12 +20,13 @@
                 android:text="@string/demand_details" />
 
             <ImageView
-                android:id="@+id/iv_publish_history_back"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/demand_details_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_marginLeft="@dimen/d10"
+                android:src="@mipmap/estimate_back_brawn" />
 
             <TextView
                 android:id="@+id/tv_publish_pub_history"

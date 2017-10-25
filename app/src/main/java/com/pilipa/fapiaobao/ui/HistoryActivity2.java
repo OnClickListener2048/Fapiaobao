@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import com.example.mylibrary.utils.ImageUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -19,6 +18,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by lyt on 2017/10/17.
@@ -36,11 +36,15 @@ public class HistoryActivity2 extends BaseActivity {
         return R.layout.activity_publish_history2;
     }
 
+    @OnClick({R.id.publish_history_back})
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.publish_history_back:{
+                finish();
+            }break;
+        }
     }
-
     @Override
     public void initView() {
         List list = StaticDataCreator.initMyPublishTabData(BaseApplication.context());

@@ -13,7 +13,6 @@ import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.ui.fragment.MyCompanyViewPagerFragment;
-import com.pilipa.fapiaobao.ui.fragment.MyPublishViewPagerFragment;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
 
 import java.util.ArrayList;
@@ -41,16 +40,18 @@ public class CompanyManagerActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_company_manager;
     }
-    @OnClick({R.id.img_add})
+    @OnClick({R.id.img_add,R.id.company_manager_back})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.img_add:{
                 startActivity(new Intent(this,AddCompanyInfoActivity.class));
             }break;
+            case R.id.company_manager_back:{
+                finish();
+            }break;
         }
     }
-
     @Override
     public void initView() {
         List list = StaticDataCreator.initCompanyManagerTabData(BaseApplication.context());

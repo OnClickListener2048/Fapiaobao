@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -31,12 +30,6 @@ public class MeFragment extends BaseFragment{
     RoundedImageView imageHead;
     @Bind(R.id.tv_userName)
     TextView tvUserName;
-    @Bind(R.id.btn_mPublish)
-    TextView btnMPublish;
-    @Bind(R.id.btn_manager)
-    TextView btnManager;
-    @Bind(R.id.btn_receipt_folder)
-    TextView btnReceiptFolder;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_me;

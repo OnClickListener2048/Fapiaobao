@@ -21,12 +21,13 @@
                 android:text="@string/userinfo" />
 
             <ImageView
-                android:id="@+id/iv_publish_history_back"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/userinfo_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_marginLeft="@dimen/d10"
+                android:src="@mipmap/estimate_back_brawn" />
 
             <TextView
                 android:id="@+id/tv_publish_pub_history"
@@ -44,19 +45,27 @@
             android:layout_height="@dimen/d1"
             android:background="@color/gray_line" />
         <RelativeLayout
+            android:layout_marginTop="@dimen/d5"
+            android:paddingLeft="@dimen/d15"
+            android:paddingRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:text="头像"/>
-            <ImageView
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/img_head"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_launcher"/>
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_head_circle_default_small"
+                app:riv_corner_radius="30dp" />
         </RelativeLayout>
         <RelativeLayout
+            android:padding="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -70,6 +79,7 @@
                 android:text="火热的心"/>
         </RelativeLayout>
         <RelativeLayout
+            android:padding="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -83,6 +93,7 @@
                 android:text="1990-02-11"/>
         </RelativeLayout>
         <RelativeLayout
+            android:padding="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -96,6 +107,7 @@
                 android:text="保密"/>
         </RelativeLayout>
         <RelativeLayout
+            android:padding="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -109,6 +121,7 @@
                 android:text="15048844848"/>
         </RelativeLayout>
         <RelativeLayout
+            android:padding="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -122,6 +135,7 @@
                 android:text="XXX"/>
         </RelativeLayout>
         <RelativeLayout
+            android:padding="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView

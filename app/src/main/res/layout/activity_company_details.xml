@@ -21,12 +21,13 @@
                 android:text="@string/company_details" />
 
             <ImageView
-                android:id="@+id/iv_publish_history_back"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/details_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_marginLeft="@dimen/d10"
+                android:src="@mipmap/estimate_back_brawn" />
 
             <ImageView
                 android:id="@+id/img_add"
@@ -34,8 +35,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_launcher"
-                />
+                android:src="@mipmap/ic_launcher" />
         </RelativeLayout>
 
         <View
@@ -43,6 +43,7 @@
             android:layout_height="@dimen/d1"
             android:background="@color/gray_line" />
     </LinearLayout>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_verpager"
         android:layout_width="match_parent"

@@ -7,17 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.ExpandableListView;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.AllFragmentAdapter;
+import com.pilipa.fapiaobao.adapter.ExpandableListAdapter;
 import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
-import com.pilipa.fapiaobao.adapter.UploadReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.ui.DemandActivity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,8 +30,8 @@ import butterknife.ButterKnife;
  */
 
 public class MyPublishViewPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
-    @Bind(R.id.recyclerview)
-    ListView listView;
+    @Bind(R.id.simple_expandable_listview)
+    ExpandableListView expandableListView;
     @Bind(R.id.trl)
     TwinklingRefreshLayout trl;
     private MyPublishAdapter mAdapter;
@@ -44,6 +47,8 @@ public class MyPublishViewPagerFragment extends BaseFragment implements AdapterV
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        expandableListView.setGroupIndicator(null);
+
         return rootView;
     }
 
@@ -63,14 +68,12 @@ public class MyPublishViewPagerFragment extends BaseFragment implements AdapterV
         trl.setOverScrollBottomShow(false);
         trl.setOverScrollTopShow(false);
         trl.setEnableOverScroll(false);
-        listView.setAdapter(mAdapter = new MyPublishAdapter(mContext));
-        listView.setOnItemClickListener(this);
     }
 
     @Override
     protected void initData() {
         super.initData();
-
+        setItems();
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
@@ -150,5 +153,52 @@ public class MyPublishViewPagerFragment extends BaseFragment implements AdapterV
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         startActivity(new Intent(mContext, DemandActivity.class));
+    }
+
+    void setItems(){
+
+        // Array list for header
+        ArrayList<String> header = new ArrayList<String>();
+
+        // Array list for child items
+        List<String> child1 = new ArrayList<String>();
+        List<String> child2 = new ArrayList<String>();
+        List<String> child3 = new ArrayList<String>();
+        List<String> child4 = new ArrayList<String>();
+
+        // Hash map for both header and child
+        HashMap<String, List<String>> hashMap = new HashMap<String, List<String>>();
+
+        // Adding headers to list
+        for (int i = 1; i < 5; i++) {
+            header.add("爱仕达 " + i);
+        }
+        // Adding child data
+        for (int i = 1; i < 5; i++) {
+            child1.add("Group 1  " + " : Child" + i);
+        }
+        // Adding child data
+        for (int i = 1; i < 5; i++) {
+            child2.add("Group 2  " + " : Child" + i);
+        }
+        // Adding child data
+        for (int i = 1; i < 6; i++) {
+            child3.add("Group 3  " + " : Child" + i);
+        }
+        // Adding child data
+        for (int i = 1; i < 7; i++) {
+            child4.add("Group 4  " + " : Child" + i);
+        }
+
+        // Adding header and childs to hash map
+        hashMap.put(header.get(0), child1);
+        hashMap.put(header.get(1), child2);
+        hashMap.put(header.get(2), child3);
+        hashMap.put(header.get(3), child4);
+
+        ExpandableListAdapter adapter = new ExpandableListAdapter(mContext, header, hashMap);
+        // Setting adpater over expandablelistview
+        expandableListView.setAdapter(adapter);
+
     }
 }

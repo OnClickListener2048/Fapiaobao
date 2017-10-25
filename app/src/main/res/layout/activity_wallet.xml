@@ -17,20 +17,21 @@
             android:text="@string/my_wallet" />
 
         <ImageView
-            android:id="@+id/scan"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@mipmap/ic_launcher"
-            android:layout_alignTop="@+id/message"
-            android:layout_alignParentStart="true" />
-
-        <ImageView
-            android:id="@+id/message"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:id="@+id/_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/d10"
+            android:src="@mipmap/estimate_back_brawn" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main_style"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher" />
+            android:padding="@dimen/d10"
+            android:text="@string/details"/>
 
         <View
             android:layout_width="match_parent"
@@ -39,7 +40,7 @@
             android:background="@color/gray_line" />
     </RelativeLayout>
     <LinearLayout
-        android:padding="20dp"
+        android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -60,38 +61,49 @@
         </LinearLayout>
         <Button
             android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/d50"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/d10"
+            android:background="@drawable/btn_wallet"
             android:text="@string/recharge"/>
         <Button
             android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/d50"
             android:layout_height="wrap_content"
+            android:background="@drawable/btn_wallet"
             android:text="@string/withdraw"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/d1"
-        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/d10"
+        android:layout_marginLeft="@dimen/d10"
         android:background="@color/gray_line" />
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="20dp"
         >
         <TextView
+            android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableRight="@drawable/enter_wallet"
             android:text="@string/my_wallet"/>
         <TextView
+            android:drawablePadding="@dimen/d20"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/d50"
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/main_style"
             android:text="200"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/d1"
+        android:layout_marginRight="@dimen/d10"
+        android:layout_marginLeft="@dimen/d10"
         android:layout_alignParentBottom="true"
         android:background="@color/gray_line" />
 

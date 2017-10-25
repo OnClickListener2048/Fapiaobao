@@ -21,20 +21,22 @@
                 android:text="@string/receipt_folder" />
 
             <ImageView
-                android:id="@+id/iv_publish_history_back"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/folder_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_marginLeft="@dimen/d10"
+                android:src="@mipmap/estimate_back_brawn" />
 
             <ImageView
-                android:id="@+id/img_add"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:id="@+id/img_scan"
+                android:layout_marginRight="@dimen/d10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_launcher"
+                android:src="@mipmap/upload_scan"
                 />
         </RelativeLayout>
 
@@ -49,14 +51,15 @@
         android:id="@+id/tl_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabBackground="@color/cancel"
-        app:tabIndicatorColor="@android:color/holo_orange_light"
-        app:tabSelectedTextColor="@android:color/holo_orange_light"
-        app:tabTextColor="@color/colorPrimary">
+        app:tabBackground="@color/white"
+        app:tabIndicatorColor="@color/main_style"
+        app:tabSelectedTextColor="@color/main_style"
+        app:tabTextColor="@color/contents_text">
 
     </android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
+        android:layout_marginTop="@dimen/d5"
         android:id="@+id/vp_verpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

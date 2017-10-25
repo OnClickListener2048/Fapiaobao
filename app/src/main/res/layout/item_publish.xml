@@ -1,100 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView
-        android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/d10"
+    android:paddingRight="@dimen/d10"
+    android:paddingTop="@dimen/d10"
+    android:paddingBottom="@dimen/d10"
+    android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/point"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="专+普"
-        android:textStyle="bold"
-        android:textColor="@color/result_points"
-        />
+        android:layout_marginTop="@dimen/d20"
+        android:layout_marginBottom="@dimen/d20"
+        android:layout_marginLeft="@dimen/d20"
+        android:layout_marginRight="@dimen/d15"
+        android:src="@drawable/point"/>
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
         <TextView
-            android:padding="@dimen/d10"
-            android:layout_centerVertical="true"
-            android:id="@+id/tv_end_of_distance"
+            android:id="@+id/tv_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/end_of_distance"/>
-        <LinearLayout
-            android:layout_alignParentRight="true"
-            android:padding="@dimen/d5"
-            android:layout_marginRight="@dimen/d20"
-            android:gravity="bottom"
+            android:textColor="@color/red"
+            android:textSize="@dimen/d18"
+            android:text="1800"/>
+        <TextView
+            android:layout_toRightOf="@+id/tv_amount"
+            android:layout_alignBottom="@+id/tv_amount"
+            android:paddingBottom="@dimen/d2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/hb_amount"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/zong"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/red"
-                android:text="@string/price"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/yuan"/>
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="@string/yuan"/>
+        <TextView
+            android:layout_below="@id/tv_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/s12"
+            android:text="@string/total"/>
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginRight="@dimen/d10"
-        android:layout_marginLeft="@dimen/d10"
-        android:layout_alignParentBottom="true"
-        android:background="#cbcacf" />
     <LinearLayout
-        android:paddingLeft="@dimen/d20"
-        android:paddingRight="@dimen/d20"
-        android:layout_marginRight="@dimen/d10"
-        android:layout_marginLeft="@dimen/d10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RelativeLayout
-            android:layout_weight="1"
-            android:padding="@dimen/d2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
-            <TextView
-                android:id="@+id/tv_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="800"/>
-            <TextView
-                android:layout_toRightOf="@+id/tv_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/yuan"/>
-            <TextView
-                android:layout_below="@id/tv_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/total"/>
-        </RelativeLayout>
-
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
             android:layout_weight="1"
             android:gravity="center"
+            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/collected_price"/>
         <TextView
-            android:layout_weight="1"
-            android:gravity="center"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/d5"
+            android:textSize="@dimen/s12"
+            android:text=""/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/d5"
+        android:orientation="vertical">
+        <TextView
+            android:layout_weight="1"
+            android:gravity="right"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/to_collected_price"/>
+        <TextView
+            android:textSize="@dimen/s12"
+            android:gravity="right"
+            android:layout_marginTop="@dimen/d5"
+            android:id="@+id/tv_end_of_distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/end_of_distance"/>
     </LinearLayout>
+
 </LinearLayout>

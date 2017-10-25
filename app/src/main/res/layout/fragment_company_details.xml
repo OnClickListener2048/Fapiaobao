@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.pilipa.fapiaobao.ui.fragment.TexFragment">
     <android.support.v7.widget.CardView
@@ -77,27 +76,11 @@
                 android:paddingRight="@dimen/d10"
                 android:paddingTop="@dimen/d5"
                 android:text="@string/we_need" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_rect_demand_info"
-
-                android:paddingBottom="@dimen/d5"
-                android:paddingLeft="@dimen/d10"
-                android:paddingRight="@dimen/d10"
-                android:paddingTop="@dimen/d5"
-                android:text="@string/texi" />
-
-            <TextView
-                android:background="@drawable/shape_rect_demand_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/d5"
-                android:paddingLeft="@dimen/d10"
-                android:paddingRight="@dimen/d10"
-                android:paddingTop="@dimen/d5"
-                android:text="@string/texi" />
+            <com.pilipa.fapiaobao.ui.widget.FlowLayout
+                android:id="@+id/flowLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.pilipa.fapiaobao.ui.widget.FlowLayout>
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

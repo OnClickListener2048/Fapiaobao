@@ -1,33 +1,21 @@
 package com.pilipa.fapiaobao.ui;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.CompoundButton;
 
-import com.example.mylibrary.utils.SizeUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.CardFragmentPagerAdapter;
 import com.pilipa.fapiaobao.adapter.CardPagerAdapter;
-import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
-import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.CardItem;
-import com.pilipa.fapiaobao.ui.fragment.MyPublishViewPagerFragment;
-import com.pilipa.fapiaobao.ui.fragment.MyReceiptViewPagerFragment;
-import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
 import com.pilipa.fapiaobao.ui.widget.ShadowTransformer;
 import com.pilipa.fapiaobao.utils.TDevice;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by wjn on 2017/10/23.
@@ -47,15 +35,23 @@ public class CompanyDetailsActivity extends BaseActivity implements CompoundButt
         return R.layout.activity_company_details;
     }
 
+    @OnClick({R.id.details_back})
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.details_back:{
+                finish();
+            }break;
+        }
     }
 
     @Override
     public void initView() {
-        mCardAdapter = new CardPagerAdapter();
+        mCardAdapter = new CardPagerAdapter(this);
         mCardAdapter.addCardItem(new CardItem(111,1111));
+        mCardAdapter.addCardItem(new CardItem(222,2222));
+        mCardAdapter.addCardItem(new CardItem(222,2222));
+        mCardAdapter.addCardItem(new CardItem(222,2222));
         mCardAdapter.addCardItem(new CardItem(222,2222));
         mCardAdapter.addCardItem(new CardItem(222,2222));
         mFragmentCardAdapter = new CardFragmentPagerAdapter(getSupportFragmentManager(),

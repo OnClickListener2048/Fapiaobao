@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
 
@@ -29,8 +28,15 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+
         return rootView;
     }
+
+    @Override
+    protected void initData() {
+        super.initData();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView
+        <!--<ListView
             android:overScrollMode="never"
             android:dividerHeight="@dimen/d5"
             android:divider="@color/gray_line"
@@ -15,6 +15,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        </ListView>
+        </ListView>-->
+        <ExpandableListView
+            android:id="@+id/simple_expandable_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/gray_line"
+            android:dividerHeight="1dp" >
+        </ExpandableListView>
     </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 </LinearLayout>

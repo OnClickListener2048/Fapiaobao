@@ -19,6 +19,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by wjn on 2017/10/23.
@@ -37,9 +38,14 @@ public class ReceiptFolderActivity extends BaseActivity {
         return R.layout.activity_receipt_folder;
     }
 
+    @OnClick({R.id.folder_back})
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.folder_back:{
+                finish();
+            }break;
+        }
     }
 
     @Override

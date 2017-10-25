@@ -21,17 +21,18 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_company_info"
+                    android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
+                    android:text="@string/add_company_info" />
 
                 <ImageView
-                    android:id="@+id/iv_publish_history_back"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:id="@+id/add_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_launcher" />
+                    android:layout_marginLeft="@dimen/d10"
+                    android:src="@mipmap/estimate_back_brawn" />
 
                 <ImageView
                     android:id="@+id/img_add"
@@ -39,8 +40,7 @@
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/ic_launcher"
-                    />
+                    android:src="@mipmap/ic_launcher" />
             </RelativeLayout>
 
             <View
@@ -50,9 +50,9 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="@dimen/d20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/d20"
             android:orientation="horizontal">
 
             <TextView
