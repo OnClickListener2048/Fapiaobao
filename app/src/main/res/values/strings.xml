@@ -212,7 +212,7 @@
     <string name="to_collected_price">待收集 %1$d元</string>
     <string name="to_provided_price">待提供 %1$d元</string>
     <string name="zong">总</string>
-
+    <string name="yu">余</string>
     <string name="my_collection">我的收藏</string>
     <string name="my_company">我的公司</string>
     <string name="provided">已提供</string>
@@ -229,6 +229,23 @@
     <string name="collection_ing">收集中</string>
     <string name="select_your_receipt_kind">请选择你要开具的发票类型</string>
     <string name="normal_kind_receipt">常用类型</string>
+    <string name="offered">我提供了</string>
+    <string name="receive">收到红包 %1$d元</string>
+    <string name="offered_time">提供时间</string>
+    <string name="arrival">红包到账</string>
+    <string name="arrival_part">部分到账</string>
+    <string name="arrival_ing">到账中</string>
+    <string name="arrival_no">不到账</string>
+    <string name="add_company_info">添加开票的公司信息</string>
+    <string name="company_details">公司详情</string>
+    <string name="we_need">我们需要</string>
+    <string name="provide_for_me">我提供的</string>
+    <string name="provide_size"> %1$d张</string>
+    <string name="bouns_amount">赏金预估 %1$d元</string>
+    <string name="actual_amount">实际到账 %1$d元</string>
+    <string name="outstanding">未到账 %1$d元</string>
+    <string name="scan_campany_info">扫一扫 查看公司开票信息</string>
+    <string name="view_directly">直接查看</string>
     <string name="more_kind_receipt">更多类型</string>
     <string name="estimate">预估收益</string>
     <string name="receipt_amount">发票金额:</string>
