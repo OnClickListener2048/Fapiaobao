@@ -1,10 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
     android:background="@color/white"
     android:layout_height="match_parent">
-<Button
-    android:text="@string/confirm"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/filter"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/estimate_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/d10"
+            android:src="@mipmap/estimate_back_brawn" />
+
+        <TextView
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/d10"
+            android:text="@string/confirm"
+            android:textColor="@color/main_style" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/d10"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_receipt_kind"
+            android:textColor="@color/main_style" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d5" />
+
+        <com.pilipa.fapiaobao.ui.widget.LabelsView
+            android:id="@+id/labels_receipt_kind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelBackground="@drawable/selector_estimate_receipt_kind_bg"
+            app:labelTextColor="@drawable/selector_estimate_receipt_kind_text"
+            app:labelTextPaddingBottom="5dp"
+            app:labelTextPaddingLeft="10dp"
+            app:labelTextPaddingRight="10dp"
+            app:labelTextPaddingTop="5dp"
+            app:labelTextSize="14sp"
+            app:lineMargin="10dp"
+            app:maxSelect="0"
+            app:selectType="MULTI"
+            app:wordMargin="10dp">
+
+        </com.pilipa.fapiaobao.ui.widget.LabelsView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/d10"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_receipt_area"
+            android:textColor="@color/main_style" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d15" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/location"
+            android:textColor="@color/main_style" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d5" />
+
+        <com.pilipa.fapiaobao.ui.widget.LabelsView
+            android:id="@+id/labels_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelBackground="@drawable/selector_estimate_receipt_kind_bg"
+            app:labelTextColor="@drawable/selector_estimate_receipt_kind_text"
+            app:labelTextPaddingBottom="5dp"
+            app:labelTextPaddingLeft="10dp"
+            app:labelTextPaddingRight="10dp"
+            app:labelTextPaddingTop="5dp"
+            app:labelTextSize="14sp"
+            app:lineMargin="10dp"
+            app:maxSelect="0"
+            app:selectType="MULTI"
+            app:wordMargin="10dp">
+
+        </com.pilipa.fapiaobao.ui.widget.LabelsView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d1"
+            android:background="@color/gray_line" />
+
+        <RelativeLayout
+            android:id="@+id/others_province"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/d10"
+                android:text="@string/other_province" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="@dimen/d10"
+                android:src="@mipmap/estimate_others_province" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d1"
+            android:background="@color/gray_line" />
+    </LinearLayout>
 </LinearLayout>

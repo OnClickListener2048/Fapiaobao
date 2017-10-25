@@ -89,4 +89,7 @@
     <dimen name="grid_expected_size">120dp</dimen>
     <dimen name="s13">13sp</dimen>
     <dimen name="s8">8sp</dimen>
+    <dimen name="s25">25sp</dimen>
+    <dimen name="d240">240dp</dimen>
+    <dimen name="d46">46dp</dimen>
 </resources>

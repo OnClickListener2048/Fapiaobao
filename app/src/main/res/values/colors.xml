@@ -32,9 +32,11 @@
     <color name="red">#ffcc0000</color>
     <color name="reception_item">#fc5353</color>
     <color name="cancel">#999999</color>
-
+    <color name="main_style">#ebaf7a</color>
     <color name="main_ed">#00A2F2</color>
     <color name="main">#849EAF</color>
     <color name="user_info_message_notice">#318923</color>
+    <color name="red_estimate">#ff9076</color>
+    <color name="btn_confirm">#ebb884</color>
 
 </resources>

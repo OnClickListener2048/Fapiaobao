@@ -11,9 +11,10 @@ import android.widget.ImageView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.FinanceAdapter;
+import com.pilipa.fapiaobao.adapter.FinanceMoreKindAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
-import com.pilipa.fapiaobao.utils.TDevice;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,6 +31,8 @@ public class FinanceFragment extends BaseFragment {
     ImageView notification;
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
+    @Bind(R.id.recyclerview_more_kind)
+    RecyclerView recyclerviewMoreKind;
 
     @Override
     protected int getLayoutId() {
@@ -56,8 +59,11 @@ public class FinanceFragment extends BaseFragment {
 
         GridLayoutManager manager = new GridLayoutManager(mContext, 2, LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(manager);
-        recyclerview.addItemDecoration(new GridInset(2, 20,true));
+        recyclerview.addItemDecoration(new GridInset(2, 20, true));
         recyclerview.setAdapter(new FinanceAdapter());
+        recyclerviewMoreKind.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
+        recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext,LinearLayoutManager.VERTICAL,10,R.color.cancel));
+        recyclerviewMoreKind.setAdapter(new FinanceMoreKindAdapter());
     }
 
     @OnClick({R.id.scan, R.id.notification})

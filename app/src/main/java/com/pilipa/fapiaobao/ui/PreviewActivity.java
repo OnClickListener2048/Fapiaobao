@@ -53,15 +53,15 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
 
     @Override
     public void initView() {
-        Bundle bundleExtra = getIntent().getBundleExtra(UploadReceiptActivity.EXTRA_BUNDLE);
-        allList = bundleExtra.getParcelableArrayList(UploadReceiptActivity.EXTRA_ALL_DATA);
+        Bundle bundleExtra = getIntent().getBundleExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE);
+        allList = bundleExtra.getParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA);
         FragmentList  = new ArrayList<>();
         for (Image image : allList) {
             if (!image.isCapture) {
                 FragmentList.add(PreviewImageFragment.newInstance(image));
             }
         }
-        currentPosition = bundleExtra.getInt(UploadReceiptActivity.EXTRA_CURRENT_POSITION);
+        currentPosition = bundleExtra.getInt(UploadNormalReceiptFragment.EXTRA_CURRENT_POSITION);
         Log.d(TAG, "initView: currentPosition"+currentPosition);
         mPreviousPos = currentPosition-1;
 
@@ -95,8 +95,8 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
                 if (allList.size() == 0 || previewPagerAdapter.arrayList.size() == 0) {
                     Intent intent2 = new Intent();
                     Bundle bundle2 = new Bundle();
-                    bundle2.putParcelableArrayList(UploadReceiptActivity.EXTRA_ALL_DATA, allList);
-                    intent2.putExtra(UploadReceiptActivity.EXTRA_BUNDLE, bundle2);
+                    bundle2.putParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA, allList);
+                    intent2.putExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE, bundle2);
                     setResult(UploadNormalReceiptFragment.RESULT_CODE_BACK, intent2);
                     finish();
                 }
@@ -104,8 +104,8 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
             case R.id.back:
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList(UploadReceiptActivity.EXTRA_ALL_DATA, allList);
-                intent.putExtra(UploadReceiptActivity.EXTRA_BUNDLE, bundle);
+                bundle.putParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA, allList);
+                intent.putExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE, bundle);
                 setResult(UploadNormalReceiptFragment.RESULT_CODE_BACK, intent);
                 finish();
                 break;

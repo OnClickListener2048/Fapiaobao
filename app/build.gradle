@@ -10,6 +10,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        defaultConfig {
+            multiDexEnabled true
+        }
     }
     buildTypes {
         release {
@@ -31,5 +34,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':share')
     compile 'com.makeramen:roundedimageview:2.1.2'
-
+    compile 'com.amap.api:location:latest.integration'
+    compile project(':citypickerview')
 }

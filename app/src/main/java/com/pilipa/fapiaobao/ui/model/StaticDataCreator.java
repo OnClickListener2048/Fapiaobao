@@ -43,4 +43,17 @@ public class StaticDataCreator {
         list.add(context.getString(R.string.not_used));
         return list;
     }
+
+    public static ArrayList<String> initReceiptKindData(Context context) {
+        ArrayList<String> list = new ArrayList();
+
+        list.clear();
+        list.add(context.getString(R.string.paper_normal_receipt));
+        list.add(context.getString(R.string.paper_special_receipt));
+        list.add(context.getString(R.string.paper_elec_receipt));
+        list.add(context.getString(R.string.ofAll));
+        return list;
+    }
+
+
 }

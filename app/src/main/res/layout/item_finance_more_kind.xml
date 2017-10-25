@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/title"
+        android:layout_marginLeft="@dimen/d15"
+        android:text="交通费"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.pilipa.fapiaobao.ui.widget.LabelsView
+        android:id="@+id/labels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:labelBackground="@drawable/label_bg"
+        app:labelTextColor="@drawable/label_text_color"
+        app:labelTextPaddingBottom="3dp"
+        app:labelTextPaddingLeft="3dp"
+        app:labelTextPaddingRight="3dp"
+        app:labelTextPaddingTop="3dp"
+        app:labelTextSize="14sp"
+        app:lineMargin="10dp"
+        app:maxSelect="0"
+        app:wordMargin="10dp"
+        >
+
+    </com.pilipa.fapiaobao.ui.widget.LabelsView>
+</LinearLayout>

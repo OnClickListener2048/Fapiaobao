@@ -22,7 +22,6 @@ import com.pilipa.fapiaobao.adapter.UploadReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.ui.PreviewActivity;
-import com.pilipa.fapiaobao.ui.UploadReceiptActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
@@ -71,7 +70,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
     private int mPreviousPosition = -1;
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_upload_receipt;
+        return R.layout.fragment_upload_receipt;
     }
 
     public static UploadNormalReceiptFragment newInstance(Bundle b) {

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 
+
 /**
  * Created by edz on 2017/10/23.
  */
@@ -25,7 +26,7 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof RecyclerView.ViewHolder) {
+        if (holder != null) {
             Financeholder financeholder  = (Financeholder) holder;
             financeholder.iv_finance.setOnClickListener(new View.OnClickListener() {
                 @Override

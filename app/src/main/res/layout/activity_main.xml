@@ -24,7 +24,7 @@
             android:name="com.pilipa.fapiaobao.ui.fragment.NavFragment"
             android:id="@+id/fag_nav"
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
+            android:layout_height="60dp" />
 
 </LinearLayout>
 
