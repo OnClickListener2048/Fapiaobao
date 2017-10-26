@@ -14,10 +14,8 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.MyCompanyAdapter;
-import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.ui.CompanyDetailsActivity;
-import com.pilipa.fapiaobao.ui.DemandActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,7 +35,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
     }
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_mypublish_viewpager_item;
+        return R.layout.fragment_viewpager_item;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,7 +102,8 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    trl.finishRefreshing();
+                    if(trl != null)
+                        trl.finishRefreshing();
                 }
             },2000);
         }
@@ -116,7 +115,8 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    trl.finishLoadmore();
+                    if(trl != null)
+                        trl.finishLoadmore();
                 }
             },2000);
         }

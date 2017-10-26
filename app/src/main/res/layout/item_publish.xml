@@ -6,6 +6,7 @@
     android:paddingRight="@dimen/d10"
     android:paddingTop="@dimen/d10"
     android:paddingBottom="@dimen/d10"
+    android:background="@drawable/shape_receipt_item"
     android:orientation="horizontal">
     <ImageView
         android:id="@+id/point"

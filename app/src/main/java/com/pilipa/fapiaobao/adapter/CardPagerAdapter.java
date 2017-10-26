@@ -6,6 +6,8 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
@@ -60,9 +62,10 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         container.addView(view);
         bind(mData.get(position), view);
         CardView cardView = (CardView) view.findViewById(R.id.cardView);
-        CardView cardView2 = (CardView) view.findViewById(R.id.cardView2);
         FlowLayout mFlowLayout = (FlowLayout) view.findViewById(R.id.flowLayout);
-        String[] types ={"汽车票","火车票","餐饮票"};
+        LinearLayout ll_qr_code2 = (LinearLayout) view.findViewById(R.id.ll_qr_code2);
+        ImageView img_qr_code1 = (ImageView) view.findViewById(R.id.img_qr_code1);
+        String[] types ={"汽车票","火车票","办公用品票","过桥票","餐饮票","餐饮票","餐饮票"};
         addView(types,mFlowLayout);
 
         if (mBaseElevation == 0) {
@@ -70,11 +73,12 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
         }
 
         cardView.setMaxCardElevation(mBaseElevation * MAX_ELEVATION_FACTOR);
-        cardView2.setMaxCardElevation(mBaseElevation * MAX_ELEVATION_FACTOR);
-        if(position == 2){
-            cardView2.setVisibility(View.VISIBLE);
+        if(position != 2){
+            ll_qr_code2.setVisibility(View.VISIBLE);
+            img_qr_code1.setVisibility(View.INVISIBLE);
         }else{
-            cardView2.setVisibility(View.INVISIBLE);
+            ll_qr_code2.setVisibility(View.INVISIBLE);
+            img_qr_code1.setVisibility(View.VISIBLE);
         }
         mViews.set(position, cardView);
         return view;

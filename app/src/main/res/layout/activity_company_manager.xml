@@ -31,18 +31,15 @@
 
             <ImageView
                 android:id="@+id/img_add"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_marginRight="@dimen/d10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_launcher"
+                android:src="@drawable/add_company"
                 />
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d1"
-            android:background="@color/gray_line" />
     </LinearLayout>
 
 
@@ -50,7 +47,6 @@
         android:id="@+id/tl_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabBackground="@color/white"
         app:tabIndicatorColor="@color/main_style"
         app:tabSelectedTextColor="@color/main_style"
         app:tabTextColor="@color/contents_text">
@@ -58,9 +54,18 @@
     </android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
+        android:paddingTop="@dimen/d15"
         android:id="@+id/vp_verpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </android.support.v4.view.ViewPager>
+    <Button
+        android:text="@string/submit"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:layout_margin="@dimen/d15"
+        android:background="@drawable/bg_btn_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

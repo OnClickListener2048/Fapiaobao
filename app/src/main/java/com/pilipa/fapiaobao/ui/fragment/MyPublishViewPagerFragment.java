@@ -107,7 +107,8 @@ public class MyPublishViewPagerFragment extends BaseFragment implements AdapterV
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    trl.finishRefreshing();
+                    if(trl != null)
+                        trl.finishRefreshing();
                 }
             },2000);
         }
@@ -119,7 +120,8 @@ public class MyPublishViewPagerFragment extends BaseFragment implements AdapterV
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    trl.finishLoadmore();
+                    if(trl != null)
+                        trl.finishLoadmore();
                 }
             },2000);
         }

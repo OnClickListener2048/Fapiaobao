@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/my_wallet" />
+
+        <ImageView
+            android:id="@+id/_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/d10"
+            android:src="@mipmap/estimate_back_brawn" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main_style"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/d10"
+            android:text="@string/details"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/balance"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="800.00"/>
+        </LinearLayout>
+        <Button
+            android:layout_weight="1"
+            android:layout_width="@dimen/d50"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/d10"
+            android:background="@drawable/btn_wallet"
+            android:text="@string/recharge"/>
+        <Button
+            android:layout_weight="1"
+            android:layout_width="@dimen/d50"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_wallet"
+            android:text="@string/withdraw"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d1"
+        android:layout_marginRight="@dimen/d10"
+        android:layout_marginLeft="@dimen/d10"
+        android:background="@color/gray_line" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/enter_wallet"
+            android:text="@string/my_wallet"/>
+        <TextView
+            android:drawablePadding="@dimen/d20"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/d50"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main_style"
+            android:text="200"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d1"
+        android:layout_marginRight="@dimen/d10"
+        android:layout_marginLeft="@dimen/d10"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_line" />
+
+</LinearLayout>

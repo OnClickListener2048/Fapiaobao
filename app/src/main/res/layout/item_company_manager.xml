@@ -3,14 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/d1"
-        android:background="@color/gray_line" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/d10"
+        android:background="@color/white"
         >
 
         <ImageView
@@ -43,7 +40,6 @@
             android:textSize="10dp" />
         <ImageView
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/d20"
             android:layout_centerVertical="true"
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -51,6 +47,6 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/d1"
+        android:layout_height="@dimen/d0.5"
         android:background="@color/gray_line" />
 </LinearLayout>

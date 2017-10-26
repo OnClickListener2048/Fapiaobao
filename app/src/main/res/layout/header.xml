@@ -2,9 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gray_hint"
+    android:orientation="vertical"
     >
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray_line"
+        ></View>
     <TextView
         android:id="@+id/header"
         android:background="@color/white"
@@ -12,6 +16,10 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:text="天津天津天津天津天津"
+        android:paddingLeft="@dimen/d15"
+        android:paddingRight="@dimen/d15"
+        android:paddingTop="@dimen/d15"
+        android:paddingBottom="@dimen/d10"
         android:textSize="18sp" />
 
 </LinearLayout>

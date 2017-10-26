@@ -2,10 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.pilipa.fapiaobao.ui.fragment.TexFragment">
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
+        app:cardCornerRadius="@dimen/d8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
             <LinearLayout
@@ -14,6 +16,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:padding="@dimen/d10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -22,7 +25,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:drawableLeft="@drawable/ic_red_dot"
+                        android:drawablePadding="@dimen/d5"
+                        android:textColor="@color/viewfinder_laser"
+                        android:drawableLeft="@drawable/red_new_dot"
                         android:text="有新发布的需求~" />
 
                     <ImageView
@@ -30,7 +35,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/img_del"
                         android:padding="@dimen/d8"
-                        android:src="@mipmap/publish" />
+                        android:src="@drawable/delete" />
 
                     <ImageView
                         android:id="@+id/img_del"
@@ -38,7 +43,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:padding="@dimen/d8"
-                        android:src="@mipmap/publish" />
+                        android:src="@drawable/share" />
                 </RelativeLayout>
 
                 <include
@@ -47,43 +52,69 @@
                     layout="@layout/layout_company_info">
                 </include>
 
-                <ImageView
-                    android:layout_width="@dimen/d110"
-                    android:layout_height="@dimen/d110"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/d15"
-                    android:src="@drawable/ic_launcher" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginBottom="@dimen/d10"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:visibility="invisible"
+                        android:id="@+id/img_qr_code1"
+                        android:layout_width="@dimen/d140"
+                        android:layout_height="@dimen/d140"
+                        android:layout_gravity="center"
+                        android:src="@drawable/qr_code" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_qr_code2"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:orientation="vertical">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d1"
+                                android:layout_centerVertical="true"
+                                android:background="@color/gray_line" />
+                            <ImageView
+                                android:id="@+id/img_qr_code2"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="@dimen/d30"
+                                android:layout_width="@dimen/d60"
+                                android:layout_height="@dimen/d60"
+                                android:layout_gravity="center"
+                                android:src="@drawable/qr_code" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/d5"
+                            android:paddingLeft="@dimen/d20"
+                            android:paddingRight="@dimen/d20"
+                            android:paddingTop="@dimen/d5"
+                            android:text="@string/we_need" />
+
+                        <com.pilipa.fapiaobao.ui.widget.FlowLayout
+                            android:id="@+id/flowLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                        </com.pilipa.fapiaobao.ui.widget.FlowLayout>
+                    </LinearLayout>
+                </FrameLayout>
+
 
 
             </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/d5"
-                android:paddingLeft="@dimen/d10"
-                android:paddingRight="@dimen/d10"
-                android:paddingTop="@dimen/d5"
-                android:text="@string/we_need" />
-            <com.pilipa.fapiaobao.ui.widget.FlowLayout
-                android:id="@+id/flowLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </com.pilipa.fapiaobao.ui.widget.FlowLayout>
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
 
 
 </LinearLayout>

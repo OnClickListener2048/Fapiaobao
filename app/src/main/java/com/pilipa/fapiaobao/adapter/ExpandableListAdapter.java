@@ -1,6 +1,8 @@
 package com.pilipa.fapiaobao.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.ui.DemandActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -98,7 +101,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 	}
 
 	@Override
-	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+	public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 		// Getting child text
 		final String childText = (String) getChild(groupPosition, childPosition);
 		// Inflating child layout and setting textview
@@ -106,13 +109,20 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 			LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = infalInflater.inflate(R.layout.item_publish, parent, false);
 		}
+		convertView.setOnClickListener((View.OnClickListener) _context);
 
 		TextView child_text = (TextView) convertView.findViewById(R.id.tv_amount);
-
+		convertView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("",childPosition+"");
+				_context.startActivity(new Intent(_context, DemandActivity.class),bundle);
+			}
+		});
 //		child_text.setText(childText);
 		return convertView;
 	}
-
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		// TODO Auto-generated method stub

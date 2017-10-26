@@ -170,7 +170,7 @@
     <string name="upload_electric_receipt">上传电子发票</string>
     <string name="already_have">已有发票</string>
     <string name="company_name">公司名称</string>
-    <string name="receipt_code">税号</string>
+    <string name="receipt_code">税    号</string>
     <string name="must_fill">必填</string>
     <string name="settings">发布设置</string>
     <string name="reward">悬赏红包</string>
@@ -215,7 +215,7 @@
     <string name="yu">余</string>
     <string name="my_collection">我的收藏</string>
     <string name="my_company">我的公司</string>
-    <string name="provided">已提供</string>
+    <string name="provided">提供详情</string>
     <string name="not_used">未使用</string>
     <string name="balance">我的余额</string>
     <string name="recharge">充值</string>
@@ -238,7 +238,7 @@
     <string name="arrival_no">不到账</string>
     <string name="add_company_info">添加开票的公司信息</string>
     <string name="company_details">公司详情</string>
-    <string name="we_need">我们需要</string>
+    <string name="we_need">我们需要 :</string>
     <string name="provide_for_me">我提供的</string>
     <string name="provide_size"> %1$d张</string>
     <string name="bouns_amount">赏金预估 %1$d元</string>
@@ -283,12 +283,44 @@
     <string name="express_way">邮寄方式</string>
     <string name="cod">到付</string>
     <string name="express_company">物流公司</string>
-
-    <!--wjn add-->
     <string name="details">明细</string>
     <string name="thanks">感谢您的反馈</string>
     <string name="link_to">稍后会有专人联系到您</string>
     <string name="link_too">的手机上。</string>
+    <!--wjn add-->
+    <string name="recharge_amount">充值金额</string>
+    <string name="recharge_10">充 ¥10元</string>
+    <string name="recharge_30">充 ¥30元</string>
+    <string name="recharge_100">充 ¥100元</string>
+    <string name="recharge_500">充 ¥500元</string>
+    <string name="wx">微信</string>
+    <string name="blog">微博</string>
+    <string name="qq">QQ</string>
+    <string name="qq_space">QQ空间</string>
+    <string name="wx_circle">朋友圈</string>
+    <string name="recharge_go">去充值</string>
+    <string name="recharge_balance">充入余额</string>
+    <string name="agreement">点击充值，即表示已阅读并同意 充值协议</string>
+    <string name="hint">发票宝不会已任何形式要求您输入银行账户和密码</string>
+    <string name="red_envelope">我的红包</string>
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="share_to">分享至</string>
+    <string name="limit">15-20位</string>
+    <string name="company_number">公司电话</string>
+    <string name="mailing">邮寄信息</string>
+    <string name="consignee">收 件 人</string>
+    <string name="contact">联系电话</string>
+    <string name="fixed_line">固定电话</string>
+    <string name="address_details">详细地址</string>
+    <string name="ogistics_info">物流信息</string>
+    <string name="ogistics_company">物流公司</string>
+    <string name="ogistics_num">物流单号</string>
+    <string name="withdraw_tip1">可将当前红包中的</string>
+    <string name="withdraw_tip2">元提现到您的微信钱包</string>
+    <string name="withdraw_tip3">确定提现么？</string>
+    <string name="logout_tip">确定要退出登录么？</string>
+
 
 
     <string-array name="express">

@@ -52,8 +52,6 @@ public class CompanyDetailsActivity extends BaseActivity implements CompoundButt
         mCardAdapter.addCardItem(new CardItem(222,2222));
         mCardAdapter.addCardItem(new CardItem(222,2222));
         mCardAdapter.addCardItem(new CardItem(222,2222));
-        mCardAdapter.addCardItem(new CardItem(222,2222));
-        mCardAdapter.addCardItem(new CardItem(222,2222));
         mFragmentCardAdapter = new CardFragmentPagerAdapter(getSupportFragmentManager(),
                 TDevice.dp2px(2) );
 

@@ -40,7 +40,7 @@ public class MeFragment extends BaseFragment{
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
-        setImageFromNet(imageHead,"URL",R.drawable.ic_head_circle_default_small);
+        setImageFromNet(imageHead,"URL",R.mipmap.ic_head_circle_default_small_);
         return rootView;
     }
 

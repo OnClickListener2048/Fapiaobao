@@ -50,7 +50,11 @@
 
         </meta-data>
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -93,17 +97,22 @@
         <activity android:name=".ui.ReceiptFolderActivity" />
         <activity android:name=".ui.MyWalletActivity" />
         <activity android:name=".ui.FeedbackActivity" />
-        <activity android:name=".ui.EstimateActivity">
-
-        </activity>
-
         <activity android:name=".ui.AddCompanyInfoActivity" />
         <activity android:name=".ui.CompanyDetailsActivity" />
         <activity android:name=".ui.ProvidedActivity" />
+        <activity android:name=".ui.PubActivity" />
+        <!--wjn add-->
+        <activity android:name=".ui.RechargeActivity" />
+        <activity android:name=".ui.RechargeDetailsActivity" />
+        <activity android:name=".ui.MyRedEnvelopeActivity" />
+
+        <!--wjn add-->
+        <activity android:name=".ui.EstimateActivity">
+        </activity>
 
         <activity android:name=".ui.UploadReceiptActivity">
+
         </activity>
-        <activity android:name=".ui.PubActivity" />
 
         <activity android:name=".ui.UploadReceiptPreviewActivity" />
         <activity android:name=".ui.PreviewActivity" />

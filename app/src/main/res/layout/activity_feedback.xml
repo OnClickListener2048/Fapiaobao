@@ -27,11 +27,6 @@
             android:layout_marginLeft="@dimen/d10"
             android:src="@mipmap/estimate_back_brawn" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d2"
-            android:layout_alignParentBottom="true"
-            android:background="@color/gray_line" />
     </RelativeLayout>
 
     <LinearLayout
@@ -52,6 +47,7 @@
     </LinearLayout>0
 
     <Button
+        android:id="@+id/btn_feedback_confirm"
         android:text="@string/submit"
         android:layout_alignParentBottom="true"
         android:textColor="@color/white"

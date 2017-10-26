@@ -2,6 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/shape_receipt_item"
+    android:paddingLeft="@dimen/d5"
+    android:paddingBottom="@dimen/d5"
     android:orientation="horizontal">
     <LinearLayout
         android:layout_weight="1"
@@ -16,12 +19,12 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:background="@drawable/bg_receipt_type"
-            android:paddingLeft="@dimen/d20"
+            android:paddingLeft="@dimen/d15"
             android:paddingRight="@dimen/d15"
             android:text="出租车票" />
 
         <RelativeLayout
-            android:layout_margin="@dimen/d5"
+            android:layout_marginTop="@dimen/d5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -57,7 +60,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/red"
-                android:textSize="@dimen/s24"
+                android:textSize="@dimen/s20"
+                android:paddingLeft="@dimen/d5"
+                android:paddingRight="@dimen/d5"
                 android:text="125.15" />
 
             <TextView
@@ -92,10 +97,9 @@
     </LinearLayout>
     <TextView
         android:layout_weight="1"
-
         android:id="@+id/tv_arrival"
         android:layout_gravity="center"
-        android:padding="@dimen/d20"
+        android:padding="@dimen/d15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/arrival"

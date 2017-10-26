@@ -50,13 +50,10 @@ public class UserInfoActivity extends BaseActivity {
     @Bind(R.id.img_head)
     RoundedImageView img_head;
     private Dialog mCameraDialog;
+    private Dialog mDialog;
     private MediaStoreCompat mediaStoreCompat;
     public static final int REQUEST_CODE_CAPTURE = 10;
     public static final int REQUEST_CODE_CHOOSE = 20;
-    public static final String EXTRA_ALL_DATA = "EXTRA_ALL_DATA";
-    public static final String EXTRA_BUNDLE = "EXTRA_BUNDLE";
-    public static final int REQUEST_CODE_IMAGE_CLICK = 30;
-    public static final int RESULT_CODE_BACK = 40;
     private int mPreviousPosition = -1;
     private RequestManager requestManager;
 
@@ -65,7 +62,7 @@ public class UserInfoActivity extends BaseActivity {
         return R.layout.activity_userinfo;
     }
 
-    @OnClick({R.id.userinfo_back, R.id.img_head})
+    @OnClick({R.id.userinfo_back, R.id.img_head,R.id.img_logout})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -89,6 +86,15 @@ public class UserInfoActivity extends BaseActivity {
                 break;
             case R.id.btn_cancel:
                 mCameraDialog.dismiss();
+                break;
+            case R.id.btn_cancel1:
+                mDialog.dismiss();
+                break;
+            case R.id.btn_confirm:
+                mDialog.dismiss();
+                break;
+            case R.id.img_logout:
+                setLogoutDialog();
                 break;
         }
     }
@@ -219,6 +225,27 @@ public class UserInfoActivity extends BaseActivity {
         dialogWindow.setAttributes(lp);
         mCameraDialog.show();
     }
+    private void setLogoutDialog() {
+        mDialog = new Dialog(this, R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+                R.layout.layout_logout_tip, null);
+        //初始化视图
+        root.findViewById(R.id.btn_confirm).setOnClickListener(this);
+        root.findViewById(R.id.btn_cancel1).setOnClickListener(this);
+        mDialog.setContentView(root);
+        Window dialogWindow = mDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
 
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mDialog.show();
+    }
 
 }
