@@ -5,6 +5,8 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/d12"
@@ -12,15 +14,7 @@
         android:layout_marginTop="@dimen/d12"
         android:orientation="vertical">
 
-        <LinearLayout
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v4.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d30" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,15 +30,51 @@
         </LinearLayout>
 
         <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d30" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/d35"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="手机号码"
+                android:textSize="@dimen/s12" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="@dimen/d15"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_warnning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请输入正确的手机号码"
+                android:textColor="@color/red_estimate" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/d10"
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/iv_login_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/user2" />
+                android:src="@drawable/selector_login_phone" />
 
             <android.support.v4.widget.Space
                 android:layout_width="@dimen/d15"
@@ -74,10 +104,11 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/iv_verification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/lock2" />
+                android:src="@drawable/selector_login_verification" />
 
             <android.support.v4.widget.Space
                 android:layout_width="@dimen/d15"
@@ -94,13 +125,17 @@
                 android:textColorHint="@color/gray_hint"
                 android:textSize="@dimen/s14" />
 
-            <ImageView
-                android:id="@+id/eye_login"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:clickable="true"
-                android:padding="5dp"
-                android:src="@drawable/password" />
+            <TextView
+                android:id="@+id/require_verify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_login_resend"
+                android:paddingBottom="@dimen/d10"
+                android:paddingLeft="@dimen/d30"
+                android:paddingRight="@dimen/d30"
+                android:paddingTop="@dimen/d10"
+                android:text="获取验证码"
+                android:textColor="@color/main_style" />
 
         </LinearLayout>
 
@@ -111,6 +146,7 @@
             android:background="@color/gray_line" />
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/d12"
@@ -141,14 +177,73 @@
             android:gravity="center_horizontal">
 
             <Button
-                android:id="@+id/login"
-                android:layout_width="wrap_content"
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="login" />
+                android:background="@color/main_style"
+                android:text="@string/login"
+                android:textColor="@color/white"
+                android:textSize="@dimen/s16" />
         </LinearLayout>
 
         <android.support.v4.widget.Space
             android:layout_width="match_parent"
             android:layout_height="@dimen/d20" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/WeChat_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:drawableTop="@mipmap/wechat"
+                android:text="@string/WeChat_login" />
+        </RelativeLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d50" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/nike"
+                    android:drawablePadding="@dimen/d3"
+                    android:text="@string/I_have_read_about"
+                    android:textSize="@dimen/s11" />
+
+                <TextView
+                    android:id="@+id/laws"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/laws"
+                    android:textColor="@color/main_style"
+                    android:textSize="@dimen/s11" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d20" />
+
     </LinearLayout>
 </LinearLayout>

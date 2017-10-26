@@ -2,9 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/d10"
     android:orientation="vertical">
 
     <TextView
+        android:textColor="@color/main_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/publish_cautions" />
@@ -16,16 +18,21 @@
         android:background="@drawable/shape_rect_demand_info">
 
         <EditText
+            android:id="@+id/et_publish_cautions"
             android:padding="@dimen/d10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:text="请填写注意事项..." />
+            android:hint="请填写注意事项..." />
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_publish_now"
+        android:layout_height="@dimen/d35"
+        android:layout_margin="@dimen/d10"
+        android:background="@color/main_style"
         android:text="@string/publish"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/white" />
 
 </LinearLayout>

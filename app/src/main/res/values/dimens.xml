@@ -92,4 +92,5 @@
     <dimen name="s25">25sp</dimen>
     <dimen name="d240">240dp</dimen>
     <dimen name="d46">46dp</dimen>
+    <dimen name="d45">45dp</dimen>
 </resources>

@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +34,11 @@ public class PubActivity extends BaseActivity {
     ImageView selectReceiptPaperSpecial;
     @Bind(R.id.receipt_paper_special)
     FrameLayout receiptPaperSpecial;
+    @Bind(R.id.confirm)
+    TextView confirm;
+    public static final String RECEIPTELEC_DATA  = "receiptElec";
+    public static final String RECEIPTPAPERNORMAL_DATA  = "receiptPaperNormal";
+    public static final String RECEIPTPAPERSPECIAL_DATA  = "receiptPaperSpecial";
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, PubActivity.class));
@@ -49,7 +56,10 @@ public class PubActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        receiptElec.setSelected(true);
+        receiptPaperNormal.setSelected(true);
+        receiptPaperSpecial.setSelected(true);
+        updateSelection();
     }
 
     @Override
@@ -83,9 +93,24 @@ public class PubActivity extends BaseActivity {
     }
 
     private void updateSelection() {
-        selectReceiptElec.setVisibility(receiptElec.isSelected()?View.VISIBLE:View.INVISIBLE);
-        selectReceiptPaperNormal.setVisibility(receiptPaperNormal.isSelected()?View.VISIBLE:View.INVISIBLE);
-        selectReceiptPaperSpecial.setVisibility(receiptPaperSpecial.isSelected()?View.VISIBLE:View.INVISIBLE);
+        selectReceiptElec.setVisibility(receiptElec.isSelected() ? View.VISIBLE : View.INVISIBLE);
+        selectReceiptPaperNormal.setVisibility(receiptPaperNormal.isSelected() ? View.VISIBLE : View.INVISIBLE);
+        selectReceiptPaperSpecial.setVisibility(receiptPaperSpecial.isSelected() ? View.VISIBLE : View.INVISIBLE);
+    }
 
+    @OnClick(R.id.confirm)
+    public void onViewClicked() {
+        if (!(receiptPaperSpecial.isSelected() || receiptPaperNormal.isSelected() || receiptElec.isSelected())) {
+            BaseApplication.showToast("请选择一种发票类型");
+            return;
+        }
+
+        Intent intent = new Intent();
+        intent.putExtra(RECEIPTELEC_DATA, receiptElec.isSelected());
+        intent.putExtra(RECEIPTPAPERSPECIAL_DATA, receiptPaperSpecial.isSelected());
+        intent.putExtra(RECEIPTPAPERNORMAL_DATA, receiptPaperNormal.isSelected());
+        intent.setClass(this, DemandsPublishActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -127,8 +127,8 @@
 
     <string name="viewfinderview_status_text1">将二维码/条码放入取景框内</string>
     <string name="viewfinderview_status_text2">即可自动扫描</string>
-    <string name="password">password</string>
-    <string name="user_name">username</string>
+    <string name="password">验证码</string>
+    <string name="user_name">您的手机号码</string>
     <string name="login">登陆</string>
     <string name="register">注册</string>
     <string name="main_tab_name_tex">员工代办</string>
@@ -170,14 +170,14 @@
     <string name="upload_electric_receipt">上传电子发票</string>
     <string name="already_have">已有发票</string>
     <string name="company_name">公司名称</string>
-    <string name="receipt_code">税    号</string>
+    <string name="receipt_code">税号</string>
     <string name="must_fill">必填</string>
     <string name="settings">发布设置</string>
     <string name="reward">悬赏红包</string>
     <string name="amount">总金额</string>
     <string name="point_receipt_kind">指定发票类型</string>
     <string name="publish_cautions">开票注意事项</string>
-    <string name="publish">发布</string>
+    <string name="publish">立即发布</string>
     <string name="address">地址</string>
     <string name="phone_number">电话</string>
     <string name="bank_name">开户银行</string>
@@ -215,7 +215,7 @@
     <string name="yu">余</string>
     <string name="my_collection">我的收藏</string>
     <string name="my_company">我的公司</string>
-    <string name="provided">提供详情</string>
+    <string name="provided">已提供</string>
     <string name="not_used">未使用</string>
     <string name="balance">我的余额</string>
     <string name="recharge">充值</string>
@@ -287,6 +287,24 @@
     <string name="thanks">感谢您的反馈</string>
     <string name="link_to">稍后会有专人联系到您</string>
     <string name="link_too">的手机上。</string>
+    <string name="recipients">收\u0020\u0020件\u0020\u0020人</string>
+    <string name="name">姓名</string>
+    <string name="contact_number">联系电话</string>
+    <string name="address_details">详细地址</string>
+    <string name="street">街道,楼牌号等</string>
+    <string name="area">所在地区</string>
+    <string name="publish_share">保存/分享</string>
+    <string name="continuous_to_supply">继续提供发票</string>
+    <string name="watch">查看</string>
+    <string name="WeChat">微信好友</string>
+    <string name="moments">朋友圈</string>
+    <string name="weibo">微博</string>
+    <string name="qzone">QQ空间</string>
+    <string name="QQfriend">QQ好友</string>
+    <string name="resend">重新发送</string>
+    <string name="WeChat_login">微信登录</string>
+    <string name="I_have_read_about">我已阅读并同意</string>
+    <string name="laws">《法律声明》</string>
     <!--wjn add-->
     <string name="recharge_amount">充值金额</string>
     <string name="recharge_10">充 ¥10元</string>
@@ -324,13 +342,8 @@
 
 
     <string-array name="express">
-        <item >星期一</item>
-        <item >星期二</item>
-        <item >星期三</item>
-        <item >星期四</item>
-        <item >星期五</item>
-        <item >星期六</item>
-        <item >星期天</item>
+        <item >顺丰</item>
+
     </string-array>
 
 </resources>

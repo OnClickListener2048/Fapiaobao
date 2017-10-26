@@ -84,7 +84,18 @@
 
         </activity>
         <activity android:name=".ui.LeadActivity" />
-        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.pilipa.fapiaobao.wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoDisplay" />
         <activity
             android:name=".ui.HistoryActivity" />
         <activity android:name=".ui.DemandActivity" />
@@ -118,6 +129,7 @@
         <activity android:name=".ui.PreviewActivity" />
         <activity android:name=".ui.TestActivity">
         </activity>
+        <activity android:name=".ui.DemandsPublishActivity" />
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.pilipa.fapiaobao.fileprovider"

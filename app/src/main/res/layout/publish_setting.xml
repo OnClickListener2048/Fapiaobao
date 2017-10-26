@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,13 +52,15 @@
                 android:layout_weight="1"
                 android:background="@drawable/shape_rect_demand_info">
 
-                <EditText
+                <TextView
+                    android:id="@+id/et_date"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/d30"
                     android:layout_weight="1"
                     android:background="@null" />
 
                 <ImageView
+                    android:id="@+id/iv_select_date"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/d10"
@@ -79,7 +83,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:text="@string/need_total" />
 
             <View
@@ -94,6 +97,7 @@
                 android:background="@drawable/shape_rect_demand_info">
 
                 <EditText
+                    android:id="@+id/et_amount"
                     android:layout_height="@dimen/d30"
                     android:layout_width="0dp"
                     android:background="@null"
@@ -136,7 +140,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
 
-                <Switch
+                <android.support.v7.widget.SwitchCompat
+                    app:showText="false"
+                    android:id="@+id/Switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -147,6 +153,7 @@
                 android:layout_height="@dimen/d10" />
 
             <LinearLayout
+                android:id="@+id/ll_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -154,6 +161,7 @@
                 android:background="@drawable/shape_rect_demand_info">
 
                 <EditText
+                    android:id="@+id/et_amount_redbag"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/d30"
                     android:layout_weight="1"
@@ -212,6 +220,7 @@
                 android:background="@drawable/shape_rect_demand_info">
 
                 <EditText
+                    android:id="@+id/et_express_amount_minimum"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/d30"
                     android:layout_weight="1"
