@@ -147,7 +147,7 @@
     <string name="search">搜索</string>
     <string name="tex_kind">发票类型</string>
     <string name="show_more">显示更多</string>
-    <string name="deadline">截止日期</string>
+    <string name="deadline">收票截止日期</string>
     <string name="need_total">需求总额</string>
     <string name="yuan">元</string>
     <string name="texi">出租车票</string>
@@ -278,6 +278,11 @@
     <string name="receipt_money">发票金额:</string>
     <string name="estimate_money">预估红包:</string>
     <string name="if_money_isnt_right">如果金额不符，请继续添加</string>
+    <string name="demand_publish">需求发布</string>
+    <string name="express_limited">最少寄送限额</string>
+    <string name="express_way">邮寄方式</string>
+    <string name="cod">到付</string>
+    <string name="express_company">物流公司</string>
 
     <!--wjn add-->
     <string name="details">明细</string>
@@ -286,5 +291,14 @@
     <string name="link_too">的手机上。</string>
 
 
+    <string-array name="express">
+        <item >星期一</item>
+        <item >星期二</item>
+        <item >星期三</item>
+        <item >星期四</item>
+        <item >星期五</item>
+        <item >星期六</item>
+        <item >星期天</item>
+    </string-array>
 
 </resources>

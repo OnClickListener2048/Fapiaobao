@@ -8,13 +8,16 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:textColor="@color/main_style"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
@@ -23,133 +26,206 @@
 
         </LinearLayout>
 
+        <include layout="@layout/publish_receipt_kind" />
+
         <LinearLayout
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:text="@string/deadline" />
 
             <View
-                android:layout_width="@dimen/d10"
-                android:layout_height="match_parent" />
-
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/shape_rect_demand_info">
 
                 <EditText
-
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/d30"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="@string/deadline" />
+                    android:background="@null" />
 
                 <ImageView
-                    android:layout_width="@dimen/d15"
-                    android:layout_height="@dimen/d15"
-                    android:src="@mipmap/ic_launcher_round" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/d10"
+                    android:src="@mipmap/date" />
             </LinearLayout>
-
-            <ImageView
-                android:layout_width="@dimen/d30"
-                android:layout_height="@dimen/d30"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher_round" />
-
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d10" />
+
+
         <LinearLayout
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+
                 android:text="@string/need_total" />
 
             <View
-                android:layout_width="@dimen/d10"
-                android:layout_height="match_parent" />
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/shape_rect_demand_info">
 
                 <EditText
-
+                    android:layout_height="@dimen/d30"
                     android:layout_width="0dp"
+                    android:background="@null"
+                    android:layout_weight="1"
+                    android:hint="需要发票总金额" />
+
+                <TextView
+                    android:layout_marginRight="@dimen/d10"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/yuan" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d10" />
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/reward" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/shape_rect_demand_info">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/d30"
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="@string/amount" />
 
                 <TextView
+                    android:layout_marginRight="@dimen/d10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/yuan" />
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="@dimen/d30"
-                android:layout_height="@dimen/d30"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher_round" />
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d10" />
+
         <LinearLayout
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/reward" />
-
-            <View
-                android:layout_width="@dimen/d10"
-                android:layout_height="match_parent" />
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/express_limited" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/shape_rect_demand_info">
 
                 <EditText
-
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/d30"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="@string/amount" />
+                    android:hint="@string/express_limited" />
 
                 <TextView
+                    android:layout_marginRight="@dimen/d10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/yuan" />
             </LinearLayout>
 
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

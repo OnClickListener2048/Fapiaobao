@@ -2,16 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/d20"
     android:orientation="vertical">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:text="@string/point_receipt_kind" />
 
+        <TextView
+            android:id="@+id/more_kind_receipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/more_kind_receipt"
+            android:textColor="@color/main_style" />
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d10" />
+
     <com.pilipa.fapiaobao.ui.widget.LabelsView
+        android:id="@+id/receipt_kind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d10" />
     </com.pilipa.fapiaobao.ui.widget.LabelsView>
 </LinearLayout>

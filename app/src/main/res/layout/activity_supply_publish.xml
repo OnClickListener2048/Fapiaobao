@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/demand_publish" />
+
+        <ImageView
+            android:id="@+id/upload_back"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/d10"
+            android:src="@mipmap/upload_back"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/upload_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/d10"
+            android:src="@mipmap/upload_scan"
+            android:text="@string/filter"
+            android:textColor="@color/main_style"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/paper_elec_receipt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/d10"
+                    android:layout_marginRight="@dimen/d10"
+                    android:text="@string/paper_elec_receipt"
+                    android:textColor="@color/main_style" />
+
+                <TextView
+                    android:id="@+id/paper_special_receipt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/d10"
+                    android:layout_marginRight="@dimen/d10"
+                    android:text="@string/paper_special_receipt"
+                    android:textColor="@color/main_style" />
+
+                <TextView
+                    android:id="@+id/paper_normal_receipt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/d10"
+                    android:layout_marginRight="@dimen/d10"
+                    android:text="@string/paper_normal_receipt"
+                    android:textColor="@color/main_style" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d2"
+                android:layout_marginTop="@dimen/d5"
+                android:background="@color/main_style" />
+
+            <include layout="@layout/publish_company_info" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d2"
+                android:layout_marginTop="@dimen/d5"
+                android:background="@color/main_style" />
+
+            <include layout="@layout/publish_setting" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d2"
+                android:layout_marginTop="@dimen/d5"
+                android:background="@color/main_style" />
+
+            <include layout="@layout/publish_receive_receipt_info" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

@@ -10,17 +10,31 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:layout_marginLeft="@dimen/d10"
+            android:layout_marginRight="@dimen/d10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:textColor="@color/main_style"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/company_info" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d20"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/dots"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/dots" />
 
 
         </LinearLayout>
@@ -30,6 +44,8 @@
             android:layout_height="@dimen/d20" />
 
         <LinearLayout
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -48,8 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/shape_rect_demand_info">
+                android:layout_weight="1">
 
                 <EditText
                     android:layout_width="0dp"
@@ -59,19 +74,30 @@
                     android:hint="企业名称" />
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="@dimen/d30"
-                android:layout_height="@dimen/d30"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher_round" />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="@string/must_fill"
+                android:textColor="@color/main_style" />
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d1"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
+            android:layout_marginTop="@dimen/d5"
+            android:background="@color/gray_line" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/d20" />
 
         <LinearLayout
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -80,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/receipt_code" />
+                android:text="@string/tex_number" />
 
             <View
                 android:layout_width="@dimen/d10"
@@ -90,8 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/shape_rect_demand_info">
+                android:layout_weight="1">
 
                 <EditText
 
@@ -102,24 +127,30 @@
                     android:hint="@string/receipt_code" />
 
                 <TextView
+                    android:textColor="@color/main_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/must_fill" />
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="@dimen/d30"
-                android:layout_height="@dimen/d30"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher_round" />
+
 
         </LinearLayout>
 
+        <View
+            android:layout_height="@dimen/d1"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
+            android:layout_marginTop="@dimen/d5"
+            android:layout_width="match_parent"
+            android:background="@color/gray_line" />
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/d20" />
 
         <LinearLayout
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -128,7 +159,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/address" />
+                android:text="@string/company_address" />
 
             <View
                 android:layout_width="@dimen/d10"
@@ -138,11 +169,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/shape_rect_demand_info">
+                android:layout_weight="1">
 
                 <EditText
-
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -150,24 +179,27 @@
                     android:hint="@string/address" />
 
                 <TextView
+                    android:textColor="@color/main_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/must_fill" />
             </LinearLayout>
-
-            <ImageView
-                android:layout_width="@dimen/d30"
-                android:layout_height="@dimen/d30"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher_round" />
-
         </LinearLayout>
 
+        <View
+            android:layout_height="@dimen/d1"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
+            android:layout_marginTop="@dimen/d5"
+            android:layout_width="match_parent"
+            android:background="@color/gray_line" />
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/d20" />
 
         <LinearLayout
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -176,7 +208,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/phone_number" />
+                android:text="@string/number" />
 
             <View
                 android:layout_width="@dimen/d10"
@@ -186,11 +218,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/shape_rect_demand_info">
+                android:layout_weight="1">
 
                 <EditText
-
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -198,24 +228,31 @@
                     android:hint="@string/phone_number" />
 
                 <TextView
+                    android:textColor="@color/main_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/must_fill" />
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="@dimen/d30"
-                android:layout_height="@dimen/d30"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher_round" />
+
 
         </LinearLayout>
+
+        <View
+            android:layout_height="@dimen/d1"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
+            android:layout_marginTop="@dimen/d5"
+            android:layout_width="match_parent"
+            android:background="@color/gray_line" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/d20" />
 
         <LinearLayout
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -234,11 +271,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/shape_rect_demand_info">
+                android:layout_weight="1">
 
                 <EditText
-
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -246,24 +281,29 @@
                     android:hint="@string/bank_name" />
 
                 <TextView
+                    android:textColor="@color/main_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/must_fill" />
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="@dimen/d30"
-                android:layout_height="@dimen/d30"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher_round" />
 
         </LinearLayout>
 
+        <View
+            android:layout_height="@dimen/d1"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
+            android:layout_marginTop="@dimen/d5"
+            android:layout_width="match_parent"
+            android:background="@color/gray_line" />
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/d20" />
 
         <LinearLayout
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -272,7 +312,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/account" />
+                android:text="@string/bank_account" />
 
             <View
                 android:layout_width="@dimen/d10"
@@ -282,8 +322,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/shape_rect_demand_info">
+                android:layout_weight="1">
 
                 <EditText
 
@@ -291,22 +330,25 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:hint="@string/account" />
+                    android:hint="@string/bank_account" />
 
                 <TextView
+                    android:textColor="@color/main_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/must_fill" />
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="@dimen/d30"
-                android:layout_height="@dimen/d30"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_launcher_round" />
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d1"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
+            android:layout_marginTop="@dimen/d5"
+            android:background="@color/gray_line" />
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/d20" />

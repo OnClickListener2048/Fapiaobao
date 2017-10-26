@@ -19,6 +19,9 @@ public class SquareFrameLayout extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, widthMeasureSpec);
+        int mode = MeasureSpec.getMode(widthMeasureSpec);
+        int size = MeasureSpec.getSize(widthMeasureSpec)*3/5;
+        int i = MeasureSpec.makeMeasureSpec(size, mode);
+        super.onMeasure(widthMeasureSpec, i);
     }
 }

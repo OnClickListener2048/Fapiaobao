@@ -22,8 +22,6 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/company_info" />
-
-
         </LinearLayout>
 
         <View

@@ -2,215 +2,78 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/d10"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
-
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:textColor="@color/main_style"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="@string/receive_info" />
-
-
     </LinearLayout>
 
     <LinearLayout
+        android:layout_margin="@dimen/d10"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_rect_demand_info"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/express_way"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="@dimen/d20"
+                android:layout_height="match_parent" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="@string/cod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/d10" />
 
         <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
-
+            android:layout_height="wrap_content">
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/receive_person" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d1"
-            android:layout_marginBottom="@dimen/d20"
-            android:layout_marginTop="@dimen/d10"
-            android:background="@color/gray_hint" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/receive_person" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d1"
-            android:layout_marginBottom="@dimen/d20"
-            android:layout_marginTop="@dimen/d10"
-            android:background="@color/gray_hint" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/receive_person" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d1"
-            android:layout_marginBottom="@dimen/d20"
-            android:layout_marginTop="@dimen/d10"
-            android:background="@color/gray_hint" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/receive_person" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:background="@null"
-                android:gravity="bottom" />
-
-            <ImageView
-                android:layout_width="@dimen/d25"
-                android:layout_height="@dimen/d25"
-                android:src="@mipmap/ic_launcher_round" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d1"
-            android:layout_marginBottom="@dimen/d20"
-            android:layout_marginTop="@dimen/d10"
-            android:background="@color/gray_hint" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/receive_person" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d1"
-            android:layout_marginBottom="@dimen/d20"
-            android:layout_marginTop="@dimen/d10"
-            android:background="@color/gray_hint" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/receive_person" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d1"
-            android:layout_marginBottom="@dimen/d20"
-            android:layout_marginTop="@dimen/d10"
-            android:background="@color/gray_hint" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:gravity="right"
-            android:orientation="horizontal">
-
-            <RadioButton
+                android:text="@string/express_company"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/default_address" />
+            <View
+                android:layout_width="@dimen/d20"
+                android:layout_height="match_parent" />
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:gravity="center_horizontal"
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:entries="@array/express"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.AppCompatSpinner>
         </LinearLayout>
 
+
     </LinearLayout>
+
+
 </LinearLayout>

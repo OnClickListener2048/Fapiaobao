@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
-        android:background="@color/colorAccent"
-        android:scaleType="centerCrop"
+
+        android:background="@drawable/shape_item_receipt"
+        android:scaleType="fitXY"
         android:id="@+id/iv_image_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

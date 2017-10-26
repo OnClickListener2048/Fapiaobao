@@ -71,7 +71,7 @@ public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
                     .load(images.get(position).uri)
                     .asBitmap()
                     .placeholder(R.mipmap.ic_launcher)
-                    .override(imageResize, imageResize)
+                    .override(imageResize, imageResize*3/4)
                     .thumbnail(0.1f)
                     .into(imageHolder.iv_image_item);
             Log.d(TAG, "onBindViewHolder: requestManager.load");

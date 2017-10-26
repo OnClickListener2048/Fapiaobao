@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.ui.PubActivity;
 import com.pilipa.fapiaobao.ui.widget.NavigationButton;
 
 import java.util.List;
@@ -180,7 +181,7 @@ public class NavFragment extends BaseFragment {
             NavigationButton nav = (NavigationButton) view;
             doSelect(nav);
         } else {
-
+            PubActivity.show(mContext);
         }
     }
 
