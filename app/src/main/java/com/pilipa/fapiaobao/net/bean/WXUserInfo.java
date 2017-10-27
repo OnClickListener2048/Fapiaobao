@@ -1,4 +1,4 @@
-package com.pilipa.fapiaobao.net.model;
+package com.pilipa.fapiaobao.net.bean;
 
 import java.util.List;
 

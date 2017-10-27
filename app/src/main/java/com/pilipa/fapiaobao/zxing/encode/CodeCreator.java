@@ -12,7 +12,7 @@ public class CodeCreator {
 	/**
 	 * 生成QRCode（二维码）
 	 * 
-	 * @param str
+	 * @param url
 	 * @return
 	 * @throws WriterException
 	 */

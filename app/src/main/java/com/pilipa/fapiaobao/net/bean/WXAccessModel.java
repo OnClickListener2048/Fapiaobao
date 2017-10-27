@@ -1,4 +1,4 @@
-package com.pilipa.fapiaobao.net.model;
+package com.pilipa.fapiaobao.net.bean;
 
 /**
  * Created by edz on 2017/10/26.

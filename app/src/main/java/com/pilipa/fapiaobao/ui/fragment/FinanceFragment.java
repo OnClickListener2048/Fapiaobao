@@ -15,6 +15,7 @@ import com.pilipa.fapiaobao.adapter.FinanceMoreKindAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
+import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,7 +60,7 @@ public class FinanceFragment extends BaseFragment {
 
         GridLayoutManager manager = new GridLayoutManager(mContext, 2, LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(manager);
-        recyclerview.addItemDecoration(new GridInset(2, 20, true));
+        recyclerview.addItemDecoration(new GridInsetFinance(2, 20, true));
         recyclerview.setAdapter(new FinanceAdapter());
         recyclerviewMoreKind.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
         recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext,LinearLayoutManager.VERTICAL,10,R.color.cancel));

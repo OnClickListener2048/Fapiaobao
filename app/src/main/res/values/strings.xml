@@ -328,7 +328,6 @@
     <string name="consignee">收 件 人</string>
     <string name="contact">联系电话</string>
     <string name="fixed_line">固定电话</string>
-    <string name="address_details">详细地址</string>
     <string name="ogistics_info">物流信息</string>
     <string name="ogistics_company">物流公司</string>
     <string name="ogistics_num">物流单号</string>
@@ -339,7 +338,7 @@
     <string name="express_mail">快递已邮寄</string>
     <string name="credit_history">信用历史</string>
     <string name="credit_life">信用生活 点击积累</string>
-
+    <string name="address_details">详细地址</string>
 
 
     <string-array name="express">

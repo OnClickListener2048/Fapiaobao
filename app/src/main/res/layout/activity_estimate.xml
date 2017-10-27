@@ -19,7 +19,7 @@
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/d18"
                 android:textColor="@color/title"
-                android:text="@string/estimate" />
+                android:text="测测红包" />
 
             <ImageView
                 android:id="@+id/estimate_back"
@@ -56,6 +56,8 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/d20"
@@ -82,7 +84,7 @@
                         android:layout_marginRight="@dimen/d50"
                         android:background="@null"
                         android:gravity="center_horizontal"
-                        android:text="1000"
+                        android:text="0"
                         android:textColor="@color/red_estimate"
                         android:textSize="@dimen/s25"
                         android:textStyle="bold" />
@@ -131,8 +133,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/d1"
-                android:translationY="@dimen/d20"
-                android:visibility="gone">
+                android:translationY="@dimen/d20">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -143,6 +144,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -203,11 +205,16 @@
             android:layout_height="@dimen/d20" />
 
         <LinearLayout
+            android:elevation="@dimen/d5"
+            android:translationZ="@dimen/d5"
+            android:layout_margin="@dimen/d15"
+            android:background="@drawable/selector_estimate_receipt_kind_bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_marginTop="@dimen/d5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -286,6 +293,7 @@
             android:layout_height="@dimen/d20" />
 
         <Button
+            android:id="@+id/go"
             android:layout_width="match_parent"
             android:layout_height="@dimen/d40"
             android:layout_marginLeft="@dimen/d20"

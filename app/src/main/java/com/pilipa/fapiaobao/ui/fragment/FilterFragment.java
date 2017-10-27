@@ -2,6 +2,7 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,7 +114,13 @@ public class FilterFragment extends BaseFragment {
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
-        initCityPicker();
+        new Thread() {
+            @Override
+            public void run() {
+                Looper.prepare();
+                initCityPicker();
+            }
+        }.start();
         initLabels();
         initAMap();
 

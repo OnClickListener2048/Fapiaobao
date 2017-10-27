@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.widget.SimplexToast;
 import com.pilipa.fapiaobao.Constants.Bugly;
+import com.pilipa.fapiaobao.net.OkGoClient;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -32,6 +33,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         _context = getApplicationContext();
         //LeakCanary.install(this);
+        OkGoClient.init();
         CrashReport.initCrashReport(getApplicationContext(), Bugly.APP_ID, Bugly.TOOGLE);
         UMConfigure.init(this, PushConstant.APP_KEY, PushConstant.Umeng_Message_Secret, UMConfigure.DEVICE_TYPE_PHONE, PushConstant.Umeng_Message_Secret);
         PushAgent mPushAgent = PushAgent.getInstance(_context);

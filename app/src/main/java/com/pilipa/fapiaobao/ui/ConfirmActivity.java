@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -108,6 +109,7 @@ public class ConfirmActivity extends BaseActivity {
             case R.id.translate_details:
                 break;
             case R.id.upload_receipt:
+                startActivity(new Intent(this,UploadReceiptActivity.class));
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.RegexUtils;
+import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -91,6 +93,9 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
+                Intent intent = new Intent();
+                intent.setClass(this, MainActivity.class);
+                startActivity(intent);
                 break;
             case R.id.WeChat_login:
                 weChatLogin();

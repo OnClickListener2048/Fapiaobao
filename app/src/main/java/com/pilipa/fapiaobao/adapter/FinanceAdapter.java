@@ -1,5 +1,7 @@
 package com.pilipa.fapiaobao.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.ui.EstimateActivity;
 
 
 /**
@@ -17,10 +20,12 @@ import com.pilipa.fapiaobao.R;
 
 public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "FinanceAdapter";
+    private Context mContext;
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_finance, parent, false);
-
+        mContext = parent.getContext();
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_finance, parent, false);
         return new Financeholder(view);
     }
 
@@ -31,7 +36,7 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             financeholder.iv_finance.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick: ");
+                    mContext.startActivity(new Intent(mContext, EstimateActivity.class));
                 }
             });
         }

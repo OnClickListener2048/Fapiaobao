@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -28,7 +27,7 @@ import butterknife.OnClick;
  * Created by edz on 2017/10/20.
  */
 
-public class PreviewActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private static final String TAG = "PreviewActivity";
     @Bind(R.id.preview_viewpager)
     PreviewViewpager previewViewpager;
@@ -66,19 +65,16 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
             click.setVisibility(View.INVISIBLE);
         }
         allList = bundleExtra.getParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA);
-        currentPosition = bundleExtra.getInt(UploadNormalReceiptFragment.EXTRA_CURRENT_POSITION);
-        Log.d(TAG, "initView: currentPosition"+currentPosition);
-        boolean isFromDemands = bundleExtra.getBoolean(DemandsDetailsReceiptFragment.IS_FROM_DEMANDS, false);
-        mPreviousPos = isFromDemands ? currentPosition : currentPosition - 1;
-
-
         FragmentList  = new ArrayList<>();
         for (Image image : allList) {
             if (!image.isCapture) {
                 FragmentList.add(PreviewImageFragment.newInstance(image));
             }
         }
-
+        currentPosition = bundleExtra.getInt(UploadNormalReceiptFragment.EXTRA_CURRENT_POSITION);
+        Log.d(TAG, "initView: currentPosition"+currentPosition);
+        boolean isFromDemands = bundleExtra.getBoolean(DemandsDetailsReceiptFragment.IS_FROM_DEMANDS, false);
+        mPreviousPos = isFromDemands ? currentPosition : currentPosition - 1;
         previewPagerAdapter = new PreviewPagerAdapter(getSupportFragmentManager(), FragmentList);
         previewViewpager.setAdapter(previewPagerAdapter);
         previewViewpager.setCurrentItem(mPreviousPos);
