@@ -11,6 +11,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
+import com.pilipa.fapiaobao.ui.CreditRatingActivity;
 import com.pilipa.fapiaobao.ui.FeedbackActivity;
 import com.pilipa.fapiaobao.ui.HistoryActivity2;
 import com.pilipa.fapiaobao.ui.MyWalletActivity;
@@ -55,6 +56,7 @@ public class MeFragment extends BaseFragment{
             ,R.id.btn_manager
             ,R.id.btn_receipt_folder
             ,R.id.my_wallet
+            ,R.id.tv_creditRating
             ,R.id.tv_feedback})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -76,6 +78,9 @@ public class MeFragment extends BaseFragment{
                 break;
             case R.id.tv_feedback:
                 startActivity(new Intent(getContext(), FeedbackActivity.class));
+                break;
+            case R.id.tv_creditRating:
+                startActivity(new Intent(getContext(), CreditRatingActivity.class));
                 break;
         }
     }

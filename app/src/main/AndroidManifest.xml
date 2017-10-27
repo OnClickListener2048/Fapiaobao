@@ -112,6 +112,7 @@
         <activity android:name=".ui.RechargeActivity" />
         <activity android:name=".ui.RechargeDetailsActivity" />
         <activity android:name=".ui.MyRedEnvelopeActivity" />
+        <activity android:name=".ui.CreditRatingActivity" />
 
         <!--wjn add-->
         <activity android:name=".ui.EstimateActivity">

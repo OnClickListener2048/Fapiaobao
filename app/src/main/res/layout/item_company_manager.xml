@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/image"
-            android:text="北京爱仕达有限公司" />
+            android:textColor="@color/title_small"
+            android:text="" />
 
         <TextView
             android:id="@+id/main_tab_unread_tv"

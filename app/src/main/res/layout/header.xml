@@ -15,11 +15,12 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:text="天津天津天津天津天津"
+        android:text=""
+        android:textColor="@color/title_small"
         android:paddingLeft="@dimen/d15"
         android:paddingRight="@dimen/d15"
         android:paddingTop="@dimen/d15"
         android:paddingBottom="@dimen/d10"
-        android:textSize="18sp" />
+        />
 
 </LinearLayout>

@@ -40,6 +40,7 @@
                  />
         </RelativeLayout>
         <TextView
+            android:id="@+id/textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -47,6 +48,89 @@
             android:layout_marginTop="@dimen/d10"
             android:textColor="@color/main_style"
             android:text="@string/credit_life"/>
+        <com.pilipa.fapiaobao.ui.widget.ColorArcProgressBar
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_below="@+id/textview"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/bar2"
+            app:is_need_content="true"
+            app:front_color1="#ebb884"
+            app:front_color2="#ebaf7a"
+            app:front_color3="#ff9076"
+            app:max_value="100"
+            app:back_width="10dp"
+            app:front_width="10dp"
+            app:total_engle="270"
+            app:is_need_unit="true"
+            app:string_unit="请继续努力"
+            app:is_need_title="true"
+            app:string_title=""
+            app:back_color="#ddd"
+            />
+        <RelativeLayout
+            android:id="@+id/rl_star"
+            android:layout_below="@+id/bar2"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/d20"
+            android:layout_marginRight="@dimen/d20"
+            android:layout_marginTop="@dimen/d20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/star"/>
+            <TextView
+                android:layout_toRightOf="@+id/star"
+                android:layout_marginLeft="@dimen/d10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上次积分变化"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="+20"/>
 
-
+        </RelativeLayout>
+    <View
+        android:layout_below="@+id/rl_star"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d1"
+        android:layout_marginTop="@dimen/d5"
+        android:layout_marginLeft="@dimen/d20"
+        android:layout_marginRight="@dimen/d20"
+        android:background="@color/gray_line"></View>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/d20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_rules"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/d15"
+            android:gravity="center"
+            android:padding="@dimen/d10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_login_resend"
+            android:textColor="@color/main_style"
+            android:text="@string/rules"/>
+        <TextView
+            android:id="@+id/tv_negative"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
+            android:padding="@dimen/d10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_login_resend"
+            android:textColor="@color/main_style"
+            android:text="@string/negative"/>
+    </LinearLayout>
 </RelativeLayout>

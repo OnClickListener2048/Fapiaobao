@@ -19,7 +19,7 @@ import com.pilipa.fapiaobao.R;
 
 /**
  * colorful arc progress bar
- * Created by wjn on 2017/10/27.
+ * Created by wjn on 17/10/27.
  */
 public class ColorArcProgressBar extends View{
 
@@ -63,7 +63,7 @@ public class ColorArcProgressBar extends View{
     private String hintColor = "#676767";
     private String longDegreeColor = "#111111";
     private String shortDegreeColor = "#111111";
-    private String bgArcColor = "#111111";
+    private String bgArcColor = "#dddddd";
     private String titleString;
     private String hintString;
 
@@ -227,14 +227,17 @@ public class ColorArcProgressBar extends View{
         canvas.drawArc(bgRect, startAngle, currentAngle, false, progressPaint);
 
         if (isNeedContent) {
-            canvas.drawText(String.format("%.0f", curValues), centerX, centerY + textSize / 3, vTextPaint);
+            String endFormat = getResources().getString(R.string.credit_bfb);
+            canvas.drawText(String.format(endFormat, curValues), centerX, centerY-0.2f * textSize / 3, curSpeedPaint);
+//            canvas.drawText(String.format(endFormat, curValues), centerX, centerY + textSize / 3, curSpeedPaint);
         }
         if (isNeedUnit) {
-            canvas.drawText(hintString, centerX, centerY + 2 * textSize / 3, hintPaint);
+//            canvas.drawText(hintString, centerX, centerY + 2 * textSize / 3, hintPaint);
+            canvas.drawText(hintString, centerX, centerY + 0.8f * textSize / 3, hintPaint);
         }
-        if (isNeedTitle) {
-            canvas.drawText(titleString, centerX, centerY - 2 * textSize / 3, curSpeedPaint);
-        }
+//        if (isNeedTitle) {
+//            canvas.drawText(titleString, centerX, centerY - 2 * textSize / 3, curSpeedPaint);
+//        }
 
         invalidate();
 

@@ -81,8 +81,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 		}
 
 		TextView header_text = (TextView) convertView.findViewById(R.id.header);
-		if(groupPosition != 0 ){
-		}
 		header_text.setText(headerTitle);
 		
 		// If group is expanded then change the text into bold and change the

@@ -42,7 +42,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
             case R.id.btn_confirm:{
                 mDialog.dismiss();
             }break;
-            case R.id.btn_cancel:{
+            case R.id.btn_cancel1:{
                 mDialog.dismiss();
             }break;
         }
@@ -69,7 +69,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                 R.layout.layout_withdraw_tip, null);
         //初始化视图
         root.findViewById(R.id.btn_confirm).setOnClickListener(this);
-        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
+        root.findViewById(R.id.btn_cancel1).setOnClickListener(this);
         mDialog.setContentView(root);
         Window dialogWindow = mDialog.getWindow();
         dialogWindow.setGravity(Gravity.CENTER);

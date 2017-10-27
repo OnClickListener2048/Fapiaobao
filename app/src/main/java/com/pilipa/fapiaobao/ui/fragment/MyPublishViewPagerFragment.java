@@ -173,7 +173,7 @@ public class MyPublishViewPagerFragment extends BaseFragment implements AdapterV
 
         // Adding headers to list
         for (int i = 1; i < 5; i++) {
-            header.add("爱仕达 " + i);
+            header.add("天津阿什顿有限公司 " + i);
         }
         // Adding child data
         for (int i = 1; i < 5; i++) {
