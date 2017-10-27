@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 
-import com.pilipa.fapiaobao.ui.fragment.PreviewImageFragment;
+import com.pilipa.fapiaobao.ui.fragment.MyCompanyDetailsPagerFragment;
 
 import java.util.ArrayList;
 
@@ -14,10 +14,10 @@ import java.util.ArrayList;
  * Created by edz on 2017/10/20.
  */
 
-public class PreviewPagerAdapter extends FragmentPagerAdapter {
+public class CompanyDetailsAdapter extends FragmentPagerAdapter {
     private static final String TAG = "PreviewPagerAdapter";
-    public ArrayList<PreviewImageFragment> arrayList;
-    public PreviewPagerAdapter(FragmentManager fm, ArrayList<PreviewImageFragment> fragmentList) {
+    public ArrayList<MyCompanyDetailsPagerFragment> arrayList;
+    public CompanyDetailsAdapter(FragmentManager fm, ArrayList<MyCompanyDetailsPagerFragment> fragmentList) {
         super(fm);
         this.arrayList = fragmentList;
     }

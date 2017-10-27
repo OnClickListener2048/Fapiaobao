@@ -21,7 +21,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/provided"
+                    android:text="@string/provided_details"
                     android:textSize="@dimen/d18"
                     android:textColor="@color/title"
                     android:layout_centerVertical="true"

@@ -36,7 +36,7 @@ public class PreviewImageFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_preview_item;
+        return R.layout.fragment_preview_item2;
     }
 
     public static PreviewImageFragment newInstance(Image image) {

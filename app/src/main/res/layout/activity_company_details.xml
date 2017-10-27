@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:paddingLeft="@dimen/d15"
+        android:paddingLeft="@dimen/d5"
         android:paddingRight="@dimen/d20"
          />
     <Button

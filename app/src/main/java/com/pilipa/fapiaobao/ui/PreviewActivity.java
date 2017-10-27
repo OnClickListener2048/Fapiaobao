@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -67,6 +66,7 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
         }
         allList = bundleExtra.getParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA);
         currentPosition = bundleExtra.getInt(UploadNormalReceiptFragment.EXTRA_CURRENT_POSITION);
+        Log.d(TAG, "initView: allList size"+allList.size());
         Log.d(TAG, "initView: currentPosition"+currentPosition);
         boolean isFromDemands = bundleExtra.getBoolean(DemandsDetailsReceiptFragment.IS_FROM_DEMANDS, false);
         mPreviousPos = isFromDemands ? currentPosition : currentPosition - 1;

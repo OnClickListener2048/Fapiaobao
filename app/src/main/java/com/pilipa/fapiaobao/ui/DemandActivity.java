@@ -12,7 +12,6 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.bean.TestBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
-import com.pilipa.fapiaobao.ui.fragment.UploadPreviewReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 
 import java.util.ArrayList;

@@ -8,6 +8,8 @@
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
         app:cardCornerRadius="@dimen/d8"
+        android:elevation="@dimen/d5"
+        android:layout_marginLeft="@dimen/d10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
             <LinearLayout
@@ -31,14 +33,15 @@
                         android:text="有新发布的需求~" />
 
                     <ImageView
+                        android:id="@+id/img_details_viewpager_delete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/img_del"
+                        android:layout_toLeftOf="@+id/img_details_viewpager_share"
                         android:padding="@dimen/d8"
                         android:src="@drawable/delete" />
 
                     <ImageView
-                        android:id="@+id/img_del"
+                        android:id="@+id/img_details_viewpager_share"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
