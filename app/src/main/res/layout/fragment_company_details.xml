@@ -16,7 +16,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:padding="@dimen/d10"
+                    android:padding="@dimen/d6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -94,10 +94,8 @@
                             android:id="@+id/textView4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="@dimen/d5"
-                            android:paddingLeft="@dimen/d20"
+                            android:paddingLeft="@dimen/d15"
                             android:paddingRight="@dimen/d20"
-                            android:paddingTop="@dimen/d5"
                             android:text="@string/we_need" />
 
                         <com.pilipa.fapiaobao.ui.widget.FlowLayout

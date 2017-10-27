@@ -22,6 +22,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/provided"
+                    android:textSize="@dimen/d18"
+                    android:textColor="@color/title"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true" />
 
@@ -62,6 +64,7 @@
                 android:paddingRight="@dimen/d10"
                 android:paddingTop="@dimen/d5"
                 android:textColor="@color/white"
+                android:textSize="@dimen/d12"
                 android:text="@string/texi"/>
             <TextView
                 android:layout_weight="1"
@@ -190,6 +193,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/text_normal_item"
                             android:text="@string/company_name" />
 
                         <TextView
@@ -197,6 +201,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d20"
+                            android:textColor="@color/title_small"
                             android:text="爱康鼎天津科技有限公司" />
                     </LinearLayout>
 
@@ -209,6 +214,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/text_normal_item"
                             android:text="@string/tex_number" />
 
                         <TextView
@@ -216,6 +222,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d20"
+                            android:textColor="@color/title_small"
                             android:text="爱康鼎天津科技有限公司" />
                     </LinearLayout>
 
@@ -228,6 +235,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/text_normal_item"
                             android:text="@string/company_address" />
 
                         <TextView
@@ -235,6 +243,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d20"
+                            android:textColor="@color/title_small"
                             android:text="爱康鼎天津科技有限公司" />
                     </LinearLayout>
 
@@ -247,6 +256,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/text_normal_item"
                             android:text="@string/number" />
 
                         <TextView
@@ -254,6 +264,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d20"
+                            android:textColor="@color/title_small"
                             android:text="爱康鼎天津科技有限公司" />
                     </LinearLayout>
 
@@ -266,6 +277,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/text_normal_item"
                             android:text="@string/bank_name" />
 
                         <TextView
@@ -273,6 +285,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d20"
+                            android:textColor="@color/title_small"
                             android:text="爱康鼎天津科技有限公司" />
                     </LinearLayout>
 
@@ -285,6 +298,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/text_normal_item"
                             android:text="@string/bank_account" />
 
                         <TextView
@@ -292,6 +306,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d20"
+                            android:textColor="@color/title_small"
                             android:text="爱康鼎天津科技有限公司" />
                     </LinearLayout>
 

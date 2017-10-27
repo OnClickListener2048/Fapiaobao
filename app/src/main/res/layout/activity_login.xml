@@ -25,8 +25,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login"
-                android:textColor="@color/login"
-                android:textSize="@dimen/s20" />
+                android:textSize="@dimen/d18"
+                android:textColor="@color/title"/>
         </LinearLayout>
 
         <LinearLayout

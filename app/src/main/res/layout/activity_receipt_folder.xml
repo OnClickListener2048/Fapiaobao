@@ -18,6 +18,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:textSize="@dimen/d18"
+                android:textColor="@color/title"
                 android:text="@string/receipt_folder" />
 
             <ImageView

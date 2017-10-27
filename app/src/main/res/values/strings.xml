@@ -290,7 +290,6 @@
     <string name="recipients">收\u0020\u0020件\u0020\u0020人</string>
     <string name="name">姓名</string>
     <string name="contact_number">联系电话</string>
-    <string name="address_details">详细地址</string>
     <string name="street">街道,楼牌号等</string>
     <string name="area">所在地区</string>
     <string name="publish_share">保存/分享</string>
@@ -305,7 +304,6 @@
     <string name="WeChat_login">微信登录</string>
     <string name="I_have_read_about">我已阅读并同意</string>
     <string name="laws">《法律声明》</string>
-    <!--wjn add-->
     <string name="recharge_amount">充值金额</string>
     <string name="recharge_10">充 ¥10元</string>
     <string name="recharge_30">充 ¥30元</string>
@@ -338,6 +336,9 @@
     <string name="withdraw_tip2">元提现到您的微信钱包</string>
     <string name="withdraw_tip3">确定提现么？</string>
     <string name="logout_tip">确定要退出登录么？</string>
+    <string name="express_mail">快递已邮寄</string>
+    <string name="credit_history">信用历史</string>
+    <string name="credit_life">信用生活 点击积累</string>
 
 
 

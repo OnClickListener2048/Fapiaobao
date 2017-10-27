@@ -62,6 +62,10 @@
         <item name="android:windowEnterAnimation">@anim/upload_receipt_dialog_in</item>
         <item name="android:windowExitAnimation">@anim/upload_receipt_dialog_out</item>
     </style>
-
+    <!-- spinner -->
+        <style name="spinner_style">
+        <item name="android:background">@drawable/spinner_selector</item>
+        <item name="android:paddingLeft">5dip</item>
+        </style>
 
 </resources>

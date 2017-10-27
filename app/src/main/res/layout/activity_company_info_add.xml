@@ -17,6 +17,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
+                android:textSize="@dimen/d18"
+                android:textColor="@color/title"
                 android:text="@string/add_company_info" />
 
             <ImageView

@@ -21,6 +21,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:textSize="@dimen/d18"
+                android:textColor="@color/title"
                 android:text="@string/company_info" />
         </LinearLayout>
 
