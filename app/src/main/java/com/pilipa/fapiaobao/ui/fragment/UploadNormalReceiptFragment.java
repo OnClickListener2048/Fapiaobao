@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,8 +26,10 @@ import com.pilipa.fapiaobao.adapter.UploadReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.ui.PreviewActivity;
+import com.pilipa.fapiaobao.ui.UploadReceiptActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.ui.receipt_folder_image_select.ReceiptActivityToken;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
@@ -60,6 +63,8 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
     public static final String EXTRA_BUNDLE = "EXTRA_BUNDLE";
     public static final int REQUEST_CODE_IMAGE_CLICK = 30;
     public static final int RESULT_CODE_BACK = 40;
+    public static final int REQUEST_CODE_FROM_ELEC = 50;
+
 
     @Bind(R.id.rv_upload_receipt)
     RecyclerView rvUploadReceipt;
@@ -68,6 +73,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
     private MediaStoreCompat mediaStoreCompat;
     private int mPreviousPosition = -1;
     private Dialog mCameraDialog;
+    private boolean is_elec_data;
 
     @Override
     protected int getLayoutId() {
@@ -83,6 +89,8 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
+        Bundle arguments = getArguments();
+        is_elec_data = arguments.getBoolean(UploadReceiptActivity.IS_ELEC_RECEIPT_DATA, false);
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;
@@ -192,7 +200,37 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
 
     @Override
     public void capture() {
+        if (is_elec_data) {
+            setElecDialog();
+        } else {
+
         setDialog();
+        }
+    }
+
+    private void setElecDialog() {
+        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
+                R.layout.elec_data_bottom, null);
+        //初始化视图
+        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
+        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
+        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
+        root.findViewById(R.id.btn_choose_img_receipt_folder).setOnClickListener(this);
+        mCameraDialog.setContentView(root);
+        Window dialogWindow = mCameraDialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mCameraDialog.show();
     }
 
     @Override
@@ -254,6 +292,18 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                 uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
             }
 
+        } else if (requestCode ==REQUEST_CODE_FROM_ELEC && resultCode == RESULT_OK) {
+            Bundle bundleExtra = data.getBundleExtra(ReceiptActivityToken.EXTRA_DATA_FROM_TOKEN);
+            ArrayList<Image> parcelableArrayList = bundleExtra.getParcelableArrayList(ReceiptActivityToken.RESULT_RECEIPT_FOLDER);
+            if (parcelableArrayList.size() == 0 || parcelableArrayList == null) {
+                return;
+            }
+            for (Image image : parcelableArrayList) {
+                images.add(image);
+                mPreviousPosition++;
+                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
+                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
+            }
         }
     }
 
@@ -296,6 +346,10 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                 mCameraDialog.dismiss();
                 break;
             case R.id.btn_cancel:
+                mCameraDialog.dismiss();
+                break;
+            case R.id.btn_choose_img_receipt_folder:
+                startActivityForResult(new Intent(mContext, ReceiptActivityToken.class),REQUEST_CODE_FROM_ELEC);
                 mCameraDialog.dismiss();
                 break;
 

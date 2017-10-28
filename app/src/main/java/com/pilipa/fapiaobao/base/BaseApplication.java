@@ -55,6 +55,7 @@ public class BaseApplication extends Application {
         PlatformConfig.setSinaWeibo("3639386105", "63143b3cc202fed0c17baf57030a88a0", "http://sns.whalecloud.com");
         PlatformConfig.setWeixin(Constants.APP_ID, "7df3fe092b8d88ebc28a94b84b5388c3");
         UMShareAPI.get(this);
+
     }
 
     public static synchronized BaseApplication context() {

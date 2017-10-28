@@ -1,5 +1,9 @@
 [
     {
+        "merged": "C:\\Users\\edz\\StudioProjects\\Fapiaobao\\push\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\upush_notification.xml",
+        "source": "C:\\Users\\edz\\StudioProjects\\Fapiaobao\\push\\build\\intermediates\\bundles\\debug\\res\\layout\\upush_notification.xml"
+    },
+    {
         "merged": "C:\\Users\\edz\\AndroidStudioProjects\\Fapiaobao\\push\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\upush_notification.xml",
         "source": "C:\\Users\\edz\\AndroidStudioProjects\\Fapiaobao\\push\\build\\intermediates\\bundles\\debug\\res\\layout\\upush_notification.xml"
     }

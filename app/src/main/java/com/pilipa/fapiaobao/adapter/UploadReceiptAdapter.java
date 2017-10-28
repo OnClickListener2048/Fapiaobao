@@ -32,6 +32,7 @@ public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
     private OnPhotoCapture onPhotoCapture;
     private OnImageClickListener onImageClickListener;
     private OnImageSelectListener onImageSelectListener;
+    private Image image;
 
     public UploadReceiptAdapter(ArrayList<Image> images, int imageResize) {
         this.images = images;
@@ -67,8 +68,9 @@ public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else if (holder instanceof ImageViewHolder) {
             Log.d(TAG, "onBindViewHolder: (Financeholder instanceof ImageViewHolder");
             ImageViewHolder imageHolder = (ImageViewHolder) holder;
+            image = images.get(position);
             requestManager
-                    .load(images.get(position).uri)
+                    .load(image.isFromNet?image.path:image.uri)
                     .asBitmap()
                     .placeholder(R.mipmap.ic_launcher)
                     .override(imageResize, imageResize*3/4)
@@ -157,6 +159,7 @@ public class UploadReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
             iv_image_item = (ImageView) itemView.findViewById(R.id.iv_image_item);
             tv_isSelect = (TextView) itemView.findViewById(R.id.rb);
+            tv_isSelect.setVisibility(View.GONE);
         }
     }
 }

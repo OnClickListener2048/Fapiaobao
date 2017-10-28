@@ -13,6 +13,8 @@ import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.utils.CountDownTimerUtils;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -110,27 +112,33 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo_test";
         api.sendReq(req);
-
-
     }
 
     @OnClick(R.id.require_verify)
     public void onViewClicked() {
-        countDownTimerUtils.start();
+        mobileExact = RegexUtils.isMobileExact(etUsername.getText().toString().trim());
+        tvWarnning.setVisibility(mobileExact ? View.GONE : View.VISIBLE);
+        ivLoginPhone.setSelected(!mobileExact);
         if (!mobileExact) {
             BaseApplication.showToast("请输入正确的手机号码");
             return;
         } else {
             //TODO 请求短信验证码
+            Api.sendMessageToVerify(etUsername.getText().toString().trim(), new Api.BaseViewCallback<ShortMessageBean>() {
+                @Override
+                public void setData(ShortMessageBean shortMessageBean) {
+                        countDownTimerUtils.start();
+                        BaseApplication.showToast("短信发送成功");
+                }
+            });
         }
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (!hasFocus) {
-            mobileExact = RegexUtils.isMobileExact(etUsername.getText().toString().trim());
-            tvWarnning.setVisibility(mobileExact ? View.GONE : View.VISIBLE);
-            ivLoginPhone.setSelected(!mobileExact);
+
+
         }
     }
 }

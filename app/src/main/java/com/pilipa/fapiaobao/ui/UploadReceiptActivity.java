@@ -46,6 +46,7 @@ public class UploadReceiptActivity extends BaseActivity {
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
     public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
     public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
+    public static final String IS_ELEC_RECEIPT_DATA = "is_elec_receipt_data" ;
 
 
     @Override
@@ -60,7 +61,10 @@ public class UploadReceiptActivity extends BaseActivity {
         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
         paperSpecialReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
         addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
-        paperElecReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
+
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(IS_ELEC_RECEIPT_DATA,true);
+        paperElecReceiptFragment = UploadNormalReceiptFragment.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
     }
 

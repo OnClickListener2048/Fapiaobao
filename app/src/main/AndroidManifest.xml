@@ -110,6 +110,8 @@
         <activity android:name=".ui.ConfirmActivity" />
         <activity android:name=".ui.DemandsDetailsPreviewActivity" />
         <activity android:name=".ui.UnusedPreviewActivity" />
+        <activity android:name=".ui.receipt_folder_image_select.ReceiptActivityToken" />
+        <activity android:name=".ui.receipt_folder_image_select.PreviewActivity" />
         <!--wjn add-->
         <activity android:name=".ui.RechargeActivity" />
         <activity android:name=".ui.RechargeDetailsActivity" />
