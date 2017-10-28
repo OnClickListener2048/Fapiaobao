@@ -4,10 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.ui.fragment.MyPublishViewPagerFragment;
-import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
-
 import java.util.List;
 
 /**
@@ -27,7 +23,7 @@ public class TabPageIndicatorAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-//        Fragment fragment = new MyPublishViewPagerFragment();
+//        Fragment fragment = new UnusedPagerFragment();
         return fragmnetList.get(position);
     }
 

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.pilipa.fapiaobao.ui.widget.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <ImageView
-        android:background="@drawable/shape_item_receipt"
-        android:scaleType="fitXY"
         android:id="@+id/iv_image_item"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
 
-    <TextView
-        android:layout_margin="10dp"
+    <CheckBox
+        android:visibility="gone"
         android:id="@+id/rb"
-        android:layout_gravity="top|right"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right" />
 </com.pilipa.fapiaobao.ui.widget.SquareFrameLayout>

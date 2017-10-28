@@ -24,13 +24,13 @@ import butterknife.ButterKnife;
  * Created by lyt on 2017/10/17.
  */
 
-public class MyReceiptViewPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+public class ProvidePagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
     @Bind(R.id.recyclerview)
     ListView listView;
     @Bind(R.id.trl)
     TwinklingRefreshLayout trl;
     private MyReceiptAdapter mAdapter;
-    public MyReceiptViewPagerFragment() {
+    public ProvidePagerFragment() {
 
     }
     @Override

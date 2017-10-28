@@ -66,6 +66,7 @@ public class FilterFragment extends BaseFragment {
             if (aMapLocation != null) {
                 if (aMapLocation.getErrorCode() == 0) {
                     //可在其中解析amapLocation获取相应内容。
+                    TLog.log(aMapLocation.toString());
                     TLog.log(aMapLocation.getCity());
                     TLog.log(aMapLocation.getProvince());
                     setUpAddress(aMapLocation);

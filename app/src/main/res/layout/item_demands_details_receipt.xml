@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.pilipa.fapiaobao.ui.widget.RealSquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/quality"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/quality" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/wait_to_quality"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/wait_to_quality" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/wait_to_express"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/wait_to_express" />
+
+        <ImageView
+            android:id="@+id/confirming"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@mipmap/confirming" />
+
+        <com.pilipa.fapiaobao.ui.widget.DemandsImageView
+            android:layout_marginRight="@dimen/d1"
+            android:layout_marginLeft="@dimen/d1"
+            android:id="@+id/iv_image_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_margin="10dp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+</com.pilipa.fapiaobao.ui.widget.RealSquareFrameLayout>

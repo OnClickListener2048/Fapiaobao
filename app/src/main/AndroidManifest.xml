@@ -108,6 +108,8 @@
         <activity android:name=".ui.ProvidedActivity" />
         <activity android:name=".ui.PubActivity" />
         <activity android:name=".ui.ConfirmActivity" />
+        <activity android:name=".ui.DemandsDetailsPreviewActivity" />
+        <activity android:name=".ui.UnusedPreviewActivity" />
         <!--wjn add-->
         <activity android:name=".ui.RechargeActivity" />
         <activity android:name=".ui.RechargeDetailsActivity" />

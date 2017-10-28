@@ -342,9 +342,15 @@
     <string name="rules">规则解读</string>
     <string name="negative">负面记录</string>
     <string name="address_details">详细地址</string>
+    <string name="express_info">物流信息</string>
+    <string name="express_no">物流单号</string>
+    <string name="qualified">合格</string>
+    <string name="unqualified">不合格</string>
+    <string name="save_to_media">保存到相册</string>
+    <string name="gallery_save_file_not_have_external_storage">没有外部储存卡</string>
+    <string name="gallery_save_file_success">保存成功</string>
+    <string name="gallery_save_file_failed">保存失败</string>
     <string name="provided_details">提供详情</string>
-
-
 
     <string-array name="express">
         <item >顺丰</item>

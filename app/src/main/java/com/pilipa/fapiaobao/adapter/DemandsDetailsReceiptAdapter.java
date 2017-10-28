@@ -44,7 +44,7 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
         requestManager = Glide.with(parent.getContext());
         View view;
 
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_upload_receipt_image, parent, false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_demands_details_receipt, parent, false);
             return new ImageViewHolder(view);
 
     }

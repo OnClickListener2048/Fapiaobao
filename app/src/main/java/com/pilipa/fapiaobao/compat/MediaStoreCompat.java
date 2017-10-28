@@ -93,14 +93,12 @@ public class MediaStoreCompat {
         String timeStamp =
                 new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = String.format("JPEG_%s.jpg", timeStamp);
-        File storageDir;
 
-        storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-
-
+        String extDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                .getAbsolutePath() + File.separator + "发票宝";
+        File extDirFile = new File(extDir);
         // Avoid joining path components manually
-        File tempFile = new File(storageDir, imageFileName);
+        File tempFile = new File(extDirFile, imageFileName);
 
         // Handle the situation that user's external storage is not ready
         if (!Environment.MEDIA_MOUNTED.equals(EnvironmentCompat.getStorageState(tempFile))) {

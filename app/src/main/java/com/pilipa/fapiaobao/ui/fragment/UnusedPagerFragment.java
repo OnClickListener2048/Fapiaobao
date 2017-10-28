@@ -28,14 +28,14 @@ import butterknife.ButterKnife;
 /**
  * Created by lyt on 2017/10/17.
  */
-
-public class MyPublishViewPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+@Deprecated
+public class UnusedPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
     @Bind(R.id.simple_expandable_listview)
     ExpandableListView expandableListView;
     @Bind(R.id.trl)
     TwinklingRefreshLayout trl;
     private MyPublishAdapter mAdapter;
-    public MyPublishViewPagerFragment() {
+    public UnusedPagerFragment() {
 
     }
     @Override
