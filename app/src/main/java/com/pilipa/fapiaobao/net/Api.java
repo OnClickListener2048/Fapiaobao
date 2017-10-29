@@ -5,6 +5,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
+import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.utils.PayCommonUtil;
 import com.pilipa.fapiaobao.wxapi.Constants;
@@ -42,6 +43,17 @@ public class Api {
             @Override
             public void onSuccess(Response<String> response) {
                 baseViewCallback.setData(response.body());
+            }
+        });
+    }
+
+    public static void findAllInvoice(final BaseViewCallback baseViewCallback) {
+        OkGo.<AllInvoiceType>get(Constant.FIND_ALL_INVIICE_TYPE).execute(new JsonCallBack<AllInvoiceType>(AllInvoiceType.class) {
+            @Override
+            public void onSuccess(Response<AllInvoiceType> response) {
+                if (response.isSuccessful()&&response.body().getMsg().equals("OK")) {
+                    baseViewCallback.setData(response.body());
+                }
             }
         });
     }

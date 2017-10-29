@@ -44,8 +44,12 @@ public class Constant {
      */
 
     /**
-     *system-rest-controller : 系统管理
+     * system-rest-controller : 系统管理
      */
+
+    //获取所有发票类型种类
+    //http://192.168.1.205:8181/fapiaobao/rest/system/findAllInvoiceType
+    public static final String FIND_ALL_INVIICE_TYPE = BASE_URL + "system/findAllInvoiceType";
 
     /**
      *test-rest-controller : 测试
