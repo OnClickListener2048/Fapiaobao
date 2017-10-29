@@ -76,7 +76,7 @@
                     android:paddingLeft="@dimen/d20"
                     android:paddingTop="@dimen/d5"
                     android:paddingBottom="@dimen/d5"
-                    android:text="@string/credit_rating"
+                    android:text="@string/integral"
                     android:textColor="@color/white" />
             </LinearLayout>
         </RelativeLayout>

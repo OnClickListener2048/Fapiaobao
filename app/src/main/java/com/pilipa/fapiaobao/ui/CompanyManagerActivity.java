@@ -13,6 +13,7 @@ import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.ui.fragment.MyCompanyViewPagerFragment;
+import com.pilipa.fapiaobao.ui.fragment.MyFavoriteCompanyViewPagerFragment;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class CompanyManagerActivity extends BaseActivity {
     public void initView() {
         List list = StaticDataCreator.initCompanyManagerTabData(BaseApplication.context());
         fragmentList = new ArrayList<>();
-        fragmentList.add(new MyCompanyViewPagerFragment());
+        fragmentList.add(new MyFavoriteCompanyViewPagerFragment());
         fragmentList.add(new MyCompanyViewPagerFragment());
 
         vpVerpager.setAdapter(new TabPageIndicatorAdapter(getSupportFragmentManager(),list,fragmentList));

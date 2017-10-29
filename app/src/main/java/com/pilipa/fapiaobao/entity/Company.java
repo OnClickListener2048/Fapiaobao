@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Company {
 
+    @SerializedName("id")
+    private String id;
     @SerializedName("account")
     private String account;
     @SerializedName("address")
@@ -23,6 +25,14 @@ public class Company {
     private String qrcode;
     @SerializedName("taxno")
     private String taxno;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getAccount() {
         return account;

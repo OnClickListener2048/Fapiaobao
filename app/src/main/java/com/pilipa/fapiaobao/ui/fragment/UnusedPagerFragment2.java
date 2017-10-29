@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +16,24 @@ import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginBean;
+import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.ui.DemandActivity;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
  * Created by lyt on 2017/10/17.
  */
 @Deprecated
 public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.OnItemClickListener{
+    private static final String TAG = "UnusedPagerFragment2";
+
     @Bind(R.id.recyclerview)
     ListView listView;
     @Bind(R.id.trl)
@@ -149,5 +158,19 @@ public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         startActivity(new Intent(mContext, DemandActivity.class));
     }
-
+    public void demandDetails(String demandId){
+        LoginBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginBean.class);
+        if(loginBean != null){
+            String token = loginBean.getData().getToken();
+            Log.d(TAG, "initData:demandDetails userToken"+token);
+            Api.demandDetails(token,demandId,new Api.BaseViewCallback<DemandDetails>() {
+                @Override
+                public void setData(DemandDetails demandDetails) {
+                    if(demandDetails.getStatus() == REQUEST_SUCCESS){
+                        Log.d(TAG, "demandDetails success");
+                    }
+                }
+            });
+        }
+    }
 }

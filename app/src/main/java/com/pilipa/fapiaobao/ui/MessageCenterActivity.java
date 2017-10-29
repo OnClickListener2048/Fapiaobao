@@ -1,12 +1,18 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.MessageCenterAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.entity.Customer;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginBean;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -16,6 +22,7 @@ import butterknife.OnClick;
  */
 
 public class MessageCenterActivity extends BaseActivity {
+    private static final String TAG = "MessageCenterActivity";
 
     @Bind(R.id.listview)
     ListView listView;
@@ -49,5 +56,23 @@ public class MessageCenterActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+    private void updateUserInfo(Customer customer){
+        LoginBean loginBean = SharedPreferencesHelper.loadFormSource(MessageCenterActivity.this,LoginBean.class);
+        if(loginBean != null){
+            String token = loginBean.getData().getToken();
+            Log.d(TAG, "updateData: userToken"+token);
+            if (token == null) {
+                BaseApplication.showToast("");
+                return;
+            } else {
+                Api.updateCustomer(token,customer, new Api.BaseViewCallback<LoginBean>() {
+                    @Override
+                    public void setData(LoginBean loginBean) {
+
+                    }
+                });
+            }
+        }
     }
 }

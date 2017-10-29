@@ -6,6 +6,8 @@ package com.pilipa.fapiaobao.net;
 
 public class Constant {
     public static final String BASE_URL = "http://192.168.1.205:8181/fapiaobao/rest/";
+//    public static final String BASE_URL = "http://39.106.18.205/fapiaobao/rest/";
+
     public static final int REQUEST_SUCCESS = 200;
 
     /**
@@ -16,9 +18,9 @@ public class Constant {
     /*添加用户代理公司*/
     public static final String CREATE_COMPANY= BASE_URL + "company/create/%s";
     /*删除用户代理公司*/
-    public static final String DELETE_COMPANY = BASE_URL + "company/remove/%s";
+    public static final String DELETE_COMPANY = BASE_URL + "company/remove/%s/%s";
     /*根据companyId查询公司*/
-    public static final String COMPANY_INFO = BASE_URL + "company/company/%s";
+    public static final String COMPANY_INFO = BASE_URL + "company/%s";
 
     /**
      *customer-rest-controller : 用户登录
@@ -26,6 +28,10 @@ public class Constant {
     public static final String LOGIN_PLATFORM_MSG = "0";
     public static final String LOGIN_PLATFORM_WX= "1";
     public static final String LOGIN_PLATFORM_QQ = "2";
+    //性别
+    public static final String GENDER_MALE = "1";
+    public static final String GENDER_FEMALE = "2";
+    public static final String GENDER_SECRECY = "3";
 
 
     /*绑定第三方平台用户*/
@@ -45,7 +51,7 @@ public class Constant {
     /*解绑第三方平台用户*/
     public static final String UBIND = BASE_URL + "customer/unbind/%s/%s/%s";
     /*修改用户信息*/
-    public static final String UPDATE_CUSTOMER = BASE_URL + "customer/updateCustomer/%s";
+    public static final String UPDATE_CUSTOMER = BASE_URL + "customer/updateCustomer";
 
     /**
      *demand-rest-controller : 需求发布
@@ -63,7 +69,7 @@ public class Constant {
     /*收藏需求开票的公司 */
     public static final String FAVORITE_COMPANY_CREATE= BASE_URL + "favorite/create/%s";
     /*删除用户收藏公司 */
-    public static final String FAVORITE_COMPANY_REMOVE= BASE_URL + "favorite/remove/%s";
+    public static final String FAVORITE_COMPANY_REMOVE= BASE_URL + "favorite/remove/%s/%s";
 
     /**
      *message-rest-controller : 消息中心

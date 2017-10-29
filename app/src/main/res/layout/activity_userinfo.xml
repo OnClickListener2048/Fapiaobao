@@ -79,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:text="昵称"/>
             <EditText
+                android:id="@+id/edt_userName"
                 android:layout_alignParentRight="true"
                 android:layout_width="200dp"
                 android:gravity="right"
@@ -106,6 +107,7 @@
                 android:text="生日" />
 
             <EditText
+                android:id="@+id/edt_birthday"
                 android:layout_width="200dp"
                 android:gravity="right"
                 android:maxLength="10"
@@ -134,6 +136,7 @@
                 android:layout_marginLeft="@dimen/d5"
                 android:text="性别"/>
             <RadioGroup
+                android:id="@+id/radioGroup"
                 android:orientation="horizontal"
                 android:gravity="right"
                 android:checkedButton="@+id/rb_secrecy"
@@ -171,6 +174,7 @@
                 android:layout_height="wrap_content"
                 android:text="手机"/>
             <EditText
+                android:id="@+id/edt_phone"
                 android:layout_alignParentRight="true"
                 android:layout_width="200dp"
                 android:gravity="right"
@@ -190,6 +194,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_save"
         android:text="@string/submit"
         android:layout_alignParentBottom="true"
         android:textColor="@color/white"

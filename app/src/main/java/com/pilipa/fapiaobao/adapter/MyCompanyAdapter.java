@@ -8,7 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
+import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,21 +19,21 @@ import java.util.List;
  */
 
 public class MyCompanyAdapter extends BaseAdapter {
-    List list;
     private Context mContext = null;
     private List<?> mMarkerData = null;
     public MyCompanyAdapter(Context context)
     {
         mContext = context;
+        mMarkerData = new ArrayList<>();
     }
     @Override
     public int getCount() {
-        return 5;
+        return mMarkerData.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mMarkerData.get(position);
     }
 
     @Override
@@ -53,21 +56,27 @@ public class MyCompanyAdapter extends BaseAdapter {
         {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.name.setText("公司名称"+position);
+        if(mMarkerData.get(position).getClass() .equals(CompaniesBean.DataBean.class)){
+            CompaniesBean.DataBean bean =(CompaniesBean.DataBean) mMarkerData.get(position);
+            viewHolder.name.setText(bean.getName());
+        }else{
+            FavoriteCompanyBean.DataBean bean =(FavoriteCompanyBean.DataBean) mMarkerData.get(position);
+            viewHolder.name.setText(bean.getName());
+        }
 
         return convertView;
     }
 
     public void addData(List list) {
         if (list==null) {
-            this.list.addAll(list);
+            this.mMarkerData.addAll(list);
         }
 
         notifyDataSetChanged();
     }
 
     public void initData(List list) {
-        this.list = list;
+        this.mMarkerData = list;
         notifyDataSetChanged();
     }
 

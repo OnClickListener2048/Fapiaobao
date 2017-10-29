@@ -2,6 +2,7 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +11,21 @@ import android.widget.LinearLayout;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
  * Created by lyt on 2017/10/17.
  */
 
 public class MyCompanyDetailsPagerFragment extends BaseFragment{
-    private static final String FRAG = "fragment_adapter";
+    private static final String TAG = "MyCompanyDetailsPagerFragment";
 
     @Override
     protected int getLayoutId() {
@@ -32,23 +38,24 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
         ButterKnife.bind(this, rootView);
         return rootView;
     }
-    public static MyCompanyDetailsPagerFragment newInstance(String flag) {
+    public static MyCompanyDetailsPagerFragment newInstance(String id) {
         MyCompanyDetailsPagerFragment myCompanyDetailsPagerFragment = new MyCompanyDetailsPagerFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(FRAG,flag);
+        bundle.putString("id",id);
         myCompanyDetailsPagerFragment.setArguments(bundle);
+
         return myCompanyDetailsPagerFragment;
     }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String pos = getArguments().getString(FRAG);
+        String id = getArguments().getString("id");
 
 
         ImageView img_qr_code1 = (ImageView) view.findViewById(R.id.img_qr_code1);
         LinearLayout ll_qr_code2 = (LinearLayout) view.findViewById(R.id.ll_qr_code2);
 
-        if(pos.equals("1")){
+        if(id.equals("1")){
             ll_qr_code2.setVisibility(View.VISIBLE);
             img_qr_code1.setVisibility(View.GONE);
         }else{
@@ -56,8 +63,8 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
             ll_qr_code2.setVisibility(View.GONE);
         }
 
-
     }
+
     @OnClick({R.id.img_details_viewpager_share, R.id.img_details_viewpager_delete,R.id.img_details_viewpager_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -81,5 +88,25 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
         ButterKnife.unbind(this);
     }
 
-
+    public  void getCompanyDetails(String id){
+        Api.companyDetails(id,new Api.BaseViewCallback<CompanyDetailsBean>() {
+            @Override
+            public void setData(CompanyDetailsBean companyDetailsBean) {
+                if(companyDetailsBean.getStatus() == REQUEST_SUCCESS){
+                    CompanyDetailsBean.DataBean bean = companyDetailsBean.getData();
+                    Log.d(TAG, "getCompanyDetails"+bean.getName().toString());
+                }
+            }
+        });
+    }
+    public void deleteCompany(String id,String token){
+        Api.deleteCompany(id,token,new Api.BaseViewCallback<NormalBean>() {
+            @Override
+            public void setData(NormalBean normalBean) {
+                if(normalBean.getStatus() == REQUEST_SUCCESS){
+                    Log.d(TAG, "getCompanyDetails success");
+                }
+            }
+        });
+    }
 }

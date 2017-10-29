@@ -8,21 +8,31 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
+import com.pilipa.fapiaobao.entity.Customer;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.Constant;
+import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -39,12 +49,28 @@ import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+
 /**
  * Created by lyt on 2017/10/24.
  */
 
 public class UserInfoActivity extends BaseActivity {
+    private static final String TAG = "UserInfoActivity";
 
+    @Bind(R.id.edt_userName)
+    EditText edtUserName;
+    @Bind(R.id.edt_phone)
+    EditText edtPhone;
+    @Bind(R.id.edt_birthday)
+    EditText edtBirthday;
+    @Bind(R.id.radioGroup)
+    RadioGroup radioGroup;
+    @Bind(R.id.rb_male)
+    RadioButton rbMale;
+    @Bind(R.id.rb_female)
+    RadioButton rbFemale;
+    @Bind(R.id.rb_secrecy)
+    RadioButton rbSecrecy;
     @Bind(R.id.userinfo_back)
     ImageView img_back;
     @Bind(R.id.img_head)
@@ -56,24 +82,27 @@ public class UserInfoActivity extends BaseActivity {
     public static final int REQUEST_CODE_CHOOSE = 20;
     private int mPreviousPosition = -1;
     private RequestManager requestManager;
-
+    private LoginBean loginBean;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_userinfo;
     }
 
-    @OnClick({R.id.userinfo_back, R.id.img_head,R.id.img_logout})
+    @OnClick({R.id.userinfo_back, R.id.img_head, R.id.img_logout,R.id.btn_save})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_save: {
+                Customer customer = new Customer();
+                customer.setNickname("或");
+                updateUserInfo(customer);
+            }break;
             case R.id.userinfo_back: {
                 finish();
-            }
-            break;
+            }break;
             case R.id.img_head: {
                 setDialog();
-            }
-            break;
+            }break;
             case R.id.btn_choose_img:
                 openMedia();
                 mCameraDialog.dismiss();
@@ -192,7 +221,22 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        loginBean =  SharedPreferencesHelper.loadFormSource(this,LoginBean.class);
+        LoginBean.DataBean.CustomerBean customer = loginBean.getData().getCustomer();
 
+        if(loginBean != null){
+            edtBirthday.setText(customer.getBirthday());
+            edtUserName.setText(customer.getNickname());
+            edtPhone.setText(customer.getTelephone());
+            if (customer.getGender().equals(Constant.GENDER_FEMALE)){
+                radioGroup.check(R.id.rb_female);
+            } else if (customer.getGender().equals(Constant.GENDER_MALE)){
+                radioGroup.check(R.id.rb_male);
+            } else if (customer.getGender().equals(Constant.GENDER_SECRECY)){
+                radioGroup.check(R.id.rb_secrecy);
+            }
+
+        }
     }
 
     @Override
@@ -225,6 +269,7 @@ public class UserInfoActivity extends BaseActivity {
         dialogWindow.setAttributes(lp);
         mCameraDialog.show();
     }
+
     private void setLogoutDialog() {
         mDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
@@ -246,6 +291,24 @@ public class UserInfoActivity extends BaseActivity {
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
         mDialog.show();
+    }
+
+    private void updateUserInfo(Customer customer){
+        if(loginBean != null){
+            String token = loginBean.getData().getToken();
+            Log.d(TAG, "updateData:updateUserInfo userToken"+token);
+            if (token == null) {
+                BaseApplication.showToast("");
+                return;
+            } else {
+                Api.updateCustomer(token,customer, new Api.BaseViewCallback<Object>() {
+                    @Override
+                    public void setData(Object loginBean) {
+                        Log.d(TAG, "updateData:updateUserInfo userToken"+loginBean.toString());
+                    }
+                });
+            }
+        }
     }
 
 }

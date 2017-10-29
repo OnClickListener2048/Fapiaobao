@@ -26,6 +26,7 @@ import com.umeng.socialize.UMShareAPI;
 
 public class BaseApplication extends Application {
     private static final String PREF_NAME = "p";
+    public static final String DEVICE_TOKEN = "mPushDeviceToken";
     static Context _context;
 
     @Override
@@ -41,6 +42,7 @@ public class BaseApplication extends Application {
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String s) {
+                set(DEVICE_TOKEN, s);
                 TLog.log(s);
             }
 

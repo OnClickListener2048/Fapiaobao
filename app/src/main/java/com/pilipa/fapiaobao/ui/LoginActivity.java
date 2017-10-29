@@ -2,6 +2,7 @@ package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,12 +29,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_PLATFORM_MSG;
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
  * Created by lyt on 2017/10/12.
  */
 
 public class LoginActivity extends BaseActivity implements View.OnFocusChangeListener {
+    private static final String TAG = "LoginActivity";
 
     @Bind(R.id.et_username)
     EditText etUsername;
@@ -102,9 +105,6 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                 login(LOGIN_PLATFORM_MSG
                       ,etUsername.getText().toString().trim()
                       ,etPassword.getText().toString().trim());
-                Intent intent = new Intent();
-                intent.setClass(this, MainActivity.class);
-                startActivity(intent);
                 break;
             case R.id.WeChat_login:
                 weChatLogin();
@@ -125,14 +125,22 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
         tvWarnning.setVisibility(checked == null ? View.GONE : View.VISIBLE);
         tvWarnning.setText(checked);
         ivLoginPhone.setSelected(!mobileExact);
+        String mPushDeviceToken = BaseApplication.get(BaseApplication.DEVICE_TOKEN,null);
+        mPushDeviceToken ="Ag1qIlbdHuh6QfzTwoQLp32PB5UcyK2lydJcx7-HG35z";
+        Log.d(TAG, "login:  mPushDeviceToken"+mPushDeviceToken);
         if (checked != null) {
             BaseApplication.showToast(checked);
             return;
         } else {
-            Api.login(platform,credenceName,credenceCode,new Api.BaseViewCallback<LoginBean>() {
+            Api.login(platform,credenceName,credenceCode,mPushDeviceToken,new Api.BaseViewCallback<LoginBean>() {
                         @Override
                         public void setData(LoginBean loginBean) {
-                            SharedPreferencesHelper.save(LoginActivity.this,loginBean);
+                            if(loginBean.getStatus() == REQUEST_SUCCESS){
+                                SharedPreferencesHelper.save(LoginActivity.this,loginBean);
+                                Intent intent = new Intent();
+                                intent.setClass(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
                         }
                     });
         }

@@ -18,7 +18,8 @@ import com.pilipa.fapiaobao.adapter.MyCompanyAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginBean;
-import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
+import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.CompanyDetailsActivity;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
@@ -34,7 +35,7 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  * Created by lyt on 2017/10/17.
  */
 
-public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
     private static final String TAG = "MyCompanyViewPagerFragment";
 
     @Bind(R.id.recyclerview)
@@ -42,9 +43,9 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
     @Bind(R.id.trl)
     TwinklingRefreshLayout trl;
     private MyCompanyAdapter mAdapter;
+    public List<FavoriteCompanyBean.DataBean> mData = new ArrayList();
 
-    public List<CompaniesBean.DataBean> mData = new ArrayList();
-    public MyCompanyViewPagerFragment() {
+    public MyFavoriteCompanyViewPagerFragment() {
 
     }
     @Override
@@ -81,7 +82,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
 
     @Override
     protected void initData() {
-        getCompanyList();
+        getFavCompanyList();
         super.initData();
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
@@ -163,28 +164,34 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Bundle bundle = new Bundle();
-        bundle.putString("companyId",mData.get(position).getId());
-        startActivityForResult(new Intent(mContext, CompanyDetailsActivity.class),1000,bundle);
+        startActivity(new Intent(mContext, CompanyDetailsActivity.class));
     }
 
-    public void getCompanyList(){
+    public void getFavCompanyList(){
         LoginBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginBean.class);
         if(loginBean != null){
             String token = loginBean.getData().getToken();
-            Log.d(TAG, "initData:getCompanyList userToken"+token);
-            Api.companiesList(token,new Api.BaseViewCallback<CompaniesBean>() {
+            Log.d(TAG, "userToken"+token);
+            Api.favoriteCompanyList(token,new Api.BaseViewCallback<FavoriteCompanyBean>() {
                 @Override
-                public void setData(CompaniesBean companiesBean) {
-                    if(companiesBean.getStatus() == REQUEST_SUCCESS){
-                        List<CompaniesBean.DataBean> list =  companiesBean.getData();
-                        mData.addAll(list) ;
-                        mAdapter.initData(list);
-                        Log.d(TAG, "CompanyList"+list.get(0).toString());
-                    }
+                public void setData(FavoriteCompanyBean favoriteCompanyBean) {
+                    List<FavoriteCompanyBean.DataBean> list =  favoriteCompanyBean.getData();
+                    mData.addAll(list) ;
+                    mAdapter.initData(list);
+                    Log.d(TAG, "FavoriteCompany success");
                 }
             });
         }
-    }
 
+    }
+    public void deleteFavCompany(String id,String token){
+        Api.deleteFavoriteCompany(id,token,new Api.BaseViewCallback<NormalBean>() {
+            @Override
+            public void setData(NormalBean normalBean) {
+                if(normalBean.getStatus() == REQUEST_SUCCESS){
+                    Log.d(TAG, "getCompanyDetails success");
+                }
+            }
+        });
+    }
 }

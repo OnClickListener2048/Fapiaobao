@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.CreditRatingActivity;
 import com.pilipa.fapiaobao.ui.FeedbackActivity;
@@ -18,6 +19,7 @@ import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.MyWalletActivity;
 import com.pilipa.fapiaobao.ui.ReceiptFolderActivity;
 import com.pilipa.fapiaobao.ui.UserInfoActivity;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +34,8 @@ public class MeFragment extends BaseFragment{
     RoundedImageView imageHead;
     @Bind(R.id.tv_userName)
     TextView tvUserName;
+    @Bind(R.id.tv_creditRating)
+    TextView tvCreditRating;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_me;
@@ -45,7 +49,15 @@ public class MeFragment extends BaseFragment{
         setImageFromNet(imageHead,"URL",R.mipmap.ic_head_circle_default_small_);
         return rootView;
     }
-
+    @Override
+    public void initData(){
+        LoginBean loginBean =  SharedPreferencesHelper.loadFormSource(mContext,LoginBean.class);
+        if(loginBean != null ){
+            LoginBean.DataBean.CustomerBean customer = loginBean.getData().getCustomer();
+//            tvCreditRating.setText("");
+//            tvUserName.setText("");
+        }
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

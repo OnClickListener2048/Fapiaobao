@@ -46,9 +46,17 @@ public class CompanyDetailsActivity extends BaseActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1000){
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void initView() {
         FragmentList  = new ArrayList<>();
-        MyCompanyDetailsPagerFragment fragment1 = MyCompanyDetailsPagerFragment.newInstance("1");
+        MyCompanyDetailsPagerFragment fragment1 = MyCompanyDetailsPagerFragment.newInstance("1d660812a99e4b439cdcb4ed9946b271");
         MyCompanyDetailsPagerFragment fragment2= MyCompanyDetailsPagerFragment.newInstance("2");
         MyCompanyDetailsPagerFragment fragment3= MyCompanyDetailsPagerFragment.newInstance("1");
         FragmentList.add(fragment1);
