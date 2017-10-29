@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -32,6 +33,11 @@ public class DemandActivity extends BaseActivity {
     FrameLayout containerPaperSpecialReceipt;
     @Bind(R.id.container_paper_elec_receipt)
     FrameLayout containerPaperElecReceipt;
+    @Bind(R.id.translate_details)
+    LinearLayout translateDetails;
+    @Bind(R.id.translate)
+    LinearLayout translate;
+    private boolean isShow =false;//当前详情是否显示
 
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
     public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
@@ -49,7 +55,7 @@ public class DemandActivity extends BaseActivity {
         return R.layout.activity_demand;
     }
 
-    @OnClick({R.id.demand_back})
+    @OnClick({R.id.demand_back,R.id.fl_change})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -57,6 +63,17 @@ public class DemandActivity extends BaseActivity {
                 finish();
             }
             break;
+            case R.id.fl_change:{
+                if(isShow){
+                    translateDetails.setVisibility(View.VISIBLE);
+                    translate.setVisibility(View.GONE);
+                    isShow = !isShow;
+                }else{
+                    translateDetails.setVisibility(View.GONE);
+                    translate.setVisibility(View.VISIBLE);
+                    isShow = !isShow;
+                }
+            }break;
         }
     }
 

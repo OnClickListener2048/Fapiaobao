@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -22,6 +23,7 @@ import butterknife.OnClick;
 public class CompanyDetailsActivity extends BaseActivity {
     @Bind(R.id.vp_verpager)
     ViewPager mViewPager;
+    CompanyDetailsAdapter companyDetailsAdapter;
     private ArrayList<MyCompanyDetailsPagerFragment> FragmentList;
     protected int mPreviousPos = 0;
 
@@ -30,12 +32,15 @@ public class CompanyDetailsActivity extends BaseActivity {
         return R.layout.activity_company_details;
     }
 
-    @OnClick({R.id.details_back})
+    @OnClick({R.id.details_back,R.id.img_add})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.details_back:{
                 finish();
+            }break;
+            case R.id.img_add:{
+                startActivity(new Intent(this,AddCompanyInfoActivity.class));
             }break;
         }
     }
@@ -43,9 +48,14 @@ public class CompanyDetailsActivity extends BaseActivity {
     @Override
     public void initView() {
         FragmentList  = new ArrayList<>();
-        FragmentList.add(MyCompanyDetailsPagerFragment.newInstance("1"));
-        FragmentList.add(MyCompanyDetailsPagerFragment.newInstance("2"));
-        CompanyDetailsAdapter companyDetailsAdapter = new CompanyDetailsAdapter(getSupportFragmentManager(), FragmentList);
+        MyCompanyDetailsPagerFragment fragment1 = MyCompanyDetailsPagerFragment.newInstance("1");
+        MyCompanyDetailsPagerFragment fragment2= MyCompanyDetailsPagerFragment.newInstance("2");
+        MyCompanyDetailsPagerFragment fragment3= MyCompanyDetailsPagerFragment.newInstance("1");
+        FragmentList.add(fragment1);
+        FragmentList.add(fragment2);
+        FragmentList.add(fragment3);
+
+        companyDetailsAdapter = new CompanyDetailsAdapter(getSupportFragmentManager(), FragmentList);
         mViewPager.setAdapter(companyDetailsAdapter);
         mViewPager.setCurrentItem(mPreviousPos);
     }

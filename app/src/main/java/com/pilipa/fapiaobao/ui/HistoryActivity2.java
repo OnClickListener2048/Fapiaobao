@@ -10,7 +10,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.ui.fragment.UnusedPagerFragment;
+import com.pilipa.fapiaobao.ui.fragment.UnusedPagerFragment2;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
 
 import java.util.ArrayList;
@@ -49,9 +49,9 @@ public class HistoryActivity2 extends BaseActivity {
     public void initView() {
         List list = StaticDataCreator.initMyPublishTabData(BaseApplication.context());
         fragmentList = new ArrayList<>();
-        fragmentList.add(new UnusedPagerFragment());
-        fragmentList.add(new UnusedPagerFragment());
-        fragmentList.add(new UnusedPagerFragment());
+        fragmentList.add(new UnusedPagerFragment2());
+        fragmentList.add(new UnusedPagerFragment2());
+        fragmentList.add(new UnusedPagerFragment2());
         vpPublishHistory.setAdapter(new TabPageIndicatorAdapter(getSupportFragmentManager(),list,fragmentList));
         tlPublishHistory.setupWithViewPager(vpPublishHistory);
     }

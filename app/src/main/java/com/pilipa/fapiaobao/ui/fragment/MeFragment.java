@@ -14,6 +14,7 @@ import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.CreditRatingActivity;
 import com.pilipa.fapiaobao.ui.FeedbackActivity;
 import com.pilipa.fapiaobao.ui.HistoryActivity2;
+import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.MyWalletActivity;
 import com.pilipa.fapiaobao.ui.ReceiptFolderActivity;
 import com.pilipa.fapiaobao.ui.UserInfoActivity;
@@ -57,12 +58,16 @@ public class MeFragment extends BaseFragment{
             ,R.id.btn_receipt_folder
             ,R.id.my_wallet
             ,R.id.tv_creditRating
-            ,R.id.tv_feedback})
+            ,R.id.tv_feedback
+            ,R.id.notification})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_userName:
             case R.id.img_head:
                 startActivity(new Intent(getContext(), UserInfoActivity.class));
+                break;
+            case R.id.notification:
+                startActivity(new Intent(getContext(), MessageCenterActivity.class));
                 break;
             case R.id.btn_mPublish:
                 startActivity(new Intent(getContext(), HistoryActivity2.class));

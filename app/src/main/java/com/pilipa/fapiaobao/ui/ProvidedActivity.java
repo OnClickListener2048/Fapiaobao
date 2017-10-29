@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.FrameLayout;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -17,7 +17,6 @@ import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 
-import butterknife.Bind;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -60,13 +59,16 @@ public class ProvidedActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_provided;
     }
-    @OnClick({R.id.provided_back,R.id.fl_change})
+    @OnClick({R.id.provided_back,R.id.fl_change,R.id.btn_confirm})
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.provided_back:{
                 finish();
+            }break;
+            case R.id.btn_confirm:{
+
             }break;
             case R.id.fl_change:{
                 if(isShow){

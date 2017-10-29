@@ -15,9 +15,13 @@ public class Constant {
     /**
      *customer-rest-controller : 用户登录
      */
+    public static final String LOGIN_PLATFORM_MSG = "0";
+    public static final String LOGIN_PLATFORM_WX= "1";
+    public static final String LOGIN_PLATFORM_QQ = "2";
 
     public static final String BASE_URL = "http://192.168.1.205:8181/fapiaobao/rest/";
     public static final String SHORT_MESSAGE_VERIFY = BASE_URL + "customer/shortMessage/%s";
+    public static final String USER_LOGIN = BASE_URL + "customer/login/%s/%s/%s";
 
     /**
      *demand-rest-controller : 需求发布

@@ -87,9 +87,9 @@
         <!--邮寄信息-->
 
         <include
+            layout="@layout/layout_mailing_information"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/layout_mailing_information"></include>
+            android:layout_height="wrap_content"></include>
 
         <!--我提供的-->
 
@@ -315,6 +315,7 @@
             </FrameLayout>
         </LinearLayout>
         <Button
+            android:id="@+id/btn_confirm"
             android:text="@string/confirm"
             android:layout_alignParentBottom="true"
             android:textColor="@color/white"

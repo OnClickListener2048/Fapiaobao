@@ -50,6 +50,7 @@
 
         </meta-data>
         <activity android:name=".MainActivity">
+
         </activity>
 
         <activity
@@ -76,14 +77,14 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity android:name=".ui.LaunchActivity">
+
+        </activity>
+        <activity android:name=".ui.LeadActivity" />
+        <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".ui.LeadActivity" />
-        <activity android:name=".ui.LoginActivity">
-
         </activity>
 
         <activity
@@ -117,6 +118,7 @@
         <activity android:name=".ui.RechargeDetailsActivity" />
         <activity android:name=".ui.MyRedEnvelopeActivity" />
         <activity android:name=".ui.CreditRatingActivity" />
+        <activity android:name=".ui.MessageCenterActivity" />
 
         <!--wjn add-->
         <activity android:name=".ui.EstimateActivity">

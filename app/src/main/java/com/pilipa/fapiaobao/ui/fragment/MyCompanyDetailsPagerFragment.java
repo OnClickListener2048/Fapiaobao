@@ -20,6 +20,7 @@ import butterknife.OnClick;
 
 public class MyCompanyDetailsPagerFragment extends BaseFragment{
     private static final String FRAG = "fragment_adapter";
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_company_details;
@@ -46,6 +47,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
 
         ImageView img_qr_code1 = (ImageView) view.findViewById(R.id.img_qr_code1);
         LinearLayout ll_qr_code2 = (LinearLayout) view.findViewById(R.id.ll_qr_code2);
+
         if(pos.equals("1")){
             ll_qr_code2.setVisibility(View.VISIBLE);
             img_qr_code1.setVisibility(View.GONE);
@@ -53,6 +55,8 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
             img_qr_code1.setVisibility(View.VISIBLE);
             ll_qr_code2.setVisibility(View.GONE);
         }
+
+
     }
     @OnClick({R.id.img_details_viewpager_share, R.id.img_details_viewpager_delete,R.id.img_details_viewpager_next})
     public void onViewClicked(View view) {
@@ -62,6 +66,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
             case R.id.img_details_viewpager_delete:
                 break;
             case R.id.img_details_viewpager_next:
+
                 break;
         }
     }
@@ -75,4 +80,6 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
+
 }
