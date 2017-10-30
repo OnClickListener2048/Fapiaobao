@@ -205,11 +205,11 @@
     <string name="total">需求总额</string>
     <string name="end_of_distance">距离收集结束：%1$d天</string>
     <string name="price">¥ %1$d</string>
-    <string name="collected_price">已收集  %1$d 元</string>
+    <string name="collected_price">已收集  %1$f 元</string>
     <string name="collected_details">已收集%1$d张发票</string>
     <string name="urplus">剩余%1$d元红包待领取</string>
     <string name="collected_total">合计%1$d元</string>
-    <string name="to_collected_price">待收集  %1$d 元</string>
+    <string name="to_collected_price">待收集  %1$f 元</string>
     <string name="to_provided_price">待提供 %1$d元</string>
     <string name="zong">总</string>
     <string name="yu">余</string>

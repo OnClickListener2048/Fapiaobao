@@ -5,21 +5,28 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.TestBean;
+import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
  * Created by lyt on 2017/10/16.
@@ -37,6 +44,40 @@ public class DemandActivity extends BaseActivity {
     LinearLayout translateDetails;
     @Bind(R.id.translate)
     LinearLayout translate;
+    @Bind(R.id.tv_bounsAmount)
+    TextView tvBounsAmount;
+    @Bind(R.id.tv_leftAmount)
+    TextView tvLeftAmount;
+    @Bind(R.id.tv_deadline)
+    TextView tvDeadline;
+    @Bind(R.id.tv_amount)
+    TextView tvAmount;
+    @Bind(R.id.tv_publishTime)
+    TextView tvPublishTime;
+    @Bind(R.id.tv_receiver)
+    TextView tvReceiver;
+    @Bind(R.id.tv_telephone)
+    TextView tvTelephone;
+    @Bind(R.id.tv_phone)
+    TextView tvPhone;
+    @Bind(R.id.tv_address)
+    TextView tvAddress;
+    @Bind(R.id.company_name)
+    TextView companyName;
+    @Bind(R.id.tex_number)
+    TextView texNumber;
+    @Bind(R.id.company_address)
+    TextView companyAddress;
+    @Bind(R.id.number)
+    TextView number;
+    @Bind(R.id.bank_account)
+    TextView bankAccount;
+    @Bind(R.id.bank)
+    TextView bank;
+    @Bind(R.id.tv_AlreadyCollected)
+    TextView tvAlreadyCollected;
+
+
     private boolean isShow =false;//当前详情是否显示
 
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
@@ -120,9 +161,12 @@ public class DemandActivity extends BaseActivity {
         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
     }
 
+
     @Override
     public void initData() {
-
+        String demandId =  getIntent().getStringExtra("demandId");
+        Log.d(TAG, "initData:demandDetails demandId"+demandId);
+        demandDetails(demandId);
     }
 
     @Override
@@ -130,5 +174,37 @@ public class DemandActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+    public void demandDetails(String demandId){
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(DemandActivity.this,LoginWithInfoBean.class);
+        if(loginBean != null){
+            String token = loginBean.getData().getToken();
+            Log.d(TAG, "initData:demandDetails userToken"+token);
+            Api.demandDetails(token,demandId,new Api.BaseViewCallback<DemandDetails>() {
+                @Override
+                public void setData(DemandDetails demandDetails) {
+                    if(demandDetails.getStatus() == REQUEST_SUCCESS){
+                        DemandDetails.DataBean bean =   demandDetails.getData();
+                        tvBounsAmount.setText(bean.getTotalBonus()+"");
+//                        tvAlreadyCollected.setText(bean.getTotalBonus()+"");
+//                        tvAddress.setText(bean.getDemandPostage().getAddress());
+                        tvAmount.setText(bean.getTotalAmount()+"");
+                        tvDeadline.setText(bean.getDeadline());
+                        tvLeftAmount.setText(bean.getLeftAmount()+"");
+                        tvPhone.setText(bean.getCompany().getPhone());
+//                        tvTelephone.setText(bean.getDemandPostage().getPhone());
+//                        tvPublishTime.setText(bean.getDemandPostage());
+//                        tvReceiver.setText(bean.getDemandPostage().getReceiver());
+                        companyName.setText(bean.getCompany().getName());
+                        number.setText(bean.getCompany().getPhone());
+                        companyAddress.setText(bean.getCompany().getAddress());
+                        bankAccount.setText(bean.getCompany().getAccount());
+                        bank.setText(bean.getCompany().getDepositBank());
+                        texNumber.setText(bean.getCompany().getTaxno());
+                        Log.d(TAG, "demandDetails success");
+                    }
+                }
+            });
+        }
     }
 }

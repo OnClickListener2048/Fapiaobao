@@ -1,5 +1,8 @@
 package com.pilipa.fapiaobao.net.bean.publish;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -42,7 +45,7 @@ public class DemandsListBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Parcelable{
         /**
          * id : b0b7dc32986c4d31a4e79b2a4c7ed7b6
          * isNewRecord : false
@@ -80,11 +83,11 @@ public class DemandsListBean {
         private String province;
         private String city;
         private String deadline;
-        private int totalAmount;
-        private int leftAmount;
-        private int totalBonus;
-        private int leftBonus;
-        private int mailMinimum;
+        private double totalAmount;
+        private double leftAmount;
+        private double totalBonus;
+        private double leftBonus;
+        private double mailMinimum;
         private String attentions;
         private String state;
         private String closeDate;
@@ -193,43 +196,43 @@ public class DemandsListBean {
             this.deadline = deadline;
         }
 
-        public int getTotalAmount() {
+        public double getTotalAmount() {
             return totalAmount;
         }
 
-        public void setTotalAmount(int totalAmount) {
+        public void setTotalAmount(double totalAmount) {
             this.totalAmount = totalAmount;
         }
 
-        public int getLeftAmount() {
+        public double getLeftAmount() {
             return leftAmount;
         }
 
-        public void setLeftAmount(int leftAmount) {
+        public void setLeftAmount(double leftAmount) {
             this.leftAmount = leftAmount;
         }
 
-        public int getTotalBonus() {
+        public double getTotalBonus() {
             return totalBonus;
         }
 
-        public void setTotalBonus(int totalBonus) {
+        public void setTotalBonus(double totalBonus) {
             this.totalBonus = totalBonus;
         }
 
-        public int getLeftBonus() {
+        public double getLeftBonus() {
             return leftBonus;
         }
 
-        public void setLeftBonus(int leftBonus) {
+        public void setLeftBonus(double leftBonus) {
             this.leftBonus = leftBonus;
         }
 
-        public int getMailMinimum() {
+        public double getMailMinimum() {
             return mailMinimum;
         }
 
-        public void setMailMinimum(int mailMinimum) {
+        public void setMailMinimum(double mailMinimum) {
             this.mailMinimum = mailMinimum;
         }
 
@@ -255,6 +258,16 @@ public class DemandsListBean {
 
         public void setCloseDate(String closeDate) {
             this.closeDate = closeDate;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+
         }
 
         public static class CompanyBean {

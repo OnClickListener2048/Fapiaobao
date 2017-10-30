@@ -60,6 +60,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_alreadyCollected"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
@@ -82,6 +83,7 @@
             android:layout_marginRight="@dimen/d5"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_to_collected_price"
                 android:layout_weight="1"
                 android:gravity="right"
                 android:layout_width="match_parent"

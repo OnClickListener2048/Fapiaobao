@@ -18,7 +18,6 @@ import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
-import com.pilipa.fapiaobao.net.bean.invoice.MatchBean;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
@@ -35,12 +34,13 @@ import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.utils.PayCommonUtil;
 import com.pilipa.fapiaobao.wxapi.Constants;
 
-import static com.pilipa.fapiaobao.net.Constant.*;
-
 import org.json.JSONObject;
 
+import static com.pilipa.fapiaobao.net.Constant.DO_MATCH_DEMAND;
 import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_EXPRESS_COMPANY;
 import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_INVIICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.UPDATE_INVOICE_TYPE;
 
 /**
@@ -330,8 +330,8 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void demandsList(String token,String type, final BaseViewCallback baseViewCallback) {
-        OkGo.<DemandsListBean>get(String.format(Constant.USER_ISSUED_LIST, token,type)).execute(new JsonCallBack<DemandsListBean>(DemandsListBean.class) {
+    public static void demandsList(String token,String state, final BaseViewCallback baseViewCallback) {
+        OkGo.<DemandsListBean>get(String.format(Constant.USER_ISSUED_LIST,state,token)).execute(new JsonCallBack<DemandsListBean>(DemandsListBean.class) {
             @Override
             public void onSuccess(Response<DemandsListBean> response) {
                 if ("OK".equals(response.body().getMsg())) {

@@ -14,7 +14,6 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.ExpandableListAdapter;
-import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.ui.DemandActivity;
 
@@ -34,7 +33,7 @@ public class UnusedPagerFragment extends BaseFragment implements AdapterView.OnI
     ExpandableListView expandableListView;
     @Bind(R.id.trl)
     TwinklingRefreshLayout trl;
-    private MyPublishAdapter mAdapter;
+//    private MyPublishAdapter mAdapter;
     public UnusedPagerFragment() {
 
     }
