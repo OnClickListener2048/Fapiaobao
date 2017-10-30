@@ -106,7 +106,10 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
 
                 break;
             case R.id.WeChat_login:
-                weChatLogin();
+                Intent intent = new Intent();
+                intent.setClass(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+//                weChatLogin();
                 break;
             case R.id.laws:
                 break;

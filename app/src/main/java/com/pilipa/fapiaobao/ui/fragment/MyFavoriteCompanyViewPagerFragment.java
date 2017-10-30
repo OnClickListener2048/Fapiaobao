@@ -16,6 +16,8 @@ import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.MyCompanyAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.entity.Company;
+import com.pilipa.fapiaobao.entity.FavCompany;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
@@ -83,6 +85,18 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
     @Override
     protected void initData() {
         getFavCompanyList();
+
+        FavCompany favCompany = new FavCompany();
+        Company company = new Company();
+        company.setId("bd77acd11fe941738a012bb5989ae306");
+        favCompany.setCompany(company);
+        LoginWithInfoBean loginBean =  SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
+        if(loginBean != null){
+          String token =  loginBean.getData().getToken();
+          favCompany.setToken(token);
+//          favCompanyCreate(favCompany);
+        }
+
         super.initData();
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
@@ -194,4 +208,16 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
             }
         });
     }
+    public void favCompanyCreate(FavCompany favCompany){
+        Api.favCompanyCreate(favCompany,new Api.BaseViewCallback<NormalBean>() {
+            @Override
+            public void setData(NormalBean normalBean) {
+                if(normalBean.getStatus() == REQUEST_SUCCESS){
+                    Log.d(TAG, "favCompanyCreate success");
+                }
+            }
+        });
+    }
+
+
 }

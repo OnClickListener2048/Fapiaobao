@@ -54,8 +54,10 @@ public class MeFragment extends BaseFragment{
         LoginWithInfoBean loginBean =  SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
         if(loginBean != null ){
             LoginWithInfoBean.DataBean.CustomerBean customer = loginBean.getData().getCustomer();
-//            tvCreditRating.setText("");
-//            tvUserName.setText("");
+            String endFormat = mContext.getResources().getString(R.string.integral);
+            tvCreditRating.setText(String.format(endFormat,customer.getCreditScore()));
+//            tvUserName.setText(customer.getCreditLevel());
+            tvUserName.setText(customer.getNickname());
         }
     }
     @Override

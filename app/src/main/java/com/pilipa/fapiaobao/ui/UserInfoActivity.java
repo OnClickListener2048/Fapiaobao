@@ -31,6 +31,7 @@ import com.pilipa.fapiaobao.entity.Customer;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -223,16 +224,16 @@ public class UserInfoActivity extends BaseActivity {
     public void initData() {
         loginBean =  SharedPreferencesHelper.loadFormSource(this,LoginWithInfoBean.class);
         LoginWithInfoBean.DataBean.CustomerBean customer = loginBean.getData().getCustomer();
-
         if(loginBean != null){
+
             edtBirthday.setText(customer.getBirthday());
             edtUserName.setText(customer.getNickname());
             edtPhone.setText(customer.getTelephone());
-            if (customer.getGender().equals(Constant.GENDER_FEMALE)){
+            if (Constant.GENDER_FEMALE.equals(customer.getGender())){
                 radioGroup.check(R.id.rb_female);
-            } else if (customer.getGender().equals(Constant.GENDER_MALE)){
+            } else if (Constant.GENDER_MALE.equals(customer.getGender())){
                 radioGroup.check(R.id.rb_male);
-            } else if (customer.getGender().equals(Constant.GENDER_SECRECY)){
+            } else if (Constant.GENDER_SECRECY.equals(customer.getGender())){
                 radioGroup.check(R.id.rb_secrecy);
             }
 
@@ -298,13 +299,13 @@ public class UserInfoActivity extends BaseActivity {
             String token = loginBean.getData().getToken();
             Log.d(TAG, "updateData:updateUserInfo userToken"+token);
             if (token == null) {
-                BaseApplication.showToast("");
+                BaseApplication.showToast("登录超期");
                 return;
             } else {
-                Api.updateCustomer(token,customer, new Api.BaseViewCallback<Object>() {
+                Api.updateCustomer(token,customer, new Api.BaseViewCallback<UpdateCustomerBean>() {
                     @Override
-                    public void setData(Object loginBean) {
-                        Log.d(TAG, "updateData:updateUserInfo userToken"+loginBean.toString());
+                    public void setData(UpdateCustomerBean updateCustomerBean) {
+                        Log.d(TAG, "updateData:updateUserInfo success");
                     }
                 });
             }

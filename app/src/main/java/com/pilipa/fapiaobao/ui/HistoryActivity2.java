@@ -67,7 +67,6 @@ public class HistoryActivity2 extends BaseActivity {
 
     @Override
     public void initData() {
-        demandsList();
     }
 
     @Override
@@ -76,12 +75,12 @@ public class HistoryActivity2 extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-    public void demandsList(){
+    public void demandsList(String type){
         LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(HistoryActivity2.this,LoginWithInfoBean.class);
         if(loginBean != null){
             String token = loginBean.getData().getToken();
             Log.d(TAG, "initData:demandsList userToken"+token);
-            Api.demandsList(token,new Api.BaseViewCallback<DemandsListBean>() {
+            Api.demandsList(token,type,new Api.BaseViewCallback<DemandsListBean>() {
                 @Override
                 public void setData(DemandsListBean demandsListBean) {
                     if(demandsListBean.getStatus() == REQUEST_SUCCESS){

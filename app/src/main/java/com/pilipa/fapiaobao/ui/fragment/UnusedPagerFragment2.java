@@ -75,6 +75,7 @@ public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.On
         super.initData();
         mAdapter = new MyPublishAdapter(mContext);
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(this);
 
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {

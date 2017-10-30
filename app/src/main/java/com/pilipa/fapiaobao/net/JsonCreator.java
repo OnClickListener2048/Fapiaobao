@@ -36,4 +36,12 @@ public class JsonCreator {
         map.put("token",token);
         return new JSONObject(map);
     }
+    public static JSONObject setInvoice(String orderId,String picture,String variety,String token){
+        HashMap map = new HashMap();
+        map.put("orderId",orderId);
+        map.put("picture",picture);
+        map.put("variety",variety);
+        map.put("token",token);
+        return new JSONObject(map);
+    }
 }

@@ -12,10 +12,16 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.TestBean;
+import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
+import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 
@@ -139,7 +145,8 @@ public class ProvidedActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        myInvoiceList();
+        orderList("0","10");
     }
 
     @Override
@@ -147,5 +154,42 @@ public class ProvidedActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    private void myInvoiceList(){
+        LoginWithInfoBean  loginBean =  SharedPreferencesHelper.loadFormSource(this,LoginWithInfoBean.class);
+        if(loginBean != null){
+            String token = loginBean.getData().getToken();
+            Log.d(TAG, "updateData:myInvoiceList userToken"+token);
+            if (token == null) {
+                BaseApplication.showToast("登录超期");
+                return;
+            } else {
+                Api.myInvoiceList(token, new Api.BaseViewCallback<MyInvoiceListBean>() {
+                    @Override
+                    public void setData(MyInvoiceListBean myInvoiceListBean) {
+                        Log.d(TAG, "updateData:myInvoiceList success");
+                    }
+                });
+            }
+        }
+    }
+    private void orderList(String pageNo,String pageSize){
+        LoginWithInfoBean  loginBean =  SharedPreferencesHelper.loadFormSource(this,LoginWithInfoBean.class);
+        if(loginBean != null){
+            String token = loginBean.getData().getToken();
+            Log.d(TAG, "updateData:orderList userToken"+token);
+            if (token == null) {
+                BaseApplication.showToast("登录超期");
+                return;
+            } else {
+                Api.orderList(token,pageNo,pageSize, new Api.BaseViewCallback<OrderListBean>() {
+                    @Override
+                    public void setData(OrderListBean orderListBean) {
+                        Log.d(TAG, "updateData:orderList success");
+                    }
+                });
+            }
+        }
     }
 }

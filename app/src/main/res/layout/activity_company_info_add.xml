@@ -69,6 +69,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
+                        android:id="@+id/edt_company_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
@@ -105,6 +106,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
+                        android:id="@+id/edt_taxno"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
@@ -140,10 +142,11 @@
                     android:padding="@dimen/d10">
 
                     <EditText
+                        android:id="@+id/edt_company_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:hint="@string/company_name" />
+                        android:hint="@string/company_address" />
 
                     <View
                         android:layout_width="match_parent"
@@ -175,6 +178,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
+                        android:id="@+id/edt_company_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
@@ -210,6 +214,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
+                        android:id="@+id/edt_bank_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
@@ -245,6 +250,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
+                        android:id="@+id/edt_bank_account"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
@@ -265,6 +271,7 @@
 
     </LinearLayout>
     <Button
+        android:id="@+id/btn_save"
         android:text="@string/save"
         android:layout_alignParentBottom="true"
         android:textColor="@color/white"

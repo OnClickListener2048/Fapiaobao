@@ -44,7 +44,7 @@ public class CreditRatingActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        colorArcProgressBar.setCurrentValues(92);
+        colorArcProgressBar.setCurrentValues(90);
     }
 
     @Override

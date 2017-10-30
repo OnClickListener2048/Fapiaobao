@@ -2,9 +2,11 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,16 +27,19 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.UnusedReceiptAdapter;
-import com.pilipa.fapiaobao.adapter.UnusedReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.TestBean;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
-import com.pilipa.fapiaobao.ui.PreviewActivity;
 import com.pilipa.fapiaobao.ui.UnusedPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -43,6 +48,7 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +58,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 import static android.app.Activity.RESULT_OK;
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
  * Created by edz on 2017/10/27.
@@ -318,6 +325,8 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<Uri> uris = Matisse.obtainResult(data);
             for (Uri uri : uris) {
+                uploadInvoice(uri);//上传发票
+
                 Image image = new Image();
                 image.isCapture = false;
                 image.position = mPreviousPosition;
@@ -352,4 +361,32 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
             default:
         }
     }
+
+    public void uploadInvoice(Uri uri){
+//        Bitmap bmp = BitmapFactory.decodeFile(uri);
+        ContentResolver cr = mContext.getContentResolver();
+        Bitmap  bmp = null;
+        try {
+            bmp = MediaStore.Images.Media.getBitmap(cr,uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String bmpStr =BitmapUtils.bitmapToBase64(bmp);
+        Log.d(TAG, "initData:uploadInvoice bmpStr"+bmpStr);
+
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
+        if(loginBean != null){
+            String token = loginBean.getData().getToken();
+            Log.d(TAG, "initData:uploadInvoice userToken"+token);
+            Api.uploadInvoice(token,bmpStr,new Api.BaseViewCallback<NormalBean>() {
+                @Override
+                public void setData(NormalBean normalBean) {
+                    if(normalBean.getStatus() == REQUEST_SUCCESS){
+                        Log.d(TAG, "uploadInvoice"+"success");
+                    }
+                }
+            });
+        }
+    }
+
 }

@@ -607,6 +607,15 @@
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
+        <Button
+            android:id="@+id/btn_shut_down_early"
+            android:text="@string/shut_down_early"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/white"
+            android:layout_margin="@dimen/d15"
+            android:background="@drawable/bg_btn_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 

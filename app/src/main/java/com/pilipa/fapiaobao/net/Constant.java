@@ -16,7 +16,7 @@ public class Constant {
     /*获取用户代理的公司列表*/
     public static final String COMPANIES_LIST = BASE_URL + "company/companies/%s";
     /*添加用户代理公司*/
-    public static final String CREATE_COMPANY= BASE_URL + "company/create/%s";
+    public static final String CREATE_COMPANY= BASE_URL + "company/create";
     /*删除用户代理公司*/
     public static final String DELETE_COMPANY = BASE_URL + "company/remove/%s/%s";
     /*根据companyId查询公司*/
@@ -32,6 +32,10 @@ public class Constant {
     public static final String GENDER_MALE = "1";
     public static final String GENDER_FEMALE = "2";
     public static final String GENDER_SECRECY = "3";
+
+    public static final String STATE_DEMAND_ING = "0";
+    public static final String STATE_DEMAND_FINISH = "1";
+    public static final String STATE_DEMAND_CLOSE    = "2";
 
 
     /*绑定第三方平台用户*/
@@ -67,7 +71,7 @@ public class Constant {
     /*获取用户收藏的公司列表 */
     public static final String FAVORITE_COMPANY_LIST = BASE_URL + "favorite/companies/%s";
     /*收藏需求开票的公司 */
-    public static final String FAVORITE_COMPANY_CREATE= BASE_URL + "favorite/create/%s";
+    public static final String FAVORITE_COMPANY_CREATE= BASE_URL + "favorite/create";
     /*删除用户收藏公司 */
     public static final String FAVORITE_COMPANY_REMOVE= BASE_URL + "favorite/remove/%s/%s";
 
@@ -88,7 +92,7 @@ public class Constant {
     /*提前关闭需求 */
     public static final String SHAT_DOWN_EARLY= BASE_URL + "publish/close/%s/%s";
     /*获取用户发布的需求列表 */
-    public static final String USER_ISSUED_LIST= BASE_URL + "publish/demands/%s";
+    public static final String USER_ISSUED_LIST= BASE_URL + "publish/demands/%s/%s";
     /*获取用户发布的需求详细信息 */
     public static final String USER_ISSUED_DETAILS= BASE_URL + "publish/detail/%s/%s";
 
@@ -105,7 +109,7 @@ public class Constant {
     /*邮寄发票 */
     public static final String MAIL_INVOICE= BASE_URL + "order/mailInvoice/%s/%s/%s/%s";
     /*我的发票列表 */
-    public static final String MY_INVOICE_LIST= BASE_URL + "order/myInvoiceList/%s";
+    public static final String MY_INVOICE_LIST= BASE_URL + "order/myInvoiceList/%s/";
     /*我的发票夹  */
     public static final String ORDER_LIST= BASE_URL + "order/orderList/%s/%s/%s";
     /*驳回发票 */
@@ -115,7 +119,7 @@ public class Constant {
     /*更新常用的发票类型排序 */
     public static final String UPDATE_INVOICE_TYPE= BASE_URL + "order/updateInvoiceType/%s/%s";
     /*上传发票 */
-    public static final String UPLOAD_INVOICE= BASE_URL + "order/uploadInvoice/%s/%s";
+    public static final String UPLOAD_INVOICE= BASE_URL + "order/uploadInvoice";
     /*上传我的发票 */
     public static final String UPLOAD_MY_INVOICE= BASE_URL + "order/uploadMyInvoice/%s/%s";
 

@@ -151,4 +151,7 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         startActivity(new Intent(mContext, ProvidedActivity.class));
     }
+
+
+
 }
