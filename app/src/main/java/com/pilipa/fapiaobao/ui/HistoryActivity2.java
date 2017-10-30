@@ -4,19 +4,14 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
-import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
 import com.pilipa.fapiaobao.ui.fragment.UnusedPagerFragment2;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
-import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +19,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
  * Created by lyt on 2017/10/17.
@@ -75,19 +68,5 @@ public class HistoryActivity2 extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-    public void demandsList(String type){
-        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(HistoryActivity2.this,LoginWithInfoBean.class);
-        if(loginBean != null){
-            String token = loginBean.getData().getToken();
-            Log.d(TAG, "initData:demandsList userToken"+token);
-            Api.demandsList(token,type,new Api.BaseViewCallback<DemandsListBean>() {
-                @Override
-                public void setData(DemandsListBean demandsListBean) {
-                    if(demandsListBean.getStatus() == REQUEST_SUCCESS){
-                        Log.d(TAG, "demandsList success");
-                    }
-                }
-            });
-        }
-    }
+
 }

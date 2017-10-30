@@ -19,6 +19,7 @@ import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
+import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
 import com.pilipa.fapiaobao.ui.DemandActivity;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
@@ -76,7 +77,7 @@ public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.On
         mAdapter = new MyPublishAdapter(mContext);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
-
+        demandsList("1");
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
@@ -169,6 +170,21 @@ public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.On
                 public void setData(DemandDetails demandDetails) {
                     if(demandDetails.getStatus() == REQUEST_SUCCESS){
                         Log.d(TAG, "demandDetails success");
+                    }
+                }
+            });
+        }
+    }
+    public void demandsList(String type){
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
+        if(loginBean != null){
+            String token = loginBean.getData().getToken();
+            Log.d(TAG, "initData:demandsList userToken"+token);
+            Api.demandsList(token,type,new Api.BaseViewCallback<DemandsListBean>() {
+                @Override
+                public void setData(DemandsListBean demandsListBean) {
+                    if(demandsListBean.getStatus() == REQUEST_SUCCESS){
+                        Log.d(TAG, "demandsList success");
                     }
                 }
             });
