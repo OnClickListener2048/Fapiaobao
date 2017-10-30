@@ -17,7 +17,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginBean;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.ui.DemandActivity;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
@@ -159,7 +159,7 @@ public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.On
         startActivity(new Intent(mContext, DemandActivity.class));
     }
     public void demandDetails(String demandId){
-        LoginBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginBean.class);
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
         if(loginBean != null){
             String token = loginBean.getData().getToken();
             Log.d(TAG, "initData:demandDetails userToken"+token);

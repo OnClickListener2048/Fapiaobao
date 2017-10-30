@@ -17,7 +17,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.MyCompanyAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginBean;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.ui.CompanyDetailsActivity;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
@@ -169,7 +169,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
     }
 
     public void getCompanyList(){
-        LoginBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginBean.class);
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
         if(loginBean != null){
             String token = loginBean.getData().getToken();
             Log.d(TAG, "initData:getCompanyList userToken"+token);

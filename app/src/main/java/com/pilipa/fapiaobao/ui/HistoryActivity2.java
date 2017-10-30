@@ -12,7 +12,7 @@ import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginBean;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
 import com.pilipa.fapiaobao.ui.fragment.UnusedPagerFragment2;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
@@ -77,7 +77,7 @@ public class HistoryActivity2 extends BaseActivity {
         ButterKnife.bind(this);
     }
     public void demandsList(){
-        LoginBean loginBean = SharedPreferencesHelper.loadFormSource(HistoryActivity2.this,LoginBean.class);
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(HistoryActivity2.this,LoginWithInfoBean.class);
         if(loginBean != null){
             String token = loginBean.getData().getToken();
             Log.d(TAG, "initData:demandsList userToken"+token);

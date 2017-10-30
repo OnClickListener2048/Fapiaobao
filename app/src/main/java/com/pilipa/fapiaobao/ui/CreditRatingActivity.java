@@ -7,7 +7,7 @@ import android.view.View;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginBean;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.NegativeCreditInfoBean;
 import com.pilipa.fapiaobao.ui.widget.ColorArcProgressBar;
@@ -59,7 +59,7 @@ public class CreditRatingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
     public void findCreditInfo(){
-        LoginBean loginBean = SharedPreferencesHelper.loadFormSource(CreditRatingActivity.this,LoginBean.class);
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(CreditRatingActivity.this,LoginWithInfoBean.class);
         if(loginBean != null){
             String token = loginBean.getData().getToken();
             Log.d(TAG, "initData:findCreditInfo userToken"+token);
@@ -76,7 +76,7 @@ public class CreditRatingActivity extends BaseActivity {
         }
     }
     public void findCreditHistory(String pageNo,String pageSize){
-        LoginBean loginBean = SharedPreferencesHelper.loadFormSource(CreditRatingActivity.this,LoginBean.class);
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(CreditRatingActivity.this,LoginWithInfoBean.class);
         if(loginBean != null){
             String token = loginBean.getData().getToken();
             Log.d(TAG, "initData:findCreditHistory userToken"+token);
@@ -91,7 +91,7 @@ public class CreditRatingActivity extends BaseActivity {
         }
     }
     public void findCreditNegativeHistory(String pageNo,String pageSize){
-        LoginBean loginBean = SharedPreferencesHelper.loadFormSource(CreditRatingActivity.this,LoginBean.class);
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(CreditRatingActivity.this,LoginWithInfoBean.class);
         if(loginBean != null){
             String token = loginBean.getData().getToken();
             Log.d(TAG, "initData:findCreditNegativeHistory userToken"+token);

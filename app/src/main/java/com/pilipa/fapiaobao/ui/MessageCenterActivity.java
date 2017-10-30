@@ -11,7 +11,7 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Customer;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginBean;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import butterknife.Bind;
@@ -58,7 +58,7 @@ public class MessageCenterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
     private void updateUserInfo(Customer customer){
-        LoginBean loginBean = SharedPreferencesHelper.loadFormSource(MessageCenterActivity.this,LoginBean.class);
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(MessageCenterActivity.this,LoginWithInfoBean.class);
         if(loginBean != null){
             String token = loginBean.getData().getToken();
             Log.d(TAG, "updateData: userToken"+token);
@@ -66,9 +66,9 @@ public class MessageCenterActivity extends BaseActivity {
                 BaseApplication.showToast("");
                 return;
             } else {
-                Api.updateCustomer(token,customer, new Api.BaseViewCallback<LoginBean>() {
+                Api.updateCustomer(token,customer, new Api.BaseViewCallback<LoginWithInfoBean>() {
                     @Override
-                    public void setData(LoginBean loginBean) {
+                    public void setData(LoginWithInfoBean loginBean) {
 
                     }
                 });

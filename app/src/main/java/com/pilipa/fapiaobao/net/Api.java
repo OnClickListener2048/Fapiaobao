@@ -11,10 +11,9 @@ import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.entity.Customer;
 import com.pilipa.fapiaobao.entity.FavCompany;
 import com.pilipa.fapiaobao.net.bean.LoginBean;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
-import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
-import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
@@ -23,13 +22,16 @@ import com.pilipa.fapiaobao.net.bean.me.NegativeCreditInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
+import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.utils.PayCommonUtil;
 import com.pilipa.fapiaobao.wxapi.Constants;
 
-import static com.pilipa.fapiaobao.net.Constant.*;
-
 import org.json.JSONObject;
+
+import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_EXPRESS_COMPANY;
+import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_INVIICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.UPDATE_INVOICE_TYPE;
 
 /**
  * Created by lyt on 2017/10/12.
@@ -113,9 +115,9 @@ public class Api {
      * @param baseViewCallback
      */
     public static void login(String platform, String credenceName, String credenceCode, String deviceToken, final BaseViewCallback baseViewCallback) {
-        OkGo.<LoginBean>get(String.format(Constant.USER_LOGIN, platform, credenceName, credenceCode, deviceToken)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
+        OkGo.<LoginWithInfoBean>get(String.format(Constant.USER_LOGIN, platform, credenceName, credenceCode, deviceToken)).execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
             @Override
-            public void onSuccess(Response<LoginBean> response) {
+            public void onSuccess(Response<LoginWithInfoBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }

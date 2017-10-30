@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
-import com.pilipa.fapiaobao.net.bean.LoginBean;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.CreditRatingActivity;
 import com.pilipa.fapiaobao.ui.FeedbackActivity;
@@ -51,9 +51,9 @@ public class MeFragment extends BaseFragment{
     }
     @Override
     public void initData(){
-        LoginBean loginBean =  SharedPreferencesHelper.loadFormSource(mContext,LoginBean.class);
+        LoginWithInfoBean loginBean =  SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
         if(loginBean != null ){
-            LoginBean.DataBean.CustomerBean customer = loginBean.getData().getCustomer();
+            LoginWithInfoBean.DataBean.CustomerBean customer = loginBean.getData().getCustomer();
 //            tvCreditRating.setText("");
 //            tvUserName.setText("");
         }

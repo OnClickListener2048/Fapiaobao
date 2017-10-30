@@ -15,7 +15,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginBean;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.utils.CountDownTimerUtils;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
@@ -129,11 +129,11 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
             BaseApplication.showToast(checked);
             return;
         } else {
-            Api.login(platform,credenceName,credenceCode,"{deviceToken}",new Api.BaseViewCallback<LoginBean>() {
+            Api.login(platform,credenceName,credenceCode,"{deviceToken}",new Api.BaseViewCallback<LoginWithInfoBean>() {
                         @Override
-                        public void setData(LoginBean loginBean) {
+                        public void setData(LoginWithInfoBean loginWithInfoBean) {
                             Log.d(TAG, "setData: SharedPreferencesHelper.save(LoginActivity.this,loginBean);success");
-                            boolean save = SharedPreferencesHelper.save(LoginActivity.this, loginBean);
+                            boolean save = SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
                             Log.d(TAG, "setData:save "+save);
                             Intent intent = new Intent();
                             intent.setClass(LoginActivity.this, MainActivity.class);

@@ -17,8 +17,8 @@ import com.pilipa.fapiaobao.adapter.FinanceAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginBean;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
-import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
@@ -134,7 +134,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
     @Override
     public void onLabelClick(String id) {
-        LoginBean loginBean = SharedPreferencesHelper.loadFormSource(mContext, LoginBean.class);
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
         if (loginBean != null) {
             Api.updateInvoiceType(loginBean.getData().getToken(), id, new Api.BaseViewCallback<String>() {
                 @Override
