@@ -38,8 +38,8 @@ public class BaseApplication extends Application {
         MultiDex.install(this);
         _context = getApplicationContext();
         //LeakCanary.install(this);
-        //OkGoClient.init();
-        OkGo.getInstance().init(this);
+        OkGoClient.init();
+//        OkGo.getInstance().init(this);
         CrashReport.initCrashReport(getApplicationContext(), Bugly.APP_ID, Bugly.TOOGLE);
         UMConfigure.init(this, PushConstant.APP_KEY, PushConstant.Umeng_Message_Secret, UMConfigure.DEVICE_TYPE_PHONE, PushConstant.Umeng_Message_Secret);
         PushAgent mPushAgent = PushAgent.getInstance(_context);
