@@ -1,15 +1,22 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.zxing.WriterException;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.net.bean.invoice.MatchBean;
+import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,6 +58,7 @@ public class ConfirmActivity extends BaseActivity {
     LinearLayout translateDetails;
     @Bind(R.id.upload_receipt)
     Button uploadReceipt;
+    private  MacherBeanToken.DataBean.CompanyBean company_info;
 
     @Override
     protected int getLayoutId() {
@@ -64,12 +72,28 @@ public class ConfirmActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        translate.setVisibility(View.VISIBLE);
+        translateDetails.setVisibility(View.GONE);
     }
 
     @Override
     public void initData() {
+        company_info = getIntent().getParcelableExtra("company_info");
+        companyName.setText(company_info.getName());
+        companyAddress.setText(company_info.getAddress());
+        texNumber.setText(company_info.getTaxno());
+        number.setText(company_info.getPhone());
+        bank.setText(company_info.getDepositBank());
+        bankAccount.setText(company_info.getAccount());
 
+
+        try {
+            Bitmap qrCode = CodeCreator.createQRCode(this,company_info.toString());
+            qr.setImageBitmap(qrCode);
+        } catch (Exception e) {
+            BaseApplication.showToast("二维码生成失败");
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -83,14 +107,19 @@ public class ConfirmActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.confirm_back:
+                this.finish();
                 break;
             case R.id.filter:
                 break;
             case R.id.collect:
+
+
                 break;
             case R.id.qr:
                 break;
             case R.id.look_directly:
+                translate.setVisibility(View.GONE);
+                translateDetails.setVisibility(View.VISIBLE);
                 break;
             case R.id.translate:
                 break;

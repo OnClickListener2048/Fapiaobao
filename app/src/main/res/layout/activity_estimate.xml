@@ -3,6 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:id="@+id/dl"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -47,293 +48,262 @@
                 android:background="@color/gray_line" />
         </RelativeLayout>
 
-        <View
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="match_parent">
             <LinearLayout
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/d20"
-                android:layout_marginRight="@dimen/d20"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:text="@string/receipt_amount" />
-
-                <RelativeLayout
-                    android:layout_width="@dimen/d200"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:layout_weight="1"
-                    android:gravity="bottom">
-
-                    <EditText
-                        android:inputType="numberDecimal"
-                        android:id="@+id/et_estimate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/d50"
-                        android:background="@null"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textColor="@color/red_estimate"
-                        android:textSize="@dimen/s25"
-                        android:textStyle="bold" />
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:text="@string/yuan" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d1"
-            android:background="@color/gray_line" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/d20">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@mipmap/estimate_2" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:scaleType="fitXY"
-                android:src="@mipmap/estimate_1"
-                android:translationY="55dp" />
-
-            <RelativeLayout
-                android:id="@+id/estimate_please"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/d1"
-                android:translationY="@dimen/d20">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:lines="2"
-                    android:text="@string/estimate_please"
-                    android:textColor="@color/red_estimate" />
-            </RelativeLayout>
-
-            <LinearLayout
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/d20"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/estimate_redbag" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="bottom|center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="10"
-                        android:textSize="40sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/yuan" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:clipChildren="false"
-                android:clipToPadding="true"
-                android:translationY="20dp">
-
-                <Button
-                    android:id="@+id/test_redbag"
-                    android:layout_width="@dimen/d240"
-                    android:layout_height="@dimen/d40"
-                    android:background="@drawable/estimate_test_redbag"
-                    android:text="@string/test_red_bag"
-                    android:textColor="@color/white" />
-            </RelativeLayout>
-
-        </FrameLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
-
-        <LinearLayout
-            android:id="@+id/ll_filter_key"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="筛选条件:" />
-
-                <TextView
-                    android:id="@+id/filter_key"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/confirm_caution"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_margin="@dimen/d15"
-                android:background="@drawable/selector_estimate_receipt_kind_bg"
-                android:elevation="@dimen/d5"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:translationZ="@dimen/d5">
-
-                <LinearLayout
+                android:layout_height="match_parent">
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/d5"
-                    android:orientation="horizontal">
+                    android:layout_height="@dimen/d10" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/d10"
-                        android:src="@drawable/selector_estimate_toleft" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/d20"
                         android:layout_marginRight="@dimen/d20"
-                        android:src="@drawable/selector_estimate_toright" />
+                        android:orientation="horizontal">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:text="@string/receipt_amount" />
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/d200"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal|bottom"
+                            android:layout_weight="1"
+                            android:gravity="bottom">
+
+                            <EditText
+                                android:inputType="numberDecimal"
+                                android:id="@+id/et_estimate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/d50"
+                                android:background="@null"
+                                android:gravity="center_horizontal"
+                                android:text="0"
+                                android:textColor="@color/red_estimate"
+                                android:textSize="@dimen/s25"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|right"
+                            android:text="@string/yuan" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/d10" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/d1"
+                    android:background="@color/gray_line" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingBottom="@dimen/d20">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/estimate_2" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/estimate_1"
+                        android:translationY="55dp" />
+
+                    <RelativeLayout
+                        android:visibility="gone"
+                        android:id="@+id/estimate_please"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/d1"
+                        android:translationY="@dimen/d20">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lines="2"
+                            android:text="@string/estimate_please"
+                            android:textColor="@color/red_estimate" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_bonus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/d20"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/estimate_redbag" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="bottom|center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/bonus"
+                                android:textColor="@color/red_estimate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="10"
+                                android:textSize="40sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/yuan" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:clipChildren="false"
+                        android:clipToPadding="true"
+                        android:translationY="20dp">
+
+                        <Button
+                            android:id="@+id/test_redbag"
+                            android:layout_width="@dimen/d240"
+                            android:layout_height="@dimen/d40"
+                            android:background="@drawable/estimate_test_redbag"
+                            android:text="@string/test_red_bag"
+                            android:textColor="@color/white" />
+                    </RelativeLayout>
+
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/d10" />
+
+                <LinearLayout
+                    android:id="@+id/ll_filter_key"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="筛选条件:" />
+
+                        <TextView
+                            android:id="@+id/filter_key"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/confirm_caution"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/d10"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/publish_cautions"
-                        android:textColor="@color/main_style" />
-
-                    <View
+                    <LinearLayout
+                        android:layout_margin="@dimen/d15"
+                        android:background="@drawable/selector_estimate_receipt_kind_bg"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/d5" />
+                        android:layout_height="220dp">
 
-                    <TextView
-                        android:id="@+id/publish_cautions"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/d10"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <ImageView
+                                android:id="@+id/tolast"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/d10"
+                                android:src="@drawable/selector_estimate_toleft" />
+
+                            <ImageView
+                                android:id="@+id/tonext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/d20"
+                                android:src="@drawable/selector_estimate_toright" />
+
+
+                        </LinearLayout>
+
+                        <com.tmall.ultraviewpager.UltraViewPager
+                            android:id="@+id/ultra_viewpager"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"></com.tmall.ultraviewpager.UltraViewPager>
+                    </LinearLayout>
+
+
+
+                    <Button
+                        android:id="@+id/go"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="@dimen/d40"
+                        android:layout_marginLeft="@dimen/d20"
+                        android:layout_marginRight="@dimen/d20"
+                        android:background="@color/main_style"
+                        android:text="@string/confirm_receipt"
+                        android:textColor="@color/white" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/d10"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/accept_receipt_kind"
-                        android:textColor="@color/main_style" />
-
-                    <View
-                android:layout_width="match_parent"
-                        android:layout_height="@dimen/d5" />
-
-                    <com.pilipa.fapiaobao.ui.widget.LabelsView
-                        android:id="@+id/labels"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    </com.pilipa.fapiaobao.ui.widget.LabelsView>
-                </LinearLayout>
-
-
             </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d20" />
 
-            <Button
-                android:id="@+id/go"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d40"
-                android:layout_marginLeft="@dimen/d20"
-                android:layout_marginRight="@dimen/d20"
-                android:background="@color/main_style"
-                android:text="@string/confirm_receipt"
-                android:textColor="@color/white" />
-        </LinearLayout>
 
 
     </LinearLayout>
@@ -343,7 +313,5 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end">
-
-
     </FrameLayout>
 </android.support.v4.widget.DrawerLayout>

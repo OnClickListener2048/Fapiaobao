@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.widget.SimplexToast;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.pilipa.fapiaobao.Constants.Bugly;
 import com.pilipa.fapiaobao.net.OkGoClient;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
@@ -22,6 +23,11 @@ import com.umeng.message.PushAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+
+import okhttp3.OkHttpClient;
+
 /**
  * Created by lyt on 2017/10/9.
  */
@@ -30,7 +36,27 @@ public class BaseApplication extends Application {
     private static final String PREF_NAME = "p";
     public static final String DEVICE_TOKEN = "mPushDeviceToken";
     static Context _context;
+    private static final int RETRY_COUNT = 3;
+    private static final int READ_TIMEOUT = 10*1000;
+    private static final int WRITE_TIMEOUT = 7*1000;
+    private static final int CONNECT_TIMEOUT = 10*1000;
 
+
+    public void initOkGo(Application app) {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("FAPIAOLOG");
+        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
+        loggingInterceptor.setColorLevel(Level.INFO);
+        builder.addInterceptor(loggingInterceptor);
+        OkGo.getInstance().init(app)
+                .setOkHttpClient(builder.build());
+        //全局的读取超时时间
+        builder.readTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS);
+        //全局的写入超时时间
+        builder.writeTimeout(WRITE_TIMEOUT, TimeUnit.MILLISECONDS);
+        //全局的连接超时时间
+        builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS);
+    }
 
     @Override
     public void onCreate() {
@@ -38,24 +64,28 @@ public class BaseApplication extends Application {
         MultiDex.install(this);
         _context = getApplicationContext();
         //LeakCanary.install(this);
-        OkGoClient.init();
+        //OkGoClient.init();
+        initOkGo(this);
+
+
+
 //        OkGo.getInstance().init(this);
         CrashReport.initCrashReport(getApplicationContext(), Bugly.APP_ID, Bugly.TOOGLE);
         UMConfigure.init(this, PushConstant.APP_KEY, PushConstant.Umeng_Message_Secret, UMConfigure.DEVICE_TYPE_PHONE, PushConstant.Umeng_Message_Secret);
         PushAgent mPushAgent = PushAgent.getInstance(_context);
         mPushAgent.onAppStart();
-//        mPushAgent.register(new IUmengRegisterCallback() {
-//            @Override
-//            public void onSuccess(String s) {
-//                TLog.log(s);
-//            }
-//
-//            @Override
-//            public void onFailure(String s, String s1) {
-//
-//            }
-//        });
-//        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
+        mPushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String s) {
+                TLog.log(s);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+
+            }
+        });
+        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
         PlatformConfig.setQQZone("1106395149", "gtn8LLR4FxWRvwWb");
         PlatformConfig.setSinaWeibo("3639386105", "63143b3cc202fed0c17baf57030a88a0", "http://sns.whalecloud.com");
         PlatformConfig.setWeixin(Constants.APP_ID, "7df3fe092b8d88ebc28a94b84b5388c3");

@@ -8,6 +8,15 @@ import java.util.List;
 
 public class DefaultInvoiceBean {
 
+    @Override
+    public String toString() {
+        return "DefaultInvoiceBean{" +
+                "status=" + status +
+                ", msg='" + msg + '\'' +
+                ", data=" + data.toString() +
+                '}';
+    }
+
     /**
      * status : 200
      * msg : OK
@@ -43,6 +52,24 @@ public class DefaultInvoiceBean {
     }
 
     public static class DataBean {
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id='" + id + '\'' +
+                    ", isNewRecord=" + isNewRecord +
+                    ", remarks='" + remarks + '\'' +
+                    ", createDate='" + createDate + '\'' +
+                    ", updateDate='" + updateDate + '\'' +
+                    ", category='" + category + '\'' +
+                    ", name='" + name + '\'' +
+                    ", smallSize='" + smallSize + '\'' +
+                    ", middleSize='" + middleSize + '\'' +
+                    ", largeSize='" + largeSize + '\'' +
+                    ", frequentFlag='" + frequentFlag + '\'' +
+                    ", categorySort=" + categorySort +
+                    '}';
+        }
+
         /**
          * id : 43f1faf2cfee4f508d02c36975dfa06d
          * isNewRecord : false

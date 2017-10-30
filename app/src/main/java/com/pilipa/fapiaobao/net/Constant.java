@@ -105,7 +105,7 @@ public class Constant {
     /*创建订单  */
     public static final String CREATE_ORDER= BASE_URL + "order/createOrder/%s/%s/%s/%s";
     /*匹配需求 */
-    public static final String DO_MATCH_DEMAND= BASE_URL + "order/doMatchDemand/%s/%s/%s/%s";
+    public static final String DO_MATCH_DEMAND= BASE_URL + "order/doMatchDemand/%s/%s";
     /*邮寄发票 */
     public static final String MAIL_INVOICE= BASE_URL + "order/mailInvoice/%s/%s/%s/%s";
     /*我的发票列表 */
@@ -123,20 +123,20 @@ public class Constant {
     /*上传我的发票 */
     public static final String UPLOAD_MY_INVOICE= BASE_URL + "order/uploadMyInvoice/%s/%s";
 
-//    /**
-//     * system-rest-controller : 系统管理
-//     */
-//    /*
-//    获取发票默认常用类型
-//     */
-//
-//    public static final String FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE = BASE_URL + "system/findDefaultFrequentlyInvoiceType ";
-//
-//    /*
-//    获取用户常用类型
-//    获取用户发票常用类型
-//*/
-//    public static final String FIND_FREQUENTLY_INVOICE_TYPE = BASE_URL + "system/findFrequentlyInvoiceType/%s";
+    /**
+     * system-rest-controller : 系统管理
+     */
+    /*
+    获取发票默认常用类型
+     */
+
+    public static final String FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE = BASE_URL + "system/findDefaultFrequentlyInvoiceType ";
+
+    /*
+    获取用户常用类型
+    获取用户发票常用类型
+*/
+    public static final String FIND_FREQUENTLY_INVOICE_TYPE = BASE_URL + "system/findFrequentlyInvoiceType/%s";
 
 
 

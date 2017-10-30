@@ -19,6 +19,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
+import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
@@ -32,7 +33,8 @@ import butterknife.OnClick;
  * Created by edz on 2017/10/23.
  */
 
-public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.OnLabelClickListener {
+public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.OnLabelClickListener, FinanceAdapter.OnLabelClickListener
+{
     String TAG = "FinanceFragment";
     @Bind(R.id.scan)
     ImageView scan;
@@ -44,7 +46,8 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     RecyclerView recyclerviewMoreKind;
     private FinanceAdapter adapter;
     public static final String EXTRA_DATA_LABEL = "extra_data_label";
-    private LoginBean loginBean;
+    private LoginWithInfoBean loginBean;
+    FinanceAdapter financeAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -86,6 +89,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
             private AllInvoiceAdapter adapter;
 
+
             @Override
             public void setData(AllInvoiceType allInvoiceType) {
                 adapter = new AllInvoiceAdapter(allInvoiceType);
@@ -95,29 +99,26 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         });
 
 
-//        loginBean = SharedPreferencesHelper.loadFormSource(mContext, LoginBean.class);
-//        if (loginBean != null) {
-//            Api.findUserInvoiceType(loginBean.getData().getToken(), new Api.BaseViewCallback<DefaultInvoiceBean>() {
-//                @Override
-//                public void setData(DefaultInvoiceBean defaultInvoiceBean) {
-//                    adapter = new FinanceAdapter(defaultInvoiceBean);
-//                    adapter.setOnLabelClickListener(FinanceFragment.this);
-//                    recyclerview.setAdapter(adapter);
-//                }
-//            });
-//        } else {
-//            Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseViewCallback<DefaultInvoiceBean>() {
-//
-//
-//
-//                @Override
-//                public void setData(DefaultInvoiceBean allInvoiceType) {
-//                    adapter = new FinanceAdapter(allInvoiceType);
-//                    adapter.setOnLabelClickListener(FinanceFragment.this);
-//                    recyclerview.setAdapter(adapter);
-//                }
-//            });
-//        }
+        loginBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
+        if (loginBean != null) {
+            Api.<DefaultInvoiceBean>findUserInvoiceType(loginBean.getData().getToken(), new Api.BaseViewCallback<DefaultInvoiceBean>() {
+                @Override
+                public void setData(DefaultInvoiceBean defaultInvoiceBean) {
+                    financeAdapter = new FinanceAdapter(defaultInvoiceBean);
+                    financeAdapter.setOnLabelClickListener(FinanceFragment.this);
+                    recyclerview.setAdapter(financeAdapter);
+                }
+            });
+        } else {
+            Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseViewCallback<DefaultInvoiceBean>() {
+                @Override
+                public void setData(DefaultInvoiceBean allInvoiceType) {
+                    financeAdapter = new FinanceAdapter(allInvoiceType);
+                    financeAdapter.setOnLabelClickListener(FinanceFragment.this);
+                    recyclerview.setAdapter(financeAdapter);
+                }
+            });
+        }
 
 
     }

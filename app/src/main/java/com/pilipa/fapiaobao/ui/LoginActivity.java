@@ -15,6 +15,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.utils.CountDownTimerUtils;
@@ -94,6 +95,19 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+        Log.d(TAG, "onCreate: ButterKnife.bind(this);ButterKnife.bind(this);ButterKnife.bind(this);ButterKnife.bind(this);");
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
+        if (loginBean != null) {
+            Api.loginByToken(loginBean.getData().getToken(), new Api.BaseViewCallback<LoginWithInfoBean>() {
+                @Override
+                public void setData(LoginWithInfoBean loginBean) {
+                    //TODO 验证token是否失效
+                    Intent intent = new Intent();
+                    intent.setClass(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     @OnClick({R.id.btn_login, R.id.WeChat_login, R.id.laws})

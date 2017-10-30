@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 
 public class AllInvoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    String TAG = "AllInvoiceAdapter";
     AllInvoiceType allInvoiceType;
     private OnLabelClickListener onLabelClickListener;
 
@@ -57,6 +59,7 @@ public class AllInvoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             @Override
                             public void onLabelClick(View label, String labelText, int position) {
                                 onLabelClickListener.onLabelClick(invoiceTypeList.get(position).getId());
+                                Log.d(TAG, "onLabelClick: invoiceTypeList.get(position).getId()"+invoiceTypeList.get(position).getId());
                             }
                         });
                     }

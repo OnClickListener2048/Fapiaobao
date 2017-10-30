@@ -1,12 +1,14 @@
 package com.pilipa.fapiaobao.net;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.entity.Customer;
 import com.pilipa.fapiaobao.entity.FavCompany;
@@ -14,6 +16,9 @@ import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
+import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
+import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.net.bean.invoice.MatchBean;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
@@ -30,6 +35,8 @@ import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.utils.PayCommonUtil;
 import com.pilipa.fapiaobao.wxapi.Constants;
 
+import static com.pilipa.fapiaobao.net.Constant.*;
+
 import org.json.JSONObject;
 
 import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_EXPRESS_COMPANY;
@@ -41,6 +48,8 @@ import static com.pilipa.fapiaobao.net.Constant.UPDATE_INVOICE_TYPE;
  */
 
 public class Api {
+
+    static String TAG = "api";
 
     public static void bindWX(String token, final BaseViewCallback baseViewCallback) {
         OkGo.<LoginBean>get(String.format(Constant.BIND, token)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
@@ -124,14 +133,18 @@ public class Api {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }
+
+                if ("短信验证码错误".equals(response.body().getMsg()) && 704 == response.body().getStatus()) {
+                    BaseApplication.showToast("验证码错误");
+                }
             }
         });
     }
 
-    public static void loginByToken(String platform, String credenceName, String credenceCode, final BaseViewCallback baseViewCallback) {
-        OkGo.<LoginBean>get(String.format(Constant.LOGIN_BY_TOKEN, platform, credenceName, credenceCode)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
+    public static void loginByToken(String token, final BaseViewCallback baseViewCallback) {
+        OkGo.<LoginWithInfoBean>get(String.format(Constant.LOGIN_BY_TOKEN, token)).execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
             @Override
-            public void onSuccess(Response<LoginBean> response) {
+            public void onSuccess(Response<LoginWithInfoBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }
@@ -412,31 +425,54 @@ public class Api {
         });
     }
 
+    public static <T> void findDefaultInvoiceType(final BaseViewCallback baseViewCallback) {
+        OkGo.<T>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE).execute(new JsonCallBack<T>(AllInvoiceType.class) {
+            @Override
+            public void onSuccess(Response<T> response) {
+                if (response.isSuccessful()) {
+                    baseViewCallback.setData(response.body());
+                }
+            }
+        });
+    }
 
+    public static <T> void findUserInvoiceType(String token, final BaseViewCallback baseViewCallback) {
+        String url = String.format(FIND_FREQUENTLY_INVOICE_TYPE, token);
+        OkGo.<T>get(url).execute(new JsonCallBack<T>(DefaultInvoiceBean.class) {
+            @Override
+            public void onSuccess(Response<T> response) {
+                if (response.isSuccessful()) {
+                    baseViewCallback.setData(response.body());
+                }
+            }
+        });
+    }
+    //GET /rest/order/doMatchDemand/{invoiceType}/{amount}/{varieties}/{city}
 
-
-//    public static<T> void findDefaultInvoiceType(final BaseViewCallback baseViewCallback) {
-//        OkGo.<T>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE).execute(new JsonCallBack<T>(AllInvoiceType.class) {
+    public static void doMatchDemand(String invoiceType, Double amount, String varieties, String city, final BaseViewCallback baseViewCallback) {
+        String url = String.format(DO_MATCH_DEMAND, invoiceType, amount);
+//        OkGo.<MacherBeanToken>get(url).execute(new JsonCallBack<MacherBeanToken>(MacherBeanToken.class) {
 //            @Override
-//            public void onSuccess(Response<T> response) {
-//                if (response.isSuccessful()) {
+//            public void onSuccess(Response<MacherBeanToken> response) {
+//                if (response.isSuccessful() && response.body().getStatus() == 200) {
+//                    Log.d(TAG, "doMatchDemandonSuccess: "+response.body());
 //                    baseViewCallback.setData(response.body());
 //                }
 //            }
-//        });
-//    }
 //
-//    public static<T> void findUserInvoiceType(String token,final BaseViewCallback baseViewCallback) {
-//        String url = String.format(FIND_FREQUENTLY_INVOICE_TYPE, token);
-//        OkGo.<T>get(url).execute(new JsonCallBack<T>(AllInvoiceType.class) {
-//            @Override
-//            public void onSuccess(Response<T> response) {
-//                if (response.isSuccessful()) {
-//                    baseViewCallback.setData(response.body());
-//                }
-//            }
 //        });
-//    }
+
+        OkGo.<MacherBeanToken>post(url).params("varieties",varieties).params("city",city).execute(new JsonCallBack<MacherBeanToken>(MacherBeanToken.class) {
+            @Override
+            public void onSuccess(Response<MacherBeanToken> response) {
+                if (response.isSuccessful() && response.body().getStatus() == 200) {
+                    Log.d(TAG, "doMatchDemandonSuccess: "+response.body());
+                    baseViewCallback.setData(response.body());
+                }
+            }
+        });
+    }
+
 
     /**
      * 我的发票列表
