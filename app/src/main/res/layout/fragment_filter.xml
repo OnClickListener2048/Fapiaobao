@@ -115,7 +115,7 @@
             app:labelTextSize="14sp"
             app:lineMargin="10dp"
             app:maxSelect="0"
-            app:selectType="MULTI"
+            app:selectType="SINGLE"
             app:wordMargin="10dp">
 
         </com.pilipa.fapiaobao.ui.widget.LabelsView>

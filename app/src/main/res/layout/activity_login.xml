@@ -5,15 +5,14 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/d12"
         android:layout_marginRight="@dimen/d12"
         android:layout_marginTop="@dimen/d12"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
-
 
 
         <LinearLayout
@@ -25,8 +24,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login"
-                android:textSize="@dimen/d18"
-                android:textColor="@color/title"/>
+                android:textColor="@color/title"
+                android:textSize="@dimen/d18" />
         </LinearLayout>
 
         <LinearLayout
@@ -55,12 +54,12 @@
                 android:layout_height="match_parent" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/tv_warnning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="请输入正确的手机号码"
-                android:textColor="@color/red_estimate" />
+                android:textColor="@color/red_estimate"
+                android:visibility="gone" />
         </LinearLayout>
 
 
@@ -81,6 +80,7 @@
                 android:layout_height="match_parent" />
 
             <EditText
+                android:inputType="phone"
                 android:id="@+id/et_username"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -121,7 +121,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="@string/password"
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:textColorHint="@color/gray_hint"
                 android:textSize="@dimen/s14" />
 
@@ -146,11 +146,11 @@
             android:background="@color/gray_line" />
 
         <LinearLayout
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/d12"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <View
                 android:layout_width="@dimen/d0"

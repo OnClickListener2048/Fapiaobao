@@ -1,8 +1,11 @@
 package com.pilipa.fapiaobao.net;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.entity.Customer;
@@ -10,6 +13,8 @@ import com.pilipa.fapiaobao.entity.FavCompany;
 import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
+import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
+import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
@@ -21,6 +26,8 @@ import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.utils.PayCommonUtil;
 import com.pilipa.fapiaobao.wxapi.Constants;
+
+import static com.pilipa.fapiaobao.net.Constant.*;
 
 import org.json.JSONObject;
 
@@ -143,6 +150,8 @@ public class Api {
             }
         });
     }
+
+
 
     public static void uBindWX(String token, final BaseViewCallback baseViewCallback) {
         OkGo.<LoginBean>get(String.format(Constant.UBIND, token)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
@@ -339,19 +348,81 @@ public class Api {
     }
 
     public static void findAllInvoice(final BaseViewCallback baseViewCallback) {
-        OkGo.<AllInvoiceType>get(Constant.FIND_ALL_INVIICE_TYPE).execute(new JsonCallBack<AllInvoiceType>(AllInvoiceType.class) {
+        OkGo.<AllInvoiceType>get(FIND_ALL_INVIICE_TYPE).execute(new JsonCallBack<AllInvoiceType>(AllInvoiceType.class) {
             @Override
             public void onSuccess(Response<AllInvoiceType> response) {
-                if (response.isSuccessful() && response.body().getMsg().equals("OK")) {
+                if (response.isSuccessful()&&response.body().getMsg().equals("OK")) {
                     baseViewCallback.setData(response.body());
                 }
             }
         });
     }
 
+    public static void estimateRedBag(HttpParams httpParams, final BaseViewCallbackWithOnStart baseViewCallback) {
+
+    }
+
+    public static void updateInvoiceType(@NonNull String token, @NonNull String invoiceType, @NonNull final BaseViewCallback baseViewCallback) {
+        String url = String.format(UPDATE_INVOICE_TYPE, token, invoiceType);
+        OkGo.<String>get(url).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                if (response.isSuccessful()) {
+                    baseViewCallback.setData(response.body());
+                }
+            }
+        });
+    }
+
+    public static void findAllLogisticsCompany(final BaseViewCallback baseViewCallback) {
+        OkGo.<ExpressCompanyBean>get(FIND_ALL_EXPRESS_COMPANY).execute(new JsonCallBack<ExpressCompanyBean>(ExpressCompanyBean.class) {
+            @Override
+            public void onSuccess(Response<ExpressCompanyBean> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getMsg().equals("OK")) {
+                        baseViewCallback.setData(response.body());
+                    }
+                }
+            }
+        });
+    }
+
+//    public static<T> void findDefaultInvoiceType(final BaseViewCallback baseViewCallback) {
+//        OkGo.<T>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE).execute(new JsonCallBack<T>(AllInvoiceType.class) {
+//            @Override
+//            public void onSuccess(Response<T> response) {
+//                if (response.isSuccessful()) {
+//                    baseViewCallback.setData(response.body());
+//                }
+//            }
+//        });
+//    }
+//
+//    public static<T> void findUserInvoiceType(String token,final BaseViewCallback baseViewCallback) {
+//        String url = String.format(FIND_FREQUENTLY_INVOICE_TYPE, token);
+//        OkGo.<T>get(url).execute(new JsonCallBack<T>(AllInvoiceType.class) {
+//            @Override
+//            public void onSuccess(Response<T> response) {
+//                if (response.isSuccessful()) {
+//                    baseViewCallback.setData(response.body());
+//                }
+//            }
+//        });
+//    }
+
+
 
     public interface BaseViewCallback<T> {
         void setData(T t);
     }
+
+    public interface BaseViewCallbackWithOnStart extends BaseViewCallback {
+        void onStart();
+
+        void onFinish();
+
+        void onError();
+    }
+
 
 }

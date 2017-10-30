@@ -80,10 +80,16 @@ public class FinanceItemDeco extends RecyclerView.ItemDecoration {
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDraw(c, parent, state);
-        if (mOrientation == LinearLayoutManager.VERTICAL) {
-            drawVertical(c, parent);
-        } else {
-            drawHorizontal(c, parent);
+        int top = parent.getPaddingTop();
+        int bottom = parent.getHeight() - parent.getPaddingBottom();
+        int childCount = parent.getChildCount();
+        for(int i=0;i < childCount;i++){
+            View child = parent.getChildAt(i);
+            RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams)child.getLayoutParams();
+            int left = child.getRight() + layoutParams.rightMargin;
+            int right = left + mDivider.getIntrinsicWidth();
+            mDivider.setBounds(left, top, right, bottom);
+            mDivider.draw(c);
         }
     }
 

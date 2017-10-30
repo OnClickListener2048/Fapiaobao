@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.net;
 
+
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -10,6 +11,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
+import okio.Okio;
+
 
 /**
  * Created by lyt on 2017/10/12.
@@ -30,7 +33,12 @@ public class OkGoClient {
 
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-
+        OkGo.getInstance()
+                .init(BaseApplication.context())
+                .setOkHttpClient(builder.build())
+                .setCacheMode(CacheMode.NO_CACHE)
+                .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)
+                .setRetryCount(RETRY_COUNT);
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
         //log打印级别，决定了log显示的详细程度
         loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
@@ -46,12 +54,7 @@ public class OkGoClient {
         builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS);
 
 
-        OkGo.getInstance()
-                .init(BaseApplication.context())
-                .setOkHttpClient(builder.build())
-                .setCacheMode(CacheMode.NO_CACHE)
-                .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)
-                .setRetryCount(RETRY_COUNT);
+
 
     }
 

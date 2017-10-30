@@ -73,7 +73,6 @@
                 android:gravity="center_horizontal"
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
-                android:entries="@array/express"
                 android:layout_height="wrap_content">
 
             </android.support.v7.widget.AppCompatSpinner>

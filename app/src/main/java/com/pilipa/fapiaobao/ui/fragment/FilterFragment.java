@@ -23,6 +23,7 @@ import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 
@@ -81,10 +82,13 @@ public class FilterFragment extends BaseFragment {
 
 
     };
+    private EstimateActivity estimateActivity;
+    private ArrayList<String> arrayListSelectedReceiptKind;
 
     private void setUpAddress(AMapLocation aMapLocation) {
         arrayListReceiptArea.add(aMapLocation.getProvince());
         labelsArea.setLabels(arrayListReceiptArea);
+        labelsArea.setSelects(0);
     }
 
     public static FilterFragment newInstance(Bundle bundle) {
@@ -115,6 +119,7 @@ public class FilterFragment extends BaseFragment {
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
+        estimateActivity = (EstimateActivity) getActivity();
         new Thread() {
             @Override
             public void run() {
@@ -153,6 +158,7 @@ public class FilterFragment extends BaseFragment {
     }
 
     private void initLabels() {
+        arrayListSelectedReceiptKind = new ArrayList<>();
         arrayListReceiptKind.addAll(StaticDataCreator.initReceiptKindData(mContext));
         labelsReceiptKind.setLabels(arrayListReceiptKind);
         labelsReceiptKind.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
@@ -165,6 +171,29 @@ public class FilterFragment extends BaseFragment {
         labelsReceiptKind.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
             @Override
             public void onLabelSelectChange(View label, String labelText, boolean isSelect, int position) {
+                if (isSelect) {
+                    if ("不限".equals(labelText)) {
+                        arrayListSelectedReceiptKind.clear();
+                        arrayListSelectedReceiptKind.add("不限");
+                    } else {
+                        if (!arrayListSelectedReceiptKind.contains("不限")) {
+                            arrayListSelectedReceiptKind.add(labelText);
+                        }
+                    }
+                } else {
+                    if ("不限".equals(labelText)) {
+                        arrayListSelectedReceiptKind.remove("不限");
+                        ArrayList<Integer> selectLabels = labelsReceiptKind.getSelectLabels();
+                        for (Integer selectLabel : selectLabels) {
+                            String s = labelsReceiptKind.getLabels().get(selectLabel);
+                            if (!arrayListSelectedReceiptKind.contains(s)) {
+                                arrayListSelectedReceiptKind.add(s);
+                            }
+                        }
+                    }
+
+                }
+
 
             }
         });
@@ -218,9 +247,12 @@ public class FilterFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.estimate_back:
-
+                estimateActivity.closeDrawer();
                 break;
             case R.id.confirm:
+
+                estimateActivity.setFilterKeys(arrayListSelectedReceiptKind, labelsArea.getLabels().get(labelsArea.getSelectLabels().get(0)));
+                estimateActivity.closeDrawer();
                 break;
         }
     }

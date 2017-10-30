@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.base;
 
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.pilipa.fapiaobao.R;
@@ -26,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected LayoutInflater mInflater;
     private Fragment mFragment;
     private ActionBar mActionBar;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -45,7 +46,29 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         init(savedInstanceState);
         initView();
         initData();
+        initProgressDialog();
+    }
 
+    private void initProgressDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(this);
+        }
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setTitle("提示");
+        progressDialog.setMessage("正在加载中");
+    }
+
+    public void showProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.show();
+        }
+    }
+
+    public void hideProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 
 
