@@ -225,16 +225,16 @@ public class UserInfoActivity extends BaseActivity {
         LoginBean.DataBean.CustomerBean customer = loginBean.getData().getCustomer();
 
         if(loginBean != null){
-            edtBirthday.setText(customer.getBirthday());
-            edtUserName.setText(customer.getNickname());
-            edtPhone.setText(customer.getTelephone());
-            if (customer.getGender().equals(Constant.GENDER_FEMALE)){
-                radioGroup.check(R.id.rb_female);
-            } else if (customer.getGender().equals(Constant.GENDER_MALE)){
-                radioGroup.check(R.id.rb_male);
-            } else if (customer.getGender().equals(Constant.GENDER_SECRECY)){
-                radioGroup.check(R.id.rb_secrecy);
-            }
+//            edtBirthday.setText(customer.getBirthday());
+//            edtUserName.setText(customer.getNickname());
+//            edtPhone.setText(customer.getTelephone());
+//            if (customer.getGender().equals(Constant.GENDER_FEMALE)){
+//                radioGroup.check(R.id.rb_female);
+//            } else if (customer.getGender().equals(Constant.GENDER_MALE)){
+//                radioGroup.check(R.id.rb_male);
+//            } else if (customer.getGender().equals(Constant.GENDER_SECRECY)){
+//                radioGroup.check(R.id.rb_secrecy);
+//            }
 
         }
     }

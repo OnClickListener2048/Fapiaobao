@@ -1,20 +1,15 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.PersistableBundle;
-import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SwitchCompat;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,7 +23,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.TimeUtils;
@@ -36,10 +30,12 @@ import com.lljjcoder.city_20170724.CityPickerView;
 import com.lljjcoder.city_20170724.bean.CityBean;
 import com.lljjcoder.city_20170724.bean.DistrictBean;
 import com.lljjcoder.city_20170724.bean.ProvinceBean;
-import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 import com.pilipa.fapiaobao.utils.TDevice;
@@ -185,7 +181,13 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
     @Override
     public void initData() {
-
+        Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
+            @Override
+            public void setData(ExpressCompanyBean expressCompanyBean) {
+                Log.d(TAG, "setData: initDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitData");
+                spinner.setAdapter(new PublishSpinnerAdapter(expressCompanyBean));
+            }
+        });
     }
 
     @Override
@@ -347,8 +349,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String[] stringArray = getResources().getStringArray(R.array.express);
-        BaseApplication.showToast(stringArray[position]);
+        TextView textView = (TextView) view;
+        BaseApplication.showToast(textView.getText().toString().trim());
     }
 
     @Override

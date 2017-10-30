@@ -3,12 +3,14 @@ package com.pilipa.fapiaobao.base;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.multidex.MultiDex;
 import android.support.v4.content.SharedPreferencesCompat;
 import android.view.Gravity;
 import android.widget.Toast;
 
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.widget.SimplexToast;
+import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.Constants.Bugly;
 import com.pilipa.fapiaobao.net.OkGoClient;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
@@ -29,29 +31,30 @@ public class BaseApplication extends Application {
     public static final String DEVICE_TOKEN = "mPushDeviceToken";
     static Context _context;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
+        MultiDex.install(this);
         _context = getApplicationContext();
         //LeakCanary.install(this);
-        OkGoClient.init();
+        //OkGoClient.init();
+        OkGo.getInstance().init(this);
         CrashReport.initCrashReport(getApplicationContext(), Bugly.APP_ID, Bugly.TOOGLE);
         UMConfigure.init(this, PushConstant.APP_KEY, PushConstant.Umeng_Message_Secret, UMConfigure.DEVICE_TYPE_PHONE, PushConstant.Umeng_Message_Secret);
         PushAgent mPushAgent = PushAgent.getInstance(_context);
         mPushAgent.onAppStart();
-        mPushAgent.register(new IUmengRegisterCallback() {
-            @Override
-            public void onSuccess(String s) {
-                set(DEVICE_TOKEN, s);
-                TLog.log(s);
-            }
-
-            @Override
-            public void onFailure(String s, String s1) {
-
-            }
-        });
-
+//        mPushAgent.register(new IUmengRegisterCallback() {
+//            @Override
+//            public void onSuccess(String s) {
+//                TLog.log(s);
+//            }
+//
+//            @Override
+//            public void onFailure(String s, String s1) {
+//
+//            }
+//        });
 //        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
         PlatformConfig.setQQZone("1106395149", "gtn8LLR4FxWRvwWb");
         PlatformConfig.setSinaWeibo("3639386105", "63143b3cc202fed0c17baf57030a88a0", "http://sns.whalecloud.com");

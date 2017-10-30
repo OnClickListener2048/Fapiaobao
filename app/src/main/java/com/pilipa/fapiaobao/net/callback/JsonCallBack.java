@@ -1,9 +1,13 @@
 package com.pilipa.fapiaobao.net.callback;
 
+import android.app.ProgressDialog;
+
 import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.lzy.okgo.callback.AbsCallback;
+import com.lzy.okgo.request.base.Request;
+import com.pilipa.fapiaobao.base.BaseApplication;
 
 import java.lang.reflect.Type;
 
@@ -24,6 +28,18 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
 
     public JsonCallBack(Class<T> clazz) {
         this.clazz = clazz;
+
+    }
+
+    @Override
+    public void onStart(Request<T, ? extends Request> request) {
+        super.onStart(request);
+    }
+
+
+    @Override
+    public void onFinish() {
+        super.onFinish();
     }
 
     @Override
@@ -49,5 +65,6 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
     public void onError(com.lzy.okgo.model.Response<T> response) {
         super.onError(response);
         TLog.log(response.message());
+        BaseApplication.showToast(response.message());
     }
 }

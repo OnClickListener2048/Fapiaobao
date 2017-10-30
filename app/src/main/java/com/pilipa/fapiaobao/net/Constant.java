@@ -86,42 +86,61 @@ public class Constant {
      */
 
     /*提前关闭需求 */
-    public static final String SHAT_DOWN_EARLY= BASE_URL + "publish/close//%s/%s";
+    public static final String SHAT_DOWN_EARLY= BASE_URL + "publish/close/%s/%s";
     /*获取用户发布的需求列表 */
-    public static final String USER_ISSUED_LIST= BASE_URL + "publish/demands//%s";
+    public static final String USER_ISSUED_LIST= BASE_URL + "publish/demands/%s";
     /*获取用户发布的需求详细信息 */
-    public static final String USER_ISSUED_DETAILS= BASE_URL + "publish/detail//%s/%s";
+    public static final String USER_ISSUED_DETAILS= BASE_URL + "publish/detail/%s/%s";
 
     /**
      *order-rest-controller : 员工待办
      */
 
     /*确认发票 */
-    public static final String CONFIRM_INVOICE= BASE_URL + "order/confirmInvoice//%s/%s";
+    public static final String CONFIRM_INVOICE= BASE_URL + "order/confirmInvoice/%s/%s";
     /*创建订单  */
-    public static final String CREATE_ORDER= BASE_URL + "order/createOrder//%s/%s/%s/%s";
+    public static final String CREATE_ORDER= BASE_URL + "order/createOrder/%s/%s/%s/%s";
     /*匹配需求 */
-    public static final String DO_MATCH_DEMAND= BASE_URL + "order/doMatchDemand//%s/%s/%s/%s";
+    public static final String DO_MATCH_DEMAND= BASE_URL + "order/doMatchDemand/%s/%s/%s/%s";
     /*邮寄发票 */
-    public static final String MAIL_INVOICE= BASE_URL + "order/mailInvoice//%s/%s/%s/%s";
+    public static final String MAIL_INVOICE= BASE_URL + "order/mailInvoice/%s/%s/%s/%s";
     /*我的发票列表 */
-    public static final String MY_INVOICE_LIST= BASE_URL + "order/myInvoiceList//%s";
+    public static final String MY_INVOICE_LIST= BASE_URL + "order/myInvoiceList/%s";
     /*我的发票夹  */
-    public static final String ORDER_LIST= BASE_URL + "order/orderList//%s/%s/%s";
+    public static final String ORDER_LIST= BASE_URL + "order/orderList/%s/%s/%s";
     /*驳回发票 */
-    public static final String REJECT_INVOICE= BASE_URL + "order/rejectInvoice//%s/%s/%s/%s";
+    public static final String REJECT_INVOICE= BASE_URL + "order/rejectInvoice/%s/%s/%s/%s";
     /*订单详情  */
-    public static final String SHOW_ORDER_DETAIL= BASE_URL + "order/showOrderDetail//%s/%s";
+    public static final String SHOW_ORDER_DETAIL= BASE_URL + "order/showOrderDetail/%s/%s";
     /*更新常用的发票类型排序 */
-    public static final String UPDATE_INVOICE_TYPE= BASE_URL + "order/updateInvoiceType//%s/%s";
+    public static final String UPDATE_INVOICE_TYPE= BASE_URL + "order/updateInvoiceType/%s/%s";
     /*上传发票 */
-    public static final String UPLOAD_INVOICE= BASE_URL + "order/uploadInvoice//%s/%s";
+    public static final String UPLOAD_INVOICE= BASE_URL + "order/uploadInvoice/%s/%s";
     /*上传我的发票 */
-    public static final String UPLOAD_MY_INVOICE= BASE_URL + "order/uploadMyInvoice//%s/%s";
+    public static final String UPLOAD_MY_INVOICE= BASE_URL + "order/uploadMyInvoice/%s/%s";
+
+//    /**
+//     * system-rest-controller : 系统管理
+//     */
+//    /*
+//    获取发票默认常用类型
+//     */
+//
+//    public static final String FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE = BASE_URL + "system/findDefaultFrequentlyInvoiceType ";
+//
+//    /*
+//    获取用户常用类型
+//    获取用户发票常用类型
+//*/
+//    public static final String FIND_FREQUENTLY_INVOICE_TYPE = BASE_URL + "system/findFrequentlyInvoiceType/%s";
+
+
 
     /**
-     * system-rest-controller : 系统管理
+     * 获取所有物流公司
      */
+    public static final String FIND_ALL_EXPRESS_COMPANY = "http://192.168.1.205:8181/fapiaobao/rest/system/findAllLogisticsCompany";
+
 
     //获取所有发票类型种类
     //http://192.168.1.205:8181/fapiaobao/rest/system/findAllInvoiceType
