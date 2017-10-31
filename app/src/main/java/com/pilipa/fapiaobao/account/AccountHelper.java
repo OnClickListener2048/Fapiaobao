@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.account;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.net.Api;
@@ -40,6 +41,7 @@ public class AccountHelper {
 
     public static String getToken() {
         String token = getUser().getData().getToken();
+        Log.d(TAG, "getToken: "+token);
         return token == null ? "" : token;
     }
 
@@ -48,14 +50,9 @@ public class AccountHelper {
     }
 
     public synchronized static LoginWithInfoBean getUser() {
-        if (instances == null) {
-            TLog.error("AccountHelper instances is null, you need call init() method.");
-            return new LoginWithInfoBean();
-        }
+
         if (instances.user == null)
             instances.user = SharedPreferencesHelper.loadFormSource(instances.application, LoginWithInfoBean.class);
-        if (instances.user == null)
-            instances.user = new LoginWithInfoBean();
         return instances.user;
     }
 

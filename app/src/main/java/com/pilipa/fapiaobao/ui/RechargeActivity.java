@@ -1,28 +1,21 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.NetworkUtils;
-import com.example.mylibrary.utils.TimeUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
-import com.pilipa.fapiaobao.net.bean.WXBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
-import com.pilipa.fapiaobao.utils.PayCommonUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,6 +47,7 @@ public class RechargeActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id._back: {
+                setResult(RESULT_CANCELED);
                 finish();
             }
             break;
@@ -108,40 +102,33 @@ public class RechargeActivity extends BaseActivity {
     public void onViewClicked() {
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginWithInfoBean != null) {
+
+
             Api.wxRecharge(loginWithInfoBean.getData().getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallback<PrepayBean>() {
                 @Override
                 public void setData(PrepayBean prepayBean) {
-                    if (prepayBean.getData().getUnifiedOrderResult().getReturnCode().equals("SUCCESS")) {
 
-                        PrepayBean.DataBean.UnifiedOrderResultBean unifiedOrderResult = prepayBean.getData().getUnifiedOrderResult();
+                    PrepayBean.DataBean data = prepayBean.getData();
 
-                        PayReq request = new PayReq();
+                    PayReq request = new PayReq();
 
-                        request.appId = unifiedOrderResult.getAppid();
+                    request.appId = data.getAppId();
 
-                        request.partnerId = unifiedOrderResult.getMchId();
+                    request.partnerId = data.getPartnerId();
 
-                        request.prepayId = unifiedOrderResult.getPrepayId();
+                    request.prepayId = data.getPrepayId();
 
-                        request.packageValue = "Sign=WXPay";
+                    request.packageValue = "Sign=WXPay";
 
-                        request.nonceStr = unifiedOrderResult.getNonceStr();
+                    request.nonceStr = data.getNonceStr();
 
-                        request.timeStamp= System.currentTimeMillis()+"";
+                    request.timeStamp = data.getTimeStamp();
 
+                    request.sign = data.getSign();
 
-//                        SortedMap<String, String> parameterMap  = new TreeMap<String, String>();
-//                        parameterMap.put("appid", unifiedOrderResult.getAppid());
-//                        parameterMap.put("partnerid", unifiedOrderResult.getMchId());
-//                        parameterMap.put("prepayid", unifiedOrderResult.getPrepayId());
-//                        parameterMap.put("package", "Sign=WXPay");
-//                        parameterMap.put("noncestr", PayCommonUtil.getRandomString(32));
-//                        parameterMap.put("timestamp", System.currentTimeMillis()+"");
-                        request.sign= unifiedOrderResult.getSign();
-
-                        api.sendReq(request);
-                    }
+                    api.sendReq(request);
                 }
+
             });
         }
 

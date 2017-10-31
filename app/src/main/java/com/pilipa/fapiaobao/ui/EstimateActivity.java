@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.KeyboardUtils;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
@@ -23,10 +25,10 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
-import com.pilipa.fapiaobao.net.bean.invoice.MatchBean;
 import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
 import com.pilipa.fapiaobao.ui.fragment.FilterFragment;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.util.ArrayList;
@@ -78,6 +80,12 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     LinearLayout llBonus;
     @Bind(R.id.bonus)
     TextView bonus;
+    @Bind(R.id.hasRedbag)
+    LinearLayout llhasRedbag;
+    @Bind(R.id.other_demand)
+    Button otherDemand;
+    @Bind(R.id.noredbag)
+    LinearLayout llnoredbag;
     private String label = "";
     private HashMap<String, String> httpParams;
     private int currentItem = 0;
@@ -96,6 +104,8 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
     @Override
     public void initView() {
+        llhasRedbag.setVisibility(View.VISIBLE);
+        llnoredbag.setVisibility(View.GONE);
         estimatePlease.setVisibility(View.VISIBLE);
         llBonus.setVisibility(View.GONE);
         httpParams = new HashMap<>();
@@ -118,6 +128,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
         tonext.setEnabled(true);
         tolast.setEnabled(false);
+        KeyboardUtils.clickBlankArea2HideSoftInput();
     }
 
     public void updateButtonStatus() {
@@ -126,7 +137,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             Log.d(TAG, "updateButtonStatus: matchBean != null");
             if (matchBean.getData() != null) {
                 Log.d(TAG, "updateButtonStatus:matchBean.getData() != null");
-                if (matchBean.getData().size()-1 == currentItem) {
+                if (matchBean.getData().size() - 1 == currentItem) {
                     tonext.setEnabled(false);
                     Log.d(TAG, "updateButtonStatus: tonext.setEnabled(false);");
 
@@ -159,18 +170,8 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.filter)
-    public void onViewClicked() {
-        if (dl.isDrawerOpen(Gravity.END)) {
-            dl.closeDrawer(Gravity.END);
-        } else {
 
-            dl.openDrawer(Gravity.END);
-        }
-
-    }
-
-    @OnClick({R.id.test_redbag, R.id.go, R.id.tolast, R.id.tonext})
+    @OnClick({R.id.test_redbag, R.id.go, R.id.tolast, R.id.tonext, R.id.filter, R.id.other_demand})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.test_redbag:
@@ -183,12 +184,18 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                     Api.doMatchDemand(label, amount, "1,2,3", "天津市", new Api.BaseViewCallback<MacherBeanToken>() {
                         @Override
                         public void setData(MacherBeanToken matchBean) {
+                            if (matchBean.getData() == null) {
+                                TLog.log("matchBean.getData() == null || matchBean.getData().size()");
+
+                                llhasRedbag.setVisibility(View.GONE);
+                                llnoredbag.setVisibility(View.VISIBLE);
+                            }
                             llFilterKey.setVisibility(View.GONE);
                             llConfirmCaution.setVisibility(View.VISIBLE);
                             estimatePlease.setVisibility(View.GONE);
                             llBonus.setVisibility(View.VISIBLE);
                             EstimateActivity.this.matchBean = matchBean;
-                            bonus.setText(matchBean.getData().get(0).getBonus()+"");
+                            bonus.setText(matchBean.getData().get(0).getBonus() + "");
                             setUpData(matchBean);
                         }
                     });
@@ -200,6 +207,10 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                         @Override
                         public void setData(LoginWithInfoBean normalBean) {
                             if (normalBean.getStatus() == 200) {
+
+                                SharedPreferencesHelper.save(EstimateActivity.this, matchBean.getData().get(currentItem));
+
+
                                 Api.createOrder(AccountHelper.getToken(), matchBean.getData().get(currentItem).getDemandId(), label, amount, new Api.BaseViewCallbackWithOnStart<OrderBean>() {
                                     @Override
                                     public void onStart() {
@@ -220,8 +231,11 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                                     public void setData(OrderBean o) {
                                         if (o.getStatus() == 200) {
                                             BaseApplication.showToast("创建订单成功");
+                                            SharedPreferencesHelper.save(EstimateActivity.this, o);
                                             MacherBeanToken.DataBean dataBean = matchBean.getData().get(currentItem);
                                             Intent intent = new Intent();
+                                            intent.putExtra("amount", amount);
+                                            intent.putExtra("bonus", dataBean.getBonus());
                                             intent.putExtra("company_info", dataBean.getCompany());
                                             intent.putExtra("order", o.getData().getOrderId());
                                             intent.setClass(EstimateActivity.this, ConfirmActivity.class);
@@ -235,10 +249,6 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 }
 
 
-
-
-
-
                 break;
             case R.id.tolast:
                 ultraViewpager.setCurrentItem(currentItem - 1, true);
@@ -247,6 +257,17 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             case R.id.tonext:
                 ultraViewpager.scrollNextPage();
                 updateButtonStatus();
+                break;
+            case R.id.filter:
+                if (dl.isDrawerOpen(Gravity.END)) {
+                    dl.closeDrawer(Gravity.END);
+                } else {
+
+                    dl.openDrawer(Gravity.END);
+                }
+                break;
+            case R.id.other_demand:
+                finish();
                 break;
         }
     }
@@ -275,7 +296,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         String param = new String();
 
 
-        for (int i = 0; i <= arrayListKind.size(); i++) {
+        for (int i = 0; i < arrayListKind.size(); i++) {
             String s = arrayListKind.get(i);
             if (i == arrayListKind.size()) {
                 param.concat(s);
@@ -307,5 +328,10 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @OnClick(R.id.estimate_back)
+    public void onViewClicked() {
+        finish();
     }
 }

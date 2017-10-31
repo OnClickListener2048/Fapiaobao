@@ -1,23 +1,32 @@
 package com.pilipa.fapiaobao.wxapi;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.pilipa.fapiaobao.MainActivity;
+import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.net.callback.JsonCallBack;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.WXAccessModel;
 import com.pilipa.fapiaobao.net.bean.WXUserInfo;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
+import com.pilipa.fapiaobao.net.callback.JsonCallBack;
+import com.pilipa.fapiaobao.ui.LoginActivity;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+
 
 /**
  * Created by edz on 2017/10/26.
@@ -30,6 +39,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.item_type);
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         api.handleIntent(getIntent(), this);
     }
@@ -44,7 +54,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         if (baseResp instanceof SendAuth.Resp) {
             SendAuth.Resp newResp = (SendAuth.Resp) baseResp;
             //获取微信传回的code
-
+            Intent intent = new Intent();
+            intent.setClass(this, LoginActivity.class);
             switch (baseResp.errCode) {
                 case BaseResp.ErrCode.ERR_OK:
                     //发送成功
@@ -63,16 +74,19 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
                     Log.i("savedInstanceState", "发送取消ERR_USER_CANCEL");
                     BaseApplication.showToast("发送取消");
+                    startActivity(intent);
                     //发送取消
                     break;
                 case BaseResp.ErrCode.ERR_AUTH_DENIED:
                     Log.i("savedInstanceState", "发送取消ERR_AUTH_DENIEDERR_AUTH_DENIEDERR_AUTH_DENIED");
                     BaseApplication.showToast("发送被拒绝");
+                    startActivity(intent);
                     //发送被拒绝
                     break;
                 default:
                     Log.i("savedInstanceState", "发送返回breakbreakbreak");
                     BaseApplication.showToast("发送返回");
+                    startActivity(intent);
                     //发送返回
                     break;
             }
@@ -103,6 +117,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         OkGo.<WXmodel>get(urlToken).execute(new JsonCallBack<WXmodel>(WXmodel.class) {
             @Override
             public void onSuccess(Response<WXmodel> response) {
+                if (response.isSuccessful()) {
+
+                }
                 getWXUserInfo(response.body());
             }
         });
@@ -110,12 +127,25 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     }
 
     private void getWXUserInfo(WXmodel body) {
+        String deviceToken;
+        deviceToken = BaseApplication.get("deviceToken", "");
+
+        Api.login("1", body.getOpenid(), body.getAccess_token(), deviceToken, new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                if (loginWithInfoBean.getStatus()==200) {
+                    SharedPreferencesHelper.save(WXEntryActivity.this, loginWithInfoBean);
+                    BaseApplication.showToast("微信登录成功");
+                    startActivity(new Intent(WXEntryActivity.this,MainActivity.class));
+                }
+            }
+        });
         String url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
         String urlToken = String.format(url, body.getAccess_token(), body.getOpenid());
         OkGo.<WXUserInfo>get(urlToken).execute(new JsonCallBack<WXUserInfo>(WXUserInfo.class) {
             @Override
             public void onSuccess(Response<WXUserInfo> response) {
-                BaseApplication.showToast(response.body().toString());
+//                BaseApplication.showToast(response.body().toString());
             }
         });
     }

@@ -4,6 +4,8 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.fragment.NavFragment;
 import com.pilipa.fapiaobao.ui.widget.NavigationButton;
 
@@ -23,6 +25,10 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
     @Override
     public void initView() {
+        if (BaseApplication.getActivity(LoginActivity.class) != null) {
+            BaseApplication.getActivity(LoginActivity.class).finish();
+        }
+
         FragmentManager manager = getSupportFragmentManager();
         mNavBar = ((NavFragment) manager.findFragmentById(R.id.fag_nav));
         mNavBar.setup(this,manager,R.id.main_container,this);

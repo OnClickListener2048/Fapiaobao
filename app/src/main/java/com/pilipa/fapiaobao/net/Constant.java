@@ -76,11 +76,11 @@ public class Constant {
     public static final String UPDATE_CUSTOMER = BASE_URL + "customer/updateCustomer";
 
     /**
-     *demand-rest-controller : 需求发布
+     * demand-rest-controller : 需求发布
      */
 
     /*需求发布 */
-    public static final String PUBLISH = BASE_URL + "demand/publish/%s/%s";
+    public static final String PUBLISH = "http://192.168.1.205:8181/fapiaobao/rest/demand/publish";
 
     /**
      *favorite-rest-controller : 收藏公司
@@ -146,7 +146,8 @@ public class Constant {
     /*上传发票 */
     public static final String UPLOAD_INVOICE= BASE_URL + "order/uploadInvoice";
     /*上传我的发票 */
-    public static final String UPLOAD_MY_INVOICE= BASE_URL + "order/uploadMyInvoice/%s/%s";
+    //http://192.168.1.205:8181/fapiaobao/rest/order/uploadMyInvoice
+    public static final String UPLOAD_MY_INVOICE= BASE_URL + "order/uploadMyInvoice";
 
     /**
      * system-rest-controller : 系统管理
@@ -163,6 +164,12 @@ public class Constant {
 */
     public static final String FIND_FREQUENTLY_INVOICE_TYPE = BASE_URL + "system/findFrequentlyInvoiceType/%s";
 
+    /**
+     * 获取所有发票种类
+     * http://192.168.1.205:8181/fapiaobao/rest/system/findAllInvoiceVariety
+     */
+
+    public static final String FIND_ALL_INVOICE_VARIETY = "http://192.168.1.205:8181/fapiaobao/rest/system/findAllInvoiceVariety";
 
 
     /**

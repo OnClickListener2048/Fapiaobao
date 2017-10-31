@@ -51,256 +51,297 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <LinearLayout
-                android:orientation="vertical"
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d10" />
+                android:layout_height="wrap_content">
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/hasRedbag"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                   >
 
-                    <LinearLayout
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/d20"
-                        android:layout_marginRight="@dimen/d20"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
-                            android:text="@string/receipt_amount" />
-
-                        <RelativeLayout
-                            android:layout_width="@dimen/d200"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|bottom"
-                            android:layout_weight="1"
-                            android:gravity="bottom">
-
-                            <EditText
-                                android:inputType="numberDecimal"
-                                android:id="@+id/et_estimate"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="@dimen/d50"
-                                android:background="@null"
-                                android:gravity="center_horizontal"
-                                android:text="0"
-                                android:textColor="@color/red_estimate"
-                                android:textSize="@dimen/s25"
-                                android:textStyle="bold" />
-                        </RelativeLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom|right"
-                            android:text="@string/yuan" />
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d10" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d1"
-                    android:background="@color/gray_line" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:paddingBottom="@dimen/d20">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@mipmap/estimate_2" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/estimate_1"
-                        android:translationY="55dp" />
+                        android:layout_height="@dimen/d10" />
 
                     <RelativeLayout
-                        android:visibility="gone"
-                        android:id="@+id/estimate_please"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/d1"
-                        android:translationY="@dimen/d20">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_marginLeft="@dimen/d20"
+                            android:layout_marginRight="@dimen/d20"
                             android:layout_height="wrap_content"
-                            android:lines="2"
-                            android:text="@string/estimate_please"
-                            android:textColor="@color/red_estimate" />
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:text="@string/receipt_amount" />
+
+                            <RelativeLayout
+                                android:layout_width="@dimen/d200"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal|bottom"
+                                android:layout_weight="1"
+                                android:gravity="bottom">
+
+                                <EditText
+                                    android:id="@+id/et_estimate"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="@dimen/d50"
+                                    android:background="@null"
+                                    android:gravity="center_horizontal"
+                                    android:inputType="numberDecimal"
+                                    android:text="0"
+                                    android:textColor="@color/red_estimate"
+                                    android:textSize="@dimen/s25"
+                                    android:textStyle="bold" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|right"
+                                android:text="@string/yuan" />
+                        </LinearLayout>
                     </RelativeLayout>
 
-                    <LinearLayout
-                        android:id="@+id/ll_bonus"
-                        android:layout_width="wrap_content"
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d10" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d1"
+                        android:background="@color/gray_line" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/d20"
+                        android:clipToPadding="false"
+                        android:paddingBottom="@dimen/d20">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@mipmap/estimate_2" />
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/estimate_1"
+                            android:translationY="55dp" />
+
+                        <RelativeLayout
+                            android:id="@+id/estimate_please"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/d1"
+                            android:translationY="@dimen/d20">
+
+                            <ImageView
+                                android:src="@mipmap/redbag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:lines="2"
+                                android:textColor="@color/red_estimate" />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_bonus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/d20"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/estimate_redbag" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="bottom|center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/bonus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="10"
+                                    android:textColor="@color/red_estimate"
+                                    android:textSize="40sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/yuan" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:clipChildren="false"
+                            android:clipToPadding="true"
+                            android:translationY="20dp">
+
+                            <Button
+                                android:id="@+id/test_redbag"
+                                android:layout_width="@dimen/d240"
+                                android:layout_height="@dimen/d40"
+                                android:background="@drawable/estimate_test_redbag"
+                                android:text="@string/test_red_bag"
+                                android:textColor="@color/white" />
+                        </RelativeLayout>
+
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d10" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_filter_key"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="筛选条件:" />
+
+                            <TextView
+                                android:id="@+id/filter_key"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/confirm_caution"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/estimate_redbag" />
-                        </LinearLayout>
-
-                        <LinearLayout
+                            android:layout_height="200dp"
+                            android:layout_margin="@dimen/d15"
+                            android:background="@drawable/selector_estimate_receipt_kind_bg"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="bottom|center"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/bonus"
-                                android:textColor="@color/red_estimate"
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="10"
-                                android:textSize="40sp" />
+                                android:layout_marginTop="@dimen/d10"
+                                android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/yuan" />
+                                <View
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <ImageView
+                                    android:id="@+id/tolast"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="@dimen/d10"
+                                    android:src="@drawable/selector_estimate_toleft" />
+
+                                <ImageView
+                                    android:id="@+id/tonext"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="@dimen/d20"
+                                    android:src="@drawable/selector_estimate_toright" />
+
+
+                            </LinearLayout>
+
+                            <com.tmall.ultraviewpager.UltraViewPager
+                                android:id="@+id/ultra_viewpager"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"></com.tmall.ultraviewpager.UltraViewPager>
                         </LinearLayout>
-                    </LinearLayout>
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|center_horizontal"
-                        android:clipChildren="false"
-                        android:clipToPadding="true"
-                        android:translationY="20dp">
 
                         <Button
-                            android:id="@+id/test_redbag"
-                            android:layout_width="@dimen/d240"
+                            android:id="@+id/go"
+                            android:layout_width="match_parent"
                             android:layout_height="@dimen/d40"
-                            android:background="@drawable/estimate_test_redbag"
-                            android:text="@string/test_red_bag"
+                            android:layout_marginLeft="@dimen/d20"
+                            android:layout_marginRight="@dimen/d20"
+                            android:background="@color/main_style"
+                            android:text="@string/confirm_receipt"
                             android:textColor="@color/white" />
-                    </RelativeLayout>
-
-                </FrameLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d10" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_filter_key"
-                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:id="@+id/noredbag"
                     android:layout_width="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal">
+                    android:layout_height="400dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical">
 
-                        <TextView
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="筛选条件:" />
+                            android:src="@mipmap/noredbag" />
 
-                        <TextView
-                            android:id="@+id/filter_key"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                        <android.support.v4.widget.Space
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/d10" />
+
+                        <Button
+                            android:id="@+id/other_demand"
+                            android:layout_width="@dimen/d170"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/otherdemand"
+                            android:text="看看其他需求"
+                            android:textColor="@color/white" />
                     </LinearLayout>
 
                 </LinearLayout>
+            </FrameLayout>
 
-                <LinearLayout
-                    android:id="@+id/confirm_caution"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_margin="@dimen/d15"
-                        android:background="@drawable/selector_estimate_receipt_kind_bg"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="220dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/d10"
-                            android:orientation="horizontal">
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
-
-                            <ImageView
-                                android:id="@+id/tolast"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="@dimen/d10"
-                                android:src="@drawable/selector_estimate_toleft" />
-
-                            <ImageView
-                                android:id="@+id/tonext"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="@dimen/d20"
-                                android:src="@drawable/selector_estimate_toright" />
-
-
-                        </LinearLayout>
-
-                        <com.tmall.ultraviewpager.UltraViewPager
-                            android:id="@+id/ultra_viewpager"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"></com.tmall.ultraviewpager.UltraViewPager>
-                    </LinearLayout>
-
-
-
-                    <Button
-                        android:id="@+id/go"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/d40"
-                        android:layout_marginLeft="@dimen/d20"
-                        android:layout_marginRight="@dimen/d20"
-                        android:background="@color/main_style"
-                        android:text="@string/confirm_receipt"
-                        android:textColor="@color/white" />
-                </LinearLayout>
-            </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
 

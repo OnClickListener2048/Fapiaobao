@@ -126,6 +126,7 @@
                 android:layout_weight="1">
 
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/et_publish_tex_number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -232,6 +233,7 @@
                 android:layout_weight="1">
 
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/et_publish_phone_number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -340,6 +342,7 @@
                 android:layout_weight="1">
 
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/et_publish_bank_account"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

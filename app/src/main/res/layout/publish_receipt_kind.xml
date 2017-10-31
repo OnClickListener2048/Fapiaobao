@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="@dimen/d20"
     android:orientation="vertical">
 
@@ -31,10 +32,23 @@
     <com.pilipa.fapiaobao.ui.widget.LabelsView
         android:id="@+id/labels_receipt_kind"
         android:layout_width="match_parent"
+        app:labelBackground="@drawable/selector_invoice_receipt_kind_bg"
+        app:labelTextColor="@drawable/selector_invoice_receipt_kind_text"
+        app:labelTextPaddingBottom="5dp"
+        app:labelTextPaddingLeft="10dp"
+        app:labelTextPaddingRight="10dp"
+        app:labelTextPaddingTop="5dp"
+        app:labelTextSize="14sp"
+        app:lineMargin="10dp"
+        app:maxSelect="0"
+        app:selectType="MULTI"
+        app:wordMargin="10dp"
         android:layout_height="wrap_content">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
+
     </com.pilipa.fapiaobao.ui.widget.LabelsView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d10" />
 </LinearLayout>

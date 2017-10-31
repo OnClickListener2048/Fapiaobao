@@ -2,9 +2,11 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,23 +24,35 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.UploadReceiptPreviewAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
+import com.pilipa.fapiaobao.net.bean.invoice.UploadInvoice;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.PreviewActivity;
 import com.pilipa.fapiaobao.ui.UploadReceiptPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +92,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
     private MediaStoreCompat mediaStoreCompat;
     private int mPreviousPosition = -1;
     private Dialog mCameraDialog;
+    private String invoice_variety;
 
     @Override
     protected int getLayoutId() {
@@ -100,6 +115,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         Bundle arguments = getArguments();
+        invoice_variety = arguments.getString("invoice_variety");
         ArrayList<Image> arrayList;
         if (images == null) {
             images = new ArrayList<>();
@@ -358,4 +374,41 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
 
         return 0;
     }
+
+    public void uploadInvoice() {
+        if (images != null && images.size() > 0) {
+            uploadReceipt();
+        }
+    }
+
+    public void uploadReceipt() {
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean normalBean) {
+                OrderBean orderBean = SharedPreferencesHelper.loadFormSource(mContext, OrderBean.class);
+                UploadInvoice uploadInvoice = new UploadInvoice();
+                uploadInvoice.setOrderId(orderBean.getData().getOrderId());
+                uploadInvoice.setToken(normalBean.getData().getToken());
+                uploadInvoice.setVariety(invoice_variety);
+                List<UploadInvoice.InvoiceImageListBean> listBeen = new ArrayList<UploadInvoice.InvoiceImageListBean>();
+                for (Image image : images) {
+                    if (!image.isCapture) {
+                            UploadInvoice.InvoiceImageListBean invoiceImageListBean = new UploadInvoice.InvoiceImageListBean();
+                        if (image.isFromNet) {
+                           invoiceImageListBean.setId(image.name);
+                        } else {
+                            invoiceImageListBean.setPicture(upLoadReceipt(image.uri));
+                        }
+                        listBeen.add(invoiceImageListBean);
+                    }
+                }
+
+                uploadInvoice.setInvoiceImageList(listBeen);
+                Gson gson = new Gson();
+                String json = gson.toJson(uploadInvoice);
+                Api.uploadReceipt(json);
+            }
+        });
+    }
+
 }

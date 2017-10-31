@@ -181,6 +181,8 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
         }else{
             BaseApplication.showToast("登录超期");
         }
+
+
     }
 
 

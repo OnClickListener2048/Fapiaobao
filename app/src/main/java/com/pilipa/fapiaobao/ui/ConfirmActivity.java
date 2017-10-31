@@ -69,6 +69,7 @@ public class ConfirmActivity extends BaseActivity {
     private String demandsId;
     private double amount;
     private String order;
+    private double bonus;
 
     @Override
     protected int getLayoutId() {
@@ -90,6 +91,7 @@ public class ConfirmActivity extends BaseActivity {
     public void initData() {
         order = getIntent().getStringExtra("order");
         amount = getIntent().getDoubleExtra("amount",0);
+        bonus = getIntent().getDoubleExtra("bonus",0);
         demandsId = getIntent().getStringExtra("demandsId");
         label = getIntent().getStringExtra(FinanceFragment.EXTRA_DATA_LABEL);
         company_info = getIntent().getParcelableExtra("company_info");
@@ -213,9 +215,11 @@ public class ConfirmActivity extends BaseActivity {
             case R.id.translate_details:
                 break;
             case R.id.upload_receipt:
-
-
-                startActivity(new Intent(this,UploadReceiptActivity.class));
+                Intent intent = new Intent();
+                intent.putExtra("amount", amount);
+                intent.putExtra("bonus", bonus);
+                intent.setClass(this, UploadReceiptActivity.class);
+                startActivity(intent);
                 break;
         }
     }

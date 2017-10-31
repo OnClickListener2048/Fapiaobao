@@ -1,14 +1,19 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -16,6 +21,10 @@ import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.ui.PubSuccessActivity;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,8 +37,30 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 public class MyCompanyDetailsPagerFragment extends BaseFragment{
     private static final String TAG = "MyCompanyDetailsPagerFragment";
-
     private TextView tv_companyName,tv_receptCode,tv_address,tv_phoneNum,tv_bankName,tv_account;
+    private Dialog mCameraDialog;
+    private UMShareListener umShareListener= new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA share_media) {
+            Toast.makeText(getActivity(), "分享成功", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+            Toast.makeText(getActivity(), "分享失败", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA share_media) {
+            Toast.makeText(getActivity(), "分享取消", Toast.LENGTH_SHORT).show();
+        }
+    };
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_company_details;
@@ -86,6 +117,89 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
                 break;
         }
     }
+
+    private void setDialog() {
+        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
+                R.layout.layout_share_, null);
+        //初始化视图
+        root.findViewById(R.id.weixin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(getActivity())
+                        .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
+                        .withText("hello")//分享内容
+                        .setCallback(umShareListener)//回调监听器
+                        .share();
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.weibo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(getActivity())
+                        .setPlatform(SHARE_MEDIA.SINA)//传入平台
+                        .withText("hello")//分享内容
+                        .setCallback(umShareListener)//回调监听器
+                        .share();
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.moments).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(getActivity())
+                        .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
+                        .withText("hello")//分享内容
+                        .setCallback(umShareListener)//回调监听器
+                        .share();
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.qq).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(getActivity())
+                        .setPlatform(SHARE_MEDIA.QQ)//传入平台
+                        .withText("hello")//分享内容
+                        .setCallback(umShareListener)//回调监听器
+                        .share();
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.qzone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(getActivity())
+                        .setPlatform(SHARE_MEDIA.QZONE)//传入平台
+                        .withText("hello")//分享内容
+                        .setCallback(umShareListener)//回调监听器
+                        .share();
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCameraDialog.dismiss();
+            }
+        });
+        mCameraDialog.setContentView(root);
+        Window dialogWindow = mCameraDialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mCameraDialog.show();
+    }
+
     @Override
     protected void initData() {
         super.initData();

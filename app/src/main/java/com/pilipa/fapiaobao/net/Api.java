@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.net;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -15,6 +16,7 @@ import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
+import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
@@ -29,6 +31,7 @@ import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
+import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
 import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
@@ -53,6 +56,7 @@ import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_LIST;
 import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_REMOVE;
 import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_EXPRESS_COMPANY;
 import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_INVIICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_INVOICE_VARIETY;
 import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_HISTORY;
 import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_INFO;
 import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_NEGATIVE_HISTORY;
@@ -61,7 +65,6 @@ import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
 import static com.pilipa.fapiaobao.net.Constant.MY_INVOICE_LIST;
 import static com.pilipa.fapiaobao.net.Constant.ORDER_LIST;
-import static com.pilipa.fapiaobao.net.Constant.REJECT_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.SHAT_DOWN_EARLY;
 import static com.pilipa.fapiaobao.net.Constant.SHORT_MESSAGE_VERIFY;
 import static com.pilipa.fapiaobao.net.Constant.SHOW_ORDER_DETAIL;
@@ -69,11 +72,13 @@ import static com.pilipa.fapiaobao.net.Constant.UBIND;
 import static com.pilipa.fapiaobao.net.Constant.UPDATE_CUSTOMER;
 import static com.pilipa.fapiaobao.net.Constant.UPDATE_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.UPLOAD_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.UPLOAD_MY_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_DETAILS;
 import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_LIST;
 import static com.pilipa.fapiaobao.net.Constant.USER_LOGIN;
 import static com.pilipa.fapiaobao.net.Constant.WX_RECHARGE;
-
+import static com.pilipa.fapiaobao.net.Constant.REJECT_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.PUBLISH;
 
 
 /**
@@ -478,7 +483,7 @@ public class Api {
      * @param <T>
      */
     public static <T> void findDefaultInvoiceType(final BaseViewCallback baseViewCallback) {
-        OkGo.<T>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE).execute(new JsonCallBack<T>(AllInvoiceType.class) {
+        OkGo.<T>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE).execute(new JsonCallBack<T>(DefaultInvoiceBean.class) {
             @Override
             public void onSuccess(Response<T> response) {
                 if (response.isSuccessful()) {
@@ -528,7 +533,9 @@ public class Api {
 //
 //        });
 
-        OkGo.<MacherBeanToken>post(url).params("varieties",varieties).params("city",city).execute(new JsonCallBack<MacherBeanToken>(MacherBeanToken.class) {
+        OkGo.<MacherBeanToken>post(url)
+                .upJson(JsonCreator.matcher(varieties,city))
+                .execute(new JsonCallBack<MacherBeanToken>(MacherBeanToken.class) {
             @Override
             public void onSuccess(Response<MacherBeanToken> response) {
                 if (response.isSuccessful() && response.body().getStatus() == 200) {
@@ -667,8 +674,79 @@ public class Api {
                 super.onFinish();
                 baseViewCallbackWithOnStart.onFinish();
             }
+        });
+    }
 
+    /**
+     * 获取所有发票种类
+     */
+    public static void findAllInvoiceVariety(final BaseViewCallback baseViewCallback) {
+        OkGo.<AllInvoiceVariety>get(FIND_ALL_INVOICE_VARIETY).execute(new JsonCallBack<AllInvoiceVariety>(AllInvoiceVariety.class) {
+            @Override
+            public void onSuccess(Response<AllInvoiceVariety> response) {
+                if (response.isSuccessful()&&response.body().getStatus()==200) {
+                    if (response.body().getData()!= null&& response.body().getData().size()>0) {
+                        baseViewCallback.setData(response.body());
+                    }
+                }
+            }
+        });
+    }
 
+    public static void uploadReceipt(String json) {
+        OkGo.<String>post(UPLOAD_INVOICE).upJson(json).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                TLog.log(response.body());
+                BaseApplication.showToast("上传成功");
+            }
+        });
+    }
+
+    public static void uploadLocalReceipt(String json) {
+        OkGo.<String>post(UPLOAD_MY_INVOICE).upJson(json).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                TLog.log(response.body());
+                BaseApplication.showToast("上传成功");
+            }
+        });
+    }
+
+    public static void publish(String json, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
+        OkGo.<BalanceBean>post(PUBLISH).upJson(json).execute(new JsonCallBack<BalanceBean>(BalanceBean.class) {
+
+            @Override
+            public void onStart(Request<BalanceBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallbackWithOnStart.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallbackWithOnStart.onFinish();
+            }
+
+            @Override
+            public void onSuccess(Response<BalanceBean> response) {
+                if (response.isSuccessful()) {
+                    baseViewCallbackWithOnStart.setData(response.body());
+                }
+            }
+        });
+    }
+
+    public static void wxRecharge1(String token, String ip, double amount, final BaseViewCallback b) {
+        String url = String.format(WX_RECHARGE, token, ip, amount);
+        OkGo.<String>get(url).execute(new StringCallback() {
+
+            @Override
+            public void onSuccess(Response<String> response) {
+                if (response.isSuccessful()) {
+                   TLog.log(response.body());
+                }
+            }
         });
     }
 

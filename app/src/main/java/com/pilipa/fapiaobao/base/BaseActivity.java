@@ -1,8 +1,12 @@
 package com.pilipa.fapiaobao.base;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +19,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.interf.BaseView;
+import com.pilipa.fapiaobao.utils.BitmapUtils;
+
+import java.io.IOException;
 
 import butterknife.ButterKnife;
 
@@ -32,6 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BaseApplication.saveActivity(this);
         initWindow();
 
         onBeforeSetContentLayout();
@@ -171,6 +179,19 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 actionBar.setTitle(titleRes);
             }
         }
+    }
+
+
+    private String upLoadReceipt(Uri uri) {
+        ContentResolver cr = getContentResolver();
+        Bitmap bmp = null;
+        try {
+            bmp = MediaStore.Images.Media.getBitmap(cr,uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String bmpStr = BitmapUtils.bitmapToBase64(bmp);
+        return bmpStr;
     }
 
 
