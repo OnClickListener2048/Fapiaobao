@@ -24,11 +24,9 @@ import android.widget.LinearLayout;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.DemandsDetailsReceiptAdapter;
-import com.pilipa.fapiaobao.adapter.UploadReceiptPreviewAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.ui.DemandsDetailsPreviewActivity;
-import com.pilipa.fapiaobao.ui.PreviewActivity;
 import com.pilipa.fapiaobao.ui.UploadReceiptPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;

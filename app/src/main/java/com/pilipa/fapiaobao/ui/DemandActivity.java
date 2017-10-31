@@ -25,7 +25,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
+import static com.pilipa.fapiaobao.net.Constant.*;
 
 /**
  * Created by lyt on 2017/10/16.
@@ -152,22 +152,30 @@ public class DemandActivity extends BaseActivity {
             image.isFromNet = true;
             images.add(image);
         }
-
-//        1zhi之普票
-//                2 只赚
-//                3店铺
+        ArrayList<Image> images1 =new ArrayList<>();
+        ArrayList<Image> images2 =new ArrayList<>();
+        ArrayList<Image> images3 =new ArrayList<>();
+        for (int i = 0; i <images.size() ; i++) {
+            if(VARIETY_GENERAL_PAPER.equals(images.get(i).variety)){
+                images1.add(images.get(i));
+            }else if(VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)){
+                images2.add(images.get(i));
+            }else if(VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)){
+                images3.add(images.get(i));
+            }
+        }
 
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images);
+        bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
         paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
 
 
-        bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images);
+        bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
         paperSpecialReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
 
-        bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images);
+        bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
         paperElecReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
     }

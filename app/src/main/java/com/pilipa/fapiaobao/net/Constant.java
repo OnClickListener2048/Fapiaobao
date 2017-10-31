@@ -37,6 +37,10 @@ public class Constant {
     public static final String STATE_DEMAND_FINISH = "1";
     public static final String STATE_DEMAND_CLOSE    = "2";
 
+    public static final String VARIETY_GENERAL_PAPER = "1";//纸质普票
+    public static final String VARIETY_SPECIAL_PAPER = "2";//"纸质专票
+    public static final String VARIETY_GENERAL_ELECTRON    = "3";//电子普票
+
 
     /*绑定第三方平台用户*/
     public static final String BIND = BASE_URL + "customer/bind/%s";
