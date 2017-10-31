@@ -16,6 +16,7 @@ public class Image implements Parcelable {
     public boolean isFromNet;
     public boolean isCapture;
     public String variety;
+    public String state;
     public Uri uri;
     public Image() {
 
@@ -24,6 +25,7 @@ public class Image implements Parcelable {
 
     protected Image(Parcel in) {
         variety = in.readString();
+        state = in.readString();
         path = in.readString();
         name = in.readString();
         position = in.readInt();
@@ -53,6 +55,7 @@ public class Image implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(variety);
+        dest.writeString(state);
         dest.writeString(path);
         dest.writeString(name);
         dest.writeInt(position);

@@ -54,7 +54,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by edz on 2017/10/21.
  */
 
-public class DemandsDetailsReceiptFragment extends BaseFragment implements
+public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
         View.OnClickListener
        , DemandsDetailsReceiptAdapter.OnImageSelectListener, DemandsDetailsReceiptAdapter.OnImageClickListener, DemandsDetailsReceiptAdapter.OnPhotoCapture {
 
@@ -83,8 +83,8 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
         return R.layout.fragment_upload_receipt;
     }
 
-    public static DemandsDetailsReceiptFragment newInstance(Bundle b) {
-        DemandsDetailsReceiptFragment u = new DemandsDetailsReceiptFragment();
+    public static DemandsDetailsReceiptFragment2 newInstance(Bundle b) {
+        DemandsDetailsReceiptFragment2 u = new DemandsDetailsReceiptFragment2();
         u.setArguments(b);
         return u;
     }
@@ -103,7 +103,14 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
         if (images == null) {
             images = new ArrayList<>();
         }
-        arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_NORMAL_RECEIPT_DATA);
+        arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_SPECIAL_RECEIPT_DATA);
+//        if (arrayList == null) {
+//            arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_SPECIAL_RECEIPT_DATA);
+//        }
+//
+//        if (arrayList == null) {
+//            arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_NORMAL_RECEIPT_DATA);
+//        }
         Log.d(TAG, "onCreateView: ");
         if (arrayList != null) {
             for (Image image : arrayList) {
@@ -136,7 +143,7 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
             @Override
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
-                    Matisse.from(DemandsDetailsReceiptFragment.this)
+                    Matisse.from(DemandsDetailsReceiptFragment2.this)
                             .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
                             .countable(true)
                             .captureStrategy(
@@ -208,7 +215,6 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
         Image image = allItemList.get(position);
         Intent intent = new Intent(mContext, DemandsDetailsPreviewActivity.class);
         Bundle bundle = new Bundle();
-
         bundle.putBoolean(IS_SHOW_SELECT_AND_DELETE,false);
         bundle.putParcelableArrayList(EXTRA_ALL_DATA, allItemList);
         bundle.putInt(EXTRA_CURRENT_POSITION, image.position);

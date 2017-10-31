@@ -55,13 +55,12 @@ public class CompanyDetailsActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        String companyId = getIntent().getStringExtra("companyId");
+        Bundle bundle = new Bundle();
+        bundle.putString("companyId",companyId);
         FragmentList  = new ArrayList<>();
-        MyCompanyDetailsPagerFragment fragment1 = MyCompanyDetailsPagerFragment.newInstance("1d660812a99e4b439cdcb4ed9946b271");
-        MyCompanyDetailsPagerFragment fragment2= MyCompanyDetailsPagerFragment.newInstance("2");
-        MyCompanyDetailsPagerFragment fragment3= MyCompanyDetailsPagerFragment.newInstance("1");
+        MyCompanyDetailsPagerFragment fragment1 = MyCompanyDetailsPagerFragment.newInstance(bundle);
         FragmentList.add(fragment1);
-        FragmentList.add(fragment2);
-        FragmentList.add(fragment3);
 
         companyDetailsAdapter = new CompanyDetailsAdapter(getSupportFragmentManager(), FragmentList);
         mViewPager.setAdapter(companyDetailsAdapter);

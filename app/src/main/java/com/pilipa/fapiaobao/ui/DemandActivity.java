@@ -16,6 +16,8 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
+import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
+import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
 import com.pilipa.fapiaobao.ui.model.Image;
 
 import java.util.ArrayList;
@@ -25,7 +27,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.pilipa.fapiaobao.net.Constant.*;
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
+import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
+import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_PAPER;
+import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
 
 /**
  * Created by lyt on 2017/10/16.
@@ -89,8 +94,8 @@ public class DemandActivity extends BaseActivity {
 
     private ArrayList<Image> images;
     private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
-    private DemandsDetailsReceiptFragment paperSpecialReceiptFragment;
-    private DemandsDetailsReceiptFragment paperElecReceiptFragment;
+    private DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment;
+    private DemandsDetailsReceiptFragment3 paperElecReceiptFragment;
 
     @Override
     protected int getLayoutId() {
@@ -150,6 +155,8 @@ public class DemandActivity extends BaseActivity {
             image.position = -1;
             image.isCapture = false;
             image.isFromNet = true;
+            image.state = result.getState();
+            image.variety = result.getVariety();
             images.add(image);
         }
         ArrayList<Image> images1 =new ArrayList<>();
@@ -163,20 +170,18 @@ public class DemandActivity extends BaseActivity {
             }else if(VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)){
                 images3.add(images.get(i));
             }
-        }
-
+       }
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
         paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
 
-
         bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
-        paperSpecialReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
+        paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
 
         bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
-        paperElecReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
+        paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
     }
 

@@ -33,8 +33,8 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  * Created by lyt on 2017/10/17.
  */
 @Deprecated
-public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.OnItemClickListener{
-    private static final String TAG = "UnusedPagerFragment2";
+public class UnusedPagerFragment_finish extends BaseFragment implements AdapterView.OnItemClickListener{
+    private static final String TAG = "UnusedPagerFragment_finish";
 
     @Bind(R.id.recyclerview)
     ListView listView;
@@ -79,7 +79,7 @@ public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.On
         mAdapter = new MyPublishAdapter(mContext);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
-        demandsList("0");
+        demandsList("1");
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override

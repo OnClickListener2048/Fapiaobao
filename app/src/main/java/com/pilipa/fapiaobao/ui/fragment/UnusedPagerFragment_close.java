@@ -15,11 +15,11 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.MyCompanyAdapter;
+import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
-import com.pilipa.fapiaobao.ui.CompanyDetailsActivity;
+import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
+import com.pilipa.fapiaobao.ui.DemandActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,20 +32,16 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 /**
  * Created by lyt on 2017/10/17.
  */
-
-public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
-    private static final String TAG = "MyCompanyViewPagerFragment";
+@Deprecated
+public class UnusedPagerFragment_close extends BaseFragment implements AdapterView.OnItemClickListener{
+    private static final String TAG = "UnusedPagerFragment_finish";
 
     @Bind(R.id.recyclerview)
     ListView listView;
     @Bind(R.id.trl)
     TwinklingRefreshLayout trl;
-    private MyCompanyAdapter mAdapter;
-
-    public List<CompaniesBean.DataBean> mData = new ArrayList();
-    public MyCompanyViewPagerFragment() {
-
-    }
+    private MyPublishAdapter mAdapter;
+    private List<DemandsListBean.DataBean> dataBeanList = new ArrayList<>();
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_viewpager_item;
@@ -55,6 +51,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+
         return rootView;
     }
 
@@ -74,14 +71,15 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         trl.setOverScrollBottomShow(false);
         trl.setOverScrollTopShow(false);
         trl.setEnableOverScroll(false);
-        listView.setAdapter(mAdapter = new MyCompanyAdapter(mContext));
-        listView.setOnItemClickListener(this);
     }
 
     @Override
     protected void initData() {
-        getCompanyList();
         super.initData();
+        mAdapter = new MyPublishAdapter(mContext);
+        listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(this);
+        demandsList("2");
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
@@ -162,22 +160,21 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(mContext, CompanyDetailsActivity.class);
-        Bundle bundle = new Bundle();
-        intent.putExtra("companyId",mData.get(position).getId());
+        Intent intent = new Intent(mContext, DemandActivity.class);
+        intent.putExtra("demandId",dataBeanList.get(position).getId());
         startActivity(intent);
     }
 
-    public void getCompanyList(){
+    public void demandsList(String state){
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.companiesList(AccountHelper.getToken(),new Api.BaseViewCallback<CompaniesBean>() {
+            Api.demandsList(AccountHelper.getToken(),state,new Api.BaseViewCallback<DemandsListBean>() {
                 @Override
-                public void setData(CompaniesBean companiesBean) {
-                    if(companiesBean.getStatus() == REQUEST_SUCCESS){
-                        List<CompaniesBean.DataBean> list =  companiesBean.getData();
-                        mData.addAll(list) ;
+                public void setData(DemandsListBean demandsListBean) {
+                    if(demandsListBean.getStatus() == REQUEST_SUCCESS){
+                        List<DemandsListBean.DataBean> list =  demandsListBean.getData();
+                        dataBeanList.addAll(list);
                         mAdapter.initData(list);
-                        Log.d(TAG, "CompanyList"+list.get(0).toString());
+                        Log.d(TAG, "demandsList success");
                     }
                 }
             });

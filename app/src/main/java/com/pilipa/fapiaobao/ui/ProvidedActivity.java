@@ -23,6 +23,8 @@ import com.pilipa.fapiaobao.net.bean.TestBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
+import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
+import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
 import com.pilipa.fapiaobao.ui.model.Image;
 
 import java.util.ArrayList;
@@ -32,6 +34,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
+import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
+import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_PAPER;
+import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
 
 /**
  * Created by wjn on 2017/10/24.
@@ -97,8 +102,8 @@ public class ProvidedActivity extends BaseActivity {
 
     private ArrayList<Image> images;
     private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
-    private DemandsDetailsReceiptFragment paperSpecialReceiptFragment;
-    private DemandsDetailsReceiptFragment paperElecReceiptFragment;
+    private DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment;
+    private DemandsDetailsReceiptFragment3 paperElecReceiptFragment;
 
     @Bind(R.id.translate_details)
     LinearLayout translateDetails;
@@ -175,21 +180,34 @@ public class ProvidedActivity extends BaseActivity {
             image.position = -1;
             image.isCapture = false;
             image.isFromNet = true;
+//            image.state = result.getState();
+//            image.variety = result.getVariety();
             images.add(image);
         }
-
+        ArrayList<Image> images1 =new ArrayList<>();
+        ArrayList<Image> images2 =new ArrayList<>();
+        ArrayList<Image> images3 =new ArrayList<>();
+        for (int i = 0; i <images.size() ; i++) {
+            if(VARIETY_GENERAL_PAPER.equals(images.get(i).variety)){
+                images1.add(images.get(i));
+            }else if(VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)){
+                images2.add(images.get(i));
+            }else if(VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)){
+                images3.add(images.get(i));
+            }
+        }
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images);
+        bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
         paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
 
 
-        bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images);
-        paperSpecialReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
+        bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
+        paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
 
-        bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images);
-        paperElecReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
+        bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
+        paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
     }
 
@@ -231,18 +249,20 @@ public class ProvidedActivity extends BaseActivity {
 //                        tvPhone.setText();
 //                        tvPublishAddress.setText();
 //                        edtOddNumber.setText();
-
-//                        receiptNumber.setText();
-//                        receiptMoney.setText();
-                        estimateMoney.setText(bean.getBonus() + "");
-//                        continueToUpload.setText();
-                        companyName.setText(bean.getCompany().getName());
-                        number.setText(bean.getCompany().getPhone());
-                        companyAddress.setText(bean.getCompany().getAddress());
-                        bankAccount.setText(bean.getCompany().getAccount());
-                        bank.setText(bean.getCompany().getDepositBank());
-                        texNumber.setText(bean.getCompany().getTaxno());
-
+                        if(bean.getCompany() != null){
+//                            receiptNumber.setText();
+//                            receiptMoney.setText();
+                            estimateMoney.setText(bean.getBonus() + "");
+//                            continueToUpload.setText();
+                        }
+                        if(bean.getCompany() != null){
+                            companyName.setText(bean.getCompany().getName());
+                            number.setText(bean.getCompany().getPhone());
+                            companyAddress.setText(bean.getCompany().getAddress());
+                            bankAccount.setText(bean.getCompany().getAccount());
+                            bank.setText(bean.getCompany().getDepositBank());
+                            texNumber.setText(bean.getCompany().getTaxno());
+                        }
 
                         Log.d(TAG, "showOrderDetail success");
                     }
