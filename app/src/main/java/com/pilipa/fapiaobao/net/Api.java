@@ -42,6 +42,7 @@ import org.json.JSONObject;
 import static com.pilipa.fapiaobao.net.Constant.BIND;
 import static com.pilipa.fapiaobao.net.Constant.COMPANIES_LIST;
 import static com.pilipa.fapiaobao.net.Constant.COMPANY_INFO;
+import static com.pilipa.fapiaobao.net.Constant.CONFIRM_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.CREATE_COMPANY;
 import static com.pilipa.fapiaobao.net.Constant.CREATE_ORDER;
 import static com.pilipa.fapiaobao.net.Constant.DELETE_COMPANY;
@@ -60,6 +61,7 @@ import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
 import static com.pilipa.fapiaobao.net.Constant.MY_INVOICE_LIST;
 import static com.pilipa.fapiaobao.net.Constant.ORDER_LIST;
+import static com.pilipa.fapiaobao.net.Constant.REJECT_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.SHAT_DOWN_EARLY;
 import static com.pilipa.fapiaobao.net.Constant.SHORT_MESSAGE_VERIFY;
 import static com.pilipa.fapiaobao.net.Constant.SHOW_ORDER_DETAIL;
@@ -567,6 +569,29 @@ public class Api {
         OkGo.<OrderListBean>get(String.format(ORDER_LIST, token,pageNo,pageSize)).execute(new JsonCallBack<OrderListBean>(OrderListBean.class) {
             @Override
             public void onSuccess(Response<OrderListBean> response) {
+                if ("OK".equals(response.body().getMsg())) {
+                    baseViewCallback.setData(response.body());
+                }
+            }
+        });
+    }
+    public static void confirmInvoice(String token,String orderInvoiceId, final BaseViewCallback baseViewCallback) {
+        OkGo.<NormalBean>get(String.format(CONFIRM_INVOICE,token,orderInvoiceId)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+            @Override
+            public void onSuccess(Response<NormalBean> response) {
+                if ("OK".equals(response.body().getMsg())) {
+                    baseViewCallback.setData(response.body());
+                }
+            }
+        });
+    }
+    public static void rejectInvoice(String token,String orderInvoiceId,String amount,String rejectType, final BaseViewCallback baseViewCallback) {
+        JSONObject data = JsonCreator.setReject(token,orderInvoiceId,amount,rejectType);
+        OkGo.<NormalBean>post(REJECT_INVOICE)
+                .upJson(data)
+                .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+            @Override
+            public void onSuccess(Response<NormalBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }

@@ -57,7 +57,7 @@
                         android:layout_marginLeft="@dimen/d20"
                         android:textColor="@color/title_small"
                         android:textSize="@dimen/d12"
-                        android:text="古巨基" />
+                        android:text="刘" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

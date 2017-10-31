@@ -392,8 +392,11 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                 Api.myInvoiceList(AccountHelper.getToken() , new Api.BaseViewCallback<MyInvoiceListBean>() {
                     @Override
                     public void setData(MyInvoiceListBean myInvoiceListBean) {
-                        List<MyInvoiceListBean.DataBean> list =  myInvoiceListBean.getData();
-                        setUpData(list);
+                        List<MyInvoiceListBean.DataBean> list = new ArrayList<>();
+                        if(myInvoiceListBean.getData() != null){
+                            list.addAll(myInvoiceListBean.getData());
+                            setUpData(list);
+                        }
                         Log.d(TAG, "updateData:myInvoiceList success");
                     }
                 });

@@ -347,6 +347,7 @@
     <string name="qualified">合格</string>
     <string name="unqualified">不合格</string>
     <string name="save_to_media">保存到相册</string>
+    <string name="checked_qualified">查验合格</string>
     <string name="gallery_save_file_not_have_external_storage">没有外部储存卡</string>
     <string name="gallery_save_file_success">保存成功</string>
     <string name="gallery_save_file_failed">保存失败</string>
@@ -359,8 +360,14 @@
     <string name="no_negetive">无负面记录，请继续保持哦~</string>
 
     <string-array name="express">
+        <item >圆通</item>
         <item >顺丰</item>
-
     </string-array>
-
+    <string-array name="reasons">
+        <item>票据信息不符</item>
+        <item>开票信息错误</item>
+        <item>票面金额不符</item>
+        <item>发票已过期</item>
+        <item>其他</item>
+    </string-array>
 </resources>

@@ -2,9 +2,11 @@ package com.pilipa.fapiaobao.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +16,11 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.ui.model.Image;
 
 import java.util.ArrayList;
+
+import static com.pilipa.fapiaobao.net.Constant.STATE_COMPETENT;
+import static com.pilipa.fapiaobao.net.Constant.STATE_CONFIRMING;
+import static com.pilipa.fapiaobao.net.Constant.STATE_INCOMPETENT;
+import static com.pilipa.fapiaobao.net.Constant.STATE_MAILING;
 
 /**
  * Created by edz on 2017/10/20.
@@ -54,6 +61,8 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
 
             ImageViewHolder imageHolder = (ImageViewHolder) holder;
         image = images.get(position);
+        String state = image.state;
+        setStateVisibility(imageHolder,state);
         image.position = position;
         requestManager
                     .load(image.path)
@@ -73,7 +82,42 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
             });
 
     }
+    private void setStateVisibility(ImageViewHolder imageHolder,String state){
+        FrameLayout.LayoutParams buttonParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+//相当于Button布局属性中的android:layout_gravity=right
 
+        switch (state){
+            case STATE_CONFIRMING:
+                imageHolder.quality.setVisibility(View.GONE);
+                imageHolder.wait_to_quality.setVisibility(View.GONE);
+                imageHolder.wait_to_express.setVisibility(View.GONE);
+                imageHolder.confirming.setVisibility(View.VISIBLE);
+                buttonParams.gravity = Gravity.TOP;
+                break;
+            case STATE_COMPETENT:
+                imageHolder.quality.setVisibility(View.VISIBLE);
+                imageHolder.wait_to_quality.setVisibility(View.GONE);
+                imageHolder.wait_to_express.setVisibility(View.GONE);
+                imageHolder.confirming.setVisibility(View.GONE);
+                buttonParams.gravity = Gravity.TOP;
+                break;
+            case STATE_INCOMPETENT:
+                imageHolder.quality.setVisibility(View.GONE);
+                imageHolder.wait_to_quality.setVisibility(View.VISIBLE);
+                imageHolder.wait_to_express.setVisibility(View.GONE);
+                imageHolder.confirming.setVisibility(View.GONE);
+                buttonParams.gravity = Gravity.BOTTOM;
+                break;
+            case STATE_MAILING:
+                imageHolder.quality.setVisibility(View.GONE);
+                imageHolder.wait_to_quality.setVisibility(View.GONE);
+                imageHolder.wait_to_express.setVisibility(View.VISIBLE);
+                imageHolder.confirming.setVisibility(View.GONE);
+                buttonParams.gravity = Gravity.TOP;
+                break;
+        }
+        imageHolder.iv_image_item.setLayoutParams(buttonParams);
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -124,11 +168,19 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
 
         private final ImageView iv_image_item;
         private final TextView tv_isSelect;
+        private final ImageView quality;
+        private final ImageView wait_to_quality;
+        private final ImageView wait_to_express;
+        private final ImageView confirming;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
             iv_image_item = (ImageView) itemView.findViewById(R.id.iv_image_item);
             tv_isSelect = (TextView) itemView.findViewById(R.id.rb);
+            quality = (ImageView) itemView.findViewById(R.id.quality);
+            wait_to_quality = (ImageView) itemView.findViewById(R.id.wait_to_quality);
+            wait_to_express = (ImageView) itemView.findViewById(R.id.wait_to_express);
+            confirming = (ImageView) itemView.findViewById(R.id.confirming);
         }
     }
 }

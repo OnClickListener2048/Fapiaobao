@@ -156,6 +156,8 @@ public class DemandActivity extends BaseActivity {
             image.isCapture = false;
             image.isFromNet = true;
             image.state = result.getState();
+            image.logisticsTradeno = result.getLogisticsTradeno();
+            image.logisticsCompany = result.getLogisticsCompany();
             image.variety = result.getVariety();
             images.add(image);
         }
@@ -252,7 +254,6 @@ public class DemandActivity extends BaseActivity {
                         Log.d(TAG, "updateData:shatDownEarly success");
                     }
                 });
-
         }else{
             BaseApplication.showToast("登录超期");
         }

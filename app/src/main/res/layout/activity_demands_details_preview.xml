@@ -120,212 +120,28 @@
             android:text="@string/select"
             android:textColor="@color/white" />
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_express_info"
+    <include
+        android:id="@+id/layout_qualified_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_style"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:orientation="vertical">
-
-            <android.support.v4.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d15" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="@string/express_info" />
-        </LinearLayout>
-
-        <LinearLayout
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:orientation="vertical">
-
-            <android.support.v4.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d15" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <android.support.v4.widget.Space
-                    android:layout_width="@dimen/d15"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="@string/express_company" />
-
-                <android.support.v4.widget.Space
-                    android:layout_width="@dimen/d15"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:id="@+id/express_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="@string/express_info" />
-            </LinearLayout>
-
-            <android.support.v4.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d15" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <android.support.v4.widget.Space
-                    android:layout_width="@dimen/d15"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="@string/express_no" />
-
-                <android.support.v4.widget.Space
-                    android:layout_width="@dimen/d15"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:id="@+id/express_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="0135142011" />
-            </LinearLayout>
-
-            <android.support.v4.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d15" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <android.support.v4.widget.Space
-                    android:layout_width="@dimen/d15"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="请在确认收到发票并检查后，确定是否合格"
-                    android:textSize="@dimen/s13" />
-
-                <android.support.v4.widget.Space
-                    android:layout_width="@dimen/d15"
-                    android:layout_height="match_parent" />
-
-
-            </LinearLayout>
-
-            <android.support.v4.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d15" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <android.support.v4.widget.Space
+        android:visibility="gone"
+        layout="@layout/layout_qualified_item"></include>
+    <include
+        android:id="@+id/layout_willchecked_item"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/d30" />
-
-    <FrameLayout
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        layout="@layout/layout_willchecked_item"></include>
+    <include
+        android:id="@+id/layout_noInfo_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/ll_select_qualified"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <android.support.v4.widget.Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/qualified"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_qualified"
-                android:paddingBottom="@dimen/d10"
-                android:paddingLeft="@dimen/d50"
-                android:paddingRight="@dimen/d50"
-                android:paddingTop="@dimen/d10"
-                android:text="@string/qualified"
-                android:textColor="@color/white" />
-
-            <android.support.v4.widget.Space
-                android:layout_width="@dimen/d20"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:id="@+id/unqualified"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/unqualified"
-                android:textColor="@color/main_style" />
-
-            <android.support.v4.widget.Space
-                android:layout_width="@dimen/d10"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_save_to_media"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <android.support.v4.widget.Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/save_to_media"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_qualified"
-                android:paddingBottom="@dimen/d10"
-                android:paddingLeft="@dimen/d50"
-                android:paddingRight="@dimen/d50"
-                android:paddingTop="@dimen/d10"
-                android:text="@string/save_to_media"
-                android:textColor="@color/white" />
-
-            <android.support.v4.widget.Space
-                android:layout_width="@dimen/d20"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </FrameLayout>
-
-
-
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        layout="@layout/layout_noinfo_item"></include>
+    <include
+        android:id="@+id/layout_reject_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        layout="@layout/layout_reject_item"></include>
 </LinearLayout>

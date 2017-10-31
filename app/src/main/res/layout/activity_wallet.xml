@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             android:text="@string/balance"/>
             <TextView
+                android:id="@+id/tv_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="800.00"/>
@@ -91,6 +92,7 @@
             android:drawableRight="@drawable/enter_wallet"
             android:text="@string/red_envelope"/>
         <TextView
+            android:id="@+id/tv_bouns"
             android:drawablePadding="@dimen/d20"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/d50"

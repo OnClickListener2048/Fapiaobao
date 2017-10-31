@@ -36,6 +36,8 @@ public class MeFragment extends BaseFragment{
     TextView tvUserName;
     @Bind(R.id.tv_creditRating)
     TextView tvCreditRating;
+    @Bind(R.id.tv_bouns)
+    TextView tvBouns;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_me;
@@ -105,6 +107,7 @@ public class MeFragment extends BaseFragment{
             tvCreditRating.setText(String.format(endFormat, customer.getCreditScore()));
 //          tvUserName.setText(customer.getCreditLevel());
             tvUserName.setText(customer.getNickname());
+            tvBouns.setText(customer.getBonus()+"");
         }
         super.onResume();
     }

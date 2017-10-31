@@ -42,6 +42,14 @@ public class JsonCreator {
         map.put("token",token);
         return new JSONObject(map);
     }
+    public static JSONObject setReject(String token,String orderInvoiceId,String amount,String rejectType){
+        HashMap map = new HashMap();
+        map.put("token",token);
+        map.put("orderInvoiceId",orderInvoiceId);
+        map.put("amount",amount);
+        map.put("rejectType",rejectType);
+        return new JSONObject(map);
+    }
 
 
 }

@@ -9,6 +9,7 @@ import android.os.Parcelable;
  */
 
 public class Image implements Parcelable {
+    public String id;
     public String path;
     public String name;
     public int position;
@@ -17,6 +18,8 @@ public class Image implements Parcelable {
     public boolean isCapture;
     public String variety;
     public String state;
+    public String logisticsCompany;
+    public String logisticsTradeno;
     public Uri uri;
     public Image() {
 
@@ -24,6 +27,9 @@ public class Image implements Parcelable {
 
 
     protected Image(Parcel in) {
+        id = in.readString();
+        logisticsTradeno = in.readString();
+        logisticsCompany = in.readString();
         variety = in.readString();
         state = in.readString();
         path = in.readString();
@@ -54,6 +60,9 @@ public class Image implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(logisticsCompany);
+        dest.writeString(logisticsTradeno);
         dest.writeString(variety);
         dest.writeString(state);
         dest.writeString(path);

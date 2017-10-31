@@ -14,6 +14,8 @@ import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.pilipa.fapiaobao.net.Constant.*;
+
 /**
  * Created by lyt on 2017/10/23.
  */
@@ -68,15 +70,18 @@ public class MyReceiptAdapter extends BaseAdapter {
 
         viewHolder.tvReceiveTime.setText(bean.getCreateDate().substring(0,10));
         String state = bean.getState();
-        if("0".equals(state)){
-            viewHolder.tvArrivalState.setText("红包到账");
+        if(STATE_FLYING.equals(state)){
+            viewHolder.tvArrivalState.setText("红包飞来中");
             viewHolder.tvArrivalState.setTextColor(mContext.getResources().getColor(R.color.red));
-        }else if("1".equals(state)){
-            viewHolder.tvArrivalState.setText("部分到账");
+        }else if(STATE_GOT_ALL.equals(state)){
+            viewHolder.tvArrivalState.setText("红包到帐");
             viewHolder.tvArrivalState.setTextColor(Color.YELLOW);
-        }else if("2".equals(state)){
-            viewHolder.tvArrivalState.setText("红包飞走了");
+        }else if(STATE_GOT_PARTIALITY.equals(state)){
+            viewHolder.tvArrivalState.setText("部分到帐");
             viewHolder.tvArrivalState.setTextColor(Color.BLUE);
+        }else if(STATE_GONE.equals(state)){
+            viewHolder.tvArrivalState.setText("红包飞走了");
+            viewHolder.tvArrivalState.setTextColor(Color.GREEN);
         }
 
         return convertView;

@@ -9,10 +9,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -21,7 +24,10 @@ import butterknife.OnClick;
  */
 
 public class MyWalletActivity extends BaseActivity {
-
+    @Bind(R.id.tv_bouns)
+    TextView tv_bouns;
+    @Bind(R.id.tv_amount)
+    TextView tv_amount;
     private Dialog mDialog;
 
     @Override
@@ -63,7 +69,10 @@ public class MyWalletActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            tv_bouns.setText(AccountHelper.getUser().getData().getCustomer().getBonus()+"");
+            tv_amount.setText(AccountHelper.getUser().getData().getCustomer().getAmount()+"");
+        }
     }
 
     @Override

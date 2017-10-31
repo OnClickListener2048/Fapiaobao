@@ -10,21 +10,7 @@ public class Constant {
 
     public static final int REQUEST_SUCCESS = 200;
 
-    /**
-     company-rest-controller : 代理公司
-     */
-    /*获取用户代理的公司列表*/
-    public static final String COMPANIES_LIST = BASE_URL + "company/companies/%s";
-    /*添加用户代理公司*/
-    public static final String CREATE_COMPANY= BASE_URL + "company/create";
-    /*删除用户代理公司*/
-    public static final String DELETE_COMPANY = BASE_URL + "company/remove/%s/%s";
-    /*根据companyId查询公司*/
-    public static final String COMPANY_INFO = BASE_URL + "company/%s";
 
-    /**
-     *customer-rest-controller : 用户登录
-     */
     public static final String LOGIN_PLATFORM_MSG = "0";
     public static final String LOGIN_PLATFORM_WX= "1";
     public static final String LOGIN_PLATFORM_QQ = "2";
@@ -41,6 +27,34 @@ public class Constant {
     public static final String VARIETY_SPECIAL_PAPER = "2";//"纸质专票
     public static final String VARIETY_GENERAL_ELECTRON    = "3";//电子普票
 
+    public static final String STATE_CONFIRMING = "1";//确认中
+    public static final String STATE_COMPETENT = "2";//"查验合格
+    public static final String STATE_INCOMPETENT    = "3";//查验不合格
+    public static final String STATE_MAILING    = "4";//邮寄中
+
+    public static final String STATE_FLYING    = "1";//红包飞来中
+    public static final String STATE_GOT_ALL    = "2";//红包到帐
+    public static final String STATE_GOT_PARTIALITY    = "3";//部分到帐
+    public static final String STATE_GONE    = "4";//红包飞走了
+
+
+
+
+    /**
+     company-rest-controller : 代理公司
+     */
+    /*获取用户代理的公司列表*/
+    public static final String COMPANIES_LIST = BASE_URL + "company/companies/%s";
+    /*添加用户代理公司*/
+    public static final String CREATE_COMPANY= BASE_URL + "company/create";
+    /*删除用户代理公司*/
+    public static final String DELETE_COMPANY = BASE_URL + "company/remove/%s/%s";
+    /*根据companyId查询公司*/
+    public static final String COMPANY_INFO = BASE_URL + "company/%s";
+
+    /**
+     *customer-rest-controller : 用户登录
+     */
 
     /*绑定第三方平台用户*/
     public static final String BIND = BASE_URL + "customer/bind/%s";
@@ -124,7 +138,7 @@ public class Constant {
     /*我的发票夹  */
     public static final String ORDER_LIST= BASE_URL + "order/orderList/%s/%s/%s";
     /*驳回发票 */
-    public static final String REJECT_INVOICE= BASE_URL + "order/rejectInvoice/%s/%s/%s/%s";
+    public static final String REJECT_INVOICE= BASE_URL + "order/rejectInvoice";
     /*订单详情  */
     public static final String SHOW_ORDER_DETAIL= BASE_URL + "order/showOrderDetail/%s/%s";
     /*更新常用的发票类型排序 */
