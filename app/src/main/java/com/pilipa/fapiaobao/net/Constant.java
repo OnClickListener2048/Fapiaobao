@@ -68,6 +68,13 @@ public class Constant {
      *favorite-rest-controller : 收藏公司
      */
 
+    /**
+     * http://192.168.1.205:8181/fapiaobao/rest/favorite/check/{companyId}/{token}
+     */
+
+    public static final String FAVORITE_COMPANY = "http://192.168.1.205:8181/fapiaobao/rest/favorite/check/%s/%s";
+
+
     /*获取用户收藏的公司列表 */
     public static final String FAVORITE_COMPANY_LIST = BASE_URL + "favorite/companies/%s";
     /*收藏需求开票的公司 */
@@ -150,8 +157,16 @@ public class Constant {
     //http://192.168.1.205:8181/fapiaobao/rest/system/findAllInvoiceType
     public static final String FIND_ALL_INVIICE_TYPE = BASE_URL + "system/findAllInvoiceType";
 
+
     /**
      *test-rest-controller : 测试
      */
+
+
+    /**
+     * 微信支付
+     */
+    public static final String WX_RECHARGE = "http://192.168.1.205:8181/fapiaobao/rest/wxpay/recharge/%s/%s/%s";
+
 
 }

@@ -13,6 +13,7 @@ import com.example.mylibrary.widget.SimplexToast;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.pilipa.fapiaobao.Constants.Bugly;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.net.OkGoClient;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.pilipa.fapiaobao.wxapi.Constants;
@@ -67,7 +68,7 @@ public class BaseApplication extends Application {
         //OkGoClient.init();
         initOkGo(this);
 
-
+        AccountHelper.init(this);
 
 //        OkGo.getInstance().init(this);
         CrashReport.initCrashReport(getApplicationContext(), Bugly.APP_ID, Bugly.TOOGLE);

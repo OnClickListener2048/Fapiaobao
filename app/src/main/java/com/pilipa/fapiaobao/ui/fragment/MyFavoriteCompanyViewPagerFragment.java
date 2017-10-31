@@ -20,6 +20,7 @@ import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.entity.FavCompany;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.CompanyDetailsActivity;
@@ -208,7 +209,7 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
             }
         });
     }
-    public void favCompanyCreate(FavCompany favCompany){
+    public void favCompanyCreate(CompanyCollectBean favCompany){
         Api.favCompanyCreate(favCompany,new Api.BaseViewCallback<NormalBean>() {
             @Override
             public void setData(NormalBean normalBean) {

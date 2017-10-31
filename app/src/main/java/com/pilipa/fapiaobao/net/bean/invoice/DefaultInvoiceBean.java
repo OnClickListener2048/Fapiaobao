@@ -13,7 +13,7 @@ public class DefaultInvoiceBean {
         return "DefaultInvoiceBean{" +
                 "status=" + status +
                 ", msg='" + msg + '\'' +
-                ", data=" + data.toString() +
+                ", data=" + data+
                 '}';
     }
 

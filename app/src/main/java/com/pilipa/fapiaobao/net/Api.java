@@ -3,11 +3,13 @@ package com.pilipa.fapiaobao.net;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.entity.Customer;
@@ -16,9 +18,10 @@ import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
+import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
-import com.pilipa.fapiaobao.net.bean.invoice.MatchBean;
+import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
@@ -31,17 +34,22 @@ import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
 import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
+import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.utils.PayCommonUtil;
 import com.pilipa.fapiaobao.wxapi.Constants;
 
-import static com.pilipa.fapiaobao.net.Constant.*;
-
 import org.json.JSONObject;
 
+import static com.pilipa.fapiaobao.net.Constant.CREATE_ORDER;
+import static com.pilipa.fapiaobao.net.Constant.DO_MATCH_DEMAND;
+import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY;
 import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_EXPRESS_COMPANY;
 import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_INVIICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.UPDATE_INVOICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.WX_RECHARGE;
 
 /**
  * Created by lyt on 2017/10/12.
@@ -147,6 +155,8 @@ public class Api {
             public void onSuccess(Response<LoginWithInfoBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
+                } else if (response.body().getStatus() == 701) {
+                    BaseApplication.showToast("token验证失败");
                 }
             }
         });
@@ -289,7 +299,7 @@ public class Api {
      * @param favCompany
      * @param baseViewCallback
      */
-    public static void favCompanyCreate(FavCompany favCompany, final BaseViewCallback baseViewCallback) {
+    public static void favCompanyCreate(CompanyCollectBean favCompany, final BaseViewCallback baseViewCallback) {
         Gson gson = new Gson();
         String jsonFavCompany = gson.toJson(favCompany);
         OkGo.<NormalBean>post(Constant.FAVORITE_COMPANY_CREATE)
@@ -385,6 +395,9 @@ public class Api {
         });
     }
 
+    /**
+     * @param baseViewCallback
+     */
     public static void findAllInvoice(final BaseViewCallback baseViewCallback) {
         OkGo.<AllInvoiceType>get(FIND_ALL_INVIICE_TYPE).execute(new JsonCallBack<AllInvoiceType>(AllInvoiceType.class) {
             @Override
@@ -400,6 +413,11 @@ public class Api {
 
     }
 
+    /**
+     * @param token
+     * @param invoiceType
+     * @param baseViewCallback
+     */
     public static void updateInvoiceType(@NonNull String token, @NonNull String invoiceType, @NonNull final BaseViewCallback baseViewCallback) {
         String url = String.format(UPDATE_INVOICE_TYPE, token, invoiceType);
         OkGo.<String>get(url).execute(new StringCallback() {
@@ -412,6 +430,10 @@ public class Api {
         });
     }
 
+    /**
+     *
+     * @param baseViewCallback
+     */
     public static void findAllLogisticsCompany(final BaseViewCallback baseViewCallback) {
         OkGo.<ExpressCompanyBean>get(FIND_ALL_EXPRESS_COMPANY).execute(new JsonCallBack<ExpressCompanyBean>(ExpressCompanyBean.class) {
             @Override
@@ -425,6 +447,11 @@ public class Api {
         });
     }
 
+    /**
+     *
+     * @param baseViewCallback
+     * @param <T>
+     */
     public static <T> void findDefaultInvoiceType(final BaseViewCallback baseViewCallback) {
         OkGo.<T>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE).execute(new JsonCallBack<T>(AllInvoiceType.class) {
             @Override
@@ -436,6 +463,12 @@ public class Api {
         });
     }
 
+    /**
+     *
+     * @param token
+     * @param baseViewCallback
+     * @param <T>
+     */
     public static <T> void findUserInvoiceType(String token, final BaseViewCallback baseViewCallback) {
         String url = String.format(FIND_FREQUENTLY_INVOICE_TYPE, token);
         OkGo.<T>get(url).execute(new JsonCallBack<T>(DefaultInvoiceBean.class) {
@@ -449,6 +482,14 @@ public class Api {
     }
     //GET /rest/order/doMatchDemand/{invoiceType}/{amount}/{varieties}/{city}
 
+    /**
+     *
+     * @param invoiceType
+     * @param amount
+     * @param varieties
+     * @param city
+     * @param baseViewCallback
+     */
     public static void doMatchDemand(String invoiceType, Double amount, String varieties, String city, final BaseViewCallback baseViewCallback) {
         String url = String.format(DO_MATCH_DEMAND, invoiceType, amount);
 //        OkGo.<MacherBeanToken>get(url).execute(new JsonCallBack<MacherBeanToken>(MacherBeanToken.class) {
@@ -459,15 +500,16 @@ public class Api {
 //                    baseViewCallback.setData(response.body());
 //                }
 //            }
-//
 //        });
 
         OkGo.<MacherBeanToken>post(url).params("varieties",varieties).params("city",city).execute(new JsonCallBack<MacherBeanToken>(MacherBeanToken.class) {
             @Override
             public void onSuccess(Response<MacherBeanToken> response) {
                 if (response.isSuccessful() && response.body().getStatus() == 200) {
-                    Log.d(TAG, "doMatchDemandonSuccess: "+response.body());
-                    baseViewCallback.setData(response.body());
+                    if (response.body().getData() != null) {
+                        Log.d(TAG, "doMatchDemandonSuccess: "+response.body());
+                        baseViewCallback.setData(response.body());
+                    }
                 }
             }
         });
@@ -529,35 +571,64 @@ public class Api {
                 });
     }
 
+    public static void wxRecharge(String token, String ip, double amount, final BaseViewCallback b) {
+        String url = String.format(WX_RECHARGE, token, ip, amount);
+        OkGo.<PrepayBean>get(url).execute(new JsonCallBack<PrepayBean>(PrepayBean.class) {
+
+            @Override
+            public void onSuccess(Response<PrepayBean> response) {
+                if (response.isSuccessful() && response.body().getStatus() == 200) {
+                    b.setData(response.body());
+                }
+            }
+        });
+    }
 
 
+    public static void judgeCompanyIsCollcted(String companyId, String token, final BaseViewCallback baseViewCallback) {
+        String url = String.format(FAVORITE_COMPANY, companyId, token);
+        OkGo.<NormalBean>get(url).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+            @Override
+            public void onSuccess(Response<NormalBean> response) {
+                baseViewCallback.setData(response.body());
+            }
+        });
+    }
+
+    //http://192.168.1.205:8181/fapiaobao/rest/order/createOrder/{token}/{demandId}/{invoiceType}/{amount}
+    public static void createOrder(String token, String demandid, String invocieType, double amount, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
+        String url = String.format(CREATE_ORDER, token, demandid, invocieType, amount);
+        OkGo.<OrderBean>get(url).execute(new JsonCallBack<OrderBean>(OrderBean.class) {
+
+            @Override
+            public void onSuccess(Response<OrderBean> response) {
+                if (response.isSuccessful()) {
+                    baseViewCallbackWithOnStart.setData(response.body());
+                }
+            }
+
+            @Override
+            public void onStart(Request<OrderBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallbackWithOnStart.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallbackWithOnStart.onFinish();
+            }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        });
+    }
 
 
     public interface BaseViewCallback<T> {
         void setData(T t);
     }
 
-    public interface BaseViewCallbackWithOnStart extends BaseViewCallback {
+    public interface BaseViewCallbackWithOnStart<T> extends BaseViewCallback<T> {
         void onStart();
 
         void onFinish();

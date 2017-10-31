@@ -16,12 +16,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.invoice.MatchBean;
+import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
 import com.pilipa.fapiaobao.ui.fragment.FilterFragment;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.tmall.ultraviewpager.UltraViewPager;
@@ -79,6 +82,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     private HashMap<String, String> httpParams;
     private int currentItem = 0;
     private MacherBeanToken matchBean;
+    private Double amount;
 
     @Override
     protected int getLayoutId() {
@@ -171,7 +175,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         switch (view.getId()) {
             case R.id.test_redbag:
                 String trim = etEstimate.getText().toString().trim();
-                Double amount = Double.valueOf(trim);
+                amount = Double.valueOf(trim);
                 if (!(amount > 0)) {
                     BaseApplication.showToast("请输入正确的发票金额");
                     return;
@@ -191,11 +195,50 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 }
                 break;
             case R.id.go:
-                MacherBeanToken.DataBean dataBean = matchBean.getData().get(currentItem);
-                Intent intent = new Intent();
-                intent.putExtra("company_info", dataBean.getCompany());
-                intent.setClass(this, ConfirmActivity.class);
-                startActivity(intent);
+                if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                        @Override
+                        public void setData(LoginWithInfoBean normalBean) {
+                            if (normalBean.getStatus() == 200) {
+                                Api.createOrder(AccountHelper.getToken(), matchBean.getData().get(currentItem).getDemandId(), label, amount, new Api.BaseViewCallbackWithOnStart<OrderBean>() {
+                                    @Override
+                                    public void onStart() {
+                                        showProgressDialog();
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        hideProgressDialog();
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        hideProgressDialog();
+                                    }
+
+                                    @Override
+                                    public void setData(OrderBean o) {
+                                        if (o.getStatus() == 200) {
+                                            BaseApplication.showToast("创建订单成功");
+                                            MacherBeanToken.DataBean dataBean = matchBean.getData().get(currentItem);
+                                            Intent intent = new Intent();
+                                            intent.putExtra("company_info", dataBean.getCompany());
+                                            intent.putExtra("order", o.getData().getOrderId());
+                                            intent.setClass(EstimateActivity.this, ConfirmActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+
+
+
+
+
+
                 break;
             case R.id.tolast:
                 ultraViewpager.setCurrentItem(currentItem - 1, true);
