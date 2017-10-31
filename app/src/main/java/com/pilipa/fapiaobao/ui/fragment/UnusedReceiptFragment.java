@@ -396,6 +396,8 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                         if(myInvoiceListBean.getData() != null){
                             list.addAll(myInvoiceListBean.getData());
                             setUpData(list);
+                        }else{
+                            setUpData(list);
                         }
                         Log.d(TAG, "updateData:myInvoiceList success");
                     }
