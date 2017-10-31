@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by lyt on 2017/10/17.
+ *
  */
 @Deprecated
 public class UnusedPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
@@ -48,6 +49,7 @@ public class UnusedPagerFragment extends BaseFragment implements AdapterView.OnI
         ButterKnife.bind(this, rootView);
         expandableListView.setGroupIndicator(null);
 
+        //TODO  暂时未使用
         return rootView;
     }
 

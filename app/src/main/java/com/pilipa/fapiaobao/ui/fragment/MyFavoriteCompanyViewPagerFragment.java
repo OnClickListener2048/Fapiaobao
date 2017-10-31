@@ -174,7 +174,14 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(mContext, CompanyDetailsActivity.class));
+        Intent intent = new Intent(mContext, CompanyDetailsActivity.class);
+        intent.putExtra("name",mData.get(position).getName());
+        intent.putExtra("taxno",mData.get(position).getTaxno());
+        intent.putExtra("address",mData.get(position).getAddress());
+        intent.putExtra("phone",mData.get(position).getPhone());
+        intent.putExtra("depositBank",mData.get(position).getDepositBank());
+        intent.putExtra("account",mData.get(position).getAccount());
+        startActivity(intent);
     }
 
     public void getFavCompanyList(){

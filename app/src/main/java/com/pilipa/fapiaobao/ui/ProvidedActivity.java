@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,14 +19,19 @@ import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.TestBean;
+import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 
@@ -112,13 +118,14 @@ public class ProvidedActivity extends BaseActivity {
     @Bind(R.id.mSpinner)
     Spinner mSpinner;
     private boolean isShow = false;//当前详情是否显示
+    boolean isCollected;
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_provided;
     }
 
-    @OnClick({R.id.provided_back, R.id.fl_change, R.id.btn_confirm})
+    @OnClick({R.id.provided_back, R.id.fl_change, R.id.btn_confirm,R.id.collect})
 
     @Override
     public void onClick(View v) {
@@ -143,6 +150,51 @@ public class ProvidedActivity extends BaseActivity {
                 }
             }
             break;
+            case R.id.collect:
+                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+
+                    @Override
+                    public void setData(LoginWithInfoBean normalBean) {
+                        if (normalBean.getStatus() == 200) {
+                            if (isCollected) {
+                                Api.deleteFavoriteCompany(CompanyId, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                                    @Override
+                                    public void setData(NormalBean normalBean) {
+                                        if (normalBean.getStatus() == 200) {
+                                            BaseApplication.showToast("删除收藏成功");
+                                            isCollected = false;
+                                            collect.setImageResource(R.mipmap.collect);
+                                        }
+                                    }
+                                });
+                            } else {
+                                CompanyCollectBean companyCollectBean = new CompanyCollectBean();
+                                CompanyCollectBean.CompanyBean companyBean = new CompanyCollectBean.CompanyBean();
+                                companyBean.setId(CompanyId);
+                                companyCollectBean.setCompany(companyBean);
+                                companyCollectBean.setToken(normalBean.getData().getToken());
+
+                                Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<NormalBean>() {
+                                    @Override
+                                    public void setData(NormalBean normalBean) {
+                                        if (normalBean.getStatus() == 200) {
+                                            BaseApplication.showToast("收藏成功");
+                                            isCollected = true;
+                                            collect.setImageResource(R.mipmap.collected);
+                                        }
+                                    }
+                                });
+                            }
+                        } else {
+                            BaseApplication.showToast("token验证失败请重新登录");
+                            startActivity(new Intent(ProvidedActivity.this, LoginActivity.class));
+                            finish();
+                        }
+                    }
+                });
+
+
+                break;
         }
     }
 
@@ -211,12 +263,32 @@ public class ProvidedActivity extends BaseActivity {
         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
     }
 
-
+    String CompanyId;
     @Override
     public void initData() {
         String orderId = getIntent().getStringExtra("OrderId");
+        CompanyId = getIntent().getStringExtra("CompanyId");
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
         showOrderDetail(orderId);
+        LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
+        if (loginWithInfoBean != null) {
+            Api.judgeCompanyIsCollcted(CompanyId, loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<NormalBean>() {
+                @Override
+                public void setData(NormalBean s) {
+                    if (s != null && s.getStatus() == 200) {
+                        //TODO 设置收藏图片
+                        isCollected = false;
+                        collect.setImageResource(R.mipmap.collect);
+                    } else if (s.getStatus() == 701 && s.getMsg().equals("token验证失败")) {
+                        startActivity(new Intent(ProvidedActivity.this, LoginActivity.class));
+                        finish();
+                    } else if (s.getStatus() == 400) {
+                        collect.setImageResource(R.mipmap.collected);
+                        isCollected = true;
+                    }
+                }
+            });
+        }
     }
 
     @Override

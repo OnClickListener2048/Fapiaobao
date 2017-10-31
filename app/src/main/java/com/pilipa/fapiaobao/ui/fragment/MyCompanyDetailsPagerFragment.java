@@ -21,7 +21,6 @@ import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
-import com.pilipa.fapiaobao.ui.PubSuccessActivity;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -80,16 +79,31 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Bundle arguments = getArguments();
-        String companyId =(String) arguments.get("companyId");
-
-        getCompanyDetails(companyId);
         tv_companyName = (TextView) view.findViewById(R.id.tv_companyName);
         tv_receptCode = (TextView) view.findViewById(R.id.tv_receptCode);
         tv_address = (TextView) view.findViewById(R.id.tv_address);
         tv_phoneNum = (TextView) view.findViewById(R.id.tv_phoneNum);
         tv_bankName = (TextView) view.findViewById(R.id.tv_bankName);
         tv_account = (TextView) view.findViewById(R.id.tv_account);
+        Bundle arguments = getArguments();
+        String companyId =(String) arguments.get("companyId");
+        if(companyId == null){
+            String name =(String) arguments.get("name");
+            String taxno =(String) arguments.get("taxno");
+            String address =(String) arguments.get("address");
+            String phone =(String) arguments.get("phone");
+            String depositBank =(String) arguments.get("depositBank");
+            String account =(String) arguments.get("account");
+            tv_companyName.setText(name);
+            tv_receptCode.setText(taxno);
+            tv_address.setText(address);
+            tv_phoneNum.setText(phone);
+            tv_bankName.setText(depositBank);
+            tv_account.setText(account);
+        }else{
+            getCompanyDetails(companyId);
+        }
+
 
 
         ImageView img_qr_code1 = (ImageView) view.findViewById(R.id.img_qr_code1);

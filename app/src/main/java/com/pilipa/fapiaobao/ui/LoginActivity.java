@@ -142,7 +142,9 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
             BaseApplication.showToast(checked);
             return;
         } else {
-            Api.login(platform,credenceName,credenceCode,"{deviceToken}",new Api.BaseViewCallback<LoginWithInfoBean>() {
+            String deviceToken = BaseApplication.get("deviceToken",null);
+            Log.d(TAG, "login :deviceToken "+deviceToken);
+            Api.login(platform,credenceName,credenceCode,deviceToken,new Api.BaseViewCallback<LoginWithInfoBean>() {
                         @Override
                         public void setData(LoginWithInfoBean loginWithInfoBean) {
                             Log.d(TAG, "setData: SharedPreferencesHelper.save(LoginActivity.this,loginBean);success");

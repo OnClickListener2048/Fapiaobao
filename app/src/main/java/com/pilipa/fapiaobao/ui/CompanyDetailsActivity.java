@@ -56,8 +56,19 @@ public class CompanyDetailsActivity extends BaseActivity {
     @Override
     public void initView() {
         String companyId = getIntent().getStringExtra("companyId");
-        Bundle bundle = new Bundle();
-        bundle.putString("companyId",companyId);
+        Bundle bundle;
+        if(companyId == null){
+            bundle = new Bundle();
+            bundle.putString("name",getIntent().getStringExtra("name"));
+            bundle.putString("taxno",getIntent().getStringExtra("taxno"));
+            bundle.putString("address",getIntent().getStringExtra("address"));
+            bundle.putString("phone",getIntent().getStringExtra("phone"));
+            bundle.putString("depositBank",getIntent().getStringExtra("depositBank"));
+            bundle.putString("account",getIntent().getStringExtra("account"));
+        }else{
+            bundle = new Bundle();
+            bundle.putString("companyId",companyId);
+        }
         FragmentList  = new ArrayList<>();
         MyCompanyDetailsPagerFragment fragment1 = MyCompanyDetailsPagerFragment.newInstance(bundle);
         FragmentList.add(fragment1);

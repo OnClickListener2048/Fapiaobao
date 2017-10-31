@@ -27,7 +27,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.R.id.btn_shut_down_early;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
+import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_ING;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_PAPER;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
@@ -82,6 +84,8 @@ public class DemandActivity extends BaseActivity {
     TextView bank;
     @Bind(R.id.tv_AlreadyCollected)
     TextView tvAlreadyCollected;
+    @Bind(R.id.btn_shut_down_early)
+    TextView btnShutDownEarly;
 
     List<DemandDetails.DataBean.OrderInvoiceListBean> mDataList = new ArrayList<>();
     private boolean isShow =false;//当前详情是否显示
@@ -102,7 +106,7 @@ public class DemandActivity extends BaseActivity {
         return R.layout.activity_demand;
     }
 
-    @OnClick({R.id.demand_back,R.id.fl_change,R.id.btn_shut_down_early})
+    @OnClick({R.id.demand_back,R.id.fl_change, btn_shut_down_early})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -110,7 +114,7 @@ public class DemandActivity extends BaseActivity {
                 finish();
             }
             break;
-            case R.id.btn_shut_down_early: {
+            case btn_shut_down_early: {
                 if(demandId != null){
                     shatDownEarly(demandId);
                 }
@@ -238,6 +242,14 @@ public class DemandActivity extends BaseActivity {
                         setUpData(mDataList);
                         String collected_amount = getResources().getString(R.string.collected_amount);
                         tvAlreadyCollected.setText(String.format(collected_amount, mDataList.size()));
+
+                        if(STATE_DEMAND_ING.equals(bean.getDemand().getState())){
+                            btnShutDownEarly.setVisibility(View.VISIBLE);
+                        }else{
+                            btnShutDownEarly.setVisibility(View.GONE);
+                        }
+
+
                         Log.d(TAG, "demandDetails success");
                     }
                 }

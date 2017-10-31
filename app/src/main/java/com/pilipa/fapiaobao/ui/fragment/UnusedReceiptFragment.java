@@ -408,7 +408,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                     @Override
                     public void setData(MyInvoiceListBean myInvoiceListBean) {
                         List<MyInvoiceListBean.DataBean> list = new ArrayList<>();
-                        if(myInvoiceListBean.getData() != null){
+                        if(myInvoiceListBean.getStatus() == 200){
                             list.addAll(myInvoiceListBean.getData());
                             setUpData(list);
                         }else{

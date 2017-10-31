@@ -558,9 +558,7 @@ public class Api {
         OkGo.<MyInvoiceListBean>get(String.format(MY_INVOICE_LIST, token)).execute(new JsonCallBack<MyInvoiceListBean>(MyInvoiceListBean.class) {
             @Override
             public void onSuccess(Response<MyInvoiceListBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }

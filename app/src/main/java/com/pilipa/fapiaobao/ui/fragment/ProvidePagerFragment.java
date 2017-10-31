@@ -165,6 +165,7 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(mContext, ProvidedActivity.class);
         intent.putExtra("OrderId",mDataList.get(position).getId());
+        intent.putExtra("CompanyId",mDataList.get(position).getCompany().getId());
         startActivity(intent);
     }
     private void orderList(int pageNo,int pageSize){
