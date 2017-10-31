@@ -47,7 +47,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 //        } else {
 //            SimplexToast.show(this, "支付失败");
 //        }
-//        finish();
+        finish();
     }
 
     @Override

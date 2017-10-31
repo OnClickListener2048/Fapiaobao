@@ -97,6 +97,7 @@
                 android:background="@drawable/shape_rect_demand_info">
 
                 <EditText
+                    android:inputType="numberDecimal"
                     android:id="@+id/et_amount"
                     android:layout_height="@dimen/d30"
                     android:layout_width="0dp"
@@ -161,6 +162,7 @@
                 android:background="@drawable/shape_rect_demand_info">
 
                 <EditText
+                    android:inputType="numberDecimal"
                     android:id="@+id/et_amount_redbag"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/d30"
@@ -220,6 +222,7 @@
                 android:background="@drawable/shape_rect_demand_info">
 
                 <EditText
+                    android:inputType="numberDecimal"
                     android:id="@+id/et_express_amount_minimum"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/d30"

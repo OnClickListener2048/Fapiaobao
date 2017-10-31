@@ -8,15 +8,18 @@ import java.util.List;
 
 public class UploadInvoice {
 
+
     /**
-     * invoiceVarietyList : [{"invoiceImageList":[{"id":"string","picture":"string"}],"variety":"string"}]
+     * invoiceImageList : [{"id":"string","picture":"string"}]
      * orderId : string
      * token : string
+     * variety : string
      */
 
     private String orderId;
     private String token;
-    private List<InvoiceVarietyListBean> invoiceVarietyList;
+    private String variety;
+    private List<InvoiceImageListBean> invoiceImageList;
 
     public String getOrderId() {
         return orderId;
@@ -34,63 +37,45 @@ public class UploadInvoice {
         this.token = token;
     }
 
-    public List<InvoiceVarietyListBean> getInvoiceVarietyList() {
-        return invoiceVarietyList;
+    public String getVariety() {
+        return variety;
     }
 
-    public void setInvoiceVarietyList(List<InvoiceVarietyListBean> invoiceVarietyList) {
-        this.invoiceVarietyList = invoiceVarietyList;
+    public void setVariety(String variety) {
+        this.variety = variety;
     }
 
-    public static class InvoiceVarietyListBean {
+    public List<InvoiceImageListBean> getInvoiceImageList() {
+        return invoiceImageList;
+    }
+
+    public void setInvoiceImageList(List<InvoiceImageListBean> invoiceImageList) {
+        this.invoiceImageList = invoiceImageList;
+    }
+
+    public static class InvoiceImageListBean {
         /**
-         * invoiceImageList : [{"id":"string","picture":"string"}]
-         * variety : string
+         * id : string
+         * picture : string
          */
 
-        private String variety;
-        private List<InvoiceImageListBean> invoiceImageList;
+        private String id;
+        private String picture;
 
-        public String getVariety() {
-            return variety;
+        public String getId() {
+            return id;
         }
 
-        public void setVariety(String variety) {
-            this.variety = variety;
+        public void setId(String id) {
+            this.id = id;
         }
 
-        public List<InvoiceImageListBean> getInvoiceImageList() {
-            return invoiceImageList;
+        public String getPicture() {
+            return picture;
         }
 
-        public void setInvoiceImageList(List<InvoiceImageListBean> invoiceImageList) {
-            this.invoiceImageList = invoiceImageList;
-        }
-
-        public static class InvoiceImageListBean {
-            /**
-             * id : string
-             * picture : string
-             */
-
-            private String id;
-            private String picture;
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getPicture() {
-                return picture;
-            }
-
-            public void setPicture(String picture) {
-                this.picture = picture;
-            }
+        public void setPicture(String picture) {
+            this.picture = picture;
         }
     }
 }

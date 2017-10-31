@@ -47,6 +47,8 @@ public class UploadReceiptActivity extends BaseActivity {
     public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
     public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
     public static final String IS_ELEC_RECEIPT_DATA = "is_elec_receipt_data" ;
+    private double amount;
+    private double bonus;
 
 
     @Override
@@ -57,6 +59,8 @@ public class UploadReceiptActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        amount = getIntent().getDoubleExtra("amount",0);
+        bonus = getIntent().getDoubleExtra("bonus",0);
         paperNormalReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
         paperSpecialReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
@@ -99,6 +103,8 @@ public class UploadReceiptActivity extends BaseActivity {
     @OnClick(R.id.upload_receipt)
     public void onViewClicked() {
         Intent intent = new Intent(this, UploadReceiptPreviewActivity.class);
+        intent.putExtra("amount", amount);
+        intent.putExtra("bonus", bonus);
         Bundle bundle = new Bundle();
         ArrayList<Image> currentImagesPN = paperNormalReceiptFragment.getCurrentImages();
         ArrayList<Image> currentImagesPS = paperSpecialReceiptFragment.getCurrentImages();

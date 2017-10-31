@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,16 +15,20 @@ import android.widget.ImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.AllInvoiceAdapter;
 import com.pilipa.fapiaobao.adapter.FinanceAdapter;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.interf.BaseView;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
+import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
+import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -48,6 +53,9 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     public static final String EXTRA_DATA_LABEL = "extra_data_label";
     private LoginWithInfoBean loginBean;
     FinanceAdapter financeAdapter;
+    private static final String DECODED_CONTENT_KEY = "codedContent";
+    private static final String DECODED_BITMAP_KEY = "codedBitmap";
+    private static final int REQUEST_CODE_SCAN = 0x0000;
 
     @Override
     protected int getLayoutId() {
@@ -60,6 +68,19 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SCAN && resultCode == 200) {
+            if (data != null) {
+
+                String content = data.getStringExtra(DECODED_CONTENT_KEY);
+                Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
+
+            }
+        }
     }
 
     @Override
@@ -85,6 +106,19 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     @Override
     protected void initData() {
         super.initData();
+            Api.findAllInvoiceVariety(new Api.BaseViewCallback<AllInvoiceVariety>() {
+                @Override
+                public void setData(AllInvoiceVariety allInvoiceVariety) {
+                    boolean save = SharedPreferencesHelper.save(mContext, allInvoiceVariety);
+                    if (save) {
+                        BaseApplication.showToast("保存默认发票种类成功");
+                    } else {
+                        BaseApplication.showToast("保存默认发票种类失败");
+                    }
+                }
+            });
+
+
         Api.findAllInvoice(new Api.BaseViewCallback<AllInvoiceType>() {
 
             private AllInvoiceAdapter adapter;
@@ -109,7 +143,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                         financeAdapter.setOnLabelClickListener(FinanceFragment.this);
                         recyclerview.setAdapter(financeAdapter);
                     }
-
                 }
             });
         } else {
@@ -132,6 +165,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.scan:
+                startActivityForResult(new Intent(mContext, CaptureActivity.class), REQUEST_CODE_SCAN);
                 break;
             case R.id.notification:
                 break;

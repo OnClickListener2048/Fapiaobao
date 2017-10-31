@@ -2,13 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/d15">
+    android:orientation="vertical">
 
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d10" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/d10"
+        android:text="分享至" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d10" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/weixin"
             android:layout_weight="1"
             android:drawableTop="@mipmap/wx"
             android:gravity="center"
@@ -17,6 +30,7 @@
             android:layout_height="wrap_content"
             android:text="@string/wx"/>
         <TextView
+            android:id="@+id/moments"
             android:layout_weight="1"
             android:drawableTop="@mipmap/wx_circle"
             android:gravity="center"
@@ -25,6 +39,7 @@
             android:layout_height="wrap_content"
             android:text="@string/wx_circle"/>
         <TextView
+            android:id="@+id/qq"
             android:layout_weight="1"
             android:drawableTop="@mipmap/q"
             android:gravity="center"
@@ -33,6 +48,7 @@
             android:layout_height="wrap_content"
             android:text="@string/qq"/>
         <TextView
+            android:id="@+id/qzone"
             android:layout_weight="1"
             android:drawableTop="@mipmap/qq_space"
             android:gravity="center"
@@ -41,6 +57,7 @@
             android:layout_height="wrap_content"
             android:text="@string/qq_space"/>
         <TextView
+            android:id="@+id/weibo"
             android:layout_weight="1"
             android:drawableTop="@mipmap/blog"
             android:gravity="center"
@@ -49,5 +66,23 @@
             android:layout_height="wrap_content"
             android:text="@string/blog"/>
     </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d20" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消" />
+    </LinearLayout>
+
 
 </LinearLayout>

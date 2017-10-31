@@ -15,7 +15,11 @@ import android.widget.Toast;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.TestBean;
+import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
@@ -23,6 +27,7 @@ import com.pilipa.fapiaobao.ui.receipt_folder_image_select.adapter.NormalAdpater
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,16 +70,23 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
         recyclerview.addItemDecoration(new GridInset(3, spacing, false));
 
 
-        OkGo.<TestBean>get("http://gank.io/api/data/福利/10/1").execute(new JsonCallBack<TestBean>(TestBean.class) {
-            @Override
-            public void onSuccess(Response<TestBean> response) {
-                TestBean body = response.body();
-                if (!body.isError()) {
-                    setUpData(body.getResults());
-                }
-            }
-        });
+        myInvoiceList();
 
+    }
+
+    private void myInvoiceList(){
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            Api.myInvoiceList(AccountHelper.getToken() , new Api.BaseViewCallback<MyInvoiceListBean>() {
+                @Override
+                public void setData(MyInvoiceListBean myInvoiceListBean) {
+                    List<MyInvoiceListBean.DataBean> list =  myInvoiceListBean.getData();
+                    setUpData(list);
+                    Log.d(TAG, "updateData:myInvoiceList success");
+                }
+            });
+        }else{
+            BaseApplication.showToast("登录超期");
+        }
     }
 
     private int getImageResize(Context context) {
@@ -92,16 +104,16 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
         return mImageResize;
     }
 
-    private void setUpData(ArrayList<TestBean.ResultsBean> body) {
+    private void setUpData(List<MyInvoiceListBean.DataBean> body) {
         Log.d(TAG, "setUpData:   private void setUpData(ArrayList<model.ResultsBean> body) {");
         images = new ArrayList<>();
-        for (TestBean.ResultsBean result : body) {
+        for (MyInvoiceListBean.DataBean result : body) {
             Log.d(TAG, "setUpData:  for (model.ResultsBean result : body) {");
             Image image = new Image();
             image.isFromNet = true;
             image.isSelected = false;
             image.isCapture = false;
-            image.name = result.get_id();
+            image.name = result.getId();
             image.path = result.getUrl();
             image.position = -1;
             images.add(image);

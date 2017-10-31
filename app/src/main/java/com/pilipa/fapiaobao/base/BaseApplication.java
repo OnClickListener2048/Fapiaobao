@@ -23,6 +23,7 @@ import com.umeng.message.PushAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -40,6 +41,7 @@ public class BaseApplication extends Application {
     private static final int READ_TIMEOUT = 10*1000;
     private static final int WRITE_TIMEOUT = 7*1000;
     private static final int CONNECT_TIMEOUT = 10*1000;
+    public static ArrayList<BaseActivity> activities = new ArrayList<>();
 
 
     public void initOkGo(Application app) {
@@ -77,7 +79,7 @@ public class BaseApplication extends Application {
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String s) {
-                TLog.log(s);
+                set("deviceToken",s);
             }
 
             @Override
@@ -91,6 +93,32 @@ public class BaseApplication extends Application {
         PlatformConfig.setWeixin(Constants.APP_ID, "7df3fe092b8d88ebc28a94b84b5388c3");
         UMShareAPI.get(this);
 
+    }
+
+
+    public static void saveActivity(BaseActivity baseActivity) {
+        for (BaseActivity activity : activities) {
+            if (!activities.contains(baseActivity)) {
+                activities.add(baseActivity);
+            }
+
+        }
+    }
+
+    public static BaseActivity getActivity(Class clazz) {
+        for (BaseActivity activity : activities) {
+            if (activity.getClass() == clazz) {
+                return activity;
+            }
+        }
+
+        return null;
+    }
+
+    public static void finishAllActivites() {
+        for (BaseActivity activity : activities) {
+            activity.finish();
+        }
     }
 
     public static synchronized BaseApplication context() {

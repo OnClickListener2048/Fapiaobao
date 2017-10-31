@@ -51,5 +51,12 @@ public class JsonCreator {
         return new JSONObject(map);
     }
 
+    public static JSONObject matcher(String varieties, String city) {
+        HashMap map = new HashMap();
+        map.put("varieties", varieties);
+        map.put("city", city);
+        return new JSONObject(map);
+    }
+
 
 }

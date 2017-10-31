@@ -1,7 +1,11 @@
 package com.pilipa.fapiaobao.base;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,8 +19,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.mylibrary.utils.ImageLoader;
+import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.TDevice;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import butterknife.ButterKnife;
@@ -100,6 +106,20 @@ public abstract class BaseFragment extends Fragment {
 
     protected void initData() {
 
+    }
+
+
+
+    public String upLoadReceipt(Uri uri) {
+        ContentResolver cr = mContext.getContentResolver();
+        Bitmap bmp = null;
+        try {
+            bmp = MediaStore.Images.Media.getBitmap(cr,uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String bmpStr = BitmapUtils.bitmapToBase64(bmp);
+        return bmpStr;
     }
 
     protected <T extends View> T findView(int viewId) {

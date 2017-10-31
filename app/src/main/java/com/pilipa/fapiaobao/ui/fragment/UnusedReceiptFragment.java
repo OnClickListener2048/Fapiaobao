@@ -2,11 +2,9 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +21,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.UnusedReceiptAdapter;
@@ -32,11 +31,11 @@ import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
-import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.net.bean.me.UploadLocalReceipt;
+import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.UnusedPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
-import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -47,7 +46,6 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +55,6 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 import static android.app.Activity.RESULT_OK;
-import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
  * Created by edz on 2017/10/27.
@@ -116,24 +113,13 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         images = new ArrayList<>();
         images.add(image);
         mPreviousPosition = images.size();
-
-
-
     }
 
     @Override
     protected void initData() {
         super.initData();
         myInvoiceList();
-//        OkGo.<TestBean>get("http://gank.io/api/data/福利/10/1").execute(new JsonCallBack<TestBean>(TestBean.class) {
-//            @Override
-//            public void onSuccess(Response<TestBean> response) {
-//                TestBean body = response.body();
-//                if (!body.isError()) {
-//                    setUpData(body.getResults());
-//                }
-//            }
-//        });
+
     }
 
     private void setUpData(List<MyInvoiceListBean.DataBean> results) {
@@ -141,7 +127,6 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
             Image image = new Image();
             image.isFromNet = true;
             image.path = result.getUrl();
-            image.path = "http://7xi8d6.com1.z0.glb.clouddn.com/20171027114026_v8VFwP_joanne_722_27_10_2017_11_40_17_370.jpeg";
             image.isCapture = false;
             image.isSelected = false;
             image.name = result.getId();
@@ -251,7 +236,18 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
     @Override
     public void capture() {
-        setDialog();
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                if (loginWithInfoBean.getStatus() == 200) {
+                    setDialog();
+                } else {
+                    BaseApplication.showToast("token验证失效");
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                }
+            }
+        });
+
     }
 
     private void setDialog() {
@@ -309,6 +305,16 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                 getActivity().revokeUriPermission(contentUri,
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
             }
+
+            LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
+
+            UploadLocalReceipt uploadLocalReceipt = new UploadLocalReceipt();
+            uploadLocalReceipt.setToken(loginWithInfoBean.getData().getToken());
+            List<String> imageList = new ArrayList<>();
+            imageList.add(upLoadReceipt(image.uri));
+            uploadLocalReceipt.setPictureList(imageList);
+            Gson gson = new Gson();
+            Api.uploadLocalReceipt(gson.toJson(uploadLocalReceipt));
         } else if (REQUEST_CODE_IMAGE_CLICK == requestCode) {
             switch (resultCode) {
                 case RESULT_CODE_BACK:
@@ -325,9 +331,8 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
             }
         } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<Uri> uris = Matisse.obtainResult(data);
+            List<String> imageList = new ArrayList<>();
             for (Uri uri : uris) {
-                uploadInvoice(uri);//上传发票
-
                 Image image = new Image();
                 image.isCapture = false;
                 image.position = mPreviousPosition;
@@ -335,9 +340,19 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                 image.uri = uri;
                 image.isFromNet = false;
                 images.add(image);
+                imageList.add(upLoadReceipt(uri));
                 UnusedReceiptAdapter unusedReceiptAdapter = (UnusedReceiptAdapter) recyclerview.getAdapter();
                 unusedReceiptAdapter.notifyItemInserted(mPreviousPosition);
             }
+
+
+            LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
+            UploadLocalReceipt uploadLocalReceipt = new UploadLocalReceipt();
+            uploadLocalReceipt.setToken(loginWithInfoBean.getData().getToken());
+
+            uploadLocalReceipt.setPictureList(imageList);
+            Gson gson = new Gson();
+            Api.uploadLocalReceipt(gson.toJson(uploadLocalReceipt));
 
         }
     }
@@ -363,30 +378,30 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         }
     }
 
-    public void uploadInvoice(Uri uri){
-//        Bitmap bmp = BitmapFactory.decodeFile(uri);
-        ContentResolver cr = mContext.getContentResolver();
-        Bitmap  bmp = null;
-        try {
-            bmp = MediaStore.Images.Media.getBitmap(cr,uri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String bmpStr =BitmapUtils.bitmapToBase64(bmp);
-        Log.d(TAG, "initData:uploadInvoice bmpStr"+bmpStr);
-
-        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.uploadInvoice(AccountHelper.getToken(),bmpStr,new Api.BaseViewCallback<NormalBean>() {
-                @Override
-                public void setData(NormalBean normalBean) {
-                    if(normalBean.getStatus() == REQUEST_SUCCESS){
-                        Log.d(TAG, "uploadInvoice"+"success");
-                    }
-                }
-            });
-        }
-    }
+    //    public void uploadInvoice(Uri uri){
+////        Bitmap bmp = BitmapFactory.decodeFile(uri);
+//        ContentResolver cr = mContext.getContentResolver();
+//        Bitmap  bmp = null;
+//        try {
+//            bmp = MediaStore.Images.Media.getBitmap(cr,uri);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        String bmpStr =BitmapUtils.bitmapToBase64(bmp);
+//        Log.d(TAG, "initData:uploadInvoice bmpStr"+bmpStr);
+//
+//        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
+//        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+//            Api.uploadInvoice(AccountHelper.getToken(),bmpStr,new Api.BaseViewCallback<NormalBean>() {
+//                @Override
+//                public void setData(NormalBean normalBean) {
+//                    if(normalBean.getStatus() == REQUEST_SUCCESS){
+//                        Log.d(TAG, "uploadInvoice"+"success");
+//                    }
+//                }
+//            });
+//        }
+//    }
     private void myInvoiceList(){
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
                 Api.myInvoiceList(AccountHelper.getToken() , new Api.BaseViewCallback<MyInvoiceListBean>() {

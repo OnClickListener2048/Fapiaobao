@@ -53,7 +53,7 @@ public class UploadReceiptPreviewAdapter extends RecyclerView.Adapter<RecyclerVi
 
             ImageViewHolder imageHolder = (ImageViewHolder) holder;
             requestManager
-                    .load(images.get(position).uri)
+                    .load(images.get(position).isFromNet?images.get(position).path:images.get(position).uri)
                     .asBitmap()
                     .placeholder(R.mipmap.ic_launcher)
                     .override(imageResize, imageResize*3/4)

@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.ui.fragment.UploadPreviewReceiptFragment;
 
 import java.util.ArrayList;
@@ -57,6 +59,9 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
     public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
     public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
+    private double amount;
+    private double bonus;
+
 
     @Override
     public void onClick(View v) {
@@ -70,43 +75,76 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        amount = getIntent().getDoubleExtra("amount", 0);
+        bonus = getIntent().getDoubleExtra("bonus", 0);
+        receiptMoney.setText(amount + "");
+        estimateMoney.setText(bonus + "");
     }
 
     @Override
     public void initData() {
         Bundle bundleExtra = getIntent().getBundleExtra(UploadReceiptActivity.TAG);
-        ArrayList<Parcelable> listPN = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_NORMAL_RECEIPT_DATA);
-        ArrayList<Parcelable> listPS = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_SPECIAL_RECEIPT_DATA);
-        ArrayList<Parcelable> listPE = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_ELEC_RECEIPT_DATA);
+        final ArrayList<Parcelable> listPN = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_NORMAL_RECEIPT_DATA);
+        final ArrayList<Parcelable> listPS = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_SPECIAL_RECEIPT_DATA);
+        final ArrayList<Parcelable> listPE = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_ELEC_RECEIPT_DATA);
+
+        Api.findAllInvoiceVariety(new Api.BaseViewCallback<AllInvoiceVariety>() {
+            @Override
+            public void setData(AllInvoiceVariety allInvoiceVariety) {
+                if (listPN != null) {
+                    if (listPN.size() > 1) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("invoice_variety", allInvoiceVariety.getData().get(0).getValue());
+                        bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, listPN);
+                        paperNormalReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
+                        addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
+                    }
+                }
+
+                if (listPS != null) {
+                    if (listPS.size() > 1) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("invoice_variety", allInvoiceVariety.getData().get(1).getValue());
+                        bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, listPS);
+                        paperSpecialReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
+                        addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
+                    }
+                }
+
+                if (listPE != null) {
+                    if (listPE.size() > 1) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("invoice_variety", allInvoiceVariety.getData().get(2).getValue());
+                        bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, listPE);
+                        paperElecReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
+                        addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+                    }
+                }
+
+                int count0 = 0;
+                if (paperNormalReceiptFragment != null) {
+                    Log.d(TAG, "initData: paperNormalReceiptFragment");
+                    count0 = paperNormalReceiptFragment.getCurrentImageCount();
+                }
+
+                int count1 = 0;
+                if (paperSpecialReceiptFragment != null) {
+                    Log.d(TAG, "initData: paperSpecialReceiptFragment");
+                    count1 = paperSpecialReceiptFragment.getCurrentImageCount();
+                }
+
+                int count2 = 0;
+                if (paperElecReceiptFragment != null) {
+                    Log.d(TAG, "initData: paperElecReceiptFragment");
+                    count2 = paperElecReceiptFragment.getCurrentImageCount();
+                }
+
+                count = count0 + count1 + count2;
+                receiptNumber.setText(count + "");
 
 
-        if (listPN != null) {
-            if (listPN.size() > 1) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, listPN);
-                paperNormalReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
-                addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
             }
-        }
-
-        if (listPS != null) {
-            if (listPS.size() > 1) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, listPS);
-                paperSpecialReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
-                addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
-            }
-        }
-
-        if (listPE != null) {
-            if (listPE.size() > 1) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, listPE);
-                paperElecReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
-                addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
-            }
-        }
+        });
     }
 
     @Override
@@ -123,26 +161,26 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        int count0 = 0;
-        if (paperNormalReceiptFragment!= null) {
-            Log.d(TAG, "initData: paperNormalReceiptFragment");
-            count0 = paperNormalReceiptFragment.getCurrentImageCount();
-        }
-
-        int count1 = 0;
-        if (paperSpecialReceiptFragment!= null) {
-            Log.d(TAG, "initData: paperSpecialReceiptFragment");
-            count1 = paperSpecialReceiptFragment.getCurrentImageCount();
-        }
-
-        int count2 = 0;
-        if (paperElecReceiptFragment!= null) {
-            Log.d(TAG, "initData: paperElecReceiptFragment");
-            count2 = paperElecReceiptFragment.getCurrentImageCount();
-        }
-
-        count = count0 + count1 + count2;
-        receiptNumber.setText(count+"");
+//        int count0 = 0;
+//        if (paperNormalReceiptFragment!= null) {
+//            Log.d(TAG, "initData: paperNormalReceiptFragment");
+//            count0 = paperNormalReceiptFragment.getCurrentImageCount();
+//        }
+//
+//        int count1 = 0;
+//        if (paperSpecialReceiptFragment!= null) {
+//            Log.d(TAG, "initData: paperSpecialReceiptFragment");
+//            count1 = paperSpecialReceiptFragment.getCurrentImageCount();
+//        }
+//
+//        int count2 = 0;
+//        if (paperElecReceiptFragment!= null) {
+//            Log.d(TAG, "initData: paperElecReceiptFragment");
+//            count2 = paperElecReceiptFragment.getCurrentImageCount();
+//        }
+//
+//        count = count0 + count1 + count2;
+//        receiptNumber.setText(count+"");
     }
 
     @Override
@@ -154,6 +192,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
     @OnClick(R.id.upload_back)
     public void onViewClicked() {
+        finish();
     }
 
     @OnClick({R.id.continue_to_upload, R.id.confirm})
@@ -162,6 +201,18 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
             case R.id.continue_to_upload:
                 break;
             case R.id.confirm:
+                if (paperElecReceiptFragment != null) {
+                    paperElecReceiptFragment.uploadInvoice();
+
+                }
+                if (paperNormalReceiptFragment != null) {
+                    paperNormalReceiptFragment.uploadInvoice();
+                }
+
+                if (paperSpecialReceiptFragment != null) {
+                    paperSpecialReceiptFragment.uploadInvoice();
+                }
+
                 break;
         }
     }
