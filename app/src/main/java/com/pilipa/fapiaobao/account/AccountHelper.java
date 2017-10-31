@@ -50,8 +50,6 @@ public class AccountHelper {
     }
 
     public synchronized static LoginWithInfoBean getUser() {
-
-        if (instances.user == null)
             instances.user = SharedPreferencesHelper.loadFormSource(instances.application, LoginWithInfoBean.class);
         return instances.user;
     }

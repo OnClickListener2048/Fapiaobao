@@ -8,6 +8,50 @@ import java.util.List;
 
 public class DemandsPublishBean {
 
+    @Override
+    public String toString() {
+        return "DemandsPublishBean{" +
+                "areaRestrict='" + areaRestrict + '\'' +
+                ", attentions='" + attentions + '\'' +
+                ", beginCloseDate='" + beginCloseDate + '\'' +
+                ", beginDeadline='" + beginDeadline + '\'' +
+                ", beginLeftAmount=" + beginLeftAmount +
+                ", beginLeftBonus=" + beginLeftBonus +
+                ", beginMailMinimum=" + beginMailMinimum +
+                ", beginTotalAmount=" + beginTotalAmount +
+                ", beginTotalBonus=" + beginTotalBonus +
+                ", city='" + city + '\'' +
+                ", closeDate='" + closeDate + '\'' +
+                ", company=" + company +
+                ", createDate='" + createDate + '\'' +
+                ", customer=" + customer +
+                ", deadline='" + deadline + '\'' +
+                ", demandPostage=" + demandPostage +
+                ", endCloseDate='" + endCloseDate + '\'' +
+                ", endDeadline='" + endDeadline + '\'' +
+                ", endLeftAmount=" + endLeftAmount +
+                ", endLeftBonus=" + endLeftBonus +
+                ", endMailMinimum=" + endMailMinimum +
+                ", endTotalAmount=" + endTotalAmount +
+                ", endTotalBonus=" + endTotalBonus +
+                ", id='" + id + '\'' +
+                ", invoiceVarieties='" + invoiceVarieties + '\'' +
+                ", isNewRecord=" + isNewRecord +
+                ", leftAmount=" + leftAmount +
+                ", leftBonus=" + leftBonus +
+                ", mailMinimum=" + mailMinimum +
+                ", orderInvoice=" + orderInvoice +
+                ", province='" + province + '\'' +
+                ", remarks='" + remarks + '\'' +
+                ", state='" + state + '\'' +
+                ", totalAmount=" + totalAmount +
+                ", totalBonus=" + totalBonus +
+                ", updateDate='" + updateDate + '\'' +
+                ", token='" + token + '\'' +
+                ", demandInvoiceTypeList=" + demandInvoiceTypeList +
+                '}';
+    }
+
     /**
      * areaRestrict : string
      * attentions : string
@@ -393,6 +437,26 @@ public class DemandsPublishBean {
     }
 
     public static class CompanyBean {
+        @Override
+        public String toString() {
+            return "CompanyBean{" +
+                    "account='" + account + '\'' +
+                    ", address='" + address + '\'' +
+                    ", createDate='" + createDate + '\'' +
+                    ", customer=" + customer +
+                    ", depositBank='" + depositBank + '\'' +
+                    ", id='" + id + '\'' +
+                    ", isDefault='" + isDefault + '\'' +
+                    ", isNewRecord=" + isNewRecord +
+                    ", name='" + name + '\'' +
+                    ", phone='" + phone + '\'' +
+                    ", qrcode='" + qrcode + '\'' +
+                    ", remarks='" + remarks + '\'' +
+                    ", taxno='" + taxno + '\'' +
+                    ", updateDate='" + updateDate + '\'' +
+                    '}';
+        }
+
         /**
          * account : string
          * address : string
@@ -538,6 +602,38 @@ public class DemandsPublishBean {
         }
 
         public static class CustomerBean {
+            @Override
+            public String toString() {
+                return "CustomerBean{" +
+                        "amount=" + amount +
+                        ", beginAmount=" + beginAmount +
+                        ", beginBirthday='" + beginBirthday + '\'' +
+                        ", beginBonus=" + beginBonus +
+                        ", beginFrozen=" + beginFrozen +
+                        ", birthday='" + birthday + '\'' +
+                        ", bonus=" + bonus +
+                        ", createDate='" + createDate + '\'' +
+                        ", creditLevel=" + creditLevel +
+                        ", creditScore=" + creditScore +
+                        ", deviceToken='" + deviceToken + '\'' +
+                        ", endAmount=" + endAmount +
+                        ", endBirthday='" + endBirthday + '\'' +
+                        ", endBonus=" + endBonus +
+                        ", endFrozen=" + endFrozen +
+                        ", frequentType='" + frequentType + '\'' +
+                        ", frozen=" + frozen +
+                        ", gender='" + gender + '\'' +
+                        ", headimg='" + headimg + '\'' +
+                        ", id='" + id + '\'' +
+                        ", isNewRecord=" + isNewRecord +
+                        ", nickname='" + nickname + '\'' +
+                        ", openid='" + openid + '\'' +
+                        ", remarks='" + remarks + '\'' +
+                        ", telephone='" + telephone + '\'' +
+                        ", updateDate='" + updateDate + '\'' +
+                        '}';
+            }
+
             /**
              * amount : 0
              * beginAmount : 0
@@ -805,6 +901,38 @@ public class DemandsPublishBean {
     }
 
     public static class CustomerBeanX {
+        @Override
+        public String toString() {
+            return "CustomerBeanX{" +
+                    "amount=" + amount +
+                    ", beginAmount=" + beginAmount +
+                    ", beginBirthday='" + beginBirthday + '\'' +
+                    ", beginBonus=" + beginBonus +
+                    ", beginFrozen=" + beginFrozen +
+                    ", birthday='" + birthday + '\'' +
+                    ", bonus=" + bonus +
+                    ", createDate='" + createDate + '\'' +
+                    ", creditLevel=" + creditLevel +
+                    ", creditScore=" + creditScore +
+                    ", deviceToken='" + deviceToken + '\'' +
+                    ", endAmount=" + endAmount +
+                    ", endBirthday='" + endBirthday + '\'' +
+                    ", endBonus=" + endBonus +
+                    ", endFrozen=" + endFrozen +
+                    ", frequentType='" + frequentType + '\'' +
+                    ", frozen=" + frozen +
+                    ", gender='" + gender + '\'' +
+                    ", headimg='" + headimg + '\'' +
+                    ", id='" + id + '\'' +
+                    ", isNewRecord=" + isNewRecord +
+                    ", nickname='" + nickname + '\'' +
+                    ", openid='" + openid + '\'' +
+                    ", remarks='" + remarks + '\'' +
+                    ", telephone='" + telephone + '\'' +
+                    ", updateDate='" + updateDate + '\'' +
+                    '}';
+        }
+
         /**
          * amount : 0
          * beginAmount : 0
@@ -1071,6 +1199,26 @@ public class DemandsPublishBean {
     }
 
     public static class DemandPostageBean {
+        @Override
+        public String toString() {
+            return "DemandPostageBean{" +
+                    "address='" + address + '\'' +
+                    ", city='" + city + '\'' +
+                    ", createDate='" + createDate + '\'' +
+                    ", district='" + district + '\'' +
+                    ", email='" + email + '\'' +
+                    ", id='" + id + '\'' +
+                    ", isNewRecord=" + isNewRecord +
+                    ", phone='" + phone + '\'' +
+                    ", province='" + province + '\'' +
+                    ", receiver='" + receiver + '\'' +
+                    ", remarks='" + remarks + '\'' +
+                    ", telephone='" + telephone + '\'' +
+                    ", updateDate='" + updateDate + '\'' +
+                    ", logisticsCompany='" + logisticsCompany + '\'' +
+                    '}';
+        }
+
         /**
          * address : string
          * city : string
@@ -1218,6 +1366,30 @@ public class DemandsPublishBean {
     }
 
     public static class OrderInvoiceBean {
+        @Override
+        public String toString() {
+            return "OrderInvoiceBean{" +
+                    "amount=" + amount +
+                    ", beginAmount=" + beginAmount +
+                    ", beginBonus=" + beginBonus +
+                    ", bonus=" + bonus +
+                    ", createDate='" + createDate + '\'' +
+                    ", demand=" + demand +
+                    ", endAmount=" + endAmount +
+                    ", endBonus=" + endBonus +
+                    ", id='" + id + '\'' +
+                    ", isNewRecord=" + isNewRecord +
+                    ", logisticsCompany='" + logisticsCompany + '\'' +
+                    ", logisticsTradeno='" + logisticsTradeno + '\'' +
+                    ", order=" + order +
+                    ", remarks='" + remarks + '\'' +
+                    ", state='" + state + '\'' +
+                    ", updateDate='" + updateDate + '\'' +
+                    ", url='" + url + '\'' +
+                    ", variety='" + variety + '\'' +
+                    '}';
+        }
+
         /**
          * amount : 0
          * beginAmount : 0
@@ -1406,6 +1578,25 @@ public class DemandsPublishBean {
         }
 
         public static class OrderBean {
+            @Override
+            public String toString() {
+                return "OrderBean{" +
+                        "amount=" + amount +
+                        ", bonus=" + bonus +
+                        ", company=" + company +
+                        ", createDate='" + createDate + '\'' +
+                        ", customer=" + customer +
+                        ", demand=" + demand +
+                        ", id='" + id + '\'' +
+                        ", invoiceType=" + invoiceType +
+                        ", isNewRecord=" + isNewRecord +
+                        ", remarks='" + remarks + '\'' +
+                        ", state='" + state + '\'' +
+                        ", updateDate='" + updateDate + '\'' +
+                        ", orderInvoiceList=" + orderInvoiceList +
+                        '}';
+            }
+
             /**
              * amount : 0
              * bonus : 0
@@ -1541,6 +1732,26 @@ public class DemandsPublishBean {
             }
 
             public static class CompanyBeanX {
+                @Override
+                public String toString() {
+                    return "CompanyBeanX{" +
+                            "account='" + account + '\'' +
+                            ", address='" + address + '\'' +
+                            ", createDate='" + createDate + '\'' +
+                            ", customer=" + customer +
+                            ", depositBank='" + depositBank + '\'' +
+                            ", id='" + id + '\'' +
+                            ", isDefault='" + isDefault + '\'' +
+                            ", isNewRecord=" + isNewRecord +
+                            ", name='" + name + '\'' +
+                            ", phone='" + phone + '\'' +
+                            ", qrcode='" + qrcode + '\'' +
+                            ", remarks='" + remarks + '\'' +
+                            ", taxno='" + taxno + '\'' +
+                            ", updateDate='" + updateDate + '\'' +
+                            '}';
+                }
+
                 /**
                  * account : string
                  * address : string
@@ -1686,6 +1897,38 @@ public class DemandsPublishBean {
                 }
 
                 public static class CustomerBeanXX {
+                    @Override
+                    public String toString() {
+                        return "CustomerBeanXX{" +
+                                "amount=" + amount +
+                                ", beginAmount=" + beginAmount +
+                                ", beginBirthday='" + beginBirthday + '\'' +
+                                ", beginBonus=" + beginBonus +
+                                ", beginFrozen=" + beginFrozen +
+                                ", birthday='" + birthday + '\'' +
+                                ", bonus=" + bonus +
+                                ", createDate='" + createDate + '\'' +
+                                ", creditLevel=" + creditLevel +
+                                ", creditScore=" + creditScore +
+                                ", deviceToken='" + deviceToken + '\'' +
+                                ", endAmount=" + endAmount +
+                                ", endBirthday='" + endBirthday + '\'' +
+                                ", endBonus=" + endBonus +
+                                ", endFrozen=" + endFrozen +
+                                ", frequentType='" + frequentType + '\'' +
+                                ", frozen=" + frozen +
+                                ", gender='" + gender + '\'' +
+                                ", headimg='" + headimg + '\'' +
+                                ", id='" + id + '\'' +
+                                ", isNewRecord=" + isNewRecord +
+                                ", nickname='" + nickname + '\'' +
+                                ", openid='" + openid + '\'' +
+                                ", remarks='" + remarks + '\'' +
+                                ", telephone='" + telephone + '\'' +
+                                ", updateDate='" + updateDate + '\'' +
+                                '}';
+                    }
+
                     /**
                      * amount : 0
                      * beginAmount : 0
@@ -1978,6 +2221,20 @@ public class DemandsPublishBean {
          */
 
         private String createDate;
+
+        @Override
+        public String toString() {
+            return "DemandInvoiceTypeListBean{" +
+                    "createDate='" + createDate + '\'' +
+                    ", demand=" + demand +
+                    ", id='" + id + '\'' +
+                    ", invoiceType=" + invoiceType +
+                    ", isNewRecord=" + isNewRecord +
+                    ", remarks='" + remarks + '\'' +
+                    ", updateDate='" + updateDate + '\'' +
+                    '}';
+        }
+
         private DemandBeanXX demand;
         private String id;
         private InvoiceTypeBeanX invoiceType;
@@ -2072,6 +2329,26 @@ public class DemandsPublishBean {
             private String middleSize;
             private String name;
             private String remarks;
+
+            @Override
+            public String toString() {
+                return "InvoiceTypeBeanX{" +
+                        "category='" + category + '\'' +
+                        ", categorySort=" + categorySort +
+                        ", createDate='" + createDate + '\'' +
+                        ", frequentFlag='" + frequentFlag + '\'' +
+                        ", frequentSort=" + frequentSort +
+                        ", id='" + id + '\'' +
+                        ", isNewRecord=" + isNewRecord +
+                        ", largeSize='" + largeSize + '\'' +
+                        ", middleSize='" + middleSize + '\'' +
+                        ", name='" + name + '\'' +
+                        ", remarks='" + remarks + '\'' +
+                        ", smallSize='" + smallSize + '\'' +
+                        ", updateDate='" + updateDate + '\'' +
+                        '}';
+            }
+
             private String smallSize;
             private String updateDate;
 

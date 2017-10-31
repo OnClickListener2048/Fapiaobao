@@ -62,6 +62,7 @@ public class PubSuccessActivity extends BaseActivity {
             Toast.makeText(PubSuccessActivity.this, "分享取消", Toast.LENGTH_SHORT).show();
         }
     };
+    private String demand;
 
     @Override
     protected int getLayoutId() {
@@ -80,7 +81,7 @@ public class PubSuccessActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        demand = getIntent().getStringExtra("demand");
     }
 
     @Override
@@ -100,6 +101,10 @@ public class PubSuccessActivity extends BaseActivity {
                 break;
             case R.id.btn_watch:
                 //TODO 跳转到发布详情页面
+                Intent intent1 = new Intent();
+                intent1.putExtra("demandId", demand);
+                intent1.setClass(this, DemandActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.WeChat:
                 new ShareAction(this)

@@ -37,6 +37,8 @@ public class RechargeActivity extends BaseActivity {
     @Bind(R.id.go_recharge)
     Button goRecharge;
     private IWXAPI api;
+    private double amount;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_rechange;
@@ -53,18 +55,22 @@ public class RechargeActivity extends BaseActivity {
             break;
             case R.id.tv_recharge_10: {
                 selected(1);
+                amount = 10;
             }
             break;
             case R.id.tv_recharge_30: {
                 selected(2);
+                amount = 30;
             }
             break;
             case R.id.tv_recharge_100: {
                 selected(3);
+                amount = 100;
             }
             break;
             case R.id.tv_recharge_500: {
                 selected(4);
+                amount = 500;
             }
             break;
         }
@@ -87,6 +93,7 @@ public class RechargeActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
         selected(1);
+        amount = 10;
 
     }
 
@@ -104,7 +111,7 @@ public class RechargeActivity extends BaseActivity {
         if (loginWithInfoBean != null) {
 
 
-            Api.wxRecharge(loginWithInfoBean.getData().getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallback<PrepayBean>() {
+            Api.wxRecharge(loginWithInfoBean.getData().getToken(), NetworkUtils.getIPAddress(true), amount, new Api.BaseViewCallback<PrepayBean>() {
                 @Override
                 public void setData(PrepayBean prepayBean) {
 

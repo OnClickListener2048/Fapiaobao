@@ -193,5 +193,12 @@ public class Constant {
      */
     public static final String WX_RECHARGE = "http://192.168.1.205:8181/fapiaobao/rest/wxpay/recharge/%s/%s/%s";
 
+    /**
+     * 红包充入余额
+     * http://192.168.1.205:8181/fapiaobao/rest/wxpay/bonusToAccount/{token}
+     */
+
+    public static final String RELOAD = "http://192.168.1.205:8181/fapiaobao/rest/wxpay/bonusToAccount/%s";
+
 
 }

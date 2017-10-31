@@ -163,7 +163,7 @@
                         <LinearLayout
                             android:id="@+id/ll_bonus"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="60dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/d20"
                             android:orientation="vertical">
@@ -189,9 +189,9 @@
                                     android:id="@+id/bonus"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="10"
+                                    android:text="10.0"
                                     android:textColor="@color/red_estimate"
-                                    android:textSize="40sp" />
+                                    android:textSize="35sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"

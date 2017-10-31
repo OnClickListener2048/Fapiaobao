@@ -123,6 +123,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_details_viewpager_share:
+                setDialog();
                 break;
             case R.id.img_details_viewpager_delete:
                 break;

@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.TimeUtils;
 import com.google.gson.Gson;
 import com.lljjcoder.city_20170724.CityPickerView;
@@ -399,6 +400,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                     public void setData(BalanceBean balanceBean) {
                         Intent intent = new Intent();
                         if (balanceBean.getStatus() == 200) {
+                            intent.putExtra("demand", balanceBean.getData().getDemand());
                             intent.setClass(DemandsPublishActivity.this, PubSuccessActivity.class);
                             startActivity(intent);
                         } else if (balanceBean.getStatus() == 888) {
@@ -465,9 +467,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         bean.setMailMinimum(Integer.valueOf(etExpressAmountMinimum.getText().toString().trim()));
         bean.setTotalBonus(Integer.valueOf(etAmountRedbag.getText().toString().trim()));
         bean.setTotalAmount(Integer.valueOf(etAmount.getText().toString().trim()));
-
+        TLog.log(bean.toString());
         return bean;
-
     }
 
     private void checkParams() {

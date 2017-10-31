@@ -402,6 +402,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 //            });
 //        }
 //    }
+
     private void myInvoiceList(){
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
                 Api.myInvoiceList(AccountHelper.getToken() , new Api.BaseViewCallback<MyInvoiceListBean>() {

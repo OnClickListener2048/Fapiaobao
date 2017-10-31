@@ -182,13 +182,14 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                     return;
                 } else {
                     Api.doMatchDemand(label, amount, "1,2,3", "天津市", new Api.BaseViewCallback<MacherBeanToken>() {
+
                         @Override
                         public void setData(MacherBeanToken matchBean) {
-                            if (matchBean.getData() == null) {
-                                TLog.log("matchBean.getData() == null || matchBean.getData().size()");
-
+                            TLog.log(matchBean.getStatus()+"");
+                            if (matchBean.getStatus() == 400) {
                                 llhasRedbag.setVisibility(View.GONE);
                                 llnoredbag.setVisibility(View.VISIBLE);
+                                return;
                             }
                             llFilterKey.setVisibility(View.GONE);
                             llConfirmCaution.setVisibility(View.VISIBLE);

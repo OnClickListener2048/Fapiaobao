@@ -14,6 +14,9 @@ import android.widget.TextView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,7 +55,10 @@ public class MyWalletActivity extends BaseActivity {
                 startActivity(new Intent(this,RechargeDetailsActivity.class));
             }break;
             case R.id.my_red_envelope:{
-                startActivity(new Intent(this,MyRedEnvelopeActivity.class));
+                Intent intent = new Intent();
+                intent.putExtra("bonus", tv_bouns.getText().toString().trim());
+                intent.setClass(this, MyRedEnvelopeActivity.class);
+                startActivity(intent);
             }break;
             case R.id.btn_confirm:{
                 mDialog.dismiss();
@@ -68,11 +74,23 @@ public class MyWalletActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                SharedPreferencesHelper.save(MyWalletActivity.this, loginWithInfoBean);
+                tv_bouns.setText(loginWithInfoBean.getData().getCustomer().getBonus()+"");
+                tv_amount.setText(loginWithInfoBean.getData().getCustomer().getAmount()+"");
+            }
+        });
+    }
+
+    @Override
     public void initData() {
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            tv_bouns.setText(AccountHelper.getUser().getData().getCustomer().getBonus()+"");
-            tv_amount.setText(AccountHelper.getUser().getData().getCustomer().getAmount()+"");
-        }
+
+
+
     }
 
     @Override

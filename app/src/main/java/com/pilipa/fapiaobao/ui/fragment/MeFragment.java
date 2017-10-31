@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.TLog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.CreditRatingActivity;
@@ -101,14 +103,21 @@ public class MeFragment extends BaseFragment{
 
     @Override
     public void onResume() {
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            LoginWithInfoBean.DataBean.CustomerBean customer = AccountHelper.getUser().getData().getCustomer();
-            String endFormat = mContext.getResources().getString(R.string.integral);
-            tvCreditRating.setText(String.format(endFormat, customer.getCreditScore()));
+        TLog.log("onResume");
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                LoginWithInfoBean.DataBean.CustomerBean customer = loginWithInfoBean.getData().getCustomer();
+                String endFormat = mContext.getResources().getString(R.string.integral);
+                tvCreditRating.setText(String.format(endFormat, customer.getCreditScore()));
 //          tvUserName.setText(customer.getCreditLevel());
-            tvUserName.setText(customer.getNickname());
-            tvBouns.setText(customer.getBonus()+"");
-        }
+                tvUserName.setText(customer.getNickname());
+                tvBouns.setText(customer.getBonus()+"");
+            }
+        });
+
+
+
         super.onResume();
     }
 }

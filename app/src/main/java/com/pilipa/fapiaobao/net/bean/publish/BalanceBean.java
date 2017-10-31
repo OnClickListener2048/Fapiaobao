@@ -6,10 +6,11 @@ package com.pilipa.fapiaobao.net.bean.publish;
 
 public class BalanceBean {
 
+
     /**
-     * status : 888
-     * msg : 账户余额不足
-     * data : {"amount":0}
+     * status : 200
+     * msg : OK
+     * data : {"demand":"83fdbbc1a6c74e6daa61222ac4abfb2d"}
      */
 
     private int status;
@@ -42,17 +43,17 @@ public class BalanceBean {
 
     public static class DataBean {
         /**
-         * amount : 0
+         * demand : 83fdbbc1a6c74e6daa61222ac4abfb2d
          */
 
-        private int amount;
+        private String demand;
 
-        public int getAmount() {
-            return amount;
+        public String getDemand() {
+            return demand;
         }
 
-        public void setAmount(int amount) {
-            this.amount = amount;
+        public void setDemand(String demand) {
+            this.demand = demand;
         }
     }
 }

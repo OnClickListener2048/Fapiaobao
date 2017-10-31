@@ -65,6 +65,7 @@ import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
 import static com.pilipa.fapiaobao.net.Constant.MY_INVOICE_LIST;
 import static com.pilipa.fapiaobao.net.Constant.ORDER_LIST;
+import static com.pilipa.fapiaobao.net.Constant.RELOAD;
 import static com.pilipa.fapiaobao.net.Constant.SHAT_DOWN_EARLY;
 import static com.pilipa.fapiaobao.net.Constant.SHORT_MESSAGE_VERIFY;
 import static com.pilipa.fapiaobao.net.Constant.SHOW_ORDER_DETAIL;
@@ -538,11 +539,9 @@ public class Api {
                 .execute(new JsonCallBack<MacherBeanToken>(MacherBeanToken.class) {
             @Override
             public void onSuccess(Response<MacherBeanToken> response) {
-                if (response.isSuccessful() && response.body().getStatus() == 200) {
-                    if (response.body().getData() != null) {
+                if (response.isSuccessful()) {
                         Log.d(TAG, "doMatchDemandonSuccess: "+response.body());
                         baseViewCallback.setData(response.body());
-                    }
                 }
             }
         });
@@ -744,6 +743,16 @@ public class Api {
                 if (response.isSuccessful()) {
                    TLog.log(response.body());
                 }
+            }
+        });
+    }
+
+    public static void reload(String token, final BaseViewCallback baseViewCallback) {
+        String url = String.format(RELOAD, token);
+        OkGo.<NormalBean>get(url).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+            @Override
+            public void onSuccess(Response<NormalBean> response) {
+                baseViewCallback.setData(response.body());
             }
         });
     }

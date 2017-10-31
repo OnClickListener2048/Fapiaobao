@@ -8,10 +8,17 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -20,6 +27,8 @@ import butterknife.OnClick;
  */
 
 public class MyRedEnvelopeActivity extends BaseActivity {
+    @Bind(R.id.bonus)
+    TextView bonus;
     private Dialog mDialog;
 
     @Override
@@ -27,24 +36,30 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         return R.layout.activity_red_envelope;
     }
 
-    @OnClick({R.id._back,R.id.btn_withdraw,R.id.btn_recharge})
+    @OnClick({R.id._back, R.id.btn_withdraw, R.id.btn_recharge})
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id._back:{
+        switch (v.getId()) {
+            case R.id._back: {
                 finish();
-            }break;
-            case R.id.btn_withdraw:{
+            }
+            break;
+            case R.id.btn_withdraw: {
                 setDialog();
-            }break;
-            case R.id.btn_recharge:{
-            }break;
-            case R.id.btn_confirm:{
+            }
+            break;
+            case R.id.btn_recharge: {
+                setReloadDialog();
+            }
+            break;
+            case R.id.btn_confirm: {
                 mDialog.dismiss();
-            }break;
-            case R.id.btn_cancel1:{
+            }
+            break;
+            case R.id.btn_cancel1: {
                 mDialog.dismiss();
-            }break;
+            }
+            break;
         }
     }
 
@@ -54,7 +69,8 @@ public class MyRedEnvelopeActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        String bonus = getIntent().getStringExtra("bonus");
+        this.bonus.setText(bonus);
     }
 
     @Override
@@ -63,6 +79,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
     private void setDialog() {
         mDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
@@ -85,4 +102,53 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         dialogWindow.setAttributes(lp);
         mDialog.show();
     }
+
+    private void setReloadDialog() {
+        mDialog = new Dialog(this, R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+                R.layout.layout_reload_tip, null);
+        //初始化视图
+        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                    @Override
+                    public void setData(LoginWithInfoBean loginWithInfoBean) {
+                        Api.reload(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<NormalBean>() {
+                            @Override
+                            public void setData(NormalBean normalBean) {
+                                if (normalBean.getStatus() ==200) {
+                                    BaseApplication.showToast("充值成功");
+                                    finish();
+                                }
+                            }
+                        });
+                    }
+                });
+                mDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
+        mDialog.setContentView(root);
+        Window dialogWindow = mDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mDialog.show();
+    }
+
+
 }
