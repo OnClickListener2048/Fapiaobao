@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,16 @@ import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyReceiptAdapter;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
 import com.pilipa.fapiaobao.ui.ProvidedActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,11 +33,16 @@ import butterknife.ButterKnife;
  */
 
 public class ProvidePagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+    private static final String TAG = "ProvidePagerFragment";
+
     @Bind(R.id.recyclerview)
     ListView listView;
     @Bind(R.id.trl)
     TwinklingRefreshLayout trl;
     private MyReceiptAdapter mAdapter;
+    private int pageNo=0;
+    private int pageSize=10;
+    List<OrderListBean.DataBean> mDataList =new ArrayList<>();
     public ProvidePagerFragment() {
 
     }
@@ -67,6 +80,7 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
 
     @Override
     protected void initData() {
+        orderList(pageNo,pageSize);
         super.initData();
 
     }
@@ -149,9 +163,25 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(mContext, ProvidedActivity.class));
+        Intent intent = new Intent(mContext, ProvidedActivity.class);
+        intent.putExtra("OrderId",mDataList.get(position).getId());
+        startActivity(intent);
     }
-
+    private void orderList(int pageNo,int pageSize){
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+                Api.orderList(AccountHelper.getToken(),pageNo+"",pageSize+"", new Api.BaseViewCallback<OrderListBean>() {
+                    @Override
+                    public void setData(OrderListBean orderListBean) {
+                        List<OrderListBean.DataBean> list =  orderListBean.getData();
+                        mDataList.addAll(list);
+                        mAdapter.initData(mDataList);
+                        Log.d(TAG, "updateData:orderList success");
+                    }
+                });
+        }else{
+            BaseApplication.showToast("登录超期");
+        }
+    }
 
 
 }

@@ -353,7 +353,10 @@
     <string name="provided_details">提供详情</string>
     <string name="message_center">消息中心</string>
     <string name="integral">积分 : %1$d</string>
+    <string name="collected_amount">已收集%1$d张发票</string>
+    <string name="left_bouns">剩余%1$d元红包待领取</string>
     <string name="shut_down_early">提前关闭</string>
+    <string name="no_negetive">无负面记录，请继续保持哦~</string>
 
     <string-array name="express">
         <item >顺丰</item>

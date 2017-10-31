@@ -51,6 +51,7 @@
                         android:text="@string/consignee" />
 
                     <TextView
+                        android:id="@+id/tv_receiver"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/d20"
@@ -73,6 +74,7 @@
                         android:text="@string/contact" />
 
                     <TextView
+                        android:id="@+id/tv_telephone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/d20"
@@ -102,6 +104,7 @@
                         android:text="@string/fixed_line" />
 
                     <TextView
+                        android:id="@+id/tv_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/d20"
@@ -131,12 +134,13 @@
                         android:text="@string/address_details" />
 
                     <TextView
+                        android:id="@+id/tv_publish_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/d20"
+                        android:text="天津科技有限公司"
                         android:textColor="@color/title_small"
-                        android:textSize="@dimen/d12"
-                        android:text="天津科技有限公司" />
+                        android:textSize="@dimen/d12" />
                 </LinearLayout>
 
 
@@ -173,7 +177,7 @@
                     android:textSize="@dimen/d12"
                     android:text="@string/ogistics_company" />
                 <Spinner
-                    android:id="@+id/spinner"
+                    android:id="@+id/mSpinner"
                     android:layout_marginLeft="@dimen/d5"
                     style="@style/spinner_style"
                     android:layout_width="match_parent"
@@ -203,6 +207,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <EditText
+                        android:id="@+id/edt_oddNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/d15"
@@ -236,6 +241,7 @@
             android:textColor="@color/main_style"
             android:text="否则退回的快递费将由您个人承担"/>
         <Button
+            android:id="@+id/btn_mailing"
             android:text="@string/express_mail"
             android:layout_alignParentBottom="true"
             android:textColor="@color/main_style"

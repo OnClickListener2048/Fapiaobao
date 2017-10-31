@@ -23,17 +23,16 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.UnusedReceiptAdapter;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
-import com.pilipa.fapiaobao.net.bean.TestBean;
+import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
-import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.UnusedPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
@@ -125,25 +124,27 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
     @Override
     protected void initData() {
         super.initData();
-        OkGo.<TestBean>get("http://gank.io/api/data/福利/10/1").execute(new JsonCallBack<TestBean>(TestBean.class) {
-            @Override
-            public void onSuccess(Response<TestBean> response) {
-                TestBean body = response.body();
-                if (!body.isError()) {
-                    setUpData(body.getResults());
-                }
-            }
-        });
+        myInvoiceList();
+//        OkGo.<TestBean>get("http://gank.io/api/data/福利/10/1").execute(new JsonCallBack<TestBean>(TestBean.class) {
+//            @Override
+//            public void onSuccess(Response<TestBean> response) {
+//                TestBean body = response.body();
+//                if (!body.isError()) {
+//                    setUpData(body.getResults());
+//                }
+//            }
+//        });
     }
 
-    private void setUpData(ArrayList<TestBean.ResultsBean> results) {
-        for (TestBean.ResultsBean result : results) {
+    private void setUpData(List<MyInvoiceListBean.DataBean> results) {
+        for (MyInvoiceListBean.DataBean result : results) {
             Image image = new Image();
             image.isFromNet = true;
             image.path = result.getUrl();
+            image.path = "http://7xi8d6.com1.z0.glb.clouddn.com/20171027114026_v8VFwP_joanne_722_27_10_2017_11_40_17_370.jpeg";
             image.isCapture = false;
             image.isSelected = false;
-            image.name = result.get_id();
+            image.name = result.getId();
             images.add(image);
         }
         mPreviousPosition = images.size();
@@ -375,10 +376,8 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         Log.d(TAG, "initData:uploadInvoice bmpStr"+bmpStr);
 
         LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
-        if(loginBean != null){
-            String token = loginBean.getData().getToken();
-            Log.d(TAG, "initData:uploadInvoice userToken"+token);
-            Api.uploadInvoice(token,bmpStr,new Api.BaseViewCallback<NormalBean>() {
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            Api.uploadInvoice(AccountHelper.getToken(),bmpStr,new Api.BaseViewCallback<NormalBean>() {
                 @Override
                 public void setData(NormalBean normalBean) {
                     if(normalBean.getStatus() == REQUEST_SUCCESS){
@@ -388,5 +387,18 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
             });
         }
     }
-
+    private void myInvoiceList(){
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+                Api.myInvoiceList(AccountHelper.getToken() , new Api.BaseViewCallback<MyInvoiceListBean>() {
+                    @Override
+                    public void setData(MyInvoiceListBean myInvoiceListBean) {
+                        List<MyInvoiceListBean.DataBean> list =  myInvoiceListBean.getData();
+                        setUpData(list);
+                        Log.d(TAG, "updateData:myInvoiceList success");
+                    }
+                });
+        }else{
+        BaseApplication.showToast("登录超期");
+        }
+    }
 }

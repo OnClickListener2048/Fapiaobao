@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/d10"
-        android:paddingRight="@dimen/d10"
+        android:paddingLeft="@dimen/d5"
+        android:paddingRight="@dimen/d5"
         android:paddingTop="@dimen/d10"
         android:paddingBottom="@dimen/d10"
         android:background="@color/white"
@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/d20"
             android:layout_marginBottom="@dimen/d20"
-            android:layout_marginLeft="@dimen/d20"
-            android:layout_marginRight="@dimen/d15"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d5"
             android:src="@drawable/point"/>
         <RelativeLayout
             android:layout_weight="1"
@@ -50,7 +50,7 @@
                 android:layout_below="@id/tv_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/s12"
+                android:textSize="@dimen/s13"
                 android:text="@string/total"/>
         </RelativeLayout>
         <LinearLayout
@@ -59,19 +59,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/tv_alreadyCollected"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_gravity="center_horizontal"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/collected_price"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已收集" />
+
+                <TextView
+                    android:id="@+id/tv_alreadyCollected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/d5"
+                    android:paddingRight="@dimen/d5"
+                    android:text="125.15"
+                    android:textColor="@color/red" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yuan" />
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d5"
                 android:textSize="@dimen/s12"
+                android:visibility="invisible"
                 android:text=""/>
         </LinearLayout>
 
@@ -80,21 +96,37 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/d5"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/tv_to_collected_price"
-                android:layout_weight="1"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="right"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/to_collected_price"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="待收集" />
+
+                <TextView
+                    android:id="@+id/tv_to_collected_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/d5"
+                    android:paddingRight="@dimen/d5"
+                    android:text="125.5"
+                    android:textColor="@color/red" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yuan" />
+            </LinearLayout>
             <TextView
                 android:textSize="@dimen/s12"
                 android:gravity="right"
                 android:layout_marginTop="@dimen/d5"
                 android:id="@+id/tv_end_of_distance"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/end_of_distance"/>
         </LinearLayout>

@@ -29,7 +29,7 @@
                 android:src="@mipmap/estimate_back_brawn" />
 
             <TextView
-                android:id="@+id/img_add"
+                android:id="@+id/tv_creditHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/d10"
@@ -89,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:text="上次积分变化"/>
             <TextView
+                android:id="@+id/tv_lastChange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

@@ -65,8 +65,8 @@ public class OrderListBean {
         private CustomerBean customer;
         private CompanyBean company;
         private InvoiceTypeBean invoiceType;
-        private int amount;
-        private int bonus;
+        private double amount;
+        private double bonus;
         private String state;
 
         public String getId() {
@@ -133,19 +133,19 @@ public class OrderListBean {
             this.invoiceType = invoiceType;
         }
 
-        public int getAmount() {
+        public double getAmount() {
             return amount;
         }
 
-        public void setAmount(int amount) {
+        public void setAmount(double amount) {
             this.amount = amount;
         }
 
-        public int getBonus() {
+        public double getBonus() {
             return bonus;
         }
 
-        public void setBonus(int bonus) {
+        public void setBonus(double bonus) {
             this.bonus = bonus;
         }
 

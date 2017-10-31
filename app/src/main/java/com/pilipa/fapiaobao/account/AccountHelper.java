@@ -62,4 +62,14 @@ public class AccountHelper {
     public static void isTokenValid(Api.BaseViewCallback baseViewCallback) {
         Api.loginByToken(getToken(), baseViewCallback);
     }
+
+    public static void updateCustomer(LoginWithInfoBean.DataBean.CustomerBean customer){
+        instances.user = SharedPreferencesHelper.loadFormSource(instances.application, LoginWithInfoBean.class);
+        instances.user.getData().getCustomer().setTelephone(customer.getTelephone());
+        instances.user.getData().getCustomer().setGender(customer.getGender());
+        instances.user.getData().getCustomer().setBirthday(customer.getBirthday());
+        instances.user.getData().getCustomer().setNickname(customer.getNickname());
+        instances.user.getData().getCustomer().setHeadimg(customer.getHeadimg());
+        SharedPreferencesHelper.save(instances.application,instances.user);
+    }
 }

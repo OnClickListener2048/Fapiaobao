@@ -6,21 +6,20 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
-import com.pilipa.fapiaobao.net.bean.TestBean;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
-import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
-import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -48,6 +47,8 @@ public class DemandActivity extends BaseActivity {
     TextView tvBounsAmount;
     @Bind(R.id.tv_leftAmount)
     TextView tvLeftAmount;
+    @Bind(R.id.tv_attentions)
+    TextView tvAttentions;
     @Bind(R.id.tv_deadline)
     TextView tvDeadline;
     @Bind(R.id.tv_amount)
@@ -77,14 +78,14 @@ public class DemandActivity extends BaseActivity {
     @Bind(R.id.tv_AlreadyCollected)
     TextView tvAlreadyCollected;
 
-
+    List<DemandDetails.DataBean.OrderInvoiceListBean> mDataList = new ArrayList<>();
     private boolean isShow =false;//当前详情是否显示
 
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
     public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
     public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
 
-
+    private String demandId;
 
     private ArrayList<Image> images;
     private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
@@ -96,12 +97,18 @@ public class DemandActivity extends BaseActivity {
         return R.layout.activity_demand;
     }
 
-    @OnClick({R.id.demand_back,R.id.fl_change})
+    @OnClick({R.id.demand_back,R.id.fl_change,R.id.btn_shut_down_early})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.demand_back: {
                 finish();
+            }
+            break;
+            case R.id.btn_shut_down_early: {
+                if(demandId != null){
+                    shatDownEarly(demandId);
+                }
             }
             break;
             case R.id.fl_change:{
@@ -120,31 +127,34 @@ public class DemandActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        OkGo.<TestBean>get("http://gank.io/api/data/福利/5/1").execute(new JsonCallBack<TestBean>(TestBean.class) {
-            @Override
-            public void onSuccess(Response<TestBean> response) {
-                TestBean body = response.body();
-                if (!body.isError()) {
-                    setUpData(body.getResults());
-                }
-            }
-        });
+//        OkGo.<TestBean>get("http://gank.io/api/data/福利/5/1").execute(new JsonCallBack<TestBean>(TestBean.class) {
+//            @Override
+//            public void onSuccess(Response<TestBean> response) {
+//                TestBean body = response.body();
+//                if (!body.isError()) {
+//                    setUpData(body.getResults());
+//                }
+//            }
+//        });
     }
 
-    private void setUpData(ArrayList<TestBean.ResultsBean> results) {
+    private void setUpData( List<DemandDetails.DataBean.OrderInvoiceListBean> results) {
         Log.d(TAG, "setUpData:   private void setUpData(ArrayList<model.ResultsBean> body) {");
         images = new ArrayList<>();
-        for (TestBean.ResultsBean result : results) {
+        for (DemandDetails.DataBean.OrderInvoiceListBean result : results) {
             Log.d(TAG, "setUpData:  for (model.ResultsBean result : body) {");
             Image image = new Image();
             image.isSelected = false;
-            image.name = result.get_id();
+            image.name = result.getId();
             image.path = result.getUrl();
             image.position = -1;
             image.isCapture = false;
             image.isFromNet = true;
             images.add(image);
         }
+//        1zhi之普票
+//                2 只赚
+//                3店铺
 
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images);
@@ -164,7 +174,7 @@ public class DemandActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        String demandId =  getIntent().getStringExtra("demandId");
+        demandId =  getIntent().getStringExtra("demandId");
         Log.d(TAG, "initData:demandDetails demandId"+demandId);
         demandDetails(demandId);
     }
@@ -176,35 +186,61 @@ public class DemandActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
     public void demandDetails(String demandId){
-        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(DemandActivity.this,LoginWithInfoBean.class);
-        if(loginBean != null){
-            String token = loginBean.getData().getToken();
-            Log.d(TAG, "initData:demandDetails userToken"+token);
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            String token =AccountHelper.getToken();
             Api.demandDetails(token,demandId,new Api.BaseViewCallback<DemandDetails>() {
                 @Override
                 public void setData(DemandDetails demandDetails) {
                     if(demandDetails.getStatus() == REQUEST_SUCCESS){
                         DemandDetails.DataBean bean =   demandDetails.getData();
-                        tvBounsAmount.setText(bean.getTotalBonus()+"");
-//                        tvAlreadyCollected.setText(bean.getTotalBonus()+"");
-//                        tvAddress.setText(bean.getDemandPostage().getAddress());
-                        tvAmount.setText(bean.getTotalAmount()+"");
-                        tvDeadline.setText(bean.getDeadline());
-                        tvLeftAmount.setText(bean.getLeftAmount()+"");
-                        tvPhone.setText(bean.getCompany().getPhone());
-//                        tvTelephone.setText(bean.getDemandPostage().getPhone());
+                        String left_bouns = getResources().getString(R.string.left_bouns);
+
+                        tvBounsAmount.setText(bean.getDemand().getTotalBonus()+"元");
+//                        tvAlreadyCollected.setText(bean.getDemand().getLeftAmount()+"");
+                        tvAmount.setText(bean.getDemand().getTotalAmount()+"元");
+                        tvDeadline.setText(bean.getDemand().getDeadline());
+                        tvLeftAmount.setText(String.format(left_bouns, bean.getDemand().getLeftBonus()));
 //                        tvPublishTime.setText(bean.getDemandPostage());
-//                        tvReceiver.setText(bean.getDemandPostage().getReceiver());
-                        companyName.setText(bean.getCompany().getName());
-                        number.setText(bean.getCompany().getPhone());
-                        companyAddress.setText(bean.getCompany().getAddress());
-                        bankAccount.setText(bean.getCompany().getAccount());
-                        bank.setText(bean.getCompany().getDepositBank());
-                        texNumber.setText(bean.getCompany().getTaxno());
+                        tvAttentions.setText("1."+bean.getDemand().getAttentions());
+                        if(bean.getDemand().getDemandPostage() != null){
+                            tvAddress.setText(bean.getDemand().getDemandPostage().getAddress());
+//                            tvPhone.setText(bean.getDemand().getDemandPostage().getPhone());
+                            tvTelephone.setText(bean.getDemand().getDemandPostage().getEmail());
+                            tvReceiver.setText(bean.getDemand().getDemandPostage().getReceiver());
+                        }
+                        if( bean.getDemand().getCompany() != null){
+                            companyName.setText(bean.getDemand().getCompany().getName());
+                            number.setText(bean.getDemand().getCompany().getPhone());
+                            companyAddress.setText(bean.getDemand().getCompany().getAddress());
+                            bankAccount.setText(bean.getDemand().getCompany().getAccount());
+                            bank.setText(bean.getDemand().getCompany().getDepositBank());
+                            texNumber.setText(bean.getDemand().getCompany().getTaxno());
+                        }
+                        //发票列表
+                        mDataList.addAll(bean.getOrderInvoiceList());
+//                        List<DemandDetails.DataBean.OrderInvoiceListBean> list = bean.getOrderInvoiceList();
+                        setUpData(mDataList);
+                        String collected_amount = getResources().getString(R.string.collected_amount);
+                        tvAlreadyCollected.setText(String.format(collected_amount, mDataList.size()));
                         Log.d(TAG, "demandDetails success");
                     }
                 }
             });
+        }
+    }
+    private void shatDownEarly(String id){
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+                Api.shatDownEarly(AccountHelper.getToken(),id, new Api.BaseViewCallback<NormalBean>() {
+                    @Override
+                    public void setData(NormalBean normalBean) {
+                        Toast.makeText(DemandActivity.this,"提前关闭 success",Toast.LENGTH_SHORT).show();
+                        DemandActivity.this.finish();
+                        Log.d(TAG, "updateData:shatDownEarly success");
+                    }
+                });
+
+        }else{
+            BaseApplication.showToast("登录超期");
         }
     }
 }

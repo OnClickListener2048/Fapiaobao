@@ -14,13 +14,12 @@ import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
 import com.pilipa.fapiaobao.ui.DemandActivity;
-import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,11 +166,8 @@ public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.On
     }
 
     public void demandsList(String state){
-        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
-        if(loginBean != null){
-            String token = loginBean.getData().getToken();
-            Log.d(TAG, "initData:demandsList userToken"+token);
-            Api.demandsList(token,state,new Api.BaseViewCallback<DemandsListBean>() {
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            Api.demandsList(AccountHelper.getToken(),state,new Api.BaseViewCallback<DemandsListBean>() {
                 @Override
                 public void setData(DemandsListBean demandsListBean) {
                     if(demandsListBean.getStatus() == REQUEST_SUCCESS){
@@ -184,4 +180,5 @@ public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.On
             });
         }
     }
+
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
@@ -19,7 +20,6 @@ import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.MyWalletActivity;
 import com.pilipa.fapiaobao.ui.ReceiptFolderActivity;
 import com.pilipa.fapiaobao.ui.UserInfoActivity;
-import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,15 +51,8 @@ public class MeFragment extends BaseFragment{
     }
     @Override
     public void initData(){
-        LoginWithInfoBean loginBean =  SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
-        if(loginBean != null ){
-            LoginWithInfoBean.DataBean.CustomerBean customer = loginBean.getData().getCustomer();
-            String endFormat = mContext.getResources().getString(R.string.integral);
-            tvCreditRating.setText(String.format(endFormat,customer.getCreditScore()));
-//            tvUserName.setText(customer.getCreditLevel());
-            tvUserName.setText(customer.getNickname());
-        }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -104,4 +97,15 @@ public class MeFragment extends BaseFragment{
         }
     }
 
+    @Override
+    public void onResume() {
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            LoginWithInfoBean.DataBean.CustomerBean customer = AccountHelper.getUser().getData().getCustomer();
+            String endFormat = mContext.getResources().getString(R.string.integral);
+            tvCreditRating.setText(String.format(endFormat, customer.getCreditScore()));
+//          tvUserName.setText(customer.getCreditLevel());
+            tvUserName.setText(customer.getNickname());
+        }
+        super.onResume();
+    }
 }

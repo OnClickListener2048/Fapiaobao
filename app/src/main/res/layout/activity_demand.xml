@@ -71,7 +71,7 @@
                 android:paddingRight="@dimen/d10"
                 android:paddingTop="@dimen/d5"
                 android:textSize="@dimen/d12"
-                android:text="@string/texi"
+                android:text="@string/subway"
                 android:textColor="@color/white" />
         </LinearLayout>
         <!--票据列表-->
@@ -145,7 +145,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_normal_item"
                         android:textSize="@dimen/d12"
-                        android:text="剩余40元红包待领取" />
+                        android:text="@string/left_bouns" />
 
                     <TextView
                         android:id="@+id/tv_deadline"
@@ -213,7 +213,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_normal_item"
                         android:textSize="@dimen/d12"
-                        android:text="已收集25张发票" />
+                        android:text="@string/collected_amount" />
 
                     <TextView
                         android:id="@+id/tv_publishTime"
@@ -269,6 +269,7 @@
                 android:text="开票注意事项" />
 
             <TextView
+                android:id="@+id/tv_attentions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/d2"
@@ -276,14 +277,6 @@
                 android:textSize="@dimen/d12"
                 android:text="1.需要四星级以下住宿票" />
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/d2"
-                android:textColor="@color/title_small"
-                android:textSize="@dimen/d12"
-                android:text="2.餐票面额每张不超过300" />
         </LinearLayout>
         <!--售票信息-->
         <LinearLayout
@@ -326,7 +319,7 @@
                         android:layout_marginLeft="@dimen/d20"
                         android:textColor="@color/title_small"
                         android:textSize="@dimen/d12"
-                        android:text="古巨基" />
+                        android:text="古" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

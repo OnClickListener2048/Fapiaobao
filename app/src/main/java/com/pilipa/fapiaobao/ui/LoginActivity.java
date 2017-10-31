@@ -15,7 +15,6 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.utils.CountDownTimerUtils;
@@ -120,10 +119,7 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
 
                 break;
             case R.id.WeChat_login:
-                Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-//                weChatLogin();
+                weChatLogin();
                 break;
             case R.id.laws:
                 break;

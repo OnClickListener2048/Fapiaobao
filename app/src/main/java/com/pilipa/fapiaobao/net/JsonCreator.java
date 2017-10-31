@@ -1,7 +1,7 @@
 package com.pilipa.fapiaobao.net;
 
 import com.pilipa.fapiaobao.entity.Company;
-import com.pilipa.fapiaobao.entity.Customer;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 
 import org.json.JSONObject;
 
@@ -12,15 +12,13 @@ import java.util.HashMap;
  */
 
 public class JsonCreator {
-    public static JSONObject setCustomerData(Customer customer, String token){
+    public static JSONObject setCustomerData(LoginWithInfoBean.DataBean.CustomerBean customer, String token){
         HashMap map = new HashMap();
-        map.put("beginBirthday",customer.getBeginAmount());
-        map.put("birthday",customer.getBeginAmount());
-        map.put("bonus",customer.getBeginAmount());
-        map.put("gender",customer.getBeginAmount());
-        map.put("headimg",customer.getBeginAmount());
-        map.put("nickname",customer.getBeginAmount());
-        map.put("telephone",customer.getBeginAmount());
+        map.put("birthday",customer.getBirthday());
+        map.put("gender",customer.getGender());
+        map.put("headimg",customer.getHeadimg());
+        map.put("nickname",customer.getNickname());
+        map.put("telephone",customer.getTelephone());
         map.put("token",token);
         return new JSONObject(map);
     }

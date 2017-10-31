@@ -4,20 +4,15 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
-import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.fragment.ProvidePagerFragment;
 import com.pilipa.fapiaobao.ui.fragment.UnusedReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
-import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +61,6 @@ public class ReceiptFolderActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        shatDownEarly("2716a03d6221477a886438e6aebef4ed");
     }
 
     @Override
@@ -76,22 +70,5 @@ public class ReceiptFolderActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    private void shatDownEarly(String id){
-        LoginWithInfoBean   loginBean =  SharedPreferencesHelper.loadFormSource(this,LoginWithInfoBean.class);
-        if(loginBean != null){
-            String token = loginBean.getData().getToken();
-            Log.d(TAG, "updateData:shatDownEarly userToken"+token);
-            if (token == null) {
-                BaseApplication.showToast("登录超期");
-                return;
-            } else {
-                Api.shatDownEarly(token,id, new Api.BaseViewCallback<NormalBean>() {
-                    @Override
-                    public void setData(NormalBean normalBean) {
-                        Log.d(TAG, "updateData:shatDownEarly success");
-                    }
-                });
-            }
-        }
-    }
+
 }

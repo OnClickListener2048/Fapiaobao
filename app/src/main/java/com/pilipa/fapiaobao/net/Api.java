@@ -3,7 +3,6 @@ package com.pilipa.fapiaobao.net;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -12,8 +11,6 @@ import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
-import com.pilipa.fapiaobao.entity.Customer;
-import com.pilipa.fapiaobao.entity.FavCompany;
 import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
@@ -21,15 +18,15 @@ import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
-import com.pilipa.fapiaobao.net.bean.invoice.MatchBean;
-import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
+import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
 import com.pilipa.fapiaobao.net.bean.me.NegativeCreditInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
@@ -40,9 +37,40 @@ import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.utils.PayCommonUtil;
 import com.pilipa.fapiaobao.wxapi.Constants;
 
-import static com.pilipa.fapiaobao.net.Constant.*;
-
 import org.json.JSONObject;
+
+import static com.pilipa.fapiaobao.net.Constant.BIND;
+import static com.pilipa.fapiaobao.net.Constant.COMPANIES_LIST;
+import static com.pilipa.fapiaobao.net.Constant.COMPANY_INFO;
+import static com.pilipa.fapiaobao.net.Constant.CREATE_COMPANY;
+import static com.pilipa.fapiaobao.net.Constant.CREATE_ORDER;
+import static com.pilipa.fapiaobao.net.Constant.DELETE_COMPANY;
+import static com.pilipa.fapiaobao.net.Constant.DO_MATCH_DEMAND;
+import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY;
+import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_CREATE;
+import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_LIST;
+import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_REMOVE;
+import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_EXPRESS_COMPANY;
+import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_INVIICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_HISTORY;
+import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_INFO;
+import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_NEGATIVE_HISTORY;
+import static com.pilipa.fapiaobao.net.Constant.FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
+import static com.pilipa.fapiaobao.net.Constant.MY_INVOICE_LIST;
+import static com.pilipa.fapiaobao.net.Constant.ORDER_LIST;
+import static com.pilipa.fapiaobao.net.Constant.SHAT_DOWN_EARLY;
+import static com.pilipa.fapiaobao.net.Constant.SHORT_MESSAGE_VERIFY;
+import static com.pilipa.fapiaobao.net.Constant.SHOW_ORDER_DETAIL;
+import static com.pilipa.fapiaobao.net.Constant.UBIND;
+import static com.pilipa.fapiaobao.net.Constant.UPDATE_CUSTOMER;
+import static com.pilipa.fapiaobao.net.Constant.UPDATE_INVOICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.UPLOAD_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_DETAILS;
+import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_LIST;
+import static com.pilipa.fapiaobao.net.Constant.USER_LOGIN;
+import static com.pilipa.fapiaobao.net.Constant.WX_RECHARGE;
 
 
 
@@ -55,7 +83,7 @@ public class Api {
     static String TAG = "api";
 
     public static void bindWX(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<LoginBean>get(String.format(Constant.BIND, token)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
+        OkGo.<LoginBean>get(String.format(BIND, token)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
             @Override
             public void onSuccess(Response<LoginBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -74,7 +102,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void findCreditHistory(String token, String pageNo, String pageSize, final BaseViewCallback baseViewCallback) {
-        OkGo.<NegativeCreditInfoBean>get(String.format(Constant.FIND_CREDIT_HISTORY, token, pageNo, pageSize)).execute(new JsonCallBack<NegativeCreditInfoBean>(NegativeCreditInfoBean.class) {
+        OkGo.<NegativeCreditInfoBean>get(String.format(FIND_CREDIT_HISTORY, token, pageNo, pageSize)).execute(new JsonCallBack<NegativeCreditInfoBean>(NegativeCreditInfoBean.class) {
             @Override
             public void onSuccess(Response<NegativeCreditInfoBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -91,7 +119,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void findCreditInfo(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<CreditInfoBean>get(String.format(Constant.FIND_CREDIT_INFO, token)).execute(new JsonCallBack<CreditInfoBean>(CreditInfoBean.class) {
+        OkGo.<CreditInfoBean>get(String.format(FIND_CREDIT_INFO, token)).execute(new JsonCallBack<CreditInfoBean>(CreditInfoBean.class) {
             @Override
             public void onSuccess(Response<CreditInfoBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -110,7 +138,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void findCreditNegativeHistory(String token, String pageNo, String pageSize, final BaseViewCallback baseViewCallback) {
-        OkGo.<NegativeCreditInfoBean>get(String.format(Constant.FIND_CREDIT_NEGATIVE_HISTORY, token, pageNo, pageSize)).execute(new JsonCallBack<NegativeCreditInfoBean>(NegativeCreditInfoBean.class) {
+        OkGo.<NegativeCreditInfoBean>get(String.format(FIND_CREDIT_NEGATIVE_HISTORY, token, pageNo, pageSize)).execute(new JsonCallBack<NegativeCreditInfoBean>(NegativeCreditInfoBean.class) {
             @Override
             public void onSuccess(Response<NegativeCreditInfoBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -130,7 +158,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void login(String platform, String credenceName, String credenceCode, String deviceToken, final BaseViewCallback baseViewCallback) {
-        OkGo.<LoginWithInfoBean>get(String.format(Constant.USER_LOGIN, platform, credenceName, credenceCode, deviceToken)).execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
+        OkGo.<LoginWithInfoBean>get(String.format(USER_LOGIN, platform, credenceName, credenceCode, deviceToken)).execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
             @Override
             public void onSuccess(Response<LoginWithInfoBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -145,7 +173,7 @@ public class Api {
     }
 
     public static void loginByToken(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<LoginWithInfoBean>get(String.format(Constant.LOGIN_BY_TOKEN, token)).execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
+        OkGo.<LoginWithInfoBean>get(String.format(LOGIN_BY_TOKEN, token)).execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
             @Override
             public void onSuccess(Response<LoginWithInfoBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -164,7 +192,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void sendMessageToVerify(String moible, final BaseViewCallback baseViewCallback) {
-        OkGo.<ShortMessageBean>get(String.format(Constant.SHORT_MESSAGE_VERIFY, moible)).execute(new JsonCallBack<ShortMessageBean>(ShortMessageBean.class) {
+        OkGo.<ShortMessageBean>get(String.format(SHORT_MESSAGE_VERIFY, moible)).execute(new JsonCallBack<ShortMessageBean>(ShortMessageBean.class) {
             @Override
             public void onSuccess(Response<ShortMessageBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -175,7 +203,7 @@ public class Api {
     }
 
     public static void uBindWX(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<LoginBean>get(String.format(Constant.UBIND, token)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
+        OkGo.<LoginBean>get(String.format(UBIND, token)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
             @Override
             public void onSuccess(Response<LoginBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -185,9 +213,9 @@ public class Api {
         });
     }
 
-    public static void updateCustomer(String token, Customer customer, final BaseViewCallback baseViewCallback) {
+    public static void updateCustomer(String token,LoginWithInfoBean.DataBean.CustomerBean customer, final BaseViewCallback baseViewCallback) {
         JSONObject data = JsonCreator.setCustomerData(customer, token);
-        OkGo.<UpdateCustomerBean>post(Constant.UPDATE_CUSTOMER)
+        OkGo.<UpdateCustomerBean>post(UPDATE_CUSTOMER)
                 .upJson(data)
                 .execute(new JsonCallBack<UpdateCustomerBean>(UpdateCustomerBean.class) {
                     @Override
@@ -206,7 +234,7 @@ public class Api {
      */
 
     public static void companiesList(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<CompaniesBean>get(String.format(Constant.COMPANIES_LIST, token)).execute(new JsonCallBack<CompaniesBean>(CompaniesBean.class) {
+        OkGo.<CompaniesBean>get(String.format(COMPANIES_LIST, token)).execute(new JsonCallBack<CompaniesBean>(CompaniesBean.class) {
             @Override
             public void onSuccess(Response<CompaniesBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -223,7 +251,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void companyDetails(String id, final BaseViewCallback baseViewCallback) {
-        OkGo.<CompanyDetailsBean>get(String.format(Constant.COMPANY_INFO, id)).execute(new JsonCallBack<CompanyDetailsBean>(CompanyDetailsBean.class) {
+        OkGo.<CompanyDetailsBean>get(String.format(COMPANY_INFO, id)).execute(new JsonCallBack<CompanyDetailsBean>(CompanyDetailsBean.class) {
             @Override
             public void onSuccess(Response<CompanyDetailsBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -242,7 +270,7 @@ public class Api {
      */
     public static void companyCreate(Company company, String token, final BaseViewCallback baseViewCallback) {
         JSONObject map = JsonCreator.setCompanyData(company, token);
-        OkGo.<NormalBean>post(Constant.CREATE_COMPANY)
+        OkGo.<NormalBean>post(CREATE_COMPANY)
                 .upJson(map)
                 .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
                     @Override
@@ -262,7 +290,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void deleteCompany(String id, String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<NormalBean>delete(String.format(Constant.DELETE_COMPANY, id, token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+        OkGo.<NormalBean>delete(String.format(DELETE_COMPANY, id, token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -279,7 +307,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void favoriteCompanyList(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<FavoriteCompanyBean>get(String.format(Constant.FAVORITE_COMPANY_LIST, token)).execute(new JsonCallBack<FavoriteCompanyBean>(FavoriteCompanyBean.class) {
+        OkGo.<FavoriteCompanyBean>get(String.format(FAVORITE_COMPANY_LIST, token)).execute(new JsonCallBack<FavoriteCompanyBean>(FavoriteCompanyBean.class) {
             @Override
             public void onSuccess(Response<FavoriteCompanyBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -297,7 +325,7 @@ public class Api {
     public static void favCompanyCreate(CompanyCollectBean favCompany, final BaseViewCallback baseViewCallback) {
         Gson gson = new Gson();
         String jsonFavCompany = gson.toJson(favCompany);
-        OkGo.<NormalBean>post(Constant.FAVORITE_COMPANY_CREATE)
+        OkGo.<NormalBean>post(FAVORITE_COMPANY_CREATE)
                 .upJson(jsonFavCompany)
                 .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
                     @Override
@@ -318,7 +346,7 @@ public class Api {
      */
     public static void deleteFavoriteCompany(String id, String token, final BaseViewCallback baseViewCallback) {
 
-        OkGo.<NormalBean>delete(String.format(Constant.FAVORITE_COMPANY_REMOVE, id, token))
+        OkGo.<NormalBean>delete(String.format(FAVORITE_COMPANY_REMOVE, id, token))
                 .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
                     @Override
                     public void onSuccess(Response<NormalBean> response) {
@@ -336,7 +364,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void demandsList(String token,String state, final BaseViewCallback baseViewCallback) {
-        OkGo.<DemandsListBean>get(String.format(Constant.USER_ISSUED_LIST,state,token)).execute(new JsonCallBack<DemandsListBean>(DemandsListBean.class) {
+        OkGo.<DemandsListBean>get(String.format(USER_ISSUED_LIST,state,token)).execute(new JsonCallBack<DemandsListBean>(DemandsListBean.class) {
             @Override
             public void onSuccess(Response<DemandsListBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -354,7 +382,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void demandDetails(String token, String demandId, final BaseViewCallback baseViewCallback) {
-        OkGo.<DemandDetails>get(String.format(Constant.USER_ISSUED_DETAILS, demandId, token)).execute(new JsonCallBack<DemandDetails>(DemandDetails.class) {
+        OkGo.<DemandDetails>get(String.format(USER_ISSUED_DETAILS, demandId, token)).execute(new JsonCallBack<DemandDetails>(DemandDetails.class) {
             @Override
             public void onSuccess(Response<DemandDetails> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -371,7 +399,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void shatDownEarly(String token, String demandId, final BaseViewCallback baseViewCallback) {
-        OkGo.<NormalBean>get(String.format(Constant.SHAT_DOWN_EARLY,demandId,token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+        OkGo.<NormalBean>get(String.format(SHAT_DOWN_EARLY,demandId,token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -518,7 +546,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void myInvoiceList(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<MyInvoiceListBean>get(String.format(Constant.MY_INVOICE_LIST, token)).execute(new JsonCallBack<MyInvoiceListBean>(MyInvoiceListBean.class) {
+        OkGo.<MyInvoiceListBean>get(String.format(MY_INVOICE_LIST, token)).execute(new JsonCallBack<MyInvoiceListBean>(MyInvoiceListBean.class) {
             @Override
             public void onSuccess(Response<MyInvoiceListBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -536,7 +564,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void orderList(String token,String pageNo,String pageSize, final BaseViewCallback baseViewCallback) {
-        OkGo.<OrderListBean>get(String.format(Constant.ORDER_LIST, token,pageNo,pageSize)).execute(new JsonCallBack<OrderListBean>(OrderListBean.class) {
+        OkGo.<OrderListBean>get(String.format(ORDER_LIST, token,pageNo,pageSize)).execute(new JsonCallBack<OrderListBean>(OrderListBean.class) {
             @Override
             public void onSuccess(Response<OrderListBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -546,9 +574,9 @@ public class Api {
         });
     }
     public static void showOrderDetail(String token,String orderID, final BaseViewCallback baseViewCallback) {
-        OkGo.<CompaniesBean>get(String.format(Constant.SHOW_ORDER_DETAIL, token,orderID)).execute(new JsonCallBack<CompaniesBean>(CompaniesBean.class) {
+        OkGo.<OrderDetailsBean>get(String.format(SHOW_ORDER_DETAIL, token,orderID)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
             @Override
-            public void onSuccess(Response<CompaniesBean> response) {
+            public void onSuccess(Response<OrderDetailsBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }
@@ -557,7 +585,7 @@ public class Api {
     }
     public static void uploadInvoice(String token, String pic, final BaseViewCallback baseViewCallback) {
         JSONObject data = JsonCreator.setInvoice(null,pic,null,token);
-        OkGo.<NormalBean>post(Constant.UPLOAD_INVOICE)
+        OkGo.<NormalBean>post(UPLOAD_INVOICE)
                 .upJson(data)
                 .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
                     @Override

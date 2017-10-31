@@ -14,10 +14,9 @@ import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyCompanyAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
-import com.pilipa.fapiaobao.entity.Company;
-import com.pilipa.fapiaobao.entity.FavCompany;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
@@ -87,14 +86,10 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
     protected void initData() {
         getFavCompanyList();
 
-        FavCompany favCompany = new FavCompany();
-        Company company = new Company();
-        company.setId("bd77acd11fe941738a012bb5989ae306");
-        favCompany.setCompany(company);
+
         LoginWithInfoBean loginBean =  SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
         if(loginBean != null){
           String token =  loginBean.getData().getToken();
-          favCompany.setToken(token);
 //          favCompanyCreate(favCompany);
         }
 
@@ -183,11 +178,9 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
     }
 
     public void getFavCompanyList(){
-        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
-        if(loginBean != null){
-            String token = loginBean.getData().getToken();
-            Log.d(TAG, "userToken"+token);
-            Api.favoriteCompanyList(token,new Api.BaseViewCallback<FavoriteCompanyBean>() {
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+
+            Api.favoriteCompanyList(AccountHelper.getToken(),new Api.BaseViewCallback<FavoriteCompanyBean>() {
                 @Override
                 public void setData(FavoriteCompanyBean favoriteCompanyBean) {
                     List<FavoriteCompanyBean.DataBean> list =  favoriteCompanyBean.getData();

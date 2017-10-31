@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
@@ -89,24 +90,26 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
     }
 
     public  void getCompanyDetails(String id){
-        Api.companyDetails(id,new Api.BaseViewCallback<CompanyDetailsBean>() {
-            @Override
-            public void setData(CompanyDetailsBean companyDetailsBean) {
-                if(companyDetailsBean.getStatus() == REQUEST_SUCCESS){
-                    CompanyDetailsBean.DataBean bean = companyDetailsBean.getData();
-                    Log.d(TAG, "getCompanyDetails"+bean.getName().toString());
+            Api.companyDetails(id, new Api.BaseViewCallback<CompanyDetailsBean>() {
+                @Override
+                public void setData(CompanyDetailsBean companyDetailsBean) {
+                    if (companyDetailsBean.getStatus() == REQUEST_SUCCESS) {
+                        CompanyDetailsBean.DataBean bean = companyDetailsBean.getData();
+                        Log.d(TAG, "getCompanyDetails" + bean.getName().toString());
+                    }
                 }
-            }
-        });
+            });
     }
-    public void deleteCompany(String id,String token){
-        Api.deleteCompany(id,token,new Api.BaseViewCallback<NormalBean>() {
-            @Override
-            public void setData(NormalBean normalBean) {
-                if(normalBean.getStatus() == REQUEST_SUCCESS){
-                    Log.d(TAG, "getCompanyDetails success");
+    public void deleteCompany(String id){
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            Api.deleteCompany(id, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                @Override
+                public void setData(NormalBean normalBean) {
+                    if (normalBean.getStatus() == REQUEST_SUCCESS) {
+                        Log.d(TAG, "getCompanyDetails success");
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }

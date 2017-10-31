@@ -19,21 +19,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
-import com.pilipa.fapiaobao.entity.Customer;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
+import com.pilipa.fapiaobao.ui.fragment.MeFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
-import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -94,8 +95,15 @@ public class UserInfoActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_save: {
-                Customer customer = new Customer();
-                customer.setNickname("或");
+                LoginWithInfoBean.DataBean.CustomerBean customer = new  LoginWithInfoBean.DataBean.CustomerBean();
+                customer.setNickname(edtUserName.getText().toString().trim());
+                customer.setBirthday(edtBirthday.getText().toString().trim());
+                switch (radioGroup.getCheckedRadioButtonId()){
+                    case R.id.rb_female:customer.setGender(Constant.GENDER_FEMALE); break;
+                    case R.id.rb_male:customer.setGender(Constant.GENDER_MALE); break;
+                    case R.id.rb_secrecy:customer.setGender(Constant.GENDER_SECRECY); break;
+                }
+                customer.setTelephone(edtPhone.getText().toString().trim());
                 updateUserInfo(customer);
             }break;
             case R.id.userinfo_back: {
@@ -222,24 +230,23 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        loginBean =  SharedPreferencesHelper.loadFormSource(this,LoginWithInfoBean.class);
-        LoginWithInfoBean.DataBean.CustomerBean customer = loginBean.getData().getCustomer();
-        if(loginBean != null){
-
-            edtBirthday.setText(customer.getBirthday());
-            edtUserName.setText(customer.getNickname());
-            edtPhone.setText(customer.getTelephone());
-            if (Constant.GENDER_FEMALE.equals(customer.getGender())){
-                radioGroup.check(R.id.rb_female);
-            } else if (Constant.GENDER_MALE.equals(customer.getGender())){
-                radioGroup.check(R.id.rb_male);
-            } else if (Constant.GENDER_SECRECY.equals(customer.getGender())){
-                radioGroup.check(R.id.rb_secrecy);
-            }
-
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            LoginWithInfoBean.DataBean.CustomerBean customer = AccountHelper.getUser().getData().getCustomer();
+            setUserData(customer);
         }
     }
-
+    public void setUserData( LoginWithInfoBean.DataBean.CustomerBean customer){
+        edtBirthday.setText(customer.getBirthday());
+        edtUserName.setText(customer.getNickname());
+        edtPhone.setText(customer.getTelephone());
+        if (Constant.GENDER_FEMALE.equals(customer.getGender())){
+            radioGroup.check(R.id.rb_female);
+        } else if (Constant.GENDER_MALE.equals(customer.getGender())){
+            radioGroup.check(R.id.rb_male);
+        } else if (Constant.GENDER_SECRECY.equals(customer.getGender())){
+            radioGroup.check(R.id.rb_secrecy);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -294,22 +301,19 @@ public class UserInfoActivity extends BaseActivity {
         mDialog.show();
     }
 
-    private void updateUserInfo(Customer customer){
-        if(loginBean != null){
-            String token = loginBean.getData().getToken();
-            Log.d(TAG, "updateData:updateUserInfo userToken"+token);
-            if (token == null) {
-                BaseApplication.showToast("登录超期");
-                return;
-            } else {
-                Api.updateCustomer(token,customer, new Api.BaseViewCallback<UpdateCustomerBean>() {
-                    @Override
-                    public void setData(UpdateCustomerBean updateCustomerBean) {
-                        Log.d(TAG, "updateData:updateUserInfo success");
-                    }
-                });
-            }
+    private void updateUserInfo(final  LoginWithInfoBean.DataBean.CustomerBean customer){
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            Api.updateCustomer(AccountHelper.getToken(),customer, new Api.BaseViewCallback<UpdateCustomerBean>() {
+                @Override
+                public void setData(UpdateCustomerBean updateCustomerBean) {
+                    Toast.makeText(UserInfoActivity.this,"用户信息保存成功",Toast.LENGTH_SHORT).show();
+                    setUserData(customer);
+                    AccountHelper.updateCustomer(customer);
+                    Log.d(TAG, "updateData:updateUserInfo success");
+                }
+            });
+        }else{
+            BaseApplication.showToast("登录超期");
         }
     }
-
 }

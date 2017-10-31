@@ -1,17 +1,18 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.NegativeCreditInfoBean;
 import com.pilipa.fapiaobao.ui.widget.ColorArcProgressBar;
-import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -27,24 +28,34 @@ public class CreditRatingActivity extends BaseActivity {
 
     @Bind(R.id.bar2)
     ColorArcProgressBar colorArcProgressBar;
+    @Bind(R.id.tv_lastChange)
+    TextView tvLastChange;
+    @Bind(R.id.tv_creditHistory)
+    TextView tvCreditHistory;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_credit_rating;
     }
 
-    @OnClick({R.id.details_back})
+    @OnClick({R.id.details_back,R.id.tv_negative,R.id.tv_rules})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.details_back:{
                 finish();
             }break;
+            case R.id.tv_negative:{
+                startActivity(new Intent(this,NegetiveActivity.class));
+            }break;
+            case R.id.tv_rules:{
+                startActivity(new Intent(this,NegetiveActivity.class));
+            }break;
         }
     }
 
     @Override
     public void initView() {
-        colorArcProgressBar.setCurrentValues(90);
+        colorArcProgressBar.setCurrentValues(10);
     }
 
     @Override
@@ -59,11 +70,8 @@ public class CreditRatingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
     public void findCreditInfo(){
-        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(CreditRatingActivity.this,LoginWithInfoBean.class);
-        if(loginBean != null){
-            String token = loginBean.getData().getToken();
-            Log.d(TAG, "initData:findCreditInfo userToken"+token);
-            Api.findCreditInfo(token,new Api.BaseViewCallback<CreditInfoBean>() {
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            Api.findCreditInfo(AccountHelper.getToken(),new Api.BaseViewCallback<CreditInfoBean>() {
                 @Override
                 public void setData(CreditInfoBean creditInfoBean) {
                     if(creditInfoBean.getStatus() == REQUEST_SUCCESS){
@@ -76,11 +84,8 @@ public class CreditRatingActivity extends BaseActivity {
         }
     }
     public void findCreditHistory(String pageNo,String pageSize){
-        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(CreditRatingActivity.this,LoginWithInfoBean.class);
-        if(loginBean != null){
-            String token = loginBean.getData().getToken();
-            Log.d(TAG, "initData:findCreditHistory userToken"+token);
-            Api.findCreditHistory(token,pageNo,pageSize,new Api.BaseViewCallback<NegativeCreditInfoBean>() {
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            Api.findCreditHistory(AccountHelper.getToken(),pageNo,pageSize,new Api.BaseViewCallback<NegativeCreditInfoBean>() {
                 @Override
                 public void setData(NegativeCreditInfoBean companiesBean) {
                     if(companiesBean.getStatus() == REQUEST_SUCCESS){
@@ -91,11 +96,8 @@ public class CreditRatingActivity extends BaseActivity {
         }
     }
     public void findCreditNegativeHistory(String pageNo,String pageSize){
-        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(CreditRatingActivity.this,LoginWithInfoBean.class);
-        if(loginBean != null){
-            String token = loginBean.getData().getToken();
-            Log.d(TAG, "initData:findCreditNegativeHistory userToken"+token);
-            Api.findCreditNegativeHistory(token,pageNo,pageSize,new Api.BaseViewCallback<NegativeCreditInfoBean>() {
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            Api.findCreditNegativeHistory(AccountHelper.getToken(),pageNo,pageSize,new Api.BaseViewCallback<NegativeCreditInfoBean>() {
                 @Override
                 public void setData(NegativeCreditInfoBean companiesBean) {
                     if(companiesBean.getStatus() == REQUEST_SUCCESS){
