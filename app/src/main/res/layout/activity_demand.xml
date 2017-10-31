@@ -115,6 +115,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_bounsAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_normal_item"
@@ -139,6 +140,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_leftAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_normal_item"
@@ -146,6 +148,7 @@
                         android:text="剩余40元红包待领取" />
 
                     <TextView
+                        android:id="@+id/tv_deadline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/d5"
@@ -155,6 +158,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/img_state"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -180,6 +184,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1000元" />
@@ -203,6 +208,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_AlreadyCollected"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_normal_item"
@@ -210,6 +216,7 @@
                         android:text="已收集25张发票" />
 
                     <TextView
+                        android:id="@+id/tv_publishTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/d5"
@@ -313,6 +320,7 @@
                         android:text="@string/consignee" />
 
                     <TextView
+                        android:id="@+id/tv_receiver"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/d20"
@@ -334,12 +342,13 @@
                         android:text="@string/contact" />
 
                     <TextView
+                        android:id="@+id/tv_telephone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/d20"
+                        android:text="15045448484"
                         android:textColor="@color/title_small"
-                        android:textSize="@dimen/d12"
-                        android:text="15045448484" />
+                        android:textSize="@dimen/d12" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -356,6 +365,7 @@
                         android:text="@string/fixed_line" />
 
                     <TextView
+                        android:id="@+id/tv_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/d20"
@@ -378,6 +388,7 @@
                         android:text="@string/address_details" />
 
                     <TextView
+                        android:id="@+id/tv_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/d20"

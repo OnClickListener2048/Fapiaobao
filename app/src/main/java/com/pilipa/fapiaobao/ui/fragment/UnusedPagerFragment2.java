@@ -18,10 +18,12 @@ import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
-import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
 import com.pilipa.fapiaobao.ui.DemandActivity;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,6 +42,7 @@ public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.On
     @Bind(R.id.trl)
     TwinklingRefreshLayout trl;
     private MyPublishAdapter mAdapter;
+    private List<DemandsListBean.DataBean> dataBeanList = new ArrayList<>();
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_viewpager_item;
@@ -77,7 +80,7 @@ public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.On
         mAdapter = new MyPublishAdapter(mContext);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
-        demandsList("1");
+        demandsList("0");
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
@@ -158,32 +161,23 @@ public class UnusedPagerFragment2 extends BaseFragment implements AdapterView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(mContext, DemandActivity.class));
+        Intent intent = new Intent(mContext, DemandActivity.class);
+        intent.putExtra("demandId",dataBeanList.get(position).getId());
+        startActivity(intent);
     }
-    public void demandDetails(String demandId){
-        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
-        if(loginBean != null){
-            String token = loginBean.getData().getToken();
-            Log.d(TAG, "initData:demandDetails userToken"+token);
-            Api.demandDetails(token,demandId,new Api.BaseViewCallback<DemandDetails>() {
-                @Override
-                public void setData(DemandDetails demandDetails) {
-                    if(demandDetails.getStatus() == REQUEST_SUCCESS){
-                        Log.d(TAG, "demandDetails success");
-                    }
-                }
-            });
-        }
-    }
-    public void demandsList(String type){
+
+    public void demandsList(String state){
         LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
         if(loginBean != null){
             String token = loginBean.getData().getToken();
             Log.d(TAG, "initData:demandsList userToken"+token);
-            Api.demandsList(token,type,new Api.BaseViewCallback<DemandsListBean>() {
+            Api.demandsList(token,state,new Api.BaseViewCallback<DemandsListBean>() {
                 @Override
                 public void setData(DemandsListBean demandsListBean) {
                     if(demandsListBean.getStatus() == REQUEST_SUCCESS){
+                        List<DemandsListBean.DataBean> list =  demandsListBean.getData();
+                        dataBeanList.addAll(list);
+                        mAdapter.initData(list);
                         Log.d(TAG, "demandsList success");
                     }
                 }

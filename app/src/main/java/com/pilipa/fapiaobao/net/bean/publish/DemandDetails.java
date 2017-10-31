@@ -74,11 +74,11 @@ public class DemandDetails {
         private String province;
         private String city;
         private String deadline;
-        private int totalAmount;
-        private int leftAmount;
-        private int totalBonus;
-        private int leftBonus;
-        private int mailMinimum;
+        private double totalAmount;
+        private double leftAmount;
+        private double totalBonus;
+        private double leftBonus;
+        private double mailMinimum;
         private String attentions;
         private String state;
         private String closeDate;
@@ -171,43 +171,43 @@ public class DemandDetails {
             this.deadline = deadline;
         }
 
-        public int getTotalAmount() {
+        public double getTotalAmount() {
             return totalAmount;
         }
 
-        public void setTotalAmount(int totalAmount) {
+        public void setTotalAmount(double totalAmount) {
             this.totalAmount = totalAmount;
         }
 
-        public int getLeftAmount() {
+        public double getLeftAmount() {
             return leftAmount;
         }
 
-        public void setLeftAmount(int leftAmount) {
+        public void setLeftAmount(double leftAmount) {
             this.leftAmount = leftAmount;
         }
 
-        public int getTotalBonus() {
+        public double getTotalBonus() {
             return totalBonus;
         }
 
-        public void setTotalBonus(int totalBonus) {
+        public void setTotalBonus(double totalBonus) {
             this.totalBonus = totalBonus;
         }
 
-        public int getLeftBonus() {
+        public double getLeftBonus() {
             return leftBonus;
         }
 
-        public void setLeftBonus(int leftBonus) {
+        public void setLeftBonus(double leftBonus) {
             this.leftBonus = leftBonus;
         }
 
-        public int getMailMinimum() {
+        public double getMailMinimum() {
             return mailMinimum;
         }
 
-        public void setMailMinimum(int mailMinimum) {
+        public void setMailMinimum(double mailMinimum) {
             this.mailMinimum = mailMinimum;
         }
 
