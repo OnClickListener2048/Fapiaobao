@@ -152,6 +152,7 @@ public class DemandActivity extends BaseActivity {
             image.isFromNet = true;
             images.add(image);
         }
+
 //        1zhi之普票
 //                2 只赚
 //                3店铺
