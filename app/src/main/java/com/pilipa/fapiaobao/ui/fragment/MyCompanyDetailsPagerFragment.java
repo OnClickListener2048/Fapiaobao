@@ -64,13 +64,13 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
         ImageView img_qr_code1 = (ImageView) view.findViewById(R.id.img_qr_code1);
         LinearLayout ll_qr_code2 = (LinearLayout) view.findViewById(R.id.ll_qr_code2);
 
-        if(companyId.equals("1")){
-            ll_qr_code2.setVisibility(View.VISIBLE);
-            img_qr_code1.setVisibility(View.GONE);
-        }else{
-            img_qr_code1.setVisibility(View.VISIBLE);
-            ll_qr_code2.setVisibility(View.GONE);
-        }
+//        if(companyId.equals("1")){
+//            ll_qr_code2.setVisibility(View.VISIBLE);
+//            img_qr_code1.setVisibility(View.GONE);
+//        }else{
+//            img_qr_code1.setVisibility(View.VISIBLE);
+//            ll_qr_code2.setVisibility(View.GONE);
+//        }
 
     }
 

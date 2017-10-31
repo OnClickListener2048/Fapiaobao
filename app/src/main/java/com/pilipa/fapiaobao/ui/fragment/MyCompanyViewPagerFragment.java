@@ -163,7 +163,6 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(mContext, CompanyDetailsActivity.class);
-        Bundle bundle = new Bundle();
         intent.putExtra("companyId",mData.get(position).getId());
         startActivity(intent);
     }
