@@ -57,6 +57,7 @@
          />
     <Button
         android:id="@+id/btn_save"
+        android:visibility="gone"
         android:text="@string/save"
         android:layout_alignParentBottom="true"
         android:textColor="@color/white"

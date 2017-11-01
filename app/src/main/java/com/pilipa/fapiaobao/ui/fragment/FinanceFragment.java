@@ -17,9 +17,7 @@ import com.pilipa.fapiaobao.adapter.AllInvoiceAdapter;
 import com.pilipa.fapiaobao.adapter.FinanceAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
-import com.pilipa.fapiaobao.interf.BaseView;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
@@ -149,6 +147,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                                 if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
                                     financeAdapter = new FinanceAdapter(allInvoiceType);
                                     financeAdapter.setOnLabelClickListener(FinanceFragment.this);
+                                    //TODO 请求回来前 跳转页面 空指针
                                     recyclerview.setAdapter(financeAdapter);
                                 }
                             }

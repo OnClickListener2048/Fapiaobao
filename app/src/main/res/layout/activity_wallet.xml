@@ -56,7 +56,7 @@
                 android:id="@+id/tv_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="800.00"/>
+                android:text="0"/>
         </LinearLayout>
         <Button
             android:id="@+id/btn_recharge"
@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/main_style"
-            android:text="200"/>
+            android:text="0"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

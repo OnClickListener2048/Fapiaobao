@@ -92,7 +92,7 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
                 imageHolder.wait_to_quality.setVisibility(View.GONE);
                 imageHolder.wait_to_express.setVisibility(View.GONE);
                 imageHolder.confirming.setVisibility(View.VISIBLE);
-                buttonParams.gravity = Gravity.TOP;
+                buttonParams.gravity = Gravity.BOTTOM;
                 break;
             case STATE_COMPETENT:
                 imageHolder.quality.setVisibility(View.VISIBLE);
@@ -113,7 +113,7 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
                 imageHolder.wait_to_quality.setVisibility(View.GONE);
                 imageHolder.wait_to_express.setVisibility(View.VISIBLE);
                 imageHolder.confirming.setVisibility(View.GONE);
-                buttonParams.gravity = Gravity.TOP;
+                buttonParams.gravity = Gravity.BOTTOM;
                 break;
         }
         imageHolder.iv_image_item.setLayoutParams(buttonParams);

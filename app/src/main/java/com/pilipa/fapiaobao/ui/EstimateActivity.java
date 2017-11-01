@@ -163,7 +163,6 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

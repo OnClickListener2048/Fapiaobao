@@ -316,6 +316,7 @@ public class ProvidedActivity extends BaseActivity {
                             tvArrivalState.setText("红包飞走了");
                             tvArrivalState.setTextColor(Color.BLUE);
                         }
+
 //                        tvReceiver.setText();
 //                        tvTelephone.setText();
 //                        tvPhone.setText();

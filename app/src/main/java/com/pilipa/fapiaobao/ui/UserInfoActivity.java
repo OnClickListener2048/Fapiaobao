@@ -33,7 +33,6 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
-import com.pilipa.fapiaobao.ui.fragment.MeFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
@@ -122,14 +121,15 @@ public class UserInfoActivity extends BaseActivity {
                 }
                 mCameraDialog.dismiss();
                 break;
-            case R.id.btn_cancel:
+            case R.id.btn_cancel://拍照取消
                 mCameraDialog.dismiss();
                 break;
-            case R.id.btn_cancel1:
+            case R.id.btn_cancel1://登出取消
                 mDialog.dismiss();
                 break;
-            case R.id.btn_confirm:
-                mDialog.dismiss();
+            case R.id.btn_confirm://确认登出\
+                AccountHelper.logout();
+                startActivity(new Intent(this,LoginActivity.class));
                 break;
             case R.id.img_logout:
                 setLogoutDialog();
@@ -230,10 +230,20 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            LoginWithInfoBean.DataBean.CustomerBean customer = AccountHelper.getUser().getData().getCustomer();
-            setUserData(customer);
-        }
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                if (loginWithInfoBean.getStatus() == 200) {
+                    if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+                        LoginWithInfoBean.DataBean.CustomerBean customer = AccountHelper.getUser().getData().getCustomer();
+                        setUserData(customer);
+                    }
+                }
+
+            }
+        });
+
     }
     public void setUserData( LoginWithInfoBean.DataBean.CustomerBean customer){
         edtBirthday.setText(customer.getBirthday());

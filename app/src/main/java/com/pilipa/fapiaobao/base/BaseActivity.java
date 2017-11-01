@@ -145,7 +145,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         }
         return super.onTouchEvent(event);
-
     }
 
 

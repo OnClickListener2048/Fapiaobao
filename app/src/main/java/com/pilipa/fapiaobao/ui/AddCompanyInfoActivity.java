@@ -51,7 +51,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
             case R.id.btn_save:{
                 String tip = addCompany();
                 if(tip != null){
-                    Toast.makeText(this,tip,Toast.LENGTH_SHORT);
+                    Toast.makeText(this,tip,Toast.LENGTH_SHORT).show();
                 }
             }break;
         }
@@ -95,7 +95,10 @@ public class AddCompanyInfoActivity extends BaseActivity {
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
             Api.companyCreate(company,AccountHelper.getToken(),new Api.BaseViewCallback<NormalBean>() {
                 @Override
-                public void setData(NormalBean loginWithInfoBean) {
+                public void setData(NormalBean normalBean) {
+                    if(normalBean.getStatus() == 200){
+                        Toast.makeText(AddCompanyInfoActivity.this,"添加成功",Toast.LENGTH_SHORT).show();
+                    }
                     Log.d(TAG, "createCompany;success");
                 }
             });

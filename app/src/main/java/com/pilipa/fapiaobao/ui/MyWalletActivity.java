@@ -79,9 +79,13 @@ public class MyWalletActivity extends BaseActivity {
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
-                SharedPreferencesHelper.save(MyWalletActivity.this, loginWithInfoBean);
-                tv_bouns.setText(loginWithInfoBean.getData().getCustomer().getBonus()+"");
-                tv_amount.setText(loginWithInfoBean.getData().getCustomer().getAmount()+"");
+                if (loginWithInfoBean.getStatus() == 200) {
+                    if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+                        SharedPreferencesHelper.save(MyWalletActivity.this, loginWithInfoBean);
+                        tv_bouns.setText(loginWithInfoBean.getData().getCustomer().getBonus()+"");
+                        tv_amount.setText(loginWithInfoBean.getData().getCustomer().getAmount()+"");
+                    }
+                }
             }
         });
     }

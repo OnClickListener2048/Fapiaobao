@@ -105,14 +105,20 @@ public class MeFragment extends BaseFragment{
     public void onResume() {
         TLog.log("onResume");
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
-                LoginWithInfoBean.DataBean.CustomerBean customer = loginWithInfoBean.getData().getCustomer();
-                String endFormat = mContext.getResources().getString(R.string.integral);
-                tvCreditRating.setText(String.format(endFormat, customer.getCreditScore()));
+                if (loginWithInfoBean.getStatus() == 200) {
+                    if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+                        LoginWithInfoBean.DataBean.CustomerBean customer = loginWithInfoBean.getData().getCustomer();
+                        String endFormat = mContext.getResources().getString(R.string.integral);
+                        tvCreditRating.setText(String.format(endFormat, customer.getCreditScore()));
 //          tvUserName.setText(customer.getCreditLevel());
-                tvUserName.setText(customer.getNickname());
-                tvBouns.setText(customer.getBonus()+"");
+                        tvUserName.setText(customer.getNickname());
+                        tvBouns.setText(customer.getBonus()+"");
+                    }
+                }
+
             }
         });
 
