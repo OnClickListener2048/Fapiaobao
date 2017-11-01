@@ -32,6 +32,7 @@ import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
 import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
+import com.pilipa.fapiaobao.net.bean.publish.ConfirmInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
 import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
@@ -579,9 +580,9 @@ public class Api {
         });
     }
     public static void confirmInvoice(String token,String orderInvoiceId, final BaseViewCallback baseViewCallback) {
-        OkGo.<NormalBean>get(String.format(CONFIRM_INVOICE,token,orderInvoiceId)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+        OkGo.<ConfirmInvoiceBean>get(String.format(CONFIRM_INVOICE,token,orderInvoiceId)).execute(new JsonCallBack<ConfirmInvoiceBean>(ConfirmInvoiceBean.class) {
             @Override
-            public void onSuccess(Response<NormalBean> response) {
+            public void onSuccess(Response<ConfirmInvoiceBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }

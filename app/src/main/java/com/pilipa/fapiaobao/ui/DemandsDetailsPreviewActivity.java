@@ -24,6 +24,7 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.net.bean.publish.ConfirmInvoiceBean;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.PreviewImageFragment;
 import com.pilipa.fapiaobao.ui.fragment.UploadNormalReceiptFragment;
@@ -152,7 +153,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                 layout_willchecked_item.setVisibility(View.GONE);
                 layout_reject_item.setVisibility(View.GONE);
                 break;
-            case STATE_COMPETENT:
+            case STATE_COMPETENT://ok
                 layout_noInfo_item.setVisibility(View.GONE);
                 layout_qualified_item.setVisibility(View.VISIBLE);
                 layout_willchecked_item.setVisibility(View.GONE);
@@ -196,12 +197,12 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             case R.id.tv_CheckEligibility1:{
                 AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                     @Override
-                    public void setData(LoginWithInfoBean normalBean) {
-                        if (normalBean.getStatus() == 200) {
-                                Api.confirmInvoice(AccountHelper.getToken(),currentImage.name, new Api.BaseViewCallback<NormalBean>() {
+                    public void setData(LoginWithInfoBean loginWithInfoBean) {
+                        if (loginWithInfoBean.getStatus() == 200) {
+                                Api.confirmInvoice(AccountHelper.getToken(),currentImage.name, new Api.BaseViewCallback<ConfirmInvoiceBean>() {
                                     @Override
-                                    public void setData(NormalBean normalBean) {
-                                        if (normalBean.getStatus() == 200) {
+                                    public void setData(ConfirmInvoiceBean confirmInvoiceBean) {
+                                        if (confirmInvoiceBean.getStatus() == 200) {
                                             BaseApplication.showToast("确认成功");
                                             DemandsDetailsPreviewActivity.this.finish();
                                         }

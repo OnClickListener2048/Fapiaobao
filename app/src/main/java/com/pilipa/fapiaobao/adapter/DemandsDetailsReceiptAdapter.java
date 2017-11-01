@@ -102,16 +102,10 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
                 buttonParams.gravity = Gravity.TOP;
                 break;
             case STATE_INCOMPETENT:
+            case STATE_MAILING:
                 imageHolder.quality.setVisibility(View.GONE);
                 imageHolder.wait_to_quality.setVisibility(View.VISIBLE);
                 imageHolder.wait_to_express.setVisibility(View.GONE);
-                imageHolder.confirming.setVisibility(View.GONE);
-                buttonParams.gravity = Gravity.BOTTOM;
-                break;
-            case STATE_MAILING:
-                imageHolder.quality.setVisibility(View.GONE);
-                imageHolder.wait_to_quality.setVisibility(View.GONE);
-                imageHolder.wait_to_express.setVisibility(View.VISIBLE);
                 imageHolder.confirming.setVisibility(View.GONE);
                 buttonParams.gravity = Gravity.BOTTOM;
                 break;

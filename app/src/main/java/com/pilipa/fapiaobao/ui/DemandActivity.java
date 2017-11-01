@@ -196,7 +196,16 @@ public class DemandActivity extends BaseActivity {
     public void initData() {
         demandId =  getIntent().getStringExtra("demandId");
         Log.d(TAG, "initData:demandDetails demandId"+demandId);
-        demandDetails(demandId);
+    }
+
+    @Override
+    protected void onResume() {
+        if(demandId != null){
+            demandDetails(demandId);
+        }
+        Log.d(TAG, "onResume:demandDetails demandId"+demandId);
+
+        super.onResume();
     }
 
     @Override
@@ -237,6 +246,7 @@ public class DemandActivity extends BaseActivity {
                             texNumber.setText(bean.getDemand().getCompany().getTaxno());
                         }
                         //发票列表
+                        mDataList.clear();
                         mDataList.addAll(bean.getOrderInvoiceList());
 //                        List<DemandDetails.DataBean.OrderInvoiceListBean> list = bean.getOrderInvoiceList();
                         setUpData(mDataList);

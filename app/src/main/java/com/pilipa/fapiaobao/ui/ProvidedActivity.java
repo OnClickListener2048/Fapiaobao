@@ -40,6 +40,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
+import static com.pilipa.fapiaobao.net.Constant.STATE_FLYING;
+import static com.pilipa.fapiaobao.net.Constant.STATE_GONE;
+import static com.pilipa.fapiaobao.net.Constant.STATE_GOT_ALL;
+import static com.pilipa.fapiaobao.net.Constant.STATE_GOT_PARTIALITY;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_PAPER;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
@@ -306,28 +310,31 @@ public class ProvidedActivity extends BaseActivity {
                     if (orderDetailsBean.getStatus() == REQUEST_SUCCESS) {
                         OrderDetailsBean.DataBean bean = orderDetailsBean.getData();
                         tvInvoiceType.setText(bean.getInvoiceType().getName());
-                        if ("0".equals(bean.getOrderState())) {
-                            tvArrivalState.setText("红包到账");
+                        if(STATE_FLYING.equals(bean.getOrderState())){
+                            tvArrivalState.setText("红包飞来中");
                             tvArrivalState.setTextColor(getResources().getColor(R.color.red));
-                        } else if ("1".equals(bean.getOrderState())) {
-                            tvArrivalState.setText("部分到账");
-                            tvArrivalState.setTextColor(Color.YELLOW);
-                        } else if ("2".equals(bean.getOrderState())) {
-                            tvArrivalState.setText("红包飞走了");
+                        }else if(STATE_GOT_ALL.equals(bean.getOrderState())){
+                            tvArrivalState.setText("红包到帐");
+                            tvArrivalState.setTextColor(Color.GRAY);
+                        }else if(STATE_GOT_PARTIALITY.equals(bean.getOrderState())){
+                            tvArrivalState.setText("部分到帐");
                             tvArrivalState.setTextColor(Color.BLUE);
+                        }else if(STATE_GONE.equals(bean.getOrderState())){
+                            tvArrivalState.setText("红包飞走了");
+                            tvArrivalState.setTextColor(Color.GREEN);
                         }
-
-//                        tvReceiver.setText();
-//                        tvTelephone.setText();
-//                        tvPhone.setText();
-//                        tvPublishAddress.setText();
+                        if(bean.getPostage() != null){
+                            tvReceiver.setText(bean.getPostage().getReceiver());
+                            tvTelephone.setText(bean.getPostage().getTelephone());
+                            tvPhone.setText(bean.getPostage().getPhone());
+                            tvPublishAddress.setText(bean.getPostage().getAddress());
 //                        edtOddNumber.setText();
-                        if(bean.getCompany() != null){
-//                            receiptNumber.setText();
-//                            receiptMoney.setText();
-                            estimateMoney.setText(bean.getBonus() + "");
-//                            continueToUpload.setText();
                         }
+                        estimateMoney.setText(bean.getBonus() + "");
+                        receiptNumber.setText(bean.getInvoiceCount() + "");
+
+//                            receiptMoney.setText();
+//                            continueToUpload.setText();
                         if(bean.getCompany() != null){
                             companyName.setText(bean.getCompany().getName());
                             number.setText(bean.getCompany().getPhone());
