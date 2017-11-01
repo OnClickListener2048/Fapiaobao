@@ -84,6 +84,7 @@ public class FilterFragment extends BaseFragment {
     };
     private EstimateActivity estimateActivity;
     private ArrayList<String> arrayListSelectedReceiptKind;
+    private String area;
 
     private void setUpAddress(AMapLocation aMapLocation) {
         arrayListReceiptArea.add(aMapLocation.getProvince());
@@ -161,6 +162,7 @@ public class FilterFragment extends BaseFragment {
         arrayListSelectedReceiptKind = new ArrayList<>();
         arrayListReceiptKind.addAll(StaticDataCreator.initReceiptKindData(mContext));
         labelsReceiptKind.setLabels(arrayListReceiptKind);
+        labelsReceiptKind.setSelects(3);
         labelsReceiptKind.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
             @Override
             public void onLabelClick(View label, String labelText, int position) {
@@ -250,8 +252,13 @@ public class FilterFragment extends BaseFragment {
                 estimateActivity.closeDrawer();
                 break;
             case R.id.confirm:
+                if (labelsArea != null && labelsArea.getSelectLabels().size() > 0) {
+                    area = labelsArea.getLabels().get(labelsArea.getSelectLabels().get(0));
+                } else {
+                    area = "";
+                }
 
-                estimateActivity.setFilterKeys(arrayListSelectedReceiptKind, labelsArea.getLabels().get(labelsArea.getSelectLabels().get(0)));
+                estimateActivity.setFilterKeys(arrayListSelectedReceiptKind, area);
                 estimateActivity.closeDrawer();
                 break;
         }

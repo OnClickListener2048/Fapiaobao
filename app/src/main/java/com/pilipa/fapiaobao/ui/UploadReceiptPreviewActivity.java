@@ -89,8 +89,10 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
         final ArrayList<Parcelable> listPE = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_ELEC_RECEIPT_DATA);
 
         Api.findAllInvoiceVariety(new Api.BaseViewCallback<AllInvoiceVariety>() {
+
             @Override
             public void setData(AllInvoiceVariety allInvoiceVariety) {
+                int count0 = 0;
                 if (listPN != null) {
                     if (listPN.size() > 1) {
                         Bundle bundle = new Bundle();
@@ -98,9 +100,14 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, listPN);
                         paperNormalReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
                         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
+
+                        if (paperNormalReceiptFragment != null) {
+                            Log.d(TAG, "initData: paperNormalReceiptFragment");
+                            count0 = listPN.size();
+                        }
                     }
                 }
-
+                int count1 = 0;
                 if (listPS != null) {
                     if (listPS.size() > 1) {
                         Bundle bundle = new Bundle();
@@ -108,9 +115,13 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, listPS);
                         paperSpecialReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
                         addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
+                        if (paperSpecialReceiptFragment != null) {
+                            Log.d(TAG, "initData: paperSpecialReceiptFragment");
+                            count1 = listPS.size();
+                        }
                     }
                 }
-
+                int count2 = 0;
                 if (listPE != null) {
                     if (listPE.size() > 1) {
                         Bundle bundle = new Bundle();
@@ -118,26 +129,30 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, listPE);
                         paperElecReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
                         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+                        if (paperElecReceiptFragment != null) {
+                            Log.d(TAG, "initData: paperElecReceiptFragment");
+                            count2 = listPE.size();
+                        }
                     }
                 }
 
-                int count0 = 0;
-                if (paperNormalReceiptFragment != null) {
-                    Log.d(TAG, "initData: paperNormalReceiptFragment");
-                    count0 = paperNormalReceiptFragment.getCurrentImageCount();
-                }
+//                int count0 = 0;
+//                if (paperNormalReceiptFragment != null) {
+//                    Log.d(TAG, "initData: paperNormalReceiptFragment");
+//                    count0 = paperNormalReceiptFragment.getCurrentImageCount();
+//                }
 
-                int count1 = 0;
-                if (paperSpecialReceiptFragment != null) {
-                    Log.d(TAG, "initData: paperSpecialReceiptFragment");
-                    count1 = paperSpecialReceiptFragment.getCurrentImageCount();
-                }
+//                int count1 = 0;
+//                if (paperSpecialReceiptFragment != null) {
+//                    Log.d(TAG, "initData: paperSpecialReceiptFragment");
+//                    count1 = paperSpecialReceiptFragment.getCurrentImageCount();
+//                }
 
-                int count2 = 0;
-                if (paperElecReceiptFragment != null) {
-                    Log.d(TAG, "initData: paperElecReceiptFragment");
-                    count2 = paperElecReceiptFragment.getCurrentImageCount();
-                }
+//                int count2 = 0;
+//                if (paperElecReceiptFragment != null) {
+//                    Log.d(TAG, "initData: paperElecReceiptFragment");
+//                    count2 = paperElecReceiptFragment.getCurrentImageCount();
+//                }
 
                 count = count0 + count1 + count2;
                 receiptNumber.setText(count + "");

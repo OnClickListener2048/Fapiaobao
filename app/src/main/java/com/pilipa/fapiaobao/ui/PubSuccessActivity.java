@@ -143,4 +143,9 @@ public class PubSuccessActivity extends BaseActivity {
                 break;
         }
     }
+
+    @OnClick(R.id.publish_success_back)
+    public void onViewClicked() {
+        finish();
+    }
 }

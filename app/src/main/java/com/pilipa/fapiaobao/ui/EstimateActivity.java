@@ -104,6 +104,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
     @Override
     public void initView() {
+        filter.setVisibility(View.VISIBLE);
         llhasRedbag.setVisibility(View.VISIBLE);
         llnoredbag.setVisibility(View.GONE);
         estimatePlease.setVisibility(View.VISIBLE);
@@ -177,29 +178,41 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             case R.id.test_redbag:
                 String trim = etEstimate.getText().toString().trim();
                 amount = Double.valueOf(trim);
-                if (!(amount > 0)) {
+                if (!(amount > 0) && amount != 0) {
                     BaseApplication.showToast("请输入正确的发票金额");
                     return;
                 } else {
-                    Api.doMatchDemand(label, amount, "1,2,3", "天津市", new Api.BaseViewCallback<MacherBeanToken>() {
-
+                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                         @Override
-                        public void setData(MacherBeanToken matchBean) {
-                            TLog.log(matchBean.getStatus()+"");
-                            if (matchBean.getStatus() == 400) {
-                                llhasRedbag.setVisibility(View.GONE);
-                                llnoredbag.setVisibility(View.VISIBLE);
-                                return;
+                        public void setData(LoginWithInfoBean loginWithInfoBean) {
+                            if (loginWithInfoBean.getStatus() == 200) {
+                                Api.doMatchDemand(label, amount, "1,2,3", "天津市", new Api.BaseViewCallback<MacherBeanToken>() {
+
+                                    @Override
+                                    public void setData(MacherBeanToken matchBean) {
+                                        TLog.log(matchBean.getStatus() + "");
+                                        if (matchBean.getStatus() == 400) {
+                                            llhasRedbag.setVisibility(View.GONE);
+                                            llnoredbag.setVisibility(View.VISIBLE);
+                                            filter.setVisibility(View.GONE);
+                                            return;
+                                        }
+                                        llFilterKey.setVisibility(View.GONE);
+                                        llConfirmCaution.setVisibility(View.VISIBLE);
+                                        estimatePlease.setVisibility(View.GONE);
+                                        llBonus.setVisibility(View.VISIBLE);
+                                        EstimateActivity.this.matchBean = matchBean;
+                                        bonus.setText(matchBean.getData().get(0).getBonus() + "");
+                                        setUpData(matchBean);
+                                    }
+                                });
+                            } else {
+                                startActivity(new Intent(EstimateActivity.this, LoginActivity.class));
+                                finish();
                             }
-                            llFilterKey.setVisibility(View.GONE);
-                            llConfirmCaution.setVisibility(View.VISIBLE);
-                            estimatePlease.setVisibility(View.GONE);
-                            llBonus.setVisibility(View.VISIBLE);
-                            EstimateActivity.this.matchBean = matchBean;
-                            bonus.setText(matchBean.getData().get(0).getBonus() + "");
-                            setUpData(matchBean);
                         }
                     });
+
                 }
                 break;
             case R.id.go:

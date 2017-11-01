@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,7 +12,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.PubActivity;
 import com.pilipa.fapiaobao.ui.widget.NavigationButton;
 
@@ -148,7 +154,6 @@ public class NavFragment extends BaseFragment {
      * 拦截底部点击，当点击个人按钮时进行消息跳转
      */
     private boolean interceptMessageSkip() {
-
         return false;
     }
 
@@ -181,7 +186,19 @@ public class NavFragment extends BaseFragment {
             NavigationButton nav = (NavigationButton) view;
             doSelect(nav);
         } else {
-            PubActivity.show(mContext);
+            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                @Override
+                public void setData(LoginWithInfoBean loginWithInfoBean) {
+                    if (loginWithInfoBean.getStatus()==200) {
+                        PubActivity.show(mContext);
+                    } else if (loginWithInfoBean.getStatus()==701) {
+                        BaseApplication.showToast("token验证失败请重新登录");
+                        startActivity(new Intent(mContext, LoginActivity.class));
+                        getActivity().finish();
+                    }
+                }
+            });
+
         }
     }
 

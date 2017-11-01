@@ -142,6 +142,17 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                         financeAdapter = new FinanceAdapter(defaultInvoiceBean);
                         financeAdapter.setOnLabelClickListener(FinanceFragment.this);
                         recyclerview.setAdapter(financeAdapter);
+                    } else if (defaultInvoiceBean.getStatus() == 701) {
+                        Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseViewCallback<DefaultInvoiceBean>() {
+                            @Override
+                            public void setData(DefaultInvoiceBean allInvoiceType) {
+                                if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
+                                    financeAdapter = new FinanceAdapter(allInvoiceType);
+                                    financeAdapter.setOnLabelClickListener(FinanceFragment.this);
+                                    recyclerview.setAdapter(financeAdapter);
+                                }
+                            }
+                        });
                     }
                 }
             });

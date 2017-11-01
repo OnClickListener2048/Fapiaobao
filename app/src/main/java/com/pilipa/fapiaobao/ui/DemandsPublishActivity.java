@@ -430,17 +430,22 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         DemandsPublishBean bean = new DemandsPublishBean();
         bean.setInvoiceVarieties(setUpReceiptParams());
-        bean.setId(dataBean.getId());
+        if (dataBean!= null) {
+            bean.setId(dataBean.getId());
+        }
         bean.setToken(loginWithInfoBean.getData().getToken());
         DemandsPublishBean.CompanyBean companyBean = new DemandsPublishBean.CompanyBean();
         CompaniesBean.DataBean dataBean = SharedPreferencesHelper.loadFormSource(this, CompaniesBean.DataBean.class);
-        companyBean.setId(dataBean.getId());
-        companyBean.setAccount(dataBean.getAccount());
-        companyBean.setAddress(dataBean.getAddress());
-        companyBean.setTaxno(dataBean.getTaxno());
-        companyBean.setName(dataBean.getName());
-        companyBean.setDepositBank(dataBean.getDepositBank());
-        companyBean.setPhone(dataBean.getPhone());
+        if (dataBean != null) {
+            companyBean.setId(dataBean.getId());
+        }
+
+        companyBean.setAccount(etPublishBankAccount.getText().toString().trim());
+        companyBean.setAddress(etPublishAddress.getText().toString().trim());
+        companyBean.setTaxno(etPublishTexNumber.getText().toString().trim());
+        companyBean.setName(etPublishCompanyName.getText().toString().trim());
+        companyBean.setDepositBank(etPublishBank.getText().toString().trim());
+        companyBean.setPhone(etPublishPhoneNumber.getText().toString().trim());
         bean.setCompany(companyBean);
 
         List<DemandsPublishBean.DemandInvoiceTypeListBean> listBeen = new ArrayList<>();
@@ -453,11 +458,11 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
         bean.setDemandInvoiceTypeList(listBeen);
 
-        demandPostageBean.setAddress(etPublishAddress.getText().toString().trim());
+        demandPostageBean.setAddress(etAreaDetails.getText().toString().trim());
         demandPostageBean.setProvince(tvArea.getText().toString());
-        demandPostageBean.setPhone(etPublishPhoneNumber.getText().toString().trim());
+        demandPostageBean.setPhone(etReceptionNumber.getText().toString().trim());
         demandPostageBean.setReceiver(etReceptionName.getText().toString().trim());
-        demandPostageBean.setTelephone(etPublishPhoneNumber.getText().toString().trim());
+        demandPostageBean.setTelephone(etReceptionNumber.getText().toString().trim());
 
 
         bean.setDemandPostage(demandPostageBean);
@@ -553,6 +558,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                     public void setData(CompaniesBean companiesBean) {
                         if (companiesBean.getStatus() == 200 && companiesBean.getData() != null) {
                             setDialog(companiesBean.getData());
+                        } else if (companiesBean.getStatus() == 400) {
+                            BaseApplication.showToast("没有收藏过公司");
                         }
                     }
                 });

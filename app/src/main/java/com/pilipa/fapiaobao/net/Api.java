@@ -184,11 +184,10 @@ public class Api {
         OkGo.<LoginWithInfoBean>get(String.format(LOGIN_BY_TOKEN, token)).execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
             @Override
             public void onSuccess(Response<LoginWithInfoBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
+                if (response.isSuccessful()) {
                     baseViewCallback.setData(response.body());
-                } else if (response.body().getStatus() == 701) {
-                    BaseApplication.showToast("token验证失败");
                 }
+
             }
         });
     }

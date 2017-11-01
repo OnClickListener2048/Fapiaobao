@@ -85,14 +85,14 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity android:name=".ui.LaunchActivity">
-
-        </activity>
-        <activity android:name=".ui.LeadActivity" />
-        <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.LeadActivity" />
+        <activity android:name=".ui.LoginActivity">
+
         </activity>
 
         <activity

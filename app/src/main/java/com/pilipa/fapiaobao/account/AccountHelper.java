@@ -40,6 +40,9 @@ public class AccountHelper {
     }
 
     public static String getToken() {
+        if (getUser() == null || getUser().getData() == null) {
+            return "notoken";
+        }
         String token = getUser().getData().getToken();
         Log.d(TAG, "getToken: "+token);
         return token == null ? "" : token;
