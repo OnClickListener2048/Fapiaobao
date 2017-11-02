@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.SharedPreferencesCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.widget.SimplexToast;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
@@ -20,7 +20,6 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
-import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -80,6 +79,7 @@ public class BaseApplication extends Application {
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String s) {
+                Log.d("deviceToken",s);
                 set("deviceToken",s);
             }
 

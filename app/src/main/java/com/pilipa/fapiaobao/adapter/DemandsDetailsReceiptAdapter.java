@@ -62,7 +62,7 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
             ImageViewHolder imageHolder = (ImageViewHolder) holder;
         image = images.get(position);
         String state = image.state;
-        setStateVisibility(imageHolder,state);
+        setStateVisibility(imageHolder,image);
         image.position = position;
         requestManager
                     .load(image.path)
@@ -82,15 +82,16 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
             });
 
     }
-    private void setStateVisibility(ImageViewHolder imageHolder,String state){
+    private void setStateVisibility(ImageViewHolder imageHolder,Image image){
         FrameLayout.LayoutParams buttonParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-//相当于Button布局属性中的android:layout_gravity=right
+            //相当于Button布局属性中的android:layout_gravity=right
 
-        switch (state){
+        switch (image.state){
             case STATE_CONFIRMING:
                 imageHolder.quality.setVisibility(View.GONE);
                 imageHolder.wait_to_quality.setVisibility(View.GONE);
                 imageHolder.wait_to_express.setVisibility(View.GONE);
+                imageHolder.unquality.setVisibility(View.GONE);
                 imageHolder.confirming.setVisibility(View.VISIBLE);
                 buttonParams.gravity = Gravity.BOTTOM;
                 break;
@@ -99,15 +100,29 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
                 imageHolder.wait_to_quality.setVisibility(View.GONE);
                 imageHolder.wait_to_express.setVisibility(View.GONE);
                 imageHolder.confirming.setVisibility(View.GONE);
+                imageHolder.unquality.setVisibility(View.GONE);
                 buttonParams.gravity = Gravity.TOP;
                 break;
             case STATE_INCOMPETENT:
-            case STATE_MAILING:
+                imageHolder.unquality.setVisibility(View.VISIBLE);
                 imageHolder.quality.setVisibility(View.GONE);
-                imageHolder.wait_to_quality.setVisibility(View.VISIBLE);
+                imageHolder.wait_to_quality.setVisibility(View.GONE);
                 imageHolder.wait_to_express.setVisibility(View.GONE);
                 imageHolder.confirming.setVisibility(View.GONE);
+                buttonParams.gravity = Gravity.TOP;
+                break;
+            case STATE_MAILING:
+                imageHolder.quality.setVisibility(View.GONE);
+                imageHolder.unquality.setVisibility(View.GONE);
+                imageHolder.confirming.setVisibility(View.GONE);
                 buttonParams.gravity = Gravity.BOTTOM;
+                if(image.logisticsTradeno == null){
+                    imageHolder.wait_to_quality.setVisibility(View.VISIBLE);
+                    imageHolder.wait_to_express.setVisibility(View.GONE);
+                }else{
+                    imageHolder.wait_to_quality.setVisibility(View.GONE);
+                    imageHolder.wait_to_express.setVisibility(View.VISIBLE);
+                }
                 break;
         }
         imageHolder.iv_image_item.setLayoutParams(buttonParams);
@@ -162,7 +177,7 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
 
         private final ImageView iv_image_item;
         private final TextView tv_isSelect;
-        private final ImageView quality;
+        private final ImageView quality,unquality;
         private final ImageView wait_to_quality;
         private final ImageView wait_to_express;
         private final ImageView confirming;
@@ -172,6 +187,7 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
             iv_image_item = (ImageView) itemView.findViewById(R.id.iv_image_item);
             tv_isSelect = (TextView) itemView.findViewById(R.id.rb);
             quality = (ImageView) itemView.findViewById(R.id.quality);
+            unquality = (ImageView) itemView.findViewById(R.id.unquality);
             wait_to_quality = (ImageView) itemView.findViewById(R.id.wait_to_quality);
             wait_to_express = (ImageView) itemView.findViewById(R.id.wait_to_express);
             confirming = (ImageView) itemView.findViewById(R.id.confirming);

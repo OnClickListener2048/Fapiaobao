@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.net.bean.publish;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ public class DemandDetails {
     /**
      * status : 200
      * msg : OK
-     * data : {"demand":{"isNewRecord":true,"remarks":"","createDate":"2017-10-27 15:29:57","updateDate":"2017-10-26 15:29:57","company":{"isNewRecord":true,"name":"天津爱康鼎科技有限公司","taxno":"320400137674452","address":"天津市红桥区海河华鼎大厦","phone":"022-12554551","depositBank":"中国民生银行天津分行","account":"55555555555555555","qrcode":"www.sdsadsasd.dsada","isDefault":"1"},"demandPostage":{"isNewRecord":true,"receiver":"朱宏超","province":"内蒙","city":"赤峰","district":"阿发","address":"西撒的撒","email":"fasf564f@qq.com"},"invoiceVarieties":"1,2,3","areaRestrict":"1","province":"天津市","city":"天津市","deadline":"2017-11-02 00:00:00","totalAmount":1000,"leftAmount":500,"totalBonus":200,"leftBonus":50,"mailMinimum":100,"attentions":"尽快送到","state":"2","closeDate":"2017-10-31 00:00:00"},"orderInvoiceList":[{"id":"1","isNewRecord":false,"remarks":"","createDate":"2017-10-27 23:25:26","updateDate":"2017-10-04 23:25:20","order":{"id":"1","isNewRecord":false},"demand":{"id":"2716a03d6221477a886438e6aebef4ed","isNewRecord":false},"variety":"1","amount":99,"bonus":9,"url":"http://pic2.ooopic.com/12/22/94/37bOOOPICc7_1024.jpg","logisticsCompany":"50","logisticsTradeno":"50","state":"5"},{"id":"2","isNewRecord":false,"order":{"id":"1","isNewRecord":false},"demand":{"id":"2716a03d6221477a886438e6aebef4ed","isNewRecord":false},"amount":101,"bonus":11,"url":"http://pic2.ooopic.com/12/22/94/37bOOOPICc7_1024.jpg"},{"id":"3","isNewRecord":false,"order":{"id":"2","isNewRecord":false},"demand":{"id":"2716a03d6221477a886438e6aebef4ed","isNewRecord":false},"amount":100,"bonus":10,"url":"http://pic2.ooopic.com/12/22/94/37bOOOPICc7_1024.jpg"},{"id":"4","isNewRecord":false,"order":{"id":"2","isNewRecord":false},"demand":{"id":"2716a03d6221477a886438e6aebef4ed","isNewRecord":false},"amount":150,"bonus":15,"url":"http://pic2.ooopic.com/12/22/94/37bOOOPICc7_1024.jpg"},{"id":"5","isNewRecord":false,"order":{"id":"2","isNewRecord":false},"demand":{"id":"2716a03d6221477a886438e6aebef4ed","isNewRecord":false},"amount":50,"bonus":5,"url":"http://pic2.ooopic.com/12/22/94/37bOOOPICc7_1024.jpg"}]}
+     * data : {"invoiceNameList":["会议票"],"demand":{"isNewRecord":true,"createDate":"2017-11-01 11:26:21","updateDate":"2017-11-02 10:36:15","company":{"isNewRecord":true,"name":"天津波康数码","taxno":"57568765828856","address":"天津和平","phone":"022-8758469","depositBank":"建设银行","account":"6825524665425853"},"demandPostage":{"isNewRecord":true,"receiver":"王大锤","province":"天津","city":"天津","district":"天津","address":"天津"},"invoiceVarieties":"1,2,3","areaRestrict":"1","city":"天津市","deadline":"2017-11-03","totalAmount":1000,"leftAmount":440,"totalBonus":100,"leftBonus":44,"mailMinimum":7,"attentions":"快递小哥辛苦了","state":"0","closeDate":"2017-12-03"},"orderInvoiceList":[{"id":"1b4e93743bfb4ced9fcf5b3297a5af2e","isNewRecord":false,"createDate":"2017-11-01 15:55:01","updateDate":"2017-11-01 15:55:01","order":{"id":"ea998f681ede4845adbceb740e664a07","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"3","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"1"},{"id":"2f6c7bbf64d14fea9392dcf2d729c2a5","isNewRecord":false,"createDate":"2017-11-01 15:23:20","updateDate":"2017-11-01 15:23:20","order":{"id":"d29766a8fe984e6eadfb3ef82853dc0a","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"3","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"1"},{"id":"315b660dc2db4ed8a024f0773d8943fe","isNewRecord":false,"createDate":"2017-11-01 15:48:24","updateDate":"2017-11-01 15:48:24","order":{"id":"fcb7b6add85b427d9c005402994c5d01","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"2","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"1"},{"id":"9683f6e753f949b78a8aec8229b63c22","isNewRecord":false,"createDate":"2017-11-01 15:28:06","updateDate":"2017-11-01 15:28:06","order":{"id":"ee61139200ff43b8a523b9fd02d599cc","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"3","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"1"},{"id":"c4e8385d7eca40d394a03dd2ce8b1bcf","isNewRecord":false,"createDate":"2017-11-01 15:30:08","updateDate":"2017-11-01 15:30:08","order":{"id":"1163b3a26f634f14a6736e13a3eec954","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"3","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"1"},{"id":"e3dc90a0070241308fad9fa8596a4f5a","isNewRecord":false,"createDate":"2017-11-01 14:24:06","updateDate":"2017-11-01 14:24:06","order":{"id":"d5b7f19067c6493c9f136dde30486d69","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"2","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"1"},{"id":"fe2dc38a077646bb99e5c4b2b59510f2","isNewRecord":false,"createDate":"2017-11-01 13:47:51","updateDate":"2017-11-01 15:03:25","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"3","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"1"}]}
      */
 
     private int status;
@@ -45,11 +46,13 @@ public class DemandDetails {
 
     public static class DataBean {
         /**
-         * demand : {"isNewRecord":true,"remarks":"","createDate":"2017-10-27 15:29:57","updateDate":"2017-10-26 15:29:57","company":{"isNewRecord":true,"name":"天津爱康鼎科技有限公司","taxno":"320400137674452","address":"天津市红桥区海河华鼎大厦","phone":"022-12554551","depositBank":"中国民生银行天津分行","account":"55555555555555555","qrcode":"www.sdsadsasd.dsada","isDefault":"1"},"demandPostage":{"isNewRecord":true,"receiver":"朱宏超","province":"内蒙","city":"赤峰","district":"阿发","address":"西撒的撒","email":"fasf564f@qq.com"},"invoiceVarieties":"1,2,3","areaRestrict":"1","province":"天津市","city":"天津市","deadline":"2017-11-02 00:00:00","totalAmount":1000,"leftAmount":500,"totalBonus":200,"leftBonus":50,"mailMinimum":100,"attentions":"尽快送到","state":"2","closeDate":"2017-10-31 00:00:00"}
-         * orderInvoiceList : [{"id":"1","isNewRecord":false,"remarks":"","createDate":"2017-10-27 23:25:26","updateDate":"2017-10-04 23:25:20","order":{"id":"1","isNewRecord":false},"demand":{"id":"2716a03d6221477a886438e6aebef4ed","isNewRecord":false},"variety":"1","amount":99,"bonus":9,"url":"http://pic2.ooopic.com/12/22/94/37bOOOPICc7_1024.jpg","logisticsCompany":"50","logisticsTradeno":"50","state":"5"},{"id":"2","isNewRecord":false,"order":{"id":"1","isNewRecord":false},"demand":{"id":"2716a03d6221477a886438e6aebef4ed","isNewRecord":false},"amount":101,"bonus":11,"url":"http://pic2.ooopic.com/12/22/94/37bOOOPICc7_1024.jpg"},{"id":"3","isNewRecord":false,"order":{"id":"2","isNewRecord":false},"demand":{"id":"2716a03d6221477a886438e6aebef4ed","isNewRecord":false},"amount":100,"bonus":10,"url":"http://pic2.ooopic.com/12/22/94/37bOOOPICc7_1024.jpg"},{"id":"4","isNewRecord":false,"order":{"id":"2","isNewRecord":false},"demand":{"id":"2716a03d6221477a886438e6aebef4ed","isNewRecord":false},"amount":150,"bonus":15,"url":"http://pic2.ooopic.com/12/22/94/37bOOOPICc7_1024.jpg"},{"id":"5","isNewRecord":false,"order":{"id":"2","isNewRecord":false},"demand":{"id":"2716a03d6221477a886438e6aebef4ed","isNewRecord":false},"amount":50,"bonus":5,"url":"http://pic2.ooopic.com/12/22/94/37bOOOPICc7_1024.jpg"}]
+         * invoiceNameList : ["会议票"]
+         * demand : {"isNewRecord":true,"createDate":"2017-11-01 11:26:21","updateDate":"2017-11-02 10:36:15","company":{"isNewRecord":true,"name":"天津波康数码","taxno":"57568765828856","address":"天津和平","phone":"022-8758469","depositBank":"建设银行","account":"6825524665425853"},"demandPostage":{"isNewRecord":true,"receiver":"王大锤","province":"天津","city":"天津","district":"天津","address":"天津"},"invoiceVarieties":"1,2,3","areaRestrict":"1","city":"天津市","deadline":"2017-11-03","totalAmount":1000,"leftAmount":440,"totalBonus":100,"leftBonus":44,"mailMinimum":7,"attentions":"快递小哥辛苦了","state":"0","closeDate":"2017-12-03"}
+         * orderInvoiceList : [{"id":"1b4e93743bfb4ced9fcf5b3297a5af2e","isNewRecord":false,"createDate":"2017-11-01 15:55:01","updateDate":"2017-11-01 15:55:01","order":{"id":"ea998f681ede4845adbceb740e664a07","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"3","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"1"},{"id":"2f6c7bbf64d14fea9392dcf2d729c2a5","isNewRecord":false,"createDate":"2017-11-01 15:23:20","updateDate":"2017-11-01 15:23:20","order":{"id":"d29766a8fe984e6eadfb3ef82853dc0a","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"3","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"1"},{"id":"315b660dc2db4ed8a024f0773d8943fe","isNewRecord":false,"createDate":"2017-11-01 15:48:24","updateDate":"2017-11-01 15:48:24","order":{"id":"fcb7b6add85b427d9c005402994c5d01","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"2","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"1"},{"id":"9683f6e753f949b78a8aec8229b63c22","isNewRecord":false,"createDate":"2017-11-01 15:28:06","updateDate":"2017-11-01 15:28:06","order":{"id":"ee61139200ff43b8a523b9fd02d599cc","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"3","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"1"},{"id":"c4e8385d7eca40d394a03dd2ce8b1bcf","isNewRecord":false,"createDate":"2017-11-01 15:30:08","updateDate":"2017-11-01 15:30:08","order":{"id":"1163b3a26f634f14a6736e13a3eec954","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"3","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"1"},{"id":"e3dc90a0070241308fad9fa8596a4f5a","isNewRecord":false,"createDate":"2017-11-01 14:24:06","updateDate":"2017-11-01 14:24:06","order":{"id":"d5b7f19067c6493c9f136dde30486d69","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"2","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"1"},{"id":"fe2dc38a077646bb99e5c4b2b59510f2","isNewRecord":false,"createDate":"2017-11-01 13:47:51","updateDate":"2017-11-01 15:03:25","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false},"variety":"3","url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"1"}]
          */
 
         private DemandBean demand;
+        private List<String> invoiceNameList;
         private List<OrderInvoiceListBean> orderInvoiceList;
 
         public DemandBean getDemand() {
@@ -58,6 +61,14 @@ public class DemandDetails {
 
         public void setDemand(DemandBean demand) {
             this.demand = demand;
+        }
+
+        public List<String> getInvoiceNameList() {
+            return invoiceNameList;
+        }
+
+        public void setInvoiceNameList(List<String> invoiceNameList) {
+            this.invoiceNameList = invoiceNameList;
         }
 
         public List<OrderInvoiceListBean> getOrderInvoiceList() {
@@ -71,42 +82,38 @@ public class DemandDetails {
         public static class DemandBean {
             /**
              * isNewRecord : true
-             * remarks :
-             * createDate : 2017-10-27 15:29:57
-             * updateDate : 2017-10-26 15:29:57
-             * company : {"isNewRecord":true,"name":"天津爱康鼎科技有限公司","taxno":"320400137674452","address":"天津市红桥区海河华鼎大厦","phone":"022-12554551","depositBank":"中国民生银行天津分行","account":"55555555555555555","qrcode":"www.sdsadsasd.dsada","isDefault":"1"}
-             * demandPostage : {"isNewRecord":true,"receiver":"朱宏超","province":"内蒙","city":"赤峰","district":"阿发","address":"西撒的撒","email":"fasf564f@qq.com"}
+             * createDate : 2017-11-01 11:26:21
+             * updateDate : 2017-11-02 10:36:15
+             * company : {"isNewRecord":true,"name":"天津波康数码","taxno":"57568765828856","address":"天津和平","phone":"022-8758469","depositBank":"建设银行","account":"6825524665425853"}
+             * demandPostage : {"isNewRecord":true,"receiver":"王大锤","province":"天津","city":"天津","district":"天津","address":"天津"}
              * invoiceVarieties : 1,2,3
              * areaRestrict : 1
-             * province : 天津市
              * city : 天津市
-             * deadline : 2017-11-02 00:00:00
+             * deadline : 2017-11-03
              * totalAmount : 1000
-             * leftAmount : 500
-             * totalBonus : 200
-             * leftBonus : 50
-             * mailMinimum : 100
-             * attentions : 尽快送到
-             * state : 2
-             * closeDate : 2017-10-31 00:00:00
+             * leftAmount : 440
+             * totalBonus : 100
+             * leftBonus : 44
+             * mailMinimum : 7
+             * attentions : 快递小哥辛苦了
+             * state : 0
+             * closeDate : 2017-12-03
              */
 
             private boolean isNewRecord;
-            private String remarks;
             private String createDate;
             private String updateDate;
             private CompanyBean company;
             private DemandPostageBean demandPostage;
             private String invoiceVarieties;
             private String areaRestrict;
-            private String province;
             private String city;
             private String deadline;
-            private int totalAmount;
-            private int leftAmount;
-            private int totalBonus;
-            private int leftBonus;
-            private int mailMinimum;
+            private BigDecimal totalAmount;
+            private BigDecimal leftAmount;
+            private BigDecimal totalBonus;
+            private BigDecimal leftBonus;
+            private BigDecimal mailMinimum;
             private String attentions;
             private String state;
             private String closeDate;
@@ -117,14 +124,6 @@ public class DemandDetails {
 
             public void setIsNewRecord(boolean isNewRecord) {
                 this.isNewRecord = isNewRecord;
-            }
-
-            public String getRemarks() {
-                return remarks;
-            }
-
-            public void setRemarks(String remarks) {
-                this.remarks = remarks;
             }
 
             public String getCreateDate() {
@@ -175,14 +174,6 @@ public class DemandDetails {
                 this.areaRestrict = areaRestrict;
             }
 
-            public String getProvince() {
-                return province;
-            }
-
-            public void setProvince(String province) {
-                this.province = province;
-            }
-
             public String getCity() {
                 return city;
             }
@@ -199,43 +190,43 @@ public class DemandDetails {
                 this.deadline = deadline;
             }
 
-            public int getTotalAmount() {
+            public BigDecimal getTotalAmount() {
                 return totalAmount;
             }
 
-            public void setTotalAmount(int totalAmount) {
+            public void setTotalAmount(BigDecimal totalAmount) {
                 this.totalAmount = totalAmount;
             }
 
-            public int getLeftAmount() {
+            public BigDecimal getLeftAmount() {
                 return leftAmount;
             }
 
-            public void setLeftAmount(int leftAmount) {
+            public void setLeftAmount(BigDecimal leftAmount) {
                 this.leftAmount = leftAmount;
             }
 
-            public int getTotalBonus() {
+            public BigDecimal getTotalBonus() {
                 return totalBonus;
             }
 
-            public void setTotalBonus(int totalBonus) {
+            public void setTotalBonus(BigDecimal totalBonus) {
                 this.totalBonus = totalBonus;
             }
 
-            public int getLeftBonus() {
+            public BigDecimal getLeftBonus() {
                 return leftBonus;
             }
 
-            public void setLeftBonus(int leftBonus) {
+            public void setLeftBonus(BigDecimal leftBonus) {
                 this.leftBonus = leftBonus;
             }
 
-            public int getMailMinimum() {
+            public BigDecimal getMailMinimum() {
                 return mailMinimum;
             }
 
-            public void setMailMinimum(int mailMinimum) {
+            public void setMailMinimum(BigDecimal mailMinimum) {
                 this.mailMinimum = mailMinimum;
             }
 
@@ -266,14 +257,12 @@ public class DemandDetails {
             public static class CompanyBean {
                 /**
                  * isNewRecord : true
-                 * name : 天津爱康鼎科技有限公司
-                 * taxno : 320400137674452
-                 * address : 天津市红桥区海河华鼎大厦
-                 * phone : 022-12554551
-                 * depositBank : 中国民生银行天津分行
-                 * account : 55555555555555555
-                 * qrcode : www.sdsadsasd.dsada
-                 * isDefault : 1
+                 * name : 天津波康数码
+                 * taxno : 57568765828856
+                 * address : 天津和平
+                 * phone : 022-8758469
+                 * depositBank : 建设银行
+                 * account : 6825524665425853
                  */
 
                 private boolean isNewRecord;
@@ -283,8 +272,6 @@ public class DemandDetails {
                 private String phone;
                 private String depositBank;
                 private String account;
-                private String qrcode;
-                private String isDefault;
 
                 public boolean isIsNewRecord() {
                     return isNewRecord;
@@ -341,33 +328,16 @@ public class DemandDetails {
                 public void setAccount(String account) {
                     this.account = account;
                 }
-
-                public String getQrcode() {
-                    return qrcode;
-                }
-
-                public void setQrcode(String qrcode) {
-                    this.qrcode = qrcode;
-                }
-
-                public String getIsDefault() {
-                    return isDefault;
-                }
-
-                public void setIsDefault(String isDefault) {
-                    this.isDefault = isDefault;
-                }
             }
 
             public static class DemandPostageBean {
                 /**
                  * isNewRecord : true
-                 * receiver : 朱宏超
-                 * province : 内蒙
-                 * city : 赤峰
-                 * district : 阿发
-                 * address : 西撒的撒
-                 * email : fasf564f@qq.com
+                 * receiver : 王大锤
+                 * province : 天津
+                 * city : 天津
+                 * district : 天津
+                 * address : 天津
                  */
 
                 private boolean isNewRecord;
@@ -376,7 +346,6 @@ public class DemandDetails {
                 private String city;
                 private String district;
                 private String address;
-                private String email;
 
                 public boolean isIsNewRecord() {
                     return isNewRecord;
@@ -425,45 +394,31 @@ public class DemandDetails {
                 public void setAddress(String address) {
                     this.address = address;
                 }
-
-                public String getEmail() {
-                    return email;
-                }
-
-                public void setEmail(String email) {
-                    this.email = email;
-                }
             }
         }
 
         public static class OrderInvoiceListBean {
             /**
-             * id : 1
+             * id : 1b4e93743bfb4ced9fcf5b3297a5af2e
              * isNewRecord : false
-             * remarks :
-             * createDate : 2017-10-27 23:25:26
-             * updateDate : 2017-10-04 23:25:20
-             * order : {"id":"1","isNewRecord":false}
-             * demand : {"id":"2716a03d6221477a886438e6aebef4ed","isNewRecord":false}
-             * variety : 1
-             * amount : 99
-             * bonus : 9
-             * url : http://pic2.ooopic.com/12/22/94/37bOOOPICc7_1024.jpg
-             * logisticsCompany : 50
-             * logisticsTradeno : 50
-             * state : 5
+             * createDate : 2017-11-01 15:55:01
+             * updateDate : 2017-11-01 15:55:01
+             * order : {"id":"ea998f681ede4845adbceb740e664a07","isNewRecord":false}
+             * demand : {"id":"3a2abba40a0b4a7fb059f95680fb17cd","isNewRecord":false}
+             * variety : 3
+             * url : https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg
+             * logisticsCompany : 京东
+             * logisticsTradeno : 1564564564564564
+             * state : 1
              */
 
             private String id;
             private boolean isNewRecord;
-            private String remarks;
             private String createDate;
             private String updateDate;
             private OrderBean order;
             private DemandBeanX demand;
             private String variety;
-            private int amount;
-            private int bonus;
             private String url;
             private String logisticsCompany;
             private String logisticsTradeno;
@@ -483,14 +438,6 @@ public class DemandDetails {
 
             public void setIsNewRecord(boolean isNewRecord) {
                 this.isNewRecord = isNewRecord;
-            }
-
-            public String getRemarks() {
-                return remarks;
-            }
-
-            public void setRemarks(String remarks) {
-                this.remarks = remarks;
             }
 
             public String getCreateDate() {
@@ -533,22 +480,6 @@ public class DemandDetails {
                 this.variety = variety;
             }
 
-            public int getAmount() {
-                return amount;
-            }
-
-            public void setAmount(int amount) {
-                this.amount = amount;
-            }
-
-            public int getBonus() {
-                return bonus;
-            }
-
-            public void setBonus(int bonus) {
-                this.bonus = bonus;
-            }
-
             public String getUrl() {
                 return url;
             }
@@ -583,7 +514,7 @@ public class DemandDetails {
 
             public static class OrderBean {
                 /**
-                 * id : 1
+                 * id : ea998f681ede4845adbceb740e664a07
                  * isNewRecord : false
                  */
 
@@ -609,7 +540,7 @@ public class DemandDetails {
 
             public static class DemandBeanX {
                 /**
-                 * id : 2716a03d6221477a886438e6aebef4ed
+                 * id : 3a2abba40a0b4a7fb059f95680fb17cd
                  * isNewRecord : false
                  */
 

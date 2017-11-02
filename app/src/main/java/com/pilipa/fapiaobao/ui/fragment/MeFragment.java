@@ -22,6 +22,7 @@ import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.MyWalletActivity;
 import com.pilipa.fapiaobao.ui.ReceiptFolderActivity;
 import com.pilipa.fapiaobao.ui.UserInfoActivity;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -103,26 +104,23 @@ public class MeFragment extends BaseFragment{
 
     @Override
     public void onResume() {
-        TLog.log("onResume");
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
 
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == 200) {
-                    if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+                    SharedPreferencesHelper.save(mContext, loginWithInfoBean);
                         LoginWithInfoBean.DataBean.CustomerBean customer = loginWithInfoBean.getData().getCustomer();
                         String endFormat = mContext.getResources().getString(R.string.integral);
                         tvCreditRating.setText(String.format(endFormat, customer.getCreditScore()));
-//          tvUserName.setText(customer.getCreditLevel());
                         tvUserName.setText(customer.getNickname());
-                        tvBouns.setText(customer.getBonus()+"");
-                    }
+                        tvBouns.setText(customer.getAmount()+"");//钱包金额
+//          tvUserName.setText(customer.getCreditLevel());
                 }
 
             }
         });
-
-
+        TLog.log("onResume");
 
         super.onResume();
     }

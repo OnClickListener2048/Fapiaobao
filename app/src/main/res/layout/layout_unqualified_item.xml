@@ -4,13 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="220dp">
 
-    <android.support.v4.widget.Space
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:orientation="horizontal"
-       >
-    </android.support.v4.widget.Space>
-
+        android:padding="@dimen/d20">
+        <TextView
+            android:id="@+id/tv_reject_reason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发票面额不服"
+            />
+    </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -63,7 +68,7 @@
 
 
             <TextView
-                android:id="@+id/save_to_media"
+                android:id="@+id/confirm_back"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -72,7 +77,7 @@
                 android:background="@drawable/shape_qualified"
                 android:paddingBottom="@dimen/d10"
                 android:paddingTop="@dimen/d10"
-                android:text="@string/save_to_media"
+                android:text="@string/confirm"
                 android:textColor="@color/white" />
         </RelativeLayout>
     </FrameLayout>

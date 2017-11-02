@@ -139,7 +139,7 @@ public class Constant {
     /*我的发票夹  */
     public static final String ORDER_LIST= BASE_URL + "order/orderList/%s/%s/%s";
     /*驳回发票 */
-    public static final String REJECT_INVOICE= BASE_URL + "order/rejectInvoice";
+    public static final String REJECT_INVOICE= BASE_URL + "order/rejectInvoice/%s/%s/%s/%s";
     /*订单详情  */
     public static final String SHOW_ORDER_DETAIL= BASE_URL + "order/showOrderDetail/%s/%s";
     /*更新常用的发票类型排序 */
@@ -157,7 +157,9 @@ public class Constant {
     获取发票默认常用类型
      */
 
-    public static final String FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE = BASE_URL + "system/findDefaultFrequentlyInvoiceType ";
+    public static final String FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE = BASE_URL + "system/findDefaultFrequentlyInvoiceType";
+    /*获取所有发票驳回类型*/
+    public static final String FIND_ALL_REJECT_TYPE = BASE_URL + "system/findAllRejectType";
 
     /*
     获取用户常用类型

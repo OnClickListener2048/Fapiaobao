@@ -1,24 +1,29 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.adapter.MyInvoiceNameAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.ui.widget.HorizontalListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +34,8 @@ import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.R.id.btn_shut_down_early;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
+import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE;
+import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_FINISH;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_ING;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_PAPER;
@@ -86,8 +93,13 @@ public class DemandActivity extends BaseActivity {
     TextView tvAlreadyCollected;
     @Bind(R.id.btn_shut_down_early)
     TextView btnShutDownEarly;
+    @Bind(R.id.img_state)
+    ImageView img_state;
+    @Bind(R.id.horizontalListView)
+    HorizontalListView horizontalListView;
 
     List<DemandDetails.DataBean.OrderInvoiceListBean> mDataList = new ArrayList<>();
+    List<String> mList = new ArrayList<>();
     private boolean isShow =false;//当前详情是否显示
 
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
@@ -100,6 +112,7 @@ public class DemandActivity extends BaseActivity {
     private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
     private DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment;
     private DemandsDetailsReceiptFragment3 paperElecReceiptFragment;
+    private MyInvoiceNameAdapter invoiceNameAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -136,15 +149,8 @@ public class DemandActivity extends BaseActivity {
 
     @Override
     public void initView() {
-//        OkGo.<TestBean>get("http://gank.io/api/data/福利/5/1").execute(new JsonCallBack<TestBean>(TestBean.class) {
-//            @Override
-//            public void onSuccess(Response<TestBean> response) {
-//                TestBean body = response.body();
-//                if (!body.isError()) {
-//                    setUpData(body.getResults());
-//                }
-//            }
-//        });
+        invoiceNameAdapter = new MyInvoiceNameAdapter(this);
+        horizontalListView.setAdapter(invoiceNameAdapter);
     }
 
     private void setUpData( List<DemandDetails.DataBean.OrderInvoiceListBean> results) {
@@ -221,20 +227,22 @@ public class DemandActivity extends BaseActivity {
                 @Override
                 public void setData(DemandDetails demandDetails) {
                     if(demandDetails.getStatus() == REQUEST_SUCCESS){
+                        Log.d(TAG, "demandDetails success");
                         DemandDetails.DataBean bean =   demandDetails.getData();
-                        String left_bouns = getResources().getString(R.string.left_bouns);
+                        mList.addAll(bean.getInvoiceNameList());
+                        invoiceNameAdapter.initData(mList);
 
-                        tvBounsAmount.setText(bean.getDemand().getTotalBonus()+"元");
-//                        tvAlreadyCollected.setText(bean.getDemand().getLeftAmount()+"");
-                        tvAmount.setText(bean.getDemand().getTotalAmount()+"元");
-                        tvDeadline.setText(bean.getDemand().getDeadline());
-                        tvLeftAmount.setText(String.format(left_bouns, bean.getDemand().getLeftBonus()));
+                        tvBounsAmount.setText(bean.getDemand().getTotalBonus().doubleValue()+"元");
+//                        tvAlreadyCollected.setText(bean.getDemand().getLeftAmount().doubleValue()+"");
+                        tvAmount.setText(bean.getDemand().getTotalAmount().doubleValue()+"元");
+                        tvLeftAmount.setText(bean.getDemand().getLeftBonus().doubleValue()+"");
 //                        tvPublishTime.setText(bean.getDemandPostage());
-                        tvAttentions.setText("1."+bean.getDemand().getAttentions());
+                        tvDeadline.setText("截止日期："+bean.getDemand().getDeadline());
+                        tvAttentions.setText(""+bean.getDemand().getAttentions());
                         if(bean.getDemand().getDemandPostage() != null){
                             tvAddress.setText(bean.getDemand().getDemandPostage().getAddress());
 //                            tvPhone.setText(bean.getDemand().getDemandPostage().getPhone());
-                            tvTelephone.setText(bean.getDemand().getDemandPostage().getEmail());
+//                            tvTelephone.setText(bean.getDemand().getDemandPostage().getEmail());
                             tvReceiver.setText(bean.getDemand().getDemandPostage().getReceiver());
                         }
                         if( bean.getDemand().getCompany() != null){
@@ -254,30 +262,39 @@ public class DemandActivity extends BaseActivity {
                         tvAlreadyCollected.setText(String.format(collected_amount, mDataList.size()));
 
                         if(STATE_DEMAND_ING.equals(bean.getDemand().getState())){
+                            img_state.setImageResource(R.mipmap.on_the_way);
                             btnShutDownEarly.setVisibility(View.VISIBLE);
-                        }else{
+                        }else if(STATE_DEMAND_FINISH.equals(bean.getDemand().getState())){
+                            img_state.setImageResource(R.mipmap.finish);
+                            btnShutDownEarly.setVisibility(View.GONE);
+                        }else if(STATE_DEMAND_CLOSE.equals(bean.getDemand().getState())){
+                            img_state.setImageResource(R.mipmap.close);
                             btnShutDownEarly.setVisibility(View.GONE);
                         }
-
-
-                        Log.d(TAG, "demandDetails success");
                     }
                 }
             });
         }
     }
-    private void shatDownEarly(String id){
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-                Api.shatDownEarly(AccountHelper.getToken(),id, new Api.BaseViewCallback<NormalBean>() {
-                    @Override
-                    public void setData(NormalBean normalBean) {
-                        Toast.makeText(DemandActivity.this,"提前关闭 success",Toast.LENGTH_SHORT).show();
-                        DemandActivity.this.finish();
-                        Log.d(TAG, "updateData:shatDownEarly success");
-                    }
-                });
-        }else{
-            BaseApplication.showToast("登录超期");
-        }
+    private void shatDownEarly(final String id){
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean normalBean) {
+                if (normalBean.getStatus() == 200) {
+                    Api.shatDownEarly(AccountHelper.getToken(), id, new Api.BaseViewCallback<NormalBean>() {
+                        @Override
+                        public void setData(NormalBean normalBean) {
+                            Toast.makeText(DemandActivity.this, "提前关闭 success", Toast.LENGTH_SHORT).show();
+                            DemandActivity.this.finish();
+                            Log.d(TAG, "updateData:shatDownEarly success");
+                        }
+                    });
+                } else {
+                    BaseApplication.showToast("token验证失败请重新登录");
+                    startActivity(new Intent(DemandActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        });
     }
 }

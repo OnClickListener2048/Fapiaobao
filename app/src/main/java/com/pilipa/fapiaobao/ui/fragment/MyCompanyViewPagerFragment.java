@@ -80,9 +80,15 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
 
     @Override
     protected void initData() {
-        getCompanyList();
         super.initData();
     }
+
+    @Override
+    public void onResume() {
+        getCompanyList();
+        super.onResume();
+    }
+
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
         public void onPullingDown(TwinklingRefreshLayout refreshLayout, float fraction) {

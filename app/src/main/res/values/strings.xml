@@ -347,7 +347,7 @@
     <string name="qualified">合格</string>
     <string name="unqualified">不合格</string>
     <string name="save_to_media">保存到相册</string>
-    <string name="checked_qualified">查验合格</string>
+    <string name="checked_qualified">确认合格</string>
     <string name="gallery_save_file_not_have_external_storage">没有外部储存卡</string>
     <string name="gallery_save_file_success">保存成功</string>
     <string name="gallery_save_file_failed">保存失败</string>
@@ -355,10 +355,12 @@
     <string name="message_center">消息中心</string>
     <string name="integral">积分 : %1$d</string>
     <string name="collected_amount">已收集%1$d张发票</string>
-    <string name="left_bouns">剩余%1$d元红包待领取</string>
+    <string name="left_bouns">剩余%1$f元红包待领取</string>
     <string name="shut_down_early">提前关闭</string>
     <string name="no_negetive">无负面记录，请继续保持哦~</string>
     <string name="continuous_to_upload">继续上传发票</string>
+    <string name="tip_wait_dowload">查验合格后，您就可以下载这张发票了哦~</string>
+    <string name="tip_wait_mail">查验合格后，对方将邮寄这张发票给您~</string>
 
     <string-array name="express">
         <item >圆通</item>

@@ -14,6 +14,7 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
@@ -59,12 +60,14 @@ import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_REMOVE;
 import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_EXPRESS_COMPANY;
 import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_INVIICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_INVOICE_VARIETY;
+import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_REJECT_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_HISTORY;
 import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_INFO;
 import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_NEGATIVE_HISTORY;
 import static com.pilipa.fapiaobao.net.Constant.FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
+import static com.pilipa.fapiaobao.net.Constant.MAIL_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.MY_INVOICE_LIST;
 import static com.pilipa.fapiaobao.net.Constant.ORDER_LIST;
 import static com.pilipa.fapiaobao.net.Constant.PUBLISH;
@@ -533,7 +536,6 @@ public class Api {
             }
         });
     }
-    //GET /rest/order/doMatchDemand/{invoiceType}/{amount}/{varieties}/{city}
 
     /**
      *
@@ -583,6 +585,19 @@ public class Api {
             }
         });
     }
+    /**
+     * 邮寄发票
+     * @param token
+     * @param baseViewCallback
+     */
+    public static void mailInvoice(String token,String orderId,String logisticsCompany,String trackingNumber, final BaseViewCallback baseViewCallback) {
+        OkGo.<NormalBean>get(String.format(MAIL_INVOICE, token,orderId,logisticsCompany,trackingNumber)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+            @Override
+            public void onSuccess(Response<NormalBean> response) {
+                    baseViewCallback.setData(response.body());
+            }
+        });
+    }
 
     /**
      * 我的发票夹
@@ -611,10 +626,10 @@ public class Api {
             }
         });
     }
-    public static void rejectInvoice(String token,String orderInvoiceId,String amount,String rejectType, final BaseViewCallback baseViewCallback) {
+    public static void rejectInvoice(String token,String orderInvoiceId,String amount,String rejectType,String reason, final BaseViewCallback baseViewCallback) {
         JSONObject data = JsonCreator.setReject(token,orderInvoiceId,amount,rejectType);
-        OkGo.<NormalBean>post(REJECT_INVOICE)
-                .upJson(data)
+        OkGo.<NormalBean>post(String.format(REJECT_INVOICE,token,orderInvoiceId,amount,rejectType))
+                .upString(reason)
                 .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
@@ -802,7 +817,20 @@ public class Api {
             }
         });
     }
-
+    /**
+     * 获取所有发票驳回类型
+     * @param baseViewCallback
+     */
+    public static void findAllRejectType(final BaseViewCallback baseViewCallback) {
+        OkGo.<RejectTypeBean>get(FIND_ALL_REJECT_TYPE).execute(new JsonCallBack<RejectTypeBean>(RejectTypeBean.class) {
+            @Override
+            public void onSuccess(Response<RejectTypeBean> response) {
+                if ("OK".equals(response.body().getMsg())) {
+                    baseViewCallback.setData(response.body());
+                }
+            }
+        });
+    }
 
     public interface BaseViewCallback<T> {
         void setData(T t);

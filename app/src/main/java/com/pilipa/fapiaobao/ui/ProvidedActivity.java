@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -14,10 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
@@ -26,12 +24,13 @@ import com.pilipa.fapiaobao.net.bean.TestBean;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
-import com.pilipa.fapiaobao.net.callback.JsonCallBack;
+import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
+import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
 import java.util.ArrayList;
 
@@ -78,15 +77,13 @@ public class ProvidedActivity extends BaseActivity {
     TextView tvPublishAddress;
     @Bind(R.id.edt_oddNumber)
     EditText edtOddNumber;
-    @Bind(R.id.btn_mailing)
-    Button btnMailing;
 
     @Bind(R.id.receipt_number)
     TextView receiptNumber;
     @Bind(R.id.receipt_money)
     TextView receiptMoney;
     @Bind(R.id.estimate_money)//预计红包数
-            TextView estimateMoney;
+    TextView estimateMoney;
     @Bind(R.id.continue_to_upload)
     TextView continueToUpload;
 
@@ -114,7 +111,7 @@ public class ProvidedActivity extends BaseActivity {
     private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
     private DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment;
     private DemandsDetailsReceiptFragment3 paperElecReceiptFragment;
-
+    private static final int REQUEST_CODE_SCAN = 0x0000;
     @Bind(R.id.translate_details)
     LinearLayout translateDetails;
     @Bind(R.id.translate)
@@ -129,19 +126,23 @@ public class ProvidedActivity extends BaseActivity {
         return R.layout.activity_provided;
     }
 
-    @OnClick({R.id.provided_back, R.id.fl_change, R.id.btn_confirm,R.id.collect})
+    @OnClick({R.id.provided_back, R.id.fl_change, R.id.btn_confirm,R.id.collect,R.id.btn_mailing,R.id.btn_scan})
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_scan: {
+                startActivityForResult(new Intent(this, CaptureActivity.class), REQUEST_CODE_SCAN);
+            }break;
+            case R.id.btn_mailing: {
+                mailInvoice();
+            }break;
             case R.id.provided_back: {
                 finish();
-            }
-            break;
+            } break;
             case R.id.btn_confirm: {
 
-            }
-            break;
+            } break;
             case R.id.fl_change: {
                 if (isShow) {
                     translateDetails.setVisibility(View.VISIBLE);
@@ -204,24 +205,21 @@ public class ProvidedActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        OkGo.<TestBean>get("http://gank.io/api/data/福利/10/1").execute(new JsonCallBack<TestBean>(TestBean.class) {
+        Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
             @Override
-            public void onSuccess(Response<TestBean> response) {
-                TestBean body = response.body();
-                if (!body.isError()) {
-                    setUpData(body.getResults());
-                }
+            public void setData(ExpressCompanyBean expressCompanyBean) {
+                Log.d(TAG, "setData: initDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitData");
+                mSpinner.setAdapter(new PublishSpinnerAdapter(expressCompanyBean));
             }
         });
 
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_spinner_item);
-        String level[] = getResources().getStringArray(R.array.express);//资源文件
-        for (int i = 0; i < level.length; i++) {
-            adapter.add(level[i]);
-        }
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setAdapter(adapter);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_spinner_item);
+//        String level[] = getResources().getStringArray(R.array.express);//资源文件
+//        for (int i = 0; i < level.length; i++) {
+//            adapter.add(level[i]);
+//        }
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        mSpinner.setAdapter(adapter);
     }
 
     private void setUpData(ArrayList<TestBean.ResultsBean> results) {
@@ -268,9 +266,10 @@ public class ProvidedActivity extends BaseActivity {
     }
 
     String CompanyId;
+    String orderId;
     @Override
     public void initData() {
-        String orderId = getIntent().getStringExtra("OrderId");
+        orderId = getIntent().getStringExtra("OrderId");
         CompanyId = getIntent().getStringExtra("CompanyId");
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
         showOrderDetail(orderId);
@@ -301,7 +300,27 @@ public class ProvidedActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-
+    public void mailInvoice(){
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                if (loginWithInfoBean.getStatus() == 200) {
+                    ExpressCompanyBean.DataBean bean = (ExpressCompanyBean.DataBean)mSpinner.getSelectedItem();
+                    Api.mailInvoice(AccountHelper.getToken(), orderId,bean.getLabel()
+                            , edtOddNumber.getText().toString(), new Api.BaseViewCallback<NormalBean>() {
+                        @Override
+                        public void setData(NormalBean normalBean) {
+                            BaseApplication.showToast("确认邮寄");
+                        }
+                    });
+                } else {
+                    BaseApplication.showToast("token验证失败请重新登陆");
+                    startActivity(new Intent(ProvidedActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        });
+    }
     public void showOrderDetail(String orderID) {
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
             Api.showOrderDetail(AccountHelper.getToken(), orderID, new Api.BaseViewCallback<OrderDetailsBean>() {

@@ -84,7 +84,6 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
 
     @Override
     protected void initData() {
-        getFavCompanyList();
 
 
         LoginWithInfoBean loginBean =  SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
@@ -95,6 +94,13 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
 
         super.initData();
     }
+
+    @Override
+    public void onResume() {
+        getFavCompanyList();
+        super.onResume();
+    }
+
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
         public void onPullingDown(TwinklingRefreshLayout refreshLayout, float fraction) {

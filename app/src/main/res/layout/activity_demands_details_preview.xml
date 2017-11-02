@@ -36,7 +36,7 @@
     <com.pilipa.fapiaobao.ui.widget.PreviewViewpager
         android:id="@+id/preview_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="280dp"
         android:background="@color/white">
     </com.pilipa.fapiaobao.ui.widget.PreviewViewpager>
     <LinearLayout
@@ -127,6 +127,12 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         layout="@layout/layout_qualified_item"></include>
+    <include
+        android:id="@+id/layout_unqualified_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        layout="@layout/layout_unqualified_item"></include>
     <!--物流信息 确认是否合格-->
     <include
         android:id="@+id/layout_willchecked_item"
@@ -134,13 +140,6 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         layout="@layout/layout_willchecked_item"></include>
-    <!--无物流信息 -->
-    <include
-        android:id="@+id/layout_noInfo_item"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        layout="@layout/layout_noinfo_item"></include>
     <!--驳回原因-->
     <include
         android:id="@+id/layout_reject_item"
@@ -148,4 +147,6 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         layout="@layout/layout_reject_item"></include>
+
+
 </LinearLayout>

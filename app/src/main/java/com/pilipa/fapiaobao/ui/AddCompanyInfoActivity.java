@@ -99,6 +99,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
                     if(normalBean.getStatus() == 200){
                         Toast.makeText(AddCompanyInfoActivity.this,"添加成功",Toast.LENGTH_SHORT).show();
                     }
+                    AddCompanyInfoActivity.this.finish();
                     Log.d(TAG, "createCompany;success");
                 }
             });
