@@ -319,6 +319,7 @@ public class UserInfoActivity extends BaseActivity {
                     Toast.makeText(UserInfoActivity.this,"用户信息保存成功",Toast.LENGTH_SHORT).show();
                     setUserData(customer);
                     AccountHelper.updateCustomer(customer);
+                    UserInfoActivity.this.finish();
                     Log.d(TAG, "updateData:updateUserInfo success");
                 }
             });

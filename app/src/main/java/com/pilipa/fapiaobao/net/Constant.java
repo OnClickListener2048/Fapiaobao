@@ -81,7 +81,7 @@ public class Constant {
      */
 
     /*需求发布 */
-    public static final String PUBLISH = "http://192.168.1.205:8181/fapiaobao/rest/demand/publish";
+    public static final String PUBLISH = BASE_URL+"/demand/publish";
 
     /**
      *favorite-rest-controller : 收藏公司
@@ -91,7 +91,7 @@ public class Constant {
      * http://192.168.1.205:8181/fapiaobao/rest/favorite/check/{companyId}/{token}
      */
 
-    public static final String FAVORITE_COMPANY = "http://192.168.1.205:8181/fapiaobao/rest/favorite/check/%s/%s";
+    public static final String FAVORITE_COMPANY = BASE_URL+"favorite/check/%s/%s";
 
 
     /*获取用户收藏的公司列表 */
@@ -170,13 +170,13 @@ public class Constant {
      * http://192.168.1.205:8181/fapiaobao/rest/system/findAllInvoiceVariety
      */
 
-    public static final String FIND_ALL_INVOICE_VARIETY = "http://192.168.1.205:8181/fapiaobao/rest/system/findAllInvoiceVariety";
+    public static final String FIND_ALL_INVOICE_VARIETY = BASE_URL+"system/findAllInvoiceVariety";
 
 
     /**
      * 获取所有物流公司
      */
-    public static final String FIND_ALL_EXPRESS_COMPANY = "http://192.168.1.205:8181/fapiaobao/rest/system/findAllLogisticsCompany";
+    public static final String FIND_ALL_EXPRESS_COMPANY = BASE_URL+"system/findAllLogisticsCompany";
 
 
     //获取所有发票类型种类
@@ -192,14 +192,14 @@ public class Constant {
     /**
      * 微信支付
      */
-    public static final String WX_RECHARGE = "http://192.168.1.205:8181/fapiaobao/rest/wxpay/recharge/%s/%s/%s";
+    public static final String WX_RECHARGE = BASE_URL+"wxpay/recharge/%s/%s/%s";
 
     /**
      * 红包充入余额
      * http://192.168.1.205:8181/fapiaobao/rest/wxpay/bonusToAccount/{token}
      */
 
-    public static final String RELOAD = "http://192.168.1.205:8181/fapiaobao/rest/wxpay/bonusToAccount/%s";
+    public static final String RELOAD = BASE_URL+"wxpay/bonusToAccount/%s";
 
 
 }
