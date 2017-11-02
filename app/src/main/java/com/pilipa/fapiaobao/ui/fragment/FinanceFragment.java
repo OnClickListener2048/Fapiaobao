@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.AllInvoiceAdapter;
 import com.pilipa.fapiaobao.adapter.FinanceAdapter;
@@ -76,7 +77,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
                 String content = data.getStringExtra(DECODED_CONTENT_KEY);
                 Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
-
+                BaseApplication.showToast(content);
             }
         }
     }
@@ -108,16 +109,26 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 @Override
                 public void setData(AllInvoiceVariety allInvoiceVariety) {
                     boolean save = SharedPreferencesHelper.save(mContext, allInvoiceVariety);
-                    if (save) {
-                        BaseApplication.showToast("保存默认发票种类成功");
-                    } else {
-                        BaseApplication.showToast("保存默认发票种类失败");
-                    }
                 }
             });
+        final MainActivity activity = (MainActivity) getActivity();
 
+        Api.findAllInvoice(new Api.BaseViewCallbackWithOnStart<AllInvoiceType>() {
 
-        Api.findAllInvoice(new Api.BaseViewCallback<AllInvoiceType>() {
+            @Override
+            public void onStart() {
+                activity.showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                activity.hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+                activity.hideProgressDialog();
+            }
 
             private AllInvoiceAdapter adapter;
 

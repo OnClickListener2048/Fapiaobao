@@ -34,6 +34,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
 import com.pilipa.fapiaobao.net.bean.invoice.UploadInvoice;
+import com.pilipa.fapiaobao.net.bean.invoice.UploadProcessing;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.PreviewActivity;
 import com.pilipa.fapiaobao.ui.UploadReceiptPreviewActivity;
@@ -93,6 +94,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
     private int mPreviousPosition = -1;
     private Dialog mCameraDialog;
     private String invoice_variety;
+    public boolean isFinish = true;
 
     @Override
     protected int getLayoutId() {
@@ -386,7 +388,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
             @Override
             public void setData(LoginWithInfoBean normalBean) {
                 OrderBean orderBean = SharedPreferencesHelper.loadFormSource(mContext, OrderBean.class);
-                UploadInvoice uploadInvoice = new UploadInvoice();
+                final UploadInvoice uploadInvoice = new UploadInvoice();
                 uploadInvoice.setOrderId(orderBean.getData().getOrderId());
                 uploadInvoice.setToken(normalBean.getData().getToken());
                 uploadInvoice.setVariety(invoice_variety);
@@ -406,7 +408,38 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
                 uploadInvoice.setInvoiceImageList(listBeen);
                 Gson gson = new Gson();
                 String json = gson.toJson(uploadInvoice);
-                Api.uploadReceipt(json);
+                final UploadReceiptPreviewActivity uploadReceiptPreviewActivity = (UploadReceiptPreviewActivity) getActivity();
+                Api.uploadReceipt(json, new Api.BaseViewCallbackWithOnStart<UploadProcessing>() {
+                    @Override
+                    public void onStart() {
+                        isFinish = false;
+                        uploadReceiptPreviewActivity.showProgressDialog();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        isFinish = true;
+                        uploadReceiptPreviewActivity.hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onError() {
+                        isFinish = true;
+                        uploadReceiptPreviewActivity.hideProgressDialog();
+                    }
+
+                    @Override
+                    public void setData(UploadProcessing uploadProcessing) {
+                        if (uploadProcessing.getStatus() == 200) {
+                            uploadReceiptPreviewActivity.onPubSuccess();
+                            if (!uploadReceiptPreviewActivity.isFinishing()) {
+                                uploadReceiptPreviewActivity.finish();
+                            }
+
+                        }
+
+                    }
+                });
             }
         });
     }

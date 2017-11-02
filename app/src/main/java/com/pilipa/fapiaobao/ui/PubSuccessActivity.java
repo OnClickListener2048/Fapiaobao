@@ -10,7 +10,9 @@ import android.widget.Toast;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -63,6 +65,7 @@ public class PubSuccessActivity extends BaseActivity {
         }
     };
     private String demand;
+    private UMShareAPI umShareAPI;
 
     @Override
     protected int getLayoutId() {
@@ -76,7 +79,7 @@ public class PubSuccessActivity extends BaseActivity {
 
     @Override
     public void initView() {
-
+        umShareAPI = UMShareAPI.get(this);
     }
 
     @Override
@@ -107,39 +110,64 @@ public class PubSuccessActivity extends BaseActivity {
                 startActivity(intent1);
                 break;
             case R.id.WeChat:
-                new ShareAction(this)
-                        .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
-                        .withText("hello")//分享内容
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
+                if (umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN)) {
+                    new ShareAction(this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
+                            .withText("hello")//分享内容
+                            .setCallback(umShareListener)//回调监听器
+                            .share();
+                } else {
+                    BaseApplication.showToast("请安装微信客户端");
+                }
+
                 break;
             case R.id.moments:
-                new ShareAction(this)
-                        .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
-                        .withText("hello")//分享内容
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
+                if (umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN_CIRCLE)) {
+                    new ShareAction(this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
+                            .withText("hello")//分享内容
+                            .setCallback(umShareListener)//回调监听器
+                            .share();
+                } else {
+                    BaseApplication.showToast("请安装微信客户端");
+                }
+
                 break;
             case R.id.qq:
-                new ShareAction(this)
-                        .setPlatform(SHARE_MEDIA.QQ)//传入平台
-                        .withText("hello")//分享内容
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
+                if (umShareAPI.isInstall(this, SHARE_MEDIA.QQ)) {
+                    new ShareAction(this)
+                            .setPlatform(SHARE_MEDIA.QQ)//传入平台
+                            .withText("hello")//分享内容
+                            .setCallback(umShareListener)//回调监听器
+                            .share();
+                } else {
+                    BaseApplication.showToast("请安装QQ客户端");
+                }
+
                 break;
             case R.id.qzone:
-                new ShareAction(this)
-                        .setPlatform(SHARE_MEDIA.QZONE)//传入平台
-                        .withText("hello")//分享内容
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
+                if (umShareAPI.isInstall(this, SHARE_MEDIA.QZONE)) {
+                    new ShareAction(this)
+                            .setPlatform(SHARE_MEDIA.QZONE)//传入平台
+                            .withText("hello")//分享内容
+                            .setCallback(umShareListener)//回调监听器
+                            .share();
+                } else {
+                    BaseApplication.showToast("请安装QQ空间客户端");
+                }
+
                 break;
             case R.id.weibo:
-                new ShareAction(this)
-                        .setPlatform(SHARE_MEDIA.SINA)//传入平台
-                        .withText("hello")//分享内容
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
+                if (umShareAPI.isInstall(this, SHARE_MEDIA.SINA)) {
+                    new ShareAction(this)
+                            .setPlatform(SHARE_MEDIA.SINA)//传入平台
+                            .withText("hello")//分享内容
+                            .setCallback(umShareListener)//回调监听器
+                            .share();
+                } else {
+                    BaseApplication.showToast("请安装新浪客户端");
+                }
+
                 break;
         }
     }
@@ -147,5 +175,11 @@ public class PubSuccessActivity extends BaseActivity {
     @OnClick(R.id.publish_success_back)
     public void onViewClicked() {
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        UMShareAPI.get(this).release();
     }
 }

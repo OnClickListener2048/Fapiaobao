@@ -96,17 +96,17 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
         ButterKnife.bind(this);
         Log.d(TAG, "onCreate: ButterKnife.bind(this);ButterKnife.bind(this);ButterKnife.bind(this);ButterKnife.bind(this);");
         LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
-        if (loginBean != null) {
-            Api.loginByToken(loginBean.getData().getToken(), new Api.BaseViewCallback<LoginWithInfoBean>() {
-                @Override
-                public void setData(LoginWithInfoBean loginBean) {
-                    //TODO 验证token是否失效
-                    Intent intent = new Intent();
-                    intent.setClass(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            });
-        }
+//        if (loginBean != null) {
+//            Api.loginByToken(loginBean.getData().getToken(), new Api.BaseViewCallback<LoginWithInfoBean>() {
+//                @Override
+//                public void setData(LoginWithInfoBean loginBean) {
+//                    //TODO 验证token是否失效
+//                    Intent intent = new Intent();
+//                    intent.setClass(LoginActivity.this, MainActivity.class);
+//                    startActivity(intent);
+//                }
+//            });
+//        }
     }
 
     @OnClick({R.id.btn_login, R.id.WeChat_login, R.id.laws})
@@ -153,6 +153,7 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                             Intent intent = new Intent();
                             intent.setClass(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                     });
         }
@@ -184,7 +185,7 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                 @Override
                 public void setData(ShortMessageBean shortMessageBean) {
                         countDownTimerUtils.start();
-                        BaseApplication.showToast("短信发送成功");
+                        BaseApplication.showToast(shortMessageBean.getData());
                 }
             });
         }

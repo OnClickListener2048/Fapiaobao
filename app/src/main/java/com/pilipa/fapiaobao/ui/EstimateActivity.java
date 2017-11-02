@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -129,7 +130,6 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
         tonext.setEnabled(true);
         tolast.setEnabled(false);
-        KeyboardUtils.clickBlankArea2HideSoftInput();
     }
 
     public void updateButtonStatus() {
@@ -175,9 +175,13 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.test_redbag:
+                if (TextUtils.isEmpty(etEstimate.getText())) {
+                    BaseApplication.showToast("请输入正确的发票金额");
+                    return;
+                }
                 String trim = etEstimate.getText().toString().trim();
                 amount = Double.valueOf(trim);
-                if (!(amount > 0) && amount != 0) {
+                if (!(amount > 0) && amount == 0) {
                     BaseApplication.showToast("请输入正确的发票金额");
                     return;
                 } else {
@@ -201,11 +205,13 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                                         estimatePlease.setVisibility(View.GONE);
                                         llBonus.setVisibility(View.VISIBLE);
                                         EstimateActivity.this.matchBean = matchBean;
+                                        tonext.setEnabled(matchBean.getData().size() != 1);
                                         bonus.setText(matchBean.getData().get(0).getBonus() + "");
                                         setUpData(matchBean);
                                     }
                                 });
                             } else {
+                                BaseApplication.showToast("token验证失败请重新登陆");
                                 startActivity(new Intent(EstimateActivity.this, LoginActivity.class));
                                 finish();
                             }

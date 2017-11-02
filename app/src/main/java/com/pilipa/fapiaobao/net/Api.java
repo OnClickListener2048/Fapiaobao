@@ -21,6 +21,7 @@ import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
+import com.pilipa.fapiaobao.net.bean.invoice.UploadProcessing;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
@@ -66,6 +67,8 @@ import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
 import static com.pilipa.fapiaobao.net.Constant.MY_INVOICE_LIST;
 import static com.pilipa.fapiaobao.net.Constant.ORDER_LIST;
+import static com.pilipa.fapiaobao.net.Constant.PUBLISH;
+import static com.pilipa.fapiaobao.net.Constant.REJECT_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.RELOAD;
 import static com.pilipa.fapiaobao.net.Constant.SHAT_DOWN_EARLY;
 import static com.pilipa.fapiaobao.net.Constant.SHORT_MESSAGE_VERIFY;
@@ -79,8 +82,6 @@ import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_DETAILS;
 import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_LIST;
 import static com.pilipa.fapiaobao.net.Constant.USER_LOGIN;
 import static com.pilipa.fapiaobao.net.Constant.WX_RECHARGE;
-import static com.pilipa.fapiaobao.net.Constant.REJECT_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.PUBLISH;
 
 
 /**
@@ -429,13 +430,34 @@ public class Api {
     /**
      * @param baseViewCallback
      */
-    public static void findAllInvoice(final BaseViewCallback baseViewCallback) {
+    public static void findAllInvoice(final BaseViewCallbackWithOnStart baseViewCallback) {
         OkGo.<AllInvoiceType>get(FIND_ALL_INVIICE_TYPE).execute(new JsonCallBack<AllInvoiceType>(AllInvoiceType.class) {
             @Override
             public void onSuccess(Response<AllInvoiceType> response) {
                 if (response.isSuccessful() && response.body().getMsg().equals("OK")) {
                     baseViewCallback.setData(response.body());
                 }
+
+
+            }
+
+            @Override
+            public void onError(Response<AllInvoiceType> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
+
+            @Override
+            public void onStart(Request<AllInvoiceType, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+
             }
         });
     }
@@ -690,12 +712,36 @@ public class Api {
         });
     }
 
-    public static void uploadReceipt(String json) {
-        OkGo.<String>post(UPLOAD_INVOICE).upJson(json).execute(new StringCallback() {
+    public static void uploadReceipt(String json, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
+        OkGo.<UploadProcessing>post(UPLOAD_INVOICE).upJson(json).execute(new JsonCallBack<UploadProcessing>(UploadProcessing.class) {
             @Override
-            public void onSuccess(Response<String> response) {
-                TLog.log(response.body());
-                BaseApplication.showToast("上传成功");
+            public void onSuccess(Response<UploadProcessing> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus() == 200) {
+                        BaseApplication.showToast("上传成功");
+                        baseViewCallbackWithOnStart.setData(response.body());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallbackWithOnStart.onFinish();
+            }
+
+            @Override
+            public void onStart(Request<UploadProcessing, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallbackWithOnStart.onStart();
+            }
+
+            @Override
+            public void onError(Response<UploadProcessing> response) {
+                super.onError(response);
+                baseViewCallbackWithOnStart.onError();
+
             }
         });
     }

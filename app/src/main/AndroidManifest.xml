@@ -49,7 +49,11 @@
             android:value="beab2ef93a1917c27a59560e6aef8bd4">//开发者申请的key
 
         </meta-data>
-        <activity android:name=".MainActivity">
+
+        <activity
+            android:name=".MainActivity"
+            android:taskAffinity=""
+            android:launchMode="singleTask">
 
         </activity>
 
@@ -122,6 +126,7 @@
         <activity android:name=".ui.receipt_folder_image_select.ReceiptActivityToken" />
         <activity android:name=".ui.receipt_folder_image_select.PreviewActivity" />
         <activity android:name=".ui.PubSuccessActivity" />
+        <activity android:name=".ui.UploadSuccessActivity" />
         <!--wjn add-->
         <activity android:name=".ui.RechargeActivity" />
         <activity android:name=".ui.RechargeDetailsActivity" />

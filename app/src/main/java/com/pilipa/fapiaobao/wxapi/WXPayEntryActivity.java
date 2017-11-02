@@ -42,11 +42,11 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         Log.d(TAG, "baseResp: errStr"+baseResp.errStr);
         Log.d(TAG, "baseResp: errCode"+baseResp.errCode);
         BaseApplication.showToast("baseResp: errStr"+baseResp.errStr+"baseResp: errCode"+baseResp.errCode);
-//        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-//            SimplexToast.show(this, "支付成功");
-//        } else {
-//            SimplexToast.show(this, "支付失败");
-//        }
+        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+            SimplexToast.show(this, "支付成功");
+        } else {
+            SimplexToast.show(this, "支付失败");
+        }
         finish();
     }
 
