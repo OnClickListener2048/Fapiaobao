@@ -451,6 +451,13 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             ((PreviewImageFragment) adapter.instantiateItem(previewViewpager, mPreviousPos)).resetView();
         }
         mPreviousPos = position;
+        Log.d("onPageScrolled  pos >>>>>>",position  +"");
+        if(position  >= 0){
+            currentImage = allList.get(position );
+            expressInfo.setText(currentImage.logisticsCompany);
+            expressNo.setText(currentImage.logisticsTradeno);
+            setLayout(currentImage);
+        }
     }
 
     @Override
