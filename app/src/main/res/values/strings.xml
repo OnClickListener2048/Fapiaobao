@@ -129,7 +129,7 @@
     <string name="viewfinderview_status_text2">即可自动扫描</string>
     <string name="password">验证码</string>
     <string name="user_name">您的手机号码</string>
-    <string name="login">登陆</string>
+    <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="main_tab_name_tex">员工代办</string>
     <string name="main_tab_name_publish">发布需求</string>
@@ -303,7 +303,7 @@
     <string name="resend">重新发送</string>
     <string name="WeChat_login">微信登录</string>
     <string name="I_have_read_about">我已阅读并同意</string>
-    <string name="laws">《法律声明》</string>
+    <string name="laws">《用户注册协议》</string>
     <string name="recharge_amount">充值金额</string>
     <string name="recharge_10">充 ¥10元</string>
     <string name="recharge_30">充 ¥30元</string>

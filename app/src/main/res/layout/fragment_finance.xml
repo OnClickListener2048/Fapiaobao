@@ -1,106 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:orientation="vertical"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
+        android:layout_height="48dp">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textSize="@dimen/d18"
-                android:textColor="@color/title"
-                android:text="@string/app_name" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/d18"
+            android:textColor="@color/title"
+            android:text="@string/app_name" />
 
-            <ImageView
-                android:layout_marginLeft="@dimen/d10"
-                android:id="@+id/scan"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/scan" />
+        <ImageView
+            android:layout_marginLeft="@dimen/d10"
+            android:id="@+id/scan"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/scan" />
 
-            <ImageView
-                android:layout_marginRight="@dimen/d10"
-                android:id="@+id/notification"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/notification" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d2"
-                android:layout_alignParentBottom="true"
-                android:background="@color/gray_line" />
-        </RelativeLayout>
+        <ImageView
+            android:layout_marginRight="@dimen/d10"
+            android:id="@+id/notification"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/notification" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
+            android:layout_height="@dimen/d2"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_line" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d10" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <RelativeLayout
+
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/select_your_receipt_kind"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="@dimen/s10"
-                    android:text="@string/select_your_receipt_kind"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_marginTop="@dimen/d15"
-                    android:layout_below="@+id/select_your_receipt_kind"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="@dimen/s13"
-                    android:text="@string/normal_kind_receipt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/select_your_receipt_kind"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/s10"
+                        android:text="@string/select_your_receipt_kind"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_marginTop="@dimen/d15"
+                        android:layout_below="@+id/select_your_receipt_kind"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/s13"
+                        android:text="@string/normal_kind_receipt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            </android.support.v7.widget.RecyclerView>
+                </android.support.v7.widget.RecyclerView>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/d15"
-                    android:text="@string/more_kind_receipt"
-                    android:textSize="@dimen/s13" />
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/d15"
+                        android:text="@string/more_kind_receipt"
+                        android:textSize="@dimen/s13" />
+                </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview_more_kind"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_more_kind"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            </android.support.v7.widget.RecyclerView>
+                </android.support.v7.widget.RecyclerView>
 
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 
 
-</android.support.v4.widget.NestedScrollView>
+</LinearLayout>
