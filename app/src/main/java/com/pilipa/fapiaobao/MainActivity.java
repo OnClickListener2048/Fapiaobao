@@ -25,10 +25,6 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
     @Override
     public void initView() {
-        if (BaseApplication.getActivity(LoginActivity.class) != null) {
-            BaseApplication.getActivity(LoginActivity.class).finish();
-        }
-
         FragmentManager manager = getSupportFragmentManager();
         mNavBar = ((NavFragment) manager.findFragmentById(R.id.fag_nav));
         mNavBar.setup(this,manager,R.id.main_container,this);

@@ -2,6 +2,7 @@ package com.pilipa.fapiaobao.ui;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -12,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
@@ -103,10 +105,11 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
                         if (paperNormalReceiptFragment != null) {
                             Log.d(TAG, "initData: paperNormalReceiptFragment");
-                            count0 = listPN.size();
+                            count0 = listPN.size()-1;
                         }
                     }
                 }
+                TLog.log(count0+"");
                 int count1 = 0;
                 if (listPS != null) {
                     if (listPS.size() > 1) {
@@ -117,10 +120,11 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
                         if (paperSpecialReceiptFragment != null) {
                             Log.d(TAG, "initData: paperSpecialReceiptFragment");
-                            count1 = listPS.size();
+                            count1 = listPS.size()-1;
                         }
                     }
                 }
+                TLog.log(count1+"");
                 int count2 = 0;
                 if (listPE != null) {
                     if (listPE.size() > 1) {
@@ -131,11 +135,11 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
                         if (paperElecReceiptFragment != null) {
                             Log.d(TAG, "initData: paperElecReceiptFragment");
-                            count2 = listPE.size();
+                            count2 = listPE.size()-1;
                         }
                     }
                 }
-
+                TLog.log(count2+"");
 //                int count0 = 0;
 //                if (paperNormalReceiptFragment != null) {
 //                    Log.d(TAG, "initData: paperNormalReceiptFragment");
@@ -216,6 +220,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
             case R.id.continue_to_upload:
                 break;
             case R.id.confirm:
+                showProgressDialog();
                 if (paperElecReceiptFragment != null) {
                     paperElecReceiptFragment.uploadInvoice();
 
@@ -230,5 +235,9 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
                 break;
         }
+    }
+
+    public void onPubSuccess() {
+            startActivity(new Intent(this, UploadSuccessActivity.class));
     }
 }

@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SwitchCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -143,6 +144,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
         }
     };
+    public CompaniesBean companiesBean;
     private String invoiceVarieties;
     private CompaniesBean.DataBean dataBean;
     private LoginWithInfoBean loginBean;
@@ -237,6 +239,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         });
 
         setUsusallyReceiptkind();
+        requestForCompanies();
     }
 
     private void setUsusallyReceiptkind() {
@@ -306,8 +309,15 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 break;
             case R.id.iv_dots_more_company:
                 //TODO 打开公司名列表
-                requestForCompanies();
-
+                if (companiesBean == null || companiesBean.getStatus() == 400) {
+                    BaseApplication.showToast("没有收藏过公司");
+                } else {
+                    if (mCameraDialog.isShowing()) {
+                        mCameraDialog.hide();
+                    } else {
+                        mCameraDialog.show();
+                    }
+                }
                 break;
             case R.id.et_publish_company_name:
                 break;
@@ -542,7 +552,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     }
 
     private boolean checkIfIsEmpty(EditText editText) {
-        if (editText.getText().toString().trim() != null && editText.getText().toString().trim() != "") {
+        if (!TextUtils.isEmpty(editText.getText())) {
             return true;
         } else {
             return false;
@@ -554,12 +564,15 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 Api.companiesList(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<CompaniesBean>() {
+
+
                     @Override
                     public void setData(CompaniesBean companiesBean) {
+                        DemandsPublishActivity.this.companiesBean = companiesBean;
                         if (companiesBean.getStatus() == 200 && companiesBean.getData() != null) {
                             setDialog(companiesBean.getData());
                         } else if (companiesBean.getStatus() == 400) {
-                            BaseApplication.showToast("没有收藏过公司");
+                            setDialog(companiesBean.getData());
                         }
                     }
                 });
@@ -631,7 +644,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
-        mCameraDialog.show();
+//        mCameraDialog.show();
     }
 
     @Override

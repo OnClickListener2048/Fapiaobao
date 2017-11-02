@@ -56,7 +56,7 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
 
-                ImageLoader.loadImage(with,financeholder.iv_finance, dataBean.getMiddleSize());
+                ImageLoader.loadImage(with,financeholder.iv_finance, dataBean.getMiddleSize(),R.mipmap.receipt_012);
                 financeholder.tv_finance.setText(dataBean.getName());
 
             }

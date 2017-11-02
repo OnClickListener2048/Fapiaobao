@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.ui.fragment.UploadNormalReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
 import java.util.ArrayList;
 
@@ -42,6 +45,9 @@ public class UploadReceiptActivity extends BaseActivity {
     private UploadNormalReceiptFragment paperNormalReceiptFragment;
     private UploadNormalReceiptFragment paperSpecialReceiptFragment;
     private UploadNormalReceiptFragment paperElecReceiptFragment;
+    private static final String DECODED_CONTENT_KEY = "codedContent";
+    private static final String DECODED_BITMAP_KEY = "codedBitmap";
+    private static final int REQUEST_CODE_SCAN = 0x0002;
 
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
     public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
@@ -88,8 +94,10 @@ public class UploadReceiptActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.upload_back:
+                finish();
                 break;
             case R.id.upload_scan:
+                startActivityForResult(new Intent(this, CaptureActivity.class), REQUEST_CODE_SCAN);
                 break;
         }
     }
@@ -99,6 +107,19 @@ public class UploadReceiptActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SCAN && resultCode == 200) {
+            if (data != null) {
+
+                String content = data.getStringExtra(DECODED_CONTENT_KEY);
+                Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
+                BaseApplication.showToast(content);
+
+            }
+        }
+    }
 
     @OnClick(R.id.upload_receipt)
     public void onViewClicked() {
