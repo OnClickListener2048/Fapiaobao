@@ -388,39 +388,41 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             case R.id.et_publish_cautions:
                 break;
             case R.id.btn_publish_now:
-                checkParams();
-                Gson gson = new Gson();
-                Api.publish(gson.toJson(makeParams()), new Api.BaseViewCallbackWithOnStart<BalanceBean>() {
-                    @Override
-                    public void onStart() {
-                        showProgressDialog();
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        hideProgressDialog();
-                    }
-
-                    @Override
-                    public void onError() {
-                        hideProgressDialog();
-                    }
-
-                    @Override
-                    public void setData(BalanceBean balanceBean) {
-                        Intent intent = new Intent();
-                        if (balanceBean.getStatus() == 200) {
-                            intent.putExtra("demand", balanceBean.getData().getDemand());
-                            intent.setClass(DemandsPublishActivity.this, PubSuccessActivity.class);
-                            startActivity(intent);
-                        } else if (balanceBean.getStatus() == 888) {
-                            BaseApplication.showToast("账户余额不足，请先充值");
-                            intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
-                            startActivityForResult(intent,REQUEST_CODE);
-
+                if (checkParams()) {
+                    Gson gson = new Gson();
+                    Api.publish(gson.toJson(makeParams()), new Api.BaseViewCallbackWithOnStart<BalanceBean>() {
+                        @Override
+                        public void onStart() {
+                            showProgressDialog();
                         }
-                    }
-                });
+
+                        @Override
+                        public void onFinish() {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onError() {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void setData(BalanceBean balanceBean) {
+                            Intent intent = new Intent();
+                            if (balanceBean.getStatus() == 200) {
+                                intent.putExtra("demand", balanceBean.getData().getDemand());
+                                intent.setClass(DemandsPublishActivity.this, PubSuccessActivity.class);
+                                startActivity(intent);
+                            } else if (balanceBean.getStatus() == 888) {
+                                BaseApplication.showToast("账户余额不足，请先充值");
+                                intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
+                                startActivityForResult(intent,REQUEST_CODE);
+
+                            }
+                        }
+                    });
+                }
+
                 break;
         }
     }
@@ -486,47 +488,47 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         return bean;
     }
 
-    private void checkParams() {
+    private boolean checkParams() {
 
         if (!checkIfIsEmpty(etAmount)) {
             BaseApplication.showToast(etAmount.getHint() + "不能为空");
-            return;
+            return false;
         }
         if (Switch.isChecked()) {
             if (!checkIfIsEmpty(etAmountRedbag)) {
                 BaseApplication.showToast(etAmountRedbag.getHint() + "不能为空");
-                return;
+                return false;
             }
         }
         if (!checkIfIsEmpty(etExpressAmountMinimum)) {
             BaseApplication.showToast(etExpressAmountMinimum.getHint() + "不能为空");
-            return;
+            return false;
         }
         if (!checkIfIsEmpty(etPublishCompanyName)) {
             BaseApplication.showToast(etPublishCompanyName.getHint() + "不能为空");
-            return;
+            return false;
         }
         if (!checkIfIsEmpty(etAreaDetails)) {
             BaseApplication.showToast(etAreaDetails.getHint() + "不能为空");
-            return;
+            return false;
         }
         if (paperNormal || paperSpecial) {
             if (!checkIfIsEmpty(etReceptionNumber)) {
                 BaseApplication.showToast(etReceptionNumber.getHint() + "不能为空");
-                return;
+                return false;
             }
             if (!checkIfIsEmpty(etReceptionName)) {
                 BaseApplication.showToast(etReceptionName.getHint() + "不能为空");
-                return;
+                return false;
             }
             if (!checkIfIsEmpty(etPublishTexNumber)) {
                 BaseApplication.showToast(etPublishTexNumber.getHint() + "不能为空");
-                return;
+                return false;
             }
 
             if (!checkIfIsEmpty(etAreaDetails)) {
                 BaseApplication.showToast(etAreaDetails.getHint() + "不能为空");
-                return;
+                return false;
             }
         }
 
@@ -534,25 +536,26 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         if (paperSpecial) {
             if (!checkIfIsEmpty(etPublishAddress)) {
                 BaseApplication.showToast(etPublishAddress.getHint() + "不能为空");
-                return;
+                return false;
             }
             if (!checkIfIsEmpty(etPublishPhoneNumber)) {
                 BaseApplication.showToast(etPublishPhoneNumber.getHint() + "不能为空");
-                return;
+                return false;
             }
             if (checkIfIsEmpty(etPublishBankAccount)) {
                 BaseApplication.showToast(etPublishBankAccount.getHint() + "不能为空");
-                return;
+                return false;
             }
             if (!checkIfIsEmpty(etPublishBank)) {
                 BaseApplication.showToast(etPublishBank.getHint() + "不能为空");
-                return;
+                return false;
             }
         }
+        return true;
     }
 
     private boolean checkIfIsEmpty(EditText editText) {
-        if (TextUtils.isEmpty(editText.getText())) {
+        if (!TextUtils.isEmpty(editText.getText())) {
             return true;
         } else {
             return false;
