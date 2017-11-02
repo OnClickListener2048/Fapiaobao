@@ -540,7 +540,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 BaseApplication.showToast(etPublishPhoneNumber.getHint() + "不能为空");
                 return;
             }
-            if (!checkIfIsEmpty(etPublishBankAccount)) {
+            if (checkIfIsEmpty(etPublishBankAccount)) {
                 BaseApplication.showToast(etPublishBankAccount.getHint() + "不能为空");
                 return;
             }
@@ -552,7 +552,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     }
 
     private boolean checkIfIsEmpty(EditText editText) {
-        if (!TextUtils.isEmpty(editText.getText())) {
+        if (TextUtils.isEmpty(editText.getText())) {
             return true;
         } else {
             return false;

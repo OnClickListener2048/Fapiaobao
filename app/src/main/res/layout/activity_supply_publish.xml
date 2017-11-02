@@ -41,6 +41,44 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/paper_elec_receipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d10"
+            android:layout_marginRight="@dimen/d10"
+            android:text="@string/paper_elec_receipt"
+            android:textColor="@color/main_style"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/paper_special_receipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d10"
+            android:layout_marginRight="@dimen/d10"
+            android:text="@string/paper_special_receipt"
+            android:textColor="@color/main_style"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/paper_normal_receipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d10"
+            android:layout_marginRight="@dimen/d10"
+            android:text="@string/paper_normal_receipt"
+            android:textColor="@color/main_style"
+            android:visibility="gone" />
+    </LinearLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -50,43 +88,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/paper_elec_receipt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/d10"
-                    android:layout_marginRight="@dimen/d10"
-                    android:text="@string/paper_elec_receipt"
-                    android:textColor="@color/main_style"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/paper_special_receipt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/d10"
-                    android:layout_marginRight="@dimen/d10"
-                    android:text="@string/paper_special_receipt"
-                    android:textColor="@color/main_style"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/paper_normal_receipt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/d10"
-                    android:layout_marginRight="@dimen/d10"
-                    android:text="@string/paper_normal_receipt"
-                    android:textColor="@color/main_style"
-                    android:visibility="gone" />
-            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

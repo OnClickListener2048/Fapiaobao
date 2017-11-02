@@ -53,7 +53,7 @@
         <activity
             android:name=".MainActivity"
             android:taskAffinity=""
-            android:launchMode="singleTask">
+            android:launchMode="singleInstance">
 
         </activity>
 
