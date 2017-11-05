@@ -10,8 +10,13 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 import com.example.mylibrary.widget.SimplexToast;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.lljjcoder.city_20170724.bean.ProvinceBean;
+import com.lljjcoder.city_20170724.utils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
+import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.Constants.Bugly;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
@@ -23,6 +28,7 @@ import com.umeng.message.PushAgent;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -42,7 +48,7 @@ public class BaseApplication extends Application {
     private static final int WRITE_TIMEOUT = 7*1000;
     private static final int CONNECT_TIMEOUT = 10*1000;
     public static ArrayList<BaseActivity> activities = new ArrayList<>();
-
+    public static ArrayList<ProvinceBean> mProvinceBeanArrayList = new ArrayList<>();
 
     public void initOkGo(Application app) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -94,17 +100,28 @@ public class BaseApplication extends Application {
         PlatformConfig.setSinaWeibo("3639386105", "63143b3cc202fed0c17baf57030a88a0", "http://sns.whalecloud.com");
         PlatformConfig.setWeixin(Constants.APP_ID, "7df3fe092b8d88ebc28a94b84b5388c3");
         UMShareAPI.get(this);
-
     }
-
 
     public static void saveActivity(BaseActivity baseActivity) {
         for (BaseActivity activity : activities) {
             if (!activities.contains(baseActivity)) {
                 activities.add(baseActivity);
             }
-
         }
+    }
+
+    public static void initAreaSelector() {
+
+        AppOperator.getExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                String cityJson = utils.getJson(context(), "city_20170724.json");
+                Type type = new TypeToken<ArrayList<ProvinceBean>>() {
+                }.getType();
+
+                mProvinceBeanArrayList = new Gson().fromJson(cityJson, type);
+            }
+        });
     }
 
     public static BaseActivity getActivity(Class clazz) {

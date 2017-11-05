@@ -105,12 +105,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     @Override
     protected void initData() {
         super.initData();
-            Api.findAllInvoiceVariety(new Api.BaseViewCallback<AllInvoiceVariety>() {
-                @Override
-                public void setData(AllInvoiceVariety allInvoiceVariety) {
-                    boolean save = SharedPreferencesHelper.save(mContext, allInvoiceVariety);
-                }
-            });
+
         final MainActivity activity = (MainActivity) getActivity();
 
         Api.findAllInvoice(new Api.BaseViewCallbackWithOnStart<AllInvoiceType>() {

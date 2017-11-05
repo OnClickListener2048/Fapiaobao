@@ -214,7 +214,7 @@ public class CityPickerView implements CanShow, OnWheelChangedListener {
         this.titleBackgroundColorStr = builder.titleBackgroundColorStr;
         this.confirmTextColorStr = builder.confirmTextColorStr;
         this.cancelTextColorStr = builder.cancelTextColorStr;
-        
+        this.mProvinceBeanArrayList = builder.mProvinceBeanArrayList;
         this.defaultDistrict = builder.defaultDistrict;
         this.defaultCityName = builder.defaultCityName;
         this.defaultProvinceName = builder.defaultProvinceName;
@@ -401,7 +401,8 @@ public class CityPickerView implements CanShow, OnWheelChangedListener {
          * 设置popwindow的背景
          */
         private int backgroundPop = 0xa0000000;
-        
+        private ArrayList<ProvinceBean> mProvinceBeanArrayList;
+
         public Builder(Context context) {
             this.mContext = context;
         }
@@ -458,6 +459,11 @@ public class CityPickerView implements CanShow, OnWheelChangedListener {
          */
         public Builder onlyShowProvinceAndCity(boolean flag) {
             this.showProvinceAndCity = flag;
+            return this;
+        }
+
+        public Builder setData(ArrayList<ProvinceBean> mProvinceBeanArrayList) {
+            this.mProvinceBeanArrayList = mProvinceBeanArrayList;
             return this;
         }
         
@@ -657,11 +663,11 @@ public class CityPickerView implements CanShow, OnWheelChangedListener {
     
     protected void initProvinceDatas(Context context) {
         
-        String cityJson = utils.getJson(context, "city_20170724.json");
-        Type type = new TypeToken<ArrayList<ProvinceBean>>() {
-        }.getType();
-        
-        mProvinceBeanArrayList = new Gson().fromJson(cityJson, type);
+//        String cityJson = utils.getJson(context, "city_20170724.json");
+//        Type type = new TypeToken<ArrayList<ProvinceBean>>() {
+//        }.getType();
+//
+
         mCityBeanArrayList = new ArrayList<>(mProvinceBeanArrayList.size());
         mDistrictBeanArrayList = new ArrayList<>(mProvinceBeanArrayList.size());
         

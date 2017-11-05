@@ -361,6 +361,8 @@
     <string name="continuous_to_upload">继续上传发票</string>
     <string name="tip_wait_dowload">查验合格后，您就可以下载这张发票了哦~</string>
     <string name="tip_wait_mail">查验合格后，对方将邮寄这张发票给您~</string>
+    <string name="filter_kind">筛选类型</string>
+    <string name="receipt_kind">发票类型:</string>
 
     <string-array name="express">
         <item >圆通</item>

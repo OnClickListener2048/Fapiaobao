@@ -1,20 +1,14 @@
-package com.pilipa.fapiaobao.net.bean.invoice;
+package com.pilipa.fapiaobao.adapter.bean;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.pilipa.fapiaobao.net.bean.publish.InvoiceNormalBean;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by edz on 2017/10/29.
+ * Created by edz on 2017/11/2.
  */
 
-public class DefaultInvoiceBean implements Serializable{
-
-
-
+public class TabActiveBean {
     @Override
     public String toString() {
         return "DefaultInvoiceBean{" +
@@ -32,7 +26,7 @@ public class DefaultInvoiceBean implements Serializable{
 
     private int status;
     private String msg;
-    private ArrayList<DataBean> data;
+    private List<? extends InvoiceNormalBean> data;
 
     public int getStatus() {
         return status;
@@ -50,19 +44,15 @@ public class DefaultInvoiceBean implements Serializable{
         this.msg = msg;
     }
 
-    public ArrayList<DataBean> getData() {
+    public List<? extends InvoiceNormalBean> getData() {
         return data;
     }
 
-    public void setData(ArrayList<DataBean> data) {
+    public void setData(List<? extends InvoiceNormalBean> data) {
         this.data = data;
     }
 
-
-
-    public static class DataBean implements Serializable{
-
-
+    public static class DataBean extends InvoiceNormalBean{
         @Override
         public String toString() {
             return "DataBean{" +
@@ -81,14 +71,6 @@ public class DefaultInvoiceBean implements Serializable{
                     '}';
         }
 
-        public boolean isSelect() {
-            return isSelect;
-        }
-
-        public void setSelect(boolean select) {
-            isSelect = select;
-        }
-
         /**
          * id : 43f1faf2cfee4f508d02c36975dfa06d
          * isNewRecord : false
@@ -103,7 +85,7 @@ public class DefaultInvoiceBean implements Serializable{
          * frequentFlag : 1
          * categorySort : 10
          */
-        private boolean isSelect;
+
         private String id;
         private boolean isNewRecord;
         private String remarks;
@@ -212,7 +194,5 @@ public class DefaultInvoiceBean implements Serializable{
         public void setCategorySort(int categorySort) {
             this.categorySort = categorySort;
         }
-
-
     }
 }

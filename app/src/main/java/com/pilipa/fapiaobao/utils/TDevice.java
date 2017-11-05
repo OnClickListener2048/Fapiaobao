@@ -96,6 +96,8 @@ public class TDevice {
                 .orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
+
+
     /**
      * 打开或关闭键盘
      */

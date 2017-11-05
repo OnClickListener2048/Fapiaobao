@@ -52,12 +52,15 @@ public class FilterFragment extends BaseFragment {
     @Bind(R.id.others_province)
     RelativeLayout othersProvince;
     private CityPickerView cityPicker;
+    private EstimateActivity estimateActivity;
+    private ArrayList<String> arrayListSelectedReceiptKind;
+    private String area;
     //声明AMapLocationClient类对象
-    public AMapLocationClient mLocationClient = null;
     //声明定位回调监听器
     //声明AMapLocationClientOption对象
     private ArrayList<String> arrayListReceiptKind = new ArrayList<>();
     private ArrayList<String> arrayListReceiptArea = new ArrayList<>();
+    public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
 
@@ -82,9 +85,7 @@ public class FilterFragment extends BaseFragment {
 
 
     };
-    private EstimateActivity estimateActivity;
-    private ArrayList<String> arrayListSelectedReceiptKind;
-    private String area;
+
 
     private void setUpAddress(AMapLocation aMapLocation) {
         arrayListReceiptArea.add(aMapLocation.getProvince());
@@ -162,13 +163,8 @@ public class FilterFragment extends BaseFragment {
         arrayListSelectedReceiptKind = new ArrayList<>();
         arrayListReceiptKind.addAll(StaticDataCreator.initReceiptKindData(mContext));
         labelsReceiptKind.setLabels(arrayListReceiptKind);
-        labelsReceiptKind.setSelects(3);
-        labelsReceiptKind.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
-            @Override
-            public void onLabelClick(View label, String labelText, int position) {
+        labelsReceiptKind.setSelects(2);
 
-            }
-        });
 
         labelsReceiptKind.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
             @Override
@@ -195,15 +191,13 @@ public class FilterFragment extends BaseFragment {
                     }
 
                 }
-
-
             }
         });
-
     }
 
     private void initCityPicker() {
         cityPicker = new CityPickerView.Builder(getActivity())
+                .setData(BaseApplication.mProvinceBeanArrayList)
                 .textSize(15)
                 .title("其他省市选择")
                 .backgroundPop(0xa0000000)

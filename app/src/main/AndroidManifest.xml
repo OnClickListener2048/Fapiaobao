@@ -127,6 +127,7 @@
         <activity android:name=".ui.receipt_folder_image_select.PreviewActivity" />
         <activity android:name=".ui.PubSuccessActivity" />
         <activity android:name=".ui.UploadSuccessActivity" />
+        <activity android:name=".ui.MoreTypesActivity" />
         <!--wjn add-->
         <activity android:name=".ui.RechargeActivity" />
         <activity android:name=".ui.RechargeDetailsActivity" />

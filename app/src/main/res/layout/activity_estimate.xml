@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:id="@+id/dl"
     android:layout_height="match_parent">
 
@@ -41,11 +43,6 @@
                 android:text="@string/filter"
                 android:textColor="@color/main_style" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d2"
-                android:layout_alignParentBottom="true"
-                android:background="@color/gray_line" />
         </RelativeLayout>
 
         <android.support.v4.widget.NestedScrollView
@@ -117,13 +114,148 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/d10" />
+                        android:layout_height="@dimen/d1" />
 
                     <View
+                        android:layout_marginLeft="@dimen/d20"
+                        android:layout_marginRight="@dimen/d20"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/d1"
                         android:background="@color/gray_line" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d5" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_estimate_caution"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@mipmap/caution"
+                            android:drawablePadding="@dimen/d5"
+                            android:text="请如实填写,与票面合计金额保持一致,否则将被拒收"
+                            android:textColor="@color/main_style"
+                            android:textSize="@dimen/s13" />
+                    </LinearLayout>
+
+
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d20" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/d20"
+                        android:layout_marginRight="@dimen/d20"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/filter"
+                                android:textSize="@dimen/s12" />
+                        </LinearLayout>
+
+                        <android.support.v4.widget.Space
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/d10" />
+
+                        <LinearLayout
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/receipt_kind"
+                                android:textSize="@dimen/s12" />
+
+                            <android.support.v4.widget.Space
+                                android:layout_width="@dimen/d10"
+                                android:layout_height="match_parent" />
+
+                            <com.pilipa.fapiaobao.ui.widget.LabelsView
+                                android:id="@+id/labels"
+                                app:labelBackground="@drawable/selector_estimate_kind_bg"
+                                app:labelTextColor="@drawable/selector_estimate_kind_text"
+                                app:labelTextPaddingBottom="5dp"
+                                app:labelTextPaddingLeft="10dp"
+                                app:labelTextPaddingRight="10dp"
+                                app:labelTextPaddingTop="5dp"
+                                app:labelTextSize="14sp"
+                                app:lineMargin="10dp"
+                                app:maxSelect="0"
+                                app:selectType="SINGLE"
+                                app:wordMargin="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                            </com.pilipa.fapiaobao.ui.widget.LabelsView>
+                        </LinearLayout>
+
+                        <android.support.v4.widget.Space
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/d10" />
+
+                        <LinearLayout
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="开票地区:"
+                                android:textSize="@dimen/s12" />
+
+                            <android.support.v4.widget.Space
+                                android:layout_width="@dimen/d10"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:id="@+id/locating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@mipmap/locating"
+                                android:drawablePadding="@dimen/d5"
+                                android:text="定位中..."
+                                android:textSize="@dimen/s13" />
+
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
+
+                            <TextView
+                                android:id="@+id/select_other_area"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="选择其他省市"
+                                android:textColor="@color/main_style"
+                                android:textSize="@dimen/s12" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d20" />
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -206,12 +338,12 @@
                             android:layout_gravity="bottom|center_horizontal"
                             android:clipChildren="false"
                             android:clipToPadding="true"
-                            android:translationY="20dp">
+                            android:translationY="10dp">
 
                             <Button
                                 android:id="@+id/test_redbag"
                                 android:layout_width="@dimen/d240"
-                                android:layout_height="@dimen/d40"
+                                android:layout_height="@dimen/d30"
                                 android:background="@drawable/estimate_test_redbag"
                                 android:text="@string/test_red_bag"
                                 android:textColor="@color/white" />
@@ -230,21 +362,7 @@
                         android:layout_gravity="center_horizontal"
                         android:gravity="center_horizontal">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="筛选条件:" />
-
-                            <TextView
-                                android:id="@+id/filter_key"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
-                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -255,10 +373,12 @@
                         android:orientation="vertical">
 
                         <LinearLayout
+                            android:elevation="@dimen/d5"
+                            android:translationZ="@dimen/d5"
+                            android:layout_width="match_parent"
                             android:layout_height="200dp"
                             android:layout_margin="@dimen/d15"
                             android:background="@drawable/selector_estimate_receipt_kind_bg"
-                            android:layout_width="match_parent"
                             android:orientation="vertical">
 
                             <LinearLayout
@@ -330,13 +450,58 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/d10" />
 
-                        <Button
-                            android:id="@+id/other_demand"
-                            android:layout_width="@dimen/d170"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/other_demand"
+                                android:layout_width="@dimen/d150"
+                                android:layout_height="@dimen/d35"
+                                android:layout_weight="1"
+                                android:background="@mipmap/otherdemand"
+                                android:text="回首页"
+                                android:textColor="@color/white" />
+
+                            <android.support.v4.widget.Space
+                                android:layout_width="@dimen/d20"
+                                android:layout_height="match_parent" />
+
+                            <Button
+                                android:id="@+id/reset_filter"
+                                android:layout_width="@dimen/d150"
+                                android:layout_height="@dimen/d35"
+                                android:layout_weight="1"
+                                android:background="@mipmap/otherdemand"
+                                android:text="重新设置筛选条件"
+                                android:textColor="@color/white" />
+                        </LinearLayout>
+
+                        <android.support.v4.widget.Space
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/d5" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@mipmap/otherdemand"
-                            android:text="看看其他需求"
-                            android:textColor="@color/white" />
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="您的筛选条件:"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/filter_condition"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+
                     </LinearLayout>
 
                 </LinearLayout>

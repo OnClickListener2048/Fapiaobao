@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -16,8 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.mylibrary.utils.KeyboardUtils;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.example.mylibrary.utils.TLog;
+import com.lljjcoder.city_20170724.CityPickerView;
+import com.lljjcoder.city_20170724.bean.CityBean;
+import com.lljjcoder.city_20170724.bean.DistrictBean;
+import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
@@ -25,15 +33,18 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
-import com.pilipa.fapiaobao.ui.fragment.FilterFragment;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
+import com.pilipa.fapiaobao.ui.widget.LabelsView;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
+import com.pilipa.fapiaobao.utils.TDevice;
 import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,8 +70,6 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     RelativeLayout estimatePlease;
     @Bind(R.id.test_redbag)
     Button testRedbag;
-    @Bind(R.id.filter_key)
-    TextView filterKey;
     @Bind(R.id.ll_filter_key)
     LinearLayout llFilterKey;
     @Bind(R.id.ultra_viewpager)
@@ -87,11 +96,53 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     Button otherDemand;
     @Bind(R.id.noredbag)
     LinearLayout llnoredbag;
+    @Bind(R.id.labels)
+    LabelsView labels;
+    @Bind(R.id.locating)
+    TextView locating;
+    @Bind(R.id.select_other_area)
+    TextView selectOtherArea;
+    @Bind(R.id.reset_filter)
+    Button resetFilter;
+    @Bind(R.id.filter_condition)
+    TextView filterCondition;
     private String label = "";
     private HashMap<String, String> httpParams;
     private int currentItem = 0;
     private MacherBeanToken matchBean;
     private Double amount;
+    public AMapLocationClient mLocationClient = null;
+    public AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
+
+
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            if (aMapLocation != null) {
+                if (aMapLocation.getErrorCode() == 0) {
+                    //可在其中解析amapLocation获取相应内容。
+                    TLog.log(aMapLocation.toString());
+                    TLog.log(aMapLocation.getCity());
+                    TLog.log(aMapLocation.getProvince());
+                    setUpAddress(aMapLocation);
+                } else {
+                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + aMapLocation.getErrorCode() + ", errInfo:"
+                            + aMapLocation.getErrorInfo());
+                    if (!TDevice.hasInternet()) {
+                        locating.setText("定位失败,请检查网络");
+                    }
+                }
+            }
+        }
+    };
+    private CityPickerView cityPicker;
+    private ArrayList<String> arrayListSelectedReceiptKind;
+
+    private void setUpAddress(AMapLocation aMapLocation) {
+        locating.setText(aMapLocation.getCity());
+    }
 
     @Override
     protected int getLayoutId() {
@@ -105,7 +156,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
     @Override
     public void initView() {
-        filter.setVisibility(View.VISIBLE);
+        filter.setVisibility(View.GONE);
         llhasRedbag.setVisibility(View.VISIBLE);
         llnoredbag.setVisibility(View.GONE);
         estimatePlease.setVisibility(View.VISIBLE);
@@ -115,12 +166,13 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         httpParams.put("invoiceType", label);
         llConfirmCaution.setVisibility(View.GONE);
         llFilterKey.setVisibility(View.GONE);
-        new Thread() {
-            @Override
-            public void run() {
-                addFragment(dlContainer.getId(), FilterFragment.newInstance(new Bundle()));
-            }
-        }.start();
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                addFragment(dlContainer.getId(), FilterFragment.newInstance(new Bundle()));
+//
+//            }
+//        }.start();
 
 
         ultraViewpager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
@@ -130,6 +182,28 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
         tonext.setEnabled(true);
         tolast.setEnabled(false);
+        initAMap();
+        initCityPicker();
+        initInvoiceTypes();
+    }
+
+    private void initInvoiceTypes() {
+        arrayListSelectedReceiptKind = new ArrayList<>();
+        Api.findAllInvoiceVariety(new Api.BaseViewCallback<AllInvoiceVariety>() {
+            @Override
+            public void setData(AllInvoiceVariety allInvoiceVariety) {
+                if (allInvoiceVariety.getData() != null && allInvoiceVariety.getData().size() > 0) {
+                    List<AllInvoiceVariety.DataBean> data = allInvoiceVariety.getData();
+                    for (AllInvoiceVariety.DataBean dataBean : data) {
+                        arrayListSelectedReceiptKind.add(dataBean.getLabel());
+
+                    }
+                    labels.setLabels(arrayListSelectedReceiptKind);
+                }
+            }
+        });
+
+
     }
 
     public void updateButtonStatus() {
@@ -171,7 +245,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     }
 
 
-    @OnClick({R.id.test_redbag, R.id.go, R.id.tolast, R.id.tonext, R.id.filter, R.id.other_demand})
+    @OnClick({R.id.test_redbag, R.id.go, R.id.tolast, R.id.tonext, R.id.filter, R.id.other_demand, R.id.select_other_area, R.id.reset_filter, R.id.filter_condition})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.test_redbag:
@@ -185,39 +259,27 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                     BaseApplication.showToast("请输入正确的发票金额");
                     return;
                 } else {
-                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                        @Override
-                        public void setData(LoginWithInfoBean loginWithInfoBean) {
-                            if (loginWithInfoBean.getStatus() == 200) {
-                                Api.doMatchDemand(label, amount, "1,2,3", "天津市", new Api.BaseViewCallback<MacherBeanToken>() {
+                    Api.doMatchDemand(label, amount, "1,2,3", "天津市", new Api.BaseViewCallback<MacherBeanToken>() {
 
-                                    @Override
-                                    public void setData(MacherBeanToken matchBean) {
-                                        TLog.log(matchBean.getStatus() + "");
-                                        if (matchBean.getStatus() == 400) {
-                                            llhasRedbag.setVisibility(View.GONE);
-                                            llnoredbag.setVisibility(View.VISIBLE);
-                                            filter.setVisibility(View.GONE);
-                                            return;
-                                        }
-                                        llFilterKey.setVisibility(View.GONE);
-                                        llConfirmCaution.setVisibility(View.VISIBLE);
-                                        estimatePlease.setVisibility(View.GONE);
-                                        llBonus.setVisibility(View.VISIBLE);
-                                        EstimateActivity.this.matchBean = matchBean;
-                                        tonext.setEnabled(matchBean.getData().size() != 1);
-                                        bonus.setText(matchBean.getData().get(0).getBonus() + "");
-                                        setUpData(matchBean);
-                                    }
-                                });
-                            } else {
-                                BaseApplication.showToast("token验证失败请重新登陆");
-                                startActivity(new Intent(EstimateActivity.this, LoginActivity.class));
-                                finish();
+                        @Override
+                        public void setData(MacherBeanToken matchBean) {
+                            TLog.log(matchBean.getStatus() + "");
+                            if (matchBean.getStatus() == 400) {
+                                llhasRedbag.setVisibility(View.GONE);
+                                llnoredbag.setVisibility(View.VISIBLE);
+                                filter.setVisibility(View.GONE);
+                                return;
                             }
+                            llFilterKey.setVisibility(View.GONE);
+                            llConfirmCaution.setVisibility(View.VISIBLE);
+                            estimatePlease.setVisibility(View.GONE);
+                            llBonus.setVisibility(View.VISIBLE);
+                            EstimateActivity.this.matchBean = matchBean;
+                            tonext.setEnabled(matchBean.getData().size() != 1);
+                            bonus.setText(matchBean.getData().get(0).getBonus() + "");
+                            setUpData(matchBean);
                         }
                     });
-
                 }
                 break;
             case R.id.go:
@@ -262,6 +324,10 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                                         }
                                     }
                                 });
+                            } else {
+                                BaseApplication.showToast("token验证失败请重新登陆");
+                                startActivity(new Intent(EstimateActivity.this, LoginActivity.class));
+                                finish();
                             }
                         }
                     });
@@ -288,6 +354,16 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             case R.id.other_demand:
                 finish();
                 break;
+            case R.id.select_other_area:
+
+                if (cityPicker.isShow()) cityPicker.hide();
+                else cityPicker.show();
+
+                break;
+            case R.id.reset_filter:
+                break;
+            case R.id.filter_condition:
+                break;
         }
     }
 
@@ -306,12 +382,12 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     }
 
     public void setFilterKeys(ArrayList<String> arrayListKind, String area) {
-        filterKey.setText("");
-        for (String s : arrayListKind) {
-            filterKey.append(s);
-            filterKey.append("\u3000");
-
-        }
+//        filterKey.setText("");
+//        for (String s : arrayListKind) {
+//            filterKey.append(s);
+//            filterKey.append("\u3000");
+//
+//        }
         String param = new String();
 
 
@@ -326,8 +402,6 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
         }
         httpParams.put("varieties", param);
-        filterKey.append(area);
-//        filterKey.append("\u3000");
         httpParams.put("city", area);
 
         llFilterKey.setVisibility(View.VISIBLE);
@@ -353,4 +427,72 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     public void onViewClicked() {
         finish();
     }
+
+    private void initAMap() {
+        //初始化定位
+        mLocationClient = new AMapLocationClient(BaseApplication.context());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //获取一次定位结果：
+        //该方法默认为false。
+        mLocationOption.setOnceLocation(true);
+        //获取最近3s内精度最高的一次定位结果：
+        //设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        mLocationOption.setOnceLocationLatest(true);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
+        mLocationOption.setHttpTimeOut(20000);
+        //关闭缓存机制
+        mLocationOption.setLocationCacheEnable(false);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+    }
+
+
+    private void initCityPicker() {
+        cityPicker = new CityPickerView.Builder(this)
+                .setData(BaseApplication.mProvinceBeanArrayList)
+                .textSize(15)
+                .title("其他省市选择")
+                .backgroundPop(0xa0000000)
+                .titleBackgroundColor("#ffffff")
+                .titleTextColor("#000000")
+                .backgroundPop(0x0000000)
+                .confirTextColor("#000000")
+                .cancelTextColor("#000000")
+                .city("天津市")
+                .textColor(Color.parseColor("#000000"))
+                .provinceCyclic(false)
+                .cityCyclic(false)
+                .districtCyclic(false)
+                .visibleItemsCount(5)
+                .itemPadding(20)
+                .onlyShowProvinceAndCity(true)
+                .build();
+
+        cityPicker.setOnCityItemClickListener(new CityPickerView.OnCityItemClickListener() {
+            @Override
+            public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
+                //返回结果
+                //ProvinceBean 省份信息
+                //CityBean     城市信息
+                //DistrictBean 区县信息
+                locating.setText(city.getName());
+                cityPicker.hide();
+            }
+
+            @Override
+            public void onCancel() {
+                cityPicker.hide();
+            }
+        });
+
+    }
+
+
 }

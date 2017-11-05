@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.Constants.Config;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
@@ -63,6 +64,13 @@ public class LaunchActivity extends AppCompatActivity {
 
         mContentView = findViewById(R.id.fullscreen_content);
         frameLayout = (FrameLayout) findViewById(R.id.bg);
+
+        AppOperator.getExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                BaseApplication.initAreaSelector();
+            }
+        });
     }
 
     private void redirectTo() {

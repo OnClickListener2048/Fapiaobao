@@ -61,7 +61,7 @@ import butterknife.OnClick;
  * Created by edz on 2017/10/26.
  */
 
-public class DemandsPublishActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener {
+public class DemandsPublishActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener {
 
     private static final String TAG  = "DemandsPublishActivity";
 
@@ -148,9 +148,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private String invoiceVarieties;
     private CompaniesBean.DataBean dataBean;
     private LoginWithInfoBean loginBean;
-    private DefaultInvoiceBean bean;
+    private ArrayList<DefaultInvoiceBean.DataBean> bean;
     private DemandsPublishBean.DemandPostageBean demandPostageBean;
     public static final int REQUEST_CODE = 300;
+    public static final int REQUEST_CODE_FOR_MORE_TYPE = 400;
 
     @Override
     protected int getLayoutId() {
@@ -198,6 +199,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         }.start();
 
         spinner.setOnItemSelectedListener(this);
+
+        labelsReceiptKind.setOnLabelSelectChangeListener(this);
     }
 
     private String setUpReceiptParams() {
@@ -249,9 +252,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 @Override
                 public void setData(DefaultInvoiceBean defaultInvoiceBean) {
                     if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
-                        bean = defaultInvoiceBean;
+                        bean = defaultInvoiceBean.getData();
                         ArrayList<String> arrayReceipt = new ArrayList<>();
-                        for (DefaultInvoiceBean.DataBean dataBean : bean.getData()) {
+                        for (DefaultInvoiceBean.DataBean dataBean : bean) {
                             arrayReceipt.add(dataBean.getName());
                         }
                         labelsReceiptKind.setLabels(arrayReceipt);
@@ -263,9 +266,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 @Override
                 public void setData(DefaultInvoiceBean allInvoiceType) {
                     if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
-                        bean = allInvoiceType;
+                        bean = allInvoiceType.getData();
                         ArrayList<String> arrayReceipt = new ArrayList<>();
-                        for (DefaultInvoiceBean.DataBean dataBean : bean.getData()) {
+                        for (DefaultInvoiceBean.DataBean dataBean : bean) {
                             arrayReceipt.add(dataBean.getName());
                         }
                         labelsReceiptKind.setLabels(arrayReceipt);
@@ -341,6 +344,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 break;
             case R.id.tv_more_kind_receipt:
                 //TODO 更多类型
+                requestForMoreTypes();
                 break;
             case R.id.labels_receipt_kind:
                 break;
@@ -422,9 +426,17 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                         }
                     });
                 }
-
                 break;
         }
+    }
+
+    private void requestForMoreTypes() {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("new_data", bean);
+        intent.putExtra(MoreTypesActivity.EXTRA_BUNDLE, bundle);
+        intent.setClass(this, MoreTypesActivity.class);
+        startActivityForResult(intent,REQUEST_CODE_FOR_MORE_TYPE);
     }
 
     @Override
@@ -434,6 +446,16 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             case REQUEST_CODE:
                 if (requestCode == RESULT_CANCELED) {
                     finish();
+                }
+            case REQUEST_CODE_FOR_MORE_TYPE:
+                if (resultCode == RESULT_OK) {
+                    Bundle bundle = data.getBundleExtra(MoreTypesActivity.EXTRA_BUNDLE);
+                    bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundle.getSerializable("new_data");
+                    ArrayList<String> arrayReceipt = new ArrayList<>();
+                    for (DefaultInvoiceBean.DataBean dataBean : bean) {
+                        arrayReceipt.add(dataBean.getName());
+                    }
+                    labelsReceiptKind.setLabels(arrayReceipt);
                 }
         }
     }
@@ -462,10 +484,12 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
         List<DemandsPublishBean.DemandInvoiceTypeListBean> listBeen = new ArrayList<>();
 
-        for (DefaultInvoiceBean.DataBean defaultBean : this.bean.getData()) {
+        for (DefaultInvoiceBean.DataBean defaultBean : this.bean) {
             DemandsPublishBean.DemandInvoiceTypeListBean demandInvoiceTypeListBean = new DemandsPublishBean.DemandInvoiceTypeListBean();
-            demandInvoiceTypeListBean.setId(defaultBean.getId());
-            listBeen.add(demandInvoiceTypeListBean);
+            if (defaultBean.isSelect()) {
+                demandInvoiceTypeListBean.setId(defaultBean.getId());
+                listBeen.add(demandInvoiceTypeListBean);
+            }
         }
 
         bean.setDemandInvoiceTypeList(listBeen);
@@ -542,7 +566,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 BaseApplication.showToast(etPublishPhoneNumber.getHint() + "不能为空");
                 return false;
             }
-            if (checkIfIsEmpty(etPublishBankAccount)) {
+            if (!checkIfIsEmpty(etPublishBankAccount)) {
                 BaseApplication.showToast(etPublishBankAccount.getHint() + "不能为空");
                 return false;
             }
@@ -671,6 +695,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
     private void initCityPicker() {
         cityPicker = new CityPickerView.Builder(this)
+                .setData(BaseApplication.mProvinceBeanArrayList)
                 .textSize(15)
                 .title("其他省市选择")
                 .backgroundPop(0xa0000000)
@@ -709,5 +734,13 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             }
         });
 
+    }
+
+    @Override
+    public void onLabelSelectChange(View label, String labelText, boolean isSelect, int position) {
+        if (bean != null && bean != null && bean.size() > 0) {
+            DefaultInvoiceBean.DataBean dataBean = bean.get(position);
+            dataBean.setSelect(isSelect);
+        }
     }
 }
