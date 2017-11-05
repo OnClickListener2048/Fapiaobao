@@ -30,17 +30,18 @@ public class CreditRatingActivity extends BaseActivity {
     ColorArcProgressBar colorArcProgressBar;
     @Bind(R.id.tv_lastChange)
     TextView tvLastChange;
-    @Bind(R.id.tv_creditHistory)
-    TextView tvCreditHistory;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_credit_rating;
     }
 
-    @OnClick({R.id.details_back,R.id.tv_negative,R.id.tv_rules})
+    @OnClick({R.id.details_back,R.id.tv_negative,R.id.tv_rules,R.id.tv_creditHistory})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.tv_creditHistory:{
+                startActivity(new Intent(this,NegetiveActivity.class));
+            }break;
             case R.id.details_back:{
                 finish();
             }break;

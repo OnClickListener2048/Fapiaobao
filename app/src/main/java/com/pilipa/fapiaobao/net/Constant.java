@@ -7,8 +7,8 @@ package com.pilipa.fapiaobao.net;
 public class Constant {
 //    public static final String BASE_URL = "http://192.168.1.205:8181/fapiaobao/rest/";
 //    public static final String BASE_URL = "http://39.106.18.205/fapiaobao/rest/";
-    public static final String BASE_URL = "http://39.106.4.193:8080/fapiaobao/rest/";
-
+//    public static final String BASE_URL = "http://39.106.4.193:8080/fapiaobao/rest/";
+    public static final String BASE_URL = "http://p.pilipa.cn/fapiaobao/rest/";
     public static final int REQUEST_SUCCESS = 200;
 
 
@@ -38,7 +38,9 @@ public class Constant {
     public static final String STATE_GOT_PARTIALITY    = "3";//部分到帐
     public static final String STATE_GONE    = "4";//红包飞走了
 
-
+    public static final String ACCOUNT_TYPE_WALLET = "1";//我的钱包
+    public static final String ACCOUNT_TYPE_RED = "2";//"红包
+    public static final String ACCOUNT_TYPE_WX    = "3";//微信账户
 
 
     /**
@@ -195,13 +197,12 @@ public class Constant {
      * 微信支付
      */
     public static final String WX_RECHARGE = BASE_URL+"wxpay/recharge/%s/%s/%s";
-
-    /**
-     * 红包充入余额
-     * http://192.168.1.205:8181/fapiaobao/rest/wxpay/bonusToAccount/{token}
-     */
-
+    /*明细*/
+    public static final String AMOUNT_HISTORY = BASE_URL+"wxpay/amountHistory/%s";
+    /*提现到余额*/
     public static final String RELOAD = BASE_URL+"wxpay/bonusToAccount/%s";
+    /*提现*/
+    public static final String WITHDRAW = BASE_URL+"wxpay/withdraw/%s/%s/%s/%s/%s";
 
 
 }

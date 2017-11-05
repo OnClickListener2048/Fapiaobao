@@ -71,6 +71,8 @@
                 android:id="@+id/edt_reason_reject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/hint_reject"
+                android:textSize="@dimen/d12"
                 android:background="@drawable/shape_main_edit"
                 android:lines="2" />
         </LinearLayout>

@@ -112,7 +112,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     protected void init(Bundle savedInstanceState) {
     }
-
     protected void addFragment(int frameLayoutId, Fragment fragment) {
         if (fragment != null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -228,7 +227,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    private String upLoadReceipt(Uri uri) {
+    public String upLoadReceipt(Uri uri) {
         ContentResolver cr = getContentResolver();
         Bitmap bmp = null;
         try {

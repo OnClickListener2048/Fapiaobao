@@ -21,12 +21,14 @@ public class Image implements Parcelable {
     public String logisticsCompany;
     public String logisticsTradeno;
     public Uri uri;
+    public String from;
     public Image() {
 
     }
 
 
     protected Image(Parcel in) {
+        from = in.readString();
         id = in.readString();
         logisticsTradeno = in.readString();
         logisticsCompany = in.readString();
@@ -60,6 +62,7 @@ public class Image implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(from);
         dest.writeString(id);
         dest.writeString(logisticsCompany);
         dest.writeString(logisticsTradeno);

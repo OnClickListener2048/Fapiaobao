@@ -45,6 +45,7 @@ import com.pilipa.fapiaobao.wxapi.Constants;
 
 import org.json.JSONObject;
 
+import static com.pilipa.fapiaobao.net.Constant.AMOUNT_HISTORY;
 import static com.pilipa.fapiaobao.net.Constant.BIND;
 import static com.pilipa.fapiaobao.net.Constant.COMPANIES_LIST;
 import static com.pilipa.fapiaobao.net.Constant.COMPANY_INFO;
@@ -84,6 +85,7 @@ import static com.pilipa.fapiaobao.net.Constant.UPLOAD_MY_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_DETAILS;
 import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_LIST;
 import static com.pilipa.fapiaobao.net.Constant.USER_LOGIN;
+import static com.pilipa.fapiaobao.net.Constant.WITHDRAW;
 import static com.pilipa.fapiaobao.net.Constant.WX_RECHARGE;
 
 
@@ -661,8 +663,39 @@ public class Api {
                 });
     }
 
+    /**
+     * 充值
+     * @param token
+     * @param ip
+     * @param amount
+     * @param b
+     */
     public static void wxRecharge(String token, String ip, double amount, final BaseViewCallback b) {
         String url = String.format(WX_RECHARGE, token, ip, amount);
+        OkGo.<PrepayBean>get(url).execute(new JsonCallBack<PrepayBean>(PrepayBean.class) {
+
+            @Override
+            public void onSuccess(Response<PrepayBean> response) {
+                if (response.isSuccessful() && response.body().getStatus() == 200) {
+                    b.setData(response.body());
+                }
+            }
+        });
+    }
+    public static void amountHistory(String token, final BaseViewCallback b) {
+        String url = String.format(AMOUNT_HISTORY,token);
+        OkGo.<PrepayBean>get(url).execute(new JsonCallBack<PrepayBean>(PrepayBean.class) {
+
+            @Override
+            public void onSuccess(Response<PrepayBean> response) {
+                if (response.isSuccessful() && response.body().getStatus() == 200) {
+                    b.setData(response.body());
+                }
+            }
+        });
+    }
+    public static void withdaw(String token, String accountType,String ip, double amount, String openid, final BaseViewCallback b) {
+        String url = String.format(WITHDRAW, token,accountType, ip, amount,openid);
         OkGo.<PrepayBean>get(url).execute(new JsonCallBack<PrepayBean>(PrepayBean.class) {
 
             @Override
@@ -808,6 +841,11 @@ public class Api {
         });
     }
 
+    /**
+     * 红包充入余额
+     * @param token
+     * @param baseViewCallback
+     */
     public static void reload(String token, final BaseViewCallback baseViewCallback) {
         String url = String.format(RELOAD, token);
         OkGo.<NormalBean>get(url).execute(new JsonCallBack<NormalBean>(NormalBean.class) {

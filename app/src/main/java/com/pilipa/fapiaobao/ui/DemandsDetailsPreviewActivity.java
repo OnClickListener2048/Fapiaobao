@@ -1,13 +1,18 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -99,9 +104,9 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     @Bind(R.id.ll_no_info)
     LinearLayout llNoInfo;
     @Bind(R.id.tv_tip)//顶部tip
-    TextView tv_tip;
+            TextView tv_tip;
     @Bind(R.id.tv_reject_reason)//不合格理由
-    TextView tv_reject_reason;
+            TextView tv_reject_reason;
     private MyRejectTypeAdapter mSpinnerAdapter;
 
 
@@ -111,15 +116,14 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     private PreviewPagerAdapter previewPagerAdapter;
     private ArrayList<PreviewImageFragment> FragmentList;
     private Image currentImage;
+
+    private int REJECT_START = 0;
+    private int REJECT_FINISH = 1;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_demands_details_preview;
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 
     @Override
     public void initView() {
@@ -159,19 +163,20 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
         mSpinner.setAdapter(mSpinnerAdapter);
         findAllRejectType();
     }
-    public void setLayout(Image image){
+
+    public void setLayout(Image image) {
         tv_tip.setText("");
         llExpressInfo.setVisibility(View.GONE);
         llNoInfo.setVisibility(View.GONE);
-        switch (image.state){
+        switch (image.state) {
             case STATE_CONFIRMING://
                 layout_qualified_item.setVisibility(View.GONE);
                 layout_unqualified_item.setVisibility(View.GONE);
                 layout_willchecked_item.setVisibility(View.VISIBLE);
                 layout_reject_item.setVisibility(View.GONE);
-                if(!VARIETY_GENERAL_ELECTRON.equals(image.variety)){//纸质票
+                if (!VARIETY_GENERAL_ELECTRON.equals(image.variety)) {//纸质票
                     tv_tip.setText(getResources().getString(R.string.tip_wait_mail));
-                }else{
+                } else {
                     tv_tip.setText(getResources().getString(R.string.tip_wait_dowload));
                 }
                 break;
@@ -192,16 +197,24 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                 layout_unqualified_item.setVisibility(View.GONE);
                 layout_willchecked_item.setVisibility(View.VISIBLE);
                 layout_reject_item.setVisibility(View.GONE);
-                if(image.logisticsTradeno  != null){//有无邮寄信息
+                if (image.logisticsTradeno != null) {//有无邮寄信息
                     llExpressInfo.setVisibility(View.VISIBLE);
                     llNoInfo.setVisibility(View.GONE);
-                }else {
+                } else {
                     llExpressInfo.setVisibility(View.GONE);
                     llNoInfo.setVisibility(View.VISIBLE);
                 }
                 break;
         }
+        if ("provided".equals(image.from)) {
+            //提供详情点击预览界面
+            layout_qualified_item.setVisibility(View.GONE);
+            layout_unqualified_item.setVisibility(View.GONE);
+            layout_willchecked_item.setVisibility(View.GONE);
+            layout_reject_item.setVisibility(View.GONE);
+        }
     }
+
     @OnClick({R.id.delete,
             R.id.back,
             R.id.click,
@@ -215,52 +228,26 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             R.id.save_to_media})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.confirm_back:{
+            case R.id.confirm_back: {
                 DemandsDetailsPreviewActivity.this.finish();
-            }break;
+            }
+            break;
             case R.id.tv_Unqualified:
-            case R.id.tv_cancel_reject:{
+            case R.id.tv_cancel_reject: {
                 changeLayout();
-            }break;
-            case R.id.tv_qualified:{
-                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                        @Override
-                        public void setData(LoginWithInfoBean loginWithInfoBean) {
-                            if (loginWithInfoBean.getStatus() == 200) {
-                                Api.confirmInvoice(AccountHelper.getToken(),currentImage.name, new Api.BaseViewCallback<ConfirmInvoiceBean>() {
-                                    @Override
-                                    public void setData(ConfirmInvoiceBean confirmInvoiceBean) {
-                                        if (confirmInvoiceBean.getStatus() == 200) {
-                                            BaseApplication.showToast("确认成功");
-                                            DemandsDetailsPreviewActivity.this.finish();
-                                        }
-                                    }
-                                });
-                            } else {
-                                BaseApplication.showToast("token验证失败请重新登录");
-                                startActivity(new Intent(DemandsDetailsPreviewActivity.this, LoginActivity.class));
-                                finish();
-                            }
-                        }
-                    });
-            }break;
-            case R.id.tv_Unqualified_reject:{
+            }
+            break;
+            case R.id.tv_qualified: {
                 AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                     @Override
-                    public void setData(LoginWithInfoBean normalBean) {
-                        if (normalBean.getStatus() == 200) {
-                            edt_reason_reject.getText().toString().trim();
-                            RejectTypeBean.DataBean data =(RejectTypeBean.DataBean) mSpinner.getSelectedItem();
-                            Api.rejectInvoice(AccountHelper.getToken()
-                                    ,currentImage.name
-                                    ,edt_amount_reject.getText().toString().trim()
-                                    ,data.getValue()
-                                    ,edt_reason_reject.getText().toString().trim()
-                                    ,new Api.BaseViewCallback<NormalBean>() {
+                    public void setData(LoginWithInfoBean loginWithInfoBean) {
+                        if (loginWithInfoBean.getStatus() == 200) {
+                            Api.confirmInvoice(AccountHelper.getToken(), currentImage.name, new Api.BaseViewCallback<ConfirmInvoiceBean>() {
                                 @Override
-                                public void setData(NormalBean normalBean) {
-                                    if (normalBean.getStatus() == 200) {
-                                        BaseApplication.showToast("驳回成功");
+                                public void setData(ConfirmInvoiceBean confirmInvoiceBean) {
+                                    if (confirmInvoiceBean.getStatus() == 200) {
+                                        BaseApplication.showToast("确认成功");
+                                        DemandsDetailsPreviewActivity.this.finish();
                                     }
                                 }
                             });
@@ -271,7 +258,12 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                         }
                     }
                 });
-            }break;
+            }
+            break;
+            case R.id.tv_Unqualified_reject: {
+                setRejectDialog(REJECT_START);
+            }
+            break;
             case R.id.delete:
                 Log.d(TAG, "before allList.remove(mPreviousPos+1);allList.size()" + allList.size());
                 allList.remove(mPreviousPos + 1);
@@ -300,9 +292,9 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             case R.id.tolast:
                 if (mPreviousPos >= 1) {
                     previewViewpager.setCurrentItem(mPreviousPos - 1);
-                    Log.d("mPreviousPos  last >>>>>>",mPreviousPos  +"");
-                    int pos =   mPreviousPos ;
-                    if(pos  <= allList.size() - 1){
+                    Log.d("mPreviousPos  last >>>>>>", mPreviousPos + "");
+                    int pos = mPreviousPos;
+                    if (pos <= allList.size() - 1) {
                         currentImage = allList.get(pos);
                         expressInfo.setText(currentImage.logisticsCompany);
                         expressNo.setText(currentImage.logisticsTradeno);
@@ -312,11 +304,11 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                 break;
             case R.id.tonext:
                 if (mPreviousPos <= FragmentList.size()) {
-                    previewViewpager.setCurrentItem(mPreviousPos +1);
-                    int pos =   mPreviousPos +1;
-                    if(pos - 1 >= 0){
-                        Log.d("mPreviousPos  next >>>>>>",pos-1+"");
-                        currentImage = allList.get(pos-1);
+                    previewViewpager.setCurrentItem(mPreviousPos + 1);
+                    int pos = mPreviousPos + 1;
+                    if (pos - 1 >= 0) {
+                        Log.d("mPreviousPos  next >>>>>>", pos - 1 + "");
+                        currentImage = allList.get(pos - 1);
                         expressInfo.setText(currentImage.logisticsCompany);
                         expressNo.setText(currentImage.logisticsTradeno);
                         setLayout(currentImage);
@@ -329,7 +321,46 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             default:
         }
     }
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_finish:{
+                DemandsDetailsPreviewActivity.this.finish();
+            }
+            case R.id.btn_cancel1:
+            case R.id.btn_cancel2:{
+                mDialog.cancel();
+            }break;
+            case R.id.btn_confirm:
+                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                    @Override
+                    public void setData(LoginWithInfoBean normalBean) {
+                        if (normalBean.getStatus() == 200) {
+                            edt_reason_reject.getText().toString().trim();
+                            RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
+                            Api.rejectInvoice(AccountHelper.getToken()
+                                    , currentImage.name
+                                    , edt_amount_reject.getText().toString().trim()
+                                    , data.getValue()
+                                    , edt_reason_reject.getText().toString().trim()
+                                    , new Api.BaseViewCallback<NormalBean>() {
+                                        @Override
+                                        public void setData(NormalBean normalBean) {
+                                            if (normalBean.getStatus() == 200) {
+                                                setRejectDialog(REJECT_FINISH);
+                                            }
+                                        }
+                                    });
+                        } else {
+                            BaseApplication.showToast("token验证失败请重新登录");
+                            startActivity(new Intent(DemandsDetailsPreviewActivity.this, LoginActivity.class));
+                            finish();
+                        }
+                    }
+                });
+                break;
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -337,15 +368,16 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
         ButterKnife.bind(this);
     }
 
-    private void changeLayout(){
-        if(layout_reject_item.getVisibility() == View.VISIBLE){
+    private void changeLayout() {
+        if (layout_reject_item.getVisibility() == View.VISIBLE) {
             layout_reject_item.setVisibility(View.GONE);
             layout_willchecked_item.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             layout_reject_item.setVisibility(View.VISIBLE);
             layout_willchecked_item.setVisibility(View.GONE);
         }
     }
+
     private void requestPermission() {
         final RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Observer<Boolean>() {
@@ -429,16 +461,18 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             }
         });
     }
-    public void findAllRejectType(){
+
+    public void findAllRejectType() {
         Api.findAllRejectType(new Api.BaseViewCallback<RejectTypeBean>() {
             @Override
             public void setData(RejectTypeBean rejectTypeBean) {
-                if (rejectTypeBean.getStatus() ==200) {
+                if (rejectTypeBean.getStatus() == 200) {
                     mSpinnerAdapter.initData(rejectTypeBean.getData());
                 }
             }
         });
     }
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -451,9 +485,9 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             ((PreviewImageFragment) adapter.instantiateItem(previewViewpager, mPreviousPos)).resetView();
         }
         mPreviousPos = position;
-        Log.d("onPageScrolled  pos >>>>>>",position  +"");
-        if(position  >= 0){
-            currentImage = allList.get(position );
+        Log.d("onPageScrolled  pos >>>>>>", position + "");
+        if (position >= 0) {
+            currentImage = allList.get(position);
             expressInfo.setText(currentImage.logisticsCompany);
             expressNo.setText(currentImage.logisticsTradeno);
             setLayout(currentImage);
@@ -464,7 +498,36 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     public void onPageScrollStateChanged(int state) {
 
     }
+    private  Dialog mDialog;
+    private void setRejectDialog(int step) {
+        mDialog = new Dialog(this, R.style.BottomDialog);
+        LinearLayout  root = null;
+        if(step == REJECT_START){
+            root = (LinearLayout) LayoutInflater.from(this).inflate(
+                    R.layout.layout_reject1_tip, null);
+            root.findViewById(R.id.btn_confirm).setOnClickListener(this);
+            root.findViewById(R.id.btn_cancel1).setOnClickListener(this);
+        }else if(step == REJECT_FINISH){
+            root = (LinearLayout) LayoutInflater.from(this).inflate(
+                    R.layout.layout_reject2_tip, null);
+            root.findViewById(R.id.btn_finish).setOnClickListener(this);
+            root.findViewById(R.id.btn_cancel2).setOnClickListener(this);
+        }
+        //初始化视图
+        mDialog.setContentView(root);
+        Window dialogWindow = mDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
 
-
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mDialog.show();
+    }
 
 }

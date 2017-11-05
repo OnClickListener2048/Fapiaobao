@@ -20,7 +20,6 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
-import com.pilipa.fapiaobao.net.bean.TestBean;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
@@ -33,6 +32,7 @@ import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -101,6 +101,8 @@ public class ProvidedActivity extends BaseActivity {
     TextView bankAccount;
     @Bind(R.id.bank)
     TextView bank;
+    @Bind(R.id.tv_low_limit)
+    TextView tv_low_limit;
 
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
     public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
@@ -111,6 +113,8 @@ public class ProvidedActivity extends BaseActivity {
     private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
     private DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment;
     private DemandsDetailsReceiptFragment3 paperElecReceiptFragment;
+    List<OrderDetailsBean.DataBean.InvoiceListBeanX> mDataList = new ArrayList<>();
+
     private static final int REQUEST_CODE_SCAN = 0x0000;
     @Bind(R.id.translate_details)
     LinearLayout translateDetails;
@@ -212,30 +216,27 @@ public class ProvidedActivity extends BaseActivity {
                 mSpinner.setAdapter(new PublishSpinnerAdapter(expressCompanyBean));
             }
         });
-
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_spinner_item);
-//        String level[] = getResources().getStringArray(R.array.express);//资源文件
-//        for (int i = 0; i < level.length; i++) {
-//            adapter.add(level[i]);
-//        }
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        mSpinner.setAdapter(adapter);
     }
 
-    private void setUpData(ArrayList<TestBean.ResultsBean> results) {
+    private void setUpData(List<OrderDetailsBean.DataBean.InvoiceListBeanX> results) {
         Log.d(TAG, "setUpData:   private void setUpData(ArrayList<model.ResultsBean> body) {");
         images = new ArrayList<>();
-        for (TestBean.ResultsBean result : results) {
+        //TODO 提供详情   后台数据结构需做调整
+        for (OrderDetailsBean.DataBean.InvoiceListBeanX result : results) {
             Log.d(TAG, "setUpData:  for (model.ResultsBean result : body) {");
             Image image = new Image();
             image.isSelected = false;
-            image.name = result.get_id();
-            image.path = result.getUrl();
+//            image.name = result.getId();
+//            image.path = result.getUrl();
+            image.path = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg";
             image.position = -1;
             image.isCapture = false;
             image.isFromNet = true;
 //            image.state = result.getState();
 //            image.variety = result.getVariety();
+            image.state = "1";
+            image.variety = "2";
+            image.from = "provided";//来自提供详情 预览图片无样式
             images.add(image);
         }
         ArrayList<Image> images1 =new ArrayList<>();
@@ -270,6 +271,7 @@ public class ProvidedActivity extends BaseActivity {
     @Override
     public void initData() {
         orderId = getIntent().getStringExtra("OrderId");
+        orderId ="94dd9e0524544ea29c592912640ec3bd";
         CompanyId = getIntent().getStringExtra("CompanyId");
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
         showOrderDetail(orderId);
@@ -347,11 +349,10 @@ public class ProvidedActivity extends BaseActivity {
                             tvTelephone.setText(bean.getPostage().getTelephone());
                             tvPhone.setText(bean.getPostage().getPhone());
                             tvPublishAddress.setText(bean.getPostage().getAddress());
-//                        edtOddNumber.setText();
+                            tv_low_limit.setText(bean.getPostage().getDistrict());
                         }
                         estimateMoney.setText(bean.getBonus() + "");
                         receiptNumber.setText(bean.getInvoiceCount() + "");
-
 //                            receiptMoney.setText();
 //                            continueToUpload.setText();
                         if(bean.getCompany() != null){
@@ -362,7 +363,11 @@ public class ProvidedActivity extends BaseActivity {
                             bank.setText(bean.getCompany().getDepositBank());
                             texNumber.setText(bean.getCompany().getTaxno());
                         }
-
+                        if(bean.getInvoiceList() != null){
+                            mDataList.clear();
+                            mDataList.addAll(orderDetailsBean.getData().getInvoiceList());
+                            setUpData(mDataList);
+                        }
                         Log.d(TAG, "showOrderDetail success");
                     }
                 }

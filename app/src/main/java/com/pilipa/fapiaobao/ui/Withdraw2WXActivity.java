@@ -27,23 +27,23 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.pilipa.fapiaobao.net.Constant.ACCOUNT_TYPE_RED;
+import static com.pilipa.fapiaobao.net.Constant.ACCOUNT_TYPE_WALLET;
 
 /**
  * Created by lyt on 2017/10/17.
  */
 
-public class MyRedEnvelopeActivity extends BaseActivity {
-    @Bind(R.id.bonus)
-    TextView tv_bonus;
+public class Withdraw2WXActivity extends BaseActivity {
+    @Bind(R.id.amount)
+    TextView tv_amount;
     private Dialog mDialog;
-    private String bonus;
+    private String amount;
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_red_envelope;
+        return R.layout.activity_withdraw_to_wx;
     }
 
-    @OnClick({R.id._back, R.id.btn_withdraw, R.id.btn_recharge})
+    @OnClick({R.id._back, R.id.btn_withdraw})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -53,10 +53,6 @@ public class MyRedEnvelopeActivity extends BaseActivity {
             break;
             case R.id.btn_withdraw: {
                 setDialog();
-            }
-            break;
-            case R.id.btn_recharge: {
-                setReloadDialog();
             }
             break;
         }
@@ -69,8 +65,8 @@ public class MyRedEnvelopeActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        bonus = getIntent().getStringExtra("bonus");
-        this.tv_bonus.setText(bonus);
+        amount = getIntent().getStringExtra("amount");
+        this.tv_amount.setText(amount);
     }
 
     @Override
@@ -85,7 +81,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.layout_withdraw_tip, null);
        TextView tv_bouns = (TextView)root.findViewById(R.id.tv_bouns);
-        tv_bouns.setText(bonus);
+        tv_bouns.setText(amount);
         //初始化视图
         root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,9 +91,9 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                     public void setData(LoginWithInfoBean loginWithInfoBean) {
                         if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
                             Api.withdaw(loginWithInfoBean.getData().getToken()
-                                    ,ACCOUNT_TYPE_RED
+                                    ,ACCOUNT_TYPE_WALLET
                                     ,NetworkUtils.getIPAddress(true)
-                                    ,Double.parseDouble(tv_bonus.getText().toString())
+                                    ,Double.parseDouble(tv_amount.getText().toString())
                                     ,loginWithInfoBean.getData().getCustomer().getOpenid()
                                     , new Api.BaseViewCallback<NormalBean>() {
                                         @Override
@@ -138,52 +134,6 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         mDialog.show();
     }
 
-    private void setReloadDialog() {
-        mDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_reload_tip, null);
-        //初始化视图
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                    @Override
-                    public void setData(LoginWithInfoBean loginWithInfoBean) {
-                        Api.reload(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<NormalBean>() {
-                            @Override
-                            public void setData(NormalBean normalBean) {
-                                if (normalBean.getStatus() ==200) {
-                                    BaseApplication.showToast("充值成功");
-                                    finish();
-                                }
-                            }
-                        });
-                    }
-                });
-                mDialog.dismiss();
-            }
-        });
-        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog.dismiss();
-            }
-        });
-        mDialog.setContentView(root);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDialog.show();
-    }
     private IWXAPI api;
     private void regexToWX() {
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);

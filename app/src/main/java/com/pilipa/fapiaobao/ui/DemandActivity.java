@@ -1,9 +1,16 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,16 +31,24 @@ import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.HorizontalListView;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 import static com.pilipa.fapiaobao.R.id.btn_shut_down_early;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
+import static com.pilipa.fapiaobao.net.Constant.STATE_COMPETENT;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_FINISH;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_ING;
@@ -95,12 +110,26 @@ public class DemandActivity extends BaseActivity {
     TextView btnShutDownEarly;
     @Bind(R.id.img_state)
     ImageView img_state;
+    @Bind(R.id.tv_receive)
+    TextView tv_receive;
+    @Bind(R.id.tv_low_limit)
+    TextView tv_low_limit;
     @Bind(R.id.horizontalListView)
     HorizontalListView horizontalListView;
+    @Bind(R.id.ll_receiptlist)
+    LinearLayout ll_receiptlist;
+    @Bind(R.id.ll_no_record)
+    LinearLayout ll_no_record;
+    @Bind(R.id.tv_num_1)
+    TextView tv_num_1;
+    @Bind(R.id.tv_num_2)
+    TextView tv_num_2;
+    @Bind(R.id.tv_num_3)
+    TextView tv_num_3;
 
     List<DemandDetails.DataBean.OrderInvoiceListBean> mDataList = new ArrayList<>();
     List<String> mList = new ArrayList<>();
-    private boolean isShow =false;//当前详情是否显示
+    private boolean isShow = false;//当前详情是否显示
 
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
     public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
@@ -113,37 +142,82 @@ public class DemandActivity extends BaseActivity {
     private DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment;
     private DemandsDetailsReceiptFragment3 paperElecReceiptFragment;
     private MyInvoiceNameAdapter invoiceNameAdapter;
+    ArrayList<Image> images_qualified = new ArrayList<>();
+    private Dialog mCameraDialog;
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA share_media) {
+            Toast.makeText(DemandActivity.this, "分享成功", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+            Toast.makeText(DemandActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA share_media) {
+            Toast.makeText(DemandActivity.this, "分享取消", Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_demand;
     }
 
-    @OnClick({R.id.demand_back,R.id.fl_change, btn_shut_down_early})
+    @OnClick({R.id.demand_back, R.id.fl_change, btn_shut_down_early, R.id.link_to_telephone, R.id.link_to_phone, R.id.tv_qualified_list, R.id.iv_demand_share})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.iv_demand_share: {
+                setDialog();
+            }
+            break;
+            case R.id.tv_qualified_list: {
+                if (images_qualified.size() != 0) {
+                    startActivity(new Intent(DemandActivity.this, LoginActivity.class));
+                } else {
+                    Toast.makeText(DemandActivity.this, "暂无确认合格发票", Toast.LENGTH_SHORT).show();
+                }
+            }
+            break;
+            case R.id.link_to_phone: {
+
+                callPhone();
+            }
+            break;
+            case R.id.link_to_telephone: {
+                callPhone();
+            }
+            break;
             case R.id.demand_back: {
                 finish();
             }
             break;
             case btn_shut_down_early: {
-                if(demandId != null){
+                if (demandId != null) {
                     shatDownEarly(demandId);
                 }
             }
             break;
-            case R.id.fl_change:{
-                if(isShow){
+            case R.id.fl_change: {
+                if (isShow) {
                     translateDetails.setVisibility(View.VISIBLE);
                     translate.setVisibility(View.GONE);
                     isShow = !isShow;
-                }else{
+                } else {
                     translateDetails.setVisibility(View.GONE);
                     translate.setVisibility(View.VISIBLE);
                     isShow = !isShow;
                 }
-            }break;
+            }
+            break;
         }
     }
 
@@ -153,63 +227,80 @@ public class DemandActivity extends BaseActivity {
         horizontalListView.setAdapter(invoiceNameAdapter);
     }
 
-    private void setUpData( List<DemandDetails.DataBean.OrderInvoiceListBean> results) {
+    private void setUpData(List<DemandDetails.DataBean.OrderInvoiceListBean> results) {
         Log.d(TAG, "setUpData:   private void setUpData(ArrayList<model.ResultsBean> body) {");
-        images = new ArrayList<>();
-        for (DemandDetails.DataBean.OrderInvoiceListBean result : results) {
-            Log.d(TAG, "setUpData:  for (model.ResultsBean result : body) {");
-            Image image = new Image();
-            image.isSelected = false;
-            image.name = result.getId();
-            image.path = result.getUrl();
-            image.position = -1;
-            image.isCapture = false;
-            image.isFromNet = true;
-            image.state = result.getState();
-            image.logisticsTradeno = result.getLogisticsTradeno();
-            image.logisticsCompany = result.getLogisticsCompany();
-            image.variety = result.getVariety();
-            images.add(image);
-        }
-        ArrayList<Image> images1 =new ArrayList<>();
-        ArrayList<Image> images2 =new ArrayList<>();
-        ArrayList<Image> images3 =new ArrayList<>();
-        for (int i = 0; i <images.size() ; i++) {
-            if(VARIETY_GENERAL_PAPER.equals(images.get(i).variety)){
-                images1.add(images.get(i));
-            }else if(VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)){
-                images2.add(images.get(i));
-            }else if(VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)){
-                images3.add(images.get(i));
+
+        if (results.size() == 0) {
+            ll_no_record.setVisibility(View.VISIBLE);
+            ll_receiptlist.setVisibility(View.GONE);
+            ll_receiptlist.setVisibility(View.GONE);
+        } else {
+            ll_no_record.setVisibility(View.GONE);
+            ll_no_record.setVisibility(View.GONE);
+            ll_receiptlist.setVisibility(View.VISIBLE);
+            images = new ArrayList<>();
+            for (DemandDetails.DataBean.OrderInvoiceListBean result : results) {
+                Log.d(TAG, "setUpData:  for (model.ResultsBean result : body) {");
+                Image image = new Image();
+                image.isSelected = false;
+                image.name = result.getId();
+                image.path = result.getUrl();
+                image.position = -1;
+                image.isCapture = false;
+                image.isFromNet = true;
+                image.state = result.getState();
+                image.logisticsTradeno = result.getLogisticsTradeno();
+                image.logisticsCompany = result.getLogisticsCompany();
+                image.variety = result.getVariety();
+                images.add(image);
             }
-       }
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
-        paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
-        addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
+            ArrayList<Image> images1 = new ArrayList<>();
+            ArrayList<Image> images2 = new ArrayList<>();
+            ArrayList<Image> images3 = new ArrayList<>();
+            for (int i = 0; i < images.size(); i++) {
+                if (STATE_COMPETENT.equals(images.get(i).state)) {
+                    images_qualified.add(images.get(i));//合格发票
+                }
+                if (VARIETY_GENERAL_PAPER.equals(images.get(i).variety)) {
+                    images1.add(images.get(i));
+                } else if (VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)) {
+                    images2.add(images.get(i));
+                } else if (VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)) {
+                    images3.add(images.get(i));
+                }
+            }
+            tv_num_1.setText(String.format(getResources().getString(R.string.paper_normal_receipt_num), images1.size()));
+            tv_num_2.setText(String.format(getResources().getString(R.string.paper_special_receipt_num), images2.size()));
+            tv_num_3.setText(String.format(getResources().getString(R.string.paper_elec_receipt_num), images3.size()));
 
-        bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
-        paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
-        addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
+            paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
+            addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
 
-        bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
-        paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
-        addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+            bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
+            paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
+            addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
+
+            bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
+            paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
+            addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+        }
     }
 
 
     @Override
     public void initData() {
-        demandId =  getIntent().getStringExtra("demandId");
-        Log.d(TAG, "initData:demandDetails demandId"+demandId);
+        demandId = getIntent().getStringExtra("demandId");
+        Log.d(TAG, "initData:demandDetails demandId" + demandId);
     }
 
     @Override
     protected void onResume() {
-        if(demandId != null){
+        if (demandId != null) {
             demandDetails(demandId);
         }
-        Log.d(TAG, "onResume:demandDetails demandId"+demandId);
+        Log.d(TAG, "onResume:demandDetails demandId" + demandId);
 
         super.onResume();
     }
@@ -220,32 +311,36 @@ public class DemandActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-    public void demandDetails(String demandId){
+
+    public void demandDetails(String demandId) {
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            String token =AccountHelper.getToken();
-            Api.demandDetails(token,demandId,new Api.BaseViewCallback<DemandDetails>() {
+            String token = AccountHelper.getToken();
+            Api.demandDetails(token, demandId, new Api.BaseViewCallback<DemandDetails>() {
                 @Override
                 public void setData(DemandDetails demandDetails) {
-                    if(demandDetails.getStatus() == REQUEST_SUCCESS){
+                    if (demandDetails.getStatus() == REQUEST_SUCCESS) {
                         Log.d(TAG, "demandDetails success");
-                        DemandDetails.DataBean bean =   demandDetails.getData();
+                        DemandDetails.DataBean bean = demandDetails.getData();
                         mList.addAll(bean.getInvoiceNameList());
                         invoiceNameAdapter.initData(mList);
 
-                        tvBounsAmount.setText(bean.getDemand().getTotalBonus().doubleValue()+"元");
-//                        tvAlreadyCollected.setText(bean.getDemand().getLeftAmount().doubleValue()+"");
-                        tvAmount.setText(bean.getDemand().getTotalAmount().doubleValue()+"元");
-                        tvLeftAmount.setText(bean.getDemand().getLeftBonus().doubleValue()+"");
-//                        tvPublishTime.setText(bean.getDemandPostage());
-                        tvDeadline.setText("截止日期："+bean.getDemand().getDeadline());
-                        tvAttentions.setText(""+bean.getDemand().getAttentions());
-                        if(bean.getDemand().getDemandPostage() != null){
+                        tvBounsAmount.setText(bean.getDemand().getTotalBonus().setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
+                        tvAmount.setText(bean.getDemand().getTotalAmount().setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
+                        tvLeftAmount.setText(bean.getDemand().getLeftBonus().setScale(2, BigDecimal.ROUND_HALF_UP) + "");
+//                        tvPublishTime.setText("发布时间："+bean.getDemand().getDeadline());
+                        tvDeadline.setText("截止日期：" + bean.getDemand().getDeadline());
+                        tvAttentions.setText("" + bean.getDemand().getAttentions());
+                        tv_receive.setText(bean.getReceivedAmount().setScale(2, BigDecimal.ROUND_HALF_UP) + "");
+                        String collected_amount = getResources().getString(R.string.collected_amount);
+                        tvAlreadyCollected.setText(String.format(collected_amount, bean.getReceivedNum()));
+                        tv_low_limit.setText(bean.getDemand().getMailMinimum().setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
+                        if (bean.getDemand().getDemandPostage() != null) {
                             tvAddress.setText(bean.getDemand().getDemandPostage().getAddress());
-//                            tvPhone.setText(bean.getDemand().getDemandPostage().getPhone());
-//                            tvTelephone.setText(bean.getDemand().getDemandPostage().getEmail());
+                            tvPhone.setText(bean.getDemand().getDemandPostage().getPhone());
+                            tvTelephone.setText(bean.getDemand().getDemandPostage().getTelephone());
                             tvReceiver.setText(bean.getDemand().getDemandPostage().getReceiver());
                         }
-                        if( bean.getDemand().getCompany() != null){
+                        if (bean.getDemand().getCompany() != null) {
                             companyName.setText(bean.getDemand().getCompany().getName());
                             number.setText(bean.getDemand().getCompany().getPhone());
                             companyAddress.setText(bean.getDemand().getCompany().getAddress());
@@ -256,18 +351,15 @@ public class DemandActivity extends BaseActivity {
                         //发票列表
                         mDataList.clear();
                         mDataList.addAll(bean.getOrderInvoiceList());
-//                        List<DemandDetails.DataBean.OrderInvoiceListBean> list = bean.getOrderInvoiceList();
                         setUpData(mDataList);
-                        String collected_amount = getResources().getString(R.string.collected_amount);
-                        tvAlreadyCollected.setText(String.format(collected_amount, mDataList.size()));
 
-                        if(STATE_DEMAND_ING.equals(bean.getDemand().getState())){
+                        if (STATE_DEMAND_ING.equals(bean.getDemand().getState())) {
                             img_state.setImageResource(R.mipmap.on_the_way);
                             btnShutDownEarly.setVisibility(View.VISIBLE);
-                        }else if(STATE_DEMAND_FINISH.equals(bean.getDemand().getState())){
+                        } else if (STATE_DEMAND_FINISH.equals(bean.getDemand().getState())) {
                             img_state.setImageResource(R.mipmap.finish);
                             btnShutDownEarly.setVisibility(View.GONE);
-                        }else if(STATE_DEMAND_CLOSE.equals(bean.getDemand().getState())){
+                        } else if (STATE_DEMAND_CLOSE.equals(bean.getDemand().getState())) {
                             img_state.setImageResource(R.mipmap.close);
                             btnShutDownEarly.setVisibility(View.GONE);
                         }
@@ -276,7 +368,8 @@ public class DemandActivity extends BaseActivity {
             });
         }
     }
-    private void shatDownEarly(final String id){
+
+    private void shatDownEarly(final String id) {
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
             @Override
             public void setData(LoginWithInfoBean normalBean) {
@@ -297,4 +390,118 @@ public class DemandActivity extends BaseActivity {
             }
         });
     }
+
+    private void callPhone() {
+        Log.d(TAG, "callPhone:  RxPermissions request");
+
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.CALL_PHONE).subscribe(new Observer<Boolean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                if (aBoolean) {
+                    Intent intent1 = new Intent(Intent.ACTION_CALL, Uri.parse("tel:400-8181800"));
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    startActivity(intent1);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    private void setDialog() {
+        mCameraDialog = new Dialog(DemandActivity.this, R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
+                R.layout.layout_share_, null);
+        //初始化视图
+        root.findViewById(R.id.weixin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(DemandActivity.this)
+                        .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
+                        .withText("hello")//分享内容
+                        .setCallback(umShareListener)//回调监听器
+                        .share();
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.weibo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(DemandActivity.this)
+                        .setPlatform(SHARE_MEDIA.SINA)//传入平台
+                        .withText("hello")//分享内容
+                        .setCallback(umShareListener)//回调监听器
+                        .share();
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.moments).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(DemandActivity.this)
+                        .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
+                        .withText("hello")//分享内容
+                        .setCallback(umShareListener)//回调监听器
+                        .share();
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.qq).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(DemandActivity.this)
+                        .setPlatform(SHARE_MEDIA.QQ)//传入平台
+                        .withText("hello")//分享内容
+                        .setCallback(umShareListener)//回调监听器
+                        .share();
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.qzone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ShareAction(DemandActivity.this)
+                        .setPlatform(SHARE_MEDIA.QZONE)//传入平台
+                        .withText("hello")//分享内容
+                        .setCallback(umShareListener)//回调监听器
+                        .share();
+                mCameraDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCameraDialog.dismiss();
+            }
+        });
+        mCameraDialog.setContentView(root);
+        Window dialogWindow = mCameraDialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mCameraDialog.show();
+    }
+
 }

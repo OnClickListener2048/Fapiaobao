@@ -1,7 +1,9 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
 
 import java.util.List;
 
@@ -110,5 +117,24 @@ public class RechargeDetailsActivity extends BaseActivity {
         {
             TextView tvAmountOffered;
         }
+    }
+    private void amountHistory(final LoginWithInfoBean.DataBean.CustomerBean customer) {
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean normalBean) {
+                if (normalBean.getStatus() == 200) {
+                    Api.amountHistory(AccountHelper.getToken(), new Api.BaseViewCallback<UpdateCustomerBean>() {
+                        @Override
+                        public void setData(UpdateCustomerBean updateCustomerBean) {
+                            Log.d("", "initData:amountHistory success");
+                        }
+                    });
+                }else {
+                    BaseApplication.showToast("token验证失败请重新登陆");
+                    startActivity(new Intent(RechargeDetailsActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        });
     }
 }

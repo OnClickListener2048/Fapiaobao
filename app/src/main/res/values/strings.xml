@@ -169,7 +169,7 @@
     <string name="scan">扫一扫</string>
     <string name="upload_electric_receipt">上传电子发票</string>
     <string name="already_have">已有发票</string>
-    <string name="company_name">公司名称</string>
+    <string name="company_name">单位名称</string>
     <string name="receipt_code">税号</string>
     <string name="must_fill">必填</string>
     <string name="settings">发布设置</string>
@@ -198,7 +198,7 @@
     <string name="credit_rating">信用等级</string>
     <string name="my_wallet">我的钱包</string>
     <string name="feedback">意见反馈</string>
-    <string name="encyclopedia">财税小百科</string>
+    <string name="encyclopedia">发票小百科</string>
     <string name="help_center">帮助中心</string>
     <string name="userinfo">我的资料</string>
     <!--发票金额信息-->
@@ -337,8 +337,8 @@
     <string name="logout_tip">确定要退出登录么？</string>
     <string name="express_mail">快递已邮寄</string>
     <string name="credit_history">信用历史</string>
-    <string name="credit_life">信用生活 点击积累</string>
-    <string name="credit_bfb">您的信用值增长超过了 %.0f%% 的票友</string>
+    <string name="credit_life">点滴积累 继续加油</string>
+    <string name="credit_bfb">您的信用值超过了 %.0f%% 的票友</string>
     <string name="rules">规则解读</string>
     <string name="negative">负面记录</string>
     <string name="address_details">详细地址</string>
@@ -358,11 +358,25 @@
     <string name="left_bouns">剩余%1$f元红包待领取</string>
     <string name="shut_down_early">提前关闭</string>
     <string name="no_negetive">无负面记录，请继续保持哦~</string>
+    <string name="no_receipt">暂时还没收到票哦，请耐心等待~</string>
     <string name="continuous_to_upload">继续上传发票</string>
     <string name="tip_wait_dowload">查验合格后，您就可以下载这张发票了哦~</string>
     <string name="tip_wait_mail">查验合格后，对方将邮寄这张发票给您~</string>
     <string name="filter_kind">筛选类型</string>
     <string name="receipt_kind">发票类型:</string>
+    <string name="low_limit">最低寄送限额</string>
+    <string name="qualified_list">查看已确认合格发票</string>
+    <string name="paper_normal_receipt_num">纸质普票 %1$d 张</string>
+    <string name="paper_special_receipt_num">纸质专票 %1$d 张</string>
+    <string name="paper_elec_receipt_num">电子普票 %1$d 张</string>
+    <string name="tip_reject_start">驳回不实将影响您的使用与信用值请谨慎操作哦~</string>
+    <string name="tip_reject_finish">发票已驳回，您的红包奖励不会被扣除</string>
+    <string name="hint_reject">请如实填写您的不合格原因...</string>
+    <string name="withdraw_wx">提现到微信</string>
+    <string name="withdraw_current">当前余额为%1$f元，</string>
+    <string name="withdraw_max">最大提现额度为%1$f元</string>
+    <string name="withdraw_all">全部提现</string>
+
 
     <string-array name="express">
         <item >圆通</item>

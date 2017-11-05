@@ -2,6 +2,7 @@ package com.pilipa.fapiaobao.ui;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.pilipa.fapiaobao.R;
@@ -20,6 +21,8 @@ public class NegetiveActivity extends BaseActivity {
 
     @Bind(R.id.listview)
     ListView listView;
+    @Bind(R.id.ll_no_record)
+    LinearLayout ll_no_record;
     private MessageCenterAdapter messageCenterAdapter;
     @Override
     protected int getLayoutId() {
@@ -40,6 +43,11 @@ public class NegetiveActivity extends BaseActivity {
     public void initView() {
         messageCenterAdapter = new MessageCenterAdapter(this);
         listView.setAdapter(messageCenterAdapter);
+        if(true){
+            ll_no_record.setVisibility(View.VISIBLE);
+        }else{
+            ll_no_record.setVisibility(View.GONE);
+        }
     }
 
     @Override

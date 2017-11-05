@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -76,6 +77,8 @@ public class UserInfoActivity extends BaseActivity {
     ImageView img_back;
     @Bind(R.id.img_head)
     RoundedImageView img_head;
+    @Bind(R.id.tv_wx)
+    TextView tv_wx;
     private Dialog mCameraDialog;
     private Dialog mDialog;
     private MediaStoreCompat mediaStoreCompat;
@@ -84,33 +87,50 @@ public class UserInfoActivity extends BaseActivity {
     private int mPreviousPosition = -1;
     private RequestManager requestManager;
     private LoginWithInfoBean loginBean;
+    private Image image;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_userinfo;
     }
 
-    @OnClick({R.id.userinfo_back, R.id.img_head, R.id.img_logout,R.id.btn_save})
+    @OnClick({R.id.userinfo_back, R.id.img_head, R.id.img_logout, R.id.btn_save})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_wx:{//绑定微信
+
+            }break;
             case R.id.btn_save: {
-                LoginWithInfoBean.DataBean.CustomerBean customer = new  LoginWithInfoBean.DataBean.CustomerBean();
+
+                LoginWithInfoBean.DataBean.CustomerBean customer = new LoginWithInfoBean.DataBean.CustomerBean();
                 customer.setNickname(edtUserName.getText().toString().trim());
                 customer.setBirthday(edtBirthday.getText().toString().trim());
-                switch (radioGroup.getCheckedRadioButtonId()){
-                    case R.id.rb_female:customer.setGender(Constant.GENDER_FEMALE); break;
-                    case R.id.rb_male:customer.setGender(Constant.GENDER_MALE); break;
-                    case R.id.rb_secrecy:customer.setGender(Constant.GENDER_SECRECY); break;
+                switch (radioGroup.getCheckedRadioButtonId()) {
+                    case R.id.rb_female:
+                        customer.setGender(Constant.GENDER_FEMALE);
+                        break;
+                    case R.id.rb_male:
+                        customer.setGender(Constant.GENDER_MALE);
+                        break;
+                    case R.id.rb_secrecy:
+                        customer.setGender(Constant.GENDER_SECRECY);
+                        break;
+                }
+                if(image != null){
+                    customer.setHeadimg(upLoadReceipt(image.uri));
                 }
                 customer.setTelephone(edtPhone.getText().toString().trim());
                 updateUserInfo(customer);
-            }break;
+            }
+            break;
             case R.id.userinfo_back: {
                 finish();
-            }break;
+            }
+            break;
             case R.id.img_head: {
                 setDialog();
-            }break;
+            }
+            break;
             case R.id.btn_choose_img:
                 openMedia();
                 mCameraDialog.dismiss();
@@ -129,7 +149,8 @@ public class UserInfoActivity extends BaseActivity {
                 break;
             case R.id.btn_confirm://确认登出\
                 AccountHelper.logout();
-                startActivity(new Intent(this,LoginActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
+                mDialog.dismiss();
                 break;
             case R.id.img_logout:
                 setLogoutDialog();
@@ -193,7 +214,7 @@ public class UserInfoActivity extends BaseActivity {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            Image image = new Image();
+            image = new Image();
             image.isFromNet = false;
             image.name = new File(path).getName();
             image.isCapture = false;
@@ -211,7 +232,7 @@ public class UserInfoActivity extends BaseActivity {
         } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<Uri> uris = Matisse.obtainResult(data);
             for (Uri uri : uris) {
-                Image image = new Image();
+                image = new Image();
                 image.isCapture = false;
                 image.position = mPreviousPosition;
                 mPreviousPosition++;
@@ -245,18 +266,27 @@ public class UserInfoActivity extends BaseActivity {
         });
 
     }
-    public void setUserData( LoginWithInfoBean.DataBean.CustomerBean customer){
+
+    public void setUserData(LoginWithInfoBean.DataBean.CustomerBean customer) {
         edtBirthday.setText(customer.getBirthday());
         edtUserName.setText(customer.getNickname());
         edtPhone.setText(customer.getTelephone());
-        if (Constant.GENDER_FEMALE.equals(customer.getGender())){
+        if(true){
+            tv_wx.setText("去绑定");
+            tv_wx.setOnClickListener(this);
+        }else{
+            tv_wx.setText("已绑定");
+            tv_wx.setOnClickListener(null);
+        }
+        if (Constant.GENDER_FEMALE.equals(customer.getGender())) {
             radioGroup.check(R.id.rb_female);
-        } else if (Constant.GENDER_MALE.equals(customer.getGender())){
+        } else if (Constant.GENDER_MALE.equals(customer.getGender())) {
             radioGroup.check(R.id.rb_male);
-        } else if (Constant.GENDER_SECRECY.equals(customer.getGender())){
+        } else if (Constant.GENDER_SECRECY.equals(customer.getGender())) {
             radioGroup.check(R.id.rb_secrecy);
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -311,20 +341,27 @@ public class UserInfoActivity extends BaseActivity {
         mDialog.show();
     }
 
-    private void updateUserInfo(final  LoginWithInfoBean.DataBean.CustomerBean customer){
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.updateCustomer(AccountHelper.getToken(),customer, new Api.BaseViewCallback<UpdateCustomerBean>() {
-                @Override
-                public void setData(UpdateCustomerBean updateCustomerBean) {
-                    Toast.makeText(UserInfoActivity.this,"用户信息保存成功",Toast.LENGTH_SHORT).show();
-                    setUserData(customer);
-                    AccountHelper.updateCustomer(customer);
-                    UserInfoActivity.this.finish();
-                    Log.d(TAG, "updateData:updateUserInfo success");
+    private void updateUserInfo(final LoginWithInfoBean.DataBean.CustomerBean customer) {
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean normalBean) {
+                if (normalBean.getStatus() == 200) {
+                    Api.updateCustomer(AccountHelper.getToken(), customer, new Api.BaseViewCallback<UpdateCustomerBean>() {
+                        @Override
+                        public void setData(UpdateCustomerBean updateCustomerBean) {
+                            Toast.makeText(UserInfoActivity.this, "用户信息保存成功", Toast.LENGTH_SHORT).show();
+                            setUserData(customer);
+                            AccountHelper.updateCustomer(customer);
+                            UserInfoActivity.this.finish();
+                            Log.d(TAG, "updateData:updateUserInfo success");
+                        }
+                    });
+                }else {
+                    BaseApplication.showToast("token验证失败请重新登陆");
+                    startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));
+                    finish();
                 }
-            });
-        }else{
-            BaseApplication.showToast("登录超期");
-        }
+            }
+        });
     }
 }

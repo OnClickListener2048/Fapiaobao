@@ -191,11 +191,34 @@
             android:layout_marginLeft="@dimen/d10"
             android:layout_marginRight="@dimen/d10"
             android:background="@color/gray_line" />
+
+        <RelativeLayout
+            android:padding="@dimen/d15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信绑定"/>
+            <TextView
+                android:id="@+id/tv_wx"
+                android:textColor="@color/main_style"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="去绑定"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d1"
+            android:layout_marginLeft="@dimen/d10"
+            android:layout_marginRight="@dimen/d10"
+            android:background="@color/gray_line" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_save"
-        android:text="@string/submit"
+        android:text="@string/save"
         android:layout_alignParentBottom="true"
         android:textColor="@color/white"
         android:layout_margin="@dimen/d15"

@@ -378,30 +378,6 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         }
     }
 
-    //    public void uploadInvoice(Uri uri){
-////        Bitmap bmp = BitmapFactory.decodeFile(uri);
-//        ContentResolver cr = mContext.getContentResolver();
-//        Bitmap  bmp = null;
-//        try {
-//            bmp = MediaStore.Images.Media.getBitmap(cr,uri);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        String bmpStr =BitmapUtils.bitmapToBase64(bmp);
-//        Log.d(TAG, "initData:uploadInvoice bmpStr"+bmpStr);
-//
-//        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
-//        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-//            Api.uploadInvoice(AccountHelper.getToken(),bmpStr,new Api.BaseViewCallback<NormalBean>() {
-//                @Override
-//                public void setData(NormalBean normalBean) {
-//                    if(normalBean.getStatus() == REQUEST_SUCCESS){
-//                        Log.d(TAG, "uploadInvoice"+"success");
-//                    }
-//                }
-//            });
-//        }
-//    }
 
     private void myInvoiceList(){
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {

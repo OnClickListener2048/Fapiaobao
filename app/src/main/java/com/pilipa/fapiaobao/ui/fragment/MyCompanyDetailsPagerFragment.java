@@ -109,13 +109,13 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
         ImageView img_qr_code1 = (ImageView) view.findViewById(R.id.img_qr_code1);
         LinearLayout ll_qr_code2 = (LinearLayout) view.findViewById(R.id.ll_qr_code2);
 
-//        if(companyId.equals("1")){
-//            ll_qr_code2.setVisibility(View.VISIBLE);
-//            img_qr_code1.setVisibility(View.GONE);
-//        }else{
-//            img_qr_code1.setVisibility(View.VISIBLE);
-//            ll_qr_code2.setVisibility(View.GONE);
-//        }
+        if(false){
+            ll_qr_code2.setVisibility(View.VISIBLE);
+            img_qr_code1.setVisibility(View.GONE);
+        }else{
+            img_qr_code1.setVisibility(View.VISIBLE);
+            ll_qr_code2.setVisibility(View.GONE);
+        }
 
     }
 
@@ -126,9 +126,10 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
                 setDialog();
                 break;
             case R.id.img_details_viewpager_delete:
+                Toast.makeText(getActivity(), "點擊刪除", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.img_details_viewpager_next:
-
+                Toast.makeText(getActivity(), "點擊下一個", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
