@@ -11,7 +11,6 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
-import com.pilipa.fapiaobao.net.bean.me.NegativeCreditInfoBean;
 import com.pilipa.fapiaobao.ui.widget.ColorArcProgressBar;
 
 import butterknife.Bind;
@@ -40,7 +39,7 @@ public class CreditRatingActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_creditHistory:{
-                startActivity(new Intent(this,NegetiveActivity.class));
+                startActivity(new Intent(this,CreditHistoryActivity.class));
             }break;
             case R.id.details_back:{
                 finish();
@@ -62,8 +61,6 @@ public class CreditRatingActivity extends BaseActivity {
     @Override
     public void initData() {
         findCreditInfo();
-        findCreditHistory("0","10");
-        findCreditNegativeHistory("0","10");
     }
 
     @Override
@@ -78,35 +75,19 @@ public class CreditRatingActivity extends BaseActivity {
                     if(creditInfoBean.getStatus() == REQUEST_SUCCESS){
                         float rating = creditInfoBean.getData().getRanking();
                         colorArcProgressBar.setCurrentValues(rating);
+                        int lastCreditScore = creditInfoBean.getData().getLastCreditScore();
+                        if(lastCreditScore >= 0){
+                            tvLastChange.setText("+"+lastCreditScore+"");
+                        }else{
+                            tvLastChange.setText(lastCreditScore+"");
+                        }
                         Log.d(TAG, "findCreditInfo"+rating);
                     }
                 }
             });
         }
     }
-    public void findCreditHistory(String pageNo,String pageSize){
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.findCreditHistory(AccountHelper.getToken(),pageNo,pageSize,new Api.BaseViewCallback<NegativeCreditInfoBean>() {
-                @Override
-                public void setData(NegativeCreditInfoBean companiesBean) {
-                    if(companiesBean.getStatus() == REQUEST_SUCCESS){
-                        Log.d(TAG, "findCreditHistory"+"");
-                    }
-                }
-            });
-        }
-    }
-    public void findCreditNegativeHistory(String pageNo,String pageSize){
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.findCreditNegativeHistory(AccountHelper.getToken(),pageNo,pageSize,new Api.BaseViewCallback<NegativeCreditInfoBean>() {
-                @Override
-                public void setData(NegativeCreditInfoBean companiesBean) {
-                    if(companiesBean.getStatus() == REQUEST_SUCCESS){
-                        Log.d(TAG, "findCreditNegativeHistory"+"");
-                    }
-                }
-            });
-        }
-    }
+
+
 
 }

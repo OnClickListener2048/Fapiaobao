@@ -17,8 +17,9 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
-import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
+import com.pilipa.fapiaobao.net.bean.me.AmountHistoryBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -32,6 +33,8 @@ import butterknife.OnClick;
 public class RechargeDetailsActivity extends BaseActivity {
     @Bind(R.id.listview)
     ListView listview;
+    private List<AmountHistoryBean.DataBean> mData = new ArrayList<>();
+    private RechargeDetailsAdapter mAdapter;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_rechange_details;
@@ -49,12 +52,13 @@ public class RechargeDetailsActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        listview.setAdapter(new RechargeDetailsAdapter(this));
+        mAdapter = new RechargeDetailsAdapter(this);
+        listview.setAdapter(mAdapter);
     }
 
     @Override
     public void initData() {
-
+        amountHistory("0","10");
     }
 
     @Override
@@ -63,22 +67,44 @@ public class RechargeDetailsActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
+    private void amountHistory(final String pageNo,final String pageSize) {
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean normalBean) {
+                if (normalBean.getStatus() == 200) {
+                    Api.amountHistory(AccountHelper.getToken(),pageNo,pageSize, new Api.BaseViewCallback<AmountHistoryBean>() {
+                        @Override
+                        public void setData(AmountHistoryBean amountHistoryBean) {
+                            mData.addAll(amountHistoryBean.getData());
+                            mAdapter.addData(mData);
+                            Log.d("", "initData:amountHistory success");
+                        }
+                    });
+                }else {
+                    BaseApplication.showToast("token验证失败请重新登陆");
+                    startActivity(new Intent(RechargeDetailsActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        });
+    }
     class RechargeDetailsAdapter extends BaseAdapter {
-        List list;
         private Context mContext = null;
         private List<?> mMarkerData = null;
         public RechargeDetailsAdapter(Context context)
         {
             mContext = context;
+            mMarkerData = new ArrayList<>();
         }
         @Override
         public int getCount() {
-            return 8;
+            return mMarkerData.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return mMarkerData.get(position);
         }
 
         @Override
@@ -94,47 +120,37 @@ public class RechargeDetailsActivity extends BaseActivity {
                 viewHolder = new ViewHolder();
                 LayoutInflater mInflater = LayoutInflater.from(mContext);
                 convertView = mInflater.inflate(R.layout.item_recharge_details, null);
-//                viewHolder.tvAmountOffered =(TextView) convertView.findViewById(R.id.tv_amount_offered);
+                viewHolder.tvAmountOffered =(TextView) convertView.findViewById(R.id.tv_amount_offered);
+                viewHolder.title =(TextView) convertView.findViewById(R.id.title);
+                viewHolder.createDate =(TextView) convertView.findViewById(R.id.createDate);
+                viewHolder.subTitle =(TextView) convertView.findViewById(R.id.subTitle);
                 convertView.setTag(viewHolder);
             }
             else
             {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-//            viewHolder.tvAmountOffered.setText("200");
-
+            AmountHistoryBean.DataBean bean =(AmountHistoryBean.DataBean)mMarkerData.get(position);
+            if(bean.getFee() >= (double) 0){
+                viewHolder.tvAmountOffered.setText("+"+bean.getFee());
+            }else{
+                viewHolder.tvAmountOffered.setText(bean.getFee()+"");
+            }
+            viewHolder.title.setText(bean.getTitle());
+            viewHolder.createDate.setText(bean.getCreateDate());
+            viewHolder.subTitle.setText(bean.getSubTitle());
+            
             return convertView;
         }
 
         public void addData(List list) {
-            if (list==null) {
-                this.list.addAll(list);
-            }
-
+            mMarkerData.addAll(list);
             notifyDataSetChanged();
         }
         private  class ViewHolder
         {
-            TextView tvAmountOffered;
+            TextView tvAmountOffered,title,createDate,subTitle;
         }
     }
-    private void amountHistory(final LoginWithInfoBean.DataBean.CustomerBean customer) {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean normalBean) {
-                if (normalBean.getStatus() == 200) {
-                    Api.amountHistory(AccountHelper.getToken(), new Api.BaseViewCallback<UpdateCustomerBean>() {
-                        @Override
-                        public void setData(UpdateCustomerBean updateCustomerBean) {
-                            Log.d("", "initData:amountHistory success");
-                        }
-                    });
-                }else {
-                    BaseApplication.showToast("token验证失败请重新登陆");
-                    startActivity(new Intent(RechargeDetailsActivity.this, LoginActivity.class));
-                    finish();
-                }
-            }
-        });
-    }
+
 }

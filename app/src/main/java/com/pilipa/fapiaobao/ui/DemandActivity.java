@@ -1,9 +1,8 @@
 package com.pilipa.fapiaobao.ui;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -31,20 +30,17 @@ import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.HorizontalListView;
-import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 import static com.pilipa.fapiaobao.R.id.btn_shut_down_early;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
@@ -112,8 +108,6 @@ public class DemandActivity extends BaseActivity {
     ImageView img_state;
     @Bind(R.id.tv_receive)
     TextView tv_receive;
-    @Bind(R.id.tv_low_limit)
-    TextView tv_low_limit;
     @Bind(R.id.horizontalListView)
     HorizontalListView horizontalListView;
     @Bind(R.id.ll_receiptlist)
@@ -126,6 +120,8 @@ public class DemandActivity extends BaseActivity {
     TextView tv_num_2;
     @Bind(R.id.tv_num_3)
     TextView tv_num_3;
+    @Bind(R.id.qr)
+    ImageView qr;
 
     List<DemandDetails.DataBean.OrderInvoiceListBean> mDataList = new ArrayList<>();
     List<String> mList = new ArrayList<>();
@@ -142,7 +138,7 @@ public class DemandActivity extends BaseActivity {
     private DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment;
     private DemandsDetailsReceiptFragment3 paperElecReceiptFragment;
     private MyInvoiceNameAdapter invoiceNameAdapter;
-    ArrayList<Image> images_qualified = new ArrayList<>();
+    ArrayList<Image> images_qualified ;
     private Dialog mCameraDialog;
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
@@ -180,20 +176,13 @@ public class DemandActivity extends BaseActivity {
             }
             break;
             case R.id.tv_qualified_list: {
-                if (images_qualified.size() != 0) {
-                    startActivity(new Intent(DemandActivity.this, LoginActivity.class));
+                if (images_qualified!=null && images_qualified.size() != 0) {
+                    Intent intent = new Intent(DemandActivity.this, QualifiedInvoiceActivity.class);
+                    intent.putParcelableArrayListExtra("images_qualified",images_qualified);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(DemandActivity.this, "暂无确认合格发票", Toast.LENGTH_SHORT).show();
                 }
-            }
-            break;
-            case R.id.link_to_phone: {
-
-                callPhone();
-            }
-            break;
-            case R.id.link_to_telephone: {
-                callPhone();
             }
             break;
             case R.id.demand_back: {
@@ -255,6 +244,7 @@ public class DemandActivity extends BaseActivity {
             ArrayList<Image> images1 = new ArrayList<>();
             ArrayList<Image> images2 = new ArrayList<>();
             ArrayList<Image> images3 = new ArrayList<>();
+            images_qualified= new ArrayList<>();
             for (int i = 0; i < images.size(); i++) {
                 if (STATE_COMPETENT.equals(images.get(i).state)) {
                     images_qualified.add(images.get(i));//合格发票
@@ -322,16 +312,16 @@ public class DemandActivity extends BaseActivity {
                         mList.addAll(bean.getInvoiceNameList());
                         invoiceNameAdapter.initData(mList);
 
-                        tvBounsAmount.setText(bean.getDemand().getTotalBonus().setScale(1, BigDecimal.ROUND_HALF_UP) + "元");
-                        tvAmount.setText(bean.getDemand().getTotalAmount().setScale(1, BigDecimal.ROUND_HALF_UP) + "元");
-                        tvLeftAmount.setText(bean.getDemand().getLeftBonus().setScale(1, BigDecimal.ROUND_HALF_UP) + "");
-//                        tvPublishTime.setText("发布时间："+bean.getDemand().getDeadline());
+                        tvBounsAmount.setText(bean.getDemand().getTotalBonus()+ "元");
+                        tvAmount.setText(bean.getDemand().getTotalAmount()+ "元");
+                        tvLeftAmount.setText(bean.getDemand().getLeftBonus()+ "");
+                        tvPublishTime.setText("发布时间："+bean.getDemand().getPublishDate());
                         tvDeadline.setText("截止日期：" + bean.getDemand().getDeadline());
                         tvAttentions.setText("" + bean.getDemand().getAttentions());
-                        tv_receive.setText(bean.getReceivedAmount().setScale(1, BigDecimal.ROUND_HALF_UP) + "");
+                        tv_receive.setText(bean.getReceivedAmount()+ "");
                         String collected_amount = getResources().getString(R.string.collected_amount);
                         tvAlreadyCollected.setText(String.format(collected_amount, bean.getReceivedNum()));
-                        tv_low_limit.setText(bean.getDemand().getMailMinimum().setScale(1, BigDecimal.ROUND_HALF_UP) + "元");
+//                        tv_low_limit.setText(bean.getDemand().getMailMinimum()+ "元");
                         if (bean.getDemand().getDemandPostage() != null) {
                             tvAddress.setText(bean.getDemand().getDemandPostage().getAddress());
                             tvPhone.setText(bean.getDemand().getDemandPostage().getPhone());
@@ -345,6 +335,15 @@ public class DemandActivity extends BaseActivity {
                             bankAccount.setText(bean.getDemand().getCompany().getAccount());
                             bank.setText(bean.getDemand().getCompany().getDepositBank());
                             texNumber.setText(bean.getDemand().getCompany().getTaxno());
+
+                            try {
+                                Bitmap qrCode = CodeCreator.createQRCode(DemandActivity.this,bean.getDemand().getCompany().toString());
+                                qr.setImageBitmap(qrCode);
+                            } catch (Exception e) {
+                                BaseApplication.showToast("二维码生成失败");
+                                e.printStackTrace();
+                            }
+
                         }
                         //发票列表
                         mDataList.clear();
@@ -389,36 +388,6 @@ public class DemandActivity extends BaseActivity {
         });
     }
 
-    private void callPhone() {
-        Log.d(TAG, "callPhone:  RxPermissions request");
-
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.CALL_PHONE).subscribe(new Observer<Boolean>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(Boolean aBoolean) {
-                if (aBoolean) {
-                    Intent intent1 = new Intent(Intent.ACTION_CALL, Uri.parse("tel:400-8181800"));
-                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(intent1);
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
-    }
 
     private void setDialog() {
         mCameraDialog = new Dialog(DemandActivity.this, R.style.BottomDialog);

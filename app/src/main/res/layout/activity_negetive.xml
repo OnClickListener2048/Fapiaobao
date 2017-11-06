@@ -36,6 +36,7 @@
     </ListView>
     <LinearLayout
         android:id="@+id/ll_no_record"
+        android:visibility="gone"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/d100"
         android:layout_width="match_parent"

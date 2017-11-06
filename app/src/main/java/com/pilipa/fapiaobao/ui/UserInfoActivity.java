@@ -35,7 +35,11 @@ import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -50,6 +54,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+
+import static com.pilipa.fapiaobao.net.Constant.LOGIN_PLATFORM_WX;
 
 
 /**
@@ -98,7 +104,7 @@ public class UserInfoActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_wx:{//绑定微信
-
+                bindWX();
             }break;
             case R.id.btn_save: {
 
@@ -160,6 +166,8 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        regexToWX();
+
         mediaStoreCompat = new MediaStoreCompat(this);
         requestManager = Glide.with(this);
     }
@@ -271,7 +279,7 @@ public class UserInfoActivity extends BaseActivity {
         edtBirthday.setText(customer.getBirthday());
         edtUserName.setText(customer.getNickname());
         edtPhone.setText(customer.getTelephone());
-        if(true){
+        if(customer.getOpenid() == null){
             tv_wx.setText("去绑定");
             tv_wx.setOnClickListener(this);
         }else{
@@ -363,5 +371,43 @@ public class UserInfoActivity extends BaseActivity {
                 }
             }
         });
+    }
+    private void bindWX() {
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                if (loginWithInfoBean.getStatus() == 200) {
+                        if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
+
+                            Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX
+                                ,loginWithInfoBean.getData().getCustomer().getOpenid(), new Api.BaseViewCallback<UpdateCustomerBean>() {
+                            @Override
+                            public void setData(UpdateCustomerBean updateCustomerBean) {
+                                Log.d(TAG, "updateData:bindWX success");
+                                    tv_wx.setText("已绑定");
+                                    tv_wx.setOnClickListener(null);
+                            }
+                        });
+                    }else{
+                            weChatLogin();
+                    }
+                }else {
+                    BaseApplication.showToast("token验证失败请重新登陆");
+                    startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        });
+    }
+    private IWXAPI api;
+    private void regexToWX() {
+        api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
+        api.registerApp(Constants.APP_ID);
+    }
+    private void weChatLogin() {
+        SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "wechat_sdk_demo_test";
+        api.sendReq(req);
     }
 }

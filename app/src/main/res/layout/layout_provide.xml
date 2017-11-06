@@ -163,6 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/if_money_isnt_right"
+                android:visibility="gone"
                 android:textColor="@color/text_normal_item"
                 android:textSize="@dimen/s10" />
 
@@ -171,6 +172,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/upload_receipt"
+                android:visibility="gone"
                 android:textColor="@color/main_style"
                 android:textSize="@dimen/s10" />
         </LinearLayout>

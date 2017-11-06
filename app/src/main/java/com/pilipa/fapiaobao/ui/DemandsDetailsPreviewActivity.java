@@ -161,7 +161,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     public void initData() {
         mSpinnerAdapter = new MyRejectTypeAdapter(DemandsDetailsPreviewActivity.this);
         mSpinner.setAdapter(mSpinnerAdapter);
-        findAllRejectType();
     }
 
     public void setLayout(Image image) {
@@ -375,6 +374,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
         } else {
             layout_reject_item.setVisibility(View.VISIBLE);
             layout_willchecked_item.setVisibility(View.GONE);
+            findAllRejectType();
         }
     }
 

@@ -6,16 +6,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_tip_bg"
+        android:background="@mipmap/tip_bg"
         android:layout_margin="@dimen/d20"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/d10"
+            android:textColor="@color/white"
             android:text="寄送最低限额："/>
         <LinearLayout
             android:layout_marginLeft="@dimen/d30"
+            android:layout_marginRight="@dimen/d30"
             android:layout_marginTop="@dimen/d20"
             android:layout_below="@+id/thanks"
             android:layout_width="wrap_content"
@@ -25,6 +27,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/d10"
                 android:layout_marginRight="@dimen/d10"
+                android:textColor="@color/white"
+
                 android:text="每次快递所提供的发票总金额，应不低于此金额。否则，需方有权拒收。"/>
 
         </LinearLayout>
@@ -32,7 +36,7 @@
         <LinearLayout
             android:gravity="right"
             android:layout_marginRight="@dimen/d30"
-            android:layout_marginLeft="@dimen/d50"
+            android:layout_marginLeft="@dimen/d30"
             android:layout_marginTop="@dimen/d10"
             android:layout_marginBottom="@dimen/d20"
             android:layout_width="match_parent"
@@ -43,8 +47,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:textColor="@color/main_style"
                 android:text="我知道了"/>
         </LinearLayout>
     </LinearLayout>

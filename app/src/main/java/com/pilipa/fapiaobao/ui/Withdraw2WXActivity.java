@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mylibrary.utils.NetworkUtils;
 import com.pilipa.fapiaobao.R;
@@ -22,6 +23,8 @@ import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import java.math.BigDecimal;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,16 +44,21 @@ public class Withdraw2WXActivity extends BaseActivity {
     @Bind(R.id.withdraw_max)
     TextView withdraw_max;
     private Dialog mDialog;
-    private String amount;
+    private Dialog mTipDialog;
+    private String amount = "0";
     @Override
     protected int getLayoutId() {
         return R.layout.activity_withdraw_to_wx;
     }
 
-    @OnClick({R.id._back, R.id.btn_withdraw, R.id.withdraw_all})
+    @OnClick({R.id._back, R.id.btn_withdraw, R.id.withdraw_all,R.id.question})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.question: {
+                setTipDialog();
+            }
+            break;
             case R.id._back: {
                 finish();
             }
@@ -74,8 +82,9 @@ public class Withdraw2WXActivity extends BaseActivity {
     @Override
     public void initData() {
         amount = getIntent().getStringExtra("amount");
-        withdraw_max.setText(String.format(getResources().getString(R.string.withdraw_max),Double.parseDouble(amount)));
-        withdraw_current.setText(String.format(getResources().getString(R.string.withdraw_current),Double.parseDouble(amount)));
+        BigDecimal am = new BigDecimal(amount);
+        withdraw_max.setText("当前余额为"+am.setScale(1,BigDecimal.ROUND_HALF_UP)+"元,");
+        withdraw_current.setText("最大提现额度为"+am.setScale(1,BigDecimal.ROUND_HALF_UP)+"元");
     }
 
     @Override
@@ -84,51 +93,18 @@ public class Withdraw2WXActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-
-    private void setDialog() {
-        mDialog = new Dialog(this, R.style.BottomDialog);
+    private void setTipDialog() {
+        mTipDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_withdraw_tip, null);
-       TextView tv_bouns = (TextView)root.findViewById(R.id.tv_bouns);
-        tv_bouns.setText(amount);
-        //初始化视图
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                    @Override
-                    public void setData(LoginWithInfoBean loginWithInfoBean) {
-                        if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
-                            Api.withdaw(loginWithInfoBean.getData().getToken()
-                                    ,ACCOUNT_TYPE_WALLET
-                                    ,NetworkUtils.getIPAddress(true)
-                                    ,Double.parseDouble(tv_amount.getText().toString())
-                                    ,loginWithInfoBean.getData().getCustomer().getOpenid()
-                                    , new Api.BaseViewCallback<NormalBean>() {
-                                        @Override
-                                        public void setData(NormalBean normalBean) {
-                                            if (normalBean.getStatus() ==200) {
-                                                BaseApplication.showToast("提现成功");
-                                                finish();
-                                            }
-                                        }
-                                    });
-                        }else{
-                            weChatLogin();
-                        }
-                    }
-                });
-                mDialog.dismiss();
-            }
-        });
+                R.layout.layout_withdraw2wx_tip, null);
         root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialog.dismiss();
+                mTipDialog.dismiss();
             }
         });
-        mDialog.setContentView(root);
-        Window dialogWindow = mDialog.getWindow();
+        mTipDialog.setContentView(root);
+        Window dialogWindow = mTipDialog.getWindow();
         dialogWindow.setGravity(Gravity.CENTER);
 //        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
         WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
@@ -140,7 +116,71 @@ public class Withdraw2WXActivity extends BaseActivity {
 
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
-        mDialog.show();
+        mTipDialog.show();
+    }
+
+    private void setDialog() {
+        mDialog = new Dialog(this, R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+                R.layout.layout_withdraw_tip, null);
+       TextView tv_bouns = (TextView)root.findViewById(R.id.tv_bouns);
+        double amount  = Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ?"0":tv_amount.getText().toString().trim());
+        if(amount > (double)0){
+            tv_bouns.setText(amount+"");
+            //初始化视图
+            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                        @Override
+                        public void setData(LoginWithInfoBean loginWithInfoBean) {
+                            if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
+                                Api.withdaw(loginWithInfoBean.getData().getToken()
+                                        ,ACCOUNT_TYPE_WALLET
+                                        ,NetworkUtils.getIPAddress(true)
+                                        ,Double.parseDouble(tv_amount.getText().toString())
+                                        ,loginWithInfoBean.getData().getCustomer().getOpenid()
+                                        , new Api.BaseViewCallback<NormalBean>() {
+                                            @Override
+                                            public void setData(NormalBean normalBean) {
+                                                if (normalBean.getStatus() ==200) {
+                                                    BaseApplication.showToast("提现成功");
+                                                    finish();
+                                                }
+                                            }
+                                        });
+                            }else{
+                                weChatLogin();
+                            }
+                        }
+                    });
+                    mDialog.dismiss();
+                }
+            });
+            root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                }
+            });
+            mDialog.setContentView(root);
+            Window dialogWindow = mDialog.getWindow();
+            dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+            lp.x = 0; // 新位置X坐标
+            lp.y = 0; // 新位置Y坐标
+            lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+            root.measure(0, 0);
+            lp.height = root.getMeasuredHeight();
+
+            lp.alpha = 9f; // 透明度
+            dialogWindow.setAttributes(lp);
+            mDialog.show();
+        }else{
+            Toast.makeText(this,"提现金额不正确",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private IWXAPI api;

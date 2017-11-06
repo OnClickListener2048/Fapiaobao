@@ -3,15 +3,15 @@ package com.pilipa.fapiaobao.net.bean.me;
 import java.util.List;
 
 /**
- * Created by edz on 2017/10/29.
+ * Created by edz on 2017/11/6.
  */
 
-public class NegativeCreditInfoBean {
-
+public class CreditHistroyBean {
 
     /**
      * status : 200
      * msg : OK
+     * data : [{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"createDate":"2017-11-06 17:43:14","updateDate":"2017-11-06 17:43:18","customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false},"score":100,"type":"1"},{"id":"91f5fa30a8f64d62a6errreaaa14645d","isNewRecord":false,"remarks":"","createDate":"2017-11-06 17:43:14","updateDate":"2017-11-06 17:43:18","customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false},"score":-10,"type":"1"}]
      */
 
     private int status;
@@ -44,24 +44,24 @@ public class NegativeCreditInfoBean {
 
     public static class DataBean {
         /**
-         * id : 91f5fa30a8f64d62a6errreaaa14645d
+         * id : 91f5fa30a8f64d62a6bd17baaa14645d
          * isNewRecord : false
-         * remarks :
          * createDate : 2017-11-06 17:43:14
          * updateDate : 2017-11-06 17:43:18
          * customer : {"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false}
-         * score : -10
+         * score : 100
          * type : 1
+         * remarks :
          */
 
         private String id;
         private boolean isNewRecord;
-        private String remarks;
         private String createDate;
         private String updateDate;
         private CustomerBean customer;
         private int score;
         private String type;
+        private String remarks;
 
         public String getId() {
             return id;
@@ -77,14 +77,6 @@ public class NegativeCreditInfoBean {
 
         public void setIsNewRecord(boolean isNewRecord) {
             this.isNewRecord = isNewRecord;
-        }
-
-        public String getRemarks() {
-            return remarks;
-        }
-
-        public void setRemarks(String remarks) {
-            this.remarks = remarks;
         }
 
         public String getCreateDate() {
@@ -125,6 +117,14 @@ public class NegativeCreditInfoBean {
 
         public void setType(String type) {
             this.type = type;
+        }
+
+        public String getRemarks() {
+            return remarks;
+        }
+
+        public void setRemarks(String remarks) {
+            this.remarks = remarks;
         }
 
         public static class CustomerBean {

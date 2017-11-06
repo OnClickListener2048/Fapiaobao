@@ -60,7 +60,7 @@ public class Constant {
      */
 
     /*绑定第三方平台用户*/
-    public static final String BIND = BASE_URL + "customer/bind/%s";
+    public static final String BIND = BASE_URL + "customer/bind/%s/%s/%s";
     /*获取用户信用历史记录*/
     public static final String FIND_CREDIT_HISTORY = BASE_URL + "customer/findCreditHistory/%s/%s/%s";
     /*获取用户信用信息 */
@@ -198,7 +198,7 @@ public class Constant {
      */
     public static final String WX_RECHARGE = BASE_URL+"wxpay/recharge/%s/%s/%s";
     /*明细*/
-    public static final String AMOUNT_HISTORY = BASE_URL+"wxpay/amountHistory/%s";
+    public static final String AMOUNT_HISTORY = BASE_URL+"wxpay/amountHistory/%s/%s/%s";
     /*提现到余额*/
     public static final String RELOAD = BASE_URL+"wxpay/bonusToAccount/%s";
     /*提现*/

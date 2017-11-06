@@ -49,6 +49,7 @@ public class CreditInfoBean {
 
         private int ranking;
         private int creditLevel;
+        private int lastCreditScore;
 
         public int getRanking() {
             return ranking;
@@ -64,6 +65,14 @@ public class CreditInfoBean {
 
         public void setCreditLevel(int creditLevel) {
             this.creditLevel = creditLevel;
+        }
+
+        public int getLastCreditScore() {
+            return lastCreditScore;
+        }
+
+        public void setLastCreditScore(int lastCreditScore) {
+            this.lastCreditScore = lastCreditScore;
         }
     }
 }

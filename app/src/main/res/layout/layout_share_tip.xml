@@ -7,17 +7,8 @@
     android:layout_margin="@dimen/d20"
     android:padding="@dimen/d15">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/share_to"/>
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/layout_share_"></include>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/cancel"/>
 </LinearLayout>

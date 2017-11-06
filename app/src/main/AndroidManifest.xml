@@ -140,6 +140,8 @@
         <activity android:name=".ui.MessageCenterActivity" />
         <activity android:name=".ui.NegetiveActivity" />
         <activity android:name=".ui.Withdraw2WXActivity" />
+        <activity android:name=".ui.QualifiedInvoiceActivity" />
+        <activity android:name=".ui.CreditHistoryActivity" />
         <activity android:name=".ui.EstimateActivity">
         </activity>
 

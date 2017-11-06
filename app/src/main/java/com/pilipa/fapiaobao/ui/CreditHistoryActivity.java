@@ -15,7 +15,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.me.NegativeCreditInfoBean;
+import com.pilipa.fapiaobao.net.bean.me.CreditHistroyBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +29,11 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  * Created by wjn on 2017/10/23.
  */
 
-public class NegetiveActivity extends BaseActivity {
+public class CreditHistoryActivity extends BaseActivity {
     private static final String TAG = "NegetiveActivity";
 
+    @Bind(R.id.title)
+    TextView title;
     @Bind(R.id.listview)
     ListView listView;
     @Bind(R.id.ll_no_record)
@@ -61,26 +63,27 @@ public class NegetiveActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        findCreditNegativeHistory("0","10");
+        findCreditHistory("0","10");
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        title.setText("信用历史");
     }
-    public void findCreditNegativeHistory(String pageNo,String pageSize){
+    public void findCreditHistory(String pageNo,String pageSize){
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.findCreditNegativeHistory(AccountHelper.getToken(),pageNo,pageSize,new Api.BaseViewCallback<NegativeCreditInfoBean>() {
+            Api.findCreditHistory(AccountHelper.getToken(),pageNo,pageSize,new Api.BaseViewCallback<CreditHistroyBean>() {
                 @Override
-                public void setData(NegativeCreditInfoBean negativeCreditInfoBean) {
-                    if(negativeCreditInfoBean.getStatus() == REQUEST_SUCCESS){
-                        rechargeDetailsAdapter.addData(negativeCreditInfoBean.getData());
-                        if(negativeCreditInfoBean.getData().size() == 0){
+                public void setData(CreditHistroyBean creditHistroyBean) {
+                    if(creditHistroyBean.getStatus() == REQUEST_SUCCESS){
+                        rechargeDetailsAdapter.addData(creditHistroyBean.getData());
+                        if(creditHistroyBean.getData().size() == 0){
                             ll_no_record.setVisibility(View.VISIBLE);
                         }else{
                             ll_no_record.setVisibility(View.GONE);
                         }
-                        Log.d(TAG, "findCreditNegativeHistory"+"");
+                        Log.d(TAG, "findCreditHistory"+"");
                     }
                 }
             });
@@ -127,7 +130,7 @@ public class NegetiveActivity extends BaseActivity {
             {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            NegativeCreditInfoBean.DataBean bean =(NegativeCreditInfoBean.DataBean)mMarkerData.get(position);
+            CreditHistroyBean.DataBean bean =(CreditHistroyBean.DataBean)mMarkerData.get(position);
             if(bean.getScore() >= (double) 0){
                 viewHolder.tvAmountOffered.setText("+"+bean.getScore());
             }else{

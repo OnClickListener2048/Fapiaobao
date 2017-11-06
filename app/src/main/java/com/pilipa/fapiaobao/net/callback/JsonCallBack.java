@@ -1,7 +1,5 @@
 package com.pilipa.fapiaobao.net.callback;
 
-import android.app.ProgressDialog;
-
 import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;

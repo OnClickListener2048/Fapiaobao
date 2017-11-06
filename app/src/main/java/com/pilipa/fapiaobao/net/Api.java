@@ -23,8 +23,10 @@ import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
 import com.pilipa.fapiaobao.net.bean.invoice.UploadProcessing;
+import com.pilipa.fapiaobao.net.bean.me.AmountHistoryBean;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
+import com.pilipa.fapiaobao.net.bean.me.CreditHistroyBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
@@ -97,8 +99,8 @@ public class Api {
 
     static String TAG = "api";
 
-    public static void bindWX(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<LoginBean>get(String.format(BIND, token)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
+    public static void bindWX(String customerId,String platform,String code, final BaseViewCallback baseViewCallback) {
+        OkGo.<LoginBean>get(String.format(BIND, customerId,platform,code)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
             @Override
             public void onSuccess(Response<LoginBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -117,9 +119,9 @@ public class Api {
      * @param baseViewCallback
      */
     public static void findCreditHistory(String token, String pageNo, String pageSize, final BaseViewCallback baseViewCallback) {
-        OkGo.<NegativeCreditInfoBean>get(String.format(FIND_CREDIT_HISTORY, token, pageNo, pageSize)).execute(new JsonCallBack<NegativeCreditInfoBean>(NegativeCreditInfoBean.class) {
+        OkGo.<CreditHistroyBean>get(String.format(FIND_CREDIT_HISTORY, token, pageNo, pageSize)).execute(new JsonCallBack<CreditHistroyBean>(CreditHistroyBean.class) {
             @Override
-            public void onSuccess(Response<NegativeCreditInfoBean> response) {
+            public void onSuccess(Response<CreditHistroyBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }
@@ -682,13 +684,12 @@ public class Api {
             }
         });
     }
-    public static void amountHistory(String token, final BaseViewCallback b) {
-        String url = String.format(AMOUNT_HISTORY,token);
-        OkGo.<PrepayBean>get(url).execute(new JsonCallBack<PrepayBean>(PrepayBean.class) {
-
+    public static void amountHistory(String token,String pageNo,String pageSize, final BaseViewCallback b) {
+        String url = String.format(AMOUNT_HISTORY,token,pageNo,pageSize);
+        OkGo.<AmountHistoryBean>get(url).execute(new JsonCallBack<AmountHistoryBean>(AmountHistoryBean.class) {
             @Override
-            public void onSuccess(Response<PrepayBean> response) {
-                if (response.isSuccessful() && response.body().getStatus() == 200) {
+            public void onSuccess(Response<AmountHistoryBean> response) {
+                if (response.body().getStatus() == 200) {
                     b.setData(response.body());
                 }
             }
