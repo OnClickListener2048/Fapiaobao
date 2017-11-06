@@ -12,7 +12,7 @@ public class OrderDetailsBean {
     /**
      * status : 200
      * msg : OK
-     * data : {"invoiceType":{"id":"43f1faf2cfee4f508d02c36975dfa06d","isNewRecord":false,"remarks":"","createDate":"2017-10-29 12:28:39","updateDate":"2017-10-29 12:28:39","category":"4","name":"会议票","smallSize":"","middleSize":"/fapiaobao/userfiles/1/files/personal/invoiceType/2017/10/receipt_011.png","largeSize":"","frequentFlag":"1"},"invoiceList":[{"invoiceVariety":"纸质专票","invoiceList":[{"id":"a3119d5de6274aaa8babf0fc542a7ccc","isNewRecord":false,"createDate":"2017-11-01 13:46:11","updateDate":"2017-11-01 13:46:11","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","url":"http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"1"},{"id":"ba4517b1d7274665b7e0ede516948695","isNewRecord":false,"createDate":"2017-11-01 13:46:11","updateDate":"2017-11-01 13:46:11","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","url":"http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"3"}]},{"invoiceVariety":"电子普票","invoiceList":[{"id":"11bb1075d22d49e9a6f0bc417c138f14","isNewRecord":false,"createDate":"2017-11-01 13:47:51","updateDate":"2017-11-01 13:47:51","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","url":"http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"2"},{"id":"12eb0f73a4ff4cde811a30aa872c18ed","isNewRecord":false,"createDate":"2017-11-01 13:47:51","updateDate":"2017-11-01 13:47:51","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","url":"http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"3"},{"id":"fe2dc38a077646bb99e5c4b2b59510f2","isNewRecord":false,"createDate":"2017-11-01 13:47:51","updateDate":"2017-11-01 13:47:51","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","url":"http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"1"}]}],"invoiceCount":5,"bonus":1,"postage":{"id":"ad6d94be51cd49a09ebe562edc6ffd1c","isNewRecord":false,"receiver":"王大锤","telephone":"13612132927","phone":"022-8758469","province":"天津","city":"天津","district":"天津","address":"天津"},"company":{"id":"dfd0ac29b8a94d08a5619a4115279569","isNewRecord":false,"createDate":"2017-11-01 11:26:21","updateDate":"2017-11-01 11:26:21","customer":{"id":"98213a99b6c440e8982d2cd4e56f8584","isNewRecord":false},"name":"天津波康数码","taxno":"57568765828856","address":"天津和平","phone":"022-8758469","depositBank":"建设银行","account":"6825524665425853"},"orderState":"1","needMail":true}
+     * data : {"invoiceType":{"id":"43f1faf2cfee4f508d02c36975dfa06d","isNewRecord":false,"remarks":"","createDate":"2017-10-29 12:28:39","updateDate":"2017-10-29 12:28:39","category":"4","name":"会议费","smallSize":"","middleSize":"/fapiaobao/userfiles/1/files/personal/invoiceType/2017/10/receipt_011.png","largeSize":"","frequentFlag":"1"},"invoiceList":[{"id":"008fe4d840d7440eaa6e10f53e552c4b","isNewRecord":false,"createDate":"2017-11-06 10:32:17","updateDate":"2017-11-06 10:32:17","order":{"id":"97d1de9787b345b687fbf62c153c2f6a","isNewRecord":false},"demand":{"id":"a758b26e0ca34de4a3851cd1bfe54554","isNewRecord":false},"variety":"1","amount":500,"bonus":50,"url":"http://39.106.4.193/fapiaobao/upload/invoice/f270f1e2dc4645e6a9161deedc1e0d01.jpg","state":"1"}],"invoiceCount":1,"bonus":50,"postage":{"id":"47349c2a5648420e8b73b96d27f49b17","isNewRecord":false,"receiver":"string","telephone":"string","phone":"string","province":"string","city":"string","district":"string","address":"string","email":"string","logisticsCompany":"string"},"company":{"id":"55868770a8f140b5941031f954184cf0","isNewRecord":false,"createDate":"2017-11-01 12:11:42","updateDate":"2017-11-01 12:11:42","customer":{"id":"d2f885adde454362a754be7749d9ea8e","isNewRecord":false},"name":"string","taxno":"string","address":"string","phone":"string","depositBank":"string","account":"string","qrcode":"string"},"orderState":"1","needMail":false}
      */
 
     private int status;
@@ -45,24 +45,24 @@ public class OrderDetailsBean {
 
     public static class DataBean {
         /**
-         * invoiceType : {"id":"43f1faf2cfee4f508d02c36975dfa06d","isNewRecord":false,"remarks":"","createDate":"2017-10-29 12:28:39","updateDate":"2017-10-29 12:28:39","category":"4","name":"会议票","smallSize":"","middleSize":"/fapiaobao/userfiles/1/files/personal/invoiceType/2017/10/receipt_011.png","largeSize":"","frequentFlag":"1"}
-         * invoiceList : [{"invoiceVariety":"纸质专票","invoiceList":[{"id":"a3119d5de6274aaa8babf0fc542a7ccc","isNewRecord":false,"createDate":"2017-11-01 13:46:11","updateDate":"2017-11-01 13:46:11","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","url":"http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"1"},{"id":"ba4517b1d7274665b7e0ede516948695","isNewRecord":false,"createDate":"2017-11-01 13:46:11","updateDate":"2017-11-01 13:46:11","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","url":"http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"3"}]},{"invoiceVariety":"电子普票","invoiceList":[{"id":"11bb1075d22d49e9a6f0bc417c138f14","isNewRecord":false,"createDate":"2017-11-01 13:47:51","updateDate":"2017-11-01 13:47:51","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","url":"http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"2"},{"id":"12eb0f73a4ff4cde811a30aa872c18ed","isNewRecord":false,"createDate":"2017-11-01 13:47:51","updateDate":"2017-11-01 13:47:51","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","url":"http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"3"},{"id":"fe2dc38a077646bb99e5c4b2b59510f2","isNewRecord":false,"createDate":"2017-11-01 13:47:51","updateDate":"2017-11-01 13:47:51","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","url":"http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"1"}]}]
-         * invoiceCount : 5
-         * bonus : 1
-         * postage : {"id":"ad6d94be51cd49a09ebe562edc6ffd1c","isNewRecord":false,"receiver":"王大锤","telephone":"13612132927","phone":"022-8758469","province":"天津","city":"天津","district":"天津","address":"天津"}
-         * company : {"id":"dfd0ac29b8a94d08a5619a4115279569","isNewRecord":false,"createDate":"2017-11-01 11:26:21","updateDate":"2017-11-01 11:26:21","customer":{"id":"98213a99b6c440e8982d2cd4e56f8584","isNewRecord":false},"name":"天津波康数码","taxno":"57568765828856","address":"天津和平","phone":"022-8758469","depositBank":"建设银行","account":"6825524665425853"}
+         * invoiceType : {"id":"43f1faf2cfee4f508d02c36975dfa06d","isNewRecord":false,"remarks":"","createDate":"2017-10-29 12:28:39","updateDate":"2017-10-29 12:28:39","category":"4","name":"会议费","smallSize":"","middleSize":"/fapiaobao/userfiles/1/files/personal/invoiceType/2017/10/receipt_011.png","largeSize":"","frequentFlag":"1"}
+         * invoiceList : [{"id":"008fe4d840d7440eaa6e10f53e552c4b","isNewRecord":false,"createDate":"2017-11-06 10:32:17","updateDate":"2017-11-06 10:32:17","order":{"id":"97d1de9787b345b687fbf62c153c2f6a","isNewRecord":false},"demand":{"id":"a758b26e0ca34de4a3851cd1bfe54554","isNewRecord":false},"variety":"1","amount":500,"bonus":50,"url":"http://39.106.4.193/fapiaobao/upload/invoice/f270f1e2dc4645e6a9161deedc1e0d01.jpg","state":"1"}]
+         * invoiceCount : 1
+         * bonus : 50.0
+         * postage : {"id":"47349c2a5648420e8b73b96d27f49b17","isNewRecord":false,"receiver":"string","telephone":"string","phone":"string","province":"string","city":"string","district":"string","address":"string","email":"string","logisticsCompany":"string"}
+         * company : {"id":"55868770a8f140b5941031f954184cf0","isNewRecord":false,"createDate":"2017-11-01 12:11:42","updateDate":"2017-11-01 12:11:42","customer":{"id":"d2f885adde454362a754be7749d9ea8e","isNewRecord":false},"name":"string","taxno":"string","address":"string","phone":"string","depositBank":"string","account":"string","qrcode":"string"}
          * orderState : 1
-         * needMail : true
+         * needMail : false
          */
 
         private InvoiceTypeBean invoiceType;
         private int invoiceCount;
-        private int bonus;
+        private double bonus;
         private PostageBean postage;
         private CompanyBean company;
         private String orderState;
         private boolean needMail;
-        private List<InvoiceListBeanX> invoiceList;
+        private List<InvoiceListBean> invoiceList;
 
         public InvoiceTypeBean getInvoiceType() {
             return invoiceType;
@@ -80,11 +80,11 @@ public class OrderDetailsBean {
             this.invoiceCount = invoiceCount;
         }
 
-        public int getBonus() {
+        public double getBonus() {
             return bonus;
         }
 
-        public void setBonus(int bonus) {
+        public void setBonus(double bonus) {
             this.bonus = bonus;
         }
 
@@ -120,11 +120,11 @@ public class OrderDetailsBean {
             this.needMail = needMail;
         }
 
-        public List<InvoiceListBeanX> getInvoiceList() {
+        public List<InvoiceListBean> getInvoiceList() {
             return invoiceList;
         }
 
-        public void setInvoiceList(List<InvoiceListBeanX> invoiceList) {
+        public void setInvoiceList(List<InvoiceListBean> invoiceList) {
             this.invoiceList = invoiceList;
         }
 
@@ -136,7 +136,7 @@ public class OrderDetailsBean {
              * createDate : 2017-10-29 12:28:39
              * updateDate : 2017-10-29 12:28:39
              * category : 4
-             * name : 会议票
+             * name : 会议费
              * smallSize :
              * middleSize : /fapiaobao/userfiles/1/files/personal/invoiceType/2017/10/receipt_011.png
              * largeSize :
@@ -246,15 +246,17 @@ public class OrderDetailsBean {
 
         public static class PostageBean {
             /**
-             * id : ad6d94be51cd49a09ebe562edc6ffd1c
+             * id : 47349c2a5648420e8b73b96d27f49b17
              * isNewRecord : false
-             * receiver : 王大锤
-             * telephone : 13612132927
-             * phone : 022-8758469
-             * province : 天津
-             * city : 天津
-             * district : 天津
-             * address : 天津
+             * receiver : string
+             * telephone : string
+             * phone : string
+             * province : string
+             * city : string
+             * district : string
+             * address : string
+             * email : string
+             * logisticsCompany : string
              */
 
             private String id;
@@ -266,6 +268,8 @@ public class OrderDetailsBean {
             private String city;
             private String district;
             private String address;
+            private String email;
+            private String logisticsCompany;
 
             public String getId() {
                 return id;
@@ -338,21 +342,38 @@ public class OrderDetailsBean {
             public void setAddress(String address) {
                 this.address = address;
             }
+
+            public String getEmail() {
+                return email;
+            }
+
+            public void setEmail(String email) {
+                this.email = email;
+            }
+
+            public String getLogisticsCompany() {
+                return logisticsCompany;
+            }
+
+            public void setLogisticsCompany(String logisticsCompany) {
+                this.logisticsCompany = logisticsCompany;
+            }
         }
 
         public static class CompanyBean {
             /**
-             * id : dfd0ac29b8a94d08a5619a4115279569
+             * id : 55868770a8f140b5941031f954184cf0
              * isNewRecord : false
-             * createDate : 2017-11-01 11:26:21
-             * updateDate : 2017-11-01 11:26:21
-             * customer : {"id":"98213a99b6c440e8982d2cd4e56f8584","isNewRecord":false}
-             * name : 天津波康数码
-             * taxno : 57568765828856
-             * address : 天津和平
-             * phone : 022-8758469
-             * depositBank : 建设银行
-             * account : 6825524665425853
+             * createDate : 2017-11-01 12:11:42
+             * updateDate : 2017-11-01 12:11:42
+             * customer : {"id":"d2f885adde454362a754be7749d9ea8e","isNewRecord":false}
+             * name : string
+             * taxno : string
+             * address : string
+             * phone : string
+             * depositBank : string
+             * account : string
+             * qrcode : string
              */
 
             private String id;
@@ -366,6 +387,7 @@ public class OrderDetailsBean {
             private String phone;
             private String depositBank;
             private String account;
+            private String qrcode;
 
             public String getId() {
                 return id;
@@ -455,9 +477,17 @@ public class OrderDetailsBean {
                 this.account = account;
             }
 
+            public String getQrcode() {
+                return qrcode;
+            }
+
+            public void setQrcode(String qrcode) {
+                this.qrcode = qrcode;
+            }
+
             public static class CustomerBean {
                 /**
-                 * id : 98213a99b6c440e8982d2cd4e56f8584
+                 * id : d2f885adde454362a754be7749d9ea8e
                  * isNewRecord : false
                  */
 
@@ -482,53 +512,129 @@ public class OrderDetailsBean {
             }
         }
 
-        public static class InvoiceListBeanX {
+        public static class InvoiceListBean {
             /**
-             * invoiceVariety : 纸质专票
-             * invoiceList : [{"id":"a3119d5de6274aaa8babf0fc542a7ccc","isNewRecord":false,"createDate":"2017-11-01 13:46:11","updateDate":"2017-11-01 13:46:11","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","url":"http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"1"},{"id":"ba4517b1d7274665b7e0ede516948695","isNewRecord":false,"createDate":"2017-11-01 13:46:11","updateDate":"2017-11-01 13:46:11","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","url":"http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"3"}]
+             * id : 008fe4d840d7440eaa6e10f53e552c4b
+             * isNewRecord : false
+             * createDate : 2017-11-06 10:32:17
+             * updateDate : 2017-11-06 10:32:17
+             * order : {"id":"97d1de9787b345b687fbf62c153c2f6a","isNewRecord":false}
+             * demand : {"id":"a758b26e0ca34de4a3851cd1bfe54554","isNewRecord":false}
+             * variety : 1
+             * amount : 500.0
+             * bonus : 50.0
+             * url : http://39.106.4.193/fapiaobao/upload/invoice/f270f1e2dc4645e6a9161deedc1e0d01.jpg
+             * state : 1
              */
 
-            private String invoiceVariety;
-            private List<InvoiceListBean> invoiceList;
+            private String id;
+            private boolean isNewRecord;
+            private String createDate;
+            private String updateDate;
+            private OrderBean order;
+            private DemandBean demand;
+            private String variety;
+            private double amount;
+            private double bonus;
+            private String url;
+            private String state;
 
-            public String getInvoiceVariety() {
-                return invoiceVariety;
+            public String getId() {
+                return id;
             }
 
-            public void setInvoiceVariety(String invoiceVariety) {
-                this.invoiceVariety = invoiceVariety;
+            public void setId(String id) {
+                this.id = id;
             }
 
-            public List<InvoiceListBean> getInvoiceList() {
-                return invoiceList;
+            public boolean isIsNewRecord() {
+                return isNewRecord;
             }
 
-            public void setInvoiceList(List<InvoiceListBean> invoiceList) {
-                this.invoiceList = invoiceList;
+            public void setIsNewRecord(boolean isNewRecord) {
+                this.isNewRecord = isNewRecord;
             }
 
-            public static class InvoiceListBean {
+            public String getCreateDate() {
+                return createDate;
+            }
+
+            public void setCreateDate(String createDate) {
+                this.createDate = createDate;
+            }
+
+            public String getUpdateDate() {
+                return updateDate;
+            }
+
+            public void setUpdateDate(String updateDate) {
+                this.updateDate = updateDate;
+            }
+
+            public OrderBean getOrder() {
+                return order;
+            }
+
+            public void setOrder(OrderBean order) {
+                this.order = order;
+            }
+
+            public DemandBean getDemand() {
+                return demand;
+            }
+
+            public void setDemand(DemandBean demand) {
+                this.demand = demand;
+            }
+
+            public String getVariety() {
+                return variety;
+            }
+
+            public void setVariety(String variety) {
+                this.variety = variety;
+            }
+
+            public double getAmount() {
+                return amount;
+            }
+
+            public void setAmount(double amount) {
+                this.amount = amount;
+            }
+
+            public double getBonus() {
+                return bonus;
+            }
+
+            public void setBonus(double bonus) {
+                this.bonus = bonus;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+
+            public String getState() {
+                return state;
+            }
+
+            public void setState(String state) {
+                this.state = state;
+            }
+
+            public static class OrderBean {
                 /**
-                 * id : a3119d5de6274aaa8babf0fc542a7ccc
+                 * id : 97d1de9787b345b687fbf62c153c2f6a
                  * isNewRecord : false
-                 * createDate : 2017-11-01 13:46:11
-                 * updateDate : 2017-11-01 13:46:11
-                 * order : {"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false}
-                 * demand : {"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false}
-                 * variety : 2
-                 * url : http://192.168.1.205:8181/fapiaobao/uploadhttps://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg
-                 * state : 1
                  */
 
                 private String id;
                 private boolean isNewRecord;
-                private String createDate;
-                private String updateDate;
-                private OrderBean order;
-                private DemandBean demand;
-                private String variety;
-                private String url;
-                private String state;
 
                 public String getId() {
                     return id;
@@ -545,113 +651,31 @@ public class OrderDetailsBean {
                 public void setIsNewRecord(boolean isNewRecord) {
                     this.isNewRecord = isNewRecord;
                 }
+            }
 
-                public String getCreateDate() {
-                    return createDate;
+            public static class DemandBean {
+                /**
+                 * id : a758b26e0ca34de4a3851cd1bfe54554
+                 * isNewRecord : false
+                 */
+
+                private String id;
+                private boolean isNewRecord;
+
+                public String getId() {
+                    return id;
                 }
 
-                public void setCreateDate(String createDate) {
-                    this.createDate = createDate;
+                public void setId(String id) {
+                    this.id = id;
                 }
 
-                public String getUpdateDate() {
-                    return updateDate;
+                public boolean isIsNewRecord() {
+                    return isNewRecord;
                 }
 
-                public void setUpdateDate(String updateDate) {
-                    this.updateDate = updateDate;
-                }
-
-                public OrderBean getOrder() {
-                    return order;
-                }
-
-                public void setOrder(OrderBean order) {
-                    this.order = order;
-                }
-
-                public DemandBean getDemand() {
-                    return demand;
-                }
-
-                public void setDemand(DemandBean demand) {
-                    this.demand = demand;
-                }
-
-                public String getVariety() {
-                    return variety;
-                }
-
-                public void setVariety(String variety) {
-                    this.variety = variety;
-                }
-
-                public String getUrl() {
-                    return url;
-                }
-
-                public void setUrl(String url) {
-                    this.url = url;
-                }
-
-                public String getState() {
-                    return state;
-                }
-
-                public void setState(String state) {
-                    this.state = state;
-                }
-
-                public static class OrderBean {
-                    /**
-                     * id : 94dd9e0524544ea29c592912640ec3bd
-                     * isNewRecord : false
-                     */
-
-                    private String id;
-                    private boolean isNewRecord;
-
-                    public String getId() {
-                        return id;
-                    }
-
-                    public void setId(String id) {
-                        this.id = id;
-                    }
-
-                    public boolean isIsNewRecord() {
-                        return isNewRecord;
-                    }
-
-                    public void setIsNewRecord(boolean isNewRecord) {
-                        this.isNewRecord = isNewRecord;
-                    }
-                }
-
-                public static class DemandBean {
-                    /**
-                     * id : 3a89fd54d244485ca08b5c3b42401688
-                     * isNewRecord : false
-                     */
-
-                    private String id;
-                    private boolean isNewRecord;
-
-                    public String getId() {
-                        return id;
-                    }
-
-                    public void setId(String id) {
-                        this.id = id;
-                    }
-
-                    public boolean isIsNewRecord() {
-                        return isNewRecord;
-                    }
-
-                    public void setIsNewRecord(boolean isNewRecord) {
-                        this.isNewRecord = isNewRecord;
-                    }
+                public void setIsNewRecord(boolean isNewRecord) {
+                    this.isNewRecord = isNewRecord;
                 }
             }
         }

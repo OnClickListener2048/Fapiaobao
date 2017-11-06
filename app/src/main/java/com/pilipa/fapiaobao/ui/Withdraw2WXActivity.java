@@ -36,6 +36,10 @@ import static com.pilipa.fapiaobao.net.Constant.ACCOUNT_TYPE_WALLET;
 public class Withdraw2WXActivity extends BaseActivity {
     @Bind(R.id.amount)
     TextView tv_amount;
+    @Bind(R.id.withdraw_current)
+    TextView withdraw_current;
+    @Bind(R.id.withdraw_max)
+    TextView withdraw_max;
     private Dialog mDialog;
     private String amount;
     @Override
@@ -43,7 +47,7 @@ public class Withdraw2WXActivity extends BaseActivity {
         return R.layout.activity_withdraw_to_wx;
     }
 
-    @OnClick({R.id._back, R.id.btn_withdraw})
+    @OnClick({R.id._back, R.id.btn_withdraw, R.id.withdraw_all})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -53,6 +57,10 @@ public class Withdraw2WXActivity extends BaseActivity {
             break;
             case R.id.btn_withdraw: {
                 setDialog();
+            }
+            break;
+            case R.id.withdraw_all: {
+                tv_amount.setText(amount);
             }
             break;
         }
@@ -66,7 +74,8 @@ public class Withdraw2WXActivity extends BaseActivity {
     @Override
     public void initData() {
         amount = getIntent().getStringExtra("amount");
-        this.tv_amount.setText(amount);
+        withdraw_max.setText(String.format(getResources().getString(R.string.withdraw_max),Double.parseDouble(amount)));
+        withdraw_current.setText(String.format(getResources().getString(R.string.withdraw_current),Double.parseDouble(amount)));
     }
 
     @Override

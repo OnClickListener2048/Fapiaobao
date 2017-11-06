@@ -29,12 +29,7 @@ public class Image implements Parcelable {
 
 
     protected Image(Parcel in) {
-        from = in.readString();
         id = in.readString();
-        logisticsTradeno = in.readString();
-        logisticsCompany = in.readString();
-        variety = in.readString();
-        state = in.readString();
         path = in.readString();
         name = in.readString();
         position = in.readInt();
@@ -47,6 +42,7 @@ public class Image implements Parcelable {
         logisticsTradeno = in.readString();
         uri = in.readParcelable(Uri.class.getClassLoader());
         amount = in.readString();
+        from = in.readString();
     }
 
     public static final Creator<Image> CREATOR = new Creator<Image>() {
@@ -68,7 +64,6 @@ public class Image implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(from);
         dest.writeString(id);
         dest.writeString(path);
         dest.writeString(name);
@@ -82,5 +77,6 @@ public class Image implements Parcelable {
         dest.writeString(logisticsTradeno);
         dest.writeParcelable(uri, flags);
         dest.writeString(amount);
+        dest.writeString(from);
     }
 }

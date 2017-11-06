@@ -63,8 +63,9 @@ public class MyReceiptAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         OrderListBean.DataBean bean =(OrderListBean.DataBean) mMarkerData.get(position);
-
-        viewHolder.tvReceipttype.setText(bean.getInvoiceType().getName());
+        if(bean.getInvoiceType()!=null){
+            viewHolder.tvReceipttype.setText(bean.getInvoiceType().getName());
+        }
         viewHolder.tvReceiveBouns.setText(bean.getBonus()+"");
         viewHolder.tvAmountOffered.setText(bean.getAmount()+"");
 

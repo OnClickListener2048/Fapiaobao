@@ -233,9 +233,7 @@ public class DemandActivity extends BaseActivity {
         if (results.size() == 0) {
             ll_no_record.setVisibility(View.VISIBLE);
             ll_receiptlist.setVisibility(View.GONE);
-            ll_receiptlist.setVisibility(View.GONE);
         } else {
-            ll_no_record.setVisibility(View.GONE);
             ll_no_record.setVisibility(View.GONE);
             ll_receiptlist.setVisibility(View.VISIBLE);
             images = new ArrayList<>();
@@ -324,16 +322,16 @@ public class DemandActivity extends BaseActivity {
                         mList.addAll(bean.getInvoiceNameList());
                         invoiceNameAdapter.initData(mList);
 
-                        tvBounsAmount.setText(bean.getDemand().getTotalBonus().setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
-                        tvAmount.setText(bean.getDemand().getTotalAmount().setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
-                        tvLeftAmount.setText(bean.getDemand().getLeftBonus().setScale(2, BigDecimal.ROUND_HALF_UP) + "");
+                        tvBounsAmount.setText(bean.getDemand().getTotalBonus().setScale(1, BigDecimal.ROUND_HALF_UP) + "元");
+                        tvAmount.setText(bean.getDemand().getTotalAmount().setScale(1, BigDecimal.ROUND_HALF_UP) + "元");
+                        tvLeftAmount.setText(bean.getDemand().getLeftBonus().setScale(1, BigDecimal.ROUND_HALF_UP) + "");
 //                        tvPublishTime.setText("发布时间："+bean.getDemand().getDeadline());
                         tvDeadline.setText("截止日期：" + bean.getDemand().getDeadline());
                         tvAttentions.setText("" + bean.getDemand().getAttentions());
-                        tv_receive.setText(bean.getReceivedAmount().setScale(2, BigDecimal.ROUND_HALF_UP) + "");
+                        tv_receive.setText(bean.getReceivedAmount().setScale(1, BigDecimal.ROUND_HALF_UP) + "");
                         String collected_amount = getResources().getString(R.string.collected_amount);
                         tvAlreadyCollected.setText(String.format(collected_amount, bean.getReceivedNum()));
-                        tv_low_limit.setText(bean.getDemand().getMailMinimum().setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
+                        tv_low_limit.setText(bean.getDemand().getMailMinimum().setScale(1, BigDecimal.ROUND_HALF_UP) + "元");
                         if (bean.getDemand().getDemandPostage() != null) {
                             tvAddress.setText(bean.getDemand().getDemandPostage().getAddress());
                             tvPhone.setText(bean.getDemand().getDemandPostage().getPhone());

@@ -103,7 +103,10 @@ public class ProvidedActivity extends BaseActivity {
     TextView bank;
     @Bind(R.id.tv_low_limit)
     TextView tv_low_limit;
-
+    @Bind(R.id.ll_receiptlist)
+    LinearLayout ll_receiptlist;
+    @Bind(R.id.ll_no_record)
+    LinearLayout ll_no_record;
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
     public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
     public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
@@ -113,7 +116,7 @@ public class ProvidedActivity extends BaseActivity {
     private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
     private DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment;
     private DemandsDetailsReceiptFragment3 paperElecReceiptFragment;
-    List<OrderDetailsBean.DataBean.InvoiceListBeanX> mDataList = new ArrayList<>();
+    List<OrderDetailsBean.DataBean.InvoiceListBean> mDataList = new ArrayList<>();
 
     private static final int REQUEST_CODE_SCAN = 0x0000;
     @Bind(R.id.translate_details)
@@ -218,52 +221,52 @@ public class ProvidedActivity extends BaseActivity {
         });
     }
 
-    private void setUpData(List<OrderDetailsBean.DataBean.InvoiceListBeanX> results) {
+    private void setUpData(List<OrderDetailsBean.DataBean.InvoiceListBean> results) {
         Log.d(TAG, "setUpData:   private void setUpData(ArrayList<model.ResultsBean> body) {");
         images = new ArrayList<>();
-        //TODO 提供详情   后台数据结构需做调整
-        for (OrderDetailsBean.DataBean.InvoiceListBeanX result : results) {
-            Log.d(TAG, "setUpData:  for (model.ResultsBean result : body) {");
-            Image image = new Image();
-            image.isSelected = false;
-//            image.name = result.getId();
-//            image.path = result.getUrl();
-            image.path = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg";
-            image.position = -1;
-            image.isCapture = false;
-            image.isFromNet = true;
-//            image.state = result.getState();
-//            image.variety = result.getVariety();
-            image.state = "1";
-            image.variety = "2";
-            image.from = "provided";//来自提供详情 预览图片无样式
-            images.add(image);
-        }
-        ArrayList<Image> images1 =new ArrayList<>();
-        ArrayList<Image> images2 =new ArrayList<>();
-        ArrayList<Image> images3 =new ArrayList<>();
-        for (int i = 0; i <images.size() ; i++) {
-            if(VARIETY_GENERAL_PAPER.equals(images.get(i).variety)){
-                images1.add(images.get(i));
-            }else if(VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)){
-                images2.add(images.get(i));
-            }else if(VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)){
-                images3.add(images.get(i));
+            ll_receiptlist.setVisibility(View.VISIBLE);
+
+            for (OrderDetailsBean.DataBean.InvoiceListBean result : results) {
+                Log.d(TAG, "setUpData:  for (model.ResultsBean result : body) {");
+                Image image = new Image();
+                image.isSelected = false;
+                image.name = result.getId();
+                image.path = result.getUrl();
+                image.path = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg";
+                image.position = -1;
+                image.isCapture = false;
+                image.isFromNet = true;
+                image.state = result.getState();
+                image.variety = result.getVariety();
+                image.from = "provided";//来自提供详情 预览图片无样式
+                images.add(image);
             }
-        }
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
-        paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
-        addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
+            ArrayList<Image> images1 =new ArrayList<>();
+            ArrayList<Image> images2 =new ArrayList<>();
+            ArrayList<Image> images3 =new ArrayList<>();
+            for (int i = 0; i <images.size() ; i++) {
+                if(VARIETY_GENERAL_PAPER.equals(images.get(i).variety)){
+                    images1.add(images.get(i));
+                }else if(VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)){
+                    images2.add(images.get(i));
+                }else if(VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)){
+                    images3.add(images.get(i));
+                }
+            }
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
+            paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
+            addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
 
 
-        bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
-        paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
-        addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
+            bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
+            paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
+            addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
 
-        bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
-        paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
-        addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+            bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
+            paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
+            addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+
     }
 
     String CompanyId;
@@ -271,7 +274,7 @@ public class ProvidedActivity extends BaseActivity {
     @Override
     public void initData() {
         orderId = getIntent().getStringExtra("OrderId");
-        orderId ="94dd9e0524544ea29c592912640ec3bd";
+//        orderId ="94dd9e0524544ea29c592912640ec3bd";
         CompanyId = getIntent().getStringExtra("CompanyId");
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
         showOrderDetail(orderId);
@@ -351,7 +354,7 @@ public class ProvidedActivity extends BaseActivity {
                             tvPublishAddress.setText(bean.getPostage().getAddress());
                             tv_low_limit.setText(bean.getPostage().getDistrict());
                         }
-                        estimateMoney.setText(bean.getBonus() + "");
+                        estimateMoney.setText(bean.getBonus()+ "");
                         receiptNumber.setText(bean.getInvoiceCount() + "");
 //                            receiptMoney.setText();
 //                            continueToUpload.setText();

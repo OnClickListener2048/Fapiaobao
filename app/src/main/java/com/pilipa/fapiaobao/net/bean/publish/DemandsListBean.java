@@ -1,8 +1,5 @@
 package com.pilipa.fapiaobao.net.bean.publish;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.List;
 
 /**
@@ -11,10 +8,11 @@ import java.util.List;
 
 public class DemandsListBean {
 
+
     /**
      * status : 200
      * msg : OK
-     * data : [{"id":"b0b7dc32986c4d31a4e79b2a4c7ed7b6","isNewRecord":false,"remarks":"","createDate":"2017-10-29 19:44:27","updateDate":"2017-10-29 19:44:27","company":{"id":"e73859da2a4448069bd9f85887c890d2","isNewRecord":false,"name":"天津爱康鼎科技有限公司"},"customer":{"id":"6ee15c894b1a435d9c24025b324e17f7","isNewRecord":false},"demandPostage":{"id":"2a5535d08e1345bbae823dfefbb4f770","isNewRecord":false},"invoiceVarieties":"1","areaRestrict":"s","province":"saasd","city":"sdsa","deadline":"2017-10-29 00:00:00","totalAmount":1000,"leftAmount":10,"totalBonus":10,"leftBonus":1,"mailMinimum":10,"attentions":"1232131","state":"1","closeDate":"2017-10-29 00:00:00"},{"id":"b0b7dc32986c4d31a4e79b2a4c7ed7b7","isNewRecord":false,"remarks":"","createDate":"2017-10-29 19:44:27","updateDate":"2017-10-29 19:44:27","company":{"id":"e73859da2a4448069bd9f85887c890d2","isNewRecord":false,"name":"天津爱康鼎科技有限公司"},"customer":{"id":"6ee15c894b1a435d9c24025b324e17f7","isNewRecord":false},"demandPostage":{"id":"2a5535d08e1345bbae823dfefbb4f770","isNewRecord":false},"invoiceVarieties":"1","areaRestrict":"s","province":"saasd","city":"sdsa","deadline":"2017-10-29 00:00:00","totalAmount":1000,"leftAmount":10,"totalBonus":10,"leftBonus":1,"mailMinimum":10,"attentions":"1232131","state":"1","closeDate":"2017-10-29 00:00:00"},{"id":"b0b7dc32986c4d31a4e79b2a4c7ed7b9","isNewRecord":false,"remarks":"","createDate":"2017-10-29 19:44:27","updateDate":"2017-10-29 19:44:27","company":{"id":"e73859da2a4448069bd9f85887c890d2","isNewRecord":false,"name":"天津爱康鼎科技有限公司"},"customer":{"id":"6ee15c894b1a435d9c24025b324e17f7","isNewRecord":false},"demandPostage":{"id":"2a5535d08e1345bbae823dfefbb4f770","isNewRecord":false},"invoiceVarieties":"1","areaRestrict":"s","province":"saasd","city":"sdsa","deadline":"2017-10-29 00:00:00","totalAmount":1000,"leftAmount":10,"totalBonus":10,"leftBonus":1,"mailMinimum":10,"attentions":"1232131","state":"1","closeDate":"2017-10-29 00:00:00"}]
+     * data : [{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"createDate":"2017-11-01 12:17:44","updateDate":"2017-11-05 15:24:38","company":{"id":"fa5c505adc8b491a9b49cf3bd2a741ec","isNewRecord":false,"name":"string"},"customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false},"demandPostage":{"id":"552e5f9a40534afb968cec4259f62af3","isNewRecord":false},"invoiceVarieties":"1,2,3","areaRestrict":"1","province":"string","city":"天津市","deadline":"2018-11-16","totalAmount":1000,"leftAmount":311,"totalBonus":100,"leftBonus":31.1,"mailMinimum":0,"attentions":"请务必上传真实发票","state":"0","receivedAmount":689,"leftDate":374},{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false,"createDate":"2017-11-01 11:52:32","updateDate":"2017-11-01 11:52:32","company":{"id":"d56165d958724fa38185a15e81caa054","isNewRecord":false,"name":"string"},"customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false},"demandPostage":{"id":"1da7ae6e98df49ebb101340d470084e","isNewRecord":false},"invoiceVarieties":"1,2,3","areaRestrict":"1","province":"","city":"天津市","deadline":"2018-11-16","totalAmount":1000,"leftAmount":1010,"totalBonus":100,"leftBonus":110,"mailMinimum":0,"attentions":"放在门卫就行","state":"0","receivedAmount":-10,"leftDate":374},{"id":"6e398531b9374c4683eb94078eea96cf","isNewRecord":false,"createDate":"2017-11-01 11:43:50","updateDate":"2017-11-03 17:30:56","company":{"id":"d56165d958724fa38185a15e81caa054","isNewRecord":false,"name":"string"},"customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false},"demandPostage":{"id":"33d874dce5444ba3a94165d787275297","isNewRecord":false},"invoiceVarieties":"1,2,3","areaRestrict":"1","province":"string","city":"天津市","deadline":"2018-11-16","totalAmount":1000,"leftAmount":218,"totalBonus":100,"leftBonus":21.8,"mailMinimum":0,"attentions":"票要干净,不能折损","state":"0","receivedAmount":782,"leftDate":374}]
      */
 
     private int status;
@@ -45,34 +43,33 @@ public class DemandsListBean {
         this.data = data;
     }
 
-    public static class DataBean implements Parcelable{
+    public static class DataBean {
         /**
-         * id : b0b7dc32986c4d31a4e79b2a4c7ed7b6
+         * id : a4e62566ecda49cfb4e1434ab56f0d79
          * isNewRecord : false
-         * remarks :
-         * createDate : 2017-10-29 19:44:27
-         * updateDate : 2017-10-29 19:44:27
-         * company : {"id":"e73859da2a4448069bd9f85887c890d2","isNewRecord":false,"name":"天津爱康鼎科技有限公司"}
-         * customer : {"id":"6ee15c894b1a435d9c24025b324e17f7","isNewRecord":false}
-         * demandPostage : {"id":"2a5535d08e1345bbae823dfefbb4f770","isNewRecord":false}
-         * invoiceVarieties : 1
-         * areaRestrict : s
-         * province : saasd
-         * city : sdsa
-         * deadline : 2017-10-29 00:00:00
+         * createDate : 2017-11-01 12:17:44
+         * updateDate : 2017-11-05 15:24:38
+         * company : {"id":"fa5c505adc8b491a9b49cf3bd2a741ec","isNewRecord":false,"name":"string"}
+         * customer : {"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false}
+         * demandPostage : {"id":"552e5f9a40534afb968cec4259f62af3","isNewRecord":false}
+         * invoiceVarieties : 1,2,3
+         * areaRestrict : 1
+         * province : string
+         * city : 天津市
+         * deadline : 2018-11-16
          * totalAmount : 1000
-         * leftAmount : 10
-         * totalBonus : 10
-         * leftBonus : 1
-         * mailMinimum : 10
-         * attentions : 1232131
-         * state : 1
-         * closeDate : 2017-10-29 00:00:00
+         * leftAmount : 311
+         * totalBonus : 100
+         * leftBonus : 31.1
+         * mailMinimum : 0
+         * attentions : 请务必上传真实发票
+         * state : 0
+         * receivedAmount : 689
+         * leftDate : 374
          */
 
         private String id;
         private boolean isNewRecord;
-        private String remarks;
         private String createDate;
         private String updateDate;
         private CompanyBean company;
@@ -90,7 +87,8 @@ public class DemandsListBean {
         private double mailMinimum;
         private String attentions;
         private String state;
-        private String closeDate;
+        private double receivedAmount;
+        private int leftDate;
 
         public String getId() {
             return id;
@@ -106,14 +104,6 @@ public class DemandsListBean {
 
         public void setIsNewRecord(boolean isNewRecord) {
             this.isNewRecord = isNewRecord;
-        }
-
-        public String getRemarks() {
-            return remarks;
-        }
-
-        public void setRemarks(String remarks) {
-            this.remarks = remarks;
         }
 
         public String getCreateDate() {
@@ -252,29 +242,27 @@ public class DemandsListBean {
             this.state = state;
         }
 
-        public String getCloseDate() {
-            return closeDate;
+        public double getReceivedAmount() {
+            return receivedAmount;
         }
 
-        public void setCloseDate(String closeDate) {
-            this.closeDate = closeDate;
+        public void setReceivedAmount(double receivedAmount) {
+            this.receivedAmount = receivedAmount;
         }
 
-        @Override
-        public int describeContents() {
-            return 0;
+        public int getLeftDate() {
+            return leftDate;
         }
 
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-
+        public void setLeftDate(int leftDate) {
+            this.leftDate = leftDate;
         }
 
         public static class CompanyBean {
             /**
-             * id : e73859da2a4448069bd9f85887c890d2
+             * id : fa5c505adc8b491a9b49cf3bd2a741ec
              * isNewRecord : false
-             * name : 天津爱康鼎科技有限公司
+             * name : string
              */
 
             private String id;
@@ -308,7 +296,7 @@ public class DemandsListBean {
 
         public static class CustomerBean {
             /**
-             * id : 6ee15c894b1a435d9c24025b324e17f7
+             * id : 91f5fa30a8f64d62a6bd17baaa14645d
              * isNewRecord : false
              */
 
@@ -334,7 +322,7 @@ public class DemandsListBean {
 
         public static class DemandPostageBean {
             /**
-             * id : 2a5535d08e1345bbae823dfefbb4f770
+             * id : 552e5f9a40534afb968cec4259f62af3
              * isNewRecord : false
              */
 
