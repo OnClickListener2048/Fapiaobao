@@ -1,12 +1,15 @@
 package com.pilipa.fapiaobao.net.bean.me;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by edz on 2017/10/29.
  */
 
-public class CompaniesBean {
+public class CompaniesBean implements Parcelable{
 
     /**
      * status : 200
@@ -17,6 +20,23 @@ public class CompaniesBean {
     private int status;
     private String msg;
     private List<DataBean> data;
+
+    protected CompaniesBean(Parcel in) {
+        status = in.readInt();
+        msg = in.readString();
+    }
+
+    public static final Creator<CompaniesBean> CREATOR = new Creator<CompaniesBean>() {
+        @Override
+        public CompaniesBean createFromParcel(Parcel in) {
+            return new CompaniesBean(in);
+        }
+
+        @Override
+        public CompaniesBean[] newArray(int size) {
+            return new CompaniesBean[size];
+        }
+    };
 
     public int getStatus() {
         return status;
@@ -42,7 +62,18 @@ public class CompaniesBean {
         this.data = data;
     }
 
-    public static class DataBean  {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(status);
+        dest.writeString(msg);
+    }
+
+    public static class DataBean implements Parcelable {
         /**
          * id : 1d660812a99e4b439cdcb4ed9946b271
          * isNewRecord : false
@@ -72,6 +103,33 @@ public class CompaniesBean {
         private String account;
         private String qrcode;
         private String isDefault;
+
+        protected DataBean(Parcel in) {
+            id = in.readString();
+            isNewRecord = in.readByte() != 0;
+            createDate = in.readString();
+            updateDate = in.readString();
+            name = in.readString();
+            taxno = in.readString();
+            address = in.readString();
+            phone = in.readString();
+            depositBank = in.readString();
+            account = in.readString();
+            qrcode = in.readString();
+            isDefault = in.readString();
+        }
+
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel in) {
+                return new DataBean(in);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
 
         public String getId() {
             return id;
@@ -177,7 +235,28 @@ public class CompaniesBean {
             this.isDefault = isDefault;
         }
 
-        public static class CustomerBean {
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(id);
+            dest.writeByte((byte) (isNewRecord ? 1 : 0));
+            dest.writeString(createDate);
+            dest.writeString(updateDate);
+            dest.writeString(name);
+            dest.writeString(taxno);
+            dest.writeString(address);
+            dest.writeString(phone);
+            dest.writeString(depositBank);
+            dest.writeString(account);
+            dest.writeString(qrcode);
+            dest.writeString(isDefault);
+        }
+
+        public static class CustomerBean implements Parcelable{
             /**
              * id : 6ee15c894b1a435d9c24025b324e17f7
              * isNewRecord : false
@@ -185,6 +264,23 @@ public class CompaniesBean {
 
             private String id;
             private boolean isNewRecord;
+
+            protected CustomerBean(Parcel in) {
+                id = in.readString();
+                isNewRecord = in.readByte() != 0;
+            }
+
+            public static final Creator<CustomerBean> CREATOR = new Creator<CustomerBean>() {
+                @Override
+                public CustomerBean createFromParcel(Parcel in) {
+                    return new CustomerBean(in);
+                }
+
+                @Override
+                public CustomerBean[] newArray(int size) {
+                    return new CustomerBean[size];
+                }
+            };
 
             public String getId() {
                 return id;
@@ -200,6 +296,17 @@ public class CompaniesBean {
 
             public void setIsNewRecord(boolean isNewRecord) {
                 this.isNewRecord = isNewRecord;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(id);
+                dest.writeByte((byte) (isNewRecord ? 1 : 0));
             }
         }
     }

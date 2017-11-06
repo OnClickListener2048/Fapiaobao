@@ -59,7 +59,7 @@ public class AllInvoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             @Override
                             public void onLabelClick(View label, String labelText, int position) {
                                 onLabelClickListener.onLabelClick(invoiceTypeList.get(position).getId());
-                                Log.d(TAG, "onLabelClick: invoiceTypeList.get(position).getId()"+invoiceTypeList.get(position).getId());
+                                onLabelClickListener.onLabelNameClick(invoiceTypeList.get(position).getId(),invoiceTypeList.get(position).getName());
                             }
                         });
                     }
@@ -70,6 +70,8 @@ public class AllInvoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public interface OnLabelClickListener {
         void onLabelClick(String label);
+
+        void onLabelNameClick(String label, String name);
     }
 
     public void setOnLabelClickListener(OnLabelClickListener onLabelClickListener) {

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -68,6 +69,8 @@ public class UploadSuccessActivity extends BaseActivity {
     };
     private String demand;
     private UMShareAPI umShareAPI;
+    private String company_id;
+    private String order_id;
 
     @Override
     protected int getLayoutId() {
@@ -86,7 +89,10 @@ public class UploadSuccessActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        company_id = getIntent().getStringExtra("company_id");
+        order_id = getIntent().getStringExtra("order_id");
         demand = getIntent().getStringExtra("demand");
+        TLog.log("order_id"+order_id);
     }
 
     @Override
@@ -121,9 +127,11 @@ public class UploadSuccessActivity extends BaseActivity {
             case R.id.btn_watch:
                 //TODO 跳转到发布详情页面
                 Intent intent1 = new Intent();
-                intent1.putExtra("demandId", demand);
-                intent1.setClass(this, DemandActivity.class);
+                intent1.putExtra("OrderId", order_id);
+                intent1.putExtra("CompanyId", company_id);
+                intent1.setClass(this, ProvidedActivity.class);
                 startActivity(intent1);
+                finish();
                 break;
             case R.id.WeChat:
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN)) {

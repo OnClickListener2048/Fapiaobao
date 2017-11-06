@@ -219,6 +219,8 @@ public class ConfirmActivity extends BaseActivity {
                 intent.putExtra("amount", amount);
                 intent.putExtra("bonus", bonus);
                 intent.putExtra("demandsId", demandsId);
+                intent.putExtra("company_id", company_info.getId());
+                intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
                 intent.setClass(this, UploadReceiptActivity.class);
                 startActivity(intent);
                 break;

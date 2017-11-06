@@ -377,6 +377,10 @@
     <string name="withdraw_max">最大提现额度为%1$f元</string>
     <string name="withdraw_all">全部提现</string>
     <string name="sum">共\u0020</string>
+    <string name="more">更多</string>
+    <string name="addCompanyInfo">添加开票信息</string>
+    <string name="changeCompanyinfo">更换公司</string>
+    <string name="company_select">公司选择</string>
     <string name="quqlified_invoice">合格发票</string>
 
     <string-array name="express">

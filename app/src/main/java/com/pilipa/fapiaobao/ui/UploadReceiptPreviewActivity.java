@@ -12,10 +12,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
+import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
+import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
+import com.pilipa.fapiaobao.net.bean.invoice.RedBagBean;
+import com.pilipa.fapiaobao.net.bean.invoice.UploadInvoiceToken;
+import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.fragment.UploadPreviewReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 
@@ -63,6 +71,9 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     private double amount;
     private double bonus;
     private String demandsId;
+    private String label;
+    private double sum;
+    private String company_id;
 
 
     @Override
@@ -77,11 +88,14 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        label = getIntent().getStringExtra(FinanceFragment.EXTRA_DATA_LABEL);
+        TLog.log("label"+label);
         amount = getIntent().getDoubleExtra("amount", 0);
-        bonus = getIntent().getDoubleExtra("bonus", 0);
+//        bonus = getIntent().getDoubleExtra("bonus", 0);
         demandsId = getIntent().getStringExtra("demandsId");
 //        receiptMoney.setText(amount + "");
-        estimateMoney.setText(bonus + "");
+        company_id = getIntent().getStringExtra("company_id");
+
     }
 
     @Override
@@ -95,7 +109,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
             @Override
             public void setData(AllInvoiceVariety allInvoiceVariety) {
-                double sum = 0;
+                sum = 0;
                 for (Image image : listPE) {
                     if (!image.isCapture) {
                         TLog.log("image.amount" + image.amount);
@@ -161,6 +175,35 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
                 receiptNumber.setText(count + "");
                 receiptMoney.setText(String.valueOf(sum));
+
+                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                    @Override
+                    public void setData(LoginWithInfoBean loginWithInfoBean) {
+                        Api.estimateRedBag(loginWithInfoBean.getData().getToken(), demandsId, sum, new Api.BaseViewCallbackWithOnStart<RedBagBean>() {
+                            @Override
+                            public void onStart() {
+                                showProgressDialog();
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                hideProgressDialog();
+                            }
+
+                            @Override
+                            public void onError() {
+                                hideProgressDialog();
+                            }
+
+                            @Override
+                            public void setData(RedBagBean redBagBean) {
+                                if (redBagBean.getStatus() == 200) {
+                                    estimateMoney.setText(String.valueOf(redBagBean.getData().getBonus()));
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
     }
@@ -220,20 +263,103 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                 break;
             case R.id.confirm:
                 showProgressDialog();
-                if (paperElecReceiptFragment != null) {
-                    paperElecReceiptFragment.uploadInvoice();
-
-                }
-                if (paperNormalReceiptFragment != null) {
-                    paperNormalReceiptFragment.uploadInvoice();
-                }
-
-                if (paperSpecialReceiptFragment != null) {
-                    paperSpecialReceiptFragment.uploadInvoice();
-                }
-
+                upload();
                 break;
         }
+    }
+
+    private void upload() {
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                if (loginWithInfoBean.getStatus() == 200) {
+                    UploadInvoiceToken uploadInvoiceToken = new UploadInvoiceToken();
+                    uploadInvoiceToken.setDemandId(demandsId);
+                    uploadInvoiceToken.setInvoiceType(label);
+                    uploadInvoiceToken.setToken(loginWithInfoBean.getData().getToken());
+                    uploadInvoiceToken.setTotalAmount((int) sum);
+
+
+                    ArrayList<UploadInvoiceToken.InvoiceListBean> invoiceListBeanArrayList = new ArrayList<UploadInvoiceToken.InvoiceListBean>();
+
+                    if (paperNormalReceiptFragment != null) {
+                        ArrayList<Image> currentImagesPN = paperNormalReceiptFragment.getCurrentImages();
+                        for (Image image : currentImagesPN) {
+                            UploadInvoiceToken.InvoiceListBean invoiceListBeanPN = new UploadInvoiceToken.InvoiceListBean();
+                            invoiceListBeanPN.setAmount(Integer.valueOf(image.amount));
+                            invoiceListBeanPN.setPicture(upLoadReceipt(image.uri));
+                            invoiceListBeanPN.setVariety("1");
+                            invoiceListBeanArrayList.add(invoiceListBeanPN);
+                        }
+                    }
+
+
+                    if (paperSpecialReceiptFragment != null) {
+                        ArrayList<Image> currentImagesPS = paperSpecialReceiptFragment.getCurrentImages();
+                        for (Image image : currentImagesPS) {
+                            UploadInvoiceToken.InvoiceListBean invoiceListBeanPN = new UploadInvoiceToken.InvoiceListBean();
+                            invoiceListBeanPN.setAmount(Integer.valueOf(image.amount));
+                            invoiceListBeanPN.setPicture(upLoadReceipt(image.uri));
+                            invoiceListBeanPN.setVariety("2");
+                            invoiceListBeanArrayList.add(invoiceListBeanPN);
+                        }
+                    }
+
+                    if (paperElecReceiptFragment != null) {
+                        ArrayList<Image> currentImagesPE = paperElecReceiptFragment.getCurrentImages();
+                        for (Image image : currentImagesPE) {
+                            UploadInvoiceToken.InvoiceListBean invoiceListBeanPN = new UploadInvoiceToken.InvoiceListBean();
+                            invoiceListBeanPN.setAmount(Integer.valueOf(image.amount));
+
+                            invoiceListBeanPN.setVariety("3");
+
+                            if (image.isFromNet) {
+                                invoiceListBeanPN.setId(image.path);
+                            } else {
+                                invoiceListBeanPN.setPicture(upLoadReceipt(image.uri));
+                            }
+                            invoiceListBeanArrayList.add(invoiceListBeanPN);
+                        }
+                    }
+
+                    uploadInvoiceToken.setInvoiceList(invoiceListBeanArrayList);
+                    Gson gson = new Gson();
+                    String json = gson.toJson(uploadInvoiceToken);
+                    Api.createOrder(json, new Api.BaseViewCallbackWithOnStart<OrderBean>() {
+
+                        private Intent intent;
+
+                        @Override
+                        public void onStart() {
+                            showProgressDialog();
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onError() {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void setData(OrderBean orderBean) {
+                            if (orderBean.getStatus() == 200) {
+                                BaseApplication.showToast("发票上传成功");
+                                Intent intent = new Intent(UploadReceiptPreviewActivity.this, UploadSuccessActivity.class);
+                                intent.putExtra("order_id", orderBean.getData().getOrderId());
+                                intent.putExtra("company_id", company_id);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
     }
 
     public void onPubSuccess() {

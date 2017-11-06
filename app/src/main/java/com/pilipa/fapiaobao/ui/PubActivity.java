@@ -36,9 +36,11 @@ public class PubActivity extends BaseActivity {
     FrameLayout receiptPaperSpecial;
     @Bind(R.id.confirm)
     TextView confirm;
-    public static final String RECEIPTELEC_DATA  = "receiptElec";
-    public static final String RECEIPTPAPERNORMAL_DATA  = "receiptPaperNormal";
-    public static final String RECEIPTPAPERSPECIAL_DATA  = "receiptPaperSpecial";
+    public static final String RECEIPTELEC_DATA = "receiptElec";
+    public static final String RECEIPTPAPERNORMAL_DATA = "receiptPaperNormal";
+    public static final String RECEIPTPAPERSPECIAL_DATA = "receiptPaperSpecial";
+    @Bind(R.id.quit)
+    ImageView quit;
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, PubActivity.class));
@@ -74,7 +76,7 @@ public class PubActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.select_receipt_elec, R.id.receipt_elec, R.id.select_receipt_paper_normal, R.id.receipt_paper_normal, R.id.select_receipt_paper_special, R.id.receipt_paper_special})
+    @OnClick({R.id.select_receipt_elec,R.id.quit, R.id.receipt_elec, R.id.select_receipt_paper_normal, R.id.receipt_paper_normal, R.id.select_receipt_paper_special, R.id.receipt_paper_special})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.receipt_elec:
@@ -88,6 +90,9 @@ public class PubActivity extends BaseActivity {
             case R.id.receipt_paper_special:
                 receiptPaperSpecial.setSelected(!receiptPaperSpecial.isSelected());
                 updateSelection();
+                break;
+            case R.id.quit:
+                finish();
                 break;
         }
     }
@@ -113,4 +118,6 @@ public class PubActivity extends BaseActivity {
         startActivity(intent);
         finish();
     }
+
+
 }

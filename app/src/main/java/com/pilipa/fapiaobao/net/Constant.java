@@ -131,7 +131,7 @@ public class Constant {
     /*确认发票 */
     public static final String CONFIRM_INVOICE= BASE_URL + "order/confirmInvoice/%s/%s";
     /*创建订单  */
-    public static final String CREATE_ORDER= BASE_URL + "order/createOrder/%s/%s/%s/%s";
+    public static final String CREATE_ORDER= BASE_URL + "order/createOrder";
     /*匹配需求 */
     public static final String DO_MATCH_DEMAND= BASE_URL + "order/doMatchDemand/%s/%s";
     /*邮寄发票 */
@@ -151,6 +151,8 @@ public class Constant {
     /*上传我的发票 */
     //http://192.168.1.205:8181/fapiaobao/rest/order/uploadMyInvoice
     public static final String UPLOAD_MY_INVOICE= BASE_URL + "order/uploadMyInvoice";
+    /*估算红包*/
+    public static final String ESTIMATE= BASE_URL + "order/estimate/%s/%s/%s";
 
     /**
      * system-rest-controller : 系统管理

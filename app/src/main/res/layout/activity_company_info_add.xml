@@ -106,6 +106,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
+                        android:inputType="number"
                         android:id="@+id/edt_taxno"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -178,6 +179,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
+                        android:inputType="phone"
                         android:id="@+id/edt_company_number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -250,6 +252,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
+                        android:inputType="phone"
                         android:id="@+id/edt_bank_account"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

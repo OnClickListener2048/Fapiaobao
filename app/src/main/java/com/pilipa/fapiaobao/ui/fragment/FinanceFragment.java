@@ -205,12 +205,12 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 }
             });
         }
-
-
         Intent intent = new Intent();
         intent.putExtra(EXTRA_DATA_LABEL, label);
         intent.putExtra(EXTRA_DATA_LABEL_NAME, name);
         intent.setClass(mContext, EstimateActivity.class);
         startActivity(intent);
+
+
     }
 }

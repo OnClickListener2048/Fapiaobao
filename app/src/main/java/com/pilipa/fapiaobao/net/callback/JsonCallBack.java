@@ -2,6 +2,7 @@ package com.pilipa.fapiaobao.net.callback;
 
 import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.request.base.Request;
@@ -48,7 +49,7 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
         }
 
         T data = null;
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().serializeNulls().create();
         JsonReader jsonReader = new JsonReader(body.charStream());
         if (type != null) {
             data = gson.fromJson(jsonReader, type);

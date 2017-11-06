@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/quit"
+        android:layout_marginTop="@dimen/d10"
+        android:layout_marginRight="@dimen/d10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:src="@mipmap/demands_details_preview_quit" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/pub_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -13,17 +31,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <TextView
-            android:layout_marginLeft="@dimen/d20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/whatineed" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/d30" />
-
         <LinearLayout
 
             android:layout_width="match_parent"
@@ -126,26 +136,27 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:orientation="vertical">
-                <FrameLayout
-                    android:id="@+id/receipt_paper_special"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
 
-                    <ImageView
+                    <FrameLayout
+                        android:id="@+id/receipt_paper_special"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@mipmap/receipt_paper_special" />
+                        android:layout_gravity="center">
 
-                    <ImageView
-                        android:visibility="invisible"
-                        android:id="@+id/select_receipt_paper_special"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:src="@mipmap/select" />
-                </FrameLayout>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@mipmap/receipt_paper_special" />
+
+                        <ImageView
+                            android:id="@+id/select_receipt_paper_special"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:src="@mipmap/select"
+                            android:visibility="invisible" />
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -183,4 +194,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/d20" />
     </LinearLayout>
-</LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

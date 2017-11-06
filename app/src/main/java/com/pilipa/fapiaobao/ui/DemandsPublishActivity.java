@@ -9,9 +9,10 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,12 +30,14 @@ import android.widget.TextView;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.TimeUtils;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.lljjcoder.city_20170724.CityPickerView;
 import com.lljjcoder.city_20170724.bean.CityBean;
 import com.lljjcoder.city_20170724.bean.DistrictBean;
 import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.adapter.CompanyListAdapter;
 import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -63,7 +66,7 @@ import butterknife.OnClick;
 
 public class DemandsPublishActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener {
 
-    private static final String TAG  = "DemandsPublishActivity";
+    private static final String TAG = "DemandsPublishActivity";
 
 
     @Bind(R.id.paper_elec_receipt)
@@ -130,6 +133,24 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     EditText etPublishCautions;
     @Bind(R.id.btn_publish_now)
     Button btnPublishNow;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.upload_back)
+    ImageView uploadBack;
+    @Bind(R.id.upload_scan)
+    ImageView uploadScan;
+    @Bind(R.id.changeCompanyinfo)
+    TextView changeCompanyinfo;
+    @Bind(R.id.more_company)
+    TextView moreCompany;
+    @Bind(R.id.ll_company_info)
+    LinearLayout llCompanyInfo;
+    @Bind(R.id.recyclerview)
+    RecyclerView recyclerview;
+    @Bind(R.id.ll_add_company_info)
+    LinearLayout llAddCompanyInfo;
+    @Bind(R.id.btn_add_company_info)
+    LinearLayout btnAddCompanyInfo;
     private boolean paperNormal;
     private boolean elec;
     private boolean paperSpecial;
@@ -137,7 +158,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private int fourteen_days_miliseconds = 14 * 24 * 60 * 60 * 1000;
     private TimePickerDialog dialog;
     private CityPickerView cityPicker;
-    private static Handler handler = new Handler(){
+    private static Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -152,6 +173,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private DemandsPublishBean.DemandPostageBean demandPostageBean;
     public static final int REQUEST_CODE = 300;
     public static final int REQUEST_CODE_FOR_MORE_TYPE = 400;
+    private CompanyListAdapter companyListAdapter;
+
+    private static final int REQUEST_ADD_COMPANY_INFO = 971;
+    private static final int REQUEST_ALL_COMPANY_INFO = 321;
 
     @Override
     protected int getLayoutId() {
@@ -166,7 +191,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     @Override
     public void initView() {
         Intent intent = getIntent();
-
+        changeCompanyinfo.setVisibility(View.GONE);
+        moreCompany.setVisibility(View.GONE);
+        llCompanyInfo.setVisibility(View.GONE);
         paperNormal = intent.getBooleanExtra(PubActivity.RECEIPTPAPERNORMAL_DATA, false);
         paperNormalReceipt.setVisibility(paperNormal ? View.VISIBLE : View.GONE);
         elec = intent.getBooleanExtra(PubActivity.RECEIPTELEC_DATA, false);
@@ -180,7 +207,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         tvPublishPhoneNumberMustFill.setText(paperSpecial ? "必填" : "选填");
 
 
-        etDate.setText(TimeUtils.millis2String(System.currentTimeMillis()+fourteen_days_miliseconds,TimeUtils.FORMAT));
+        etDate.setText(TimeUtils.millis2String(System.currentTimeMillis() + fourteen_days_miliseconds, TimeUtils.FORMAT));
         dialog = new TimePickerDialog(this);
         Switch.setChecked(true);
         Switch.setOnCheckedChangeListener(this);
@@ -190,7 +217,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
         setUpReceiptParams();
 
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 Looper.prepare();
@@ -201,6 +228,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         spinner.setOnItemSelectedListener(this);
 
         labelsReceiptKind.setOnLabelSelectChangeListener(this);
+
+        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        companyListAdapter = new CompanyListAdapter(false);
     }
 
     private String setUpReceiptParams() {
@@ -236,13 +266,14 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
             @Override
             public void setData(ExpressCompanyBean expressCompanyBean) {
-                Log.d(TAG, "setData: initDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitData");
                 spinner.setAdapter(new PublishSpinnerAdapter(expressCompanyBean));
             }
         });
 
         setUsusallyReceiptkind();
         requestForCompanies();
+
+
     }
 
     private void setUsusallyReceiptkind() {
@@ -286,7 +317,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     }
 
 
-
     @OnClick({R.id.title, R.id.upload_back, R.id.upload_scan, R.id.paper_elec_receipt
             , R.id.paper_special_receipt, R.id.paper_normal_receipt, R.id.iv_dots_more_company
             , R.id.tv_publish_address_must_fill, R.id.tv_publish_phone_number_must_fill
@@ -295,7 +325,11 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             , R.id.iv_select_date, R.id.et_amount, R.id.Switch
             , R.id.ll_amount, R.id.rb_cod
             , R.id.tv_area, R.id.iv_select_area
-            , R.id.btn_publish_now})
+            , R.id.btn_publish_now
+            , R.id.changeCompanyinfo
+            , R.id.more_company
+            , R.id.ll_add_company_info
+            , R.id.btn_add_company_info})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.title:
@@ -312,15 +346,15 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 break;
             case R.id.iv_dots_more_company:
                 //TODO 打开公司名列表
-                if (companiesBean == null || companiesBean.getStatus() == 400) {
-                    BaseApplication.showToast("没有收藏过公司");
-                } else {
-                    if (mCameraDialog.isShowing()) {
-                        mCameraDialog.hide();
-                    } else {
-                        mCameraDialog.show();
-                    }
-                }
+//                if (companiesBean == null || companiesBean.getStatus() == 400) {
+//                    BaseApplication.showToast("没有收藏过公司");
+//                } else {
+//                    if (mCameraDialog.isShowing()) {
+//                        mCameraDialog.hide();
+//                    } else {
+//                        mCameraDialog.show();
+//                    }
+//                }
                 break;
             case R.id.et_publish_company_name:
                 break;
@@ -355,7 +389,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 dialog.showDatePickerDialog(new TimePickerDialog.TimePickerDialogInterface() {
                     @Override
                     public void positiveListener() {
-                        etDate.setText(dialog.getYear()+"-"+dialog.getMonth()+"-"+dialog.getDay());
+                        etDate.setText(dialog.getYear() + "-" + dialog.getMonth() + "-" + dialog.getDay());
                     }
 
                     @Override
@@ -367,7 +401,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             case R.id.et_amount:
                 break;
             case R.id.Switch:
-
                 break;
             case R.id.et_amount_redbag:
                 break;
@@ -393,7 +426,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 break;
             case R.id.btn_publish_now:
                 if (checkParams()) {
-                    Gson gson = new Gson();
+                    Gson gson = new GsonBuilder().serializeNulls().create();
                     Api.publish(gson.toJson(makeParams()), new Api.BaseViewCallbackWithOnStart<BalanceBean>() {
                         @Override
                         public void onStart() {
@@ -420,14 +453,32 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                             } else if (balanceBean.getStatus() == 888) {
                                 BaseApplication.showToast("账户余额不足，请先充值");
                                 intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
-                                startActivityForResult(intent,REQUEST_CODE);
+                                startActivityForResult(intent, REQUEST_CODE);
 
                             }
                         }
                     });
                 }
                 break;
+            case R.id.changeCompanyinfo:
+            case R.id.more_company:
+                Intent intent = new Intent();
+                intent.setClass(this, CompanySelectActivity.class);
+                startActivityForResult(intent, REQUEST_ALL_COMPANY_INFO);
+                break;
+            case R.id.ll_add_company_info:
+
+                break;
+            case R.id.btn_add_company_info:
+                addCompanyInfo();
+                break;
         }
+    }
+
+    private void addCompanyInfo() {
+        Intent intent = new Intent();
+        intent.setClass(this, AddCompanyInfoActivity.class);
+        startActivityForResult(intent, REQUEST_ADD_COMPANY_INFO);
     }
 
     private void requestForMoreTypes() {
@@ -436,7 +487,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         bundle.putSerializable("new_data", bean);
         intent.putExtra(MoreTypesActivity.EXTRA_BUNDLE, bundle);
         intent.setClass(this, MoreTypesActivity.class);
-        startActivityForResult(intent,REQUEST_CODE_FOR_MORE_TYPE);
+        startActivityForResult(intent, REQUEST_CODE_FOR_MORE_TYPE);
     }
 
     @Override
@@ -457,14 +508,42 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                     }
                     labelsReceiptKind.setLabels(arrayReceipt);
                 }
+            case REQUEST_ADD_COMPANY_INFO:
+                if (requestCode == RESULT_OK) {
+                    requestForCompanies();
+                }
+                break;
+            case REQUEST_ALL_COMPANY_INFO:
+                if (resultCode == RESULT_OK) {
+                    Bundle bundleExtra = data.getBundleExtra(CompanySelectActivity.EXTRA_BUNDLE);
+                    CompaniesBean.DataBean databean = bundleExtra.getParcelable(CompanySelectActivity.EXTRA_SELECT_COMPANY);
+                    if (databean != null) {
+                        llAddCompanyInfo.setVisibility(View.GONE);
+                        llCompanyInfo.setVisibility(View.VISIBLE);
+                        changeCompanyinfo.setVisibility(View.VISIBLE);
+                        updateCompanyInfo(databean);
+                    }
+
+                }
+                break;
         }
+    }
+
+    private void updateCompanyInfo(CompaniesBean.DataBean databean) {
+
+        etPublishCompanyName.setText(databean.getName());
+        etPublishAddress.setText(databean.getAddress());
+        etPublishTexNumber.setText(databean.getTaxno());
+        etPublishPhoneNumber.setText(databean.getPhone());
+        etPublishBank.setText(databean.getDepositBank());
+        etPublishBankAccount.setText(databean.getAccount());
     }
 
     private DemandsPublishBean makeParams() {
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         DemandsPublishBean bean = new DemandsPublishBean();
         bean.setInvoiceVarieties(setUpReceiptParams());
-        if (dataBean!= null) {
+        if (dataBean != null) {
             bean.setId(dataBean.getId());
         }
         bean.setToken(loginWithInfoBean.getData().getToken());
@@ -597,9 +676,12 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                     public void setData(CompaniesBean companiesBean) {
                         DemandsPublishActivity.this.companiesBean = companiesBean;
                         if (companiesBean.getStatus() == 200 && companiesBean.getData() != null) {
-                            setDialog(companiesBean.getData());
+                            companyListAdapter.addCompanyInfo(companiesBean.getData());
+                            if (companiesBean.getData().size() > 5) {
+                                moreCompany.setVisibility(View.VISIBLE);
+                            }
                         } else if (companiesBean.getStatus() == 400) {
-                            setDialog(companiesBean.getData());
+
                         }
                     }
                 });
@@ -676,7 +758,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        llAmount.setVisibility(isChecked?View.VISIBLE:View.GONE);
+        llAmount.setVisibility(isChecked ? View.VISIBLE : View.GONE);
 
     }
 
@@ -690,7 +772,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 
 
     private void initCityPicker() {
@@ -724,7 +805,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 demandPostageBean.setProvince(province.getName());
                 demandPostageBean.setCity(city.getName());
                 demandPostageBean.setDistrict(district.getName());
-                tvArea.setText(province.getName()+"-"+city.getName()+"-"+district.getName());
+                tvArea.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
                 cityPicker.hide();
             }
 
@@ -743,4 +824,5 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             dataBean.setSelect(isSelect);
         }
     }
+
 }

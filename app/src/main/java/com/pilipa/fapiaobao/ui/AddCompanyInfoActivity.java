@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -9,8 +10,10 @@ import android.widget.Toast;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 
 import butterknife.Bind;
@@ -49,10 +52,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
                 finish();
             }break;
             case R.id.btn_save:{
-                String tip = addCompany();
-                if(tip != null){
-                    Toast.makeText(this,tip,Toast.LENGTH_SHORT).show();
-                }
+                addCompany();
             }break;
         }
     }
@@ -66,15 +66,16 @@ public class AddCompanyInfoActivity extends BaseActivity {
 
     }
 
-    public String addCompany(){
-        if(edtCompany_name.getText().toString().trim().isEmpty()
-                ||edtTaxno.getText().toString().trim().isEmpty()
-                ||edtCompanyAddress.getText().toString().trim().isEmpty()
-                ||edtCompanyNumber.getText().toString().trim().isEmpty()
-                ||edtBankName.getText().toString().trim().isEmpty()
-                ||edtBankAccount.getText().toString().trim().isEmpty()){
-            return "请认真填写公司信息";
-        }else{
+    public void addCompany() {
+        if (TextUtils.isEmpty(edtCompany_name.getText())) {
+            BaseApplication.showToast("请输入单位名称");
+            return;
+        }
+        if (TextUtils.isEmpty(edtTaxno.getText())) {
+            BaseApplication.showToast("请输入税号");
+            return;
+        }
+
             Company company = new Company();
             company.setName(edtCompany_name.getText().toString().trim());
             company.setTaxno(edtTaxno.getText().toString().trim());
@@ -83,26 +84,30 @@ public class AddCompanyInfoActivity extends BaseActivity {
             company.setDepositBank(edtBankName.getText().toString().trim());
             company.setAccount(edtBankAccount.getText().toString().trim());
             createCompany(company);
-            return null;
-        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    private void createCompany(Company company){
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.companyCreate(company,AccountHelper.getToken(),new Api.BaseViewCallback<NormalBean>() {
-                @Override
-                public void setData(NormalBean normalBean) {
-                    if(normalBean.getStatus() == 200){
-                        Toast.makeText(AddCompanyInfoActivity.this,"添加成功",Toast.LENGTH_SHORT).show();
-                    }
-                    AddCompanyInfoActivity.this.finish();
-                    Log.d(TAG, "createCompany;success");
+    private void createCompany(final Company company) {
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                if (loginWithInfoBean.getStatus() == 200) {
+                    Api.companyCreate(company, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                        @Override
+                        public void setData(NormalBean normalBean) {
+                            if (normalBean.getStatus() == 200) {
+                                Toast.makeText(AddCompanyInfoActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                                setResult(RESULT_OK);
+                                AddCompanyInfoActivity.this.finish();
+                                Log.d(TAG, "createCompany;success");
+                            }
+                        }
+                    });
                 }
-            });
-        }
+            }
+        });
     }
 }

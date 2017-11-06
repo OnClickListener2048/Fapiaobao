@@ -280,6 +280,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 intent.putExtra("amount", amount);
                 intent.putExtra("bonus", dataBean.getBonus());
                 intent.putExtra("company_info", dataBean.getCompany());
+                intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
                 intent.setClass(EstimateActivity.this, ConfirmActivity.class);
                 startActivity(intent);
 

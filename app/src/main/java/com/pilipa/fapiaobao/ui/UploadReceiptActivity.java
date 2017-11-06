@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.fragment.UploadNormalReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
@@ -57,6 +58,8 @@ public class UploadReceiptActivity extends BaseActivity {
     private double amount;
     private double bonus;
     private String demandsId;
+    private String label;
+    private String company_id;
 
 
     @Override
@@ -67,6 +70,8 @@ public class UploadReceiptActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        company_id = getIntent().getStringExtra("company_id");
+        label = getIntent().getStringExtra(FinanceFragment.EXTRA_DATA_LABEL);
         amount = getIntent().getDoubleExtra("amount",0);
         bonus = getIntent().getDoubleExtra("bonus",0);
         demandsId = getIntent().getStringExtra("demandsId");
@@ -138,17 +143,25 @@ public class UploadReceiptActivity extends BaseActivity {
     @OnClick(R.id.upload_receipt)
     public void onViewClicked() {
         Intent intent = new Intent(this, UploadReceiptPreviewActivity.class);
+        intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
         intent.putExtra("amount", amount);
         intent.putExtra("bonus", bonus);
         intent.putExtra("demandsId", demandsId);
+        intent.putExtra("company_id", company_id);
         Bundle bundle = new Bundle();
         ArrayList<Image> currentImagesPN = paperNormalReceiptFragment.getCurrentImages();
         ArrayList<Image> currentImagesPS = paperSpecialReceiptFragment.getCurrentImages();
         ArrayList<Image> currentImagesPE = paperElecReceiptFragment.getCurrentImages();
+        if (currentImagesPE.size() <= 1 && currentImagesPN.size() <= 1 && currentImagesPS.size() <= 1) {
+            BaseApplication.showToast("请上传发票");
+            return;
+
+        }
         bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, currentImagesPN);
         bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, currentImagesPS);
         bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, currentImagesPE);
         intent.putExtra(TAG, bundle);
+        intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
         startActivity(intent);
     }
 }

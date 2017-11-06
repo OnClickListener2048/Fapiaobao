@@ -7,7 +7,6 @@ import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
-import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -22,6 +21,7 @@ import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
+import com.pilipa.fapiaobao.net.bean.invoice.RedBagBean;
 import com.pilipa.fapiaobao.net.bean.invoice.UploadProcessing;
 import com.pilipa.fapiaobao.net.bean.me.AmountHistoryBean;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
@@ -56,6 +56,7 @@ import static com.pilipa.fapiaobao.net.Constant.CREATE_COMPANY;
 import static com.pilipa.fapiaobao.net.Constant.CREATE_ORDER;
 import static com.pilipa.fapiaobao.net.Constant.DELETE_COMPANY;
 import static com.pilipa.fapiaobao.net.Constant.DO_MATCH_DEMAND;
+import static com.pilipa.fapiaobao.net.Constant.ESTIMATE;
 import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY;
 import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_CREATE;
 import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_LIST;
@@ -469,8 +470,36 @@ public class Api {
         });
     }
 
-    public static void estimateRedBag(HttpParams httpParams, final BaseViewCallbackWithOnStart baseViewCallback) {
+    //    http://p.pilipa.cn/fapiaobao/rest/order/estimate/{token}/{demandId}/{amount}
+    public static void estimateRedBag(String token, String demandId, double amount, final BaseViewCallbackWithOnStart baseViewCallback) {
+        String url = String.format(ESTIMATE, token, demandId, amount);
+        OkGo.<RedBagBean>get(url).execute(new JsonCallBack<RedBagBean>(RedBagBean.class) {
+            @Override
+            public void onSuccess(Response<RedBagBean> response) {
+                if (response.isSuccessful()) {
+                    baseViewCallback.setData(response.body());
+                }
+            }
 
+            @Override
+            public void onStart(Request<RedBagBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onError(Response<RedBagBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+
+            }
+        });
     }
 
     /**
@@ -720,9 +749,8 @@ public class Api {
     }
 
     //http://192.168.1.205:8181/fapiaobao/rest/order/createOrder/{token}/{demandId}/{invoiceType}/{amount}
-    public static void createOrder(String token, String demandid, String invocieType, double amount, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
-        String url = String.format(CREATE_ORDER, token, demandid, invocieType, amount);
-        OkGo.<OrderBean>get(url).execute(new JsonCallBack<OrderBean>(OrderBean.class) {
+    public static void createOrder(String json, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
+        OkGo.<OrderBean>post(CREATE_ORDER).upJson(json).execute(new JsonCallBack<OrderBean>(OrderBean.class) {
 
             @Override
             public void onSuccess(Response<OrderBean> response) {
@@ -738,9 +766,16 @@ public class Api {
             }
 
             @Override
+            public void onError(Response<OrderBean> response) {
+                super.onError(response);
+                baseViewCallbackWithOnStart.onError();
+            }
+
+            @Override
             public void onFinish() {
                 super.onFinish();
                 baseViewCallbackWithOnStart.onFinish();
+
             }
         });
     }
