@@ -27,18 +27,14 @@ import com.lljjcoder.city_20170724.bean.CityBean;
 import com.lljjcoder.city_20170724.bean.DistrictBean;
 import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
-import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
-import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.tmall.ultraviewpager.UltraViewPager;
 
@@ -104,8 +100,25 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     TextView selectOtherArea;
     @Bind(R.id.reset_filter)
     Button resetFilter;
-    @Bind(R.id.filter_condition)
-    TextView filterCondition;
+    @Bind(R.id.ll_estimate_caution)
+    LinearLayout llEstimateCaution;
+    @Bind(R.id.filter_condition_top)
+    TextView filterConditionTop;
+    @Bind(R.id.reset_filter_top)
+    TextView resetFilterTop;
+    @Bind(R.id.ll_filter_condition_top)
+    LinearLayout llFilterConditionTop;
+    @Bind(R.id.filter_condition_bottom)
+    TextView filterConditionBottom;
+    @Bind(R.id.ll_filter_condition_bottom)
+    LinearLayout llFilterConditionBottom;
+    @Bind(R.id.ll_filter_types_location)
+    LinearLayout llFilterTypesLocation;
+    String locate = "";
+    int type = 0;
+    public static final int REQUEST_CODE_ESTIMATE = 500;
+    @Bind(R.id.tv_label)
+    TextView tvLabel;
     private String label = "";
     private HashMap<String, String> httpParams;
     private int currentItem = 0;
@@ -139,9 +152,11 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     };
     private CityPickerView cityPicker;
     private ArrayList<String> arrayListSelectedReceiptKind;
+    private String name;
 
     private void setUpAddress(AMapLocation aMapLocation) {
         locating.setText(aMapLocation.getCity());
+        locate = aMapLocation.getCity();
     }
 
     @Override
@@ -156,6 +171,10 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
     @Override
     public void initView() {
+        llFilterTypesLocation.setVisibility(View.VISIBLE);
+        llFilterConditionTop.setVisibility(View.GONE);
+        llFilterConditionBottom.setVisibility(View.GONE);
+        llEstimateCaution.setVisibility(View.VISIBLE);
         filter.setVisibility(View.GONE);
         llhasRedbag.setVisibility(View.VISIBLE);
         llnoredbag.setVisibility(View.GONE);
@@ -163,6 +182,8 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         llBonus.setVisibility(View.GONE);
         httpParams = new HashMap<>();
         label = getIntent().getStringExtra(FinanceFragment.EXTRA_DATA_LABEL);
+        name = getIntent().getStringExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME);
+        tvLabel.setText(name);
         httpParams.put("invoiceType", label);
         llConfirmCaution.setVisibility(View.GONE);
         llFilterKey.setVisibility(View.GONE);
@@ -203,27 +224,27 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             }
         });
 
-
+        labels.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
+            @Override
+            public void onLabelSelectChange(View label, String labelText, boolean isSelect, int position) {
+                if (isSelect) {
+                    type = position + 1;
+                }
+            }
+        });
     }
 
     public void updateButtonStatus() {
 
         if (matchBean != null) {
-            Log.d(TAG, "updateButtonStatus: matchBean != null");
             if (matchBean.getData() != null) {
-                Log.d(TAG, "updateButtonStatus:matchBean.getData() != null");
                 if (matchBean.getData().size() - 1 == currentItem) {
                     tonext.setEnabled(false);
-                    Log.d(TAG, "updateButtonStatus: tonext.setEnabled(false);");
-
                     tolast.setEnabled(true);
-                    Log.d(TAG, "updateButtonStatus:   tolast.setEnabled(true);");
                 } else if (currentItem > 0 && currentItem < matchBean.getData().size()) {
-                    Log.d(TAG, "updateButtonStatus:currentItem >= 0 && currentItem < matchBean.getData().size() ");
                     tonext.setEnabled(true);
                     tolast.setEnabled(true);
                 } else if (currentItem == 0) {
-                    Log.d(TAG, "updateButtonStatus: currentItem == 0");
                     tonext.setEnabled(true);
                     tolast.setEnabled(false);
                 }
@@ -245,93 +266,72 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     }
 
 
-    @OnClick({R.id.test_redbag, R.id.go, R.id.tolast, R.id.tonext, R.id.filter, R.id.other_demand, R.id.select_other_area, R.id.reset_filter, R.id.filter_condition})
+    @OnClick({R.id.reset_filter_top, R.id.test_redbag, R.id.go, R.id.tolast, R.id.tonext, R.id.filter, R.id.other_demand, R.id.select_other_area, R.id.reset_filter})
     public void onViewClicked(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.test_redbag:
-                if (TextUtils.isEmpty(etEstimate.getText())) {
-                    BaseApplication.showToast("请输入正确的发票金额");
-                    return;
-                }
-                String trim = etEstimate.getText().toString().trim();
-                amount = Double.valueOf(trim);
-                if (!(amount > 0) && amount == 0) {
-                    BaseApplication.showToast("请输入正确的发票金额");
-                    return;
-                } else {
-                    Api.doMatchDemand(label, amount, "1,2,3", "天津市", new Api.BaseViewCallback<MacherBeanToken>() {
-
-                        @Override
-                        public void setData(MacherBeanToken matchBean) {
-                            TLog.log(matchBean.getStatus() + "");
-                            if (matchBean.getStatus() == 400) {
-                                llhasRedbag.setVisibility(View.GONE);
-                                llnoredbag.setVisibility(View.VISIBLE);
-                                filter.setVisibility(View.GONE);
-                                return;
-                            }
-                            llFilterKey.setVisibility(View.GONE);
-                            llConfirmCaution.setVisibility(View.VISIBLE);
-                            estimatePlease.setVisibility(View.GONE);
-                            llBonus.setVisibility(View.VISIBLE);
-                            EstimateActivity.this.matchBean = matchBean;
-                            tonext.setEnabled(matchBean.getData().size() != 1);
-                            bonus.setText(matchBean.getData().get(0).getBonus() + "");
-                            setUpData(matchBean);
-                        }
-                    });
-                }
+                estimate();
                 break;
             case R.id.go:
-                if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                        @Override
-                        public void setData(LoginWithInfoBean normalBean) {
-                            if (normalBean.getStatus() == 200) {
 
-                                SharedPreferencesHelper.save(EstimateActivity.this, matchBean.getData().get(currentItem));
+                MacherBeanToken.DataBean dataBean = matchBean.getData().get(currentItem);
+                intent.putExtra("demandsId", dataBean.getDemandId());
+                intent.putExtra("amount", amount);
+                intent.putExtra("bonus", dataBean.getBonus());
+                intent.putExtra("company_info", dataBean.getCompany());
+                intent.setClass(EstimateActivity.this, ConfirmActivity.class);
+                startActivity(intent);
 
-
-                                Api.createOrder(AccountHelper.getToken(), matchBean.getData().get(currentItem).getDemandId(), label, amount, new Api.BaseViewCallbackWithOnStart<OrderBean>() {
-                                    @Override
-                                    public void onStart() {
-                                        showProgressDialog();
-                                    }
-
-                                    @Override
-                                    public void onFinish() {
-                                        hideProgressDialog();
-                                    }
-
-                                    @Override
-                                    public void onError() {
-                                        hideProgressDialog();
-                                    }
-
-                                    @Override
-                                    public void setData(OrderBean o) {
-                                        if (o.getStatus() == 200) {
-                                            BaseApplication.showToast("创建订单成功");
-                                            SharedPreferencesHelper.save(EstimateActivity.this, o);
-                                            MacherBeanToken.DataBean dataBean = matchBean.getData().get(currentItem);
-                                            Intent intent = new Intent();
-                                            intent.putExtra("amount", amount);
-                                            intent.putExtra("bonus", dataBean.getBonus());
-                                            intent.putExtra("company_info", dataBean.getCompany());
-                                            intent.putExtra("order", o.getData().getOrderId());
-                                            intent.setClass(EstimateActivity.this, ConfirmActivity.class);
-                                            startActivity(intent);
-                                        }
-                                    }
-                                });
-                            } else {
-                                BaseApplication.showToast("token验证失败请重新登陆");
-                                startActivity(new Intent(EstimateActivity.this, LoginActivity.class));
-                                finish();
-                            }
-                        }
-                    });
-                }
+//                if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+//                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+//                        @Override
+//                        public void setData(LoginWithInfoBean normalBean) {
+//                            if (normalBean.getStatus() == 200) {
+//
+//                                SharedPreferencesHelper.save(EstimateActivity.this, matchBean.getData().get(currentItem));
+//
+//
+//                                Api.createOrder(AccountHelper.getToken(), matchBean.getData().get(currentItem).getDemandId(), label, amount, new Api.BaseViewCallbackWithOnStart<OrderBean>() {
+//                                    @Override
+//                                    public void onStart() {
+//                                        showProgressDialog();
+//                                    }
+//
+//                                    @Override
+//                                    public void onFinish() {
+//                                        hideProgressDialog();
+//                                    }
+//
+//                                    @Override
+//                                    public void onError() {
+//                                        hideProgressDialog();
+//                                    }
+//
+//                                    @Override
+//                                    public void setData(OrderBean o) {
+//                                        if (o.getStatus() == 200) {
+//                                            BaseApplication.showToast("创建订单成功");
+//                                            SharedPreferencesHelper.save(EstimateActivity.this, o);
+//                                            MacherBeanToken.DataBean dataBean = matchBean.getData().get(currentItem);
+//                                            Intent intent = new Intent();
+//                                            intent.putExtra("amount", amount);
+//                                            intent.putExtra("bonus", dataBean.getBonus());
+//                                            intent.putExtra("company_info", dataBean.getCompany());
+//                                            intent.putExtra("order", o.getData().getOrderId());
+//                                            intent.setClass(EstimateActivity.this, ConfirmActivity.class);
+//                                            startActivity(intent);
+//                                        }
+//                                    }
+//                                });
+//                            } else {
+//                                BaseApplication.showToast("token验证失败请重新登陆");
+//                                startActivity(new Intent(EstimateActivity.this, LoginActivity.class));
+//                                finish();
+//                            }
+//                        }
+//                    });
+//                }
 
 
                 break;
@@ -347,7 +347,6 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 if (dl.isDrawerOpen(Gravity.END)) {
                     dl.closeDrawer(Gravity.END);
                 } else {
-
                     dl.openDrawer(Gravity.END);
                 }
                 break;
@@ -355,14 +354,74 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 finish();
                 break;
             case R.id.select_other_area:
-
                 if (cityPicker.isShow()) cityPicker.hide();
                 else cityPicker.show();
-
                 break;
             case R.id.reset_filter:
+            case R.id.reset_filter_top:
+                intent.setClass(this, FilterActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_ESTIMATE);
                 break;
-            case R.id.filter_condition:
+        }
+    }
+
+    private void estimate() {
+        if (type == 0) {
+            BaseApplication.showToast("请选择发票类型");
+            return;
+        }
+        filterConditionTop.setText(locate + "\u3000" + arrayListSelectedReceiptKind.get(type - 1));
+        filterConditionBottom.setText(locate + "\u3000" + arrayListSelectedReceiptKind.get(type - 1));
+
+
+        if (TextUtils.isEmpty(etEstimate.getText())) {
+            BaseApplication.showToast("请输入正确的发票金额");
+            return;
+        }
+        String trim = etEstimate.getText().toString().trim();
+        amount = Double.valueOf(trim);
+        if (!(amount > 0) && amount == 0) {
+            BaseApplication.showToast("请输入正确的发票金额");
+            return;
+        } else {
+            Api.doMatchDemand(label, amount, String.valueOf(type), locate, new Api.BaseViewCallback<MacherBeanToken>() {
+
+                @Override
+                public void setData(MacherBeanToken matchBean) {
+                    TLog.log(matchBean.getStatus() + "");
+                    if (matchBean.getStatus() == 200) {
+                        llEstimateCaution.setVisibility(View.GONE);
+                        llFilterConditionTop.setVisibility(View.VISIBLE);
+                        llFilterTypesLocation.setVisibility(View.GONE);
+                        llFilterKey.setVisibility(View.GONE);
+                        llConfirmCaution.setVisibility(View.VISIBLE);
+                        estimatePlease.setVisibility(View.GONE);
+                        llBonus.setVisibility(View.VISIBLE);
+                        EstimateActivity.this.matchBean = matchBean;
+                        tonext.setEnabled(matchBean.getData().size() != 1);
+                        bonus.setText(matchBean.getData().get(0).getBonus() + "");
+                        setUpData(matchBean);
+                    } else if (matchBean.getStatus() == 400) {
+                        llhasRedbag.setVisibility(View.GONE);
+                        llnoredbag.setVisibility(View.VISIBLE);
+                        filter.setVisibility(View.GONE);
+                        llFilterConditionBottom.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_ESTIMATE:
+                if (resultCode == RESULT_OK) {
+                    locate = data.getStringExtra("locate");
+                    type = data.getIntExtra("type", 0);
+                    estimate();
+                }
                 break;
         }
     }
@@ -483,7 +542,9 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 //CityBean     城市信息
                 //DistrictBean 区县信息
                 locating.setText(city.getName());
+                locate = city.getName();
                 cityPicker.hide();
+
             }
 
             @Override

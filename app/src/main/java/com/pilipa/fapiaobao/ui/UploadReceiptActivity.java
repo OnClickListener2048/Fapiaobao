@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -55,6 +56,7 @@ public class UploadReceiptActivity extends BaseActivity {
     public static final String IS_ELEC_RECEIPT_DATA = "is_elec_receipt_data" ;
     private double amount;
     private double bonus;
+    private String demandsId;
 
 
     @Override
@@ -67,6 +69,7 @@ public class UploadReceiptActivity extends BaseActivity {
     public void initView() {
         amount = getIntent().getDoubleExtra("amount",0);
         bonus = getIntent().getDoubleExtra("bonus",0);
+        demandsId = getIntent().getStringExtra("demandsId");
         paperNormalReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
         paperSpecialReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
@@ -121,11 +124,23 @@ public class UploadReceiptActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+    }
+
     @OnClick(R.id.upload_receipt)
     public void onViewClicked() {
         Intent intent = new Intent(this, UploadReceiptPreviewActivity.class);
         intent.putExtra("amount", amount);
         intent.putExtra("bonus", bonus);
+        intent.putExtra("demandsId", demandsId);
         Bundle bundle = new Bundle();
         ArrayList<Image> currentImagesPN = paperNormalReceiptFragment.getCurrentImages();
         ArrayList<Image> currentImagesPS = paperSpecialReceiptFragment.getCurrentImages();

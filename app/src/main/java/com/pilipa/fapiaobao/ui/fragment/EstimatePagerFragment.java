@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
-import com.pilipa.fapiaobao.net.bean.invoice.MatchBean;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 
 import java.util.ArrayList;
@@ -29,6 +28,8 @@ public class EstimatePagerFragment extends BaseFragment {
     TextView publishCautions;
     @Bind(R.id.labels)
     LabelsView labels;
+    @Bind(R.id.date)
+    TextView date;
     private MacherBeanToken.DataBean dataBean;
 
     public static EstimatePagerFragment newInstance(Bundle bundle) {
@@ -51,7 +52,7 @@ public class EstimatePagerFragment extends BaseFragment {
             publishCautions.setText(dataBean.getAttentions());
             List<MacherBeanToken.DataBean.InvoiceVarietiesBean> invoiceVarieties = dataBean.getInvoiceVarieties();
             ArrayList<String> labelList = new ArrayList<>();
-            if (invoiceVarieties != null&&invoiceVarieties.size()>0) {
+            if (invoiceVarieties != null && invoiceVarieties.size() > 0) {
                 Log.d(TAG, "initWidget: invoiceVarieties != null&&invoiceVarieties.size()>0");
                 for (MacherBeanToken.DataBean.InvoiceVarietiesBean invoiceVariety : invoiceVarieties) {
                     if (invoiceVariety.getInvoiceType() != null) {

@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <ImageView
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         android:src="@mipmap/upload_add"
         android:id="@+id/capture"
         android:layout_gravity="center"

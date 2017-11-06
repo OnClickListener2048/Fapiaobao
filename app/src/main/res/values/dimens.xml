@@ -93,4 +93,5 @@
     <dimen name="d240">240dp</dimen>
     <dimen name="d46">46dp</dimen>
     <dimen name="d45">45dp</dimen>
+    <dimen name="d180">180dp</dimen>
 </resources>

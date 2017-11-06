@@ -130,6 +130,9 @@
         <activity android:name=".ui.PubSuccessActivity" />
         <activity android:name=".ui.UploadSuccessActivity" />
         <activity android:name=".ui.MoreTypesActivity" />
+        <activity android:name=".ui.FilterActivity" />
+        <activity android:name=".ui.FillUpActivity" />
+        <!--wjn add-->
         <activity android:name=".ui.RechargeActivity" />
         <activity android:name=".ui.RechargeDetailsActivity" />
         <activity android:name=".ui.MyRedEnvelopeActivity" />

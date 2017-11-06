@@ -163,7 +163,7 @@ public class FilterFragment extends BaseFragment {
         arrayListSelectedReceiptKind = new ArrayList<>();
         arrayListReceiptKind.addAll(StaticDataCreator.initReceiptKindData(mContext));
         labelsReceiptKind.setLabels(arrayListReceiptKind);
-        labelsReceiptKind.setSelects(2);
+        labelsReceiptKind.setSelects(0);
 
 
         labelsReceiptKind.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {

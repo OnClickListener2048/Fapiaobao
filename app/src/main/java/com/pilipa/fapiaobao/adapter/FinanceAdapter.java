@@ -65,6 +65,7 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     onLabelClickListener.onLabelClick(allInvoiceType.getData().get(position).getId());
+                    onLabelClickListener.onLabelNameClick(allInvoiceType.getData().get(position).getId(),allInvoiceType.getData().get(position).getName());
                     Log.d(TAG, "onClick: ddddddddddddd");
                     Log.d(TAG, "onClick: onLabelClickListenerdataBean.getId()"+allInvoiceType.getData().get(position).getId());
                 }
@@ -78,6 +79,8 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public interface OnLabelClickListener {
         void onLabelClick(String label);
+
+        void onLabelNameClick(String label, String name);
     }
 
     @Override

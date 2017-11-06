@@ -4,9 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -19,6 +17,7 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.ui.fragment.UploadPreviewReceiptFragment;
+import com.pilipa.fapiaobao.ui.model.Image;
 
 import java.util.ArrayList;
 
@@ -63,6 +62,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
     private double amount;
     private double bonus;
+    private String demandsId;
 
 
     @Override
@@ -79,21 +79,42 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     public void initView() {
         amount = getIntent().getDoubleExtra("amount", 0);
         bonus = getIntent().getDoubleExtra("bonus", 0);
-        receiptMoney.setText(amount + "");
+        demandsId = getIntent().getStringExtra("demandsId");
+//        receiptMoney.setText(amount + "");
         estimateMoney.setText(bonus + "");
     }
 
     @Override
     public void initData() {
         Bundle bundleExtra = getIntent().getBundleExtra(UploadReceiptActivity.TAG);
-        final ArrayList<Parcelable> listPN = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_NORMAL_RECEIPT_DATA);
-        final ArrayList<Parcelable> listPS = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_SPECIAL_RECEIPT_DATA);
-        final ArrayList<Parcelable> listPE = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_ELEC_RECEIPT_DATA);
+        final ArrayList<Image> listPN = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_NORMAL_RECEIPT_DATA);
+        final ArrayList<Image> listPS = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_SPECIAL_RECEIPT_DATA);
+        final ArrayList<Image> listPE = bundleExtra.getParcelableArrayList(UploadReceiptActivity.PAPER_ELEC_RECEIPT_DATA);
 
         Api.findAllInvoiceVariety(new Api.BaseViewCallback<AllInvoiceVariety>() {
 
             @Override
             public void setData(AllInvoiceVariety allInvoiceVariety) {
+                double sum = 0;
+                for (Image image : listPE) {
+                    if (!image.isCapture) {
+                        TLog.log("image.amount" + image.amount);
+                        sum += Double.valueOf(image.amount);
+                    }
+                }
+                for (Image image : listPS) {
+                    if (!image.isCapture) {
+                        TLog.log("image.amount" + image.amount);
+                        sum += Double.valueOf(image.amount);
+                    }
+                }
+
+                for (Image image : listPN) {
+                    if (!image.isCapture) {
+                        TLog.log("image.amount" + image.amount);
+                        sum += Double.valueOf(image.amount);
+                    }
+                }
                 int count0 = 0;
                 if (listPN != null) {
                     if (listPN.size() > 1) {
@@ -102,9 +123,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, listPN);
                         paperNormalReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
                         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
-
                         if (paperNormalReceiptFragment != null) {
-                            Log.d(TAG, "initData: paperNormalReceiptFragment");
                             count0 = listPN.size()-1;
                         }
                     }
@@ -119,12 +138,10 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         paperSpecialReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
                         addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
                         if (paperSpecialReceiptFragment != null) {
-                            Log.d(TAG, "initData: paperSpecialReceiptFragment");
                             count1 = listPS.size()-1;
                         }
                     }
                 }
-                TLog.log(count1+"");
                 int count2 = 0;
                 if (listPE != null) {
                     if (listPE.size() > 1) {
@@ -134,34 +151,16 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         paperElecReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
                         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
                         if (paperElecReceiptFragment != null) {
-                            Log.d(TAG, "initData: paperElecReceiptFragment");
                             count2 = listPE.size()-1;
                         }
                     }
                 }
-                TLog.log(count2+"");
-//                int count0 = 0;
-//                if (paperNormalReceiptFragment != null) {
-//                    Log.d(TAG, "initData: paperNormalReceiptFragment");
-//                    count0 = paperNormalReceiptFragment.getCurrentImageCount();
-//                }
-
-//                int count1 = 0;
-//                if (paperSpecialReceiptFragment != null) {
-//                    Log.d(TAG, "initData: paperSpecialReceiptFragment");
-//                    count1 = paperSpecialReceiptFragment.getCurrentImageCount();
-//                }
-
-//                int count2 = 0;
-//                if (paperElecReceiptFragment != null) {
-//                    Log.d(TAG, "initData: paperElecReceiptFragment");
-//                    count2 = paperElecReceiptFragment.getCurrentImageCount();
-//                }
 
                 count = count0 + count1 + count2;
+
+
                 receiptNumber.setText(count + "");
-
-
+                receiptMoney.setText(String.valueOf(sum));
             }
         });
     }

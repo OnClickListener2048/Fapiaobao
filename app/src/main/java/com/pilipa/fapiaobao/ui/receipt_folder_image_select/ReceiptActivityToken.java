@@ -9,18 +9,17 @@ import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.TestBean;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
-import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.receipt_folder_image_select.adapter.NormalAdpater;
@@ -34,7 +33,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- *
  * @author dagou
  * @date 2017/10/17
  */
@@ -53,6 +51,12 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
     Button confirm;
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.demand_back)
+    ImageView demandBack;
+    @Bind(R.id.iv_demand_share)
+    ImageView ivDemandShare;
     private int mImageResize;
     private ArrayList<Image> arrayList;
     private NormalAdpater normal;
@@ -74,17 +78,17 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
 
     }
 
-    private void myInvoiceList(){
+    private void myInvoiceList() {
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.myInvoiceList(AccountHelper.getToken() , new Api.BaseViewCallback<MyInvoiceListBean>() {
+            Api.myInvoiceList(AccountHelper.getToken(), new Api.BaseViewCallback<MyInvoiceListBean>() {
                 @Override
                 public void setData(MyInvoiceListBean myInvoiceListBean) {
-                    List<MyInvoiceListBean.DataBean> list =  myInvoiceListBean.getData();
+                    List<MyInvoiceListBean.DataBean> list = myInvoiceListBean.getData();
                     setUpData(list);
                     Log.d(TAG, "updateData:myInvoiceList success");
                 }
             });
-        }else{
+        } else {
             BaseApplication.showToast("登录超期");
         }
     }
@@ -118,7 +122,7 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
             image.position = -1;
             images.add(image);
         }
-        Log.d(TAG, "setUpData: images.size"+ images.size());
+        Log.d(TAG, "setUpData: images.size" + images.size());
         normal = new NormalAdpater(images, getImageResize(this));
         Log.d(TAG, "setUpData:  normal = new NormalAdpater(images, getImageResize(this));");
         normal.setOnImageSelectListener(this);
@@ -129,13 +133,13 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
     @OnClick(R.id.confirm)
     public void onViewClicked() {
         if (arrayList != null && arrayList.size() != 0) {
-            Log.d(TAG, "onViewClicked: "+arrayList.get(0).toString());
+            Log.d(TAG, "onViewClicked: " + arrayList.get(0).toString());
             Toast.makeText(this, arrayList.get(0).toString(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList(RESULT_RECEIPT_FOLDER,arrayList);
+            bundle.putParcelableArrayList(RESULT_RECEIPT_FOLDER, arrayList);
             intent.putExtra(EXTRA_DATA_FROM_TOKEN, bundle);
-            setResult(RESULT_OK,intent);
+            setResult(RESULT_OK, intent);
             finish();
         }
     }
@@ -146,7 +150,7 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
         if (arrayList != null) {
             Log.d(TAG, "onImageSelect:arrayList != null ");
             if (image.isSelected) {
-                Log.d(TAG, "onImageSelect: add image.position"+image.position);
+                Log.d(TAG, "onImageSelect: add image.position" + image.position);
                 arrayList.add(image);
             } else {
                 if (arrayList.contains(image)) {
@@ -177,8 +181,8 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
                     Log.d(TAG, "onActivityResult: previewactivity back to myreceiptactivity");
                     Bundle bundleExtra = data.getBundleExtra(NormalAdpater.EXTRA_BUNDLE);
                     ArrayList<Image> images = bundleExtra.getParcelableArrayList(NormalAdpater.EXTRA_ALL_DATA);
-                    Log.d(TAG, "onActivityResult:images.get(0).position; "+images.get(0).position);
-                    Log.d(TAG, "onActivityResult:images.get(0).isselected; "+images.get(0).isSelected);
+                    Log.d(TAG, "onActivityResult:images.get(0).position; " + images.get(0).position);
+                    Log.d(TAG, "onActivityResult:images.get(0).isselected; " + images.get(0).isSelected);
                     NormalAdpater normalAdpater = (NormalAdpater) recyclerview.getAdapter();
                     normalAdpater.refresh(images);
                     DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
@@ -188,6 +192,17 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
                 default:
                     break;
             }
+        }
+    }
+
+    @OnClick({R.id.demand_back, R.id.iv_demand_share})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.demand_back:
+                finish();
+                break;
+            case R.id.iv_demand_share:
+                break;
         }
     }
 }

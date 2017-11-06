@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.pilipa.fapiaobao.ui.widget.NoScrollViewpager
+        android:id="@+id/preview_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5">
+    </com.pilipa.fapiaobao.ui.widget.NoScrollViewpager>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d20" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/d20"
+        android:layout_marginRight="@dimen/d20"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发票金额" />
+        </LinearLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d10" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_fillup"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <android.support.v4.widget.Space
+                android:layout_width="@dimen/d10"
+                android:layout_height="match_parent" />
+
+            <EditText
+                android:inputType="numberDecimal"
+                android:id="@+id/et_fillup"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/d30"
+                android:layout_marginBottom="@dimen/d5"
+                android:layout_marginTop="@dimen/d5"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="请输入该发票的票面金额"
+                android:textColorHint="@color/gray_hint"
+                android:textSize="@dimen/s14" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yuan"
+                android:textColor="@color/gray_hint"
+                android:textColorHint="@color/gray_hint"
+                android:textSize="@dimen/s14" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="@dimen/d10"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d10" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sum" />
+
+                <TextView
+                    android:id="@+id/sum_piece"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/piece" />
+            </LinearLayout>
+
+            <android.support.v4.widget.Space
+                android:layout_width="@dimen/d5"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="," />
+
+            <android.support.v4.widget.Space
+                android:layout_width="@dimen/d5"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="第\u0020" />
+
+                <TextView
+                    android:id="@+id/sum_piece_per"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/piece" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginBottom="@dimen/d10">
+
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="@dimen/d140"
+                android:layout_height="@dimen/d40"
+                android:background="@color/main_style"
+                android:text="@string/confirm"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

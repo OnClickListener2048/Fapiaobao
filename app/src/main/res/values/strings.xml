@@ -274,7 +274,7 @@
     <string name="hurry_up">快来上传您的发票吧~</string>
     <string name="my_provide">我提供的</string>
     <string name="receipt_number">发票张数:</string>
-    <string name="piece">张</string>
+    <string name="piece">\u0020张</string>
     <string name="receipt_money">发票金额:</string>
     <string name="estimate_money">预估红包:</string>
     <string name="if_money_isnt_right">如果金额不符，请继续添加</string>
@@ -376,7 +376,7 @@
     <string name="withdraw_current">当前余额为%1$f元，</string>
     <string name="withdraw_max">最大提现额度为%1$f元</string>
     <string name="withdraw_all">全部提现</string>
-
+    <string name="sum">共\u0020</string>
 
     <string-array name="express">
         <item >圆通</item>

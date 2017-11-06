@@ -25,6 +25,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.UploadReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
+import com.pilipa.fapiaobao.ui.FillUpActivity;
 import com.pilipa.fapiaobao.ui.PreviewActivity;
 import com.pilipa.fapiaobao.ui.UploadReceiptActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
@@ -64,6 +65,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
     public static final int REQUEST_CODE_IMAGE_CLICK = 30;
     public static final int RESULT_CODE_BACK = 40;
     public static final int REQUEST_CODE_FROM_ELEC = 50;
+    public static final int REQUEST_CODE_AMOUNT = 60;
 
 
     @Bind(R.id.rv_upload_receipt)
@@ -255,10 +257,16 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             image.isCapture = false;
             image.position = mPreviousPosition;
             image.uri = contentUri;
-            images.add(image);
-            UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
-            uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
-            mPreviousPosition = images.size();
+            ArrayList<Image> arrayList = new ArrayList<>();
+            arrayList.add(image);
+            Intent intent = new Intent();
+            intent.setClass(mContext, FillUpActivity.class);
+            intent.putParcelableArrayListExtra("images", arrayList);
+            startActivityForResult(intent,REQUEST_CODE_AMOUNT);
+//            images.add(image);
+//            UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
+//            uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
+//            mPreviousPosition = images.size();
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 getActivity().revokeUriPermission(contentUri,
@@ -280,6 +288,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             }
         } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<Uri> uris = Matisse.obtainResult(data);
+            ArrayList<Image> arrayList = new ArrayList<>();
             for (Uri uri : uris) {
                 Image image = new Image();
                 image.isCapture = false;
@@ -287,10 +296,15 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                 mPreviousPosition++;
                 image.uri = uri;
                 image.isFromNet = false;
-                images.add(image);
-                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
-                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
+                arrayList.add(image);
+//                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
+//                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
             }
+
+            Intent intent = new Intent();
+            intent.putParcelableArrayListExtra("images", arrayList);
+            intent.setClass(mContext, FillUpActivity.class);
+            startActivityForResult(intent,REQUEST_CODE_AMOUNT);
 
         } else if (requestCode ==REQUEST_CODE_FROM_ELEC && resultCode == RESULT_OK) {
             Bundle bundleExtra = data.getBundleExtra(ReceiptActivityToken.EXTRA_DATA_FROM_TOKEN);
@@ -298,11 +312,25 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             if (parcelableArrayList.size() == 0 || parcelableArrayList == null) {
                 return;
             }
+            ArrayList<Image> arrayList = new ArrayList<>();
             for (Image image : parcelableArrayList) {
-                images.add(image);
+                arrayList.add(image);
                 mPreviousPosition++;
+//                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
+//                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
+            }
+            Intent intent = new Intent();
+            intent.setClass(mContext, FillUpActivity.class);
+            intent.putParcelableArrayListExtra("images", arrayList);
+            startActivityForResult(intent,REQUEST_CODE_AMOUNT);
+        } else if (requestCode == REQUEST_CODE_AMOUNT) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<Image> arrayList = data.getParcelableArrayListExtra("images");
+                mPreviousPosition += arrayList.size();
+                images.addAll(arrayList);
                 UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
-                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
+                uploadReceiptAdapter.notifyItemRangeInserted(mPreviousPosition,arrayList.size());
+
             }
         }
     }
@@ -331,6 +359,12 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         mCameraDialog.show();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -341,6 +375,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                 break;
             case R.id.btn_open_camera:
                 if (MediaStoreCompat.hasCameraFeature(getActivity())) {
+                    onSaveInstanceState(getArguments());
                     mediaStoreCompat.dispatchCaptureIntent(getActivity(), REQUEST_CODE_CAPTURE);
                 }
                 mCameraDialog.dismiss();

@@ -34,6 +34,7 @@
                 android:src="@mipmap/estimate_back" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,6 +44,54 @@
                 android:text="@string/filter"
                 android:textColor="@color/main_style" />
 
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/d20"
+                android:layout_marginRight="@dimen/d20"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:text="@string/receipt_amount" />
+
+                <RelativeLayout
+                    android:layout_width="@dimen/d200"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_weight="1"
+                    android:gravity="bottom">
+
+                    <EditText
+                        android:id="@+id/et_estimate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/d50"
+                        android:background="@null"
+                        android:gravity="center_horizontal"
+                        android:hint="0"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/red_estimate"
+                        android:textSize="@dimen/s25"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:text="@string/yuan" />
+            </LinearLayout>
         </RelativeLayout>
 
         <android.support.v4.widget.NestedScrollView
@@ -58,91 +107,89 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                   >
+                    android:weightSum="1">
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/d10" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_marginLeft="@dimen/d20"
-                            android:layout_marginRight="@dimen/d20"
-                            android:layout_height="wrap_content"
-                            android:focusable="true"
-                            android:focusableInTouchMode="true"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom"
-                                android:text="@string/receipt_amount" />
-
-                            <RelativeLayout
-                                android:layout_width="@dimen/d200"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal|bottom"
-                                android:layout_weight="1"
-                                android:gravity="bottom">
-
-                                <EditText
-                                    android:id="@+id/et_estimate"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="@dimen/d50"
-                                    android:background="@null"
-                                    android:gravity="center_horizontal"
-                                    android:inputType="numberDecimal"
-                                    android:hint="0"
-                                    android:textColor="@color/red_estimate"
-                                    android:textSize="@dimen/s25"
-                                    android:textStyle="bold" />
-                            </RelativeLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom|right"
-                                android:text="@string/yuan" />
-                        </LinearLayout>
-                    </RelativeLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/d1" />
 
                     <View
-                        android:layout_marginLeft="@dimen/d20"
-                        android:layout_marginRight="@dimen/d20"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/d1"
+                        android:layout_marginLeft="@dimen/d20"
+                        android:layout_marginRight="@dimen/d20"
                         android:background="@color/gray_line" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/d5" />
 
-                    <LinearLayout
-                        android:id="@+id/ll_estimate_caution"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal">
+                        android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:id="@+id/ll_estimate_caution"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@mipmap/caution"
-                            android:drawablePadding="@dimen/d5"
-                            android:text="请如实填写,与票面合计金额保持一致,否则将被拒收"
-                            android:textColor="@color/main_style"
-                            android:textSize="@dimen/s13" />
-                    </LinearLayout>
+                            android:layout_width="match_parent"
+                            android:gravity="center_horizontal"
+                            android:visibility="gone">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@mipmap/caution"
+                                android:drawablePadding="@dimen/d5"
+                                android:text="请如实填写,与票面合计金额保持一致,否则将被拒收"
+                                android:textColor="@color/main_style"
+                                android:textSize="@dimen/s13" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginLeft="@dimen/d20"
+                            android:layout_marginRight="@dimen/d20"
+                            android:id="@+id/ll_filter_condition_top"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="您的筛选条件:"
+                                android:textSize="12sp" />
+
+                            <android.support.v4.widget.Space
+                                android:layout_width="@dimen/d10"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:id="@+id/filter_condition_top"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/main_style"
+                                android:textSize="12sp" />
+
+                            <android.support.v4.widget.Space
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:id="@+id/reset_filter_top"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"
+                                android:text="重新筛选"
+                                android:textColor="@color/main_style" />
+                        </LinearLayout>
+
+
+                    </FrameLayout>
 
 
                     <android.support.v4.widget.Space
@@ -150,6 +197,7 @@
                         android:layout_height="@dimen/d20" />
 
                     <LinearLayout
+                        android:id="@+id/ll_filter_types_location"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/d20"
@@ -255,12 +303,14 @@
 
                     <android.support.v4.widget.Space
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/d20" />
+                        android:layout_height="@dimen/d10" />
+
                     <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:clipToPadding="false"
-                        android:paddingBottom="@dimen/d20">
+                        android:clipChildren="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d170">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -271,83 +321,106 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="bottom"
+                            android:layout_gravity="center"
                             android:scaleType="fitXY"
                             android:src="@mipmap/estimate_1"
-                            android:translationY="55dp" />
-
-                        <RelativeLayout
-                            android:id="@+id/estimate_please"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/d1"
-                            android:translationY="@dimen/d20">
-
-                            <ImageView
-                                android:src="@mipmap/redbag"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:lines="2"
-                                android:textColor="@color/red_estimate" />
-                        </RelativeLayout>
+                            android:translationY="75dp" />
 
                         <LinearLayout
-                            android:id="@+id/ll_bonus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="60dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/d20"
+                            android:layout_marginBottom="@dimen/d10"
+                            android:layout_gravity="bottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:clipToPadding="false"
+                            android:clipChildren="true"
+                            android:gravity="center_horizontal"
                             android:orientation="vertical">
 
-                            <LinearLayout
+                            <FrameLayout
+                                android:layout_marginTop="@dimen/d50"
+                                android:clipToPadding="false"
+                                android:clipChildren="false"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content">
 
-                                <TextView
+                                <RelativeLayout
+                                    android:clipToPadding="false"
+                                    android:clipChildren="false"
+                                    android:id="@+id/estimate_please"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/estimate_redbag" />
-                            </LinearLayout>
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="@dimen/d1">
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:lines="2"
+                                        android:src="@mipmap/redbag"
+                                        android:textColor="@color/red_estimate"
+                                        android:transformPivotY="@dimen/d20" />
+                                </RelativeLayout>
+
+                                <LinearLayout
+                                    android:layout_gravity="bottom"
+                                    android:gravity="bottom"
+                                    android:id="@+id/ll_bonus"
+                                    android:layout_height="wrap_content"
+                                    android:layout_width="wrap_content"
+                                    android:clipToPadding="false"
+                                    android:clipChildren="false"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/estimate_redbag" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:id="@+id/bonus"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="10.0"
+                                            android:textColor="@color/red_estimate"
+                                            android:textSize="35sp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/yuan" />
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+                            </FrameLayout>
+
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="bottom|center"
-                                android:orientation="horizontal">
+                                android:clipToPadding="false"
+                                android:clipChildren="false">
 
-                                <TextView
-                                    android:id="@+id/bonus"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="10.0"
-                                    android:textColor="@color/red_estimate"
-                                    android:textSize="35sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/yuan" />
-                            </LinearLayout>
+                                <Button
+                                    android:id="@+id/test_redbag"
+                                    android:layout_width="@dimen/d240"
+                                    android:layout_height="@dimen/d40"
+                                    android:background="@drawable/estimate_test_redbag"
+                                    android:text="@string/test_red_bag"
+                                    android:textColor="@color/white" />
+                            </RelativeLayout>
                         </LinearLayout>
 
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom|center_horizontal"
-                            android:clipChildren="false"
-                            android:clipToPadding="true"
-                            android:translationY="10dp">
-
-                            <Button
-                                android:id="@+id/test_redbag"
-                                android:layout_width="@dimen/d240"
-                                android:layout_height="@dimen/d30"
-                                android:background="@drawable/estimate_test_redbag"
-                                android:text="@string/test_red_bag"
-                                android:textColor="@color/white" />
-                        </RelativeLayout>
 
                     </FrameLayout>
 
@@ -356,6 +429,7 @@
                         android:layout_height="@dimen/d10" />
 
                     <LinearLayout
+                        android:orientation="horizontal"
                         android:id="@+id/ll_filter_key"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
@@ -387,6 +461,14 @@
                                 android:layout_marginTop="@dimen/d10"
                                 android:orientation="horizontal">
 
+                                <android.support.v4.widget.Space
+                                    android:layout_width="@dimen/d20"
+                                    android:layout_height="match_parent" />
+                                <TextView
+                                    android:textColor="@color/main_style"
+                                    android:id="@+id/tv_label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
@@ -480,9 +562,10 @@
 
                         <android.support.v4.widget.Space
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/d5" />
+                            android:layout_height="@dimen/d10" />
 
                         <LinearLayout
+                            android:id="@+id/ll_filter_condition_bottom"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_horizontal"
@@ -494,8 +577,12 @@
                                 android:text="您的筛选条件:"
                                 android:textSize="12sp" />
 
+                            <android.support.v4.widget.Space
+                                android:layout_width="@dimen/d10"
+                                android:layout_height="match_parent" />
                             <TextView
-                                android:id="@+id/filter_condition"
+                                android:id="@+id/filter_condition_bottom"
+                                android:textColor="@color/main_style"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="12sp" />

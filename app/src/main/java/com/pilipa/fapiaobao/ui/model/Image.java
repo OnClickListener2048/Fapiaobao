@@ -21,6 +21,7 @@ public class Image implements Parcelable {
     public String logisticsCompany;
     public String logisticsTradeno;
     public Uri uri;
+    public String amount;
     public String from;
     public Image() {
 
@@ -40,7 +41,12 @@ public class Image implements Parcelable {
         isSelected = in.readByte() != 0;
         isFromNet = in.readByte() != 0;
         isCapture = in.readByte() != 0;
+        variety = in.readString();
+        state = in.readString();
+        logisticsCompany = in.readString();
+        logisticsTradeno = in.readString();
         uri = in.readParcelable(Uri.class.getClassLoader());
+        amount = in.readString();
     }
 
     public static final Creator<Image> CREATOR = new Creator<Image>() {
@@ -64,16 +70,17 @@ public class Image implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(from);
         dest.writeString(id);
-        dest.writeString(logisticsCompany);
-        dest.writeString(logisticsTradeno);
-        dest.writeString(variety);
-        dest.writeString(state);
         dest.writeString(path);
         dest.writeString(name);
         dest.writeInt(position);
         dest.writeByte((byte) (isSelected ? 1 : 0));
         dest.writeByte((byte) (isFromNet ? 1 : 0));
         dest.writeByte((byte) (isCapture ? 1 : 0));
+        dest.writeString(variety);
+        dest.writeString(state);
+        dest.writeString(logisticsCompany);
+        dest.writeString(logisticsTradeno);
         dest.writeParcelable(uri, flags);
+        dest.writeString(amount);
     }
 }

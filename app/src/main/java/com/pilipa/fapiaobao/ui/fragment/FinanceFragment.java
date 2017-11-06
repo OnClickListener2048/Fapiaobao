@@ -50,6 +50,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     RecyclerView recyclerviewMoreKind;
     private FinanceAdapter adapter;
     public static final String EXTRA_DATA_LABEL = "extra_data_label";
+    public static final String EXTRA_DATA_LABEL_NAME = "extra_data_label_name";
     private LoginWithInfoBean loginBean;
     FinanceAdapter financeAdapter;
     private static final String DECODED_CONTENT_KEY = "codedContent";
@@ -190,9 +191,14 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
     @Override
     public void onLabelClick(String id) {
+
+    }
+
+    @Override
+    public void onLabelNameClick(String label, String name) {
         LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
         if (loginBean != null) {
-            Api.updateInvoiceType(loginBean.getData().getToken(), id, new Api.BaseViewCallback<String>() {
+            Api.updateInvoiceType(loginBean.getData().getToken(), label, new Api.BaseViewCallback<String>() {
                 @Override
                 public void setData(String s) {
                     Log.d(TAG, "setData: s" + s);
@@ -202,7 +208,8 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
 
         Intent intent = new Intent();
-        intent.putExtra(EXTRA_DATA_LABEL, id);
+        intent.putExtra(EXTRA_DATA_LABEL, label);
+        intent.putExtra(EXTRA_DATA_LABEL_NAME, name);
         intent.setClass(mContext, EstimateActivity.class);
         startActivity(intent);
     }

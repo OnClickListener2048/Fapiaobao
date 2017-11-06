@@ -218,6 +218,7 @@ public class ConfirmActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.putExtra("amount", amount);
                 intent.putExtra("bonus", bonus);
+                intent.putExtra("demandsId", demandsId);
                 intent.setClass(this, UploadReceiptActivity.class);
                 startActivity(intent);
                 break;

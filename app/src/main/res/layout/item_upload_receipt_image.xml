@@ -2,18 +2,56 @@
 <com.pilipa.fapiaobao.ui.widget.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:background="@drawable/shape_item_receipt"
-        android:scaleType="fitXY"
-        android:id="@+id/iv_image_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
-    <TextView
-        android:visibility="gone"
-        android:layout_margin="10dp"
-        android:id="@+id/rb"
-        android:layout_gravity="top|right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_weight="1"
+            android:id="@+id/iv_image_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_item_receipt"
+            android:scaleType="fitXY"
+            android:src="@mipmap/timg" />
+
+        <TextView
+            android:id="@+id/rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:layout_margin="10dp"
+            android:visibility="gone" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d3" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textSize="@dimen/s12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="票面金额:" />
+            <TextView
+                android:textSize="@dimen/s12"
+                android:id="@+id/tv_receipt_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="@string/yuan"
+                android:textSize="@dimen/s12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </com.pilipa.fapiaobao.ui.widget.SquareFrameLayout>

@@ -68,6 +68,9 @@ public class UploadReceiptPreviewAdapter extends RecyclerView.Adapter<RecyclerVi
                     }
                 }
             });
+        imageHolder.tv_receipt_account.setText(images.get(position).amount);
+
+
 
     }
 
@@ -121,11 +124,13 @@ public class UploadReceiptPreviewAdapter extends RecyclerView.Adapter<RecyclerVi
 
         private final ImageView iv_image_item;
         private final TextView tv_isSelect;
+        private final TextView tv_receipt_account;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
             iv_image_item = (ImageView) itemView.findViewById(R.id.iv_image_item);
             tv_isSelect = (TextView) itemView.findViewById(R.id.rb);
+            tv_receipt_account = (TextView) itemView.findViewById(R.id.tv_receipt_amount);
         }
     }
 }
