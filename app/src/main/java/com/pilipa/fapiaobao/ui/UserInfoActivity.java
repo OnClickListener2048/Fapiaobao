@@ -137,8 +137,11 @@ public class UserInfoActivity extends BaseActivity {
                         customer.setGender(Constant.GENDER_SECRECY);
                         break;
                 }
+
                 if(image != null){
                     customer.setHeadimg(upLoadReceipt(image.uri));
+                }else{
+
                 }
                 customer.setTelephone(edtPhone.getText().toString().trim());
                 updateUserInfo(customer);
