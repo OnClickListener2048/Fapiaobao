@@ -15,6 +15,8 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
+import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
+import com.pilipa.fapiaobao.utils.TDevice;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,6 +54,7 @@ public class CompanySelectActivity extends BaseActivity implements CompanyListAd
 
     @Override
     public void initView() {
+        recyclerview.addItemDecoration(new FinanceItemDeco(this,LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(),1),getResources().getColor(R.color.gray_hint)));
         recyclerview.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         companyListAdapter = new CompanyListAdapter(true);
         companyListAdapter.setOnCompanyClickListener(this);

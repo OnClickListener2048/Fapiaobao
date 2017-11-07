@@ -2,7 +2,9 @@ package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -48,6 +50,7 @@ import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsPublishBean;
 import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
+import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
@@ -64,7 +67,7 @@ import butterknife.OnClick;
  * Created by edz on 2017/10/26.
  */
 
-public class DemandsPublishActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener {
+public class DemandsPublishActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener, CompanyListAdapter.OnCompanyClickListener {
 
     private static final String TAG = "DemandsPublishActivity";
 
@@ -231,6 +234,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         companyListAdapter = new CompanyListAdapter(false);
+        companyListAdapter.setOnCompanyClickListener(this);
+        recyclerview.addItemDecoration(new FinanceItemDeco(this,LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(),1),getResources().getColor(R.color.gray_hint)));
+        recyclerview.setAdapter(companyListAdapter);
+
     }
 
     private String setUpReceiptParams() {
@@ -272,8 +279,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
         setUsusallyReceiptkind();
         requestForCompanies();
-
-
     }
 
     private void setUsusallyReceiptkind() {
@@ -467,7 +472,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 startActivityForResult(intent, REQUEST_ALL_COMPANY_INFO);
                 break;
             case R.id.ll_add_company_info:
-
                 break;
             case R.id.btn_add_company_info:
                 addCompanyInfo();
@@ -515,15 +519,22 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 break;
             case REQUEST_ALL_COMPANY_INFO:
                 if (resultCode == RESULT_OK) {
+                    TLog.log("onactivityresult");
+                    TLog.log("onactivityresult");
+                    TLog.log("onactivityresult");
+                    TLog.log("onactivityresult");
                     Bundle bundleExtra = data.getBundleExtra(CompanySelectActivity.EXTRA_BUNDLE);
                     CompaniesBean.DataBean databean = bundleExtra.getParcelable(CompanySelectActivity.EXTRA_SELECT_COMPANY);
                     if (databean != null) {
+                        TLog.log("databean != null");
+                        TLog.log("databean != null");
+                        TLog.log("databean != null");
+                        TLog.log("databean != null");
                         llAddCompanyInfo.setVisibility(View.GONE);
                         llCompanyInfo.setVisibility(View.VISIBLE);
                         changeCompanyinfo.setVisibility(View.VISIBLE);
                         updateCompanyInfo(databean);
                     }
-
                 }
                 break;
         }
@@ -531,12 +542,24 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
     private void updateCompanyInfo(CompaniesBean.DataBean databean) {
 
+        TLog.log("databean.getName()"+databean.getName());
+        TLog.log("databean.getAddress()"+databean.getAddress());
+        TLog.log("databean.getTaxno()"+databean.getTaxno());
+        TLog.log("databean.getPhone()"+databean.getPhone());
+        TLog.log("databean.getDepositBank()"+databean.getDepositBank());
+        TLog.log("databean.getAccount()"+databean.getAccount());
+
         etPublishCompanyName.setText(databean.getName());
         etPublishAddress.setText(databean.getAddress());
         etPublishTexNumber.setText(databean.getTaxno());
         etPublishPhoneNumber.setText(databean.getPhone());
         etPublishBank.setText(databean.getDepositBank());
         etPublishBankAccount.setText(databean.getAccount());
+        llCompanyInfo.setVisibility(View.VISIBLE);
+        llAddCompanyInfo.setVisibility(View.GONE);
+        changeCompanyinfo.setVisibility(View.VISIBLE);
+        uploadScan.setVisibility(View.GONE);
+        ivDotsMoreCompany.setVisibility(View.GONE);
     }
 
     private DemandsPublishBean makeParams() {
@@ -666,6 +689,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     }
 
     private void requestForCompanies() {
+        TLog.log("requestForCompanies");
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
@@ -825,4 +849,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         }
     }
 
+    @Override
+    public void onCompanyClick(CompaniesBean.DataBean dataBean) {
+        updateCompanyInfo(dataBean);
+    }
 }

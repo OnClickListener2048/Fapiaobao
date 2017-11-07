@@ -132,6 +132,7 @@
         <activity android:name=".ui.MoreTypesActivity" />
         <activity android:name=".ui.FilterActivity" />
         <activity android:name=".ui.FillUpActivity" />
+        <activity android:name=".ui.CompanySelectActivity" />
         <!--wjn add-->
         <activity android:name=".ui.RechargeActivity" />
         <activity android:name=".ui.RechargeDetailsActivity" />

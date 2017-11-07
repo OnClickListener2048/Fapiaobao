@@ -32,7 +32,7 @@ public class CompanyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof Holder) {
             Holder viewHolder = (Holder) holder;
             if (list != null) {
@@ -43,7 +43,7 @@ public class CompanyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             viewHolder.simpleText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onCompanyClickListener.onCompanyClick(dataBean);
+                    onCompanyClickListener.onCompanyClick(list.get(position));
                 }
             });
         }
@@ -56,7 +56,20 @@ public class CompanyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return isAll?list.size():5;
+        if (isAll) {
+            if (list != null) {
+                return list.size();
+            }
+        } else {
+            if (list!= null) {
+                if (list.size() >= 5) {
+                    return 5;
+                } else {
+                    return list.size();
+                }
+            }
+        }
+        return 0;
     }
 
     public interface OnCompanyClickListener {
