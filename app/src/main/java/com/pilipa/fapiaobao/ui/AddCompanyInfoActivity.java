@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -14,7 +16,9 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -38,22 +42,45 @@ public class AddCompanyInfoActivity extends BaseActivity {
     EditText edtBankName;
     @Bind(R.id.edt_bank_account)
     EditText edtBankAccount;
+    private static final int REQUEST_CODE_SCAN = 0x0000;
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_company_info_add;
     }
 
-    @OnClick({R.id.add_back,R.id.btn_save})
+    @OnClick({R.id.add_back,R.id.btn_save,R.id.img_scan})
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.img_scan:{
+                startActivityForResult(new Intent(this, CaptureActivity.class), REQUEST_CODE_SCAN);
+            }break;
             case R.id.add_back:{
                 finish();
             }break;
             case R.id.btn_save:{
                 addCompany();
             }break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_SCAN){
+           String codedContent=  data.getStringExtra("codedContent");
+            Log.d("codedContent",codedContent);
+            if(codedContent != null){
+                Gson gson = new Gson();
+                CompanyDetailsBean.DataBean bean = gson.fromJson(codedContent, CompanyDetailsBean.DataBean.class);
+                edtCompany_name.setText(bean.getName());
+                edtTaxno.setText(bean.getTaxno());
+                edtCompanyAddress.setText(bean.getAddress());
+                edtCompanyNumber.setText(bean.getPhone());
+                edtBankName.setText(bean.getDepositBank());
+                edtBankAccount.setText(bean.getAccount());
+            }
         }
     }
 

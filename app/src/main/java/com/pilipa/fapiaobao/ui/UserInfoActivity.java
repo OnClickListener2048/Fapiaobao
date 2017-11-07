@@ -279,6 +279,14 @@ public class UserInfoActivity extends BaseActivity {
         edtBirthday.setText(customer.getBirthday());
         edtUserName.setText(customer.getNickname());
         edtPhone.setText(customer.getTelephone());
+        requestManager
+                .load(customer.getHeadimg())
+                .asBitmap()
+                .placeholder(R.mipmap.ic_head_circle_default_small)
+                .error(R.mipmap.ic_head_circle_default_small)
+                .thumbnail(0.1f)
+                .into(img_head);
+
         if(customer.getOpenid() == null){
             tv_wx.setText("去绑定");
             tv_wx.setOnClickListener(this);
