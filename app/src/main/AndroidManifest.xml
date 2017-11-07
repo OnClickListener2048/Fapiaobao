@@ -168,6 +168,8 @@
         </provider>
 
         <service android:name="com.amap.api.location.APSService"></service>
+
+
     </application>
 
 </manifest>

@@ -49,8 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginTop="1dp"
+        android:textColor="@drawable/selector_nav_item"
         android:gravity="center"
-        android:textColor="@color/black"
         android:textSize="12sp"
         tools:text="资讯" />
 

@@ -436,14 +436,6 @@
             </LinearLayout>
         </FrameLayout>
 
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d1"
-            android:layout_marginLeft="@dimen/d15"
-            android:layout_marginRight="@dimen/d15"
-            android:layout_marginTop="@dimen/d5"
-            android:background="@color/gray_line" />
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/d20" />

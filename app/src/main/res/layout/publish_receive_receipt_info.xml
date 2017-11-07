@@ -38,7 +38,7 @@
 
             <ImageView
                 android:id="@+id/rb_cod"
-                android:src="@drawable/rb_cod"
+                android:src="@mipmap/rb_uncheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

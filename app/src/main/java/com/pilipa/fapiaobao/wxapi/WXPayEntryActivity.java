@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.mylibrary.widget.SimplexToast;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.receiver.WXPayReceiver;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -27,7 +28,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_receipt_folder_preview);
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         api.handleIntent(getIntent(), this);
     }
@@ -39,14 +39,25 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp baseResp) {
-        Log.d(TAG, "baseResp: errStr"+baseResp.errStr);
-        Log.d(TAG, "baseResp: errCode"+baseResp.errCode);
-        BaseApplication.showToast("baseResp: errStr"+baseResp.errStr+"baseResp: errCode"+baseResp.errCode);
         if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            SimplexToast.show(this, "支付成功");
-        } else {
-            SimplexToast.show(this, "支付失败");
+            if (baseResp.errCode == 0) {
+//                BaseApplication.showToast("支付成功");
+                Intent intent = new Intent();
+                intent.setAction(WXPayReceiver.pay_success);
+                sendBroadcast(intent);
+                setResult(RESULT_OK);
+                finish();
+            } else if (baseResp.errCode == -2) {
+                setResult(RESULT_CANCELED);
+                Intent intent = new Intent();
+                intent.setAction(WXPayReceiver.pay_fail);
+                sendBroadcast(intent);
+//                BaseApplication.showToast("用户取消");
+                finish();
+            }
         }
+
+
         finish();
     }
 

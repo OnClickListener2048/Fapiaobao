@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.Utils;
 import com.example.mylibrary.widget.SimplexToast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -74,7 +75,7 @@ public class BaseApplication extends Application {
         //LeakCanary.install(this);
         //OkGoClient.init();
         initOkGo(this);
-
+        Utils.init(this);
         AccountHelper.init(this);
 
 //        OkGo.getInstance().init(this);

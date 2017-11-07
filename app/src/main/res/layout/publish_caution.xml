@@ -18,12 +18,15 @@
         android:background="@drawable/shape_rect_demand_info">
 
         <EditText
+            android:layout_gravity="top"
+            android:gravity="top"
             android:id="@+id/et_publish_cautions"
-            android:padding="@dimen/d10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:hint="请填写注意事项..." />
+            android:hint="@string/awareness"
+            android:padding="@dimen/d10"
+            android:textSize="@dimen/s14" />
     </LinearLayout>
 
     <Button

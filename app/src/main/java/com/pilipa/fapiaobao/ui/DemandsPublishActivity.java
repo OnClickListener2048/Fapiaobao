@@ -1,14 +1,15 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
+import android.content.IntentFilter;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,6 +51,7 @@ import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsPublishBean;
 import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
+import com.pilipa.fapiaobao.receiver.WXPayReceiver;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
@@ -154,6 +156,20 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     LinearLayout llAddCompanyInfo;
     @Bind(R.id.btn_add_company_info)
     LinearLayout btnAddCompanyInfo;
+    @Bind(R.id.tv_receive_deadline)
+    TextView tvReceiveDeadline;
+    @Bind(R.id.tv_express_limited)
+    TextView tvExpressLimited;
+    @Bind(R.id.ll_toggle_switch)
+    LinearLayout llToggleSwitch;
+    @Bind(R.id.SwitchArea)
+    SwitchCompat SwitchArea;
+    @Bind(R.id.ll_area)
+    LinearLayout llArea;
+    @Bind(R.id.ll_estimate_request)
+    LinearLayout llEstimateRequest;
+    @Bind(R.id.tv_area_limited)
+    TextView tvAreaLimited;
     private boolean paperNormal;
     private boolean elec;
     private boolean paperSpecial;
@@ -180,6 +196,23 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
     private static final int REQUEST_ADD_COMPANY_INFO = 971;
     private static final int REQUEST_ALL_COMPANY_INFO = 321;
+    private Dialog mTipDialog;
+
+    private static final double MAX_AMOUNT = 50000;
+
+    public WXPayReceiver wxPayReceiver = new WXPayReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (TextUtils.equals(intent.getAction(), WXPayReceiver.pay_success)) {
+                publish();
+
+            } else if (TextUtils.equals(intent.getAction(), WXPayReceiver.pay_fail)) {
+                BaseApplication.showToast("没钱发什么需求");
+
+            }
+        }
+    };
+    private boolean isAreaLimited = false;
 
     @Override
     protected int getLayoutId() {
@@ -214,7 +247,12 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         dialog = new TimePickerDialog(this);
         Switch.setChecked(true);
         Switch.setOnCheckedChangeListener(this);
-
+        Switch.setTag("Switch");
+        SwitchArea.setChecked(true);
+        SwitchArea.setOnCheckedChangeListener(this);
+        SwitchArea.setTag("SwitchArea");
+        llEstimateRequest.setVisibility(View.GONE);
+        llToggleSwitch.setVisibility(View.GONE);
         rbCod.setSelected(true);
 
 
@@ -235,16 +273,30 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         companyListAdapter = new CompanyListAdapter(false);
         companyListAdapter.setOnCompanyClickListener(this);
-        recyclerview.addItemDecoration(new FinanceItemDeco(this,LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(),1),getResources().getColor(R.color.gray_hint)));
+        recyclerview.addItemDecoration(new FinanceItemDeco(this, LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(), 1), getResources().getColor(R.color.gray_hint)));
         recyclerview.setAdapter(companyListAdapter);
 
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(WXPayReceiver.pay_fail);
+        intentFilter.addAction(WXPayReceiver.pay_success);
+
+        registerReceiver(wxPayReceiver, intentFilter);
+        String location = BaseApplication.get("location", "定位失败");
+        tvAreaLimited.setText(location);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(wxPayReceiver);
     }
 
     private String setUpReceiptParams() {
         if (paperNormal && paperSpecial && elec) {
             invoiceVarieties = "1,2,3";
             return invoiceVarieties;
-        } else if (paperSpecial && paperSpecial) {
+        } else if (paperNormal && paperSpecial) {
             invoiceVarieties = "1,2";
             return invoiceVarieties;
         } else if (paperSpecial && elec) {
@@ -334,7 +386,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             , R.id.changeCompanyinfo
             , R.id.more_company
             , R.id.ll_add_company_info
-            , R.id.btn_add_company_info})
+            , R.id.btn_add_company_info
+            , R.id.tv_receive_deadline, R.id.tv_express_limited})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.title:
@@ -430,40 +483,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             case R.id.et_publish_cautions:
                 break;
             case R.id.btn_publish_now:
-                if (checkParams()) {
-                    Gson gson = new GsonBuilder().serializeNulls().create();
-                    Api.publish(gson.toJson(makeParams()), new Api.BaseViewCallbackWithOnStart<BalanceBean>() {
-                        @Override
-                        public void onStart() {
-                            showProgressDialog();
-                        }
+                publish();
 
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
-
-                        @Override
-                        public void onError() {
-                            hideProgressDialog();
-                        }
-
-                        @Override
-                        public void setData(BalanceBean balanceBean) {
-                            Intent intent = new Intent();
-                            if (balanceBean.getStatus() == 200) {
-                                intent.putExtra("demand", balanceBean.getData().getDemand());
-                                intent.setClass(DemandsPublishActivity.this, PubSuccessActivity.class);
-                                startActivity(intent);
-                            } else if (balanceBean.getStatus() == 888) {
-                                BaseApplication.showToast("账户余额不足，请先充值");
-                                intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
-                                startActivityForResult(intent, REQUEST_CODE);
-
-                            }
-                        }
-                    });
-                }
                 break;
             case R.id.changeCompanyinfo:
             case R.id.more_company:
@@ -476,6 +497,50 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             case R.id.btn_add_company_info:
                 addCompanyInfo();
                 break;
+            case R.id.tv_receive_deadline:
+                setTipDialog(R.layout.layout_extimate_tip1);
+                break;
+            case R.id.tv_express_limited:
+                setTipDialog(R.layout.layout_extimate_tip2);
+                break;
+        }
+    }
+
+    private void publish() {
+        if (checkParams()) {
+            Gson gson = new GsonBuilder().serializeNulls().create();
+            Api.publish(gson.toJson(makeParams()), new Api.BaseViewCallbackWithOnStart<BalanceBean>() {
+                @Override
+                public void onStart() {
+                    showProgressDialog();
+                }
+
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onError() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void setData(BalanceBean balanceBean) {
+                    Intent intent = new Intent();
+                    if (balanceBean.getStatus() == 200) {
+                        intent.putExtra("demand", balanceBean.getData().getDemand());
+                        intent.setClass(DemandsPublishActivity.this, PubSuccessActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else if (balanceBean.getStatus() == 888) {
+                        BaseApplication.showToast("账户余额不足，请先充值");
+                        intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
+                        startActivityForResult(intent, REQUEST_CODE);
+
+                    }
+                }
+            });
         }
     }
 
@@ -500,7 +565,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         switch (requestCode) {
             case REQUEST_CODE:
                 if (requestCode == RESULT_CANCELED) {
-                    finish();
+                    BaseApplication.showToast("没钱");
+                } else if (RESULT_OK == requestCode) {
+                    publish();
                 }
             case REQUEST_CODE_FOR_MORE_TYPE:
                 if (resultCode == RESULT_OK) {
@@ -519,17 +586,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 break;
             case REQUEST_ALL_COMPANY_INFO:
                 if (resultCode == RESULT_OK) {
-                    TLog.log("onactivityresult");
-                    TLog.log("onactivityresult");
-                    TLog.log("onactivityresult");
-                    TLog.log("onactivityresult");
                     Bundle bundleExtra = data.getBundleExtra(CompanySelectActivity.EXTRA_BUNDLE);
                     CompaniesBean.DataBean databean = bundleExtra.getParcelable(CompanySelectActivity.EXTRA_SELECT_COMPANY);
                     if (databean != null) {
-                        TLog.log("databean != null");
-                        TLog.log("databean != null");
-                        TLog.log("databean != null");
-                        TLog.log("databean != null");
                         llAddCompanyInfo.setVisibility(View.GONE);
                         llCompanyInfo.setVisibility(View.VISIBLE);
                         changeCompanyinfo.setVisibility(View.VISIBLE);
@@ -541,14 +600,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     }
 
     private void updateCompanyInfo(CompaniesBean.DataBean databean) {
-
-        TLog.log("databean.getName()"+databean.getName());
-        TLog.log("databean.getAddress()"+databean.getAddress());
-        TLog.log("databean.getTaxno()"+databean.getTaxno());
-        TLog.log("databean.getPhone()"+databean.getPhone());
-        TLog.log("databean.getDepositBank()"+databean.getDepositBank());
-        TLog.log("databean.getAccount()"+databean.getAccount());
-
         etPublishCompanyName.setText(databean.getName());
         etPublishAddress.setText(databean.getAddress());
         etPublishTexNumber.setText(databean.getTaxno());
@@ -558,6 +609,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         llCompanyInfo.setVisibility(View.VISIBLE);
         llAddCompanyInfo.setVisibility(View.GONE);
         changeCompanyinfo.setVisibility(View.VISIBLE);
+        moreCompany.setVisibility(View.GONE);
         uploadScan.setVisibility(View.GONE);
         ivDotsMoreCompany.setVisibility(View.GONE);
     }
@@ -565,6 +617,12 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private DemandsPublishBean makeParams() {
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         DemandsPublishBean bean = new DemandsPublishBean();
+        if (SwitchArea.isChecked()) {
+            bean.setAreaRestrict("1");
+            bean.setCity(tvAreaLimited.getText().toString());
+        } else {
+            bean.setAreaRestrict("0");
+        }
         bean.setInvoiceVarieties(setUpReceiptParams());
         if (dataBean != null) {
             bean.setId(dataBean.getId());
@@ -587,11 +645,16 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         List<DemandsPublishBean.DemandInvoiceTypeListBean> listBeen = new ArrayList<>();
 
         for (DefaultInvoiceBean.DataBean defaultBean : this.bean) {
-            DemandsPublishBean.DemandInvoiceTypeListBean demandInvoiceTypeListBean = new DemandsPublishBean.DemandInvoiceTypeListBean();
             if (defaultBean.isSelect()) {
-                demandInvoiceTypeListBean.setId(defaultBean.getId());
+                DemandsPublishBean.DemandInvoiceTypeListBean demandInvoiceTypeListBean = new DemandsPublishBean.DemandInvoiceTypeListBean();
+                DemandsPublishBean.DemandInvoiceTypeListBean.InvoiceTypeBeanX invoiceTypeBeanX = new DemandsPublishBean.DemandInvoiceTypeListBean.InvoiceTypeBeanX();
+                TLog.log(defaultBean.getName());
+                invoiceTypeBeanX.setId(defaultBean.getId());
+                demandInvoiceTypeListBean.setInvoiceType(invoiceTypeBeanX);
                 listBeen.add(demandInvoiceTypeListBean);
             }
+
+
         }
 
         bean.setDemandInvoiceTypeList(listBeen);
@@ -618,6 +681,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
         if (!checkIfIsEmpty(etAmount)) {
             BaseApplication.showToast(etAmount.getHint() + "不能为空");
+            return false;
+        }
+        if (Double.valueOf(etAmount.getText().toString().trim()) > MAX_AMOUNT) {
+            BaseApplication.showToast("单次需求总额不得超过50000元");
             return false;
         }
         if (Switch.isChecked()) {
@@ -688,8 +755,34 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         }
     }
 
+
+    private void setTipDialog(@NonNull int res) {
+        mTipDialog = new Dialog(this, R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+                res, null);
+        root.findViewById(R.id.i_know).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTipDialog.dismiss();
+            }
+        });
+        mTipDialog.setContentView(root);
+        Window dialogWindow = mTipDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mTipDialog.show();
+    }
+
     private void requestForCompanies() {
-        TLog.log("requestForCompanies");
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
@@ -782,7 +875,14 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        llAmount.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+        if (buttonView.getTag().equals("SwitchArea")) {
+            llArea.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            llEstimateRequest.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+        } else if (buttonView.getTag().equals("Switch")) {
+            llAmount.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            llToggleSwitch.setVisibility(isChecked ? View.GONE : View.VISIBLE);
+        }
+
 
     }
 
@@ -826,11 +926,17 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 //ProvinceBean 省份信息
                 //CityBean     城市信息
                 //DistrictBean 区县信息
-                demandPostageBean.setProvince(province.getName());
-                demandPostageBean.setCity(city.getName());
-                demandPostageBean.setDistrict(district.getName());
-                tvArea.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
-                cityPicker.hide();
+                if (isAreaLimited) {
+                    tvAreaLimited.setText(city.getName()+"市");
+                    isAreaLimited = false;
+                } else {
+                    demandPostageBean.setProvince(province.getName());
+                    demandPostageBean.setCity(city.getName());
+                    demandPostageBean.setDistrict(district.getName());
+                    tvArea.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
+                }
+                    cityPicker.hide();
+
             }
 
             @Override
@@ -852,5 +958,12 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     @Override
     public void onCompanyClick(CompaniesBean.DataBean dataBean) {
         updateCompanyInfo(dataBean);
+    }
+
+
+    @OnClick(R.id.tv_area_limited)
+    public void onViewClicked() {
+        isAreaLimited = true;
+        cityPicker.show();
     }
 }

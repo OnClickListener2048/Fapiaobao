@@ -104,13 +104,13 @@
                 android:layout_marginTop="@dimen/d5"
                 android:background="@color/main_style" />
 
-            <include layout="@layout/publish_setting" />
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d2"
                 android:layout_marginTop="@dimen/d5"
                 android:background="@color/main_style" />
+
+            <include layout="@layout/publish_setting" />
 
             <include
                 android:id="@+id/publish_receive_receipt_info"

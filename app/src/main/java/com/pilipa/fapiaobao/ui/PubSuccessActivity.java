@@ -101,6 +101,7 @@ public class PubSuccessActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.setClass(this, PubActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.btn_watch:
                 //TODO 跳转到发布详情页面
@@ -108,6 +109,7 @@ public class PubSuccessActivity extends BaseActivity {
                 intent1.putExtra("demandId", demand);
                 intent1.setClass(this, DemandActivity.class);
                 startActivity(intent1);
+                finish();
                 break;
             case R.id.WeChat:
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN)) {

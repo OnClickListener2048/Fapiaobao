@@ -32,8 +32,8 @@
     <com.pilipa.fapiaobao.ui.widget.LabelsView
         android:id="@+id/labels_receipt_kind"
         android:layout_width="match_parent"
-        app:labelBackground="@drawable/selector_invoice_receipt_kind_bg"
-        app:labelTextColor="@drawable/selector_invoice_receipt_kind_text"
+        app:labelBackground="@drawable/selector_estimate_receipt_kind_bg"
+        app:labelTextColor="@drawable/selector_estimate_receipt_kind_text"
         app:labelTextPaddingBottom="5dp"
         app:labelTextPaddingLeft="10dp"
         app:labelTextPaddingRight="10dp"

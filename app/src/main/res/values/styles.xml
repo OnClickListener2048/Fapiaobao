@@ -68,4 +68,12 @@
         <item name="android:paddingLeft">5dip</item>
         </style>
 
+    <style name="switchCompat">
+        <item name="colorControlActivated">@color/main_style</item>
+        <!-- Inactive thumb color switch关闭时的拇指按钮的颜色 -->
+        <item name="colorSwitchThumbNormal">@color/main_style</item>
+        <!-- Inactive track color(30% transparency) switch关闭时的轨迹的颜色  30%这个颜色 -->
+        <item name="android:colorForeground">@color/main_style</item>
+    </style>
+
 </resources>

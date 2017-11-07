@@ -194,7 +194,6 @@ public class NavFragment extends BaseFragment {
                     } else if (loginWithInfoBean.getStatus()==701) {
                         BaseApplication.showToast("token验证失败请重新登录");
                         startActivity(new Intent(mContext, LoginActivity.class));
-                        getActivity().finish();
                     }
                 }
             });

@@ -1,6 +1,11 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -8,13 +13,19 @@ import android.widget.TextView;
 import com.example.mylibrary.utils.NetworkUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
+import com.pilipa.fapiaobao.receiver.WXPayReceiver;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.wxapi.Constants;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import butterknife.Bind;
@@ -25,7 +36,7 @@ import butterknife.OnClick;
  * Created by lyt on 2017/10/24.
  */
 
-public class RechargeActivity extends BaseActivity {
+public class RechargeActivity extends BaseActivity  {
     @Bind(R.id.tv_recharge_10)
     TextView tv_recharge_10;
     @Bind(R.id.tv_recharge_30)
@@ -38,6 +49,18 @@ public class RechargeActivity extends BaseActivity {
     Button goRecharge;
     private IWXAPI api;
     private double amount;
+    public  BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (TextUtils.equals(intent.getAction(), WXPayReceiver.pay_success)) {
+                RechargeActivity.this.setResult(RESULT_OK);
+                finish();
+            } else if (TextUtils.equals(intent.getAction(), WXPayReceiver.pay_fail)) {
+                RechargeActivity.this.setResult(RESULT_CANCELED);
+                finish();
+            }
+        }
+    };
 
     @Override
     protected int getLayoutId() {
@@ -78,8 +101,19 @@ public class RechargeActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(WXPayReceiver.pay_fail);
+        intentFilter.addAction(WXPayReceiver.pay_success);
+
+        registerReceiver(mBroadcastReceiver, intentFilter);
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         api.registerApp(Constants.APP_ID);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override
@@ -139,36 +173,6 @@ public class RechargeActivity extends BaseActivity {
             });
         }
 
-
-
-
-//
-//        Api.wxPay("1", new Api.BaseViewCallback<String>() {
-//            @Override
-//            public void setData(String s) {
-//                Log.d(" Api.wxPay", "setData: s" + s);
-//                WXBean wxBean = PayCommonUtil.parseXml(s);
-//
-//                PayReq request = new PayReq();
-//
-//                request.appId = wxBean.getAppid();
-//
-//                request.partnerId = wxBean.getMch_id();
-//
-//                request.prepayId= wxBean.getPrepay_id();
-//
-//                request.packageValue = "Sign=WXPay";
-//
-//                request.nonceStr= wxBean.getNonce_str();
-//
-//                request.timeStamp= System.currentTimeMillis()+"";
-//
-
-//
-//                api.sendReq(request);
-//
-//            }
-//        });
 
     }
 }

@@ -58,9 +58,9 @@ public class PubActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        receiptElec.setSelected(true);
+        receiptElec.setSelected(false);
         receiptPaperNormal.setSelected(true);
-        receiptPaperSpecial.setSelected(true);
+        receiptPaperSpecial.setSelected(false);
         updateSelection();
     }
 

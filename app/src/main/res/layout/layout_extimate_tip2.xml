@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/tip_bg"
+        android:layout_margin="@dimen/d20"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/d10"
+            android:textColor="@color/white"
+            android:text="收票截止时间:"/>
+        <LinearLayout
+            android:layout_marginLeft="@dimen/d30"
+            android:layout_marginRight="@dimen/d30"
+            android:layout_marginTop="@dimen/d20"
+            android:layout_below="@+id/thanks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/d10"
+                android:layout_marginRight="@dimen/d10"
+                android:text="在邮资到付情况下,为避免您多次收票承担不必要的快递费用,建议您合理设定每次快递的最低发票总金额."
+                android:textColor="@color/white">
+
+            </TextView>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="right"
+            android:layout_marginRight="@dimen/d30"
+            android:layout_marginLeft="@dimen/d30"
+            android:layout_marginTop="@dimen/d10"
+            android:layout_marginBottom="@dimen/d20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/i_know"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:text="我知道了"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
