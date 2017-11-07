@@ -88,31 +88,26 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
         @Override
         public void onPullingDown(TwinklingRefreshLayout refreshLayout, float fraction) {
             super.onPullingDown(refreshLayout, fraction);
-            showToast("onPullingDown");
         }
 
         @Override
         public void onPullingUp(TwinklingRefreshLayout refreshLayout, float fraction) {
             super.onPullingUp(refreshLayout, fraction);
-            showToast("onPullingUp");
         }
 
         @Override
         public void onPullDownReleasing(TwinklingRefreshLayout refreshLayout, float fraction) {
             super.onPullDownReleasing(refreshLayout, fraction);
-            showToast("onPullDownReleasing");
         }
 
         @Override
         public void onPullUpReleasing(TwinklingRefreshLayout refreshLayout, float fraction) {
             super.onPullUpReleasing(refreshLayout, fraction);
-            showToast("onPullUpReleasing");
         }
 
         @Override
         public void onRefresh(TwinklingRefreshLayout refreshLayout) {
             super.onRefresh(refreshLayout);
-            showToast("onRefresh");
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -125,7 +120,6 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
         @Override
         public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
             super.onLoadMore(refreshLayout);
-            showToast("onLoadMore");
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -138,26 +132,22 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
         @Override
         public void onFinishRefresh() {
             super.onFinishRefresh();
-            showToast("onFinishRefresh");
         }
 
         @Override
         public void onFinishLoadMore() {
             super.onFinishLoadMore();
-            showToast("onFinishLoadMore");
         }
 
         @Override
         public void onRefreshCanceled() {
             super.onRefreshCanceled();
-            showToast("onRefreshCanceled");
 
         }
 
         @Override
         public void onLoadmoreCanceled() {
             super.onLoadmoreCanceled();
-            showToast("onLoadmoreCanceled");
         }
     };
 

@@ -42,7 +42,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
     TwinklingRefreshLayout trl;
     private MyCompanyAdapter mAdapter;
 
-    public List<CompaniesBean.DataBean> mData = new ArrayList();
+    public ArrayList<CompaniesBean.DataBean> mData = new ArrayList();
     public MyCompanyViewPagerFragment() {
 
     }
@@ -93,31 +93,26 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         @Override
         public void onPullingDown(TwinklingRefreshLayout refreshLayout, float fraction) {
             super.onPullingDown(refreshLayout, fraction);
-            showToast("onPullingDown");
         }
 
         @Override
         public void onPullingUp(TwinklingRefreshLayout refreshLayout, float fraction) {
             super.onPullingUp(refreshLayout, fraction);
-            showToast("onPullingUp");
         }
 
         @Override
         public void onPullDownReleasing(TwinklingRefreshLayout refreshLayout, float fraction) {
             super.onPullDownReleasing(refreshLayout, fraction);
-            showToast("onPullDownReleasing");
         }
 
         @Override
         public void onPullUpReleasing(TwinklingRefreshLayout refreshLayout, float fraction) {
             super.onPullUpReleasing(refreshLayout, fraction);
-            showToast("onPullUpReleasing");
         }
 
         @Override
         public void onRefresh(TwinklingRefreshLayout refreshLayout) {
             super.onRefresh(refreshLayout);
-            showToast("onRefresh");
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -130,7 +125,6 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         @Override
         public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
             super.onLoadMore(refreshLayout);
-            showToast("onLoadMore");
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -143,33 +137,30 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         @Override
         public void onFinishRefresh() {
             super.onFinishRefresh();
-            showToast("onFinishRefresh");
         }
 
         @Override
         public void onFinishLoadMore() {
             super.onFinishLoadMore();
-            showToast("onFinishLoadMore");
         }
 
         @Override
         public void onRefreshCanceled() {
             super.onRefreshCanceled();
-            showToast("onRefreshCanceled");
 
         }
 
         @Override
         public void onLoadmoreCanceled() {
             super.onLoadmoreCanceled();
-            showToast("onLoadmoreCanceled");
         }
     };
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(mContext, CompanyDetailsActivity.class);
-        intent.putExtra("companyId",mData.get(position).getId());
+        intent.putParcelableArrayListExtra("companyList",mData);
+        intent.putExtra("mPreviousPos",position);
         startActivity(intent);
     }
 
@@ -180,7 +171,8 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
                 public void setData(CompaniesBean companiesBean) {
                     if(companiesBean.getStatus() == REQUEST_SUCCESS){
                         List<CompaniesBean.DataBean> list =  companiesBean.getData();
-                        mData.addAll(list) ;
+                        mData.clear();
+                        mData.addAll(list);
                         mAdapter.initData(list);
                         Log.d(TAG, "CompanyList"+list.get(0).toString());
                     }

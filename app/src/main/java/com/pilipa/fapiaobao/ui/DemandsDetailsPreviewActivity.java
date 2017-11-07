@@ -32,7 +32,7 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
-import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.net.bean.me.RejectInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.publish.ConfirmInvoiceBean;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.PreviewImageFragment;
@@ -190,6 +190,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                 layout_willchecked_item.setVisibility(View.GONE);
                 layout_reject_item.setVisibility(View.GONE);
                 layout_unqualified_item.setVisibility(View.VISIBLE);
+                tv_reject_reason.setText(image.reason);
                 break;
             case STATE_MAILING:
                 layout_qualified_item.setVisibility(View.GONE);
@@ -260,7 +261,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             }
             break;
             case R.id.tv_Unqualified_reject: {
-                setRejectDialog(REJECT_START);
+                setRejectDialog(REJECT_START,"");
             }
             break;
             case R.id.delete:
@@ -342,11 +343,12 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                                     , edt_amount_reject.getText().toString().trim()
                                     , data.getValue()
                                     , edt_reason_reject.getText().toString().trim()
-                                    , new Api.BaseViewCallback<NormalBean>() {
+                                    , new Api.BaseViewCallback<RejectInvoiceBean>() {
                                         @Override
-                                        public void setData(NormalBean normalBean) {
+                                        public void setData(RejectInvoiceBean normalBean) {
                                             if (normalBean.getStatus() == 200) {
-                                                setRejectDialog(REJECT_FINISH);
+                                               String reason = normalBean.getData().getReason();
+                                                setRejectDialog(REJECT_FINISH,reason);
                                             }
                                         }
                                     });
@@ -499,7 +501,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
 
     }
     private  Dialog mDialog;
-    private void setRejectDialog(int step) {
+    private void setRejectDialog(int step,String reason) {
         mDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout  root = null;
         if(step == REJECT_START){

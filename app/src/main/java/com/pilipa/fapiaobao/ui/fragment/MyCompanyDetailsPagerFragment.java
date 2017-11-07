@@ -1,6 +1,9 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -17,28 +20,42 @@ import android.widget.Toast;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.adapter.UnusedReceiptAdapter;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
+import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.ui.EstimateActivity;
+import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.ui.widget.XCFlowLayout;
+import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
  * Created by lyt on 2017/10/17.
  */
 
-public class MyCompanyDetailsPagerFragment extends BaseFragment{
+public class MyCompanyDetailsPagerFragment extends BaseFragment {
     private static final String TAG = "MyCompanyDetailsPagerFragment";
-    private TextView tv_companyName,tv_receptCode,tv_address,tv_phoneNum,tv_bankName,tv_account;
+    private TextView tv_companyName, tv_receptCode, tv_address, tv_phoneNum, tv_bankName, tv_account;
     private Dialog mCameraDialog;
-    private UMShareListener umShareListener= new UMShareListener() {
+    private XCFlowLayout flowLayout;
+    private ImageView img_details_viewpager_next;
+    private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA share_media) {
 
@@ -64,6 +81,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
     protected int getLayoutId() {
         return R.layout.fragment_company_details;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -71,11 +89,13 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
         ButterKnife.bind(this, rootView);
         return rootView;
     }
+
     public static MyCompanyDetailsPagerFragment newInstance(Bundle bundle) {
         MyCompanyDetailsPagerFragment myCompanyDetailsPagerFragment = new MyCompanyDetailsPagerFragment();
         myCompanyDetailsPagerFragment.setArguments(bundle);
         return myCompanyDetailsPagerFragment;
     }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -85,51 +105,92 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
         tv_phoneNum = (TextView) view.findViewById(R.id.tv_phoneNum);
         tv_bankName = (TextView) view.findViewById(R.id.tv_bankName);
         tv_account = (TextView) view.findViewById(R.id.tv_account);
-        Bundle arguments = getArguments();
-        String companyId =(String) arguments.get("companyId");
-        if(companyId == null){
-            String name =(String) arguments.get("name");
-            String taxno =(String) arguments.get("taxno");
-            String address =(String) arguments.get("address");
-            String phone =(String) arguments.get("phone");
-            String depositBank =(String) arguments.get("depositBank");
-            String account =(String) arguments.get("account");
-            tv_companyName.setText(name);
-            tv_receptCode.setText(taxno);
-            tv_address.setText(address);
-            tv_phoneNum.setText(phone);
-            tv_bankName.setText(depositBank);
-            tv_account.setText(account);
-        }else{
-            getCompanyDetails(companyId);
-        }
-
-
-
+        flowLayout = (XCFlowLayout) view.findViewById(R.id.flowLayout);
         ImageView img_qr_code1 = (ImageView) view.findViewById(R.id.img_qr_code1);
+        ImageView img_qr_code2 = (ImageView) view.findViewById(R.id.img_qr_code2);
         LinearLayout ll_qr_code2 = (LinearLayout) view.findViewById(R.id.ll_qr_code2);
+        Bundle arguments = getArguments();
+        Company company = arguments.getParcelable("company");
+        if (company != null) {
+            tv_companyName.setText(company.getName());
+            tv_receptCode.setText(company.getTaxno());
+            tv_address.setText(company.getAddress());
+            tv_phoneNum.setText(company.getPhone());
+            tv_bankName.setText(company.getDepositBank());
+            tv_account.setText(company.getAccount());
+            if (company.getInvoiceTypeList() != null) {
+                ll_qr_code2.setVisibility(View.VISIBLE);
+                img_qr_code1.setVisibility(View.GONE);
+                initChildViews((List<FavoriteCompanyBean.DataBean.InvoiceTypeListBean>) company.getInvoiceTypeList());
+            } else {
+                img_qr_code1.setVisibility(View.VISIBLE);
+                ll_qr_code2.setVisibility(View.GONE);
+            }
 
-        if(false){
-            ll_qr_code2.setVisibility(View.VISIBLE);
-            img_qr_code1.setVisibility(View.GONE);
-        }else{
-            img_qr_code1.setVisibility(View.VISIBLE);
-            ll_qr_code2.setVisibility(View.GONE);
         }
 
+
+        try {
+            Bitmap qrCode = CodeCreator.createQRCode(mContext, company.toString());
+            img_qr_code1.setImageBitmap(qrCode);
+            img_qr_code2.setImageBitmap(qrCode);
+        } catch (Exception e) {
+            BaseApplication.showToast("二维码生成失败");
+            e.printStackTrace();
+        }
     }
 
-    @OnClick({R.id.img_details_viewpager_share, R.id.img_details_viewpager_delete,R.id.img_details_viewpager_next})
+    private void initChildViews(List<FavoriteCompanyBean.DataBean.InvoiceTypeListBean> list) {
+        ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.leftMargin = 5;
+        lp.rightMargin = 5;
+        lp.topMargin = 5;
+        lp.bottomMargin = 5;
+
+        for (int i = 0; i < list.size(); i++) {
+            TextView view = new TextView(mContext);
+            view.setGravity(Gravity.CENTER);
+            view.setText(list.get(i).getName());
+            view.setPadding(5, 2, 5, 2);
+            view.setTextColor(getResources().getColor(R.color.main_style));
+            view.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_invoice_receipt_kind_bg));
+            initEvents(view,list.get(i).getId());
+            flowLayout.addView(view, lp);
+        }
+    }
+
+    /**
+     * 为每个view 添加点击事件
+     */
+    private void initEvents(final TextView tv,final String typeId) {
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, EstimateActivity.class);
+                intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL,typeId);
+                intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME,tv.getText().toString().trim());
+                mContext.startActivity(intent);
+
+            }
+        });
+    }
+
+    @OnClick({R.id.img_details_viewpager_share, R.id.img_details_viewpager_delete, R.id.img_details_viewpager_next})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_details_viewpager_share:
                 setDialog();
                 break;
             case R.id.img_details_viewpager_delete:
-                Toast.makeText(getActivity(), "點擊刪除", Toast.LENGTH_SHORT).show();
+                if (onDelClickListener != null) {
+                    onDelClickListener.onDelClick();
+                }
                 break;
             case R.id.img_details_viewpager_next:
-                Toast.makeText(getActivity(), "點擊下一個", Toast.LENGTH_SHORT).show();
+                if (onNextClickListener != null) {
+                    onNextClickListener.onNextClick();
+                }
                 break;
         }
     }
@@ -227,33 +288,36 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment{
         ButterKnife.unbind(this);
     }
 
-    public  void getCompanyDetails(String id){
-            Api.companyDetails(id, new Api.BaseViewCallback<CompanyDetailsBean>() {
-                @Override
-                public void setData(CompanyDetailsBean companyDetailsBean) {
-                    if (companyDetailsBean.getStatus() == REQUEST_SUCCESS) {
-                        CompanyDetailsBean.DataBean bean = companyDetailsBean.getData();
-                        tv_companyName.setText(bean.getName());
-                        tv_receptCode.setText(bean.getTaxno());
-                        tv_address.setText(bean.getAddress());
-                        tv_phoneNum.setText(bean.getPhone());
-                        tv_bankName.setText(bean.getDepositBank());
-                        tv_account.setText(bean.getAccount());
-                        Log.d(TAG, "getCompanyDetails" + bean.getName().toString());
-                    }
+    public void getCompanyDetails(String id) {
+        Api.companyDetails(id, new Api.BaseViewCallback<CompanyDetailsBean>() {
+            @Override
+            public void setData(CompanyDetailsBean companyDetailsBean) {
+                if (companyDetailsBean.getStatus() == REQUEST_SUCCESS) {
+                    CompanyDetailsBean.DataBean bean = companyDetailsBean.getData();
+                    tv_companyName.setText(bean.getName());
+                    tv_receptCode.setText(bean.getTaxno());
+                    tv_address.setText(bean.getAddress());
+                    tv_phoneNum.setText(bean.getPhone());
+                    tv_bankName.setText(bean.getDepositBank());
+                    tv_account.setText(bean.getAccount());
+                    Log.d(TAG, "getCompanyDetails" + bean.getName().toString());
                 }
-            });
+            }
+        });
     }
-    public void deleteCompany(String id){
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.deleteCompany(id, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
-                @Override
-                public void setData(NormalBean normalBean) {
-                    if (normalBean.getStatus() == REQUEST_SUCCESS) {
-                        Log.d(TAG, "getCompanyDetails success");
-                    }
-                }
-            });
-        }
+
+    private OnDelClickListener onDelClickListener;
+    public void setOnDelClickListener(OnDelClickListener onDelClickListener) {
+        this.onDelClickListener = onDelClickListener;
+    }
+    public interface OnDelClickListener {
+        void onDelClick();
+    }
+    private OnNextClickListener onNextClickListener;
+    public void setOnNextClickListener(OnNextClickListener onNextClickListener) {
+        this.onNextClickListener = onNextClickListener;
+    }
+    public interface OnNextClickListener {
+        void onNextClick();
     }
 }

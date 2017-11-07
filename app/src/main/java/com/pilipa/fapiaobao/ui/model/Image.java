@@ -23,6 +23,7 @@ public class Image implements Parcelable {
     public Uri uri;
     public String amount;
     public String from;
+    public String reason;
     public Image() {
 
     }
@@ -43,6 +44,7 @@ public class Image implements Parcelable {
         uri = in.readParcelable(Uri.class.getClassLoader());
         amount = in.readString();
         from = in.readString();
+        reason = in.readString();
     }
 
     public static final Creator<Image> CREATOR = new Creator<Image>() {
@@ -78,5 +80,6 @@ public class Image implements Parcelable {
         dest.writeParcelable(uri, flags);
         dest.writeString(amount);
         dest.writeString(from);
+        dest.writeString(reason);
     }
 }

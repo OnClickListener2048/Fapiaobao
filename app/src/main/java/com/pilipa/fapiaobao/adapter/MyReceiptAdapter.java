@@ -1,7 +1,6 @@
 package com.pilipa.fapiaobao.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,10 @@ import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.pilipa.fapiaobao.net.Constant.*;
+import static com.pilipa.fapiaobao.net.Constant.STATE_FLYING;
+import static com.pilipa.fapiaobao.net.Constant.STATE_GONE;
+import static com.pilipa.fapiaobao.net.Constant.STATE_GOT_ALL;
+import static com.pilipa.fapiaobao.net.Constant.STATE_GOT_PARTIALITY;
 
 /**
  * Created by lyt on 2017/10/23.
@@ -56,6 +58,7 @@ public class MyReceiptAdapter extends BaseAdapter {
             viewHolder.tvAmountOffered =(TextView) convertView.findViewById(R.id.tv_amount_offered);
             viewHolder.tvReceiveTime =(TextView) convertView.findViewById(R.id.tv_receive_time);
             viewHolder.tvArrivalState =(TextView) convertView.findViewById(R.id.tv_arrival_state);
+            viewHolder.bouns_state =(TextView) convertView.findViewById(R.id.bouns_state);
             convertView.setTag(viewHolder);
         }
         else
@@ -73,16 +76,20 @@ public class MyReceiptAdapter extends BaseAdapter {
         String state = bean.getState();
         if(STATE_FLYING.equals(state)){
             viewHolder.tvArrivalState.setText("红包飞来中");
-            viewHolder.tvArrivalState.setTextColor(mContext.getResources().getColor(R.color.red));
+            viewHolder.bouns_state.setText("预计收到");
+            viewHolder.tvArrivalState.setTextColor(mContext.getResources().getColor(R.color.bouns_2));
         }else if(STATE_GOT_ALL.equals(state)){
             viewHolder.tvArrivalState.setText("红包到帐");
-            viewHolder.tvArrivalState.setTextColor(Color.YELLOW);
+            viewHolder.tvArrivalState.setTextColor(mContext.getResources().getColor(R.color.bouns_1));
+            viewHolder.bouns_state.setText("收到红包");
         }else if(STATE_GOT_PARTIALITY.equals(state)){
             viewHolder.tvArrivalState.setText("部分到帐");
-            viewHolder.tvArrivalState.setTextColor(Color.BLUE);
+            viewHolder.tvArrivalState.setTextColor(mContext.getResources().getColor(R.color.bouns_1));
+            viewHolder.bouns_state.setText("收到红包");
         }else if(STATE_GONE.equals(state)){
             viewHolder.tvArrivalState.setText("红包飞走了");
-            viewHolder.tvArrivalState.setTextColor(Color.GREEN);
+            viewHolder.tvArrivalState.setTextColor(mContext.getResources().getColor(R.color.bouns_3));
+            viewHolder.bouns_state.setText("预计收到");
         }
 
         return convertView;
@@ -103,6 +110,6 @@ public class MyReceiptAdapter extends BaseAdapter {
 
     private static class ViewHolder
     {
-        TextView tvAmountOffered,tvReceipttype,tvReceiveBouns,tvReceiveTime,tvArrivalState;
+        TextView tvAmountOffered,tvReceipttype,tvReceiveBouns,tvReceiveTime,tvArrivalState,bouns_state;
     }
 }

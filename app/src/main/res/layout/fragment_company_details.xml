@@ -5,118 +5,120 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.pilipa.fapiaobao.ui.fragment.TexFragment">
+
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
-        app:cardCornerRadius="@dimen/d8"
-        android:elevation="@dimen/d5"
-        android:layout_marginLeft="@dimen/d10"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-            <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/d10"
+        android:elevation="@dimen/d5"
+        app:cardCornerRadius="@dimen/d8">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:padding="@dimen/d6">
 
-                <RelativeLayout
-                    android:padding="@dimen/d6"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@drawable/red_new_dot"
+                    android:drawablePadding="@dimen/d5"
+                    android:text="有新发布的需求~"
+                    android:textColor="@color/viewfinder_laser"
+                    android:visibility="gone" />
 
-                    <TextView
-                        android:visibility="gone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:drawablePadding="@dimen/d5"
-                        android:textColor="@color/viewfinder_laser"
-                        android:drawableLeft="@drawable/red_new_dot"
-                        android:text="有新发布的需求~" />
+                <ImageView
+                    android:id="@+id/img_details_viewpager_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/img_details_viewpager_share"
+                    android:padding="@dimen/d8"
+                    android:src="@drawable/delete" />
 
-                    <ImageView
-                        android:id="@+id/img_details_viewpager_delete"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/img_details_viewpager_share"
-                        android:padding="@dimen/d8"
-                        android:src="@drawable/delete" />
+                <ImageView
+                    android:id="@+id/img_details_viewpager_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="@dimen/d8"
+                    android:src="@drawable/share" />
+            </RelativeLayout>
 
-                    <ImageView
-                        android:id="@+id/img_details_viewpager_share"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:padding="@dimen/d8"
-                        android:src="@drawable/share" />
-                </RelativeLayout>
+            <include
+                layout="@layout/layout_company_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></include>
 
-                <include
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    layout="@layout/layout_company_info">
-                </include>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginBottom="@dimen/d10"
+                android:gravity="center">
 
-                <FrameLayout
+                <ImageView
+                    android:id="@+id/img_qr_code1"
+                    android:layout_width="@dimen/d140"
+                    android:layout_height="@dimen/d140"
+                    android:layout_gravity="center"
+                    android:visibility="invisible" />
+
+                <LinearLayout
+                    android:id="@+id/ll_qr_code2"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
-                    android:layout_marginBottom="@dimen/d10"
-                    android:gravity="center">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:visibility="invisible"
-                        android:id="@+id/img_qr_code1"
-                        android:layout_width="@dimen/d140"
-                        android:layout_height="@dimen/d140"
-                        android:layout_gravity="center"
-                        android:src="@drawable/qr_code" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_qr_code2"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="180dp"
-                        android:orientation="vertical">
-                        <RelativeLayout
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/d1"
-                                android:layout_centerVertical="true"
-                                android:background="@color/gray_line" />
-                            <ImageView
-                                android:id="@+id/img_qr_code2"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginRight="@dimen/d30"
-                                android:layout_width="@dimen/d60"
-                                android:layout_height="@dimen/d60"
-                                android:layout_gravity="center"
-                                android:src="@drawable/qr_code" />
-                        </RelativeLayout>
+                            android:layout_height="@dimen/d1"
+                            android:layout_centerVertical="true"
+                            android:background="@color/gray_line" />
 
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="@dimen/d15"
-                            android:paddingRight="@dimen/d20"
-                            android:text="@string/we_need" />
+                        <ImageView
+                            android:id="@+id/img_qr_code2"
+                            android:layout_width="@dimen/d60"
+                            android:layout_height="@dimen/d60"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/d30"
+                            />
+                    </RelativeLayout>
 
-                        <com.pilipa.fapiaobao.ui.widget.FlowLayout
-                            android:id="@+id/flowLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                        </com.pilipa.fapiaobao.ui.widget.FlowLayout>
-                    </LinearLayout>
-                </FrameLayout>
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/d20"
+                        android:paddingRight="@dimen/d20"
+                        android:text="@string/we_need" />
+
+                    <com.pilipa.fapiaobao.ui.widget.XCFlowLayout
+                        android:id="@+id/flowLayout"
+                        android:layout_marginTop="@dimen/d5"
+                        android:layout_marginRight="@dimen/d15"
+                        android:layout_marginLeft="@dimen/d15"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </com.pilipa.fapiaobao.ui.widget.XCFlowLayout>
+                </LinearLayout>
+            </FrameLayout>
 
 
-
-            </LinearLayout>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
-
-
-
 
 
 </LinearLayout>

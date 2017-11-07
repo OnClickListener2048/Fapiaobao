@@ -106,8 +106,9 @@
                 android:layout_height="wrap_content"
                 android:text="生日" />
 
+
             <EditText
-                android:id="@+id/edt_birthday"
+                android:id="@+id/tv_birthday"
                 android:layout_width="200dp"
                 android:gravity="right"
                 android:maxLength="10"
@@ -146,16 +147,25 @@
                     android:id="@+id/rb_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/d5"
+                    android:padding="@dimen/d5"
+                    android:button="@drawable/selector_radiobtn"
                     android:text="男"/>
                 <RadioButton
                     android:id="@+id/rb_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/d5"
+                    android:padding="@dimen/d5"
+                    android:button="@drawable/selector_radiobtn"
                     android:text="女"/>
                 <RadioButton
                     android:id="@+id/rb_secrecy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/d5"
+                    android:padding="@dimen/d5"
+                    android:button="@drawable/selector_radiobtn"
                     android:text="保密"/>
             </RadioGroup>
         </RelativeLayout>

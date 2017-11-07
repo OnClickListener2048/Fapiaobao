@@ -11,10 +11,11 @@ import java.util.List;
 
 public class CompaniesBean implements Parcelable{
 
+
     /**
      * status : 200
      * msg : OK
-     * data : [{"id":"1d660812a99e4b439cdcb4ed9946b271","isNewRecord":false,"createDate":"2017-10-28 15:10:22","updateDate":"2017-10-28 15:10:22","customer":{"id":"6ee15c894b1a435d9c24025b324e17f7","isNewRecord":false},"name":"天津爱丽丝有限公司","taxno":"4844645646464646464644","address":"天津市海河西路","phone":"022-18548488","depositBank":"建设银行","account":"8448489489485448456","qrcode":"www.baidu.com","isDefault":"0"}]
+     * data : [{"id":"43c8035b659a49fb8e464bc9d4333e0f","isNewRecord":false,"createDate":"2017-11-07 09:00:08","updateDate":"2017-11-07 09:00:08","customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"大理","taxno":"123456","address":"大理一夜","phone":"2934343","depositBank":"大女当嫁点解点解","account":"123456789"},{"id":"6a0ef1e7000442139e24c040730f8dd2","isNewRecord":false,"createDate":"2017-11-01 11:38:27","updateDate":"2017-11-01 11:38:27","customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"天津波康数码","taxno":"57568765828856","address":"天津和平","phone":"022-8758469","depositBank":"建设银行","account":"6825524665425853"},{"id":"856f48071da345b49781b38e03b06d57","isNewRecord":false,"createDate":"2017-11-07 09:00:13","updateDate":"2017-11-07 09:00:13","customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"大理","taxno":"123456","address":"大理一夜","phone":"2934343","depositBank":"大女当嫁点解点解","account":"123456789"},{"id":"fb736c0bed9949f7881dfc4e486805f2","isNewRecord":false,"createDate":"2017-11-02 10:30:11","updateDate":"2017-11-02 10:30:11","customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"柏迪士尼","taxno":"50578880058","address":"北京","phone":"022-585755","depositBank":"建设银行","account":"1867678580889"},{"id":"ff0bd16a16074b7a905e028bf2341a6f","isNewRecord":false,"createDate":"2017-11-02 10:32:16","updateDate":"2017-11-02 10:32:16","customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"天津同仁医院","taxno":"2685468542","address":"天津","phone":"55545599","depositBank":"建设银行","account":"4268568005799"}]
      */
 
     private int status;
@@ -24,6 +25,7 @@ public class CompaniesBean implements Parcelable{
     protected CompaniesBean(Parcel in) {
         status = in.readInt();
         msg = in.readString();
+        data = in.createTypedArrayList(DataBean.CREATOR);
     }
 
     public static final Creator<CompaniesBean> CREATOR = new Creator<CompaniesBean>() {
@@ -71,23 +73,22 @@ public class CompaniesBean implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(status);
         dest.writeString(msg);
+        dest.writeTypedList(data);
     }
 
-    public static class DataBean implements Parcelable {
+    public static class DataBean implements Parcelable{
         /**
-         * id : 1d660812a99e4b439cdcb4ed9946b271
+         * id : 43c8035b659a49fb8e464bc9d4333e0f
          * isNewRecord : false
-         * createDate : 2017-10-28 15:10:22
-         * updateDate : 2017-10-28 15:10:22
-         * customer : {"id":"6ee15c894b1a435d9c24025b324e17f7","isNewRecord":false}
-         * name : 天津爱丽丝有限公司
-         * taxno : 4844645646464646464644
-         * address : 天津市海河西路
-         * phone : 022-18548488
-         * depositBank : 建设银行
-         * account : 8448489489485448456
-         * qrcode : www.baidu.com
-         * isDefault : 0
+         * createDate : 2017-11-07 09:00:08
+         * updateDate : 2017-11-07 09:00:08
+         * customer : {"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0}
+         * name : 大理
+         * taxno : 123456
+         * address : 大理一夜
+         * phone : 2934343
+         * depositBank : 大女当嫁点解点解
+         * account : 123456789
          */
 
         private String id;
@@ -101,8 +102,6 @@ public class CompaniesBean implements Parcelable{
         private String phone;
         private String depositBank;
         private String account;
-        private String qrcode;
-        private String isDefault;
 
         protected DataBean(Parcel in) {
             id = in.readString();
@@ -115,8 +114,6 @@ public class CompaniesBean implements Parcelable{
             phone = in.readString();
             depositBank = in.readString();
             account = in.readString();
-            qrcode = in.readString();
-            isDefault = in.readString();
         }
 
         public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
@@ -219,22 +216,6 @@ public class CompaniesBean implements Parcelable{
             this.account = account;
         }
 
-        public String getQrcode() {
-            return qrcode;
-        }
-
-        public void setQrcode(String qrcode) {
-            this.qrcode = qrcode;
-        }
-
-        public String getIsDefault() {
-            return isDefault;
-        }
-
-        public void setIsDefault(String isDefault) {
-            this.isDefault = isDefault;
-        }
-
         @Override
         public int describeContents() {
             return 0;
@@ -252,35 +233,38 @@ public class CompaniesBean implements Parcelable{
             dest.writeString(phone);
             dest.writeString(depositBank);
             dest.writeString(account);
-            dest.writeString(qrcode);
-            dest.writeString(isDefault);
         }
 
-        public static class CustomerBean implements Parcelable{
+        public static class CustomerBean {
             /**
-             * id : 6ee15c894b1a435d9c24025b324e17f7
+             * id : 91f5fa30a8f64d62a6bd17baaa14645d
              * isNewRecord : false
+             * amount : 0
+             * bonus : 0
+             * frozen : 0
+             * creditScore : 0
+             * creditLevel : 0
+             * beginAmount : 0
+             * endAmount : 0
+             * beginBonus : 0
+             * endBonus : 0
+             * beginFrozen : 0
+             * endFrozen : 0
              */
 
             private String id;
             private boolean isNewRecord;
-
-            protected CustomerBean(Parcel in) {
-                id = in.readString();
-                isNewRecord = in.readByte() != 0;
-            }
-
-            public static final Creator<CustomerBean> CREATOR = new Creator<CustomerBean>() {
-                @Override
-                public CustomerBean createFromParcel(Parcel in) {
-                    return new CustomerBean(in);
-                }
-
-                @Override
-                public CustomerBean[] newArray(int size) {
-                    return new CustomerBean[size];
-                }
-            };
+            private int amount;
+            private int bonus;
+            private int frozen;
+            private int creditScore;
+            private int creditLevel;
+            private int beginAmount;
+            private int endAmount;
+            private int beginBonus;
+            private int endBonus;
+            private int beginFrozen;
+            private int endFrozen;
 
             public String getId() {
                 return id;
@@ -298,15 +282,92 @@ public class CompaniesBean implements Parcelable{
                 this.isNewRecord = isNewRecord;
             }
 
-            @Override
-            public int describeContents() {
-                return 0;
+            public int getAmount() {
+                return amount;
             }
 
-            @Override
-            public void writeToParcel(Parcel dest, int flags) {
-                dest.writeString(id);
-                dest.writeByte((byte) (isNewRecord ? 1 : 0));
+            public void setAmount(int amount) {
+                this.amount = amount;
+            }
+
+            public int getBonus() {
+                return bonus;
+            }
+
+            public void setBonus(int bonus) {
+                this.bonus = bonus;
+            }
+
+            public int getFrozen() {
+                return frozen;
+            }
+
+            public void setFrozen(int frozen) {
+                this.frozen = frozen;
+            }
+
+            public int getCreditScore() {
+                return creditScore;
+            }
+
+            public void setCreditScore(int creditScore) {
+                this.creditScore = creditScore;
+            }
+
+            public int getCreditLevel() {
+                return creditLevel;
+            }
+
+            public void setCreditLevel(int creditLevel) {
+                this.creditLevel = creditLevel;
+            }
+
+            public int getBeginAmount() {
+                return beginAmount;
+            }
+
+            public void setBeginAmount(int beginAmount) {
+                this.beginAmount = beginAmount;
+            }
+
+            public int getEndAmount() {
+                return endAmount;
+            }
+
+            public void setEndAmount(int endAmount) {
+                this.endAmount = endAmount;
+            }
+
+            public int getBeginBonus() {
+                return beginBonus;
+            }
+
+            public void setBeginBonus(int beginBonus) {
+                this.beginBonus = beginBonus;
+            }
+
+            public int getEndBonus() {
+                return endBonus;
+            }
+
+            public void setEndBonus(int endBonus) {
+                this.endBonus = endBonus;
+            }
+
+            public int getBeginFrozen() {
+                return beginFrozen;
+            }
+
+            public void setBeginFrozen(int beginFrozen) {
+                this.beginFrozen = beginFrozen;
+            }
+
+            public int getEndFrozen() {
+                return endFrozen;
+            }
+
+            public void setEndFrozen(int endFrozen) {
+                this.endFrozen = endFrozen;
             }
         }
     }

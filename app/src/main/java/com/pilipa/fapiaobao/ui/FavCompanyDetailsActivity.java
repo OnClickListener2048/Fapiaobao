@@ -11,7 +11,7 @@ import com.pilipa.fapiaobao.adapter.CompanyDetailsAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
+import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.fragment.MyCompanyDetailsPagerFragment;
 
@@ -27,13 +27,14 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  * Created by wjn on 2017/10/23.
  */
 
-public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDetailsPagerFragment.OnDelClickListener,MyCompanyDetailsPagerFragment.OnNextClickListener {
+public class FavCompanyDetailsActivity extends BaseActivity implements MyCompanyDetailsPagerFragment.OnDelClickListener
+        ,MyCompanyDetailsPagerFragment.OnNextClickListener {
     @Bind(R.id.vp_verpager)
     ViewPager mViewPager;
     CompanyDetailsAdapter companyDetailsAdapter;
     private ArrayList<MyCompanyDetailsPagerFragment> FragmentList;
     protected int mPreviousPos = 0;
-    ArrayList<CompaniesBean.DataBean> companyList;
+    ArrayList<FavoriteCompanyBean.DataBean> companyList;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_company_details;
@@ -62,9 +63,8 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
 
     @Override
     public void initView() {
-         companyList = getIntent().getParcelableArrayListExtra("companyList");
-        mPreviousPos= getIntent().getIntExtra("mPreviousPos",0);
-
+          companyList = getIntent().getParcelableArrayListExtra("favCompanyList");
+        mPreviousPos = getIntent().getIntExtra("mPreviousPos",0);
         FragmentList  = new ArrayList<>();
         for (int i = 0; i <companyList.size() ; i++) {
             Bundle b = new Bundle();
@@ -75,10 +75,11 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
             company.setPhone(companyList.get(i).getPhone());
             company.setDepositBank(companyList.get(i).getDepositBank());
             company.setAccount(companyList.get(i).getAccount());
+            company.setInvoiceTypeList(companyList.get(i).getInvoiceTypeList());
+
             b.putParcelable("company",company);
             MyCompanyDetailsPagerFragment fragment1 = MyCompanyDetailsPagerFragment.newInstance(b);
             fragment1.setOnDelClickListener(this);
-            fragment1.setOnNextClickListener(this);
             FragmentList.add(fragment1);
         }
         companyDetailsAdapter = new CompanyDetailsAdapter(getSupportFragmentManager(), FragmentList);
@@ -99,20 +100,19 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
     @Override
     public void onDelClick() {
         mPreviousPos =  mViewPager.getCurrentItem();
-        deleteCompany(companyList.get(mPreviousPos).getId());
+        deleteFavCompany(companyList.get(mPreviousPos).getId());
     }
-    public void deleteCompany(String id) {
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.deleteCompany(id, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
-                @Override
-                public void setData(NormalBean normalBean) {
-                    if (normalBean.getStatus() == REQUEST_SUCCESS) {
-                        companyDetailsAdapter.remove(mPreviousPos);
-                    }
+    public void deleteFavCompany(String id){
+        Api.deleteFavoriteCompany(id, AccountHelper.getToken(),new Api.BaseViewCallback<NormalBean>() {
+            @Override
+            public void setData(NormalBean normalBean) {
+                if(normalBean.getStatus() == REQUEST_SUCCESS){
+                    companyDetailsAdapter.remove(mPreviousPos);
                 }
-            });
-        }
+            }
+        });
     }
+
     @Override
     public void onNextClick() {
 

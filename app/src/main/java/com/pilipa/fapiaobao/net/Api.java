@@ -34,6 +34,7 @@ import com.pilipa.fapiaobao.net.bean.me.NegativeCreditInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
+import com.pilipa.fapiaobao.net.bean.me.RejectInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
 import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.ConfirmInvoiceBean;
@@ -661,11 +662,13 @@ public class Api {
     }
     public static void rejectInvoice(String token,String orderInvoiceId,String amount,String rejectType,String reason, final BaseViewCallback baseViewCallback) {
         JSONObject data = JsonCreator.setReject(token,orderInvoiceId,amount,rejectType);
-        OkGo.<NormalBean>post(String.format(REJECT_INVOICE,token,orderInvoiceId,amount,rejectType))
-                .upString(reason)
-                .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+
+        OkGo.<RejectInvoiceBean>post(String.format(REJECT_INVOICE,token,orderInvoiceId,Double.parseDouble(amount),rejectType))
+//                .upString(reason)
+                .params("reason",reason)
+                .execute(new JsonCallBack<RejectInvoiceBean>(RejectInvoiceBean.class) {
             @Override
-            public void onSuccess(Response<NormalBean> response) {
+            public void onSuccess(Response<RejectInvoiceBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }

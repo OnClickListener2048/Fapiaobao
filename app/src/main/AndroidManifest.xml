@@ -119,7 +119,7 @@
         <activity android:name=".ui.MyWalletActivity" />
         <activity android:name=".ui.FeedbackActivity" />
         <activity android:name=".ui.AddCompanyInfoActivity" />
-        <activity android:name=".ui.CompanyDetailsActivity" />
+        <activity android:name=".ui.CompanyDetailsActivity_old" />
         <activity android:name=".ui.ProvidedActivity" />
         <activity android:name=".ui.PubActivity" />
         <activity android:name=".ui.ConfirmActivity" />
@@ -143,6 +143,8 @@
         <activity android:name=".ui.Withdraw2WXActivity" />
         <activity android:name=".ui.QualifiedInvoiceActivity" />
         <activity android:name=".ui.CreditHistoryActivity" />
+        <activity android:name=".ui.CompanyDetailsActivity" />
+        <activity android:name=".ui.FavCompanyDetailsActivity" />
         <activity android:name=".ui.EstimateActivity">
         </activity>
 

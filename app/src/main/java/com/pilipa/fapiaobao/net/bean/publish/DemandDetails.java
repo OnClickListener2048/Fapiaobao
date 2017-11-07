@@ -12,7 +12,7 @@ public class DemandDetails {
     /**
      * status : 200
      * msg : OK
-     * data : {"invoiceNameList":[],"receivedNum":9,"publishDate":"2017-11-02","receivedAmount":90,"demand":{"isNewRecord":true,"company":{"isNewRecord":true,"name":"string","taxno":"string","address":"string","phone":"string","depositBank":"string","account":"string","qrcode":"string"},"demandPostage":{"isNewRecord":true,"receiver":"王鑫","telephone":"17978488989","phone":"022-45454545","province":"天津市","city":"天津市","district":"和平区","address":"大沽南路小区","email":"415648544@qq.com"},"invoiceVarieties":"1,2,3","areaRestrict":"1","province":"","city":"天津市","deadline":"2018-11-16","totalAmount":1000,"leftAmount":1010,"totalBonus":100,"leftBonus":110,"mailMinimum":0,"attentions":"放在门卫就行","state":"0","publishDate":"2017-11-02"},"orderInvoiceList":[{"id":"01db02f7aea9469b9bdb8ccb3affaa28","isNewRecord":false,"createDate":"2017-11-01 13:26:18","updateDate":"2017-11-01 15:44:41","order":{"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"4"},{"id":"11bb1075d22d49e9a6f0bc417c138f14","isNewRecord":false,"createDate":"2017-11-01 13:47:51","updateDate":"2017-11-02 17:16:02","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"2"},{"id":"12eb0f73a4ff4cde811a30aa872c18ed","isNewRecord":false,"createDate":"2017-11-01 13:47:51","updateDate":"2017-11-02 17:15:57","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"2"},{"id":"73eddca263cd40988c64423652fd31cb","isNewRecord":false,"createDate":"2017-11-01 13:26:13","updateDate":"2017-11-02 17:44:50","order":{"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"2"},{"id":"a3119d5de6274aaa8babf0fc542a7ccc","isNewRecord":false,"createDate":"2017-11-01 13:46:11","updateDate":"2017-11-02 17:16:16","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"2"},{"id":"b0ff6b9cc68446d698aa2dc04e77edf7","isNewRecord":false,"createDate":"2017-11-01 13:32:45","updateDate":"2017-11-02 17:29:33","order":{"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"2"},{"id":"b226df97165b452a9d0e8327e99e3d0c","isNewRecord":false,"createDate":"2017-11-02 12:56:30","updateDate":"2017-11-05 18:18:43","order":{"id":"cac28a5a8c0448fb8633e8b09c99269b","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","amount":10,"bonus":10,"url":"/invoice/58eca96ccfbf40a5975b3c47510cf200.jpg","state":"3"},{"id":"ba4517b1d7274665b7e0ede516948695","isNewRecord":false,"createDate":"2017-11-01 13:46:11","updateDate":"2017-11-02 16:09:53","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"4"},{"id":"c04a1c20419e4709b2c6d2e91b571a61","isNewRecord":false,"createDate":"2017-11-01 13:26:18","updateDate":"2017-11-01 15:16:14","order":{"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"3"},{"id":"cf9c595a8cfd420abb9ce858c0ba0de3","isNewRecord":false,"createDate":"2017-11-01 13:26:19","updateDate":"2017-11-01 15:34:03","order":{"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsTradeno":"1564564564564564","state":"2"},{"id":"e49f400055a641db9705853bfa675008","isNewRecord":false,"createDate":"2017-11-01 13:26:39","updateDate":"2017-11-02 17:16:33","order":{"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"1","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"2"}]}
+     * data : {"invoiceNameList":["会议费","会议费"],"receivedNum":0,"publishDate":"2017-11-02","receivedAmount":0,"demand":{"isNewRecord":true,"company":{"isNewRecord":true,"name":"string","taxno":"string","address":"string","phone":"string","depositBank":"string","account":"string","qrcode":"string"},"demandPostage":{"isNewRecord":true,"receiver":"string","telephone":"string","phone":"string","province":"string","city":"string","district":"string","address":"string","email":"string"},"invoiceVarieties":"1,2,3","areaRestrict":"1","province":"string","city":"天津市","deadline":"2018-11-16","totalAmount":1000,"leftAmount":311,"totalBonus":100,"leftBonus":31.1,"mailMinimum":0,"attentions":"请务必上传真实发票","state":"0","beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0,"publishDate":"2017-11-02"},"orderInvoiceList":[{"id":"c3007bb7094540e1bd3849eb6a33a55e","isNewRecord":false,"createDate":"2017-11-06 11:15:30","updateDate":"2017-11-07 09:40:58","order":{"id":"d1467ab24b434977be9047cf7afdb11a","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"1","amount":1,"bonus":5,"url":"/invoice/f5e5539aaccf4aed8697653d7872a259.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"reason":"刚刚给"},{"id":"9e5cd5e25cbf40d0939238088e3a3af7","isNewRecord":false,"createDate":"2017-11-06 11:17:43","updateDate":"2017-11-07 09:38:42","order":{"id":"157990bcc096418c9c8095a7cd352d08","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"1","amount":1,"bonus":5,"url":"/invoice/4a7f31b525634d978c2ae63062571f5e.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"reason":"不好好"},{"id":"2ed7cba4c3e94a1388310b57084bb2c4","isNewRecord":false,"createDate":"2017-11-06 11:11:24","updateDate":"2017-11-06 16:24:18","order":{"id":"efa13a6efdb042ef8e9165df0e7b323f","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"1","amount":10,"bonus":5,"url":"/invoice/b9a017b7ce934cd7ace28289d814288e.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0},{"id":"9805062c23f34370a27613852ffd41bc","isNewRecord":false,"createDate":"2017-11-06 11:33:06","updateDate":"2017-11-06 17:28:50","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"1","amount":10,"bonus":7,"url":"/invoice/0fa31b5100cc4ad1b7d409d66eee6eca.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0}]}
      */
 
     private int status;
@@ -45,17 +45,17 @@ public class DemandDetails {
 
     public static class DataBean {
         /**
-         * invoiceNameList : []
-         * receivedNum : 9
+         * invoiceNameList : ["会议费","会议费"]
+         * receivedNum : 0
          * publishDate : 2017-11-02
-         * receivedAmount : 90
-         * demand : {"isNewRecord":true,"company":{"isNewRecord":true,"name":"string","taxno":"string","address":"string","phone":"string","depositBank":"string","account":"string","qrcode":"string"},"demandPostage":{"isNewRecord":true,"receiver":"王鑫","telephone":"17978488989","phone":"022-45454545","province":"天津市","city":"天津市","district":"和平区","address":"大沽南路小区","email":"415648544@qq.com"},"invoiceVarieties":"1,2,3","areaRestrict":"1","province":"","city":"天津市","deadline":"2018-11-16","totalAmount":1000,"leftAmount":1010,"totalBonus":100,"leftBonus":110,"mailMinimum":0,"attentions":"放在门卫就行","state":"0","publishDate":"2017-11-02"}
-         * orderInvoiceList : [{"id":"01db02f7aea9469b9bdb8ccb3affaa28","isNewRecord":false,"createDate":"2017-11-01 13:26:18","updateDate":"2017-11-01 15:44:41","order":{"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"4"},{"id":"11bb1075d22d49e9a6f0bc417c138f14","isNewRecord":false,"createDate":"2017-11-01 13:47:51","updateDate":"2017-11-02 17:16:02","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"2"},{"id":"12eb0f73a4ff4cde811a30aa872c18ed","isNewRecord":false,"createDate":"2017-11-01 13:47:51","updateDate":"2017-11-02 17:15:57","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"2"},{"id":"73eddca263cd40988c64423652fd31cb","isNewRecord":false,"createDate":"2017-11-01 13:26:13","updateDate":"2017-11-02 17:44:50","order":{"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"2"},{"id":"a3119d5de6274aaa8babf0fc542a7ccc","isNewRecord":false,"createDate":"2017-11-01 13:46:11","updateDate":"2017-11-02 17:16:16","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"2"},{"id":"b0ff6b9cc68446d698aa2dc04e77edf7","isNewRecord":false,"createDate":"2017-11-01 13:32:45","updateDate":"2017-11-02 17:29:33","order":{"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"2"},{"id":"b226df97165b452a9d0e8327e99e3d0c","isNewRecord":false,"createDate":"2017-11-02 12:56:30","updateDate":"2017-11-05 18:18:43","order":{"id":"cac28a5a8c0448fb8633e8b09c99269b","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","amount":10,"bonus":10,"url":"/invoice/58eca96ccfbf40a5975b3c47510cf200.jpg","state":"3"},{"id":"ba4517b1d7274665b7e0ede516948695","isNewRecord":false,"createDate":"2017-11-01 13:46:11","updateDate":"2017-11-02 16:09:53","order":{"id":"94dd9e0524544ea29c592912640ec3bd","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"2","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"4"},{"id":"c04a1c20419e4709b2c6d2e91b571a61","isNewRecord":false,"createDate":"2017-11-01 13:26:18","updateDate":"2017-11-01 15:16:14","order":{"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","state":"3"},{"id":"cf9c595a8cfd420abb9ce858c0ba0de3","isNewRecord":false,"createDate":"2017-11-01 13:26:19","updateDate":"2017-11-01 15:34:03","order":{"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"3","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsTradeno":"1564564564564564","state":"2"},{"id":"e49f400055a641db9705853bfa675008","isNewRecord":false,"createDate":"2017-11-01 13:26:39","updateDate":"2017-11-02 17:16:33","order":{"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false},"demand":{"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false},"variety":"1","amount":10,"bonus":10,"url":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg","logisticsCompany":"京东","logisticsTradeno":"1564564564564564","state":"2"}]
+         * receivedAmount : 0
+         * demand : {"isNewRecord":true,"company":{"isNewRecord":true,"name":"string","taxno":"string","address":"string","phone":"string","depositBank":"string","account":"string","qrcode":"string"},"demandPostage":{"isNewRecord":true,"receiver":"string","telephone":"string","phone":"string","province":"string","city":"string","district":"string","address":"string","email":"string"},"invoiceVarieties":"1,2,3","areaRestrict":"1","province":"string","city":"天津市","deadline":"2018-11-16","totalAmount":1000,"leftAmount":311,"totalBonus":100,"leftBonus":31.1,"mailMinimum":0,"attentions":"请务必上传真实发票","state":"0","beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0,"publishDate":"2017-11-02"}
+         * orderInvoiceList : [{"id":"c3007bb7094540e1bd3849eb6a33a55e","isNewRecord":false,"createDate":"2017-11-06 11:15:30","updateDate":"2017-11-07 09:40:58","order":{"id":"d1467ab24b434977be9047cf7afdb11a","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"1","amount":1,"bonus":5,"url":"/invoice/f5e5539aaccf4aed8697653d7872a259.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"reason":"刚刚给"},{"id":"9e5cd5e25cbf40d0939238088e3a3af7","isNewRecord":false,"createDate":"2017-11-06 11:17:43","updateDate":"2017-11-07 09:38:42","order":{"id":"157990bcc096418c9c8095a7cd352d08","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"1","amount":1,"bonus":5,"url":"/invoice/4a7f31b525634d978c2ae63062571f5e.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"reason":"不好好"},{"id":"2ed7cba4c3e94a1388310b57084bb2c4","isNewRecord":false,"createDate":"2017-11-06 11:11:24","updateDate":"2017-11-06 16:24:18","order":{"id":"efa13a6efdb042ef8e9165df0e7b323f","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"1","amount":10,"bonus":5,"url":"/invoice/b9a017b7ce934cd7ace28289d814288e.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0},{"id":"9805062c23f34370a27613852ffd41bc","isNewRecord":false,"createDate":"2017-11-06 11:33:06","updateDate":"2017-11-06 17:28:50","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"1","amount":10,"bonus":7,"url":"/invoice/0fa31b5100cc4ad1b7d409d66eee6eca.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0}]
          */
 
         private int receivedNum;
         private String publishDate;
-        private double receivedAmount;
+        private int receivedAmount;
         private DemandBean demand;
         private List<String> invoiceNameList;
         private List<OrderInvoiceListBean> orderInvoiceList;
@@ -76,11 +76,11 @@ public class DemandDetails {
             this.publishDate = publishDate;
         }
 
-        public double getReceivedAmount() {
+        public int getReceivedAmount() {
             return receivedAmount;
         }
 
-        public void setReceivedAmount(double receivedAmount) {
+        public void setReceivedAmount(int receivedAmount) {
             this.receivedAmount = receivedAmount;
         }
 
@@ -112,19 +112,29 @@ public class DemandDetails {
             /**
              * isNewRecord : true
              * company : {"isNewRecord":true,"name":"string","taxno":"string","address":"string","phone":"string","depositBank":"string","account":"string","qrcode":"string"}
-             * demandPostage : {"isNewRecord":true,"receiver":"王鑫","telephone":"17978488989","phone":"022-45454545","province":"天津市","city":"天津市","district":"和平区","address":"大沽南路小区","email":"415648544@qq.com"}
+             * demandPostage : {"isNewRecord":true,"receiver":"string","telephone":"string","phone":"string","province":"string","city":"string","district":"string","address":"string","email":"string"}
              * invoiceVarieties : 1,2,3
              * areaRestrict : 1
-             * province :
+             * province : string
              * city : 天津市
              * deadline : 2018-11-16
              * totalAmount : 1000
-             * leftAmount : 1010
+             * leftAmount : 311
              * totalBonus : 100
-             * leftBonus : 110
+             * leftBonus : 31.1
              * mailMinimum : 0
-             * attentions : 放在门卫就行
+             * attentions : 请务必上传真实发票
              * state : 0
+             * beginTotalAmount : 0
+             * endTotalAmount : 0
+             * beginLeftAmount : 0
+             * endLeftAmount : 0
+             * beginTotalBonus : 0
+             * endTotalBonus : 0
+             * beginLeftBonus : 0
+             * endLeftBonus : 0
+             * beginMailMinimum : 0
+             * endMailMinimum : 0
              * publishDate : 2017-11-02
              */
 
@@ -136,13 +146,23 @@ public class DemandDetails {
             private String province;
             private String city;
             private String deadline;
-            private double totalAmount;
-            private double leftAmount;
-            private double totalBonus;
+            private int totalAmount;
+            private int leftAmount;
+            private int totalBonus;
             private double leftBonus;
-            private double mailMinimum;
+            private int mailMinimum;
             private String attentions;
             private String state;
+            private int beginTotalAmount;
+            private int endTotalAmount;
+            private int beginLeftAmount;
+            private int endLeftAmount;
+            private int beginTotalBonus;
+            private int endTotalBonus;
+            private int beginLeftBonus;
+            private int endLeftBonus;
+            private int beginMailMinimum;
+            private int endMailMinimum;
             private String publishDate;
 
             public boolean isIsNewRecord() {
@@ -209,27 +229,27 @@ public class DemandDetails {
                 this.deadline = deadline;
             }
 
-            public double getTotalAmount() {
+            public int getTotalAmount() {
                 return totalAmount;
             }
 
-            public void setTotalAmount(double totalAmount) {
+            public void setTotalAmount(int totalAmount) {
                 this.totalAmount = totalAmount;
             }
 
-            public double getLeftAmount() {
+            public int getLeftAmount() {
                 return leftAmount;
             }
 
-            public void setLeftAmount(double leftAmount) {
+            public void setLeftAmount(int leftAmount) {
                 this.leftAmount = leftAmount;
             }
 
-            public double getTotalBonus() {
+            public int getTotalBonus() {
                 return totalBonus;
             }
 
-            public void setTotalBonus(double totalBonus) {
+            public void setTotalBonus(int totalBonus) {
                 this.totalBonus = totalBonus;
             }
 
@@ -241,11 +261,11 @@ public class DemandDetails {
                 this.leftBonus = leftBonus;
             }
 
-            public double getMailMinimum() {
+            public int getMailMinimum() {
                 return mailMinimum;
             }
 
-            public void setMailMinimum(double mailMinimum) {
+            public void setMailMinimum(int mailMinimum) {
                 this.mailMinimum = mailMinimum;
             }
 
@@ -263,6 +283,86 @@ public class DemandDetails {
 
             public void setState(String state) {
                 this.state = state;
+            }
+
+            public int getBeginTotalAmount() {
+                return beginTotalAmount;
+            }
+
+            public void setBeginTotalAmount(int beginTotalAmount) {
+                this.beginTotalAmount = beginTotalAmount;
+            }
+
+            public int getEndTotalAmount() {
+                return endTotalAmount;
+            }
+
+            public void setEndTotalAmount(int endTotalAmount) {
+                this.endTotalAmount = endTotalAmount;
+            }
+
+            public int getBeginLeftAmount() {
+                return beginLeftAmount;
+            }
+
+            public void setBeginLeftAmount(int beginLeftAmount) {
+                this.beginLeftAmount = beginLeftAmount;
+            }
+
+            public int getEndLeftAmount() {
+                return endLeftAmount;
+            }
+
+            public void setEndLeftAmount(int endLeftAmount) {
+                this.endLeftAmount = endLeftAmount;
+            }
+
+            public int getBeginTotalBonus() {
+                return beginTotalBonus;
+            }
+
+            public void setBeginTotalBonus(int beginTotalBonus) {
+                this.beginTotalBonus = beginTotalBonus;
+            }
+
+            public int getEndTotalBonus() {
+                return endTotalBonus;
+            }
+
+            public void setEndTotalBonus(int endTotalBonus) {
+                this.endTotalBonus = endTotalBonus;
+            }
+
+            public int getBeginLeftBonus() {
+                return beginLeftBonus;
+            }
+
+            public void setBeginLeftBonus(int beginLeftBonus) {
+                this.beginLeftBonus = beginLeftBonus;
+            }
+
+            public int getEndLeftBonus() {
+                return endLeftBonus;
+            }
+
+            public void setEndLeftBonus(int endLeftBonus) {
+                this.endLeftBonus = endLeftBonus;
+            }
+
+            public int getBeginMailMinimum() {
+                return beginMailMinimum;
+            }
+
+            public void setBeginMailMinimum(int beginMailMinimum) {
+                this.beginMailMinimum = beginMailMinimum;
+            }
+
+            public int getEndMailMinimum() {
+                return endMailMinimum;
+            }
+
+            public void setEndMailMinimum(int endMailMinimum) {
+                this.endMailMinimum = endMailMinimum;
             }
 
             public String getPublishDate() {
@@ -362,14 +462,14 @@ public class DemandDetails {
             public static class DemandPostageBean {
                 /**
                  * isNewRecord : true
-                 * receiver : 王鑫
-                 * telephone : 17978488989
-                 * phone : 022-45454545
-                 * province : 天津市
-                 * city : 天津市
-                 * district : 和平区
-                 * address : 大沽南路小区
-                 * email : 415648544@qq.com
+                 * receiver : string
+                 * telephone : string
+                 * phone : string
+                 * province : string
+                 * city : string
+                 * district : string
+                 * address : string
+                 * email : string
                  */
 
                 private boolean isNewRecord;
@@ -458,19 +558,22 @@ public class DemandDetails {
 
         public static class OrderInvoiceListBean {
             /**
-             * id : 01db02f7aea9469b9bdb8ccb3affaa28
+             * id : c3007bb7094540e1bd3849eb6a33a55e
              * isNewRecord : false
-             * createDate : 2017-11-01 13:26:18
-             * updateDate : 2017-11-01 15:44:41
-             * order : {"id":"ed7f671863d3492ab21cc6ee4911a9ed","isNewRecord":false}
-             * demand : {"id":"3a89fd54d244485ca08b5c3b42401688","isNewRecord":false}
-             * variety : 2
-             * amount : 10
-             * bonus : 10
-             * url : https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg
-             * state : 4
-             * logisticsTradeno : 1564564564564564
-             * logisticsCompany : 京东
+             * createDate : 2017-11-06 11:15:30
+             * updateDate : 2017-11-07 09:40:58
+             * order : {"id":"d1467ab24b434977be9047cf7afdb11a","isNewRecord":false,"amount":0,"bonus":0}
+             * demand : {"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}
+             * variety : 1
+             * amount : 1
+             * bonus : 5
+             * url : /invoice/f5e5539aaccf4aed8697653d7872a259.jpg
+             * state : 3
+             * beginAmount : 0
+             * endAmount : 0
+             * beginBonus : 0
+             * endBonus : 0
+             * reason : 刚刚给
              */
 
             private String id;
@@ -480,12 +583,33 @@ public class DemandDetails {
             private OrderBean order;
             private DemandBeanX demand;
             private String variety;
-            private double amount;
-            private double bonus;
+            private int amount;
+            private int bonus;
             private String url;
             private String state;
-            private String logisticsTradeno;
+            private int beginAmount;
+            private int endAmount;
+            private int beginBonus;
+            private int endBonus;
             private String logisticsCompany;
+            private String logisticsTradeno;
+            private String reason;
+
+            public String getLogisticsCompany() {
+                return logisticsCompany;
+            }
+
+            public void setLogisticsCompany(String logisticsCompany) {
+                this.logisticsCompany = logisticsCompany;
+            }
+
+            public String getLogisticsTradeno() {
+                return logisticsTradeno;
+            }
+
+            public void setLogisticsTradeno(String logisticsTradeno) {
+                this.logisticsTradeno = logisticsTradeno;
+            }
 
             public String getId() {
                 return id;
@@ -543,19 +667,19 @@ public class DemandDetails {
                 this.variety = variety;
             }
 
-            public double getAmount() {
+            public int getAmount() {
                 return amount;
             }
 
-            public void setAmount(double amount) {
+            public void setAmount(int amount) {
                 this.amount = amount;
             }
 
-            public double getBonus() {
+            public int getBonus() {
                 return bonus;
             }
 
-            public void setBonus(double bonus) {
+            public void setBonus(int bonus) {
                 this.bonus = bonus;
             }
 
@@ -575,30 +699,58 @@ public class DemandDetails {
                 this.state = state;
             }
 
-            public String getLogisticsTradeno() {
-                return logisticsTradeno;
+            public int getBeginAmount() {
+                return beginAmount;
             }
 
-            public void setLogisticsTradeno(String logisticsTradeno) {
-                this.logisticsTradeno = logisticsTradeno;
+            public void setBeginAmount(int beginAmount) {
+                this.beginAmount = beginAmount;
             }
 
-            public String getLogisticsCompany() {
-                return logisticsCompany;
+            public int getEndAmount() {
+                return endAmount;
             }
 
-            public void setLogisticsCompany(String logisticsCompany) {
-                this.logisticsCompany = logisticsCompany;
+            public void setEndAmount(int endAmount) {
+                this.endAmount = endAmount;
+            }
+
+            public int getBeginBonus() {
+                return beginBonus;
+            }
+
+            public void setBeginBonus(int beginBonus) {
+                this.beginBonus = beginBonus;
+            }
+
+            public int getEndBonus() {
+                return endBonus;
+            }
+
+            public void setEndBonus(int endBonus) {
+                this.endBonus = endBonus;
+            }
+
+            public String getReason() {
+                return reason;
+            }
+
+            public void setReason(String reason) {
+                this.reason = reason;
             }
 
             public static class OrderBean {
                 /**
-                 * id : ed7f671863d3492ab21cc6ee4911a9ed
+                 * id : d1467ab24b434977be9047cf7afdb11a
                  * isNewRecord : false
+                 * amount : 0
+                 * bonus : 0
                  */
 
                 private String id;
                 private boolean isNewRecord;
+                private int amount;
+                private int bonus;
 
                 public String getId() {
                     return id;
@@ -614,17 +766,63 @@ public class DemandDetails {
 
                 public void setIsNewRecord(boolean isNewRecord) {
                     this.isNewRecord = isNewRecord;
+                }
+
+                public int getAmount() {
+                    return amount;
+                }
+
+                public void setAmount(int amount) {
+                    this.amount = amount;
+                }
+
+                public int getBonus() {
+                    return bonus;
+                }
+
+                public void setBonus(int bonus) {
+                    this.bonus = bonus;
                 }
             }
 
             public static class DemandBeanX {
                 /**
-                 * id : 3a89fd54d244485ca08b5c3b42401688
+                 * id : a4e62566ecda49cfb4e1434ab56f0d79
                  * isNewRecord : false
+                 * totalAmount : 0
+                 * leftAmount : 0
+                 * totalBonus : 0
+                 * leftBonus : 0
+                 * mailMinimum : 0
+                 * beginTotalAmount : 0
+                 * endTotalAmount : 0
+                 * beginLeftAmount : 0
+                 * endLeftAmount : 0
+                 * beginTotalBonus : 0
+                 * endTotalBonus : 0
+                 * beginLeftBonus : 0
+                 * endLeftBonus : 0
+                 * beginMailMinimum : 0
+                 * endMailMinimum : 0
                  */
 
                 private String id;
                 private boolean isNewRecord;
+                private int totalAmount;
+                private int leftAmount;
+                private int totalBonus;
+                private int leftBonus;
+                private int mailMinimum;
+                private int beginTotalAmount;
+                private int endTotalAmount;
+                private int beginLeftAmount;
+                private int endLeftAmount;
+                private int beginTotalBonus;
+                private int endTotalBonus;
+                private int beginLeftBonus;
+                private int endLeftBonus;
+                private int beginMailMinimum;
+                private int endMailMinimum;
 
                 public String getId() {
                     return id;
@@ -640,6 +838,126 @@ public class DemandDetails {
 
                 public void setIsNewRecord(boolean isNewRecord) {
                     this.isNewRecord = isNewRecord;
+                }
+
+                public int getTotalAmount() {
+                    return totalAmount;
+                }
+
+                public void setTotalAmount(int totalAmount) {
+                    this.totalAmount = totalAmount;
+                }
+
+                public int getLeftAmount() {
+                    return leftAmount;
+                }
+
+                public void setLeftAmount(int leftAmount) {
+                    this.leftAmount = leftAmount;
+                }
+
+                public int getTotalBonus() {
+                    return totalBonus;
+                }
+
+                public void setTotalBonus(int totalBonus) {
+                    this.totalBonus = totalBonus;
+                }
+
+                public int getLeftBonus() {
+                    return leftBonus;
+                }
+
+                public void setLeftBonus(int leftBonus) {
+                    this.leftBonus = leftBonus;
+                }
+
+                public int getMailMinimum() {
+                    return mailMinimum;
+                }
+
+                public void setMailMinimum(int mailMinimum) {
+                    this.mailMinimum = mailMinimum;
+                }
+
+                public int getBeginTotalAmount() {
+                    return beginTotalAmount;
+                }
+
+                public void setBeginTotalAmount(int beginTotalAmount) {
+                    this.beginTotalAmount = beginTotalAmount;
+                }
+
+                public int getEndTotalAmount() {
+                    return endTotalAmount;
+                }
+
+                public void setEndTotalAmount(int endTotalAmount) {
+                    this.endTotalAmount = endTotalAmount;
+                }
+
+                public int getBeginLeftAmount() {
+                    return beginLeftAmount;
+                }
+
+                public void setBeginLeftAmount(int beginLeftAmount) {
+                    this.beginLeftAmount = beginLeftAmount;
+                }
+
+                public int getEndLeftAmount() {
+                    return endLeftAmount;
+                }
+
+                public void setEndLeftAmount(int endLeftAmount) {
+                    this.endLeftAmount = endLeftAmount;
+                }
+
+                public int getBeginTotalBonus() {
+                    return beginTotalBonus;
+                }
+
+                public void setBeginTotalBonus(int beginTotalBonus) {
+                    this.beginTotalBonus = beginTotalBonus;
+                }
+
+                public int getEndTotalBonus() {
+                    return endTotalBonus;
+                }
+
+                public void setEndTotalBonus(int endTotalBonus) {
+                    this.endTotalBonus = endTotalBonus;
+                }
+
+                public int getBeginLeftBonus() {
+                    return beginLeftBonus;
+                }
+
+                public void setBeginLeftBonus(int beginLeftBonus) {
+                    this.beginLeftBonus = beginLeftBonus;
+                }
+
+                public int getEndLeftBonus() {
+                    return endLeftBonus;
+                }
+
+                public void setEndLeftBonus(int endLeftBonus) {
+                    this.endLeftBonus = endLeftBonus;
+                }
+
+                public int getBeginMailMinimum() {
+                    return beginMailMinimum;
+                }
+
+                public void setBeginMailMinimum(int beginMailMinimum) {
+                    this.beginMailMinimum = beginMailMinimum;
+                }
+
+                public int getEndMailMinimum() {
+                    return endMailMinimum;
+                }
+
+                public void setEndMailMinimum(int endMailMinimum) {
+                    this.endMailMinimum = endMailMinimum;
                 }
             }
         }

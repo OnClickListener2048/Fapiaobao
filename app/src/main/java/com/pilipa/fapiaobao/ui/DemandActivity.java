@@ -197,12 +197,12 @@ public class DemandActivity extends BaseActivity {
             break;
             case R.id.fl_change: {
                 if (isShow) {
-                    translateDetails.setVisibility(View.VISIBLE);
-                    translate.setVisibility(View.GONE);
-                    isShow = !isShow;
-                } else {
                     translateDetails.setVisibility(View.GONE);
                     translate.setVisibility(View.VISIBLE);
+                    isShow = !isShow;
+                } else {
+                    translateDetails.setVisibility(View.VISIBLE);
+                    translate.setVisibility(View.GONE);
                     isShow = !isShow;
                 }
             }
@@ -239,6 +239,7 @@ public class DemandActivity extends BaseActivity {
                 image.logisticsTradeno = result.getLogisticsTradeno();
                 image.logisticsCompany = result.getLogisticsCompany();
                 image.variety = result.getVariety();
+                image.reason = result.getReason();
                 images.add(image);
             }
             ArrayList<Image> images1 = new ArrayList<>();
@@ -309,6 +310,7 @@ public class DemandActivity extends BaseActivity {
                     if (demandDetails.getStatus() == REQUEST_SUCCESS) {
                         Log.d(TAG, "demandDetails success");
                         DemandDetails.DataBean bean = demandDetails.getData();
+                        mList.clear();
                         mList.addAll(bean.getInvoiceNameList());
                         invoiceNameAdapter.initData(mList);
 

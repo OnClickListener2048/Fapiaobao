@@ -68,7 +68,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE_SCAN){
+        if(requestCode == REQUEST_CODE_SCAN &&resultCode == 200){
            String codedContent=  data.getStringExtra("codedContent");
             Log.d("codedContent",codedContent);
             if(codedContent != null){

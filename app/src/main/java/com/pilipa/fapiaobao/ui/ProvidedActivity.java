@@ -199,12 +199,12 @@ public class ProvidedActivity extends BaseActivity {
             break;
             case R.id.fl_change: {
                 if (isShow) {
-                    translateDetails.setVisibility(View.VISIBLE);
-                    translate.setVisibility(View.GONE);
-                    isShow = !isShow;
-                } else {
                     translateDetails.setVisibility(View.GONE);
                     translate.setVisibility(View.VISIBLE);
+                    isShow = !isShow;
+                } else {
+                    translateDetails.setVisibility(View.VISIBLE);
+                    translate.setVisibility(View.GONE);
                     isShow = !isShow;
                 }
             }

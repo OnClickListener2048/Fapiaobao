@@ -124,10 +124,12 @@ public class MeFragment extends BaseFragment{
                     SharedPreferencesHelper.save(mContext, loginWithInfoBean);
                         LoginWithInfoBean.DataBean.CustomerBean customer = loginWithInfoBean.getData().getCustomer();
                         String endFormat = mContext.getResources().getString(R.string.integral);
-                        tvCreditRating.setText(String.format(endFormat, customer.getCreditScore()));
-                        tvUserName.setText(customer.getNickname());
-                        tvBouns.setText(customer.getAmount()+"元");//钱包金额
-                        setImageFromNet(imageHead,customer.getHeadimg(),R.mipmap.ic_head_circle_default_small_);
+                        if(customer != null){
+                            tvCreditRating.setText(String.format(endFormat, customer.getCreditScore()));
+                            tvUserName.setText(customer.getNickname());
+                            tvBouns.setText(customer.getAmount()+"元");//钱包金额
+                            setImageFromNet(imageHead,customer.getHeadimg(),R.mipmap.ic_head_circle_default_small_);
+                        }
 //          tvUserName.setText(customer.getCreditLevel());
                 }
 

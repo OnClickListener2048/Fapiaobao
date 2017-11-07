@@ -34,6 +34,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
+import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -69,8 +70,6 @@ public class UserInfoActivity extends BaseActivity {
     EditText edtUserName;
     @Bind(R.id.edt_phone)
     EditText edtPhone;
-    @Bind(R.id.edt_birthday)
-    EditText edtBirthday;
     @Bind(R.id.radioGroup)
     RadioGroup radioGroup;
     @Bind(R.id.rb_male)
@@ -85,6 +84,8 @@ public class UserInfoActivity extends BaseActivity {
     RoundedImageView img_head;
     @Bind(R.id.tv_wx)
     TextView tv_wx;
+    @Bind(R.id.tv_birthday)
+    TextView tv_birthday;
     private Dialog mCameraDialog;
     private Dialog mDialog;
     private MediaStoreCompat mediaStoreCompat;
@@ -94,15 +95,29 @@ public class UserInfoActivity extends BaseActivity {
     private RequestManager requestManager;
     private LoginWithInfoBean loginBean;
     private Image image;
+    private TimePickerDialog dialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_userinfo;
     }
 
-    @OnClick({R.id.userinfo_back, R.id.img_head, R.id.img_logout, R.id.btn_save})
+    @OnClick({R.id.userinfo_back, R.id.img_head, R.id.img_logout, R.id.btn_save,R.id.tv_birthday})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.tv_birthday:{//
+                dialog.showDatePickerDialog(new TimePickerDialog.TimePickerDialogInterface() {
+                    @Override
+                    public void positiveListener() {
+                        tv_birthday.setText(dialog.getYear() + "-" + dialog.getMonth() + "-" + dialog.getDay());
+                    }
+                    @Override
+                    public void negativeListener() {
+
+                    }
+                });
+            }break;
             case R.id.tv_wx:{//绑定微信
                 bindWX();
             }break;
@@ -110,7 +125,7 @@ public class UserInfoActivity extends BaseActivity {
 
                 LoginWithInfoBean.DataBean.CustomerBean customer = new LoginWithInfoBean.DataBean.CustomerBean();
                 customer.setNickname(edtUserName.getText().toString().trim());
-                customer.setBirthday(edtBirthday.getText().toString().trim());
+                customer.setBirthday(tv_birthday.getText().toString().trim());
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.rb_female:
                         customer.setGender(Constant.GENDER_FEMALE);
@@ -167,7 +182,7 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     public void initView() {
         regexToWX();
-
+        dialog = new TimePickerDialog(this);
         mediaStoreCompat = new MediaStoreCompat(this);
         requestManager = Glide.with(this);
     }
@@ -276,7 +291,7 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     public void setUserData(LoginWithInfoBean.DataBean.CustomerBean customer) {
-        edtBirthday.setText(customer.getBirthday());
+        tv_birthday.setText(customer.getBirthday());
         edtUserName.setText(customer.getNickname());
         edtPhone.setText(customer.getTelephone());
         requestManager

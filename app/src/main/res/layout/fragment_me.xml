@@ -19,7 +19,7 @@
                 android:layout_margin="@dimen/d10"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/notification" />
+                android:src="@mipmap/notification_w" />
         </RelativeLayout>
 
 
