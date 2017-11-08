@@ -329,7 +329,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             }
             case R.id.btn_cancel1:
             case R.id.btn_cancel2:{
-                mDialog.cancel();
+                mDialog.dismiss();
             }break;
             case R.id.btn_confirm:
                 AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {

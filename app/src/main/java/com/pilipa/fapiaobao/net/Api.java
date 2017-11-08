@@ -231,7 +231,13 @@ public class Api {
         });
     }
 
-    public static void updateCustomer(String token,LoginWithInfoBean.DataBean.CustomerBean customer, final BaseViewCallback baseViewCallback) {
+    /**
+     * 更新用户信息
+     * @param token
+     * @param customer
+     * @param baseViewCallback
+     */
+    public static void updateCustomer(String token,LoginWithInfoBean.DataBean.CustomerBean customer, final BaseViewCallbackWithOnStart baseViewCallback) {
         JSONObject data = JsonCreator.setCustomerData(customer, token);
         OkGo.<UpdateCustomerBean>post(UPDATE_CUSTOMER)
                 .upJson(data)
@@ -240,7 +246,25 @@ public class Api {
                     public void onSuccess(Response<UpdateCustomerBean> response) {
                         baseViewCallback.setData(response.body());
                     }
+                    @Override
+                    public void onError(Response<UpdateCustomerBean> response) {
+                        super.onError(response);
+                        baseViewCallback.onError();
+                    }
+                    @Override
+                    public void onStart(Request<UpdateCustomerBean, ? extends Request> request) {
+                        super.onStart(request);
+                        baseViewCallback.onStart();
+                    }
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        baseViewCallback.onFinish();
+
+                    }
                 });
+
+
     }
 
 
@@ -664,8 +688,8 @@ public class Api {
         JSONObject data = JsonCreator.setReject(token,orderInvoiceId,amount,rejectType);
 
         OkGo.<RejectInvoiceBean>post(String.format(REJECT_INVOICE,token,orderInvoiceId,Double.parseDouble(amount),rejectType))
-//                .upString(reason)
-                .params("reason",reason)
+                .upString(reason)
+//                .params("reason",reason)
                 .execute(new JsonCallBack<RejectInvoiceBean>(RejectInvoiceBean.class) {
             @Override
             public void onSuccess(Response<RejectInvoiceBean> response) {

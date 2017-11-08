@@ -49,8 +49,10 @@
     <LinearLayout
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:layout_margin="@dimen/d15"
-        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/d15"
+        android:layout_marginRight="@dimen/d15"
+        android:layout_marginBottom="@dimen/d6"
+        android:layout_marginTop="@dimen/d6"        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
             android:text="@string/withdraw"

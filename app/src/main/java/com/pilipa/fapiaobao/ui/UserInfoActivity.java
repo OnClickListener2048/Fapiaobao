@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,7 +29,6 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
-import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
@@ -36,6 +36,7 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
 import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -48,6 +49,7 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.Bind;
@@ -85,7 +87,7 @@ public class UserInfoActivity extends BaseActivity {
     @Bind(R.id.tv_wx)
     TextView tv_wx;
     @Bind(R.id.tv_birthday)
-    TextView tv_birthday;
+    EditText tv_birthday;
     private Dialog mCameraDialog;
     private Dialog mDialog;
     private MediaStoreCompat mediaStoreCompat;
@@ -139,9 +141,14 @@ public class UserInfoActivity extends BaseActivity {
                 }
 
                 if(image != null){
-                    customer.setHeadimg(upLoadReceipt(image.uri));
-                }else{
-
+                    Bitmap bm = null;
+                    try {
+                        bm = BitmapUtils.getBitmapFormUri(this,image.uri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    String bmpStr = BitmapUtils.bitmapToBase64(bm);
+                    customer.setHeadimg(bmpStr);
                 }
                 customer.setTelephone(edtPhone.getText().toString().trim());
                 updateUserInfo(customer);
@@ -172,9 +179,9 @@ public class UserInfoActivity extends BaseActivity {
                 mDialog.dismiss();
                 break;
             case R.id.btn_confirm://确认登出\
-                AccountHelper.logout();
                 startActivity(new Intent(this, LoginActivity.class));
                 mDialog.dismiss();
+                AccountHelper.logout();
                 break;
             case R.id.img_logout:
                 setLogoutDialog();
@@ -277,20 +284,10 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus() == 200) {
-                    if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-                        LoginWithInfoBean.DataBean.CustomerBean customer = AccountHelper.getUser().getData().getCustomer();
-                        setUserData(customer);
-                    }
-                }
-
-            }
-        });
-
+        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+            LoginWithInfoBean.DataBean.CustomerBean customer = AccountHelper.getUser().getData().getCustomer();
+            setUserData(customer);
+        }
     }
 
     public void setUserData(LoginWithInfoBean.DataBean.CustomerBean customer) {
@@ -380,7 +377,7 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void setData(LoginWithInfoBean normalBean) {
                 if (normalBean.getStatus() == 200) {
-                    Api.updateCustomer(AccountHelper.getToken(), customer, new Api.BaseViewCallback<UpdateCustomerBean>() {
+                    Api.updateCustomer(AccountHelper.getToken(), customer, new Api.BaseViewCallbackWithOnStart<UpdateCustomerBean>() {
                         @Override
                         public void setData(UpdateCustomerBean updateCustomerBean) {
                             Toast.makeText(UserInfoActivity.this, "用户信息保存成功", Toast.LENGTH_SHORT).show();
@@ -389,9 +386,21 @@ public class UserInfoActivity extends BaseActivity {
                             UserInfoActivity.this.finish();
                             Log.d(TAG, "updateData:updateUserInfo success");
                         }
+                        @Override
+                        public void onStart() {
+                            showProgressDialog();
+                        }
+                        @Override
+                        public void onFinish() {
+                            hideProgressDialog();
+                        }
+                        @Override
+                        public void onError() {
+                            hideProgressDialog();
+                        }
+
                     });
                 }else {
-                    BaseApplication.showToast("token验证失败请重新登陆");
                     startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));
                     finish();
                 }
@@ -418,7 +427,6 @@ public class UserInfoActivity extends BaseActivity {
                             weChatLogin();
                     }
                 }else {
-                    BaseApplication.showToast("token验证失败请重新登陆");
                     startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));
                     finish();
                 }

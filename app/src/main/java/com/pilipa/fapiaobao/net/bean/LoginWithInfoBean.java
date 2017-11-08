@@ -107,11 +107,11 @@ public class LoginWithInfoBean {
             private String openid;
             private String gender;
             private String birthday;
-            private int amount;
-            private int bonus;
-            private int frozen;
+            private double amount;
+            private double bonus;
+            private double frozen;
             private String frequentType;
-            private int creditScore;
+            private String creditScore;
             private int creditLevel;
 
             public String getId() {
@@ -202,27 +202,27 @@ public class LoginWithInfoBean {
                 this.birthday = birthday;
             }
 
-            public int getAmount() {
+            public double getAmount() {
                 return amount;
             }
 
-            public void setAmount(int amount) {
+            public void setAmount(double amount) {
                 this.amount = amount;
             }
 
-            public int getBonus() {
+            public double getBonus() {
                 return bonus;
             }
 
-            public void setBonus(int bonus) {
+            public void setBonus(double bonus) {
                 this.bonus = bonus;
             }
 
-            public int getFrozen() {
+            public double getFrozen() {
                 return frozen;
             }
 
-            public void setFrozen(int frozen) {
+            public void setFrozen(double frozen) {
                 this.frozen = frozen;
             }
 
@@ -234,11 +234,11 @@ public class LoginWithInfoBean {
                 this.frequentType = frequentType;
             }
 
-            public int getCreditScore() {
+            public String getCreditScore() {
                 return creditScore;
             }
 
-            public void setCreditScore(int creditScore) {
+            public void setCreditScore(String creditScore) {
                 this.creditScore = creditScore;
             }
 

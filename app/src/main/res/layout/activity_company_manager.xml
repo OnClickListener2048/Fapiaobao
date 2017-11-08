@@ -62,12 +62,5 @@
         android:layout_height="wrap_content">
 
     </android.support.v4.view.ViewPager>
-    <Button
-        android:text="@string/submit"
-        android:layout_alignParentBottom="true"
-        android:textColor="@color/white"
-        android:layout_margin="@dimen/d15"
-        android:background="@drawable/bg_btn_normal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
 </LinearLayout>

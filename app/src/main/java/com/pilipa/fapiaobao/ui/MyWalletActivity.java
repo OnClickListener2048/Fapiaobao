@@ -35,18 +35,10 @@ public class MyWalletActivity extends BaseActivity {
 
     @OnClick({R.id._back,R.id.btn_recharge,R.id.btn_withdraw,R.id.tv_recharge_details,R.id.my_red_envelope})
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         switch (v.getId()){
             case R.id._back:{
                 finish();
-            }break;
-            case R.id.btn_recharge:{
-                startActivity(new Intent(this,RechargeActivity.class));
-            }break;
-            case R.id.btn_withdraw:{
-                Intent intent = new Intent(this,Withdraw2WXActivity.class);
-                intent.putExtra("amount",tv_amount.getText().toString().trim());
-                startActivity(intent);
             }break;
             case R.id.tv_recharge_details:{
                 startActivity(new Intent(this,RechargeDetailsActivity.class));
@@ -58,6 +50,26 @@ public class MyWalletActivity extends BaseActivity {
                 startActivity(intent);
             }break;
         }
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean normalBean) {
+                if (normalBean.getStatus() == 200) {
+                    switch (v.getId()){
+                        case R.id.btn_recharge:{
+                            startActivity(new Intent(MyWalletActivity.this,RechargeActivity.class));
+                        }break;
+                        case R.id.btn_withdraw:{
+                            Intent intent = new Intent(MyWalletActivity.this,Withdraw2WXActivity.class);
+                            intent.putExtra("amount",tv_amount.getText().toString().trim());
+                            startActivity(intent);
+                        }break;
+                    }
+                }else {
+                    startActivity(new Intent(MyWalletActivity.this, LoginActivity.class));
+                }
+            }
+        });
+
     }
 
     @Override

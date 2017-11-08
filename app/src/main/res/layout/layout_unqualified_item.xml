@@ -3,12 +3,17 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="220dp">
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="驳回原因："/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:orientation="horizontal"
-        android:padding="@dimen/d20">
+        android:background="@drawable/edittext_bg"
+        android:padding="@dimen/d10"
+        android:layout_margin="@dimen/d10">
         <TextView
             android:id="@+id/tv_reject_reason"
             android:layout_width="match_parent"

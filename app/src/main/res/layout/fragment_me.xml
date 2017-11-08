@@ -29,7 +29,7 @@
             android:padding="20dp">
 
             <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/img_head"
+                android:id="@+id/img_head_me"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentStart="true"
@@ -44,7 +44,7 @@
                 android:id="@+id/tv_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/img_head"
+                android:layout_toEndOf="@+id/img_head_me"
                 android:paddingLeft="@dimen/d20"
                 android:paddingTop="@dimen/d5"
                 android:paddingBottom="@dimen/d5"
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_userName"
-                android:layout_toEndOf="@+id/img_head"
+                android:layout_toEndOf="@+id/img_head_me"
                 android:orientation="horizontal">
 
                 <TextView

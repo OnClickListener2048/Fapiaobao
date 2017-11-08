@@ -205,7 +205,7 @@ public class MacherBeanToken implements Parcelable{
             private String qrcode;
             private String isDefault;
 
-            protected CompanyBean(Parcel in) {
+            public CompanyBean(Parcel in) {
                 id = in.readString();
                 isNewRecord = in.readByte() != 0;
                 remarks = in.readString();
@@ -220,7 +220,9 @@ public class MacherBeanToken implements Parcelable{
                 qrcode = in.readString();
                 isDefault = in.readString();
             }
+            public CompanyBean(){
 
+            }
             public static final Creator<CompanyBean> CREATOR = new Creator<CompanyBean>() {
                 @Override
                 public CompanyBean createFromParcel(Parcel in) {

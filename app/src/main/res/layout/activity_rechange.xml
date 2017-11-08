@@ -151,7 +151,10 @@
             android:id="@+id/go_recharge"
             android:text="@string/recharge_go"
             android:textColor="@color/white"
-            android:layout_margin="@dimen/d15"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
+            android:layout_marginBottom="@dimen/d6"
+            android:layout_marginTop="@dimen/d6"
             android:background="@drawable/bg_btn_normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

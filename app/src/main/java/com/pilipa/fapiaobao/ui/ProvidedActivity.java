@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -23,6 +22,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.EncodeUtils;
+import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
@@ -31,6 +32,7 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
+import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
 import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
@@ -74,8 +76,6 @@ public class ProvidedActivity extends BaseActivity {
     FrameLayout containerPaperSpecialReceipt;
     @Bind(R.id.container_paper_elec_receipt)
     FrameLayout containerPaperElecReceipt;
-    @Bind(R.id.btn_confirm)
-    Button btnConfirm;
     @Bind(R.id.tv_invoiceType)
     TextView tvInvoiceType;
     @Bind(R.id.tv_arrival_state)
@@ -154,7 +154,7 @@ public class ProvidedActivity extends BaseActivity {
         return R.layout.activity_provided;
     }
 
-    @OnClick({R.id.provided_back, R.id.fl_change, R.id.btn_confirm
+    @OnClick({R.id.provided_back, R.id.fl_change
             , R.id.collect, R.id.btn_mailing, R.id.btn_scan, R.id.question
             , R.id.link_to_telephone, R.id.link_to_phone})
 
@@ -191,10 +191,6 @@ public class ProvidedActivity extends BaseActivity {
             break;
             case R.id.provided_back: {
                 finish();
-            }
-            break;
-            case R.id.btn_confirm: {
-
             }
             break;
             case R.id.fl_change: {
@@ -266,6 +262,7 @@ public class ProvidedActivity extends BaseActivity {
                 mSpinner.setAdapter(new PublishSpinnerAdapter(expressCompanyBean));
             }
         });
+
     }
 
     private void setTipDialog() {
@@ -305,7 +302,7 @@ public class ProvidedActivity extends BaseActivity {
             image.isSelected = false;
             image.name = result.getId();
             image.path = result.getUrl();
-            image.path = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg";
+//            image.path = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg";
             image.position = -1;
             image.isCapture = false;
             image.isFromNet = true;
@@ -374,6 +371,15 @@ public class ProvidedActivity extends BaseActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == REQUEST_CODE_SCAN){
+            String codedContent =  data.getStringExtra("codedContent");
+            edtOddNumber.setText(codedContent);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
@@ -390,11 +396,10 @@ public class ProvidedActivity extends BaseActivity {
                             , edtOddNumber.getText().toString(), new Api.BaseViewCallback<NormalBean>() {
                                 @Override
                                 public void setData(NormalBean normalBean) {
-                                    BaseApplication.showToast("确认邮寄");
+                                    BaseApplication.showToast("已确认邮寄");
                                 }
                             });
                 } else {
-                    BaseApplication.showToast("token验证失败请重新登陆");
                     startActivity(new Intent(ProvidedActivity.this, LoginActivity.class));
                     finish();
                 }
@@ -443,7 +448,18 @@ public class ProvidedActivity extends BaseActivity {
                             texNumber.setText(bean.getCompany().getTaxno());
 
                             try {
-                                Bitmap qrCode = CodeCreator.createQRCode(ProvidedActivity.this,bean.getCompany().toString());
+                                MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+                                companyBean.setName(bean.getCompany().getName());
+                                companyBean.setPhone(bean.getCompany().getPhone());
+                                companyBean.setAddress(bean.getCompany().getAddress());
+                                companyBean.setAccount(bean.getCompany().getAccount());
+                                companyBean.setDepositBank(bean.getCompany().getDepositBank());
+                                companyBean.setTaxno(bean.getCompany().getTaxno());
+                                Gson gson = new Gson();
+                                String comStr = gson.toJson(companyBean,MacherBeanToken.DataBean.CompanyBean.class);
+                                Log.d(TAG,"qrCode" +comStr);
+                                String comStrGson =  EncodeUtils.urlEncode(comStr);
+                                Bitmap qrCode = CodeCreator.createQRCode(ProvidedActivity.this,comStrGson);
                                 qr.setImageBitmap(qrCode);
                             } catch (Exception e) {
                                 BaseApplication.showToast("二维码生成失败");

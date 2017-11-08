@@ -8,10 +8,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 
 import butterknife.ButterKnife;
@@ -38,10 +36,7 @@ public class FeedbackActivity extends BaseActivity {
                 finish();
             }break;
             case R.id.btn_feedback_confirm:{
-                String phone = AccountHelper.getUser().getData().getCustomer().getTelephone();
-                if(phone != null){
-                    setDialog(phone);
-                }
+                    setDialog();
             }break;
         }
     }
@@ -61,12 +56,10 @@ public class FeedbackActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-    private void setDialog(String phone) {
+    private void setDialog() {
         mDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.layout_feedback_tip, null);
-        TextView tv_phone =(TextView) root.findViewById(R.id.tv_phone);
-        tv_phone.setText(phone);
         //初始化视图
         mDialog.setContentView(root);
         Window dialogWindow = mDialog.getWindow();

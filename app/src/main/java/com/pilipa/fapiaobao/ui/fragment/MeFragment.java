@@ -2,11 +2,14 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -33,7 +36,7 @@ import butterknife.OnClick;
  */
 
 public class MeFragment extends BaseFragment{
-    @Bind(R.id.img_head)
+    @Bind(R.id.img_head_me)
     RoundedImageView imageHead;
     @Bind(R.id.tv_userName)
     TextView tvUserName;
@@ -51,7 +54,6 @@ public class MeFragment extends BaseFragment{
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
-        setImageFromNet(imageHead,"URL",R.mipmap.ic_head_circle_default_small_);
         return rootView;
     }
     @Override
@@ -64,7 +66,7 @@ public class MeFragment extends BaseFragment{
         ButterKnife.unbind(this);
     }
     @OnClick({R.id.tv_userName
-            ,R.id.img_head
+            ,R.id.img_head_me
             ,R.id.btn_mPublish
             ,R.id.btn_manager
             ,R.id.btn_receipt_folder
@@ -77,6 +79,9 @@ public class MeFragment extends BaseFragment{
             case R.id.tv_feedback:
                 startActivity(new Intent(getContext(), FeedbackActivity.class));
                 break;
+            case R.id.my_wallet:
+                startActivity(new Intent(getContext(), MyWalletActivity.class));
+                break;
             default: {
                 AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                     @Override
@@ -84,7 +89,7 @@ public class MeFragment extends BaseFragment{
                         if (normalBean.getStatus() == 200) {
                             switch (view.getId()) {
                                 case R.id.tv_userName:
-                                case R.id.img_head:
+                                case R.id.img_head_me:
                                     startActivity(new Intent(getContext(), UserInfoActivity.class));
                                     break;
                                 case R.id.notification:
@@ -99,9 +104,6 @@ public class MeFragment extends BaseFragment{
                                 case R.id.btn_receipt_folder:
                                     startActivity(new Intent(getContext(), ReceiptFolderActivity.class));
                                     break;
-                                case R.id.my_wallet:
-                                    startActivity(new Intent(getContext(), MyWalletActivity.class));
-                                    break;
                                 case R.id.tv_creditRating:
                                     startActivity(new Intent(getContext(), CreditRatingActivity.class));
                                     break;
@@ -114,8 +116,11 @@ public class MeFragment extends BaseFragment{
             }
         }
     }
+    RequestManager requestManager;
     @Override
     public void onResume() {
+         requestManager = Glide.with(mContext);
+
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
 
             @Override
@@ -125,10 +130,17 @@ public class MeFragment extends BaseFragment{
                         LoginWithInfoBean.DataBean.CustomerBean customer = loginWithInfoBean.getData().getCustomer();
                         String endFormat = mContext.getResources().getString(R.string.integral);
                         if(customer != null){
-                            tvCreditRating.setText(String.format(endFormat, customer.getCreditScore()));
+                            tvCreditRating.setText("积分："+customer.getCreditScore());
                             tvUserName.setText(customer.getNickname());
                             tvBouns.setText(customer.getAmount()+"元");//钱包金额
-                            setImageFromNet(imageHead,customer.getHeadimg(),R.mipmap.ic_head_circle_default_small_);
+                            Log.d("IMAGE_HEAD",customer.getHeadimg());
+                            requestManager
+                                    .load(customer.getHeadimg())
+                                    .asBitmap()
+                                    .placeholder(R.mipmap.ic_head_circle_default_small_)
+                                    .thumbnail(0.1f)
+                                    .into(imageHead);
+
                         }
 //          tvUserName.setText(customer.getCreditLevel());
                 }

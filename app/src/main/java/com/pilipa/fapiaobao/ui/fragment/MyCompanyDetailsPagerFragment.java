@@ -3,7 +3,6 @@ package com.pilipa.fapiaobao.ui.fragment;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -18,31 +17,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.EncodeUtils;
+import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.UnusedReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
-import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
-import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.XCFlowLayout;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
@@ -129,9 +125,19 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
 
         }
 
-
         try {
-            Bitmap qrCode = CodeCreator.createQRCode(mContext, company.toString());
+            MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+            companyBean.setName(company.getName());
+            companyBean.setPhone(company.getPhone());
+            companyBean.setAddress(company.getAddress());
+            companyBean.setAccount(company.getAccount());
+            companyBean.setDepositBank(company.getDepositBank());
+            companyBean.setTaxno(company.getTaxno());
+            Gson gson = new Gson();
+            String comStr = gson.toJson(companyBean,MacherBeanToken.DataBean.CompanyBean.class);
+            Log.d(TAG,"qrCode" +comStr);
+            String comStrGson =  EncodeUtils.urlEncode(comStr);
+            Bitmap qrCode = CodeCreator.createQRCode(mContext,comStrGson);
             img_qr_code1.setImageBitmap(qrCode);
             img_qr_code2.setImageBitmap(qrCode);
         } catch (Exception e) {

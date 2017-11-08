@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.EncodeUtils;
+import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyInvoiceNameAdapter;
@@ -23,6 +25,7 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
@@ -48,6 +51,7 @@ import static com.pilipa.fapiaobao.net.Constant.STATE_COMPETENT;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_FINISH;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_ING;
+import static com.pilipa.fapiaobao.net.Constant.STATE_INCOMPETENT;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_PAPER;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
@@ -140,6 +144,9 @@ public class DemandActivity extends BaseActivity {
     private MyInvoiceNameAdapter invoiceNameAdapter;
     ArrayList<Image> images_qualified ;
     private Dialog mCameraDialog;
+    private Dialog mDialog;
+    private boolean isCanShutDown = false;//能否提前关闭
+
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA share_media) {
@@ -190,9 +197,8 @@ public class DemandActivity extends BaseActivity {
             }
             break;
             case btn_shut_down_early: {
-                if (demandId != null) {
-                    shatDownEarly(demandId);
-                }
+                setShutDialog(isCanShutDown);
+
             }
             break;
             case R.id.fl_change: {
@@ -220,11 +226,22 @@ public class DemandActivity extends BaseActivity {
         Log.d(TAG, "setUpData:   private void setUpData(ArrayList<model.ResultsBean> body) {");
 
         if (results.size() == 0) {
+            isCanShutDown = true;
             ll_no_record.setVisibility(View.VISIBLE);
             ll_receiptlist.setVisibility(View.GONE);
         } else {
+
             ll_no_record.setVisibility(View.GONE);
             ll_receiptlist.setVisibility(View.VISIBLE);
+            for (DemandDetails.DataBean.OrderInvoiceListBean result : results) {
+                if( STATE_COMPETENT.equals(result.getState())
+                        ||STATE_INCOMPETENT.equals(result.getState())){//收到票 且都处理完成
+                    isCanShutDown = true;
+                }else{
+                    isCanShutDown = false;
+                    return;
+                }
+            }
             images = new ArrayList<>();
             for (DemandDetails.DataBean.OrderInvoiceListBean result : results) {
                 Log.d(TAG, "setUpData:  for (model.ResultsBean result : body) {");
@@ -242,6 +259,7 @@ public class DemandActivity extends BaseActivity {
                 image.reason = result.getReason();
                 images.add(image);
             }
+
             ArrayList<Image> images1 = new ArrayList<>();
             ArrayList<Image> images2 = new ArrayList<>();
             ArrayList<Image> images3 = new ArrayList<>();
@@ -339,7 +357,18 @@ public class DemandActivity extends BaseActivity {
                             texNumber.setText(bean.getDemand().getCompany().getTaxno());
 
                             try {
-                                Bitmap qrCode = CodeCreator.createQRCode(DemandActivity.this,bean.getDemand().getCompany().toString());
+                                MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+                                companyBean.setName(bean.getDemand().getCompany().getName());
+                                companyBean.setPhone(bean.getDemand().getCompany().getPhone());
+                                companyBean.setAddress(bean.getDemand().getCompany().getAddress());
+                                companyBean.setAccount(bean.getDemand().getCompany().getAccount());
+                                companyBean.setDepositBank(bean.getDemand().getCompany().getDepositBank());
+                                companyBean.setTaxno(bean.getDemand().getCompany().getTaxno());
+                                Gson gson = new Gson();
+                                String comStr = gson.toJson(companyBean,MacherBeanToken.DataBean.CompanyBean.class);
+                                Log.d(TAG,"qrCode" +comStr);
+                                String comStrGson =  EncodeUtils.urlEncode(comStr);
+                                Bitmap qrCode = CodeCreator.createQRCode(DemandActivity.this,comStrGson);
                                 qr.setImageBitmap(qrCode);
                             } catch (Exception e) {
                                 BaseApplication.showToast("二维码生成失败");
@@ -471,6 +500,51 @@ public class DemandActivity extends BaseActivity {
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
         mCameraDialog.show();
+    }
+    private void setShutDialog(boolean isCanShutDown) {
+        mDialog = new Dialog(DemandActivity.this, R.style.BottomDialog);
+        LinearLayout root;
+        if(isCanShutDown){
+            root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
+                    R.layout.layout_shutdown1_tip, null);
+            root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                }
+            });
+            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (demandId != null) {
+                        shatDownEarly(demandId);
+                    }
+                }
+            });
+        }else{
+            root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
+                    R.layout.layout_shutdown2_tip, null);
+            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                }
+            });
+        }
+        mDialog.setContentView(root);
+        Window dialogWindow = mDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mDialog.show();
     }
 
 }
