@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -241,7 +240,6 @@ public class ProvidedActivity extends BaseActivity {
                                 });
                             }
                         } else {
-                            BaseApplication.showToast("token验证失败请重新登录");
                             startActivity(new Intent(ProvidedActivity.this, LoginActivity.class));
                             finish();
                         }
@@ -415,18 +413,19 @@ public class ProvidedActivity extends BaseActivity {
                     if (orderDetailsBean.getStatus() == REQUEST_SUCCESS) {
                         OrderDetailsBean.DataBean bean = orderDetailsBean.getData();
                         tvInvoiceType.setText(bean.getInvoiceType().getName());
+
                         if (STATE_FLYING.equals(bean.getOrderState())) {
                             tvArrivalState.setText("红包飞来中");
-                            tvArrivalState.setTextColor(getResources().getColor(R.color.red));
+                            tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_2));
                         } else if (STATE_GOT_ALL.equals(bean.getOrderState())) {
                             tvArrivalState.setText("红包到帐");
-                            tvArrivalState.setTextColor(Color.GRAY);
+                            tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_1));
                         } else if (STATE_GOT_PARTIALITY.equals(bean.getOrderState())) {
                             tvArrivalState.setText("部分到帐");
-                            tvArrivalState.setTextColor(Color.BLUE);
+                            tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_1));
                         } else if (STATE_GONE.equals(bean.getOrderState())) {
                             tvArrivalState.setText("红包飞走了");
-                            tvArrivalState.setTextColor(Color.GREEN);
+                            tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_3));
                         }
                         if (bean.getPostage() != null) {
                             tvReceiver.setText(bean.getPostage().getReceiver());
@@ -437,11 +436,11 @@ public class ProvidedActivity extends BaseActivity {
                         }
                         estimateMoney.setText(bean.getBonus() + "");
                         receiptNumber.setText(bean.getInvoiceCount() + "");
-//                            receiptMoney.setText();
-//                            continueToUpload.setText();
+                        receiptMoney.setText(bean.getAmount()+"");
                         if (bean.getCompany() != null) {
                             companyName.setText(bean.getCompany().getName());
                             number.setText(bean.getCompany().getPhone());
+
                             companyAddress.setText(bean.getCompany().getAddress());
                             bankAccount.setText(bean.getCompany().getAccount());
                             bank.setText(bean.getCompany().getDepositBank());

@@ -12,7 +12,7 @@ public class OrderDetailsBean {
     /**
      * status : 200
      * msg : OK
-     * data : {"invoiceType":{"id":"43f1faf2cfee4f508d02c36975dfa06d","isNewRecord":false,"remarks":"","createDate":"2017-10-29 12:28:39","updateDate":"2017-10-29 12:28:39","category":"4","name":"会议费","smallSize":"","middleSize":"/fapiaobao/userfiles/1/files/personal/invoiceType/2017/10/receipt_011.png","largeSize":"","frequentFlag":"1"},"invoiceList":[{"id":"008fe4d840d7440eaa6e10f53e552c4b","isNewRecord":false,"createDate":"2017-11-06 10:32:17","updateDate":"2017-11-06 10:32:17","order":{"id":"97d1de9787b345b687fbf62c153c2f6a","isNewRecord":false},"demand":{"id":"a758b26e0ca34de4a3851cd1bfe54554","isNewRecord":false},"variety":"1","amount":500,"bonus":50,"url":"http://39.106.4.193/fapiaobao/upload/invoice/f270f1e2dc4645e6a9161deedc1e0d01.jpg","state":"1"}],"invoiceCount":1,"bonus":50,"postage":{"id":"47349c2a5648420e8b73b96d27f49b17","isNewRecord":false,"receiver":"string","telephone":"string","phone":"string","province":"string","city":"string","district":"string","address":"string","email":"string","logisticsCompany":"string"},"company":{"id":"55868770a8f140b5941031f954184cf0","isNewRecord":false,"createDate":"2017-11-01 12:11:42","updateDate":"2017-11-01 12:11:42","customer":{"id":"d2f885adde454362a754be7749d9ea8e","isNewRecord":false},"name":"string","taxno":"string","address":"string","phone":"string","depositBank":"string","account":"string","qrcode":"string"},"orderState":"1","needMail":false}
+     * data : {"invoiceType":{"id":"43f1faf2cfee4f508d02c36975dfa06d","isNewRecord":false,"remarks":"","createDate":"2017-10-29 12:28:39","updateDate":"2017-10-29 12:28:39","category":"4","name":"会议费","smallSize":"","middleSize":"/fapiaobao/userfiles/1/files/personal/invoiceType/2017/10/receipt_011.png","largeSize":"","categorySort":0,"frequentFlag":"1","frequentSort":0},"invoiceList":[{"id":"48ed7096c39811e785ef00163e089be9","isNewRecord":false,"updateDate":"2017-11-08 16:19:49","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"3","amount":10,"bonus":6,"url":"http://39.106.4.193/fapiaobao/upload/invoice/0fa31b5100cc4ad1b7d409d66eee6eca.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"invoiceReject":{"id":"4a739f2f20224589abedf564e42b422a","isNewRecord":false,"createDate":"2017-11-08 16:19:49","updateDate":"2017-11-08 16:19:49","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"orderInvoice":{"id":"48ed7096c39811e785ef00163e089be9","isNewRecord":false,"amount":0,"bonus":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0},"type":"1","reason":"测试驳回"}},{"id":"67626be7c39811e785ef00163e089be9","isNewRecord":false,"updateDate":"2017-11-08 11:20:42","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"2","amount":10,"bonus":4,"url":"http://39.106.4.193/fapiaobao/upload/invoice/0fa31b5100cc4ad1b7d409d66eee6eca.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"invoiceReject":{"id":"b746ce3a406943868e7baf69d4930f12","isNewRecord":false,"createDate":"2017-11-08 11:20:42","updateDate":"2017-11-08 11:20:42","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"orderInvoice":{"id":"67626be7c39811e785ef00163e089be9","isNewRecord":false,"amount":0,"bonus":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0},"type":"6","reason":"vhhh"}},{"id":"9805062c23f34370a27613852ffd41bc","isNewRecord":false,"createDate":"2017-11-06 11:33:06","updateDate":"2017-11-06 17:28:50","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"1","amount":10,"bonus":7,"url":"http://39.106.4.193/fapiaobao/upload/invoice/0fa31b5100cc4ad1b7d409d66eee6eca.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"invoiceReject":{"id":"ddf5118588ce4068b1e2e7aa0c362e86","isNewRecord":false,"createDate":"2017-11-06 17:28:50","updateDate":"2017-11-06 17:28:50","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"orderInvoice":{"id":"9805062c23f34370a27613852ffd41bc","isNewRecord":false,"amount":0,"bonus":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0},"type":"5"}}],"invoiceCount":3,"bonus":7,"amount":70,"postage":{"id":"552e5f9a40534afb968cec4259f62af3","isNewRecord":false,"receiver":"string","telephone":"string","phone":"string","province":"string","city":"string","district":"string","address":"string","email":"string","logisticsCompany":"string"},"company":{"id":"fa5c505adc8b491a9b49cf3bd2a741ec","isNewRecord":false,"createDate":"2017-11-01 12:17:44","updateDate":"2017-11-01 12:17:44","customer":{"id":"d2f885adde454362a754be7749d9ea8e","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"string","taxno":"string","address":"string","phone":"string","depositBank":"string","account":"string","qrcode":"string"},"orderState":"4","needMail":false}
      */
 
     private int status;
@@ -45,19 +45,21 @@ public class OrderDetailsBean {
 
     public static class DataBean {
         /**
-         * invoiceType : {"id":"43f1faf2cfee4f508d02c36975dfa06d","isNewRecord":false,"remarks":"","createDate":"2017-10-29 12:28:39","updateDate":"2017-10-29 12:28:39","category":"4","name":"会议费","smallSize":"","middleSize":"/fapiaobao/userfiles/1/files/personal/invoiceType/2017/10/receipt_011.png","largeSize":"","frequentFlag":"1"}
-         * invoiceList : [{"id":"008fe4d840d7440eaa6e10f53e552c4b","isNewRecord":false,"createDate":"2017-11-06 10:32:17","updateDate":"2017-11-06 10:32:17","order":{"id":"97d1de9787b345b687fbf62c153c2f6a","isNewRecord":false},"demand":{"id":"a758b26e0ca34de4a3851cd1bfe54554","isNewRecord":false},"variety":"1","amount":500,"bonus":50,"url":"http://39.106.4.193/fapiaobao/upload/invoice/f270f1e2dc4645e6a9161deedc1e0d01.jpg","state":"1"}]
-         * invoiceCount : 1
-         * bonus : 50.0
-         * postage : {"id":"47349c2a5648420e8b73b96d27f49b17","isNewRecord":false,"receiver":"string","telephone":"string","phone":"string","province":"string","city":"string","district":"string","address":"string","email":"string","logisticsCompany":"string"}
-         * company : {"id":"55868770a8f140b5941031f954184cf0","isNewRecord":false,"createDate":"2017-11-01 12:11:42","updateDate":"2017-11-01 12:11:42","customer":{"id":"d2f885adde454362a754be7749d9ea8e","isNewRecord":false},"name":"string","taxno":"string","address":"string","phone":"string","depositBank":"string","account":"string","qrcode":"string"}
-         * orderState : 1
+         * invoiceType : {"id":"43f1faf2cfee4f508d02c36975dfa06d","isNewRecord":false,"remarks":"","createDate":"2017-10-29 12:28:39","updateDate":"2017-10-29 12:28:39","category":"4","name":"会议费","smallSize":"","middleSize":"/fapiaobao/userfiles/1/files/personal/invoiceType/2017/10/receipt_011.png","largeSize":"","categorySort":0,"frequentFlag":"1","frequentSort":0}
+         * invoiceList : [{"id":"48ed7096c39811e785ef00163e089be9","isNewRecord":false,"updateDate":"2017-11-08 16:19:49","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"3","amount":10,"bonus":6,"url":"http://39.106.4.193/fapiaobao/upload/invoice/0fa31b5100cc4ad1b7d409d66eee6eca.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"invoiceReject":{"id":"4a739f2f20224589abedf564e42b422a","isNewRecord":false,"createDate":"2017-11-08 16:19:49","updateDate":"2017-11-08 16:19:49","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"orderInvoice":{"id":"48ed7096c39811e785ef00163e089be9","isNewRecord":false,"amount":0,"bonus":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0},"type":"1","reason":"测试驳回"}},{"id":"67626be7c39811e785ef00163e089be9","isNewRecord":false,"updateDate":"2017-11-08 11:20:42","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"2","amount":10,"bonus":4,"url":"http://39.106.4.193/fapiaobao/upload/invoice/0fa31b5100cc4ad1b7d409d66eee6eca.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"invoiceReject":{"id":"b746ce3a406943868e7baf69d4930f12","isNewRecord":false,"createDate":"2017-11-08 11:20:42","updateDate":"2017-11-08 11:20:42","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"orderInvoice":{"id":"67626be7c39811e785ef00163e089be9","isNewRecord":false,"amount":0,"bonus":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0},"type":"6","reason":"vhhh"}},{"id":"9805062c23f34370a27613852ffd41bc","isNewRecord":false,"createDate":"2017-11-06 11:33:06","updateDate":"2017-11-06 17:28:50","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"demand":{"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"variety":"1","amount":10,"bonus":7,"url":"http://39.106.4.193/fapiaobao/upload/invoice/0fa31b5100cc4ad1b7d409d66eee6eca.jpg","state":"3","beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"invoiceReject":{"id":"ddf5118588ce4068b1e2e7aa0c362e86","isNewRecord":false,"createDate":"2017-11-06 17:28:50","updateDate":"2017-11-06 17:28:50","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"orderInvoice":{"id":"9805062c23f34370a27613852ffd41bc","isNewRecord":false,"amount":0,"bonus":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0},"type":"5"}}]
+         * invoiceCount : 3
+         * bonus : 7
+         * amount : 70
+         * postage : {"id":"552e5f9a40534afb968cec4259f62af3","isNewRecord":false,"receiver":"string","telephone":"string","phone":"string","province":"string","city":"string","district":"string","address":"string","email":"string","logisticsCompany":"string"}
+         * company : {"id":"fa5c505adc8b491a9b49cf3bd2a741ec","isNewRecord":false,"createDate":"2017-11-01 12:17:44","updateDate":"2017-11-01 12:17:44","customer":{"id":"d2f885adde454362a754be7749d9ea8e","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"string","taxno":"string","address":"string","phone":"string","depositBank":"string","account":"string","qrcode":"string"}
+         * orderState : 4
          * needMail : false
          */
 
         private InvoiceTypeBean invoiceType;
         private int invoiceCount;
-        private double bonus;
+        private int bonus;
+        private int amount;
         private PostageBean postage;
         private CompanyBean company;
         private String orderState;
@@ -80,12 +82,20 @@ public class OrderDetailsBean {
             this.invoiceCount = invoiceCount;
         }
 
-        public double getBonus() {
+        public int getBonus() {
             return bonus;
         }
 
-        public void setBonus(double bonus) {
+        public void setBonus(int bonus) {
             this.bonus = bonus;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public void setAmount(int amount) {
+            this.amount = amount;
         }
 
         public PostageBean getPostage() {
@@ -140,7 +150,9 @@ public class OrderDetailsBean {
              * smallSize :
              * middleSize : /fapiaobao/userfiles/1/files/personal/invoiceType/2017/10/receipt_011.png
              * largeSize :
+             * categorySort : 0
              * frequentFlag : 1
+             * frequentSort : 0
              */
 
             private String id;
@@ -153,7 +165,9 @@ public class OrderDetailsBean {
             private String smallSize;
             private String middleSize;
             private String largeSize;
+            private int categorySort;
             private String frequentFlag;
+            private int frequentSort;
 
             public String getId() {
                 return id;
@@ -235,6 +249,14 @@ public class OrderDetailsBean {
                 this.largeSize = largeSize;
             }
 
+            public int getCategorySort() {
+                return categorySort;
+            }
+
+            public void setCategorySort(int categorySort) {
+                this.categorySort = categorySort;
+            }
+
             public String getFrequentFlag() {
                 return frequentFlag;
             }
@@ -242,11 +264,19 @@ public class OrderDetailsBean {
             public void setFrequentFlag(String frequentFlag) {
                 this.frequentFlag = frequentFlag;
             }
+
+            public int getFrequentSort() {
+                return frequentSort;
+            }
+
+            public void setFrequentSort(int frequentSort) {
+                this.frequentSort = frequentSort;
+            }
         }
 
         public static class PostageBean {
             /**
-             * id : 47349c2a5648420e8b73b96d27f49b17
+             * id : 552e5f9a40534afb968cec4259f62af3
              * isNewRecord : false
              * receiver : string
              * telephone : string
@@ -362,11 +392,11 @@ public class OrderDetailsBean {
 
         public static class CompanyBean {
             /**
-             * id : 55868770a8f140b5941031f954184cf0
+             * id : fa5c505adc8b491a9b49cf3bd2a741ec
              * isNewRecord : false
-             * createDate : 2017-11-01 12:11:42
-             * updateDate : 2017-11-01 12:11:42
-             * customer : {"id":"d2f885adde454362a754be7749d9ea8e","isNewRecord":false}
+             * createDate : 2017-11-01 12:17:44
+             * updateDate : 2017-11-01 12:17:44
+             * customer : {"id":"d2f885adde454362a754be7749d9ea8e","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0}
              * name : string
              * taxno : string
              * address : string
@@ -489,10 +519,32 @@ public class OrderDetailsBean {
                 /**
                  * id : d2f885adde454362a754be7749d9ea8e
                  * isNewRecord : false
+                 * amount : 0
+                 * bonus : 0
+                 * frozen : 0
+                 * creditScore : 0
+                 * creditLevel : 0
+                 * beginAmount : 0
+                 * endAmount : 0
+                 * beginBonus : 0
+                 * endBonus : 0
+                 * beginFrozen : 0
+                 * endFrozen : 0
                  */
 
                 private String id;
                 private boolean isNewRecord;
+                private int amount;
+                private int bonus;
+                private int frozen;
+                private int creditScore;
+                private int creditLevel;
+                private int beginAmount;
+                private int endAmount;
+                private int beginBonus;
+                private int endBonus;
+                private int beginFrozen;
+                private int endFrozen;
 
                 public String getId() {
                     return id;
@@ -509,35 +561,133 @@ public class OrderDetailsBean {
                 public void setIsNewRecord(boolean isNewRecord) {
                     this.isNewRecord = isNewRecord;
                 }
+
+                public int getAmount() {
+                    return amount;
+                }
+
+                public void setAmount(int amount) {
+                    this.amount = amount;
+                }
+
+                public int getBonus() {
+                    return bonus;
+                }
+
+                public void setBonus(int bonus) {
+                    this.bonus = bonus;
+                }
+
+                public int getFrozen() {
+                    return frozen;
+                }
+
+                public void setFrozen(int frozen) {
+                    this.frozen = frozen;
+                }
+
+                public int getCreditScore() {
+                    return creditScore;
+                }
+
+                public void setCreditScore(int creditScore) {
+                    this.creditScore = creditScore;
+                }
+
+                public int getCreditLevel() {
+                    return creditLevel;
+                }
+
+                public void setCreditLevel(int creditLevel) {
+                    this.creditLevel = creditLevel;
+                }
+
+                public int getBeginAmount() {
+                    return beginAmount;
+                }
+
+                public void setBeginAmount(int beginAmount) {
+                    this.beginAmount = beginAmount;
+                }
+
+                public int getEndAmount() {
+                    return endAmount;
+                }
+
+                public void setEndAmount(int endAmount) {
+                    this.endAmount = endAmount;
+                }
+
+                public int getBeginBonus() {
+                    return beginBonus;
+                }
+
+                public void setBeginBonus(int beginBonus) {
+                    this.beginBonus = beginBonus;
+                }
+
+                public int getEndBonus() {
+                    return endBonus;
+                }
+
+                public void setEndBonus(int endBonus) {
+                    this.endBonus = endBonus;
+                }
+
+                public int getBeginFrozen() {
+                    return beginFrozen;
+                }
+
+                public void setBeginFrozen(int beginFrozen) {
+                    this.beginFrozen = beginFrozen;
+                }
+
+                public int getEndFrozen() {
+                    return endFrozen;
+                }
+
+                public void setEndFrozen(int endFrozen) {
+                    this.endFrozen = endFrozen;
+                }
             }
         }
 
         public static class InvoiceListBean {
             /**
-             * id : 008fe4d840d7440eaa6e10f53e552c4b
+             * id : 48ed7096c39811e785ef00163e089be9
              * isNewRecord : false
-             * createDate : 2017-11-06 10:32:17
-             * updateDate : 2017-11-06 10:32:17
-             * order : {"id":"97d1de9787b345b687fbf62c153c2f6a","isNewRecord":false}
-             * demand : {"id":"a758b26e0ca34de4a3851cd1bfe54554","isNewRecord":false}
-             * variety : 1
-             * amount : 500.0
-             * bonus : 50.0
-             * url : http://39.106.4.193/fapiaobao/upload/invoice/f270f1e2dc4645e6a9161deedc1e0d01.jpg
-             * state : 1
+             * updateDate : 2017-11-08 16:19:49
+             * order : {"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0}
+             * demand : {"id":"a4e62566ecda49cfb4e1434ab56f0d79","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}
+             * variety : 3
+             * amount : 10
+             * bonus : 6
+             * url : http://39.106.4.193/fapiaobao/upload/invoice/0fa31b5100cc4ad1b7d409d66eee6eca.jpg
+             * state : 3
+             * beginAmount : 0
+             * endAmount : 0
+             * beginBonus : 0
+             * endBonus : 0
+             * invoiceReject : {"id":"4a739f2f20224589abedf564e42b422a","isNewRecord":false,"createDate":"2017-11-08 16:19:49","updateDate":"2017-11-08 16:19:49","order":{"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0},"orderInvoice":{"id":"48ed7096c39811e785ef00163e089be9","isNewRecord":false,"amount":0,"bonus":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0},"type":"1","reason":"测试驳回"}
+             * createDate : 2017-11-06 11:33:06
              */
 
             private String id;
             private boolean isNewRecord;
-            private String createDate;
             private String updateDate;
             private OrderBean order;
             private DemandBean demand;
             private String variety;
-            private double amount;
-            private double bonus;
+            private int amount;
+            private int bonus;
             private String url;
             private String state;
+            private int beginAmount;
+            private int endAmount;
+            private int beginBonus;
+            private int endBonus;
+            private InvoiceRejectBean invoiceReject;
+            private String createDate;
 
             public String getId() {
                 return id;
@@ -553,14 +703,6 @@ public class OrderDetailsBean {
 
             public void setIsNewRecord(boolean isNewRecord) {
                 this.isNewRecord = isNewRecord;
-            }
-
-            public String getCreateDate() {
-                return createDate;
-            }
-
-            public void setCreateDate(String createDate) {
-                this.createDate = createDate;
             }
 
             public String getUpdateDate() {
@@ -595,19 +737,19 @@ public class OrderDetailsBean {
                 this.variety = variety;
             }
 
-            public double getAmount() {
+            public int getAmount() {
                 return amount;
             }
 
-            public void setAmount(double amount) {
+            public void setAmount(int amount) {
                 this.amount = amount;
             }
 
-            public double getBonus() {
+            public int getBonus() {
                 return bonus;
             }
 
-            public void setBonus(double bonus) {
+            public void setBonus(int bonus) {
                 this.bonus = bonus;
             }
 
@@ -627,14 +769,66 @@ public class OrderDetailsBean {
                 this.state = state;
             }
 
+            public int getBeginAmount() {
+                return beginAmount;
+            }
+
+            public void setBeginAmount(int beginAmount) {
+                this.beginAmount = beginAmount;
+            }
+
+            public int getEndAmount() {
+                return endAmount;
+            }
+
+            public void setEndAmount(int endAmount) {
+                this.endAmount = endAmount;
+            }
+
+            public int getBeginBonus() {
+                return beginBonus;
+            }
+
+            public void setBeginBonus(int beginBonus) {
+                this.beginBonus = beginBonus;
+            }
+
+            public int getEndBonus() {
+                return endBonus;
+            }
+
+            public void setEndBonus(int endBonus) {
+                this.endBonus = endBonus;
+            }
+
+            public InvoiceRejectBean getInvoiceReject() {
+                return invoiceReject;
+            }
+
+            public void setInvoiceReject(InvoiceRejectBean invoiceReject) {
+                this.invoiceReject = invoiceReject;
+            }
+
+            public String getCreateDate() {
+                return createDate;
+            }
+
+            public void setCreateDate(String createDate) {
+                this.createDate = createDate;
+            }
+
             public static class OrderBean {
                 /**
-                 * id : 97d1de9787b345b687fbf62c153c2f6a
+                 * id : 962858652b054c2c917c1e33e0e746d6
                  * isNewRecord : false
+                 * amount : 0
+                 * bonus : 0
                  */
 
                 private String id;
                 private boolean isNewRecord;
+                private int amount;
+                private int bonus;
 
                 public String getId() {
                     return id;
@@ -650,17 +844,63 @@ public class OrderDetailsBean {
 
                 public void setIsNewRecord(boolean isNewRecord) {
                     this.isNewRecord = isNewRecord;
+                }
+
+                public int getAmount() {
+                    return amount;
+                }
+
+                public void setAmount(int amount) {
+                    this.amount = amount;
+                }
+
+                public int getBonus() {
+                    return bonus;
+                }
+
+                public void setBonus(int bonus) {
+                    this.bonus = bonus;
                 }
             }
 
             public static class DemandBean {
                 /**
-                 * id : a758b26e0ca34de4a3851cd1bfe54554
+                 * id : a4e62566ecda49cfb4e1434ab56f0d79
                  * isNewRecord : false
+                 * totalAmount : 0
+                 * leftAmount : 0
+                 * totalBonus : 0
+                 * leftBonus : 0
+                 * mailMinimum : 0
+                 * beginTotalAmount : 0
+                 * endTotalAmount : 0
+                 * beginLeftAmount : 0
+                 * endLeftAmount : 0
+                 * beginTotalBonus : 0
+                 * endTotalBonus : 0
+                 * beginLeftBonus : 0
+                 * endLeftBonus : 0
+                 * beginMailMinimum : 0
+                 * endMailMinimum : 0
                  */
 
                 private String id;
                 private boolean isNewRecord;
+                private int totalAmount;
+                private int leftAmount;
+                private int totalBonus;
+                private int leftBonus;
+                private int mailMinimum;
+                private int beginTotalAmount;
+                private int endTotalAmount;
+                private int beginLeftAmount;
+                private int endLeftAmount;
+                private int beginTotalBonus;
+                private int endTotalBonus;
+                private int beginLeftBonus;
+                private int endLeftBonus;
+                private int beginMailMinimum;
+                private int endMailMinimum;
 
                 public String getId() {
                     return id;
@@ -676,6 +916,344 @@ public class OrderDetailsBean {
 
                 public void setIsNewRecord(boolean isNewRecord) {
                     this.isNewRecord = isNewRecord;
+                }
+
+                public int getTotalAmount() {
+                    return totalAmount;
+                }
+
+                public void setTotalAmount(int totalAmount) {
+                    this.totalAmount = totalAmount;
+                }
+
+                public int getLeftAmount() {
+                    return leftAmount;
+                }
+
+                public void setLeftAmount(int leftAmount) {
+                    this.leftAmount = leftAmount;
+                }
+
+                public int getTotalBonus() {
+                    return totalBonus;
+                }
+
+                public void setTotalBonus(int totalBonus) {
+                    this.totalBonus = totalBonus;
+                }
+
+                public int getLeftBonus() {
+                    return leftBonus;
+                }
+
+                public void setLeftBonus(int leftBonus) {
+                    this.leftBonus = leftBonus;
+                }
+
+                public int getMailMinimum() {
+                    return mailMinimum;
+                }
+
+                public void setMailMinimum(int mailMinimum) {
+                    this.mailMinimum = mailMinimum;
+                }
+
+                public int getBeginTotalAmount() {
+                    return beginTotalAmount;
+                }
+
+                public void setBeginTotalAmount(int beginTotalAmount) {
+                    this.beginTotalAmount = beginTotalAmount;
+                }
+
+                public int getEndTotalAmount() {
+                    return endTotalAmount;
+                }
+
+                public void setEndTotalAmount(int endTotalAmount) {
+                    this.endTotalAmount = endTotalAmount;
+                }
+
+                public int getBeginLeftAmount() {
+                    return beginLeftAmount;
+                }
+
+                public void setBeginLeftAmount(int beginLeftAmount) {
+                    this.beginLeftAmount = beginLeftAmount;
+                }
+
+                public int getEndLeftAmount() {
+                    return endLeftAmount;
+                }
+
+                public void setEndLeftAmount(int endLeftAmount) {
+                    this.endLeftAmount = endLeftAmount;
+                }
+
+                public int getBeginTotalBonus() {
+                    return beginTotalBonus;
+                }
+
+                public void setBeginTotalBonus(int beginTotalBonus) {
+                    this.beginTotalBonus = beginTotalBonus;
+                }
+
+                public int getEndTotalBonus() {
+                    return endTotalBonus;
+                }
+
+                public void setEndTotalBonus(int endTotalBonus) {
+                    this.endTotalBonus = endTotalBonus;
+                }
+
+                public int getBeginLeftBonus() {
+                    return beginLeftBonus;
+                }
+
+                public void setBeginLeftBonus(int beginLeftBonus) {
+                    this.beginLeftBonus = beginLeftBonus;
+                }
+
+                public int getEndLeftBonus() {
+                    return endLeftBonus;
+                }
+
+                public void setEndLeftBonus(int endLeftBonus) {
+                    this.endLeftBonus = endLeftBonus;
+                }
+
+                public int getBeginMailMinimum() {
+                    return beginMailMinimum;
+                }
+
+                public void setBeginMailMinimum(int beginMailMinimum) {
+                    this.beginMailMinimum = beginMailMinimum;
+                }
+
+                public int getEndMailMinimum() {
+                    return endMailMinimum;
+                }
+
+                public void setEndMailMinimum(int endMailMinimum) {
+                    this.endMailMinimum = endMailMinimum;
+                }
+            }
+
+            public static class InvoiceRejectBean {
+                /**
+                 * id : 4a739f2f20224589abedf564e42b422a
+                 * isNewRecord : false
+                 * createDate : 2017-11-08 16:19:49
+                 * updateDate : 2017-11-08 16:19:49
+                 * order : {"id":"962858652b054c2c917c1e33e0e746d6","isNewRecord":false,"amount":0,"bonus":0}
+                 * orderInvoice : {"id":"48ed7096c39811e785ef00163e089be9","isNewRecord":false,"amount":0,"bonus":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0}
+                 * type : 1
+                 * reason : 测试驳回
+                 */
+
+                private String id;
+                private boolean isNewRecord;
+                private String createDate;
+                private String updateDate;
+                private OrderBeanX order;
+                private OrderInvoiceBean orderInvoice;
+                private String type;
+                private String reason;
+
+                public String getId() {
+                    return id;
+                }
+
+                public void setId(String id) {
+                    this.id = id;
+                }
+
+                public boolean isIsNewRecord() {
+                    return isNewRecord;
+                }
+
+                public void setIsNewRecord(boolean isNewRecord) {
+                    this.isNewRecord = isNewRecord;
+                }
+
+                public String getCreateDate() {
+                    return createDate;
+                }
+
+                public void setCreateDate(String createDate) {
+                    this.createDate = createDate;
+                }
+
+                public String getUpdateDate() {
+                    return updateDate;
+                }
+
+                public void setUpdateDate(String updateDate) {
+                    this.updateDate = updateDate;
+                }
+
+                public OrderBeanX getOrder() {
+                    return order;
+                }
+
+                public void setOrder(OrderBeanX order) {
+                    this.order = order;
+                }
+
+                public OrderInvoiceBean getOrderInvoice() {
+                    return orderInvoice;
+                }
+
+                public void setOrderInvoice(OrderInvoiceBean orderInvoice) {
+                    this.orderInvoice = orderInvoice;
+                }
+
+                public String getType() {
+                    return type;
+                }
+
+                public void setType(String type) {
+                    this.type = type;
+                }
+
+                public String getReason() {
+                    return reason;
+                }
+
+                public void setReason(String reason) {
+                    this.reason = reason;
+                }
+
+                public static class OrderBeanX {
+                    /**
+                     * id : 962858652b054c2c917c1e33e0e746d6
+                     * isNewRecord : false
+                     * amount : 0
+                     * bonus : 0
+                     */
+
+                    private String id;
+                    private boolean isNewRecord;
+                    private int amount;
+                    private int bonus;
+
+                    public String getId() {
+                        return id;
+                    }
+
+                    public void setId(String id) {
+                        this.id = id;
+                    }
+
+                    public boolean isIsNewRecord() {
+                        return isNewRecord;
+                    }
+
+                    public void setIsNewRecord(boolean isNewRecord) {
+                        this.isNewRecord = isNewRecord;
+                    }
+
+                    public int getAmount() {
+                        return amount;
+                    }
+
+                    public void setAmount(int amount) {
+                        this.amount = amount;
+                    }
+
+                    public int getBonus() {
+                        return bonus;
+                    }
+
+                    public void setBonus(int bonus) {
+                        this.bonus = bonus;
+                    }
+                }
+
+                public static class OrderInvoiceBean {
+                    /**
+                     * id : 48ed7096c39811e785ef00163e089be9
+                     * isNewRecord : false
+                     * amount : 0
+                     * bonus : 0
+                     * beginAmount : 0
+                     * endAmount : 0
+                     * beginBonus : 0
+                     * endBonus : 0
+                     */
+
+                    private String id;
+                    private boolean isNewRecord;
+                    private int amount;
+                    private int bonus;
+                    private int beginAmount;
+                    private int endAmount;
+                    private int beginBonus;
+                    private int endBonus;
+
+                    public String getId() {
+                        return id;
+                    }
+
+                    public void setId(String id) {
+                        this.id = id;
+                    }
+
+                    public boolean isIsNewRecord() {
+                        return isNewRecord;
+                    }
+
+                    public void setIsNewRecord(boolean isNewRecord) {
+                        this.isNewRecord = isNewRecord;
+                    }
+
+                    public int getAmount() {
+                        return amount;
+                    }
+
+                    public void setAmount(int amount) {
+                        this.amount = amount;
+                    }
+
+                    public int getBonus() {
+                        return bonus;
+                    }
+
+                    public void setBonus(int bonus) {
+                        this.bonus = bonus;
+                    }
+
+                    public int getBeginAmount() {
+                        return beginAmount;
+                    }
+
+                    public void setBeginAmount(int beginAmount) {
+                        this.beginAmount = beginAmount;
+                    }
+
+                    public int getEndAmount() {
+                        return endAmount;
+                    }
+
+                    public void setEndAmount(int endAmount) {
+                        this.endAmount = endAmount;
+                    }
+
+                    public int getBeginBonus() {
+                        return beginBonus;
+                    }
+
+                    public void setBeginBonus(int beginBonus) {
+                        this.beginBonus = beginBonus;
+                    }
+
+                    public int getEndBonus() {
+                        return endBonus;
+                    }
+
+                    public void setEndBonus(int endBonus) {
+                        this.endBonus = endBonus;
+                    }
                 }
             }
         }

@@ -76,8 +76,10 @@ public class UnusedPagerFragment_finish extends BaseFragment implements AdapterV
 
     @Override
     public void onResume() {
-        super.onResume();
         demandsList(STATE_DEMAND_FINISH);
+        Log.d(TAG,"onResume");
+        super.onResume();
+
     }
 
     @Override

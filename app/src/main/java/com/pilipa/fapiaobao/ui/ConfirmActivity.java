@@ -183,7 +183,6 @@ public class ConfirmActivity extends BaseActivity {
                                 });
                             }
                         } else {
-                            BaseApplication.showToast("token验证失败请重新登录");
                             startActivity(new Intent(ConfirmActivity.this, LoginActivity.class));
                             finish();
                         }

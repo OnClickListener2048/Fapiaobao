@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
-import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.AmountHistoryBean;
@@ -82,7 +81,6 @@ public class RechargeDetailsActivity extends BaseActivity {
                         }
                     });
                 }else {
-                    BaseApplication.showToast("token验证失败请重新登陆");
                     startActivity(new Intent(RechargeDetailsActivity.this, LoginActivity.class));
                     finish();
                 }

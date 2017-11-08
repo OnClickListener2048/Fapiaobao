@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.lzy.okgo.OkGo;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.OkGoClient;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.CreditRatingActivity;
@@ -122,8 +122,8 @@ public class MeFragment extends BaseFragment{
 
     @Override
     public void onPause() {
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"loginByToken");
         super.onPause();
-        OkGoClient.cancelTag("loginByToken");
     }
 
     @Override

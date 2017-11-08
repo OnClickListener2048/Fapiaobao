@@ -252,7 +252,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                                 }
                             });
                         } else {
-                            BaseApplication.showToast("token验证失败请重新登录");
                             startActivity(new Intent(DemandsDetailsPreviewActivity.this, LoginActivity.class));
                             finish();
                         }

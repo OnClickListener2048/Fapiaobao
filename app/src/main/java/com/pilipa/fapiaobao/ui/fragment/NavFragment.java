@@ -13,7 +13,6 @@ import android.widget.ImageView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
@@ -192,7 +191,6 @@ public class NavFragment extends BaseFragment {
                     if (loginWithInfoBean.getStatus()==200) {
                         PubActivity.show(mContext);
                     } else if (loginWithInfoBean.getStatus()==701) {
-                        BaseApplication.showToast("token验证失败请重新登录");
                         startActivity(new Intent(mContext, LoginActivity.class));
                     }
                 }

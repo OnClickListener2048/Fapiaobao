@@ -242,7 +242,6 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                 if (loginWithInfoBean.getStatus() == 200) {
                     setDialog();
                 } else {
-                    BaseApplication.showToast("token验证失效");
                     startActivity(new Intent(mContext, LoginActivity.class));
                 }
             }

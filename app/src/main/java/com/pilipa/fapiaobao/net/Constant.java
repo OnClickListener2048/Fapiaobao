@@ -33,6 +33,11 @@ public class Constant {
     public static final String STATE_INCOMPETENT    = "3";//查验不合格
     public static final String STATE_MAILING    = "4";//邮寄中
 
+    public static final String MSG_TYPE_NEWCOME_INVOICE    = "1";//新到发票
+    public static final String MSG_TYPE_GOT_BONUS    = "2";//红包到帐
+    public static final String MSG_TYPE_INCOMPETENT_INVOICE    = "3";//不合格发票
+    public static final String MSG_TYPE_SERVICE_NOTIFICATION    = "4";//服务通知
+
     public static final String STATE_FLYING    = "1";//红包飞来中
     public static final String STATE_GOT_ALL    = "2";//红包到帐
     public static final String STATE_GOT_PARTIALITY    = "3";//部分到帐
@@ -107,11 +112,12 @@ public class Constant {
      *message-rest-controller : 消息中心
      */
 
-    /*获取消息分类信息列表  */
-    public static final String GET_MESSAGE_INFO_LIST= BASE_URL + "message/getMessageInfoList/%s/%s";
-    /*获取消息分类列表   */
-    public static final String GET_MESSAGE_LIST= BASE_URL + "message/getMessageList/%s";
-
+    /*获取消息列表+详情  */
+    public static final String MESSAGE_MESSAGES= BASE_URL + "message/messages/%s";
+    /*改变消息状态为已读   */
+    public static final String MESSAGE_READ= BASE_URL + "message/read/%s/%s";
+    /*删除   */
+    public static final String MESSAGE_REMOVE= BASE_URL + "message/remove/%s/%s";
 
     /**
      *my-publish-rest-controller : 我的发布
@@ -127,11 +133,12 @@ public class Constant {
     /**
      *order-rest-controller : 员工待办
      */
-
     /*确认发票 */
     public static final String CONFIRM_INVOICE= BASE_URL + "order/confirmInvoice/%s/%s";
     /*创建订单  */
     public static final String CREATE_ORDER= BASE_URL + "order/createOrder";
+    /*我的发票删除  */
+    public static final String DELETE_MY_INVOICE= BASE_URL + "order/deleteMyInvoice/%s/%s";
     /*匹配需求 */
     public static final String DO_MATCH_DEMAND= BASE_URL + "order/doMatchDemand/%s/%s";
     /*邮寄发票 */

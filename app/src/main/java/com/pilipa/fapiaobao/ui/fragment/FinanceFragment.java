@@ -21,9 +21,9 @@ import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
-import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
+import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
@@ -174,8 +174,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 }
             });
         }
-
-
     }
 
     @OnClick({R.id.scan, R.id.notification})
@@ -185,6 +183,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 startActivityForResult(new Intent(mContext, CaptureActivity.class), REQUEST_CODE_SCAN);
                 break;
             case R.id.notification:
+                startActivity(new Intent(mContext,MessageCenterActivity.class));
                 break;
         }
     }

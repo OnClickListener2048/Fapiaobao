@@ -58,6 +58,7 @@ public class HistoryActivity2 extends BaseActivity {
         fragmentList.add(new UnusedPagerFragment_close());
         vpPublishHistory.setAdapter(new TabPageIndicatorAdapter(getSupportFragmentManager(),list,fragmentList));
         tlPublishHistory.setupWithViewPager(vpPublishHistory);
+        vpPublishHistory.setOffscreenPageLimit(0);
     }
 
     @Override

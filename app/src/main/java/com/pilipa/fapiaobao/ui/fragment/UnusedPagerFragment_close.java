@@ -35,7 +35,7 @@ import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE;
  */
 @Deprecated
 public class UnusedPagerFragment_close extends BaseFragment implements AdapterView.OnItemClickListener{
-    private static final String TAG = "UnusedPagerFragment_finish";
+    private static final String TAG = "UnusedPagerFragment_close";
 
     @Bind(R.id.recyclerview)
     ListView listView;
@@ -85,7 +85,9 @@ public class UnusedPagerFragment_close extends BaseFragment implements AdapterVi
     @Override
     public void onResume() {
         demandsList(STATE_DEMAND_CLOSE);
+        Log.d(TAG,"onResume");
         super.onResume();
+
     }
 
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {

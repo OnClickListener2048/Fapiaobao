@@ -35,7 +35,7 @@ import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_ING;
  */
 @Deprecated
 public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView.OnItemClickListener{
-    private static final String TAG = "UnusedPagerFragment_finish";
+    private static final String TAG = "UnusedPagerFragment_ing";
 
     @Bind(R.id.recyclerview)
     ListView listView;
@@ -64,8 +64,9 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
 
     @Override
     public void onResume() {
-        demandsList(STATE_DEMAND_ING);
         super.onResume();
+        demandsList(STATE_DEMAND_ING);
+        Log.d(TAG,"onResume");
     }
 
     @Override

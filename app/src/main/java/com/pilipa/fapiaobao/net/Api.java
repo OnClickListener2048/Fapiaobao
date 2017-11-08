@@ -73,6 +73,9 @@ import static com.pilipa.fapiaobao.net.Constant.FIND_DEFAULT_FREQUENTLY_INVOICE_
 import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
 import static com.pilipa.fapiaobao.net.Constant.MAIL_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.MESSAGE_MESSAGES;
+import static com.pilipa.fapiaobao.net.Constant.MESSAGE_READ;
+import static com.pilipa.fapiaobao.net.Constant.MESSAGE_REMOVE;
 import static com.pilipa.fapiaobao.net.Constant.MY_INVOICE_LIST;
 import static com.pilipa.fapiaobao.net.Constant.ORDER_LIST;
 import static com.pilipa.fapiaobao.net.Constant.PUBLISH;
@@ -266,7 +269,6 @@ public class Api {
 
 
     }
-
 
     /**
      * 获取用户代理的公司列表
@@ -495,7 +497,6 @@ public class Api {
         });
     }
 
-    //    http://p.pilipa.cn/fapiaobao/rest/order/estimate/{token}/{demandId}/{amount}
     public static void estimateRedBag(String token, String demandId, double amount, final BaseViewCallbackWithOnStart baseViewCallback) {
         String url = String.format(ESTIMATE, token, demandId, amount);
         OkGo.<RedBagBean>get(url).execute(new JsonCallBack<RedBagBean>(RedBagBean.class) {
@@ -674,6 +675,13 @@ public class Api {
             }
         });
     }
+
+    /**
+     * 确认发票
+     * @param token
+     * @param orderInvoiceId
+     * @param baseViewCallback
+     */
     public static void confirmInvoice(String token,String orderInvoiceId, final BaseViewCallback baseViewCallback) {
         OkGo.<ConfirmInvoiceBean>get(String.format(CONFIRM_INVOICE,token,orderInvoiceId)).execute(new JsonCallBack<ConfirmInvoiceBean>(ConfirmInvoiceBean.class) {
             @Override
@@ -684,6 +692,16 @@ public class Api {
             }
         });
     }
+
+    /**
+     * 驳回发票
+     * @param token
+     * @param orderInvoiceId
+     * @param amount
+     * @param rejectType
+     * @param reason
+     * @param baseViewCallback
+     */
     public static void rejectInvoice(String token,String orderInvoiceId,String amount,String rejectType,String reason, final BaseViewCallback baseViewCallback) {
         OkGo.<RejectInvoiceBean>post(String.format(REJECT_INVOICE,token,orderInvoiceId,Double.parseDouble(amount),rejectType))
                 .upJson(JsonCreator.setReject(reason))
@@ -696,6 +714,13 @@ public class Api {
             }
         });
     }
+
+    /**
+     * 提供详情
+     * @param token
+     * @param orderID
+     * @param baseViewCallback
+     */
     public static void showOrderDetail(String token,String orderID, final BaseViewCallback baseViewCallback) {
         OkGo.<OrderDetailsBean>get(String.format(SHOW_ORDER_DETAIL, token,orderID)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
             @Override
@@ -706,6 +731,56 @@ public class Api {
             }
         });
     }
+
+    /**
+     * 消息中心列表
+     * @param token
+     * @param orderID
+     * @param baseViewCallback
+     */
+    public static void MESSAGE_MESSAGES(String token, final BaseViewCallback baseViewCallback) {
+        OkGo.<OrderDetailsBean>get(String.format(MESSAGE_MESSAGES, token)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
+            @Override
+            public void onSuccess(Response<OrderDetailsBean> response) {
+                if ("OK".equals(response.body().getMsg())) {
+                    baseViewCallback.setData(response.body());
+                }
+            }
+        });
+    }
+    /**
+     * 消息已读
+     * @param token
+     * @param type
+     * @param baseViewCallback
+     */
+    public static void MESSAGE_READ(String token,String type, final BaseViewCallback baseViewCallback) {
+        OkGo.<OrderDetailsBean>get(String.format(MESSAGE_READ,type,token)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
+            @Override
+            public void onSuccess(Response<OrderDetailsBean> response) {
+                if ("OK".equals(response.body().getMsg())) {
+                    baseViewCallback.setData(response.body());
+                }
+            }
+        });
+    }
+    /**
+     * 删除消息
+     * @param token
+     * @param customerId
+     * @param baseViewCallback
+     */
+    public static void MESSAGE_REMOVE(String token,String customerId, final BaseViewCallback baseViewCallback) {
+        OkGo.<OrderDetailsBean>get(String.format(MESSAGE_REMOVE,customerId,token)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
+            @Override
+            public void onSuccess(Response<OrderDetailsBean> response) {
+                if ("OK".equals(response.body().getMsg())) {
+                    baseViewCallback.setData(response.body());
+                }
+            }
+        });
+    }
+
     public static void uploadInvoice(String token, String pic, final BaseViewCallback baseViewCallback) {
         JSONObject data = JsonCreator.setInvoice(null,pic,null,token);
         OkGo.<NormalBean>post(UPLOAD_INVOICE)
@@ -715,7 +790,7 @@ public class Api {
                     public void onSuccess(Response<NormalBean> response) {
                         baseViewCallback.setData(response.body());
                     }
-                });
+        });
     }
 
     /**
@@ -772,7 +847,6 @@ public class Api {
         });
     }
 
-    //http://192.168.1.205:8181/fapiaobao/rest/order/createOrder/{token}/{demandId}/{invoiceType}/{amount}
     public static void createOrder(String json, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
         OkGo.<OrderBean>post(CREATE_ORDER).upJson(json).execute(new JsonCallBack<OrderBean>(OrderBean.class) {
 
