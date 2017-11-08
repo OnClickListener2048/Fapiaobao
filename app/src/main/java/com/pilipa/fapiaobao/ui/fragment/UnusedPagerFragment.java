@@ -28,7 +28,6 @@ import butterknife.ButterKnife;
  * Created by lyt on 2017/10/17.
  *
  */
-@Deprecated
 public class UnusedPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
     @Bind(R.id.simple_expandable_listview)
     ExpandableListView expandableListView;

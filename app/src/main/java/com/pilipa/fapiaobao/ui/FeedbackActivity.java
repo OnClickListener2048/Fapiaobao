@@ -1,16 +1,24 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.me.FeedBackBean;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,7 +30,7 @@ import butterknife.OnClick;
 public class FeedbackActivity extends BaseActivity {
 
     private Dialog mDialog;
-
+    private EditText edtSuggest;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_feedback;
@@ -36,13 +44,19 @@ public class FeedbackActivity extends BaseActivity {
                 finish();
             }break;
             case R.id.btn_feedback_confirm:{
-                    setDialog();
+                String str = edtSuggest.getText().toString().trim();
+                if(!str.isEmpty()){
+                    suggestion(str);
+                }else{
+                    BaseApplication.showToast("请认真填写您的意见或建议");
+                }
             }break;
         }
     }
 
     @Override
     public void initView() {
+        edtSuggest = (EditText) findViewById(R.id.editText);
     }
 
     @Override
@@ -75,5 +89,27 @@ public class FeedbackActivity extends BaseActivity {
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
         mDialog.show();
+    }
+    private void suggestion(final String str) {
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                if (loginWithInfoBean.getStatus() == 200) {
+                    Api.suggestion(AccountHelper.getToken(),str, new Api.BaseViewCallback<FeedBackBean>() {
+                        @Override
+                        public void setData(FeedBackBean feedBackBean) {
+                            if(feedBackBean.getStatus() == 200){
+                                edtSuggest.setText(null);
+                                setDialog();
+                            }
+                            Log.d("", "initData:suggestion success");
+                        }
+                    });
+                }else {
+                    startActivity(new Intent(FeedbackActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        });
     }
 }

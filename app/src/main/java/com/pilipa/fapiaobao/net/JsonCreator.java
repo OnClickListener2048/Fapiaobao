@@ -47,6 +47,11 @@ public class JsonCreator {
         map.put("reason",reason);
         return new JSONObject(map);
     }
+    public static JSONObject suggestion(String suggestion){
+        HashMap map = new HashMap();
+        map.put("suggestion",suggestion);
+        return new JSONObject(map);
+    }
 
     public static JSONObject matcher(String varieties, String city) {
         HashMap map = new HashMap();

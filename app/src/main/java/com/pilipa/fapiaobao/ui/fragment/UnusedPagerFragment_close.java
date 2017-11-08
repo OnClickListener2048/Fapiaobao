@@ -33,7 +33,6 @@ import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE;
 /**
  * Created by lyt on 2017/10/17.
  */
-@Deprecated
 public class UnusedPagerFragment_close extends BaseFragment implements AdapterView.OnItemClickListener{
     private static final String TAG = "UnusedPagerFragment_close";
 

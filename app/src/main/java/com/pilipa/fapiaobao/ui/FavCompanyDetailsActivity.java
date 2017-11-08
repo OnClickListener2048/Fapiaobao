@@ -114,6 +114,7 @@ public class FavCompanyDetailsActivity extends BaseActivity implements MyCompany
             public void setData(NormalBean normalBean) {
                 if(normalBean.getStatus() == REQUEST_SUCCESS){
                     companyDetailsAdapter.remove(mPreviousPos);
+                    mDialog.dismiss();
                 }
             }
         });

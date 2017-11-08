@@ -29,6 +29,8 @@ import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditHistroyBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
+import com.pilipa.fapiaobao.net.bean.me.FeedBackBean;
+import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
 import com.pilipa.fapiaobao.net.bean.me.NegativeCreditInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
@@ -56,6 +58,7 @@ import static com.pilipa.fapiaobao.net.Constant.CONFIRM_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.CREATE_COMPANY;
 import static com.pilipa.fapiaobao.net.Constant.CREATE_ORDER;
 import static com.pilipa.fapiaobao.net.Constant.DELETE_COMPANY;
+import static com.pilipa.fapiaobao.net.Constant.DELETE_MY_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.DO_MATCH_DEMAND;
 import static com.pilipa.fapiaobao.net.Constant.ESTIMATE;
 import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY;
@@ -84,6 +87,7 @@ import static com.pilipa.fapiaobao.net.Constant.RELOAD;
 import static com.pilipa.fapiaobao.net.Constant.SHAT_DOWN_EARLY;
 import static com.pilipa.fapiaobao.net.Constant.SHORT_MESSAGE_VERIFY;
 import static com.pilipa.fapiaobao.net.Constant.SHOW_ORDER_DETAIL;
+import static com.pilipa.fapiaobao.net.Constant.SUGGESTION;
 import static com.pilipa.fapiaobao.net.Constant.UBIND;
 import static com.pilipa.fapiaobao.net.Constant.UPDATE_CUSTOMER;
 import static com.pilipa.fapiaobao.net.Constant.UPDATE_INVOICE_TYPE;
@@ -738,10 +742,10 @@ public class Api {
      * @param orderID
      * @param baseViewCallback
      */
-    public static void MESSAGE_MESSAGES(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<OrderDetailsBean>get(String.format(MESSAGE_MESSAGES, token)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
+    public static void messageList(String token, final BaseViewCallback baseViewCallback) {
+        OkGo.<MessageListBean>get(String.format(MESSAGE_MESSAGES, token)).execute(new JsonCallBack<MessageListBean>(MessageListBean.class) {
             @Override
-            public void onSuccess(Response<OrderDetailsBean> response) {
+            public void onSuccess(Response<MessageListBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }
@@ -754,7 +758,7 @@ public class Api {
      * @param type
      * @param baseViewCallback
      */
-    public static void MESSAGE_READ(String token,String type, final BaseViewCallback baseViewCallback) {
+    public static void messageRead(String token,String type, final BaseViewCallback baseViewCallback) {
         OkGo.<OrderDetailsBean>get(String.format(MESSAGE_READ,type,token)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
             @Override
             public void onSuccess(Response<OrderDetailsBean> response) {
@@ -770,10 +774,43 @@ public class Api {
      * @param customerId
      * @param baseViewCallback
      */
-    public static void MESSAGE_REMOVE(String token,String customerId, final BaseViewCallback baseViewCallback) {
-        OkGo.<OrderDetailsBean>get(String.format(MESSAGE_REMOVE,customerId,token)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
+    public static void messageRemove(String token,String customerId, final BaseViewCallback baseViewCallback) {
+        OkGo.<OrderDetailsBean>delete(String.format(MESSAGE_REMOVE,customerId,token)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
             @Override
             public void onSuccess(Response<OrderDetailsBean> response) {
+                if ("OK".equals(response.body().getMsg())) {
+                    baseViewCallback.setData(response.body());
+                }
+            }
+        });
+    }
+    /**
+     * 删除我的发票
+     * @param token
+     * @param invoiceId
+     * @param baseViewCallback
+     */
+    public static void deleteMyInvoice(String token,String invoiceId, final BaseViewCallback baseViewCallback) {
+        OkGo.<OrderDetailsBean>delete(String.format(DELETE_MY_INVOICE,invoiceId,token)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
+            @Override
+            public void onSuccess(Response<OrderDetailsBean> response) {
+                if ("OK".equals(response.body().getMsg())) {
+                    baseViewCallback.setData(response.body());
+                }
+            }
+        });
+    }
+    /**
+     * 意见反馈
+     * @param token
+     * @param baseViewCallback
+     */
+    public static void suggestion(String token,String suggestion, final BaseViewCallback baseViewCallback) {
+        OkGo.<FeedBackBean>post(String.format(SUGGESTION,token))
+                .upJson(JsonCreator.suggestion(suggestion))
+                .execute(new JsonCallBack<FeedBackBean>(FeedBackBean.class) {
+            @Override
+            public void onSuccess(Response<FeedBackBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }

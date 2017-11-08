@@ -113,6 +113,7 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
                 @Override
                 public void setData(NormalBean normalBean) {
                     if (normalBean.getStatus() == REQUEST_SUCCESS) {
+                        mDialog.dismiss();
                         companyDetailsAdapter.remove(mPreviousPos);
                     }
                 }

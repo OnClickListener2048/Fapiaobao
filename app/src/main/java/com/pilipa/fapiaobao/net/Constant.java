@@ -78,6 +78,8 @@ public class Constant {
     public static final String LOGIN_BY_TOKEN = BASE_URL + "customer/loginByToken/%s";
     /*发送短信验证码 */
     public static final String SHORT_MESSAGE_VERIFY = BASE_URL + "customer/shortMessage/%s";
+    /*发送短信验证码 */
+    public static final String SUGGESTION = BASE_URL + "customer/suggestion/%s";
     /*解绑第三方平台用户*/
     public static final String UBIND = BASE_URL + "customer/unbind/%s/%s/%s";
     /*修改用户信息*/
