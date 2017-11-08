@@ -75,12 +75,17 @@ public class UnusedPagerFragment_finish extends BaseFragment implements AdapterV
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        demandsList(STATE_DEMAND_FINISH);
+    }
+
+    @Override
     protected void initData() {
         super.initData();
         mAdapter = new MyPublishAdapter(mContext);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
-        demandsList(STATE_DEMAND_FINISH);
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override

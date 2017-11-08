@@ -48,10 +48,11 @@ import butterknife.OnClick;
 import static com.pilipa.fapiaobao.R.id.btn_shut_down_early;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 import static com.pilipa.fapiaobao.net.Constant.STATE_COMPETENT;
+import static com.pilipa.fapiaobao.net.Constant.STATE_CONFIRMING;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_FINISH;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_ING;
-import static com.pilipa.fapiaobao.net.Constant.STATE_INCOMPETENT;
+import static com.pilipa.fapiaobao.net.Constant.STATE_MAILING;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_PAPER;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
@@ -234,12 +235,10 @@ public class DemandActivity extends BaseActivity {
             ll_no_record.setVisibility(View.GONE);
             ll_receiptlist.setVisibility(View.VISIBLE);
             for (DemandDetails.DataBean.OrderInvoiceListBean result : results) {
-                if( STATE_COMPETENT.equals(result.getState())
-                        ||STATE_INCOMPETENT.equals(result.getState())){//收到票 且都处理完成
-                    isCanShutDown = true;
-                }else{
+                isCanShutDown = true;
+                if(STATE_CONFIRMING.equals(result.getState())
+                        ||STATE_MAILING.equals(result.getState())){//收到票 且都处理完成
                     isCanShutDown = false;
-                    return;
                 }
             }
             images = new ArrayList<>();
@@ -405,13 +404,12 @@ public class DemandActivity extends BaseActivity {
                     Api.shatDownEarly(AccountHelper.getToken(), id, new Api.BaseViewCallback<NormalBean>() {
                         @Override
                         public void setData(NormalBean normalBean) {
-                            Toast.makeText(DemandActivity.this, "提前关闭 success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DemandActivity.this, "需求已关闭", Toast.LENGTH_SHORT).show();
                             DemandActivity.this.finish();
                             Log.d(TAG, "updateData:shatDownEarly success");
                         }
                     });
                 } else {
-                    BaseApplication.showToast("token验证失败请重新登录");
                     startActivity(new Intent(DemandActivity.this, LoginActivity.class));
                     finish();
                 }
@@ -546,5 +544,4 @@ public class DemandActivity extends BaseActivity {
         dialogWindow.setAttributes(lp);
         mDialog.show();
     }
-
 }

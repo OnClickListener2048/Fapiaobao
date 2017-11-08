@@ -192,7 +192,7 @@ public class Api {
     }
 
     public static void loginByToken(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<LoginWithInfoBean>get(String.format(LOGIN_BY_TOKEN, token)).execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
+        OkGo.<LoginWithInfoBean>get(String.format(LOGIN_BY_TOKEN, token)).tag("loginByToken").execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
             @Override
             public void onSuccess(Response<LoginWithInfoBean> response) {
                 if (response.isSuccessful()) {
@@ -685,11 +685,8 @@ public class Api {
         });
     }
     public static void rejectInvoice(String token,String orderInvoiceId,String amount,String rejectType,String reason, final BaseViewCallback baseViewCallback) {
-        JSONObject data = JsonCreator.setReject(token,orderInvoiceId,amount,rejectType);
-
         OkGo.<RejectInvoiceBean>post(String.format(REJECT_INVOICE,token,orderInvoiceId,Double.parseDouble(amount),rejectType))
-                .upString(reason)
-//                .params("reason",reason)
+                .upJson(JsonCreator.setReject(reason))
                 .execute(new JsonCallBack<RejectInvoiceBean>(RejectInvoiceBean.class) {
             @Override
             public void onSuccess(Response<RejectInvoiceBean> response) {

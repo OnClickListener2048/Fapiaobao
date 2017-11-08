@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.ui;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -28,7 +29,12 @@ import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
 
 public class QualifiedInvoiceActivity extends BaseActivity {
     private static final String TAG = "QualifiedInvoiceActivity";
-
+    @Bind(R.id.tv_num_1)
+    TextView tv_num_1;
+    @Bind(R.id.tv_num_2)
+    TextView tv_num_2;
+    @Bind(R.id.tv_num_3)
+    TextView tv_num_3;
     @Bind(R.id.ll_receiptlist)
     LinearLayout ll_receiptlist;
     private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
@@ -72,6 +78,9 @@ public class QualifiedInvoiceActivity extends BaseActivity {
                     images3.add(results.get(i));
                 }
             }
+        tv_num_1.setText(String.format(getResources().getString(R.string.paper_normal_receipt_num), images1.size()));
+        tv_num_2.setText(String.format(getResources().getString(R.string.paper_special_receipt_num), images2.size()));
+        tv_num_3.setText(String.format(getResources().getString(R.string.paper_elec_receipt_num), images3.size()));
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
             paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);

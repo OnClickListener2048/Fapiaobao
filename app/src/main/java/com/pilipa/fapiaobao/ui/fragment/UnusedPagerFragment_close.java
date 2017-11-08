@@ -80,8 +80,14 @@ public class UnusedPagerFragment_close extends BaseFragment implements AdapterVi
         mAdapter = new MyPublishAdapter(mContext);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
-        demandsList(STATE_DEMAND_CLOSE);
     }
+
+    @Override
+    public void onResume() {
+        demandsList(STATE_DEMAND_CLOSE);
+        super.onResume();
+    }
+
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
         public void onPullingDown(TwinklingRefreshLayout refreshLayout, float fraction) {

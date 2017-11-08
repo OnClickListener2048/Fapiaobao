@@ -529,7 +529,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
 
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
-        mDialog.show();
+         mDialog.show();
     }
-
 }

@@ -61,6 +61,13 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
+    @Override
+    public void onResume() {
+        demandsList(STATE_DEMAND_ING);
+        super.onResume();
+    }
+
     @Override
     protected void initWidget(View root) {
 
@@ -80,7 +87,6 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
         mAdapter = new MyPublishAdapter(mContext);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
-        demandsList(STATE_DEMAND_ING);
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override

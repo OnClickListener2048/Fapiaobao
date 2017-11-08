@@ -131,7 +131,7 @@
     <string name="user_name">您的手机号码</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
-    <string name="main_tab_name_tex">员工代办</string>
+    <string name="main_tab_name_tex">员工待办</string>
     <string name="main_tab_name_publish">发布需求</string>
     <string name="main_tab_name_me">个人中心</string>
 

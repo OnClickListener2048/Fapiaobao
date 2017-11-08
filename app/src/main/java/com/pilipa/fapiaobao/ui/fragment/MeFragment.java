@@ -15,6 +15,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.OkGoClient;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.CreditRatingActivity;
@@ -117,6 +118,14 @@ public class MeFragment extends BaseFragment{
         }
     }
     RequestManager requestManager;
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        OkGoClient.cancelTag("loginByToken");
+    }
+
     @Override
     public void onResume() {
          requestManager = Glide.with(mContext);
@@ -130,8 +139,8 @@ public class MeFragment extends BaseFragment{
                         LoginWithInfoBean.DataBean.CustomerBean customer = loginWithInfoBean.getData().getCustomer();
                         String endFormat = mContext.getResources().getString(R.string.integral);
                         if(customer != null){
-                            tvCreditRating.setText("积分："+customer.getCreditScore());
                             tvUserName.setText(customer.getNickname());
+                            tvCreditRating.setText("积分："+customer.getCreditScore());
                             tvBouns.setText(customer.getAmount()+"元");//钱包金额
                             Log.d("IMAGE_HEAD",customer.getHeadimg());
                             requestManager
@@ -140,7 +149,6 @@ public class MeFragment extends BaseFragment{
                                     .placeholder(R.mipmap.ic_head_circle_default_small_)
                                     .thumbnail(0.1f)
                                     .into(imageHead);
-
                         }
 //          tvUserName.setText(customer.getCreditLevel());
                 }
