@@ -150,17 +150,20 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="剩余"
+                                android:textColor="@color/text_normal_item"
                                 android:textSize="12dp"/>
                             <TextView
                                 android:id="@+id/tv_leftAmount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
+                                android:textColor="@color/text_normal_item"
                                 android:textSize="12dp"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="元红包待领取"
+                                android:textColor="@color/text_normal_item"
                                 android:textSize="12dp"/>
                         </LinearLayout>
                         <TextView
@@ -205,6 +208,7 @@
                             android:id="@+id/tv_amount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/text_normal_item"
                             android:text="0元" />
 
                         <TextView

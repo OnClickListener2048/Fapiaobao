@@ -17,25 +17,22 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
 import com.example.mylibrary.utils.TLog;
 import com.lljjcoder.city_20170724.CityPickerView;
 import com.lljjcoder.city_20170724.bean.CityBean;
 import com.lljjcoder.city_20170724.bean.DistrictBean;
 import com.lljjcoder.city_20170724.bean.ProvinceBean;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
-import com.pilipa.fapiaobao.utils.TDevice;
 import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.util.ArrayList;
@@ -245,24 +242,27 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
     @OnClick({R.id.reset_filter_top, R.id.test_redbag, R.id.go, R.id.tolast, R.id.tonext, R.id.filter, R.id.other_demand, R.id.select_other_area, R.id.reset_filter})
     public void onViewClicked(View view) {
-        Intent intent = new Intent();
+       final Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.test_redbag:
                 estimate();
                 break;
             case R.id.go:
-
-                MacherBeanToken.DataBean dataBean = matchBean.getData().get(currentItem);
-                intent.putExtra("type", type);
-                intent.putExtra("demandsId", dataBean.getDemandId());
-                intent.putExtra("amount", amount);
-                intent.putExtra("bonus", dataBean.getBonus());
-                intent.putExtra("company_info", dataBean.getCompany());
-                intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
-                intent.setClass(EstimateActivity.this, ConfirmActivity.class);
-                startActivity(intent);
-                finish();
-//                if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                    @Override
+                    public void setData(LoginWithInfoBean normalBean) {
+                        if (normalBean.getStatus() == 200) {
+                            MacherBeanToken.DataBean dataBean = matchBean.getData().get(currentItem);
+                            intent.putExtra("type", type);
+                            intent.putExtra("demandsId", dataBean.getDemandId());
+                            intent.putExtra("amount", amount);
+                            intent.putExtra("bonus", dataBean.getBonus());
+                            intent.putExtra("company_info", dataBean.getCompany());
+                            intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
+                            intent.setClass(EstimateActivity.this, ConfirmActivity.class);
+                            startActivity(intent);
+                            finish();
+                            //                if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
 //                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
 //                        @Override
 //                        public void setData(LoginWithInfoBean normalBean) {
@@ -311,6 +311,16 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 //                        }
 //                    });
 //                }
+                        } else {
+                            startActivity(new Intent(EstimateActivity.this, LoginActivity.class));
+                        }
+                    }
+                });
+
+
+
+
+
 
 
                 break;

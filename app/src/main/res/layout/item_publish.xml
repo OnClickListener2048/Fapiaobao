@@ -36,21 +36,23 @@
                 android:id="@+id/tv_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/red"
-                android:textSize="@dimen/d18"
+                android:textColor="@color/bouns_1"
+                android:textSize="17dp"
+                android:layout_marginRight="@dimen/d5"
                 android:text="1800"/>
             <TextView
                 android:layout_toRightOf="@+id/tv_amount"
                 android:layout_alignBottom="@+id/tv_amount"
-                android:paddingBottom="@dimen/d2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/text_normal_item"
                 android:text="@string/yuan"/>
             <TextView
                 android:layout_below="@id/tv_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/s13"
+                android:textColor="@color/text_normal_item"
+                android:textSize="@dimen/d10"
                 android:text="@string/total"/>
         </RelativeLayout>
         <LinearLayout
@@ -66,6 +68,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/text_normal_item"
+                    android:textSize="12dp"
                     android:text="已收集" />
 
                 <TextView
@@ -74,19 +78,22 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/d5"
                     android:paddingRight="@dimen/d5"
+                    android:textSize="12dp"
                     android:text="125.15"
-                    android:textColor="@color/red" />
+                    android:textColor="@color/bouns_1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/text_normal_item"
+                    android:textSize="12dp"
                     android:text="@string/yuan" />
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d5"
-                android:textSize="@dimen/s12"
+                android:textSize="@dimen/d10"
                 android:visibility="invisible"
                 android:text=""/>
         </LinearLayout>
@@ -105,6 +112,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/text_normal_item"
+                    android:textSize="12dp"
                     android:text="待收集" />
 
                 <TextView
@@ -113,21 +122,26 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/d5"
                     android:paddingRight="@dimen/d5"
+                    android:textSize="12dp"
                     android:text="125.5"
-                    android:textColor="@color/red" />
+                    android:textColor="@color/bouns_1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/text_normal_item"
+                    android:textSize="12dp"
                     android:text="@string/yuan" />
             </LinearLayout>
             <TextView
-                android:textSize="@dimen/s12"
+                android:textSize="@dimen/d10"
                 android:gravity="right"
                 android:layout_marginTop="@dimen/d5"
                 android:id="@+id/tv_end_of_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/text_normal_item"
+
                 android:text="@string/end_of_distance"/>
         </LinearLayout>
     </LinearLayout>

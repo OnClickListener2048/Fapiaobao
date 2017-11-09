@@ -331,18 +331,18 @@ public class DemandActivity extends BaseActivity {
                         mList.addAll(bean.getInvoiceNameList());
                         invoiceNameAdapter.initData(mList);
 
-                        tvBounsAmount.setText(bean.getDemand().getTotalBonus()+ "元");
-                        tvAmount.setText(bean.getDemand().getTotalAmount()+ "元");
-                        tvLeftAmount.setText(String.format("%.0f",bean.getDemand().getLeftBonus())+ "");
+                        tvBounsAmount.setText(String.format("%.2f",bean.getDemand().getTotalBonus())+ "元");
+                        tvAmount.setText(String.format("%.2f",bean.getDemand().getTotalAmount())+ "元");
+                        tvLeftAmount.setText(String.format("%.2f",bean.getDemand().getLeftBonus())+ "");
                         tvPublishTime.setText("发布时间："+bean.getDemand().getPublishDate());
                         tvDeadline.setText("截止日期：" + bean.getDemand().getDeadline());
                         tvAttentions.setText("" + bean.getDemand().getAttentions());
-                        tv_receive.setText(bean.getReceivedAmount()+ "");
+                        tv_receive.setText(String.format("%.2f",bean.getReceivedAmount())+ "");
                         String collected_amount = getResources().getString(R.string.collected_amount);
                         tvAlreadyCollected.setText(String.format(collected_amount, bean.getReceivedNum()));
 //                        tv_low_limit.setText(bean.getDemand().getMailMinimum()+ "元");
                         if (bean.getDemand().getDemandPostage() != null) {
-                            tvAddress.setText(bean.getDemand().getDemandPostage().getAddress());
+                            tvAddress.setText(bean.getDemand().getCity()+" "+bean.getDemand().getDemandPostage().getAddress());
                             tvPhone.setText(bean.getDemand().getDemandPostage().getPhone());
                             tvTelephone.setText(bean.getDemand().getDemandPostage().getTelephone());
                             tvReceiver.setText(bean.getDemand().getDemandPostage().getReceiver());

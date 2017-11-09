@@ -30,9 +30,10 @@
     <color name="title_small">#434343</color>
     <color name="text_normal">#979797</color>
     <color name="text_normal_item">#959595</color>
-    <color name="bouns_1">#ff9999</color>
-    <color name="bouns_2">#ffcc66</color>
-    <color name="bouns_3">#99cc99</color>
+    <color name="bouns_1">#fd8e8e</color>
+    <color name="bouns_2">#f6b37f</color>
+    <color name="bouns_3">#89c997</color>
+    <color name="amount_red">#fd8e8e</color>
 
     <!--scan code -->
 

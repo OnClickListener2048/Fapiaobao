@@ -69,8 +69,8 @@ public class MyReceiptAdapter extends BaseAdapter {
         if(bean.getInvoiceType()!=null){
             viewHolder.tvReceipttype.setText(bean.getInvoiceType().getName());
         }
-        viewHolder.tvReceiveBouns.setText(String.format("%.0f",bean.getBonus())+"");
-        viewHolder.tvAmountOffered.setText(String.format("%.0f",bean.getAmount())+"");
+        viewHolder.tvReceiveBouns.setText(String.format("%.2f",bean.getBonus())+"");
+        viewHolder.tvAmountOffered.setText(String.format("%.2f",bean.getAmount())+"");
         viewHolder.tvReceiveTime.setText(bean.getCreateDate().substring(0,10));
         String state = bean.getState();
         if(STATE_FLYING.equals(state)){

@@ -20,6 +20,7 @@
             android:layout_gravity="center"
             android:background="@drawable/bg_receipt_type"
             android:gravity="center"
+            android:textSize="@dimen/d12"
             android:paddingLeft="@dimen/d15"
             android:paddingRight="@dimen/d15"
             android:textColor="@color/white"
@@ -29,12 +30,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/d8"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/bouns_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/d12"
+                android:textColor="@color/text_normal_item"
                 android:text="收到红包" />
 
             <TextView
@@ -44,18 +48,15 @@
                 android:paddingLeft="@dimen/d5"
                 android:paddingRight="@dimen/d5"
                 android:text="125.15"
-                android:textColor="@color/red" />
+                android:textColor="@color/amount_red"
+                android:textSize="@dimen/d12" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/d12"
+                android:textColor="@color/text_normal_item"
                 android:text="@string/yuan" />
-            <!--<TextView-->
-            <!--android:id="@+id/tv_receive_bouns"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:text="@string/receive" />-->
         </LinearLayout>
     </LinearLayout>
 
@@ -74,16 +75,19 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/offered" />
+                android:text="@string/offered"
+                android:textColor="@color/text_normal_item"
+                android:textSize="@dimen/d10" />
 
             <TextView
                 android:id="@+id/tv_amount_offered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/red"
-                android:textSize="@dimen/s20"
+                android:textSize="17dp"
+                android:textColor="@color/amount_red"
                 android:paddingLeft="@dimen/d5"
                 android:paddingRight="@dimen/d5"
                 android:text="125.15" />
@@ -91,12 +95,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/d10"
+                android:textColor="@color/text_normal_item"
                 android:text="@string/yuan" />
 
         </LinearLayout>
         <LinearLayout
             android:layout_marginLeft="@dimen/d10"
-            android:layout_marginTop="@dimen/d5"
+            android:layout_marginTop="@dimen/d10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
@@ -104,7 +110,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_receive"
+                android:textSize="@dimen/d10"
                 android:gravity="center"
+                android:textColor="@color/text_normal_item"
                 android:text="@string/offered_time" />
 
             <TextView
@@ -113,7 +121,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_receive"
                 android:layout_toRightOf="@+id/textView1"
+                android:textSize="@dimen/d10"
                 android:gravity="left"
+                android:textColor="@color/text_normal_item"
                 android:text="1997-01-01" />
         </LinearLayout>
 
@@ -126,7 +136,9 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:layout_margin="@dimen/d10"
+        android:gravity="center"
+        android:textSize="@dimen/d12"
         android:text="@string/arrival"
-        android:textColor="@color/red"
+        android:textColor="@color/bouns_1"
         android:textStyle="bold" />
 </LinearLayout>

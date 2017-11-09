@@ -58,12 +58,31 @@ public class OrderDetailsBean {
 
         private InvoiceTypeBean invoiceType;
         private int invoiceCount;
-        private int bonus;
-        private int amount;
+        private double bonus;
+        private double amount;
         private PostageBean postage;
         private CompanyBean company;
         private String orderState;
         private boolean needMail;
+        private String favoriteId;
+        private double mailMinimum;
+
+        public double getMailMinimum() {
+            return mailMinimum;
+        }
+
+        public void setMailMinimum(double mailMinimum) {
+            this.mailMinimum = mailMinimum;
+        }
+
+        public String getFavoriteId() {
+            return favoriteId;
+        }
+
+        public void setFavoriteId(String favoriteId) {
+            this.favoriteId = favoriteId;
+        }
+
         private List<InvoiceListBean> invoiceList;
 
         public InvoiceTypeBean getInvoiceType() {
@@ -82,19 +101,19 @@ public class OrderDetailsBean {
             this.invoiceCount = invoiceCount;
         }
 
-        public int getBonus() {
+        public double getBonus() {
             return bonus;
         }
 
-        public void setBonus(int bonus) {
+        public void setBonus(double bonus) {
             this.bonus = bonus;
         }
 
-        public int getAmount() {
+        public double getAmount() {
             return amount;
         }
 
-        public void setAmount(int amount) {
+        public void setAmount(double amount) {
             this.amount = amount;
         }
 
@@ -534,17 +553,17 @@ public class OrderDetailsBean {
 
                 private String id;
                 private boolean isNewRecord;
-                private int amount;
-                private int bonus;
-                private int frozen;
+                private double amount;
+                private double bonus;
+                private double frozen;
                 private int creditScore;
                 private int creditLevel;
-                private int beginAmount;
-                private int endAmount;
-                private int beginBonus;
-                private int endBonus;
-                private int beginFrozen;
-                private int endFrozen;
+                private double beginAmount;
+                private double endAmount;
+                private double beginBonus;
+                private double endBonus;
+                private double beginFrozen;
+                private double endFrozen;
 
                 public String getId() {
                     return id;
@@ -562,27 +581,27 @@ public class OrderDetailsBean {
                     this.isNewRecord = isNewRecord;
                 }
 
-                public int getAmount() {
+                public double getAmount() {
                     return amount;
                 }
 
-                public void setAmount(int amount) {
+                public void setAmount(double amount) {
                     this.amount = amount;
                 }
 
-                public int getBonus() {
+                public double getBonus() {
                     return bonus;
                 }
 
-                public void setBonus(int bonus) {
+                public void setBonus(double bonus) {
                     this.bonus = bonus;
                 }
 
-                public int getFrozen() {
+                public double getFrozen() {
                     return frozen;
                 }
 
-                public void setFrozen(int frozen) {
+                public void setFrozen(double frozen) {
                     this.frozen = frozen;
                 }
 
@@ -602,51 +621,51 @@ public class OrderDetailsBean {
                     this.creditLevel = creditLevel;
                 }
 
-                public int getBeginAmount() {
+                public double getBeginAmount() {
                     return beginAmount;
                 }
 
-                public void setBeginAmount(int beginAmount) {
+                public void setBeginAmount(double beginAmount) {
                     this.beginAmount = beginAmount;
                 }
 
-                public int getEndAmount() {
+                public double getEndAmount() {
                     return endAmount;
                 }
 
-                public void setEndAmount(int endAmount) {
+                public void setEndAmount(double endAmount) {
                     this.endAmount = endAmount;
                 }
 
-                public int getBeginBonus() {
+                public double getBeginBonus() {
                     return beginBonus;
                 }
 
-                public void setBeginBonus(int beginBonus) {
+                public void setBeginBonus(double beginBonus) {
                     this.beginBonus = beginBonus;
                 }
 
-                public int getEndBonus() {
+                public double getEndBonus() {
                     return endBonus;
                 }
 
-                public void setEndBonus(int endBonus) {
+                public void setEndBonus(double endBonus) {
                     this.endBonus = endBonus;
                 }
 
-                public int getBeginFrozen() {
+                public double getBeginFrozen() {
                     return beginFrozen;
                 }
 
-                public void setBeginFrozen(int beginFrozen) {
+                public void setBeginFrozen(double beginFrozen) {
                     this.beginFrozen = beginFrozen;
                 }
 
-                public int getEndFrozen() {
+                public double getEndFrozen() {
                     return endFrozen;
                 }
 
-                public void setEndFrozen(int endFrozen) {
+                public void setEndFrozen(double endFrozen) {
                     this.endFrozen = endFrozen;
                 }
             }
@@ -678,14 +697,14 @@ public class OrderDetailsBean {
             private OrderBean order;
             private DemandBean demand;
             private String variety;
-            private int amount;
-            private int bonus;
+            private double amount;
+            private double bonus;
             private String url;
             private String state;
-            private int beginAmount;
-            private int endAmount;
-            private int beginBonus;
-            private int endBonus;
+            private double beginAmount;
+            private double endAmount;
+            private double beginBonus;
+            private double endBonus;
             private InvoiceRejectBean invoiceReject;
             private String createDate;
 
@@ -737,19 +756,19 @@ public class OrderDetailsBean {
                 this.variety = variety;
             }
 
-            public int getAmount() {
+            public double getAmount() {
                 return amount;
             }
 
-            public void setAmount(int amount) {
+            public void setAmount(double amount) {
                 this.amount = amount;
             }
 
-            public int getBonus() {
+            public double getBonus() {
                 return bonus;
             }
 
-            public void setBonus(int bonus) {
+            public void setBonus(double bonus) {
                 this.bonus = bonus;
             }
 
@@ -769,35 +788,35 @@ public class OrderDetailsBean {
                 this.state = state;
             }
 
-            public int getBeginAmount() {
+            public double getBeginAmount() {
                 return beginAmount;
             }
 
-            public void setBeginAmount(int beginAmount) {
+            public void setBeginAmount(double beginAmount) {
                 this.beginAmount = beginAmount;
             }
 
-            public int getEndAmount() {
+            public double getEndAmount() {
                 return endAmount;
             }
 
-            public void setEndAmount(int endAmount) {
+            public void setEndAmount(double endAmount) {
                 this.endAmount = endAmount;
             }
 
-            public int getBeginBonus() {
+            public double getBeginBonus() {
                 return beginBonus;
             }
 
-            public void setBeginBonus(int beginBonus) {
+            public void setBeginBonus(double beginBonus) {
                 this.beginBonus = beginBonus;
             }
 
-            public int getEndBonus() {
+            public double getEndBonus() {
                 return endBonus;
             }
 
-            public void setEndBonus(int endBonus) {
+            public void setEndBonus(double endBonus) {
                 this.endBonus = endBonus;
             }
 
@@ -827,8 +846,8 @@ public class OrderDetailsBean {
 
                 private String id;
                 private boolean isNewRecord;
-                private int amount;
-                private int bonus;
+                private double amount;
+                private double bonus;
 
                 public String getId() {
                     return id;
@@ -846,19 +865,19 @@ public class OrderDetailsBean {
                     this.isNewRecord = isNewRecord;
                 }
 
-                public int getAmount() {
+                public double getAmount() {
                     return amount;
                 }
 
-                public void setAmount(int amount) {
+                public void setAmount(double amount) {
                     this.amount = amount;
                 }
 
-                public int getBonus() {
+                public double getBonus() {
                     return bonus;
                 }
 
-                public void setBonus(int bonus) {
+                public void setBonus(double bonus) {
                     this.bonus = bonus;
                 }
             }
@@ -886,21 +905,21 @@ public class OrderDetailsBean {
 
                 private String id;
                 private boolean isNewRecord;
-                private int totalAmount;
-                private int leftAmount;
-                private int totalBonus;
-                private int leftBonus;
-                private int mailMinimum;
-                private int beginTotalAmount;
-                private int endTotalAmount;
-                private int beginLeftAmount;
-                private int endLeftAmount;
-                private int beginTotalBonus;
-                private int endTotalBonus;
-                private int beginLeftBonus;
-                private int endLeftBonus;
-                private int beginMailMinimum;
-                private int endMailMinimum;
+                private double totalAmount;
+                private double leftAmount;
+                private double totalBonus;
+                private double leftBonus;
+                private double mailMinimum;
+                private double beginTotalAmount;
+                private double endTotalAmount;
+                private double beginLeftAmount;
+                private double endLeftAmount;
+                private double beginTotalBonus;
+                private double endTotalBonus;
+                private double beginLeftBonus;
+                private double endLeftBonus;
+                private double beginMailMinimum;
+                private double endMailMinimum;
 
                 public String getId() {
                     return id;
@@ -918,123 +937,123 @@ public class OrderDetailsBean {
                     this.isNewRecord = isNewRecord;
                 }
 
-                public int getTotalAmount() {
+                public double getTotalAmount() {
                     return totalAmount;
                 }
 
-                public void setTotalAmount(int totalAmount) {
+                public void setTotalAmount(double totalAmount) {
                     this.totalAmount = totalAmount;
                 }
 
-                public int getLeftAmount() {
+                public double getLeftAmount() {
                     return leftAmount;
                 }
 
-                public void setLeftAmount(int leftAmount) {
+                public void setLeftAmount(double leftAmount) {
                     this.leftAmount = leftAmount;
                 }
 
-                public int getTotalBonus() {
+                public double getTotalBonus() {
                     return totalBonus;
                 }
 
-                public void setTotalBonus(int totalBonus) {
+                public void setTotalBonus(double totalBonus) {
                     this.totalBonus = totalBonus;
                 }
 
-                public int getLeftBonus() {
+                public double getLeftBonus() {
                     return leftBonus;
                 }
 
-                public void setLeftBonus(int leftBonus) {
+                public void setLeftBonus(double leftBonus) {
                     this.leftBonus = leftBonus;
                 }
 
-                public int getMailMinimum() {
+                public double getMailMinimum() {
                     return mailMinimum;
                 }
 
-                public void setMailMinimum(int mailMinimum) {
+                public void setMailMinimum(double mailMinimum) {
                     this.mailMinimum = mailMinimum;
                 }
 
-                public int getBeginTotalAmount() {
+                public double getBeginTotalAmount() {
                     return beginTotalAmount;
                 }
 
-                public void setBeginTotalAmount(int beginTotalAmount) {
+                public void setBeginTotalAmount(double beginTotalAmount) {
                     this.beginTotalAmount = beginTotalAmount;
                 }
 
-                public int getEndTotalAmount() {
+                public double getEndTotalAmount() {
                     return endTotalAmount;
                 }
 
-                public void setEndTotalAmount(int endTotalAmount) {
+                public void setEndTotalAmount(double endTotalAmount) {
                     this.endTotalAmount = endTotalAmount;
                 }
 
-                public int getBeginLeftAmount() {
+                public double getBeginLeftAmount() {
                     return beginLeftAmount;
                 }
 
-                public void setBeginLeftAmount(int beginLeftAmount) {
+                public void setBeginLeftAmount(double beginLeftAmount) {
                     this.beginLeftAmount = beginLeftAmount;
                 }
 
-                public int getEndLeftAmount() {
+                public double getEndLeftAmount() {
                     return endLeftAmount;
                 }
 
-                public void setEndLeftAmount(int endLeftAmount) {
+                public void setEndLeftAmount(double endLeftAmount) {
                     this.endLeftAmount = endLeftAmount;
                 }
 
-                public int getBeginTotalBonus() {
+                public double getBeginTotalBonus() {
                     return beginTotalBonus;
                 }
 
-                public void setBeginTotalBonus(int beginTotalBonus) {
+                public void setBeginTotalBonus(double beginTotalBonus) {
                     this.beginTotalBonus = beginTotalBonus;
                 }
 
-                public int getEndTotalBonus() {
+                public double getEndTotalBonus() {
                     return endTotalBonus;
                 }
 
-                public void setEndTotalBonus(int endTotalBonus) {
+                public void setEndTotalBonus(double endTotalBonus) {
                     this.endTotalBonus = endTotalBonus;
                 }
 
-                public int getBeginLeftBonus() {
+                public double getBeginLeftBonus() {
                     return beginLeftBonus;
                 }
 
-                public void setBeginLeftBonus(int beginLeftBonus) {
+                public void setBeginLeftBonus(double beginLeftBonus) {
                     this.beginLeftBonus = beginLeftBonus;
                 }
 
-                public int getEndLeftBonus() {
+                public double getEndLeftBonus() {
                     return endLeftBonus;
                 }
 
-                public void setEndLeftBonus(int endLeftBonus) {
+                public void setEndLeftBonus(double endLeftBonus) {
                     this.endLeftBonus = endLeftBonus;
                 }
 
-                public int getBeginMailMinimum() {
+                public double getBeginMailMinimum() {
                     return beginMailMinimum;
                 }
 
-                public void setBeginMailMinimum(int beginMailMinimum) {
+                public void setBeginMailMinimum(double beginMailMinimum) {
                     this.beginMailMinimum = beginMailMinimum;
                 }
 
-                public int getEndMailMinimum() {
+                public double getEndMailMinimum() {
                     return endMailMinimum;
                 }
 
-                public void setEndMailMinimum(int endMailMinimum) {
+                public void setEndMailMinimum(double endMailMinimum) {
                     this.endMailMinimum = endMailMinimum;
                 }
             }
@@ -1134,8 +1153,8 @@ public class OrderDetailsBean {
 
                     private String id;
                     private boolean isNewRecord;
-                    private int amount;
-                    private int bonus;
+                    private double amount;
+                    private double bonus;
 
                     public String getId() {
                         return id;
@@ -1153,19 +1172,19 @@ public class OrderDetailsBean {
                         this.isNewRecord = isNewRecord;
                     }
 
-                    public int getAmount() {
+                    public double getAmount() {
                         return amount;
                     }
 
-                    public void setAmount(int amount) {
+                    public void setAmount(double amount) {
                         this.amount = amount;
                     }
 
-                    public int getBonus() {
+                    public double getBonus() {
                         return bonus;
                     }
 
-                    public void setBonus(int bonus) {
+                    public void setBonus(double bonus) {
                         this.bonus = bonus;
                     }
                 }
@@ -1184,12 +1203,12 @@ public class OrderDetailsBean {
 
                     private String id;
                     private boolean isNewRecord;
-                    private int amount;
-                    private int bonus;
-                    private int beginAmount;
-                    private int endAmount;
-                    private int beginBonus;
-                    private int endBonus;
+                    private double amount;
+                    private double bonus;
+                    private double beginAmount;
+                    private double endAmount;
+                    private double beginBonus;
+                    private double endBonus;
 
                     public String getId() {
                         return id;
@@ -1207,51 +1226,51 @@ public class OrderDetailsBean {
                         this.isNewRecord = isNewRecord;
                     }
 
-                    public int getAmount() {
+                    public double getAmount() {
                         return amount;
                     }
 
-                    public void setAmount(int amount) {
+                    public void setAmount(double amount) {
                         this.amount = amount;
                     }
 
-                    public int getBonus() {
+                    public double getBonus() {
                         return bonus;
                     }
 
-                    public void setBonus(int bonus) {
+                    public void setBonus(double bonus) {
                         this.bonus = bonus;
                     }
 
-                    public int getBeginAmount() {
+                    public double getBeginAmount() {
                         return beginAmount;
                     }
 
-                    public void setBeginAmount(int beginAmount) {
+                    public void setBeginAmount(double beginAmount) {
                         this.beginAmount = beginAmount;
                     }
 
-                    public int getEndAmount() {
+                    public double getEndAmount() {
                         return endAmount;
                     }
 
-                    public void setEndAmount(int endAmount) {
+                    public void setEndAmount(double endAmount) {
                         this.endAmount = endAmount;
                     }
 
-                    public int getBeginBonus() {
+                    public double getBeginBonus() {
                         return beginBonus;
                     }
 
-                    public void setBeginBonus(int beginBonus) {
+                    public void setBeginBonus(double beginBonus) {
                         this.beginBonus = beginBonus;
                     }
 
-                    public int getEndBonus() {
+                    public double getEndBonus() {
                         return endBonus;
                     }
 
-                    public void setEndBonus(int endBonus) {
+                    public void setEndBonus(double endBonus) {
                         this.endBonus = endBonus;
                     }
                 }

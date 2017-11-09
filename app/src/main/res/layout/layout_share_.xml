@@ -80,7 +80,9 @@
 
         <TextView
             android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
+            android:padding="@dimen/d15"
+            android:gravity="center"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="取消" />
     </LinearLayout>

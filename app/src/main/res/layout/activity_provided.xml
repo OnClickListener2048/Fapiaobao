@@ -199,7 +199,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:textColor="@color/title_small"
-                                android:text="爱康鼎天津科技有限公司" />
+                                android:text="" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -220,7 +220,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/title_small"
                                 android:layout_marginLeft="@dimen/d20"
-                                android:text="爱康鼎天津科技有限公司" />
+                                android:text="" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -241,7 +241,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:textColor="@color/title_small"
-                                android:text="爱康鼎天津科技有限公司" />
+                                android:text="" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -262,7 +262,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:textColor="@color/title_small"
-                                android:text="爱康鼎天津科技有限公司" />
+                                android:text="" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -283,7 +283,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:textColor="@color/title_small"
-                                android:text="爱康鼎天津科技有限公司" />
+                                android:text="" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -304,7 +304,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:textColor="@color/title_small"
-                                android:text="爱康鼎天津科技有限公司" />
+                                android:text="" />
                         </LinearLayout>
 
                     </LinearLayout>

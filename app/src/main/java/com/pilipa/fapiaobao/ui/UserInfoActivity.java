@@ -37,6 +37,7 @@ import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
 import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
+import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -109,49 +110,54 @@ public class UserInfoActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_birthday:{//
-                dialog.showDatePickerDialog(new TimePickerDialog.TimePickerDialogInterface() {
-                    @Override
-                    public void positiveListener() {
-                        tv_birthday.setText(dialog.getYear() + "-" + dialog.getMonth() + "-" + dialog.getDay());
-                    }
-                    @Override
-                    public void negativeListener() {
+                if (!ButtonUtils.isFastDoubleClick(R.id.tv_wx)) {
+                    dialog.showDatePickerDialog(new TimePickerDialog.TimePickerDialogInterface() {
+                        @Override
+                        public void positiveListener() {
+                            tv_birthday.setText(dialog.getYear() + "-" + dialog.getMonth() + "-" + dialog.getDay());
+                        }
+                        @Override
+                        public void negativeListener() {
 
-                    }
-                });
+                        }
+                    });
+                }
             }break;
             case R.id.tv_wx:{//绑定微信
-                bindWX();
+                if (!ButtonUtils.isFastDoubleClick(R.id.tv_wx)) {
+                    bindWX();
+                }
             }break;
             case R.id.btn_save: {
-
-                LoginWithInfoBean.DataBean.CustomerBean customer = new LoginWithInfoBean.DataBean.CustomerBean();
-                customer.setNickname(edtUserName.getText().toString().trim());
-                customer.setBirthday(tv_birthday.getText().toString().trim());
-                switch (radioGroup.getCheckedRadioButtonId()) {
-                    case R.id.rb_female:
-                        customer.setGender(Constant.GENDER_FEMALE);
-                        break;
-                    case R.id.rb_male:
-                        customer.setGender(Constant.GENDER_MALE);
-                        break;
-                    case R.id.rb_secrecy:
-                        customer.setGender(Constant.GENDER_SECRECY);
-                        break;
-                }
-
-                if(image != null){
-                    Bitmap bm = null;
-                    try {
-                        bm = BitmapUtils.getBitmapFormUri(this,image.uri);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                if (!ButtonUtils.isFastDoubleClick(R.id.tv_wx)) {
+                    LoginWithInfoBean.DataBean.CustomerBean customer = new LoginWithInfoBean.DataBean.CustomerBean();
+                    customer.setNickname(edtUserName.getText().toString().trim());
+                    customer.setBirthday(tv_birthday.getText().toString().trim());
+                    switch (radioGroup.getCheckedRadioButtonId()) {
+                        case R.id.rb_female:
+                            customer.setGender(Constant.GENDER_FEMALE);
+                            break;
+                        case R.id.rb_male:
+                            customer.setGender(Constant.GENDER_MALE);
+                            break;
+                        case R.id.rb_secrecy:
+                            customer.setGender(Constant.GENDER_SECRECY);
+                            break;
                     }
-                    String bmpStr = BitmapUtils.bitmapToBase64(bm);
-                    customer.setHeadimg(bmpStr);
+
+                    if(image != null){
+                        Bitmap bm = null;
+                        try {
+                            bm = BitmapUtils.getBitmapFormUri(this,image.uri);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        String bmpStr = BitmapUtils.bitmapToBase64(bm);
+                        customer.setHeadimg(bmpStr);
+                    }
+                    customer.setTelephone(edtPhone.getText().toString().trim());
+                    updateUserInfo(customer);
                 }
-                customer.setTelephone(edtPhone.getText().toString().trim());
-                updateUserInfo(customer);
             }
             break;
             case R.id.userinfo_back: {

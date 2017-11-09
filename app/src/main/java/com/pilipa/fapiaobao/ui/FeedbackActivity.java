@@ -20,6 +20,7 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.FeedBackBean;
+import com.pilipa.fapiaobao.utils.ButtonUtils;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -45,11 +46,13 @@ public class FeedbackActivity extends BaseActivity {
                 finish();
             }break;
             case R.id.btn_feedback_confirm:{
-                String str = edtSuggest.getText().toString().trim();
-                if(!str.isEmpty()){
-                    suggestion(str);
-                }else{
-                    BaseApplication.showToast("请认真填写您的意见或建议");
+                if (!ButtonUtils.isFastDoubleClick(R.id.btn_feedback_confirm)) {
+                    String str = edtSuggest.getText().toString().trim();
+                    if(!str.isEmpty()){
+                        suggestion(str);
+                    }else{
+                        BaseApplication.showToast("请认真填写您的意见或建议");
+                    }
                 }
             }break;
         }

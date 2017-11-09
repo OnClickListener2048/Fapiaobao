@@ -316,7 +316,7 @@
     <string name="wx_circle">朋友圈</string>
     <string name="recharge_go">去充值</string>
     <string name="recharge_balance">充入余额</string>
-    <string name="agreement">点击充值，即表示已阅读并同意 充值协议</string>
+    <string name="agreement">点击充值，即表示已阅读并同意 </string>
     <string name="hint">发票宝不会已任何形式要求您输入银行账户和密码</string>
     <string name="red_envelope">我的红包</string>
     <string name="save">保存</string>

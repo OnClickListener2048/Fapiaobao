@@ -66,7 +66,7 @@
                             android:textColor="@color/main_style"
                             android:layout_gravity="center"
                             android:textSize="@dimen/d12"
-                            android:text="200元" />
+                            android:text="0元" />
                         <ImageView
                             android:id="@+id/question"
                             android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
                             android:layout_marginLeft="@dimen/d20"
                             android:textColor="@color/title_small"
                             android:textSize="@dimen/d12"
-                            android:text="刘" />
+                            android:text="" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -118,7 +118,7 @@
                             android:textColor="@color/title_small"
                             android:layout_gravity="center"
                             android:textSize="@dimen/d12"
-                            android:text="15045448484" />
+                            android:text="" />
                         <ImageView
                             android:id="@+id/link_to_telephone"
                             android:layout_width="wrap_content"
@@ -149,7 +149,7 @@
                             android:textColor="@color/title_small"
                             android:textSize="@dimen/d12"
                             android:layout_gravity="center"
-                            android:text="17648484842" />
+                            android:text="" />
 
                         <ImageView
                             android:id="@+id/link_to_phone"
@@ -177,7 +177,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d20"
-                            android:text="天津科技有限公司"
+                            android:text=""
                             android:textColor="@color/title_small"
                             android:textSize="@dimen/d12" />
                     </LinearLayout>

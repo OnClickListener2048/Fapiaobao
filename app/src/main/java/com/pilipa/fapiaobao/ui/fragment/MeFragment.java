@@ -25,6 +25,7 @@ import com.pilipa.fapiaobao.ui.HistoryActivity2;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.MyWalletActivity;
+import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.ReceiptFolderActivity;
 import com.pilipa.fapiaobao.ui.UserInfoActivity;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
@@ -81,9 +82,25 @@ public class MeFragment extends BaseFragment{
             ,R.id.my_wallet
             ,R.id.tv_creditRating
             ,R.id.tv_feedback
+            ,R.id.encyclopedia
+            ,R.id.helpCenter
             ,R.id.notification})
     public void onViewClicked(final View view) {
         switch (view.getId()){
+            case R.id.encyclopedia:
+            {
+                Intent intent  =new Intent(getContext(), Op.class);
+                intent.putExtra("url","http://39.106.4.193/fapiaobao/doc/wiki");
+                startActivity(intent);
+            }
+                break;
+            case R.id.helpCenter:
+            {
+                Intent intent  =new Intent(getContext(), Op.class);
+                intent.putExtra("url","");
+                startActivity(intent);
+            }
+                break;
             case R.id.tv_feedback:
                 startActivity(new Intent(getContext(), FeedbackActivity.class));
                 break;

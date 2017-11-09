@@ -44,6 +44,7 @@ import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,6 +148,7 @@ public class ProvidedActivity extends BaseActivity {
     ImageView link_to_phone;
     private boolean isShow = false;//当前详情是否显示
     boolean isCollected;
+    private String   favoriteId;
 
     @Override
     protected int getLayoutId() {
@@ -211,11 +213,10 @@ public class ProvidedActivity extends BaseActivity {
                     public void setData(LoginWithInfoBean normalBean) {
                         if (normalBean.getStatus() == 200) {
                             if (isCollected) {
-                                Api.deleteFavoriteCompany(CompanyId, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                                Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
                                     @Override
                                     public void setData(NormalBean normalBean) {
                                         if (normalBean.getStatus() == 200) {
-                                            BaseApplication.showToast("删除收藏成功");
                                             isCollected = false;
                                             collect.setImageResource(R.mipmap.collect);
                                         }
@@ -347,9 +348,12 @@ public class ProvidedActivity extends BaseActivity {
         CompanyId = getIntent().getStringExtra("CompanyId");
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
         showOrderDetail(orderId);
+        checkFav(CompanyId);
+    }
+    public void checkFav(String favoriteId){
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginWithInfoBean != null) {
-            Api.judgeCompanyIsCollcted(CompanyId, loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<NormalBean>() {
+            Api.judgeCompanyIsCollcted(favoriteId, loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<NormalBean>() {
                 @Override
                 public void setData(NormalBean s) {
                     if (s != null && s.getStatus() == 200) {
@@ -413,7 +417,7 @@ public class ProvidedActivity extends BaseActivity {
                     if (orderDetailsBean.getStatus() == REQUEST_SUCCESS) {
                         OrderDetailsBean.DataBean bean = orderDetailsBean.getData();
                         tvInvoiceType.setText(bean.getInvoiceType().getName());
-
+                        favoriteId = bean.getFavoriteId();//收藏ID
                         if (STATE_FLYING.equals(bean.getOrderState())) {
                             tvArrivalState.setText("红包飞来中");
                             tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_2));
@@ -432,11 +436,12 @@ public class ProvidedActivity extends BaseActivity {
                             tvTelephone.setText(bean.getPostage().getTelephone());
                             tvPhone.setText(bean.getPostage().getPhone());
                             tvPublishAddress.setText(bean.getPostage().getAddress());
-                            tv_low_limit.setText(bean.getPostage().getDistrict());
+                            tv_low_limit.setText(new BigDecimal(bean.getMailMinimum()).setScale(2,BigDecimal.ROUND_HALF_UP)+"元");
                         }
-                        estimateMoney.setText(bean.getBonus()+ "");
+
+                        estimateMoney.setText(String.format("%.2f",bean.getBonus())+ "");
                         receiptNumber.setText(bean.getInvoiceCount() + "");
-                        receiptMoney.setText(bean.getAmount()+"");
+                        receiptMoney.setText(String.format("%.2f",bean.getAmount())+"");
                         if (bean.getCompany() != null) {
                             companyName.setText(bean.getCompany().getName());
                             number.setText(bean.getCompany().getPhone());
