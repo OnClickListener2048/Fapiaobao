@@ -14,6 +14,7 @@
         android:src="@mipmap/demands_details_preview_quit" />
 
     <ImageView
+        android:layout_marginTop="@dimen/d30"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@mipmap/pub_bg" />
@@ -186,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/confirm"
+                android:text="@string/next_step"
                 android:textColor="@color/main_style" />
         </RelativeLayout>
 

@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -7,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.example.mylibrary.utils.RegexUtils;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -35,7 +38,9 @@ public class ReceiptFolderActivity extends BaseActivity {
     @Bind(R.id.vp_verpager)
     ViewPager vpVerpager;
     private List<Fragment> fragmentList;
-    private static final int REQUEST_CODE_SCAN = 0x0000;
+    private static final int REQUEST_CODE_SCAN = 0x0067;
+    private static final String DECODED_CONTENT_KEY = "codedContent";
+    private static final String DECODED_BITMAP_KEY = "codedBitmap";
 
     @Override
     protected int getLayoutId() {
@@ -67,6 +72,26 @@ public class ReceiptFolderActivity extends BaseActivity {
 
     @Override
     public void initData() {
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_SCAN:
+                if (resultCode == Activity.RESULT_OK) {
+                    String content = data.getStringExtra(DECODED_CONTENT_KEY);
+                    TLog.log(content);
+                    if (RegexUtils.isURL(content)) {
+                        Intent intent = new Intent();
+                        intent.setClass(this, Op.class);
+                        intent.putExtra("url", content);
+                        startActivity(intent);
+                    }
+                }
+                break;
+        }
     }
 
     @Override

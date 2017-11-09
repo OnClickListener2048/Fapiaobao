@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/s16"
+            android:textColor="@color/title"
+            android:text="开票页" />
+
+        <ImageView
+            android:id="@+id/webView_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/d10"
+            android:src="@mipmap/estimate_back_brawn"/>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_recharge_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main_style"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/d10"
+            android:text="@string/details"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></LinearLayout>
+</LinearLayout>

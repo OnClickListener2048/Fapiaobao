@@ -25,12 +25,13 @@
 
 
             <TextView
+                android:textSize="@dimen/s12"
                 android:layout_width="wrap_content"
                 android:textColor="@color/main_style"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/company_info" />
+                android:text="请选择开票单位" />
 
             <View
                 android:layout_width="match_parent"
@@ -44,6 +45,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/changeCompanyinfo"
                 android:textColor="@color/main_style" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="@dimen/d10"
+                android:layout_height="match_parent" />
 
             <TextView
                 android:visibility="gone"
@@ -79,8 +84,7 @@
                 android:id="@+id/ll_company_info"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -169,7 +173,7 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:hint="@string/receipt_code"
-                            android:inputType="number" />
+                            />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -415,24 +419,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/d10" />
 
-                <LinearLayout
-                    android:id="@+id/btn_add_company_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d30"
-                    android:layout_marginLeft="@dimen/d20"
-                    android:layout_marginRight="@dimen/d20"
-                    android:background="@color/main_style"
-                    android:gravity="center"
-                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@mipmap/add_company"
-                        android:drawablePadding="@dimen/d5"
-                        android:text="@string/addCompanyInfo"
-                        android:textColor="@color/white" />
-                </LinearLayout>
             </LinearLayout>
         </FrameLayout>
 
@@ -440,5 +427,23 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/d20" />
 
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/btn_add_company_info"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d30"
+        android:layout_marginLeft="@dimen/d20"
+        android:layout_marginRight="@dimen/d20"
+        android:background="@color/main_style"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/add_company"
+            android:drawablePadding="@dimen/d5"
+            android:text="@string/addCompanyInfo"
+            android:textColor="@color/white" />
     </LinearLayout>
 </LinearLayout>

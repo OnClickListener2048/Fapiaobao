@@ -182,6 +182,7 @@
             android:layout_height="@dimen/d20" />
 
         <LinearLayout
+            android:id="@+id/ll_select_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

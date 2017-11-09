@@ -120,6 +120,7 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
             image.name = result.getId();
             image.path = result.getUrl();
             image.position = -1;
+            image.id = result.getId();
             images.add(image);
         }
         Log.d(TAG, "setUpData: images.size" + images.size());

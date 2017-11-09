@@ -1,11 +1,14 @@
 package com.pilipa.fapiaobao;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.ui.LoginActivity;
+import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.fragment.NavFragment;
 import com.pilipa.fapiaobao.ui.widget.NavigationButton;
 
@@ -38,5 +41,10 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
     @Override
     public void onReselect(NavigationButton navigationButton) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

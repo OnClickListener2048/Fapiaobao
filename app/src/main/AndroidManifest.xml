@@ -53,9 +53,7 @@
         </meta-data>
 
         <activity
-            android:name=".MainActivity"
-            android:taskAffinity=""
-            android:launchMode="singleInstance">
+            android:name=".MainActivity">
 
         </activity>
 
@@ -134,6 +132,7 @@
         <activity android:name=".ui.FillUpActivity" />
         <activity android:name=".ui.MessageDetailsActivity" />
         <activity android:name=".ui.CompanySelectActivity" />
+        <activity android:name=".ui.Op" />
         <!--wjn add-->
         <activity android:name=".ui.RechargeActivity" />
         <activity android:name=".ui.RechargeDetailsActivity" />

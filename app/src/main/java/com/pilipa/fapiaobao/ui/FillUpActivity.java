@@ -12,14 +12,11 @@ import android.widget.TextView;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.PreviewFillupAdapter;
-import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.ui.fragment.PreviewFillupFragment;
-import com.pilipa.fapiaobao.ui.fragment.PreviewImageFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.NoScrollViewpager;
-import com.pilipa.fapiaobao.ui.widget.PreviewViewpager;
 
 import java.util.ArrayList;
 
@@ -33,6 +30,7 @@ import butterknife.OnClick;
 
 public class FillUpActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
+    private static final Double MAX_AMOUNT = 10000.0;
     @Bind(R.id.preview_viewpager)
     NoScrollViewpager previewViewpager;
     @Bind(R.id.sum_piece)
@@ -95,17 +93,21 @@ public class FillUpActivity extends BaseActivity implements ViewPager.OnPageChan
     public void onViewClicked() {
         if (!TextUtils.isEmpty(etFillup.getText())) {
             if (Double.valueOf(etFillup.getText().toString().trim()) > 0) {
-                images.get(mPreviousPos).amount = etFillup.getText().toString().trim();
-                TLog.log("mPreviousPos"+mPreviousPos);
-                TLog.log("images.size()"+images.size());
-                if (mPreviousPos <= images.size()) {
-                    previewViewpager.setCurrentItem(mPreviousPos + 1);
-                    if (mPreviousPos+1 == images.size()&&!TextUtils.isEmpty(etFillup.getText())) {
-                        Intent intent = new Intent();
-                        intent.putParcelableArrayListExtra("images", images);
-                        setResult(RESULT_OK, intent);
-                        finish();
+                if (!(Double.valueOf(etFillup.getText().toString().trim()) > MAX_AMOUNT)) {
+                    images.get(mPreviousPos).amount = etFillup.getText().toString().trim();
+                    TLog.log("mPreviousPos" + mPreviousPos);
+                    TLog.log("images.size()" + images.size());
+                    if (mPreviousPos <= images.size()) {
+                        previewViewpager.setCurrentItem(mPreviousPos + 1);
+                        if (mPreviousPos + 1 == images.size() && !TextUtils.isEmpty(etFillup.getText())) {
+                            Intent intent = new Intent();
+                            intent.putParcelableArrayListExtra("images", images);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
                     }
+                } else {
+                    BaseApplication.showToast("请输入少于10000元面额");
                 }
             } else {
                 BaseApplication.showToast("请输入正确的票面金额");

@@ -258,9 +258,9 @@
     <string name="my_receipt_area">我的开票地区</string>
     <string name="location">定位省市</string>
     <string name="other_province">其他省市</string>
-    <string name="paper_normal_receipt">纸质普票</string>
-    <string name="paper_special_receipt">纸质专票</string>
-    <string name="paper_elec_receipt">电子普票</string>
+    <string name="paper_normal_receipt">增值税普票</string>
+    <string name="paper_special_receipt">增值税专票</string>
+    <string name="paper_elec_receipt">电子发票</string>
     <string name="ofAll">不限</string>
     <string name="receipt_info">开票信息</string>
     <string name="scan_to_have_info">扫一扫查看公司开票信息</string>
@@ -293,7 +293,7 @@
     <string name="street">街道,楼牌号等</string>
     <string name="area">所在地区</string>
     <string name="publish_share">保存/分享</string>
-    <string name="continuous_to_supply">继续提供发票</string>
+    <string name="continuous_to_supply">再发布一个</string>
     <string name="watch">查看</string>
     <string name="WeChat">微信好友</string>
     <string name="moments">朋友圈</string>
@@ -363,7 +363,7 @@
     <string name="tip_wait_dowload">查验合格后，您就可以下载这张发票了哦~</string>
     <string name="tip_wait_mail">查验合格后，对方将邮寄这张发票给您~</string>
     <string name="filter_kind">筛选类型</string>
-    <string name="receipt_kind">发票类型:</string>
+    <string name="receipt_kind">发票种类:</string>
     <string name="low_limit">最低寄送限额</string>
     <string name="qualified_list">查看已确认合格发票</string>
     <string name="paper_normal_receipt_num">纸质普票 %1$d 张</string>
@@ -383,6 +383,7 @@
     <string name="company_select">公司选择</string>
     <string name="quqlified_invoice">合格发票</string>
     <string name="awareness">请填写注意事项,如:\n1.需要经济型酒店的住宿费;\n2.单张餐费发票金额不能超过100元;\n3.不要定额发票;\n4.出租车发票不要连号.</string>
+    <string name="next_step">下一步</string>
 
     <string-array name="express">
         <item >圆通</item>

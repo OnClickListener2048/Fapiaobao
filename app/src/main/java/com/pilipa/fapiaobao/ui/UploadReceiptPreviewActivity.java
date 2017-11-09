@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
@@ -61,7 +62,13 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     TextView continueToUpload;
     @Bind(R.id.confirm)
     Button confirm;
-    int count =0;
+    int count = 0;
+    @Bind(R.id.ll_container_paper_normal_receipt)
+    LinearLayout llContainerPaperNormalReceipt;
+    @Bind(R.id.ll_container_paper_special_receipt)
+    LinearLayout llContainerPaperSpecialReceipt;
+    @Bind(R.id.ll_container_paper_elec_receipt)
+    LinearLayout llContainerPaperElecReceipt;
     private UploadPreviewReceiptFragment paperNormalReceiptFragment;
     private UploadPreviewReceiptFragment paperSpecialReceiptFragment;
     private UploadPreviewReceiptFragment paperElecReceiptFragment;
@@ -74,6 +81,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     private String label;
     private double sum;
     private String company_id;
+    private int type = 0;
 
 
     @Override
@@ -88,8 +96,9 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        type = getIntent().getIntExtra("type", 0);
         label = getIntent().getStringExtra(FinanceFragment.EXTRA_DATA_LABEL);
-        TLog.log("label"+label);
+        TLog.log("label" + label);
         amount = getIntent().getDoubleExtra("amount", 0);
 //        bonus = getIntent().getDoubleExtra("bonus", 0);
         demandsId = getIntent().getStringExtra("demandsId");
@@ -132,41 +141,52 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                 int count0 = 0;
                 if (listPN != null) {
                     if (listPN.size() > 1) {
+                        llContainerPaperNormalReceipt.setVisibility(View.VISIBLE);
                         Bundle bundle = new Bundle();
                         bundle.putString("invoice_variety", allInvoiceVariety.getData().get(0).getValue());
                         bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, listPN);
                         paperNormalReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
                         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
                         if (paperNormalReceiptFragment != null) {
-                            count0 = listPN.size()-1;
+                            count0 = listPN.size() - 1;
                         }
+                    } else {
+                        llContainerPaperNormalReceipt.setVisibility(View.GONE);
                     }
                 }
-                TLog.log(count0+"");
+                TLog.log(count0 + "");
                 int count1 = 0;
                 if (listPS != null) {
                     if (listPS.size() > 1) {
+                        llContainerPaperSpecialReceipt.setVisibility(View.VISIBLE);
                         Bundle bundle = new Bundle();
                         bundle.putString("invoice_variety", allInvoiceVariety.getData().get(1).getValue());
                         bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, listPS);
                         paperSpecialReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
                         addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
                         if (paperSpecialReceiptFragment != null) {
-                            count1 = listPS.size()-1;
+                            count1 = listPS.size() - 1;
                         }
+
+                    } else {
+                        llContainerPaperSpecialReceipt.setVisibility(View.GONE);
                     }
                 }
+
                 int count2 = 0;
                 if (listPE != null) {
                     if (listPE.size() > 1) {
+                        llContainerPaperElecReceipt.setVisibility(View.VISIBLE);
                         Bundle bundle = new Bundle();
                         bundle.putString("invoice_variety", allInvoiceVariety.getData().get(2).getValue());
                         bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, listPE);
                         paperElecReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
                         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
                         if (paperElecReceiptFragment != null) {
-                            count2 = listPE.size()-1;
+                            count2 = listPE.size() - 1;
                         }
+                    } else {
+                        llContainerPaperElecReceipt.setVisibility(View.GONE);
                     }
                 }
 
@@ -260,6 +280,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.continue_to_upload:
+                finish();
                 break;
             case R.id.confirm:
                 showProgressDialog();
@@ -314,7 +335,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                             invoiceListBeanPN.setVariety("3");
 
                             if (image.isFromNet) {
-                                invoiceListBeanPN.setId(image.path);
+                                invoiceListBeanPN.setId(image.id);
                             } else {
                                 invoiceListBeanPN.setPicture(upLoadReceipt(image.uri));
                             }
@@ -363,6 +384,6 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     }
 
     public void onPubSuccess() {
-            startActivity(new Intent(this, UploadSuccessActivity.class));
+        startActivity(new Intent(this, UploadSuccessActivity.class));
     }
 }

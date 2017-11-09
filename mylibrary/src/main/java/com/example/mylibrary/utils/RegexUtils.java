@@ -97,6 +97,14 @@ public final class RegexUtils {
     }
 
     /**
+     * 验证是否是web链接
+     *
+     */
+    public static boolean isWeb(final CharSequence input) {
+        return isMatch(RegexConstants.REGEX_WEB_URL, input);
+    }
+
+    /**
      * 验证汉字
      *
      * @param input 待验证文本

@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/d10"
             android:textColor="@color/white"
-            android:text="收票截止时间:"/>
+            android:text="最少寄送限额:"/>
         <LinearLayout
             android:layout_marginLeft="@dimen/d30"
             android:layout_marginRight="@dimen/d30"

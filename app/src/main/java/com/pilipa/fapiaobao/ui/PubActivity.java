@@ -59,7 +59,7 @@ public class PubActivity extends BaseActivity {
     @Override
     public void initView() {
         receiptElec.setSelected(false);
-        receiptPaperNormal.setSelected(true);
+        receiptPaperNormal.setSelected(false);
         receiptPaperSpecial.setSelected(false);
         updateSelection();
     }
@@ -106,7 +106,7 @@ public class PubActivity extends BaseActivity {
     @OnClick(R.id.confirm)
     public void onViewClicked() {
         if (!(receiptPaperSpecial.isSelected() || receiptPaperNormal.isSelected() || receiptElec.isSelected())) {
-            BaseApplication.showToast("请选择一种发票类型");
+            BaseApplication.showToast("请至少选择一种发票类型哦~");
             return;
         }
 

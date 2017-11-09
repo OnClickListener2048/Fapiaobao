@@ -21,7 +21,6 @@
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowBackground">@null</item>
-
     </style>
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
@@ -68,12 +67,20 @@
         <item name="android:paddingLeft">5dip</item>
         </style>
 
-    <style name="switchCompat">
+    <style name="switchCompat" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/main_style</item>
         <!-- Inactive thumb color switch关闭时的拇指按钮的颜色 -->
-        <item name="colorSwitchThumbNormal">@color/main_style</item>
+        <item name="colorSwitchThumbNormal">@color/gray_hint</item>
         <!-- Inactive track color(30% transparency) switch关闭时的轨迹的颜色  30%这个颜色 -->
         <item name="android:colorForeground">@color/main_style</item>
+
+        <!-- Active thumb color & Active track color(30% transparency)
+           switch 打开时的拇指按钮的颜色 轨迹颜色默认为30%这个颜色 -->
+        <!-- Inactive thumb color switch关闭时的拇指按钮的颜色 -->
+        <!-- Inactive track color(30% transparency) switch关闭时的轨迹的颜色  30%这个颜色 -->
+        <!--使用方法：
+        在布局文件中给需要自定义控件中增加app:theme="@style/MySwitch"-->
+
     </style>
 
 </resources>

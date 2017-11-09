@@ -3,11 +3,13 @@ package com.pilipa.fapiaobao.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.ReplacementTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.EncodeUtils;
 import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -16,6 +18,8 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
@@ -42,7 +46,9 @@ public class AddCompanyInfoActivity extends BaseActivity {
     EditText edtBankName;
     @Bind(R.id.edt_bank_account)
     EditText edtBankAccount;
-    private static final int REQUEST_CODE_SCAN = 0x0000;
+    private static final int REQUEST_CODE_SCAN = 0x0033;
+    private static final String DECODED_CONTENT_KEY = "codedContent";
+    private static final String DECODED_BITMAP_KEY = "codedBitmap";
 
     @Override
     protected int getLayoutId() {
@@ -68,24 +74,40 @@ public class AddCompanyInfoActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE_SCAN &&resultCode == RESULT_OK){
-           String codedContent=  data.getStringExtra("codedContent");
-            Log.d("codedContent",codedContent);
-            if(codedContent != null){
-                Gson gson = new Gson();
-                CompanyDetailsBean.DataBean bean = gson.fromJson(codedContent, CompanyDetailsBean.DataBean.class);
-                edtCompany_name.setText(bean.getName());
-                edtTaxno.setText(bean.getTaxno());
-                edtCompanyAddress.setText(bean.getAddress());
-                edtCompanyNumber.setText(bean.getPhone());
-                edtBankName.setText(bean.getDepositBank());
-                edtBankAccount.setText(bean.getAccount());
-            }
+        switch (requestCode) {
+            case REQUEST_CODE_SCAN:
+                if (resultCode == RESULT_OK) {
+                    String codedContent=  data.getStringExtra(DECODED_CONTENT_KEY);
+                    Log.d("codedContent",codedContent);
+                    Gson gson = new Gson();
+                    String decode = EncodeUtils.urlDecode(codedContent);
+                    MacherBeanToken.DataBean.CompanyBean companyBean = gson.fromJson(decode, MacherBeanToken.DataBean.CompanyBean.class);
+                    edtCompany_name.setText(companyBean.getName());
+                    edtTaxno.setText(companyBean.getTaxno());
+                    edtCompanyAddress.setText(companyBean.getAddress());
+                    edtCompanyNumber.setText(companyBean.getPhone());
+                    edtBankName.setText(companyBean.getDepositBank());
+                    edtBankAccount.setText(companyBean.getAccount());
+                }
+                break;
         }
     }
 
     @Override
     public void initView() {
+        edtTaxno.setTransformationMethod(new ReplacementTransformationMethod() {
+            @Override
+            protected char[] getOriginal() {
+                char[] originalCharArr = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
+                return originalCharArr;
+            }
+
+            @Override
+            protected char[] getReplacement() {
+                char[] replacementCharArr = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };
+                return replacementCharArr;
+            }
+        });
     }
 
     @Override

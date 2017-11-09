@@ -244,7 +244,7 @@
                                 app:labelTextPaddingLeft="10dp"
                                 app:labelTextPaddingRight="10dp"
                                 app:labelTextPaddingTop="5dp"
-                                app:labelTextSize="14sp"
+                                app:labelTextSize="12sp"
                                 app:lineMargin="10dp"
                                 app:maxSelect="0"
                                 app:selectType="SINGLE"

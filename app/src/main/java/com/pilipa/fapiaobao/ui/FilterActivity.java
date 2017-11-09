@@ -110,6 +110,8 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
             public void onLabelSelectChange(View label, String labelText, boolean isSelect, int position) {
                 if (isSelect) {
                     type = position + 1;
+                } else {
+                    type = 0;
                 }
             }
         });
@@ -144,6 +146,10 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
                 break;
             case R.id.confirm:
                 intent.putExtra("locate", locate);
+                if (type == 0) {
+                    BaseApplication.showToast("请选择发票类型");
+                    return;
+                }
                 intent.putExtra("type", type);
                 setResult(RESULT_OK,intent);
                 finish();
@@ -190,7 +196,7 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
                 .backgroundPop(0x0000000)
                 .confirTextColor("#000000")
                 .cancelTextColor("#000000")
-                .city("天津市")
+                .city("天津")
                 .textColor(Color.parseColor("#000000"))
                 .provinceCyclic(false)
                 .cityCyclic(false)
@@ -208,7 +214,7 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
                 //CityBean     城市信息
                 //DistrictBean 区县信息
                 if (!arrayListReceiptArea.contains(city.getName())) {
-                    arrayListReceiptArea.add(city.getName());
+                    arrayListReceiptArea.add(city.getName()+"市");
                 }
 
                 labelsArea.setLabels(arrayListReceiptArea);

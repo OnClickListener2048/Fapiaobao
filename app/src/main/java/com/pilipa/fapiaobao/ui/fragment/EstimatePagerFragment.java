@@ -1,12 +1,19 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.TimeUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
@@ -17,6 +24,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by edz on 2017/10/30.
@@ -31,9 +39,9 @@ public class EstimatePagerFragment extends BaseFragment {
     @Bind(R.id.date)
     TextView date;
     private MacherBeanToken.DataBean dataBean;
+    private Dialog mTipDialog;
 
     public static EstimatePagerFragment newInstance(Bundle bundle) {
-        Log.d(TAG, "EstimatePagerFragmentnewInstance: ");
         EstimatePagerFragment estimatePagerFragment = new EstimatePagerFragment();
         estimatePagerFragment.setArguments(bundle);
         return estimatePagerFragment;
@@ -48,15 +56,13 @@ public class EstimatePagerFragment extends BaseFragment {
     protected void initWidget(View root) {
         super.initWidget(root);
         if (dataBean != null) {
-            Log.d(TAG, "initWidget: dataBean != null");
+            date.setText(TimeUtils.millis2String(dataBean.getDeadline(), TimeUtils.FORMAT));
             publishCautions.setText(dataBean.getAttentions());
-            List<MacherBeanToken.DataBean.InvoiceVarietiesBean> invoiceVarieties = dataBean.getInvoiceVarieties();
+            List<MacherBeanToken.DataBean.InvoiceTypesBean> invoiceVarieties = dataBean.getInvoiceTypes();
             ArrayList<String> labelList = new ArrayList<>();
             if (invoiceVarieties != null && invoiceVarieties.size() > 0) {
-                Log.d(TAG, "initWidget: invoiceVarieties != null&&invoiceVarieties.size()>0");
-                for (MacherBeanToken.DataBean.InvoiceVarietiesBean invoiceVariety : invoiceVarieties) {
+                for (MacherBeanToken.DataBean.InvoiceTypesBean invoiceVariety : invoiceVarieties) {
                     if (invoiceVariety.getInvoiceType() != null) {
-                        Log.d(TAG, "initWidget: (invoiceVariety.getInvoiceType() != null)");
                         labelList.add(invoiceVariety.getInvoiceType().getName());
                     }
                 }
@@ -79,5 +85,36 @@ public class EstimatePagerFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.date)
+    public void onViewClicked() {
+        setTipDialog(R.layout.layout_extimate_tip1);
+    }
+
+    private void setTipDialog(@NonNull int res) {
+        mTipDialog = new Dialog(mContext, R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(mContext).inflate(
+                res, null);
+        root.findViewById(R.id.i_know).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTipDialog.dismiss();
+            }
+        });
+        mTipDialog.setContentView(root);
+        Window dialogWindow = mTipDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mTipDialog.show();
     }
 }

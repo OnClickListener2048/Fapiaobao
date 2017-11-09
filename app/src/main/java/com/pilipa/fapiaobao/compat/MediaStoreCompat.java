@@ -79,6 +79,7 @@ public class MediaStoreCompat {
                                 Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     }
                 }
+
                 if (mFragment != null) {
                     mFragment.startActivityForResult(captureIntent, requestCode);
                 } else {

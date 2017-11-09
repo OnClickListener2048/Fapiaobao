@@ -376,7 +376,31 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             case R.id.btn_open_camera:
                 if (MediaStoreCompat.hasCameraFeature(getActivity())) {
                     onSaveInstanceState(getArguments());
-                    mediaStoreCompat.dispatchCaptureIntent(getActivity(), REQUEST_CODE_CAPTURE);
+                    RxPermissions rxPermissions = new RxPermissions(getActivity());
+                    rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA).subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(Boolean aBoolean) {
+                            if (aBoolean) {
+                                mediaStoreCompat.dispatchCaptureIntent(getActivity(), REQUEST_CODE_CAPTURE);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+
                 }
                 mCameraDialog.dismiss();
                 break;

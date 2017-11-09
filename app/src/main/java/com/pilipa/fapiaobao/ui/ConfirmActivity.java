@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.EncodeUtils;
+import com.example.mylibrary.utils.TLog;
+import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -20,6 +23,8 @@ import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
+import com.pilipa.fapiaobao.utils.UnicodeUtil;
+import com.pilipa.fapiaobao.zxing.android.Intents;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 
 import butterknife.Bind;
@@ -70,6 +75,7 @@ public class ConfirmActivity extends BaseActivity {
     private double amount;
     private String order;
     private double bonus;
+    private int type;
 
     @Override
     protected int getLayoutId() {
@@ -89,6 +95,7 @@ public class ConfirmActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        type = getIntent().getIntExtra("type", 0);
         order = getIntent().getStringExtra("order");
         amount = getIntent().getDoubleExtra("amount",0);
         bonus = getIntent().getDoubleExtra("bonus",0);
@@ -104,7 +111,11 @@ public class ConfirmActivity extends BaseActivity {
 
 
         try {
-            Bitmap qrCode = CodeCreator.createQRCode(this,company_info.toString());
+            Gson gson = new Gson();
+            String company_info = gson.toJson(this.company_info);
+            String s = EncodeUtils.urlEncode(company_info);
+            TLog.log("company_info"+company_info);
+            Bitmap qrCode = CodeCreator.createQRCode(this,s);
             qr.setImageBitmap(qrCode);
         } catch (Exception e) {
             BaseApplication.showToast("二维码生成失败");
@@ -158,7 +169,6 @@ public class ConfirmActivity extends BaseActivity {
                                     @Override
                                     public void setData(NormalBean normalBean) {
                                         if (normalBean.getStatus() == 200) {
-                                            BaseApplication.showToast("删除收藏成功");
                                             isCollected = false;
                                             collect.setImageResource(R.mipmap.collect);
                                         }
@@ -184,7 +194,6 @@ public class ConfirmActivity extends BaseActivity {
                             }
                         } else {
                             startActivity(new Intent(ConfirmActivity.this, LoginActivity.class));
-                            finish();
                         }
                     }
                 });
@@ -215,6 +224,7 @@ public class ConfirmActivity extends BaseActivity {
                 break;
             case R.id.upload_receipt:
                 Intent intent = new Intent();
+                intent.putExtra("type", type);
                 intent.putExtra("amount", amount);
                 intent.putExtra("bonus", bonus);
                 intent.putExtra("demandsId", demandsId);
@@ -222,6 +232,7 @@ public class ConfirmActivity extends BaseActivity {
                 intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
                 intent.setClass(this, UploadReceiptActivity.class);
                 startActivity(intent);
+                finish();
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -8,8 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.RegexUtils;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -44,6 +48,12 @@ public class UploadReceiptActivity extends BaseActivity {
     FrameLayout containerPaperElecReceipt;
     @Bind(R.id.upload_receipt)
     Button uploadReceipt;
+    @Bind(R.id.ll_container_paper_normal_receipt)
+    LinearLayout llContainerPaperNormalReceipt;
+    @Bind(R.id.ll_container_paper_special_receipt)
+    LinearLayout llContainerPaperSpecialReceipt;
+    @Bind(R.id.ll_container_paper_elec_receipt)
+    LinearLayout llContainerPaperElecReceipt;
     private UploadNormalReceiptFragment paperNormalReceiptFragment;
     private UploadNormalReceiptFragment paperSpecialReceiptFragment;
     private UploadNormalReceiptFragment paperElecReceiptFragment;
@@ -54,12 +64,13 @@ public class UploadReceiptActivity extends BaseActivity {
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
     public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
     public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
-    public static final String IS_ELEC_RECEIPT_DATA = "is_elec_receipt_data" ;
+    public static final String IS_ELEC_RECEIPT_DATA = "is_elec_receipt_data";
     private double amount;
     private double bonus;
     private String demandsId;
     private String label;
     private String company_id;
+    private int type;
 
 
     @Override
@@ -70,20 +81,39 @@ public class UploadReceiptActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        type = getIntent().getIntExtra("type", 0);
         company_id = getIntent().getStringExtra("company_id");
         label = getIntent().getStringExtra(FinanceFragment.EXTRA_DATA_LABEL);
-        amount = getIntent().getDoubleExtra("amount",0);
-        bonus = getIntent().getDoubleExtra("bonus",0);
+        amount = getIntent().getDoubleExtra("amount", 0);
+        bonus = getIntent().getDoubleExtra("bonus", 0);
         demandsId = getIntent().getStringExtra("demandsId");
         paperNormalReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
         paperSpecialReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
         addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
-
         Bundle bundle = new Bundle();
-        bundle.putBoolean(IS_ELEC_RECEIPT_DATA,true);
+        bundle.putBoolean(IS_ELEC_RECEIPT_DATA, true);
         paperElecReceiptFragment = UploadNormalReceiptFragment.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+        if (type != 0) {
+            if (type == 1) {
+                llContainerPaperNormalReceipt.setVisibility(View.VISIBLE);
+            } else {
+                llContainerPaperNormalReceipt.setVisibility(View.GONE);
+            }
+
+            if (type == 2) {
+                llContainerPaperSpecialReceipt.setVisibility(View.VISIBLE);
+            } else {
+                llContainerPaperSpecialReceipt.setVisibility(View.GONE);
+            }
+
+            if (type == 3) {
+                llContainerPaperElecReceipt.setVisibility(View.VISIBLE);
+            } else {
+                llContainerPaperElecReceipt.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -118,14 +148,19 @@ public class UploadReceiptActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_SCAN && resultCode == 200) {
-            if (data != null) {
-
-                String content = data.getStringExtra(DECODED_CONTENT_KEY);
-                Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
-                BaseApplication.showToast(content);
-
-            }
+        switch (requestCode) {
+            case REQUEST_CODE_SCAN:
+                if (resultCode == Activity.RESULT_OK) {
+                    String content = data.getStringExtra(DECODED_CONTENT_KEY);
+                    TLog.log(content);
+                    if (RegexUtils.isURL(content)) {
+                        Intent intent = new Intent();
+                        intent.setClass(this, Op.class);
+                        intent.putExtra("url", content);
+                        startActivity(intent);
+                    }
+                }
+                break;
         }
     }
 
@@ -144,6 +179,7 @@ public class UploadReceiptActivity extends BaseActivity {
     public void onViewClicked() {
         Intent intent = new Intent(this, UploadReceiptPreviewActivity.class);
         intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
+        intent.putExtra("type", type);
         intent.putExtra("amount", amount);
         intent.putExtra("bonus", bonus);
         intent.putExtra("demandsId", demandsId);

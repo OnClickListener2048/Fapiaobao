@@ -145,10 +145,10 @@
                     android:layout_weight="1" />
 
                 <android.support.v7.widget.SwitchCompat
-                    style="@style/switchCompat"
                     app:buttonTint="@color/main_style"
                     app:buttonTintMode="multiply"
                     app:showText="false"
+                    app:theme="@style/switchCompat"
                     android:id="@+id/Switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -200,10 +200,7 @@
                         android:textColor="@color/main_style"
                         android:textSize="@dimen/s10" />
                 </LinearLayout>
-
             </FrameLayout>
-
-
         </LinearLayout>
 
         <View
@@ -211,6 +208,7 @@
             android:layout_height="@dimen/d10" />
 
         <LinearLayout
+            android:id="@+id/ll_area_limited"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/d15"
@@ -226,7 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="限制开票信息" />
+                    android:text="限制开票地区" />
 
                 <View
                     android:layout_width="0dp"
@@ -235,9 +233,9 @@
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/SwitchArea"
-                    style="@style/switchCompat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:theme="@style/switchCompat"
                     app:buttonTint="@color/main_style"
                     app:buttonTintMode="multiply"
                     app:showText="false" />
@@ -297,6 +295,7 @@
             android:layout_height="@dimen/d10" />
 
         <LinearLayout
+            android:id="@+id/ll_express_limited"
             android:layout_marginLeft="@dimen/d15"
             android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"

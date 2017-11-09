@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
@@ -85,6 +86,8 @@ public class UploadSuccessActivity extends BaseActivity {
     @Override
     public void initView() {
         umShareAPI = UMShareAPI.get(this);
+//        UploadReceiptActivity
+        ActivityUtils.finishActivity(UploadReceiptActivity.class);
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.mylibrary.utils.RegexUtils;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.AllInvoiceAdapter;
@@ -23,22 +29,29 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
-import com.pilipa.fapiaobao.ui.MessageCenterActivity;
+import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
+import com.pilipa.fapiaobao.ui.MessageCenterActivity;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by edz on 2017/10/23.
  */
 
-public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.OnLabelClickListener, FinanceAdapter.OnLabelClickListener
-{
+public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.OnLabelClickListener, FinanceAdapter.OnLabelClickListener {
     String TAG = "FinanceFragment";
     @Bind(R.id.scan)
     ImageView scan;
@@ -48,14 +61,18 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     RecyclerView recyclerview;
     @Bind(R.id.recyclerview_more_kind)
     RecyclerView recyclerviewMoreKind;
+    @Bind(R.id.pull_to_find_more)
+    TextView pullToFindMore;
+    @Bind(R.id.srollview)
+    NestedScrollView srollview;
     private FinanceAdapter adapter;
     public static final String EXTRA_DATA_LABEL = "extra_data_label";
     public static final String EXTRA_DATA_LABEL_NAME = "extra_data_label_name";
     private LoginWithInfoBean loginBean;
     FinanceAdapter financeAdapter;
-    private static final String DECODED_CONTENT_KEY = "codedContent";
-    private static final String DECODED_BITMAP_KEY = "codedBitmap";
-    private static final int REQUEST_CODE_SCAN = 0x0000;
+    public static final String DECODED_CONTENT_KEY = "codedContent";
+    public static final String DECODED_BITMAP_KEY = "codedBitmap";
+    public static final int REQUEST_CODE_SCAN = 0x0234;
 
     @Override
     protected int getLayoutId() {
@@ -73,13 +90,21 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_SCAN && resultCode == 200) {
-            if (data != null) {
-
-                String content = data.getStringExtra(DECODED_CONTENT_KEY);
-                Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
-                BaseApplication.showToast(content);
-            }
+        TLog.log("onActivityResultonActivityResultonActivityResult");
+        switch (requestCode) {
+            case REQUEST_CODE_SCAN:
+                if (resultCode == Activity.RESULT_OK) {
+                    String content = data.getStringExtra(DECODED_CONTENT_KEY);
+                    TLog.log(content);
+                    TLog.log("RegexUtils.isURL(content)" + RegexUtils.isURL(content));
+                    if (RegexUtils.isURL(content)) {
+                        Intent intent = new Intent();
+                        intent.setClass(mContext, Op.class);
+                        intent.putExtra("url", content);
+                        startActivity(intent);
+                    }
+                }
+                break;
         }
     }
 
@@ -92,12 +117,11 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
-
+        srollview.setSmoothScrollingEnabled(true);
         GridLayoutManager manager = new GridLayoutManager(mContext, 2, LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(manager);
         recyclerview.addItemDecoration(new GridInsetFinance(2, 20, true));
-
-        recyclerviewMoreKind.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
+        recyclerviewMoreKind.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         recyclerviewMoreKind.setNestedScrollingEnabled(false);
         recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext, LinearLayoutManager.VERTICAL, 0, R.color.cancel));
 
@@ -180,12 +204,37 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.scan:
-                startActivityForResult(new Intent(mContext, CaptureActivity.class), REQUEST_CODE_SCAN);
+                quickResponse();
                 break;
             case R.id.notification:
                 startActivity(new Intent(mContext,MessageCenterActivity.class));
                 break;
         }
+    }
+
+    private void quickResponse() {
+        RxPermissions rxPermissions = new RxPermissions(getActivity());
+        rxPermissions.request(Manifest.permission.CAMERA).subscribe(new Observer<Boolean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                if (aBoolean) {
+                    startActivityForResult(new Intent(mContext, CaptureActivity.class), REQUEST_CODE_SCAN);
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        });
     }
 
     @Override
@@ -209,7 +258,10 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         intent.putExtra(EXTRA_DATA_LABEL_NAME, name);
         intent.setClass(mContext, EstimateActivity.class);
         startActivity(intent);
+    }
 
-
+    @OnClick(R.id.pull_to_find_more)
+    public void onViewClicked() {
+        srollview.smoothScrollTo(0,srollview.getChildAt(0).getBottom());
     }
 }

@@ -24,8 +24,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/d10"
-            android:src="@mipmap/upload_back"
-            android:visibility="gone" />
+            android:src="@mipmap/upload_back" />
 
         <ImageView
             android:id="@+id/upload_scan"
@@ -89,7 +88,6 @@
             android:orientation="vertical">
 
 
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d2"
@@ -98,11 +96,6 @@
 
             <include layout="@layout/publish_company_info" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d2"
-                android:layout_marginTop="@dimen/d5"
-                android:background="@color/main_style" />
 
             <View
                 android:layout_width="match_parent"

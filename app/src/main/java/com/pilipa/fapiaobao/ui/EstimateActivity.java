@@ -204,6 +204,8 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             public void onLabelSelectChange(View label, String labelText, boolean isSelect, int position) {
                 if (isSelect) {
                     type = position + 1;
+                } else {
+                    type = 0;
                 }
             }
         });
@@ -251,6 +253,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             case R.id.go:
 
                 MacherBeanToken.DataBean dataBean = matchBean.getData().get(currentItem);
+                intent.putExtra("type", type);
                 intent.putExtra("demandsId", dataBean.getDemandId());
                 intent.putExtra("amount", amount);
                 intent.putExtra("bonus", dataBean.getBonus());
@@ -366,6 +369,8 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 public void setData(MacherBeanToken matchBean) {
                     TLog.log(matchBean.getStatus() + "");
                     if (matchBean.getStatus() == 200) {
+                        llhasRedbag.setVisibility(View.VISIBLE);
+                        llnoredbag.setVisibility(View.GONE);
                         llEstimateCaution.setVisibility(View.GONE);
                         llFilterConditionTop.setVisibility(View.VISIBLE);
                         llFilterTypesLocation.setVisibility(View.GONE);
