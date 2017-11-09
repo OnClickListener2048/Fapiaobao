@@ -55,7 +55,7 @@ public class JsonCreator {
 
     public static JSONObject matcher(String varieties, String city) {
         HashMap map = new HashMap();
-        map.put("varieties", varieties);
+        map.put("variety", varieties);
         map.put("city", city);
         return new JSONObject(map);
     }
