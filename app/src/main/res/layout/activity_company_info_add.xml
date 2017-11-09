@@ -70,6 +70,8 @@
 
             </LinearLayout>
             <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -84,6 +86,7 @@
                     android:text="@string/company_name" />
 
                 <LinearLayout
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -104,10 +107,19 @@
                         android:background="@color/gray_line" />
                 </LinearLayout>
 
+
+                <TextView
+                    android:id="@+id/tv_mustfill_company_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="必填"
+                    android:textColor="@color/main_style" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
+                android:gravity="center_vertical"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="@dimen/d5">
@@ -121,6 +133,7 @@
                     android:text="税        号" />
 
                 <LinearLayout
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -141,9 +154,16 @@
                         android:background="@color/gray_line" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tv_mustfill_texno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="必填"
+                    android:textColor="@color/main_style" />
             </LinearLayout>
 
             <LinearLayout
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -157,6 +177,7 @@
                     android:text="@string/company_address" />
 
                 <LinearLayout
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -177,9 +198,17 @@
                         android:background="@color/gray_line" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tv_mustfill_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="必填"
+                    android:textColor="@color/main_style" />
             </LinearLayout>
 
             <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -193,6 +222,7 @@
                     android:text="@string/number" />
 
                 <LinearLayout
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -214,9 +244,17 @@
                         android:background="@color/gray_line" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tv_mustfill_company_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="必填"
+                    android:textColor="@color/main_style" />
             </LinearLayout>
 
             <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -230,6 +268,7 @@
                     android:text="@string/bank_name" />
 
                 <LinearLayout
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -250,12 +289,20 @@
                         android:background="@color/gray_line" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tv_mustfill_bank_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="必填"
+                    android:textColor="@color/main_style" />
             </LinearLayout>
 
             <LinearLayout
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:padding="@dimen/d5">
 
                 <TextView
@@ -266,6 +313,7 @@
                     android:text="@string/bank_account" />
 
                 <LinearLayout
+                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -287,6 +335,12 @@
                         android:background="@color/gray_line" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tv_mustfill_bank_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="必填"
+                    android:textColor="@color/main_style" />
             </LinearLayout>
 
 

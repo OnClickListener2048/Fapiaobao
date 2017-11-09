@@ -156,7 +156,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         };
         rvUploadReceipt.setLayoutManager(grid);
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
-        rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, false));
+        rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, true));
         Image image = new Image();
         image.isFromNet = false;
         image.isCapture = true;

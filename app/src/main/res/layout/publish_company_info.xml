@@ -8,7 +8,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/d10" />
+        android:layout_height="@dimen/d23" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,8 +17,8 @@
         <LinearLayout
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/d10"
-            android:layout_marginRight="@dimen/d10"
+            android:layout_marginLeft="@dimen/d13"
+            android:layout_marginRight="@dimen/d13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -116,8 +116,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@null"
-                            android:hint="企业名称" />
+                            android:background="@null" />
                     </LinearLayout>
 
                     <TextView
@@ -172,7 +171,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="@string/receipt_code"
                             />
 
                         <TextView
@@ -227,8 +225,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@null"
-                            android:hint="@string/address" />
+                            android:background="@null" />
 
                         <TextView
                             android:id="@+id/tv_publish_address_must_fill"
@@ -280,7 +277,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="@string/phone_number"
                             android:inputType="number" />
 
                         <TextView
@@ -335,7 +331,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="@string/bank_name" />
+                            />
 
                         <TextView
                             android:id="@+id/tv_et_publish_bank_must_fill"
@@ -389,7 +385,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="@string/bank_account"
                             android:inputType="number" />
 
                         <TextView
@@ -405,6 +400,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/ll_add_company_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -431,7 +427,7 @@
     <LinearLayout
         android:id="@+id/btn_add_company_info"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/d30"
+        android:layout_height="@dimen/d40"
         android:layout_marginLeft="@dimen/d20"
         android:layout_marginRight="@dimen/d20"
         android:background="@color/main_style"

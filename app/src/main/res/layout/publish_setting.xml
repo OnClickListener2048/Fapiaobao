@@ -9,6 +9,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d23" />
         <LinearLayout
             android:layout_marginLeft="@dimen/d15"
             android:layout_marginRight="@dimen/d15"
@@ -49,16 +52,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d10" />
             <LinearLayout
+                android:id="@+id/ll_date"
+                android:layout_height="@dimen/d43"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:layout_weight="1"
                 android:background="@drawable/shape_rect_demand_info">
 
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/d10"
+                    android:layout_height="match_parent" />
                 <TextView
+                    android:layout_height="@dimen/d43"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
                     android:id="@+id/et_date"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/d30"
+                    android:text="2017"
                     android:layout_weight="1"
                     android:background="@null" />
 
@@ -94,7 +106,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/d43"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/shape_rect_demand_info">
@@ -102,11 +114,10 @@
                 <EditText
                     android:inputType="numberDecimal"
                     android:id="@+id/et_amount"
-                    android:layout_height="@dimen/d30"
+                    android:layout_height="@dimen/d43"
                     android:layout_width="0dp"
                     android:background="@null"
-                    android:layout_weight="1"
-                    android:hint="需要发票总金额" />
+                    android:layout_weight="1" />
 
                 <TextView
                     android:layout_marginRight="@dimen/d10"
@@ -166,7 +177,7 @@
                 <LinearLayout
                     android:id="@+id/ll_amount"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/d43"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/shape_rect_demand_info">
@@ -174,10 +185,9 @@
                     <EditText
                         android:id="@+id/et_amount_redbag"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/d30"
+                        android:layout_height="@dimen/d43"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="悬赏红包金额"
                         android:inputType="numberDecimal" />
 
                     <TextView
@@ -190,7 +200,7 @@
                 <LinearLayout
                     android:id="@+id/ll_toggle_switch"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/d43"
                     android:gravity="center">
 
                     <TextView
@@ -248,12 +258,12 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="@dimen/d43">
 
                 <LinearLayout
                     android:id="@+id/ll_area"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/d43"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@drawable/shape_rect_demand_info">
@@ -266,8 +276,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:gravity="center_vertical"
-                        android:hint="地区限制" />
+                        android:gravity="center_vertical" />
 
                 </LinearLayout>
 
@@ -332,19 +341,19 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/d43"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:background="@drawable/shape_rect_demand_info">
 
                 <EditText
                     android:inputType="numberDecimal"
                     android:id="@+id/et_express_amount_minimum"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/d30"
+                    android:layout_height="@dimen/d43"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="@string/express_limited" />
+                    android:background="@null" />
 
                 <TextView
                     android:layout_marginRight="@dimen/d10"

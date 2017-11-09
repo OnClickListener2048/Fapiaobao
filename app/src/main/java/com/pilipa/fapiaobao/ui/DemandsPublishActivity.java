@@ -186,6 +186,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     LinearLayout llExpressLimited;
     @Bind(R.id.ll_select_area)
     LinearLayout llSelectArea;
+    @Bind(R.id.ll_date)
+    LinearLayout llDate;
     private boolean paperNormal;
     private boolean elec;
     private boolean paperSpecial;
@@ -214,6 +216,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private static final int REQUEST_ADD_COMPANY_INFO = 971;
     private static final int REQUEST_ALL_COMPANY_INFO = 321;
     private static final int REQUEST_CODE_SCAN = 0x0022;
+    public static final String RECEIPTELEC_DATA = "receiptElec";
+    public static final String RECEIPTPAPERNORMAL_DATA = "receiptPaperNormal";
+    public static final String RECEIPTPAPERSPECIAL_DATA = "receiptPaperSpecial";
     private Dialog mTipDialog;
 
     private static final double MAX_AMOUNT = 50000;
@@ -426,6 +431,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             , R.id.btn_add_company_info
             , R.id.ll_select_area
             , R.id.tv_receive_deadline
+            , R.id.ll_date
             , R.id.tv_express_limited})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -473,8 +479,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 break;
             case R.id.labels_receipt_kind:
                 break;
+            case R.id.ll_date:
             case R.id.et_date:
-                break;
             case R.id.iv_select_date:
                 //TODO
                 dialog.showDatePickerDialog(new TimePickerDialog.TimePickerDialogInterface() {
@@ -507,7 +513,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             case R.id.et_reception_number:
                 break;
             case R.id.tv_area:
-                break;
             case R.id.ll_select_area:
             case R.id.iv_select_area:
                 cityPicker.show();
@@ -583,6 +588,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
     private void addCompanyInfo() {
         Intent intent = new Intent();
+        intent.putExtra(RECEIPTELEC_DATA, elec);
+        intent.putExtra(RECEIPTPAPERSPECIAL_DATA, paperSpecial);
+        intent.putExtra(RECEIPTPAPERNORMAL_DATA, paperNormal);
+        intent.putExtra("isPublish", true);
         intent.setClass(this, AddCompanyInfoActivity.class);
         startActivityForResult(intent, REQUEST_ADD_COMPANY_INFO);
     }

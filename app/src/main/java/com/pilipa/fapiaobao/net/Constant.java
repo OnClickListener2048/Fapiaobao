@@ -216,5 +216,32 @@ public class Constant {
     /*提现*/
     public static final String WITHDRAW = BASE_URL+"wxpay/withdraw/%s/%s/%s/%s/%s";
 
-
+    /**
+     * 用户注册协议
+     */
+    public static final String REGISTRATION = "http://p.pilipa.cn/fapiaobao/doc/registration";
+    /**
+     * 用户充值协议
+     */
+    public static final String RECHARGE = "http://p.pilipa.cn/fapiaobao/doc/recharge";
+    /**
+     * 发票百科
+     */
+    public static final String WIKI = "http://p.pilipa.cn/fapiaobao/doc/wiki";
+    /**
+     * 发票宝匹配需求
+     */
+    public static final String MATCH = "http://p.pilipa.cn/fapiaobao/guide/match";
+    /**
+     * 发票宝估算红包
+     */
+    public static final String GUIDE_ESTIMATE = "http://p.pilipa.cn/fapiaobao/guide/estimate";
+    /**
+     * 发票宝开票信息
+     */
+    public static final String BILLINGINFO = "http://p.pilipa.cn/fapiaobao/share/billingInfo";
+    /**
+     * 发票宝使用说明
+     */
+    public static final String INSTRUCTION = "http://p.pilipa.cn/fapiaobao/instruction";
 }

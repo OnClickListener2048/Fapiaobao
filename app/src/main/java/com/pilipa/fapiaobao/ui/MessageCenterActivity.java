@@ -74,7 +74,7 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == 200) {
-                    Api.messageList(AccountHelper.getToken(), new Api.BaseViewCallback<MessageListBean>() {
+                    Api.messageList(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<MessageListBean>() {
                         @Override
                         public void setData(MessageListBean messageListBean) {
                             if(messageListBean.getStatus() == 200){

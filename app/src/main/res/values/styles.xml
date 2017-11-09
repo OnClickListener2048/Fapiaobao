@@ -3,17 +3,18 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <item name="colorPrimaryDark">#e6af7a</item>
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--<item name="android:windowBackground">@color/white</item>-->
     </style>
     <style name="immersivemode" parent="AppTheme">
-        <!--&lt;!&ndash;透明状态栏&ndash;&gt;-->
-        <!--<item name="android:windowTranslucentStatus">true</item>-->
-        <!--&lt;!&ndash;透明导航栏&ndash;&gt;-->
-        <!--<item name="android:windowTranslucentNavigation">true</item>-->
-        <!--&lt;!&ndash;使状态栏，导航栏可绘制&ndash;&gt;-->
-        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <!--透明状态栏-->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--透明导航栏-->
+        <item name="android:windowTranslucentNavigation">true</item>
+        <!--使状态栏，导航栏可绘制-->
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
     <style name="FullscreenTheme" parent="immersivemode">

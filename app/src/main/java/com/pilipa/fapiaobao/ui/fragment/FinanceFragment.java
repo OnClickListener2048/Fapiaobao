@@ -33,6 +33,7 @@ import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
+import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -123,7 +124,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         recyclerview.addItemDecoration(new GridInsetFinance(2, 20, true));
         recyclerviewMoreKind.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         recyclerviewMoreKind.setNestedScrollingEnabled(false);
-        recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext, LinearLayoutManager.VERTICAL, 0, R.color.cancel));
+        recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext, LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(),23), R.color.white));
 
     }
 

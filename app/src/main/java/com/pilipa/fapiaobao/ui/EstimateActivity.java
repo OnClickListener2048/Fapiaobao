@@ -306,7 +306,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 //                            } else {
 //                                BaseApplication.showToast("token验证失败请重新登陆");
 //                                startActivity(new Intent(EstimateActivity.this, LoginActivity.class));
-//                                finish();
+//                                finish()
 //                            }
 //                        }
 //                    });

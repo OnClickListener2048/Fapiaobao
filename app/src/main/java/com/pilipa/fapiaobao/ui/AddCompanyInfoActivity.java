@@ -7,6 +7,7 @@ import android.text.method.ReplacementTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mylibrary.utils.EncodeUtils;
@@ -19,8 +20,6 @@ import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
-import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
-import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
@@ -49,25 +48,40 @@ public class AddCompanyInfoActivity extends BaseActivity {
     private static final int REQUEST_CODE_SCAN = 0x0033;
     private static final String DECODED_CONTENT_KEY = "codedContent";
     private static final String DECODED_BITMAP_KEY = "codedBitmap";
+    @Bind(R.id.tv_mustfill_company_name)
+    TextView tvMustfillCompanyName;
+    @Bind(R.id.tv_mustfill_texno)
+    TextView tvMustfillTexno;
+    @Bind(R.id.tv_mustfill_address)
+    TextView tvMustfillAddress;
+    @Bind(R.id.tv_mustfill_company_phone)
+    TextView tvMustfillCompanyPhone;
+    @Bind(R.id.tv_mustfill_bank_name)
+    TextView tvMustfillBankName;
+    @Bind(R.id.tv_mustfill_bank_number)
+    TextView tvMustfillBankNumber;
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_company_info_add;
     }
 
-    @OnClick({R.id.add_back,R.id.btn_save,R.id.img_scan})
+    @OnClick({R.id.add_back, R.id.btn_save, R.id.img_scan})
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.img_scan:{
+        switch (v.getId()) {
+            case R.id.img_scan: {
                 startActivityForResult(new Intent(this, CaptureActivity.class), REQUEST_CODE_SCAN);
-            }break;
-            case R.id.add_back:{
+            }
+            break;
+            case R.id.add_back: {
                 finish();
-            }break;
-            case R.id.btn_save:{
+            }
+            break;
+            case R.id.btn_save: {
                 addCompany();
-            }break;
+            }
+            break;
         }
     }
 
@@ -77,8 +91,8 @@ public class AddCompanyInfoActivity extends BaseActivity {
         switch (requestCode) {
             case REQUEST_CODE_SCAN:
                 if (resultCode == RESULT_OK) {
-                    String codedContent=  data.getStringExtra(DECODED_CONTENT_KEY);
-                    Log.d("codedContent",codedContent);
+                    String codedContent = data.getStringExtra(DECODED_CONTENT_KEY);
+                    Log.d("codedContent", codedContent);
                     Gson gson = new Gson();
                     String decode = EncodeUtils.urlDecode(codedContent);
                     MacherBeanToken.DataBean.CompanyBean companyBean = gson.fromJson(decode, MacherBeanToken.DataBean.CompanyBean.class);
@@ -98,16 +112,55 @@ public class AddCompanyInfoActivity extends BaseActivity {
         edtTaxno.setTransformationMethod(new ReplacementTransformationMethod() {
             @Override
             protected char[] getOriginal() {
-                char[] originalCharArr = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
+                char[] originalCharArr = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
                 return originalCharArr;
             }
 
             @Override
             protected char[] getReplacement() {
-                char[] replacementCharArr = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z' };
+                char[] replacementCharArr = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
                 return replacementCharArr;
             }
         });
+
+
+        tvMustfillTexno.setVisibility(View.GONE);
+        tvMustfillAddress.setVisibility(View.GONE);
+        tvMustfillBankName.setVisibility(View.GONE);
+        tvMustfillBankNumber.setVisibility(View.GONE);
+        tvMustfillCompanyName.setVisibility(View.GONE);
+        tvMustfillCompanyPhone.setVisibility(View.GONE);
+
+        boolean isFromPublish = getIntent().getBooleanExtra("isPublish", false);
+//        boolean elec = getIntent().getBooleanExtra(DemandsPublishActivity.RECEIPTELEC_DATA, false);
+//        boolean paperNormal = getIntent().getBooleanExtra(DemandsPublishActivity.RECEIPTPAPERNORMAL_DATA, false);
+        boolean paperSpecial = getIntent().getBooleanExtra(DemandsPublishActivity.RECEIPTPAPERSPECIAL_DATA, false);
+
+        if (isFromPublish) {
+            tvMustfillTexno.setVisibility(View.VISIBLE);
+            tvMustfillAddress.setVisibility(View.VISIBLE);
+            tvMustfillBankName.setVisibility(View.VISIBLE);
+            tvMustfillBankNumber.setVisibility(View.VISIBLE);
+            tvMustfillCompanyName.setVisibility(View.VISIBLE);
+            tvMustfillCompanyPhone.setVisibility(View.VISIBLE);
+
+            if (paperSpecial) {
+                tvMustfillTexno.setText("必填");
+                tvMustfillAddress.setText("必填");
+                tvMustfillBankName.setText("必填");
+                tvMustfillBankNumber.setText("必填");
+                tvMustfillCompanyName.setText("必填");
+                tvMustfillCompanyPhone.setText("必填");
+            } else {
+                tvMustfillTexno.setText("必填");
+                tvMustfillAddress.setText("必填");
+                tvMustfillBankName.setText("选填");
+                tvMustfillBankNumber.setText("选填");
+                tvMustfillCompanyName.setText("选填");
+                tvMustfillCompanyPhone.setText("选填");
+            }
+        }
+
     }
 
     @Override
@@ -125,15 +178,16 @@ public class AddCompanyInfoActivity extends BaseActivity {
             return;
         }
 
-            Company company = new Company();
-            company.setName(edtCompany_name.getText().toString().trim());
-            company.setTaxno(edtTaxno.getText().toString().trim());
-            company.setAddress(edtCompanyAddress.getText().toString().trim());
-            company.setPhone(edtCompanyNumber.getText().toString().trim());
-            company.setDepositBank(edtBankName.getText().toString().trim());
-            company.setAccount(edtBankAccount.getText().toString().trim());
-            createCompany(company);
+        Company company = new Company();
+        company.setName(edtCompany_name.getText().toString().trim());
+        company.setTaxno(edtTaxno.getText().toString().trim());
+        company.setAddress(edtCompanyAddress.getText().toString().trim());
+        company.setPhone(edtCompanyNumber.getText().toString().trim());
+        company.setDepositBank(edtBankName.getText().toString().trim());
+        company.setAccount(edtBankAccount.getText().toString().trim());
+        createCompany(company);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

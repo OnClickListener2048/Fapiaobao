@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_PLATFORM_MSG;
+import static com.pilipa.fapiaobao.net.Constant.REGISTRATION;
 
 /**
  * Created by lyt on 2017/10/12.
@@ -122,6 +123,10 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                 weChatLogin();
                 break;
             case R.id.laws:
+                Intent intent = new Intent();
+                intent.putExtra("url", REGISTRATION);
+                intent.setClass(this, Op.class);
+                startActivity(intent);
                 break;
         }
     }

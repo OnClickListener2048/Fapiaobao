@@ -54,18 +54,23 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <android.support.v4.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/d21" />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/select_your_receipt_kind"
                         android:layout_centerHorizontal="true"
-                        android:textSize="@dimen/s10"
+                        android:textSize="@dimen/s11"
                         android:text="@string/select_your_receipt_kind"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:layout_marginTop="@dimen/d15"
+                        android:layout_marginTop="@dimen/d21"
+                        android:textColor="@color/main_style"
                         android:layout_below="@+id/select_your_receipt_kind"
                         android:layout_centerHorizontal="true"
                         android:textSize="@dimen/s13"
@@ -73,6 +78,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="@dimen/d2"
+                    android:layout_height="@dimen/d23" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"
@@ -86,6 +95,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:textColor="@color/main_style"
                         android:id="@+id/pull_to_find_more"
                         android:drawablePadding="@dimen/d5"
                         android:drawableRight="@mipmap/pull"
@@ -95,6 +105,10 @@
                         android:text="@string/more_kind_receipt"
                         android:textSize="@dimen/s13" />
                 </RelativeLayout>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/d23" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview_more_kind"
