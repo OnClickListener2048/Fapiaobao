@@ -32,7 +32,7 @@ public class CreditRatingActivity extends BaseActivity {
     TextView tvLastChange;
     @Bind(R.id.star)
     ImageView star;
-    int[] LevelIcon=new int[]{R.mipmap.dstar1,R.mipmap.dstar1,R.mipmap.dstar2,R.mipmap.dstar3,R.mipmap.dstar4,R.mipmap.dstar5
+    int[] LevelIcon=new int[]{R.mipmap.dstar0,R.mipmap.dstar1,R.mipmap.dstar2,R.mipmap.dstar3,R.mipmap.dstar4,R.mipmap.dstar5
             ,R.mipmap.dstar6,R.mipmap.dstar7,R.mipmap.dstar8,R.mipmap.dstar9,R.mipmap.dstar10};
 
     @Override

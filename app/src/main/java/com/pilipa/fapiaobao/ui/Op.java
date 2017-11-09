@@ -133,6 +133,7 @@ public class Op extends AppCompatActivity implements
         resultTv = (TextView) findViewById(R.id.resultTv);
 
         scanBtn.setOnClickListener(this);
+
     }
 
     @Override

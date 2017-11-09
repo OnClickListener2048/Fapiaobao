@@ -333,7 +333,7 @@ public class DemandActivity extends BaseActivity {
 
                         tvBounsAmount.setText(bean.getDemand().getTotalBonus()+ "元");
                         tvAmount.setText(bean.getDemand().getTotalAmount()+ "元");
-                        tvLeftAmount.setText(bean.getDemand().getLeftBonus()+ "");
+                        tvLeftAmount.setText(String.format("%.0f",bean.getDemand().getLeftBonus())+ "");
                         tvPublishTime.setText("发布时间："+bean.getDemand().getPublishDate());
                         tvDeadline.setText("截止日期：" + bean.getDemand().getDeadline());
                         tvAttentions.setText("" + bean.getDemand().getAttentions());

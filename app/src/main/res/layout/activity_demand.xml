@@ -122,7 +122,7 @@
                             android:id="@+id/tv_bounsAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="100元"
+                            android:text="0元"
                             android:textColor="@color/text_normal_item"
                             android:textSize="@dimen/d15" />
 
@@ -155,7 +155,7 @@
                                 android:id="@+id/tv_leftAmount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="12"
+                                android:text="0"
                                 android:textSize="12dp"/>
                             <TextView
                                 android:layout_width="wrap_content"
@@ -205,7 +205,7 @@
                             android:id="@+id/tv_amount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1000元" />
+                            android:text="0元" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -260,7 +260,7 @@
                             android:id="@+id/tv_receive"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="100"
+                            android:text="0"
                             android:textColor="@color/text_normal_item"
                             android:textSize="@dimen/d12" />
                         <TextView

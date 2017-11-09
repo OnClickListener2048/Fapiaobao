@@ -263,7 +263,6 @@ public class SharedPreferencesHelper {
         if (clx == null || clx.equals(Object.class)) {
             return target;
         }
-
         // Create instance
         if (target == null) {
             try {

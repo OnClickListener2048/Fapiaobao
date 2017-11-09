@@ -59,11 +59,12 @@ public class MyPublishAdapter extends BaseAdapter {
         {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
         DemandsListBean.DataBean bean = (DemandsListBean.DataBean) mMarkerData.get(position);
-        viewHolder.tvAmount.setText(bean.getTotalAmount()+"");
+        viewHolder.tvAmount.setText( String.format("%.0f",bean.getTotalAmount())+"");
         double toAmount = sub(bean.getTotalAmount(),bean.getLeftAmount());
-        viewHolder.tvAlreadyCollected.setText(toAmount+"");
-        viewHolder.tvToCollectedPrice.setText(bean.getLeftAmount()+"");
+        viewHolder.tvAlreadyCollected.setText(String.format("%.0f",toAmount)+"");
+        viewHolder.tvToCollectedPrice.setText(String.format("%.0f",bean.getLeftAmount())+"");
         String endFormat = mContext.getResources().getString(R.string.end_of_distance);
         viewHolder.tvEndOfDistance.setText(String.format(endFormat, bean.getLeftDate()));
 

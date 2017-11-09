@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -72,16 +73,15 @@ public class FeedbackActivity extends BaseActivity {
     }
     private void setDialog() {
         mDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_feedback_tip, null);
-        //初始化视图
-        root.setOnClickListener(new View.OnClickListener() {
+        mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
-            public void onClick(View v) {
-                mDialog.dismiss();
+            public void onDismiss(DialogInterface dialog) {
                 FeedbackActivity.this.finish();
             }
         });
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+                R.layout.layout_feedback_tip, null);
+        //初始化视图
         mDialog.setContentView(root);
         Window dialogWindow = mDialog.getWindow();
         dialogWindow.setGravity(Gravity.CENTER);

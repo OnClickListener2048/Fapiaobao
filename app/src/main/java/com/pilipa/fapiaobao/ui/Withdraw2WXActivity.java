@@ -45,7 +45,7 @@ public class Withdraw2WXActivity extends BaseActivity {
     TextView withdraw_max;
     private Dialog mDialog;
     private Dialog mTipDialog;
-    private String amount = "0";
+    private BigDecimal yue;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_withdraw_to_wx;
@@ -68,7 +68,7 @@ public class Withdraw2WXActivity extends BaseActivity {
             }
             break;
             case R.id.withdraw_all: {
-                tv_amount.setText(amount);
+                tv_amount.setText(yue.setScale(2,BigDecimal.ROUND_HALF_UP)+"");
             }
             break;
         }
@@ -81,10 +81,21 @@ public class Withdraw2WXActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        amount = getIntent().getStringExtra("amount");
-        BigDecimal am = new BigDecimal(amount);
-        withdraw_max.setText("当前余额为"+am.setScale(1,BigDecimal.ROUND_HALF_UP)+"元,");
-        withdraw_current.setText("最大提现额度为"+am.setScale(1,BigDecimal.ROUND_HALF_UP)+"元");
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                if (loginWithInfoBean.getStatus() == 200) {
+                    if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+                        BigDecimal max = new BigDecimal("20000");
+                        double d = loginWithInfoBean.getData().getCustomer().getAmount()
+                                -loginWithInfoBean.getData().getCustomer().getFrozen();
+                        yue = new BigDecimal(d);
+                        withdraw_max.setText("当前余额为"+yue.setScale(2,BigDecimal.ROUND_HALF_UP)+"元,");
+                        withdraw_current.setText("最大提现额度为"+max.setScale(2,BigDecimal.ROUND_HALF_UP)+"元");
+                    }
+                }
+            }
+        });
     }
 
     @Override

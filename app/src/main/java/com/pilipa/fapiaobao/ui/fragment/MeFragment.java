@@ -49,7 +49,7 @@ public class MeFragment extends BaseFragment{
     @Bind(R.id.LevelIcon)
     ImageView imgLevelIcon;
 
-    int[] LevelIcon=new int[]{R.mipmap.star1,R.mipmap.star1,R.mipmap.star2,R.mipmap.star3,R.mipmap.star4,R.mipmap.star5
+    int[] LevelIcon=new int[]{R.mipmap.star0,R.mipmap.star1,R.mipmap.star2,R.mipmap.star3,R.mipmap.star4,R.mipmap.star5
                               ,R.mipmap.star6,R.mipmap.star7,R.mipmap.star8,R.mipmap.star9,R.mipmap.star10};
 
     @Override
@@ -147,7 +147,7 @@ public class MeFragment extends BaseFragment{
                         if(customer != null){
                             tvUserName.setText(customer.getNickname());
                             tvCreditRating.setText("积分："+customer.getCreditScore());
-                            tvBouns.setText(customer.getAmount()+"元");//钱包金额
+                            tvBouns.setText(String.format("%.2f", customer.getAmount())+"元");//钱包金额
                             Log.d("IMAGE_HEAD",customer.getHeadimg());
                             requestManager
                                     .load(customer.getHeadimg())

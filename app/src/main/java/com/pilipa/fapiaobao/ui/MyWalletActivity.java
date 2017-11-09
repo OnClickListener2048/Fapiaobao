@@ -2,7 +2,9 @@ package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.TextView;
 
@@ -60,7 +62,6 @@ public class MyWalletActivity extends BaseActivity {
                         }break;
                         case R.id.btn_withdraw:{
                             Intent intent = new Intent(MyWalletActivity.this,Withdraw2WXActivity.class);
-                            intent.putExtra("amount",tv_amount.getText().toString().trim());
                             startActivity(intent);
                         }break;
                     }
@@ -80,13 +81,14 @@ public class MyWalletActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == 200) {
                     if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
                         SharedPreferencesHelper.save(MyWalletActivity.this, loginWithInfoBean);
-                        tv_bouns.setText(loginWithInfoBean.getData().getCustomer().getBonus()+"");
-                        tv_amount.setText(loginWithInfoBean.getData().getCustomer().getAmount()+"");
+                        tv_bouns.setText(String.format("%.2f", loginWithInfoBean.getData().getCustomer().getBonus())+"");//钱包金额
+                        tv_amount.setText(String.format("%.2f", loginWithInfoBean.getData().getCustomer().getAmount())+"");//钱包金额
                     }
                 }
             }

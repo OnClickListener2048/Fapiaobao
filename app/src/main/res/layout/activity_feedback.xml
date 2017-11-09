@@ -43,10 +43,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="start"
-            android:background="@drawable/edittext_bg"
+            android:background="@drawable/shape_textview_bg"
             android:hint="@string/feedback_hint"
             android:padding="@dimen/d10" />
-    </LinearLayout>0
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_feedback_confirm"

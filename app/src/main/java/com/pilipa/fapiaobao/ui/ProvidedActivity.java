@@ -434,7 +434,7 @@ public class ProvidedActivity extends BaseActivity {
                             tvPublishAddress.setText(bean.getPostage().getAddress());
                             tv_low_limit.setText(bean.getPostage().getDistrict());
                         }
-                        estimateMoney.setText(bean.getBonus() + "");
+                        estimateMoney.setText(bean.getBonus()+ "");
                         receiptNumber.setText(bean.getInvoiceCount() + "");
                         receiptMoney.setText(bean.getAmount()+"");
                         if (bean.getCompany() != null) {
