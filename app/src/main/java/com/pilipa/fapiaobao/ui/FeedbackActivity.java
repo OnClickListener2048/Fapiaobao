@@ -75,6 +75,13 @@ public class FeedbackActivity extends BaseActivity {
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.layout_feedback_tip, null);
         //初始化视图
+        root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+                FeedbackActivity.this.finish();
+            }
+        });
         mDialog.setContentView(root);
         Window dialogWindow = mDialog.getWindow();
         dialogWindow.setGravity(Gravity.CENTER);

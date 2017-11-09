@@ -21,6 +21,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_GOT_BONUS;
+import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_INCOMPETENT_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_NEWCOME_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_SERVICE_NOTIFICATION;
+
 /**
  * Created by wjn on 2017/10/23.
  */
@@ -32,6 +37,7 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
     ListView listView;
     private MessageCenterAdapter messageCenterAdapter;
     private List<MessageListBean.DataBean> list = new ArrayList();
+    private MessageListBean.DataBean receiceData ;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_message_center;
@@ -72,8 +78,7 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
                         @Override
                         public void setData(MessageListBean messageListBean) {
                             if(messageListBean.getStatus() == 200){
-                                List<MessageListBean.DataBean> beanList = messageListBean.getData();
-                                list.addAll(beanList);
+                                receiceData = messageListBean.getData();
                                 messageCenterAdapter.initData(messageListBean.getData());
                             }
                             Log.d("", "initData:suggestion success");
@@ -89,8 +94,32 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(MessageCenterActivity.this,MessageDetailsActivity.class);
-//        intent.putExtra()
-        startActivity(intent);
+        Intent intent = null;
+        switch ((position+1)+""){
+            case MSG_TYPE_NEWCOME_INVOICE:{
+                 intent = new Intent(MessageCenterActivity.this,MessageDetailsActivity.class);
+                intent.putExtra("title","新票到账");
+                intent.putParcelableArrayListExtra("dataList1",receiceData.get_$1());
+            }break;
+            case MSG_TYPE_GOT_BONUS:{
+                intent = new Intent(MessageCenterActivity.this,MessageDetailsActivity.class);
+                intent.putExtra("title","收到红包");
+                intent.putParcelableArrayListExtra("dataList2",receiceData.get_$2());
+            }break;
+            case MSG_TYPE_INCOMPETENT_INVOICE:{
+                intent = new Intent(MessageCenterActivity.this,MessageDetailsActivity.class);
+                intent.putExtra("title","新票到账");
+                intent.putParcelableArrayListExtra("dataList3",receiceData.get_$3());
+
+            }break;
+            case MSG_TYPE_SERVICE_NOTIFICATION:{
+                intent = new Intent(MessageCenterActivity.this,MessageDetailsActivity.class);
+                intent.putExtra("title","服务通知");
+                intent.putParcelableArrayListExtra("dataList4",receiceData.get_$4());
+            }break;
+        }
+        if(intent != null){
+//            startActivity(intent);
+        }
     }
 }

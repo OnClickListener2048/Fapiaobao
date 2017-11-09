@@ -10,9 +10,6 @@ import android.widget.TextView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_GOT_BONUS;
 import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_INCOMPETENT_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_NEWCOME_INVOICE;
@@ -23,22 +20,20 @@ import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_SERVICE_NOTIFICATION;
  */
 
 public class MessageCenterAdapter extends BaseAdapter {
-    List list;
     private Context mContext = null;
-    private List<?> mMarkerData = null;
+    private MessageListBean.DataBean bean = new MessageListBean.DataBean();
     public MessageCenterAdapter(Context context)
     {
         mContext = context;
-        mMarkerData = new ArrayList<>();
     }
     @Override
     public int getCount() {
-        return mMarkerData.size();
+        return 4;
     }
 
     @Override
     public Object getItem(int position) {
-        return mMarkerData.get(position);
+        return bean;
     }
 
     @Override
@@ -56,45 +51,53 @@ public class MessageCenterAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.item_message_center, null);
             viewHolder.tv_title =(TextView) convertView.findViewById(R.id.tv_title);
             viewHolder.tv_date =(TextView) convertView.findViewById(R.id.tv_date);
+            viewHolder.tv_size =(TextView) convertView.findViewById(R.id.tv_size);
             convertView.setTag(viewHolder);
         }
         else
         {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        MessageListBean.DataBean bean = (MessageListBean.DataBean)mMarkerData.get(position);
-        switch (bean.getMessage().getType()){
+        switch ((position+1)+""){
             case MSG_TYPE_NEWCOME_INVOICE:{
                 viewHolder.tv_title.setText("新到发票");
+                if(bean.get_$1() != null){
+                    viewHolder.tv_date.setText(bean.get_$1().get(0).getCreateDate());
+                    viewHolder.tv_size.setText(bean.get_$1().size()+"");
+                }
             }break;
             case MSG_TYPE_GOT_BONUS:{
                 viewHolder.tv_title.setText("红包到帐");
+                if(bean.get_$2() != null){
+                    viewHolder.tv_date.setText(bean.get_$2().get(0).getCreateDate());
+                    viewHolder.tv_size.setText(bean.get_$2().size()+"");
+                }
             }break;
             case MSG_TYPE_INCOMPETENT_INVOICE:{
                 viewHolder.tv_title.setText("不合格发票");
+                if(bean.get_$3() != null){
+                    viewHolder.tv_date.setText(bean.get_$3().get(0).getCreateDate());
+                    viewHolder.tv_size.setText(bean.get_$3().size()+"");
+                }
             }break;
             case MSG_TYPE_SERVICE_NOTIFICATION:{
                 viewHolder.tv_title.setText("服务通知");
+                if(bean.get_$4() != null){
+                    viewHolder.tv_date.setText(bean.get_$4().get(0).getCreateDate());
+                    viewHolder.tv_size.setText(bean.get_$4().size()+"");
+                }
             }break;
         }
-        viewHolder.tv_date.setText(bean.getCreateDate());
         return convertView;
     }
 
-    public void addData(List list) {
-        if (list==null) {
-            this.mMarkerData.addAll(list);
-        }
-        notifyDataSetChanged();
-    }
-
-    public void initData(List list) {
-        this.mMarkerData = list;
+    public void initData(MessageListBean.DataBean dataBean) {
+        this.bean = dataBean;
         notifyDataSetChanged();
     }
 
     private static class ViewHolder
     {
-        TextView tv_title,tv_date;
+        TextView tv_title,tv_date,tv_size;
     }
 }

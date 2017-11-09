@@ -63,7 +63,7 @@
             app:front_width="10dp"
             app:total_engle="270"
             app:is_need_unit="true"
-            app:string_unit="请继续努力"
+            app:string_unit="请继续加油~"
             app:is_need_title="true"
             app:string_title=""
             app:back_color="#ddd"
@@ -81,16 +81,18 @@
                 android:id="@+id/star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/star"/>
+                android:src="@mipmap/dstar1"/>
             <TextView
                 android:layout_toRightOf="@+id/star"
                 android:layout_marginLeft="@dimen/d10"
+                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="上次积分变化"/>
             <TextView
                 android:id="@+id/tv_lastChange"
                 android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:text="+20"/>

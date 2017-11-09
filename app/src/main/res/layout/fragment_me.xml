@@ -52,14 +52,13 @@
                 android:textColor="@color/white" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/LevelIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tv_userName"
                 android:layout_weight="1"
-                android:paddingTop="@dimen/d5"
                 android:layout_marginLeft="@dimen/d5"
-                android:src="@drawable/star" />
+                android:src="@mipmap/star1" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -70,8 +69,9 @@
 
                 <TextView
                     android:id="@+id/tv_creditRating"
-                    android:layout_width="@dimen/d120"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/d5"
                     android:drawableRight="@drawable/enter_small"
                     android:paddingLeft="@dimen/d20"
                     android:paddingTop="@dimen/d5"

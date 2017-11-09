@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:textColor="@color/main_style"
-                android:text="算了吧"/>
+                android:text="再想想"/>
             <Button
                 android:id="@+id/btn_confirm"
                 android:background="@null"

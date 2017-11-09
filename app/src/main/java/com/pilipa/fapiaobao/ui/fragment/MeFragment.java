@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -45,6 +46,12 @@ public class MeFragment extends BaseFragment{
     TextView tvCreditRating;
     @Bind(R.id.tv_bouns)
     TextView tvBouns;
+    @Bind(R.id.LevelIcon)
+    ImageView imgLevelIcon;
+
+    int[] LevelIcon=new int[]{R.mipmap.star1,R.mipmap.star1,R.mipmap.star2,R.mipmap.star3,R.mipmap.star4,R.mipmap.star5
+                              ,R.mipmap.star6,R.mipmap.star7,R.mipmap.star8,R.mipmap.star9,R.mipmap.star10};
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_me;
@@ -137,7 +144,6 @@ public class MeFragment extends BaseFragment{
                 if (loginWithInfoBean.getStatus() == 200) {
                     SharedPreferencesHelper.save(mContext, loginWithInfoBean);
                         LoginWithInfoBean.DataBean.CustomerBean customer = loginWithInfoBean.getData().getCustomer();
-                        String endFormat = mContext.getResources().getString(R.string.integral);
                         if(customer != null){
                             tvUserName.setText(customer.getNickname());
                             tvCreditRating.setText("积分："+customer.getCreditScore());
@@ -149,10 +155,9 @@ public class MeFragment extends BaseFragment{
                                     .placeholder(R.mipmap.ic_head_circle_default_small_)
                                     .thumbnail(0.1f)
                                     .into(imageHead);
+                            imgLevelIcon.setImageResource(LevelIcon[customer.getCreditLevel()]);
                         }
-//          tvUserName.setText(customer.getCreditLevel());
                 }
-
             }
         });
         super.onResume();

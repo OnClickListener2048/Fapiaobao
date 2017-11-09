@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
@@ -29,6 +30,11 @@ public class CreditRatingActivity extends BaseActivity {
     ColorArcProgressBar colorArcProgressBar;
     @Bind(R.id.tv_lastChange)
     TextView tvLastChange;
+    @Bind(R.id.star)
+    ImageView star;
+    int[] LevelIcon=new int[]{R.mipmap.dstar1,R.mipmap.dstar1,R.mipmap.dstar2,R.mipmap.dstar3,R.mipmap.dstar4,R.mipmap.dstar5
+            ,R.mipmap.dstar6,R.mipmap.dstar7,R.mipmap.dstar8,R.mipmap.dstar9,R.mipmap.dstar10};
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_credit_rating;
@@ -81,6 +87,7 @@ public class CreditRatingActivity extends BaseActivity {
                         }else{
                             tvLastChange.setText(lastCreditScore+"");
                         }
+                        star.setImageResource(LevelIcon[creditInfoBean.getData().getCreditLevel()]);
                         Log.d(TAG, "findCreditInfo"+rating);
                     }
                 }
