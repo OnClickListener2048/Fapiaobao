@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="268dp"
+    android:layout_height="364dp"
+    android:background="@mipmap/update_bg"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="364dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d150" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发现新版本啦"
+                android:textColor="#434343"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:typeface="monospace" />
+        </LinearLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d14" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="给你惊喜X.X"
+                android:textColor="#666666" />
+        </LinearLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d28" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d20"
+            android:layout_marginRight="@dimen/d20"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#434343"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+      <android.support.v4.widget.Space
+          android:layout_weight="1"
+          android:layout_width="match_parent"
+          android:layout_height="0dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="@dimen/d20"
+                        android:layout_height="match_parent" />
+
+
+                    <TextView
+                        android:id="@+id/cancel"
+                        android:layout_width="@dimen/d100"
+                        android:layout_height="@dimen/d40"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_update"
+                        android:gravity="center"
+                        android:text="还用老版本"
+                        android:textColor="#e6af7a"
+                        android:textSize="@dimen/s16" />
+
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="@dimen/d30"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/update"
+                        android:layout_width="@dimen/d100"
+                        android:layout_height="@dimen/d40"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_update"
+                        android:gravity="center"
+                        android:text="立即更新"
+                        android:textColor="#e6af7a"
+                        android:textSize="@dimen/s16" />
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="@dimen/d20"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d14" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="建议您在WIFI环境下升级"
+                    android:textColor="#959595"
+                    android:textSize="@dimen/s10" />
+            </LinearLayout>
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -9,6 +9,9 @@
         android:background="@mipmap/tip_bg"
         android:layout_margin="@dimen/d20"
         android:orientation="vertical">
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d6" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,7 +43,6 @@
             android:layout_marginRight="@dimen/d30"
             android:layout_marginLeft="@dimen/d30"
             android:layout_marginTop="@dimen/d10"
-            android:layout_marginBottom="@dimen/d20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

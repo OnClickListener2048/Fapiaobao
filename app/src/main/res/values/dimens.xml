@@ -96,4 +96,5 @@
     <dimen name="d180">180dp</dimen>
     <dimen name="d21">21dp</dimen>
     <dimen name="d43">43dp</dimen>
+    <dimen name="d14">14dp</dimen>
 </resources>

@@ -25,7 +25,6 @@ import android.widget.TextView;
 
 
 import com.example.mylibrary.utils.TLog;
-import com.pilipa.fapiaobao.BuildConfig;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.utils.TDevice;
@@ -721,7 +720,7 @@ public class TabPickerView extends FrameLayout {
             int mVersionCode = TDevice.getVersionCode();
             int mask = BaseApplication.get("TabsMask", -1);
             TLog.i("oschina", "Current Version Tree: " + mVersionCode + ", Mask Version Tree: " + mask);
-            if (BuildConfig.DEBUG) return true;
+            if (TDevice.DEBUG) return true;
             return mVersionCode != mask;
         }
 

@@ -792,7 +792,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private boolean checkParams() {
 
         if (!checkIfIsEmpty(etAmount)) {
-            BaseApplication.showToast(etAmount.getHint() + "不能为空");
+            BaseApplication.showToast("需求总额不能为空");
             return false;
         }
         if (Double.valueOf(etAmount.getText().toString().trim()) > MAX_AMOUNT) {
@@ -801,7 +801,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         }
         if (Switch.isChecked()) {
             if (!checkIfIsEmpty(etAmountRedbag)) {
-                BaseApplication.showToast(etAmountRedbag.getHint() + "不能为空");
+                BaseApplication.showToast("悬赏红包不能为空");
                 return false;
             }
 
@@ -814,53 +814,53 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
 
         if (!checkIfIsEmpty(etPublishCompanyName)) {
-            BaseApplication.showToast(etPublishCompanyName.getHint() + "不能为空");
+            BaseApplication.showToast("单位名称不能为空");
             return false;
         }
         if (!checkIfIsEmpty(etAreaDetails) && view.getVisibility() == View.VISIBLE) {
-            BaseApplication.showToast(etAreaDetails.getHint() + "不能为空");
+            BaseApplication.showToast("详细地址不能为空");
             return false;
         }
         if (paperNormal || paperSpecial) {
             if (!checkIfIsEmpty(etReceptionNumber) && view.getVisibility() == View.VISIBLE) {
-                BaseApplication.showToast(etReceptionNumber.getHint() + "不能为空");
+                BaseApplication.showToast("收件人手机号不能为空");
                 return false;
             }
             if (!checkIfIsEmpty(etReceptionName) && view.getVisibility() == View.VISIBLE) {
-                BaseApplication.showToast(etReceptionName.getHint() + "不能为空");
+                BaseApplication.showToast("收件人姓名不能为空");
                 return false;
             }
             if (!checkIfIsEmpty(etPublishTexNumber)) {
-                BaseApplication.showToast(etPublishTexNumber.getHint() + "不能为空");
+                BaseApplication.showToast("税号不能为空");
                 return false;
             }
 
             if (!checkIfIsEmpty(etAreaDetails)) {
-                BaseApplication.showToast(etAreaDetails.getHint() + "不能为空");
+                BaseApplication.showToast("详细地址不能为空");
                 return false;
             }
 
             if (!checkIfIsEmpty(etExpressAmountMinimum) && llExpressLimited.getVisibility() == View.VISIBLE) {
-                BaseApplication.showToast(etExpressAmountMinimum.getHint() + "不能为空");
+                BaseApplication.showToast("最少邮寄限额不能为空");
                 return false;
             }
         }
 
         if (paperSpecial) {
             if (!checkIfIsEmpty(etPublishAddress)) {
-                BaseApplication.showToast(etPublishAddress.getHint() + "不能为空");
+                BaseApplication.showToast("发布地址不能为空");
                 return false;
             }
             if (!checkIfIsEmpty(etPublishPhoneNumber)) {
-                BaseApplication.showToast(etPublishPhoneNumber.getHint() + "不能为空");
+                BaseApplication.showToast("电话号码不能为空");
                 return false;
             }
             if (!checkIfIsEmpty(etPublishBankAccount)) {
-                BaseApplication.showToast(etPublishBankAccount.getHint() + "不能为空");
+                BaseApplication.showToast("银行账户不能为空");
                 return false;
             }
             if (!checkIfIsEmpty(etPublishBank)) {
-                BaseApplication.showToast(etPublishBank.getHint() + "不能为空");
+                BaseApplication.showToast("开户银行不能为空");
                 return false;
             }
         }

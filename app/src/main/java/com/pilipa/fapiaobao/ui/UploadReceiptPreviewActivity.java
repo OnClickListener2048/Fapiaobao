@@ -28,6 +28,7 @@ import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.fragment.UploadPreviewReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -218,7 +219,9 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                             @Override
                             public void setData(RedBagBean redBagBean) {
                                 if (redBagBean.getStatus() == 200) {
-                                    estimateMoney.setText(String.valueOf(redBagBean.getData().getBonus()));
+                                    BigDecimal bigDecimal = new BigDecimal(redBagBean.getData().getBonus());
+                                    bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+                                    estimateMoney.setText(String.valueOf(bigDecimal));
                                 }
                             }
                         });

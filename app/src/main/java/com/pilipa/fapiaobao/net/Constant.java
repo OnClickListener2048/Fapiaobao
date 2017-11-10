@@ -5,14 +5,15 @@ package com.pilipa.fapiaobao.net;
  */
 
 public class Constant {
+
 //    public static final String BASE_URL = "http://192.168.1.205:8181/fapiaobao/rest/";
 //    public static final String BASE_URL = "http://39.106.18.205/fapiaobao/rest/";
 //    public static final String BASE_URL = "http://39.106.4.193:8080/fapiaobao/rest/";
     public static final String BASE_URL = "http://p.pilipa.cn/fapiaobao/rest/";
+    public static final String VERSION_BASE_URL = "http://p.pilipa.cn";
 //    public static final String BASE_URL = "http://p.pilipa.cn/fapiaobao_test/rest/";
     public static final int REQUEST_SUCCESS = 200;
     public static final int REQUEST_NO_CONTENT = 400;
-
 
     public static final String LOGIN_PLATFORM_MSG = "0";
     public static final String LOGIN_PLATFORM_WX= "1";
@@ -245,4 +246,8 @@ public class Constant {
      * 发票宝使用说明
      */
     public static final String INSTRUCTION = "http://p.pilipa.cn/fapiaobao/instruction";
+    /**
+     * 版本更新接口
+     */
+    public static final String URL_UPDATE = BASE_URL+"version/info";
 }

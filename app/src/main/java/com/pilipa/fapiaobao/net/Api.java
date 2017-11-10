@@ -6,7 +6,9 @@ import android.util.Log;
 import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -43,12 +45,16 @@ import com.pilipa.fapiaobao.net.bean.publish.ConfirmInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
 import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
+import com.pilipa.fapiaobao.net.bean.update.VersionMode;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.utils.PayCommonUtil;
+import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
 
 import org.json.JSONObject;
+
+import java.io.File;
 
 import static com.pilipa.fapiaobao.net.Constant.AMOUNT_HISTORY;
 import static com.pilipa.fapiaobao.net.Constant.BIND;
@@ -93,6 +99,7 @@ import static com.pilipa.fapiaobao.net.Constant.UPDATE_CUSTOMER;
 import static com.pilipa.fapiaobao.net.Constant.UPDATE_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.UPLOAD_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.UPLOAD_MY_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.URL_UPDATE;
 import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_DETAILS;
 import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_LIST;
 import static com.pilipa.fapiaobao.net.Constant.USER_LOGIN;
@@ -1035,6 +1042,54 @@ public class Api {
         });
     }
 
+
+    public static void downloadApk(String url ,final BaseViewCallBackWithProgress baseViewCallback) {
+        if (TDevice.sdcardExit()) {
+            OkGo.<File>get(url).execute(new FileCallback(TDevice.DEFAULT_SAVE_FILE_PATH, "fapiaobao.apk") {
+                @Override
+                public void onSuccess(Response<File> response) {
+                    if (response.body() != null) {
+                        baseViewCallback.setData(response.body());
+                    }
+                }
+
+                @Override
+                public void downloadProgress(Progress progress) {
+                    super.downloadProgress(progress);
+                    baseViewCallback.setProgress(progress);
+                }
+
+                @Override
+                public void onStart(Request<File, ? extends Request> request) {
+                    super.onStart(request);
+                    baseViewCallback.onStart(request);
+                }
+
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    baseViewCallback.onFinish();
+                }
+            });
+        }
+
+    }
+
+    public static void getUpdateInfo(final BaseViewCallback baseViewCallback) {
+        OkGo.<VersionMode>get(URL_UPDATE)
+                .execute(new JsonCallBack<VersionMode>(VersionMode.class) {
+
+                    @Override
+                    public void onSuccess(Response<VersionMode> response) {
+                        if (response.body() != null) {
+                            if (response.isSuccessful()) {
+                                baseViewCallback.setData(response.body());
+                            }
+                        }
+                    }
+                });
+    }
+
     public interface BaseViewCallback<T> {
         void setData(T t);
     }
@@ -1045,6 +1100,16 @@ public class Api {
         void onFinish();
 
         void onError();
+    }
+
+
+    public interface BaseViewCallBackWithProgress<T> extends BaseViewCallback<T> {
+        void setProgress(Progress progress);
+
+        void onStart(Request<File, ? extends Request> request);
+
+        void onFinish();
+
     }
 
 

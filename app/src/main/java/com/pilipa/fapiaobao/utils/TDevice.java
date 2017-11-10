@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.utils;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
 import android.content.ClipboardManager;
 import android.content.ComponentName;
@@ -16,6 +17,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -26,6 +28,7 @@ import android.widget.EditText;
 
 import com.example.mylibrary.widget.SimplexToast;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 
 import java.io.File;
 import java.util.List;
@@ -35,10 +38,20 @@ import java.util.List;
  */
 
 public class TDevice {
+
+    public static final boolean DEBUG = Boolean.parseBoolean("true");
+    public static final String APPLICATION_ID = "com.pilipa.fapiaobao";
+    public static final String BUILD_TYPE = "debug";
+    public static final String FLAVOR = "";
+    public static final int VERSION_CODE = 1;
+    public static final String VERSION_NAME = "1.0";
+    public static  boolean UPDATE = false;
+    public static  boolean IS_UPDATE = false;
+
     public final static String DEFAULT_SAVE_FILE_PATH = Environment
             .getExternalStorageDirectory()
             + File.separator
-            + "Borderless"
+            + "fapiaobao"
             + File.separator + "download" + File.separator;
     /**
      * Change SP to PX
@@ -147,6 +160,13 @@ public class TDevice {
         InputMethodManager manager = (InputMethodManager) mFocusView.getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(mFocusView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+
+    public static boolean sdcardExit() {
+        boolean sdCardExist = Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED);
+        return sdCardExist;
     }
 
     public static void showSoftKeyboard(View view) {
@@ -258,6 +278,26 @@ public class TDevice {
         BaseApplication.showToast("success");
     }
 
+
+    public static void openFile(Context mContext, File f) {
+        // mProgressDialog.dismiss();
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Uri data;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            data = FileProvider.getUriForFile(mContext, MediaStoreCompat.authority, f);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            data = Uri.fromFile(f);
+        }
+
+        // 设定intent的file与MimeType，安装文件
+        intent.setDataAndType(data, "application/vnd.android.package-archive");
+        mContext.startActivity(intent);
+        UPDATE = true;
+    }
+
     /**
      * 调用系统安装了的应用分享
      *
@@ -311,5 +351,13 @@ public class TDevice {
             SimplexToast.show(context, "Not WebView for you phone");
         }
         return mHasWebView;
+    }
+
+    public static String getRunningActivityName(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        //完整类名
+        String runningActivity = activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
+        String contextActivity = runningActivity.substring(runningActivity.lastIndexOf(".") + 1);
+        return contextActivity;
     }
 }

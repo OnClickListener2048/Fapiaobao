@@ -3,44 +3,50 @@ package com.pilipa.fapiaobao.ui.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.AppUtils;
 import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
+import com.lzy.okgo.model.Progress;
+import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.AllInvoiceAdapter;
 import com.pilipa.fapiaobao.adapter.FinanceAdapter;
-import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
+import com.pilipa.fapiaobao.net.bean.update.VersionMode;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
+import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
-import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
+
+import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -66,7 +72,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     TextView pullToFindMore;
     @Bind(R.id.srollview)
     NestedScrollView srollview;
-    private FinanceAdapter adapter;
+
     public static final String EXTRA_DATA_LABEL = "extra_data_label";
     public static final String EXTRA_DATA_LABEL_NAME = "extra_data_label_name";
     private LoginWithInfoBean loginBean;
@@ -124,13 +130,15 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         recyclerview.addItemDecoration(new GridInsetFinance(2, 20, true));
         recyclerviewMoreKind.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         recyclerviewMoreKind.setNestedScrollingEnabled(false);
-        recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext, LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(),23), R.color.white));
+        recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext, LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(), 23), R.color.white));
 
     }
 
     @Override
     protected void initData() {
         super.initData();
+
+
 
         final MainActivity activity = (MainActivity) getActivity();
 
@@ -201,6 +209,8 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         }
     }
 
+
+
     @OnClick({R.id.scan, R.id.notification})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -208,7 +218,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 quickResponse();
                 break;
             case R.id.notification:
-                startActivity(new Intent(mContext,MessageCenterActivity.class));
+                startActivity(new Intent(mContext, MessageCenterActivity.class));
                 break;
         }
     }
@@ -263,6 +273,10 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
     @OnClick(R.id.pull_to_find_more)
     public void onViewClicked() {
-        srollview.smoothScrollTo(0,srollview.getChildAt(0).getBottom());
+        srollview.smoothScrollTo(0, srollview.getChildAt(0).getBottom());
     }
+
+
+
+
 }

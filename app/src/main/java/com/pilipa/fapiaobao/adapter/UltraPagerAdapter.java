@@ -45,15 +45,16 @@ public class UltraPagerAdapter extends PagerAdapter {
     public Object instantiateItem(final ViewGroup container, int position) {
         RelativeLayout relativeLayout = new RelativeLayout(container.getContext());
         ImageView mImageView = new ImageView(container.getContext());
+        mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
         mImageView.setImageResource(src[position]);
         RelativeLayout.LayoutParams layoutParams =
                 new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                         , ViewGroup.LayoutParams.MATCH_PARENT);
         if (position == src.length - 1) {
             ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(container.getContext()).inflate(R.layout.activity_launch_pager, null);
-            viewGroup.findViewById(R.id.go).setOnClickListener(new View.OnClickListener() {
+            viewGroup.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View v) {
                     container.getContext().startActivity(new Intent(container.getContext(), MainActivity.class));
                     BaseApplication.set(Config.IS_FIRST_COMING, false);
                     activity.finish();
@@ -61,15 +62,9 @@ public class UltraPagerAdapter extends PagerAdapter {
             });
             relativeLayout.addView(viewGroup, layoutParams);
         } else {
-
             relativeLayout.addView(mImageView, layoutParams);
-
         }
-
-
         container.addView(relativeLayout);
-
-
         return relativeLayout;
     }
 

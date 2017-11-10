@@ -418,9 +418,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     }
 
     private void setUpData(MacherBeanToken matchBean) {
-        Log.d(TAG, "setUpData:  ultraViewpager.setAdapter");
         ultraViewpager.setAdapter(new ExtimatePagerAdapter(getSupportFragmentManager(), matchBean));
-
     }
 
     public void closeDrawer() {
@@ -432,12 +430,6 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     }
 
     public void setFilterKeys(ArrayList<String> arrayListKind, String area) {
-//        filterKey.setText("");
-//        for (String s : arrayListKind) {
-//            filterKey.append(s);
-//            filterKey.append("\u3000");
-//
-//        }
         String param = new String();
 
 

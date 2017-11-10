@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.example.mylibrary.utils.ImageUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.interf.BaseView;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
@@ -229,15 +230,14 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     public String upLoadReceipt(Uri uri) {
         ContentResolver cr = getContentResolver();
-        Bitmap bmp = null;
+        Bitmap bmp;
+        Bitmap bitmap = null;
         try {
             bmp = MediaStore.Images.Media.getBitmap(cr,uri);
+            bitmap = ImageUtils.compressByQuality(bmp, 10, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String bmpStr = BitmapUtils.bitmapToBase64(bmp);
-        return bmpStr;
+        return BitmapUtils.bitmapToBase64(bitmap);
     }
-
-
 }

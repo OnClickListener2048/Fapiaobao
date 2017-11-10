@@ -30,7 +30,7 @@ public class MediaStoreCompat {
     private final Fragment mFragment;
     private Uri mCurrentPhotoUri;
     private String mCurrentPhotoPath;
-    private String authority = "com.pilipa.fapiaobao.fileprovider";
+    public static String authority = "com.pilipa.fapiaobao.fileprovider";
 
     public MediaStoreCompat(Activity activity) {
         mContext = new WeakReference<>(activity);

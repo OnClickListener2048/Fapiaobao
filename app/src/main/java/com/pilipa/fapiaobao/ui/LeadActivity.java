@@ -20,7 +20,7 @@ import com.tmall.ultraviewpager.UltraViewPager;
  */
 
 public class LeadActivity extends AppCompatActivity {
-    private int[] src = {R.mipmap.timg,R.mipmap.timg2,R.mipmap.timg3};
+    private int[] src = {R.mipmap.lead1,R.mipmap.lead2,R.mipmap.lead3};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,28 +48,8 @@ public class LeadActivity extends AppCompatActivity {
     private void initWidget() {
         UltraViewPager ultraViewPager = (UltraViewPager)findViewById(R.id.ultra_viewpager);
         ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
-        //UltraPagerAdapter 绑定子view到UltraViewPager
         PagerAdapter adapter = new UltraPagerAdapter(false,src,this);
         ultraViewPager.setAdapter(adapter);
-
-        //内置indicator初始化
-        ultraViewPager.initIndicator();
-        //设置indicator样式
-        ultraViewPager.getIndicator()
-                .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
-                .setFocusColor(Color.GREEN)
-                .setNormalColor(Color.WHITE)
-                .setRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics()));
-        //设置indicator对齐方式
-        ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
-        //构造indicator,绑定到UltraViewPager
-        ultraViewPager.getIndicator().build();
-
-        //设定页面循环播放
-//        ultraViewPager.setInfiniteLoop(true);
-        //设定页面自动切换  间隔2秒
-//        ultraViewPager.setAutoScroll(2000);
-
         ultraViewPager.disableAutoScroll();
 
     }
