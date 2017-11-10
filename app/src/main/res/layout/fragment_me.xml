@@ -58,7 +58,7 @@
                 android:layout_toRightOf="@id/tv_userName"
                 android:layout_weight="1"
                 android:layout_marginLeft="@dimen/d5"
-                android:src="@mipmap/star1" />
+                android:src="@mipmap/star0" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

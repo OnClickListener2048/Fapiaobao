@@ -81,7 +81,7 @@
                 android:id="@+id/star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/dstar1"/>
+                android:src="@mipmap/dstar0"/>
             <TextView
                 android:layout_toRightOf="@+id/star"
                 android:layout_marginLeft="@dimen/d10"
