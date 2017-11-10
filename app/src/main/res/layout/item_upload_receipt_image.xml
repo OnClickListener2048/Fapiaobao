@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:orientation="vertical">
 
@@ -12,7 +12,7 @@
             android:layout_weight="1"
             android:id="@+id/iv_image_item"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@drawable/shape_item_receipt"
             android:scaleType="fitXY"
             android:src="@mipmap/timg" />
