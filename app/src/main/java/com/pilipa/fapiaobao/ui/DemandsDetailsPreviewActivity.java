@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -64,7 +65,7 @@ import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
  * Created by edz on 2017/10/20.
  */
 
-public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewPager.OnPageChangeListener, AdapterView.OnItemSelectedListener {
     private static final String TAG = "DemandsDetailsPreviewActivity";
     @Bind(R.id.preview_viewpager)
     PreviewViewpager previewViewpager;
@@ -161,6 +162,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     public void initData() {
         mSpinnerAdapter = new MyRejectTypeAdapter(DemandsDetailsPreviewActivity.this);
         mSpinner.setAdapter(mSpinnerAdapter);
+        mSpinner.setOnItemSelectedListener(this);
     }
 
     public void setLayout(Image image) {
@@ -209,7 +211,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
         if ("provided".equals(image.from)) {
             //提供详情点击预览界面
             layout_qualified_item.setVisibility(View.GONE);
-            layout_unqualified_item.setVisibility(View.GONE);
             layout_willchecked_item.setVisibility(View.GONE);
             layout_reject_item.setVisibility(View.GONE);
         }
@@ -233,8 +234,10 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             }
             break;
             case R.id.tv_Unqualified:
-            case R.id.tv_cancel_reject: {
                 setRejectDialog(REJECT_START);
+                break;
+            case R.id.tv_cancel_reject: {
+                mDialog.dismiss();
             }
             break;
             case R.id.tv_qualified: {
@@ -462,38 +465,47 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     public void onPageScrollStateChanged(int state) {
 
     }
+    private String reason;
 
     private void rejectInvoice(){
-        if(!edt_amount_reject.getText().toString().isEmpty()
-                ||!edt_reason_reject.getText().toString().isEmpty()){
-            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                @Override
-                public void setData(LoginWithInfoBean normalBean) {
-                    if (normalBean.getStatus() == 200) {
-                        edt_reason_reject.getText().toString().trim();
-                        RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
-                        Api.rejectInvoice(AccountHelper.getToken()
-                                , currentImage.name
-                                , edt_amount_reject.getText().toString().trim()
-                                , data.getValue()
-                                , edt_reason_reject.getText().toString().trim()
-                                , new Api.BaseViewCallback<RejectInvoiceBean>() {
-                                    @Override
-                                    public void setData(RejectInvoiceBean normalBean) {
-                                        if (normalBean.getStatus() == 200) {
-                                            String reason = normalBean.getData().getReason();
-                                            setRejectDialog(REJECT_FINISH);
+        if(!edt_amount_reject.getText().toString().isEmpty()){
+           final RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
+            if("8".equals(data.getValue())){
+                reason = edt_reason_reject.getText().toString().trim();
+            }else {
+                reason = data.getLabel();
+            }
+            if("8".equals(data.getValue()) && edt_reason_reject.getText().toString().isEmpty()){
+                BaseApplication.showToast("请认真填写驳回理由");
+            }else{
+                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                    @Override
+                    public void setData(LoginWithInfoBean normalBean) {
+                        if (normalBean.getStatus() == 200) {
+                            edt_reason_reject.getText().toString().trim();
+                            Api.rejectInvoice(AccountHelper.getToken()
+                                    , currentImage.name
+                                    , edt_amount_reject.getText().toString().trim()
+                                    , data.getValue()
+                                    , reason
+                                    , new Api.BaseViewCallback<RejectInvoiceBean>() {
+                                        @Override
+                                        public void setData(RejectInvoiceBean normalBean) {
+                                            if (normalBean.getStatus() == 200) {
+                                                String reason = normalBean.getData().getReason();
+                                                setRejectDialog(REJECT_FINISH);
+                                            }
                                         }
-                                    }
-                                });
-                    } else {
-                        startActivity(new Intent(DemandsDetailsPreviewActivity.this, LoginActivity.class));
-                        finish();
+                                    });
+                        } else {
+                            startActivity(new Intent(DemandsDetailsPreviewActivity.this, LoginActivity.class));
+                            finish();
+                        }
                     }
-                }
-            });
+                });
+            }
         }else{
-            BaseApplication.showToast("请认真填写驳回理由");
+            BaseApplication.showToast("请认真填写驳回金额");
         }
 
     }
@@ -542,5 +554,21 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
          mDialog.show();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        final int OTHER = 8;//其他
+        if(OTHER == position+1){
+            edt_reason_reject.setVisibility(View.VISIBLE);
+        }else{
+            edt_reason_reject.setVisibility(View.GONE);
+        }
+        Log.d("onItemSelected",""+position);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        Log.d("onNothingSelected","");
     }
 }

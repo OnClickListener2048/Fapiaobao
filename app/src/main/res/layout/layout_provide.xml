@@ -9,6 +9,7 @@
         android:layout_marginLeft="@dimen/d20"
         android:layout_marginRight="@dimen/d20"
         android:layout_marginTop="@dimen/d20"
+        android:layout_marginBottom="@dimen/d2"
         android:elevation="@dimen/d10"
         app:cardCornerRadius="@dimen/d10"
         android:translationZ="@dimen/d5"

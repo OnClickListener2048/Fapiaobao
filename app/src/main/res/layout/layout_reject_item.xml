@@ -80,6 +80,7 @@
             <EditText
                 android:layout_marginTop="@dimen/d5"
                 android:id="@+id/edt_reason_reject"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/d3"

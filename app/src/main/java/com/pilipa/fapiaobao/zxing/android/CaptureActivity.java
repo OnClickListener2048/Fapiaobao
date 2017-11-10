@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.zxing.android;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -16,17 +17,20 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.zxing.camera.CameraManager;
 import com.pilipa.fapiaobao.zxing.view.ViewfinderView;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * 这个activity打开相机，在后台线程做常规的扫描；它绘制了一个结果view来帮助正确地显示条形码，在扫描的时候显示反馈信息，
@@ -201,27 +205,50 @@ public final class CaptureActivity extends Activity implements
      *
      * @param surfaceHolder
      */
-    private void initCamera(SurfaceHolder surfaceHolder) {
-        if (surfaceHolder == null) {
-            throw new IllegalStateException("No SurfaceHolder provided");
-        }
-        if (cameraManager.isOpen()) {
-            return;
-        }
-        try {
-            // 打开Camera硬件设备
-            cameraManager.openDriver(surfaceHolder);
-            // 创建一个handler来打开预览，并抛出一个运行时异常
-            if (handler == null) {
-                handler = new CaptureActivityHandler(this, decodeFormats, decodeHints, characterSet, cameraManager);
+    private void initCamera(final SurfaceHolder surfaceHolder) {
+        RxPermissions rxPermissions = new RxPermissions(CaptureActivity.this);
+        rxPermissions.request(Manifest.permission.CAMERA).subscribe(new Observer<Boolean>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
             }
-        } catch (IOException ioe) {
-            Log.w(TAG, ioe);
-            displayFrameworkBugMessageAndExit();
-        } catch (RuntimeException e) {
-            Log.w(TAG, "Unexpected error initializing camera", e);
-            displayFrameworkBugMessageAndExit();
-        }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                if (aBoolean) {
+                    if (surfaceHolder == null) {
+                        throw new IllegalStateException("No SurfaceHolder provided");
+                    }
+                    if (cameraManager.isOpen()) {
+                        return;
+                    }
+                    try {
+                        // 打开Camera硬件设备
+                        cameraManager.openDriver(surfaceHolder);
+                        // 创建一个handler来打开预览，并抛出一个运行时异常
+                        if (handler == null) {
+                            handler = new CaptureActivityHandler(CaptureActivity.this, decodeFormats, decodeHints, characterSet, cameraManager);
+                        }
+                    } catch (IOException ioe) {
+                        Log.w(TAG, ioe);
+                        displayFrameworkBugMessageAndExit();
+                    } catch (RuntimeException e) {
+                        Log.w(TAG, "Unexpected error initializing camera", e);
+                        displayFrameworkBugMessageAndExit();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
     /**

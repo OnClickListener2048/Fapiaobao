@@ -18,7 +18,7 @@
             android:id="@+id/tv_reject_reason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="发票面额不服"
+            android:text=""
             />
     </LinearLayout>
     <FrameLayout

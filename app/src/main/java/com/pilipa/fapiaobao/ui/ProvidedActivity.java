@@ -32,6 +32,7 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
@@ -61,6 +62,7 @@ import static com.pilipa.fapiaobao.net.Constant.STATE_FLYING;
 import static com.pilipa.fapiaobao.net.Constant.STATE_GONE;
 import static com.pilipa.fapiaobao.net.Constant.STATE_GOT_ALL;
 import static com.pilipa.fapiaobao.net.Constant.STATE_GOT_PARTIALITY;
+import static com.pilipa.fapiaobao.net.Constant.STATE_INCOMPETENT;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_PAPER;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
@@ -153,6 +155,7 @@ public class ProvidedActivity extends BaseActivity {
     private boolean isShow = true;//当前详情是否显示
     boolean isCollected;
     private String   favoriteId;
+    private List<RejectTypeBean.DataBean> list = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -311,6 +314,15 @@ public class ProvidedActivity extends BaseActivity {
             image.isFromNet = true;
             image.state = result.getState();
             image.variety = result.getVariety();
+            if(STATE_INCOMPETENT.equals(result.getState())){
+                if("8".equals(result.getInvoiceReject().getType())){
+                    image.reason = result.getInvoiceReject().getReason();
+                }else{
+                    RejectTypeBean.DataBean bean = list.get(Integer.parseInt(result.getInvoiceReject().getType()));
+                    image.reason = bean.getLabel();
+                }
+            }
+
             image.from = "provided";//来自提供详情 预览图片无样式
             images.add(image);
         }
@@ -341,7 +353,16 @@ public class ProvidedActivity extends BaseActivity {
         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
 
     }
-
+    public void findAllRejectType() {
+        Api.findAllRejectType(new Api.BaseViewCallback<RejectTypeBean>() {
+            @Override
+            public void setData(RejectTypeBean rejectTypeBean) {
+                if (rejectTypeBean.getStatus() == 200) {
+                    list.addAll(rejectTypeBean.getData());
+                }
+            }
+        });
+    }
     String CompanyId;
     String orderId;
 
@@ -353,6 +374,7 @@ public class ProvidedActivity extends BaseActivity {
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
         showOrderDetail(orderId);
         checkFav(CompanyId);
+        findAllRejectType();
     }
     public void checkFav(String favoriteId){
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
