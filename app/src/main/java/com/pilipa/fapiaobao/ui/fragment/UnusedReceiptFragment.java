@@ -20,22 +20,24 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.UnusedReceiptAdapter;
-import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.UploadLocalReceipt;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.UnusedPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.utils.AnimationConfig;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -60,7 +62,9 @@ import static android.app.Activity.RESULT_OK;
  * Created by edz on 2017/10/27.
  */
 
-public class UnusedReceiptFragment extends BaseFragment implements UnusedReceiptAdapter.OnImageClickListener, UnusedReceiptAdapter.OnImageSelectListener, UnusedReceiptAdapter.OnPhotoCapture,View.OnClickListener {
+public class UnusedReceiptFragment extends BaseFragment implements UnusedReceiptAdapter.OnImageClickListener
+        , UnusedReceiptAdapter.OnImageSelectListener, UnusedReceiptAdapter.OnPhotoCapture,View.OnClickListener
+        ,UnusedReceiptAdapter.OnImageLongClickListener{
     private static final String TAG = "UnusedReceiptFragment";
     public static final int REQUEST_CODE_CAPTURE = 10;
     public static final int REQUEST_CODE_CHOOSE = 20;
@@ -75,7 +79,8 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
     private MediaStoreCompat mediaStoreCompat;
     private int mPreviousPosition = -1;
     private Dialog mCameraDialog;
-
+    private Dialog mDelDialog;
+    private UnusedReceiptAdapter unusedReceiptAdapter;
 
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
@@ -106,7 +111,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         };
         recyclerview.setLayoutManager(grid);
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
-        recyclerview.addItemDecoration(new GridInset(3, spacing, false));
+        recyclerview.addItemDecoration(new GridInset(3, spacing, true));
         Image image = new Image();
         image.isFromNet = false;
         image.isCapture = true;
@@ -133,9 +138,10 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
             images.add(image);
         }
         mPreviousPosition = images.size();
-        UnusedReceiptAdapter unusedReceiptAdapter = new UnusedReceiptAdapter(images, getImageResize(getActivity()));
+        unusedReceiptAdapter = new UnusedReceiptAdapter(images, getImageResize(getActivity()));
         unusedReceiptAdapter.setOnImageClickListener(this);
         unusedReceiptAdapter.setOnImageSelectListener(this);
+        unusedReceiptAdapter.setOnImageLongClickListener(this);
         unusedReceiptAdapter.setOnPhotoCapture(this);
         recyclerview.setAdapter(unusedReceiptAdapter);
     }
@@ -379,22 +385,89 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
 
     private void myInvoiceList(){
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-                Api.myInvoiceList(AccountHelper.getToken() , new Api.BaseViewCallback<MyInvoiceListBean>() {
-                    @Override
-                    public void setData(MyInvoiceListBean myInvoiceListBean) {
-                        List<MyInvoiceListBean.DataBean> list = new ArrayList<>();
-                        if(myInvoiceListBean.getStatus() == 200){
-                            list.addAll(myInvoiceListBean.getData());
-                            setUpData(list);
-                        }else{
-                            setUpData(list);
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                if (loginWithInfoBean.getStatus() == 200) {
+                    Api.myInvoiceList(AccountHelper.getToken() , new Api.BaseViewCallback<MyInvoiceListBean>() {
+                        @Override
+                        public void setData(MyInvoiceListBean myInvoiceListBean) {
+                            List<MyInvoiceListBean.DataBean> list = new ArrayList<>();
+                            if(myInvoiceListBean.getStatus() == 200){
+                                list.addAll(myInvoiceListBean.getData());
+                                setUpData(list);
+                            }else{
+                                setUpData(list);
+                            }
+                            Log.d(TAG, "updateData:myInvoiceList success");
                         }
-                        Log.d(TAG, "updateData:myInvoiceList success");
-                    }
-                });
-        }else{
-        BaseApplication.showToast("登录超期");
-        }
+                    });
+                }else {
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onImageLongClick(View view,Image image,int pos) {
+        AnimationConfig.shake(mContext,view);
+        setDelDialog(image,pos);
+        Log.d(TAG, "updateData:onImageLongClick "+image.name);
+    }
+    private void setDelDialog(final Image image,final int pos) {
+        mDelDialog = new Dialog(getActivity(), R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
+                R.layout.layout_delete_tip, null);
+        TextView tv_title = (TextView) root.findViewById(R.id.tv_title);
+        tv_title.setText("确定要删除该发票吗？");
+        //初始化视图
+        root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDelDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteMyInvoice(image.name,pos);
+            }
+        });
+        mDelDialog.setContentView(root);
+        Window dialogWindow = mDelDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mDelDialog.show();
+    }
+    private void deleteMyInvoice(final String invoiceId,final int pos) {
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                if (loginWithInfoBean.getStatus() == 200) {
+                    Api.deleteMyInvoice(AccountHelper.getToken(),invoiceId, new Api.BaseViewCallback<NormalBean>() {
+                        @Override
+                        public void setData(NormalBean normalBean) {
+                            if(normalBean.getStatus() == 200){
+                                mDelDialog.dismiss();
+                                unusedReceiptAdapter.delete(pos);
+                            }
+                            Log.d("", "initData:deleteMyInvoice success");
+                        }
+                    });
+                }else {
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                }
+            }
+        });
     }
 }

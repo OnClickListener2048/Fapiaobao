@@ -47,6 +47,7 @@
             android:layout_gravity="center"
             android:src="@mipmap/no_record_bg"/>
         <TextView
+            android:id="@+id/tv_history"
             android:layout_marginTop="@dimen/d20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

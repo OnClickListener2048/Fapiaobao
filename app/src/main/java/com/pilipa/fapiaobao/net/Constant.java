@@ -11,6 +11,7 @@ public class Constant {
     public static final String BASE_URL = "http://p.pilipa.cn/fapiaobao/rest/";
 //    public static final String BASE_URL = "http://p.pilipa.cn/fapiaobao_test/rest/";
     public static final int REQUEST_SUCCESS = 200;
+    public static final int REQUEST_NO_CONTENT = 400;
 
 
     public static final String LOGIN_PLATFORM_MSG = "0";

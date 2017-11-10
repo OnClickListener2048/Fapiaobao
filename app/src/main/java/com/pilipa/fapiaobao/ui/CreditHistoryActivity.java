@@ -23,6 +23,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_NO_CONTENT;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
@@ -38,6 +39,8 @@ public class CreditHistoryActivity extends BaseActivity {
     ListView listView;
     @Bind(R.id.ll_no_record)
     LinearLayout ll_no_record;
+    @Bind(R.id.tv_history)
+    TextView tv_history;
     private RechargeDetailsAdapter rechargeDetailsAdapter;
     @Override
     protected int getLayoutId() {
@@ -70,6 +73,7 @@ public class CreditHistoryActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         title.setText("信用历史");
+        tv_history.setText("暂时还没有消息哦~");
     }
     public void findCreditHistory(String pageNo,String pageSize){
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
@@ -78,12 +82,10 @@ public class CreditHistoryActivity extends BaseActivity {
                 public void setData(CreditHistroyBean creditHistroyBean) {
                     if(creditHistroyBean.getStatus() == REQUEST_SUCCESS){
                         rechargeDetailsAdapter.addData(creditHistroyBean.getData());
-                        if(creditHistroyBean.getData().size() == 0){
-                            ll_no_record.setVisibility(View.VISIBLE);
-                        }else{
-                            ll_no_record.setVisibility(View.GONE);
-                        }
+                        ll_no_record.setVisibility(View.GONE);
                         Log.d(TAG, "findCreditHistory"+"");
+                    }else if(creditHistroyBean.getStatus() == REQUEST_NO_CONTENT){
+                        ll_no_record.setVisibility(View.VISIBLE);
                     }
                 }
             });

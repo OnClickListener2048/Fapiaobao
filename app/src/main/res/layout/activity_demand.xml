@@ -39,11 +39,11 @@
     </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_below="@+id/rl_title"
         android:layout_above="@+id/btn_shut_down_early"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:layout_below="@+id/rl_title"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -171,7 +171,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/d5"
-                            android:text="截止时间：2018-12-10"
+                            android:text="截止时间："
                             android:textColor="@color/text_normal_item"
                             android:textSize="@dimen/d12" />
                     </LinearLayout>
@@ -182,7 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:src="@mipmap/finish" />
+                        />
                     <!--mipmap/finish   on_the_way    close-->
                 </LinearLayout>
 
@@ -241,7 +241,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/d5"
-                            android:text="发布时间：2017-10-11"
+                            android:text="发布时间："
                             android:textColor="@color/text_normal_item"
                             android:textSize="@dimen/d12" />
                     </LinearLayout>
@@ -302,13 +302,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/d2"
-                    android:text="1.需要四星级以下住宿票"
+                    android:text=""
                     android:textColor="@color/title_small"
                     android:textSize="@dimen/d12" />
 
             </LinearLayout>
             <!--售票信息-->
             <LinearLayout
+                android:id="@+id/ll_receive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -376,7 +377,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d20"
-                            android:text="古"
+                            android:text=""
                             android:textColor="@color/title_small"
                             android:textSize="@dimen/d12" />
                     </LinearLayout>
@@ -399,7 +400,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d20"
-                            android:text="15045448484"
+                            android:text=""
                             android:textColor="@color/title_small"
                             android:textSize="@dimen/d12" />
                         <ImageView
@@ -429,7 +430,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d20"
-                            android:text="17648484842"
+                            android:text=""
                             android:textColor="@color/title_small"
                             android:textSize="@dimen/d12" />
                         <ImageView
@@ -459,7 +460,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d20"
-                            android:text="天津科技有限公司"
+                            android:text=""
                             android:textColor="@color/title_small"
                             android:textSize="@dimen/d12" />
                     </LinearLayout>
@@ -509,7 +510,7 @@
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/d20"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        >
 
                         <View
                             android:layout_width="match_parent"
@@ -554,6 +555,7 @@
                         android:id="@+id/translate_details"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:visibility="gone"
                         android:layout_margin="@dimen/d20"
                         android:orientation="vertical">
 

@@ -131,9 +131,7 @@ public class Api {
         OkGo.<CreditHistroyBean>get(String.format(FIND_CREDIT_HISTORY, token, pageNo, pageSize)).execute(new JsonCallBack<CreditHistroyBean>(CreditHistroyBean.class) {
             @Override
             public void onSuccess(Response<CreditHistroyBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -167,9 +165,7 @@ public class Api {
         OkGo.<NegativeCreditInfoBean>get(String.format(FIND_CREDIT_NEGATIVE_HISTORY, token, pageNo, pageSize)).execute(new JsonCallBack<NegativeCreditInfoBean>(NegativeCreditInfoBean.class) {
             @Override
             public void onSuccess(Response<NegativeCreditInfoBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -430,7 +426,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void demandDetails(String token, String demandId, final BaseViewCallback baseViewCallback) {
-        OkGo.<DemandDetails>get(String.format(USER_ISSUED_DETAILS, demandId, token)).execute(new JsonCallBack<DemandDetails>(DemandDetails.class) {
+        OkGo.<DemandDetails>get(String.format(USER_ISSUED_DETAILS, demandId, token)).tag("demandDetails").execute(new JsonCallBack<DemandDetails>(DemandDetails.class) {
             @Override
             public void onSuccess(Response<DemandDetails> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -726,7 +722,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void showOrderDetail(String token,String orderID, final BaseViewCallback baseViewCallback) {
-        OkGo.<OrderDetailsBean>get(String.format(SHOW_ORDER_DETAIL, token,orderID)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
+        OkGo.<OrderDetailsBean>get(String.format(SHOW_ORDER_DETAIL, token,orderID)).tag("showOrderDetail").execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
             @Override
             public void onSuccess(Response<OrderDetailsBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
@@ -791,9 +787,9 @@ public class Api {
      * @param baseViewCallback
      */
     public static void deleteMyInvoice(String token,String invoiceId, final BaseViewCallback baseViewCallback) {
-        OkGo.<OrderDetailsBean>delete(String.format(DELETE_MY_INVOICE,invoiceId,token)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
+        OkGo.<NormalBean>delete(String.format(DELETE_MY_INVOICE,token,invoiceId)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
-            public void onSuccess(Response<OrderDetailsBean> response) {
+            public void onSuccess(Response<NormalBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }
@@ -854,9 +850,7 @@ public class Api {
         OkGo.<AmountHistoryBean>get(url).execute(new JsonCallBack<AmountHistoryBean>(AmountHistoryBean.class) {
             @Override
             public void onSuccess(Response<AmountHistoryBean> response) {
-                if (response.body().getStatus() == 200) {
                     b.setData(response.body());
-                }
             }
         });
     }

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.mylibrary.utils.EncodeUtils;
 import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyInvoiceNameAdapter;
@@ -127,10 +128,12 @@ public class DemandActivity extends BaseActivity {
     TextView tv_num_3;
     @Bind(R.id.qr)
     ImageView qr;
+    @Bind(R.id.ll_receive)
+    LinearLayout ll_receive;
 
     List<DemandDetails.DataBean.OrderInvoiceListBean> mDataList = new ArrayList<>();
     List<String> mList = new ArrayList<>();
-    private boolean isShow = false;//当前详情是否显示
+    private boolean isShow = true;//当前详情是否显示
 
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
     public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
@@ -225,7 +228,7 @@ public class DemandActivity extends BaseActivity {
 
     private void setUpData(List<DemandDetails.DataBean.OrderInvoiceListBean> results) {
         Log.d(TAG, "setUpData:   private void setUpData(ArrayList<model.ResultsBean> body) {");
-
+        isCanShutDown = true;
         if (results.size() == 0) {
             isCanShutDown = true;
             ll_no_record.setVisibility(View.VISIBLE);
@@ -235,12 +238,12 @@ public class DemandActivity extends BaseActivity {
             ll_no_record.setVisibility(View.GONE);
             ll_receiptlist.setVisibility(View.VISIBLE);
             for (DemandDetails.DataBean.OrderInvoiceListBean result : results) {
-                isCanShutDown = true;
                 if(STATE_CONFIRMING.equals(result.getState())
-                        ||STATE_MAILING.equals(result.getState())){//收到票 且都处理完成
+                        ||STATE_MAILING.equals(result.getState())){//收到票 有未完成发票
                     isCanShutDown = false;
                 }
             }
+            Log.d(TAG, "all receipt is checked  isCanShutDown  "+isCanShutDown);
             images = new ArrayList<>();
             for (DemandDetails.DataBean.OrderInvoiceListBean result : results) {
                 Log.d(TAG, "setUpData:  for (model.ResultsBean result : body) {");
@@ -317,7 +320,11 @@ public class DemandActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-
+    @Override
+    protected void onPause() {
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"demandDetails");
+        super.onPause();
+    }
     public void demandDetails(String demandId) {
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
             String token = AccountHelper.getToken();
@@ -336,16 +343,23 @@ public class DemandActivity extends BaseActivity {
                         tvLeftAmount.setText(String.format("%.2f",bean.getDemand().getLeftBonus())+ "");
                         tvPublishTime.setText("发布时间："+bean.getDemand().getPublishDate());
                         tvDeadline.setText("截止日期：" + bean.getDemand().getDeadline());
-                        tvAttentions.setText("" + bean.getDemand().getAttentions());
+                        tvAttentions.setText(bean.getDemand().getAttentions().isEmpty()?"无":bean.getDemand().getAttentions());
                         tv_receive.setText(String.format("%.2f",bean.getReceivedAmount())+ "");
                         String collected_amount = getResources().getString(R.string.collected_amount);
                         tvAlreadyCollected.setText(String.format(collected_amount, bean.getReceivedNum()));
 //                        tv_low_limit.setText(bean.getDemand().getMailMinimum()+ "元");
-                        if (bean.getDemand().getDemandPostage() != null) {
-                            tvAddress.setText(bean.getDemand().getCity()+" "+bean.getDemand().getDemandPostage().getAddress());
+                        if (!VARIETY_GENERAL_ELECTRON.equals(bean.getDemand().getInvoiceVarieties())) {
+                            ll_receive.setVisibility(View.VISIBLE);
+                            if(bean.getDemand().getCity() == null){
+                                tvAddress.setText(bean.getDemand().getDemandPostage().getAddress());
+                            }else{
+                                tvAddress.setText(bean.getDemand().getCity()+" "+bean.getDemand().getDemandPostage().getAddress());
+                            }
                             tvPhone.setText(bean.getDemand().getDemandPostage().getPhone());
                             tvTelephone.setText(bean.getDemand().getDemandPostage().getTelephone());
                             tvReceiver.setText(bean.getDemand().getDemandPostage().getReceiver());
+                        }else{
+                            ll_receive.setVisibility(View.GONE);
                         }
                         if (bean.getDemand().getCompany() != null) {
                             companyName.setText(bean.getDemand().getCompany().getName());

@@ -359,6 +359,7 @@
     <string name="shut_down_early">提前关闭</string>
     <string name="no_negetive">无负面记录，请继续保持哦~</string>
     <string name="no_receipt">暂时还没收到票哦，请耐心等待~</string>
+    <string name="no_message">暂时还没有信息哦~</string>
     <string name="continuous_to_upload">继续上传发票</string>
     <string name="tip_wait_dowload">查验合格后，您就可以下载这张发票了哦~</string>
     <string name="tip_wait_mail">查验合格后，对方将邮寄这张发票给您~</string>
@@ -369,7 +370,7 @@
     <string name="paper_normal_receipt_num">纸质普票 %1$d 张</string>
     <string name="paper_special_receipt_num">纸质专票 %1$d 张</string>
     <string name="paper_elec_receipt_num">电子普票 %1$d 张</string>
-    <string name="tip_reject_start">驳回不实将影响您的使用与信用值请谨慎操作哦~</string>
+    <string name="tip_reject_start">驳回不实将影响您的使用与信用值</string>
     <string name="tip_reject_finish">发票已驳回，您的红包奖励不会被扣除</string>
     <string name="hint_reject">请如实填写您的不合格原因...</string>
     <string name="withdraw_wx">提现到微信</string>

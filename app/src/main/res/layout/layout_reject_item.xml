@@ -6,6 +6,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_marginRight="@dimen/d15"
+        android:layout_marginLeft="@dimen/d15"
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:orientation="vertical">
@@ -22,15 +24,20 @@
                 android:text="发票金额" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:gravity="left|center_vertical"
+                android:background="@drawable/bg_express"
+                android:paddingLeft="@dimen/d15"
+                android:layout_marginLeft="@dimen/d15"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/edt_amount_reject"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:hint="请输入该张票面金额"
+                    android:hint="请输入该张发票票面金额"
+                    android:background="@null"
                     android:textSize="@dimen/s14" />
 
                 <TextView
@@ -50,6 +57,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/d5"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -60,21 +69,24 @@
                 <Spinner
                     android:id="@+id/mSpinner"
                     style="@style/spinner_style"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/d15"
                     android:animationCache="true"
                     android:drawSelectorOnTop="true"
                     android:entries="@array/reasons"></Spinner>
             </LinearLayout>
 
             <EditText
+                android:layout_marginTop="@dimen/d5"
                 android:id="@+id/edt_reason_reject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/d3"
                 android:hint="@string/hint_reject"
                 android:textSize="@dimen/d12"
-                android:background="@drawable/shape_main_edit"
-                android:lines="2" />
+                android:background="@drawable/bg_express"
+                android:lines="3" />
         </LinearLayout>
     </LinearLayout>
 
@@ -115,6 +127,6 @@
             android:paddingTop="@dimen/d10"
            android:layout_height="wrap_content"
            android:textColor="@color/main_style"
-           android:text="@string/unqualified"/>
+           android:text="@string/confirm"/>
     </LinearLayout>
 </LinearLayout>

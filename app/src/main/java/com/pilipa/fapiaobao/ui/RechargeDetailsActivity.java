@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,6 +26,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
+
 /**
  * Created by lyt on 2017/10/17.
  */
@@ -32,6 +35,8 @@ import butterknife.OnClick;
 public class RechargeDetailsActivity extends BaseActivity {
     @Bind(R.id.listview)
     ListView listview;
+    @Bind(R.id.ll_no_record)
+    LinearLayout ll_no_record;
     private List<AmountHistoryBean.DataBean> mData = new ArrayList<>();
     private RechargeDetailsAdapter mAdapter;
     @Override
@@ -75,9 +80,14 @@ public class RechargeDetailsActivity extends BaseActivity {
                     Api.amountHistory(AccountHelper.getToken(),pageNo,pageSize, new Api.BaseViewCallback<AmountHistoryBean>() {
                         @Override
                         public void setData(AmountHistoryBean amountHistoryBean) {
-                            mData.addAll(amountHistoryBean.getData());
-                            mAdapter.addData(mData);
-                            Log.d("", "initData:amountHistory success");
+                            if(amountHistoryBean.getStatus() == REQUEST_SUCCESS){
+                                ll_no_record.setVisibility(View.GONE);
+                                mData.addAll(amountHistoryBean.getData());
+                                mAdapter.addData(mData);
+                                Log.d("", "initData:amountHistory success");
+                            }else {
+                                ll_no_record.setVisibility(View.VISIBLE);
+                            }
                         }
                     });
                 }else {

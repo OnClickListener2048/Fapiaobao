@@ -19,6 +19,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tip_reject_start"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d35"
+            android:layout_marginRight="@dimen/d35"
+            android:layout_marginTop="@dimen/d5"
+            android:text="请谨慎操作哦~"/>
         <LinearLayout
             android:gravity="right"
             android:layout_marginRight="@dimen/d30"
@@ -29,19 +36,12 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/btn_cancel1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:textColor="@color/main_style"
-                android:text="@string/cancel"/>
-            <Button
                 android:id="@+id/btn_confirm"
                 android:background="@null"
                 android:textColor="@color/main_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/confirm"/>
+                android:text="知道了"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

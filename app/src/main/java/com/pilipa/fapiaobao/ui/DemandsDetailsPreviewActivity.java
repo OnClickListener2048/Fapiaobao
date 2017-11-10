@@ -234,7 +234,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             break;
             case R.id.tv_Unqualified:
             case R.id.tv_cancel_reject: {
-                changeLayout();
+                setRejectDialog(REJECT_START);
             }
             break;
             case R.id.tv_qualified: {
@@ -260,7 +260,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             }
             break;
             case R.id.tv_Unqualified_reject: {
-                setRejectDialog(REJECT_START,"");
+                rejectInvoice();
             }
             break;
             case R.id.delete:
@@ -322,44 +322,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     }
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_finish:{
-                DemandsDetailsPreviewActivity.this.finish();
-            }
-            case R.id.btn_cancel1:
-            case R.id.btn_cancel2:{
-                mDialog.dismiss();
-            }break;
-            case R.id.btn_confirm:
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                    @Override
-                    public void setData(LoginWithInfoBean normalBean) {
-                        if (normalBean.getStatus() == 200) {
-                            edt_reason_reject.getText().toString().trim();
-                            RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
-                            Api.rejectInvoice(AccountHelper.getToken()
-                                    , currentImage.name
-                                    , edt_amount_reject.getText().toString().trim()
-                                    , data.getValue()
-                                    , edt_reason_reject.getText().toString().trim()
-                                    , new Api.BaseViewCallback<RejectInvoiceBean>() {
-                                        @Override
-                                        public void setData(RejectInvoiceBean normalBean) {
-                                            if (normalBean.getStatus() == 200) {
-                                               String reason = normalBean.getData().getReason();
-                                                setRejectDialog(REJECT_FINISH,reason);
-                                            }
-                                        }
-                                    });
-                        } else {
-                            BaseApplication.showToast("token验证失败请重新登录");
-                            startActivity(new Intent(DemandsDetailsPreviewActivity.this, LoginActivity.class));
-                            finish();
-                        }
-                    }
-                });
-                break;
-        }
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -499,20 +462,70 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     public void onPageScrollStateChanged(int state) {
 
     }
+
+    private void rejectInvoice(){
+        if(!edt_amount_reject.getText().toString().isEmpty()
+                ||!edt_reason_reject.getText().toString().isEmpty()){
+            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                @Override
+                public void setData(LoginWithInfoBean normalBean) {
+                    if (normalBean.getStatus() == 200) {
+                        edt_reason_reject.getText().toString().trim();
+                        RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
+                        Api.rejectInvoice(AccountHelper.getToken()
+                                , currentImage.name
+                                , edt_amount_reject.getText().toString().trim()
+                                , data.getValue()
+                                , edt_reason_reject.getText().toString().trim()
+                                , new Api.BaseViewCallback<RejectInvoiceBean>() {
+                                    @Override
+                                    public void setData(RejectInvoiceBean normalBean) {
+                                        if (normalBean.getStatus() == 200) {
+                                            String reason = normalBean.getData().getReason();
+                                            setRejectDialog(REJECT_FINISH);
+                                        }
+                                    }
+                                });
+                    } else {
+                        startActivity(new Intent(DemandsDetailsPreviewActivity.this, LoginActivity.class));
+                        finish();
+                    }
+                }
+            });
+        }else{
+            BaseApplication.showToast("请认真填写驳回理由");
+        }
+
+    }
     private  Dialog mDialog;
-    private void setRejectDialog(int step,String reason) {
+    private void setRejectDialog(int step) {
         mDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout  root = null;
         if(step == REJECT_START){
+            changeLayout();
             root = (LinearLayout) LayoutInflater.from(this).inflate(
                     R.layout.layout_reject1_tip, null);
-            root.findViewById(R.id.btn_confirm).setOnClickListener(this);
-            root.findViewById(R.id.btn_cancel1).setOnClickListener(this);
+            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                }
+            });
         }else if(step == REJECT_FINISH){
             root = (LinearLayout) LayoutInflater.from(this).inflate(
                     R.layout.layout_reject2_tip, null);
-            root.findViewById(R.id.btn_finish).setOnClickListener(this);
-            root.findViewById(R.id.btn_cancel2).setOnClickListener(this);
+            root.findViewById(R.id.btn_finish).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DemandsDetailsPreviewActivity.this.finish();
+                }
+            });
+            root.findViewById(R.id.btn_cancel2).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                }
+            });
         }
         //初始化视图
         mDialog.setContentView(root);

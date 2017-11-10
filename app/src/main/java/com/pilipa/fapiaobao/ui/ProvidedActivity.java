@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 import com.example.mylibrary.utils.EncodeUtils;
 import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
@@ -146,7 +148,9 @@ public class ProvidedActivity extends BaseActivity {
     ImageView link_to_telephone;
     @Bind(R.id.link_to_phone)
     ImageView link_to_phone;
-    private boolean isShow = false;//当前详情是否显示
+    @Bind(R.id.layout_mailing_information)
+    CardView layout_mailing_information;
+    private boolean isShow = true;//当前详情是否显示
     boolean isCollected;
     private String   favoriteId;
 
@@ -382,6 +386,12 @@ public class ProvidedActivity extends BaseActivity {
     }
 
     @Override
+    protected void onPause() {
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"showOrderDetail");
+        super.onPause();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
@@ -431,11 +441,17 @@ public class ProvidedActivity extends BaseActivity {
                             tvArrivalState.setText("红包飞走了");
                             tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_3));
                         }
+
+
                         if (bean.getPostage() != null) {
                             tvReceiver.setText(bean.getPostage().getReceiver());
                             tvTelephone.setText(bean.getPostage().getTelephone());
                             tvPhone.setText(bean.getPostage().getPhone());
-                            tvPublishAddress.setText(bean.getPostage().getAddress());
+                            if(bean.getPostage().getCity() == null){
+                                tvPublishAddress.setText(bean.getPostage().getAddress());
+                            }else{
+                                tvPublishAddress.setText(bean.getPostage().getCity()+" "+bean.getPostage().getAddress());
+                            }
                             tv_low_limit.setText(new BigDecimal(bean.getMailMinimum()).setScale(2,BigDecimal.ROUND_HALF_UP)+"元");
                         }
 
@@ -471,6 +487,12 @@ public class ProvidedActivity extends BaseActivity {
                             }
                         }
                         if (bean.getInvoiceList() != null) {
+                            for ( OrderDetailsBean.DataBean.InvoiceListBean data :bean.getInvoiceList()) {
+                                if(!VARIETY_GENERAL_ELECTRON.equals(data.getVariety())){
+                                    layout_mailing_information.setVisibility(View.VISIBLE);
+                                    break;
+                                }
+                            }
                             mDataList.clear();
                             mDataList.addAll(orderDetailsBean.getData().getInvoiceList());
                             setUpData(mDataList);

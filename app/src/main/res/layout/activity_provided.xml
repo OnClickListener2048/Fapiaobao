@@ -61,7 +61,7 @@
                     android:paddingTop="@dimen/d5"
                     android:textColor="@color/white"
                     android:textSize="@dimen/d12"
-                    android:text="@string/texi"/>
+                    />
                 <TextView
                     android:layout_weight="1"
                     android:id="@+id/tv_arrival_state"
@@ -71,7 +71,7 @@
                     android:layout_marginLeft="@dimen/d20"
                     android:textStyle="bold"
                     android:textColor="@color/red"
-                    android:text="@string/arrival_part" />
+                     />
             </LinearLayout>
 
             <!--票据列表-->
@@ -134,7 +134,7 @@
                         android:layout_height="match_parent"
                         android:layout_margin="@dimen/d20"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        >
 
                         <View
                             android:layout_width="match_parent"
@@ -178,6 +178,7 @@
                         android:id="@+id/translate_details"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:visibility="gone"
                         android:layout_margin="@dimen/d20"
                         android:orientation="vertical">
 

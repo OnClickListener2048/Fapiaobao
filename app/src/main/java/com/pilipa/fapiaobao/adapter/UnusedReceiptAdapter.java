@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -34,6 +33,7 @@ public class UnusedReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
     private UnusedReceiptAdapter.OnPhotoCapture onPhotoCapture;
     private UnusedReceiptAdapter.OnImageClickListener onImageClickListener;
     private UnusedReceiptAdapter.OnImageSelectListener onImageSelectListener;
+    private UnusedReceiptAdapter.OnImageLongClickListener onImageLongClickListener;
 
     public UnusedReceiptAdapter(ArrayList<Image> images, int imageResize) {
         this.images = images;
@@ -98,6 +98,17 @@ public class UnusedReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                 }
             });
+            imageHolder.iv_image_item.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (onImageLongClickListener != null) {
+                        onImageLongClickListener.onImageLongClick(imageHolder.iv_image_item,image,position);
+                    }
+                    return true;
+                }
+            });
+
+
         }
     }
 
@@ -122,6 +133,10 @@ public class UnusedReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.images = images;
         notifyDataSetChanged();
     }
+    public void delete(int pos) {
+        images.remove(pos);
+        notifyDataSetChanged();
+    }
 
     public interface OnPhotoCapture {
         void capture();
@@ -136,8 +151,6 @@ public class UnusedReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.onImageClickListener = onImageClickListener;
     }
 
-
-
     public interface OnImageClickListener {
         void onImageClick(ArrayList<Image> allItemList, int position);
     }
@@ -148,6 +161,14 @@ public class UnusedReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public void setOnImageSelectListener(UnusedReceiptAdapter.OnImageSelectListener onImageSelectListener) {
         this.onImageSelectListener = onImageSelectListener;
+    }
+
+    public interface OnImageLongClickListener {
+        void onImageLongClick(View view ,Image image,int pos);
+    }
+
+    public void setOnImageLongClickListener(UnusedReceiptAdapter.OnImageLongClickListener onImageLongClickListener) {
+        this.onImageLongClickListener = onImageLongClickListener;
     }
 
 

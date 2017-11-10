@@ -68,6 +68,7 @@
 
                 <FrameLayout
                     android:id="@+id/container_paper_normal_receipt"
+                    android:layout_margin="@dimen/d3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -96,6 +97,7 @@
 
                 <FrameLayout
                     android:id="@+id/container_paper_special_receipt"
+                    android:layout_margin="@dimen/d3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -126,6 +128,7 @@
 
                 <FrameLayout
                     android:id="@+id/container_paper_elec_receipt"
+                    android:layout_margin="@dimen/d3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

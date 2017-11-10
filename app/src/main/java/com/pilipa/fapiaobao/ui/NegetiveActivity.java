@@ -23,6 +23,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_NO_CONTENT;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
@@ -75,12 +76,10 @@ public class NegetiveActivity extends BaseActivity {
                 public void setData(NegativeCreditInfoBean negativeCreditInfoBean) {
                     if(negativeCreditInfoBean.getStatus() == REQUEST_SUCCESS){
                         rechargeDetailsAdapter.addData(negativeCreditInfoBean.getData());
-                        if(negativeCreditInfoBean.getData().size() == 0){
-                            ll_no_record.setVisibility(View.VISIBLE);
-                        }else{
-                            ll_no_record.setVisibility(View.GONE);
-                        }
-                        Log.d(TAG, "findCreditNegativeHistory"+"");
+                        ll_no_record.setVisibility(View.GONE);
+                        Log.d(TAG, "findCreditNegativeHistory"+negativeCreditInfoBean.getData().size());
+                    }else if(negativeCreditInfoBean.getStatus() == REQUEST_NO_CONTENT){
+                        ll_no_record.setVisibility(View.VISIBLE);
                     }
                 }
             });
