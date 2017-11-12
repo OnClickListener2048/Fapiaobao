@@ -35,6 +35,7 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.net.bean.me.FavBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
 import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
@@ -63,6 +64,7 @@ import static com.pilipa.fapiaobao.net.Constant.STATE_GONE;
 import static com.pilipa.fapiaobao.net.Constant.STATE_GOT_ALL;
 import static com.pilipa.fapiaobao.net.Constant.STATE_GOT_PARTIALITY;
 import static com.pilipa.fapiaobao.net.Constant.STATE_INCOMPETENT;
+import static com.pilipa.fapiaobao.net.Constant.STATE_MAILING;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_PAPER;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
@@ -152,9 +154,12 @@ public class ProvidedActivity extends BaseActivity {
     ImageView link_to_phone;
     @Bind(R.id.layout_mailing_information)
     CardView layout_mailing_information;
+    @Bind(R.id.ll_logisticsInfo)
+    LinearLayout ll_logisticsInfo;
     private boolean isShow = true;//当前详情是否显示
+    private boolean isLogisticShow = false;//当前物流信息是否显示
     boolean isCollected;
-    private String   favoriteId;
+    private String favoriteId;
     private List<RejectTypeBean.DataBean> list = new ArrayList<>();
 
     @Override
@@ -220,12 +225,13 @@ public class ProvidedActivity extends BaseActivity {
                     public void setData(LoginWithInfoBean normalBean) {
                         if (normalBean.getStatus() == 200) {
                             if (isCollected) {
-                                Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                                Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseViewCallback<FavBean>() {
                                     @Override
-                                    public void setData(NormalBean normalBean) {
+                                    public void setData(FavBean normalBean) {
                                         if (normalBean.getStatus() == 200) {
                                             isCollected = false;
                                             collect.setImageResource(R.mipmap.collect);
+                                            favoriteId = normalBean.getFavoriteId();
                                         }
                                     }
                                 });
@@ -308,16 +314,25 @@ public class ProvidedActivity extends BaseActivity {
             image.isSelected = false;
             image.name = result.getId();
             image.path = result.getUrl();
-//            image.path = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1509526066491&di=41dddfc05a78ae644a9695eef54ef1dd&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20100208%2FImg270139378.jpg";
             image.position = -1;
             image.isCapture = false;
             image.isFromNet = true;
+            image.logisticsTradeno = result.getLogisticsTradeno();
+            image.logisticsCompany = result.getLogisticsCompany();
             image.state = result.getState();
             image.variety = result.getVariety();
-            if(STATE_INCOMPETENT.equals(result.getState())){
-                if("8".equals(result.getInvoiceReject().getType())){
+
+            //判断是否需要显示物流信息 view
+            if (!VARIETY_GENERAL_ELECTRON.equals(image.variety) &&
+                    image.logisticsTradeno == null
+                    && STATE_MAILING.equals(image.state) ) {
+                isLogisticShow = true;
+            }
+            // 判断驳回理由显示
+            if (STATE_INCOMPETENT.equals(result.getState())) {
+                if ("8".equals(result.getInvoiceReject().getType())) {
                     image.reason = result.getInvoiceReject().getReason();
-                }else{
+                } else {
                     RejectTypeBean.DataBean bean = list.get(Integer.parseInt(result.getInvoiceReject().getType()));
                     image.reason = bean.getLabel();
                 }
@@ -325,6 +340,13 @@ public class ProvidedActivity extends BaseActivity {
 
             image.from = "provided";//来自提供详情 预览图片无样式
             images.add(image);
+        }
+
+        //判断是否需要显示物流信息 view
+        if (isLogisticShow) {
+            ll_logisticsInfo.setVisibility(View.VISIBLE);
+        } else {
+            ll_logisticsInfo.setVisibility(View.GONE);
         }
         ArrayList<Image> images1 = new ArrayList<>();
         ArrayList<Image> images2 = new ArrayList<>();
@@ -353,6 +375,7 @@ public class ProvidedActivity extends BaseActivity {
         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
 
     }
+
     public void findAllRejectType() {
         Api.findAllRejectType(new Api.BaseViewCallback<RejectTypeBean>() {
             @Override
@@ -363,6 +386,7 @@ public class ProvidedActivity extends BaseActivity {
             }
         });
     }
+
     String CompanyId;
     String orderId;
 
@@ -376,7 +400,8 @@ public class ProvidedActivity extends BaseActivity {
         checkFav(CompanyId);
         findAllRejectType();
     }
-    public void checkFav(String favoriteId){
+
+    public void checkFav(String favoriteId) {
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginWithInfoBean != null) {
             Api.judgeCompanyIsCollcted(favoriteId, loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<NormalBean>() {
@@ -401,15 +426,15 @@ public class ProvidedActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == REQUEST_CODE_SCAN){
-            String codedContent =  data.getStringExtra("codedContent");
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_SCAN) {
+            String codedContent = data.getStringExtra("codedContent");
             edtOddNumber.setText(codedContent);
         }
     }
 
     @Override
     protected void onPause() {
-        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"showOrderDetail");
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), "showOrderDetail");
         super.onPause();
     }
 
@@ -430,7 +455,10 @@ public class ProvidedActivity extends BaseActivity {
                             , edtOddNumber.getText().toString(), new Api.BaseViewCallback<NormalBean>() {
                                 @Override
                                 public void setData(NormalBean normalBean) {
-                                    BaseApplication.showToast("已确认邮寄");
+                                    if(normalBean.getStatus() == 200){
+                                        showOrderDetail(orderId);
+                                    }
+                                    BaseApplication.showToast(normalBean.getMsg());
                                 }
                             });
                 } else {
@@ -469,17 +497,17 @@ public class ProvidedActivity extends BaseActivity {
                             tvReceiver.setText(bean.getPostage().getReceiver());
                             tvTelephone.setText(bean.getPostage().getTelephone());
                             tvPhone.setText(bean.getPostage().getPhone());
-                            if(bean.getPostage().getCity() == null){
+                            if (bean.getPostage().getCity() == null) {
                                 tvPublishAddress.setText(bean.getPostage().getAddress());
-                            }else{
-                                tvPublishAddress.setText(bean.getPostage().getCity()+" "+bean.getPostage().getAddress());
+                            } else {
+                                tvPublishAddress.setText(bean.getPostage().getCity() + " " + bean.getPostage().getAddress());
                             }
-                            tv_low_limit.setText(new BigDecimal(bean.getMailMinimum()).setScale(2,BigDecimal.ROUND_HALF_UP)+"元");
+                            tv_low_limit.setText(new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
                         }
 
-                        estimateMoney.setText(String.format("%.2f",bean.getBonus())+ "");
+                        estimateMoney.setText(String.format("%.2f", bean.getBonus()) + "");
                         receiptNumber.setText(bean.getInvoiceCount() + "");
-                        receiptMoney.setText(String.format("%.2f",bean.getAmount())+"");
+                        receiptMoney.setText(String.format("%.2f", bean.getAmount()) + "");
                         if (bean.getCompany() != null) {
                             companyName.setText(bean.getCompany().getName());
                             number.setText(bean.getCompany().getPhone());
@@ -498,10 +526,10 @@ public class ProvidedActivity extends BaseActivity {
                                 companyBean.setDepositBank(bean.getCompany().getDepositBank());
                                 companyBean.setTaxno(bean.getCompany().getTaxno());
                                 Gson gson = new Gson();
-                                String comStr = gson.toJson(companyBean,MacherBeanToken.DataBean.CompanyBean.class);
-                                Log.d(TAG,"qrCode" +comStr);
-                                String comStrGson =  EncodeUtils.urlEncode(comStr);
-                                Bitmap qrCode = CodeCreator.createQRCode(ProvidedActivity.this,comStrGson);
+                                String comStr = gson.toJson(companyBean, MacherBeanToken.DataBean.CompanyBean.class);
+                                Log.d(TAG, "qrCode" + comStr);
+                                String comStrGson = EncodeUtils.urlEncode(comStr);
+                                Bitmap qrCode = CodeCreator.createQRCode(ProvidedActivity.this, comStrGson);
                                 qr.setImageBitmap(qrCode);
                             } catch (Exception e) {
                                 BaseApplication.showToast("二维码生成失败");
@@ -509,8 +537,8 @@ public class ProvidedActivity extends BaseActivity {
                             }
                         }
                         if (bean.getInvoiceList() != null) {
-                            for ( OrderDetailsBean.DataBean.InvoiceListBean data :bean.getInvoiceList()) {
-                                if(!VARIETY_GENERAL_ELECTRON.equals(data.getVariety())){
+                            for (OrderDetailsBean.DataBean.InvoiceListBean data : bean.getInvoiceList()) {
+                                if (!VARIETY_GENERAL_ELECTRON.equals(data.getVariety())) {
                                     layout_mailing_information.setVisibility(View.VISIBLE);
                                     break;
                                 }
@@ -539,7 +567,7 @@ public class ProvidedActivity extends BaseActivity {
             @Override
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
-                    Intent intent1 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone));
+                    Intent intent1 = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
                     intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent1);
                     if (ActivityCompat.checkSelfPermission(ProvidedActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {

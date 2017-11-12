@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:id="@+id/layout_willchecked_item"
     android:layout_width="match_parent"
     android:layout_height="240dp">
     <TextView
@@ -19,22 +20,23 @@
             android:layout_height="120dp"
             android:gravity="center"
             android:visibility="gone"
+            android:background="@color/mailing_bg"
             android:orientation="horizontal"
             android:weightSum="10">
             <TextView
+                android:id="@+id/tv_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textColor="@color/main_style"
-                android:text="暂时还没有物流信息哦~" />
+                android:text="正在等待对方邮寄发票" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_express_info"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:gravity="center"
-            android:visibility="gone"
-            android:background="@color/main_style"
+            android:background="@color/mailing_bg"
             android:orientation="horizontal"
             android:weightSum="10">
 
@@ -78,6 +80,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/d12"
                         android:gravity="center_horizontal"
                         android:text="@string/express_company" />
 
@@ -90,7 +93,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="@string/express_info" />
+                        android:textSize="@dimen/d12"
+                         />
                 </LinearLayout>
 
                 <android.support.v4.widget.Space
@@ -110,6 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
+                        android:textSize="@dimen/d12"
                         android:text="@string/express_no" />
 
                     <android.support.v4.widget.Space
@@ -118,10 +123,11 @@
 
                     <TextView
                         android:id="@+id/express_no"
+                        android:textSize="@dimen/d12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="0135142011" />
+                        android:text="" />
                 </LinearLayout>
 
                 <android.support.v4.widget.Space
@@ -142,7 +148,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:text="请在确认收到发票并检查后，确定是否合格"
-                        android:textSize="@dimen/s13" />
+                        android:textSize="@dimen/d12" />
 
                     <android.support.v4.widget.Space
                         android:layout_width="@dimen/d15"
@@ -158,11 +164,12 @@
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
+
     <LinearLayout
-        android:layout_marginTop="@dimen/d20"
-        android:id="@+id/ll_save_to_media"
+        android:id="@+id/ll_sure_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d20"
         android:orientation="horizontal">
 
         <android.support.v4.widget.Space
@@ -171,25 +178,26 @@
             android:layout_weight="1" />
 
         <TextView
-            android:layout_weight="1"
             android:id="@+id/tv_qualified"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/shape_qualified"
+            android:gravity="center"
             android:paddingBottom="@dimen/d10"
             android:paddingLeft="@dimen/d20"
             android:paddingRight="@dimen/d20"
             android:paddingTop="@dimen/d10"
-            android:gravity="center"
             android:text="@string/checked_qualified"
             android:textColor="@color/white" />
-       <TextView
-           android:id="@+id/tv_Unqualified"
-           android:layout_weight="1"
-           android:gravity="center"
-           android:layout_width="60dp"
-           android:layout_height="wrap_content"
-           android:textColor="@color/main_style"
-           android:text="@string/unqualified"/>
+
+        <TextView
+            android:id="@+id/tv_Unqualified"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/unqualified"
+            android:textColor="@color/main_style" />
     </LinearLayout>
 </LinearLayout>

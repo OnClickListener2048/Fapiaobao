@@ -705,8 +705,26 @@ public class OrderDetailsBean {
             private double endAmount;
             private double beginBonus;
             private double endBonus;
+            private String logisticsCompany;
+            private String logisticsTradeno;
             private InvoiceRejectBean invoiceReject;
             private String createDate;
+
+            public String getLogisticsCompany() {
+                return logisticsCompany;
+            }
+
+            public void setLogisticsCompany(String logisticsCompany) {
+                this.logisticsCompany = logisticsCompany;
+            }
+
+            public String getLogisticsTradeno() {
+                return logisticsTradeno;
+            }
+
+            public void setLogisticsTradeno(String logisticsTradeno) {
+                this.logisticsTradeno = logisticsTradeno;
+            }
 
             public String getId() {
                 return id;

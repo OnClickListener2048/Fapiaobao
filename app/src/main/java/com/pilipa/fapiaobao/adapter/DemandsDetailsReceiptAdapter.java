@@ -116,7 +116,7 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
                 imageHolder.unquality.setVisibility(View.GONE);
                 imageHolder.confirming.setVisibility(View.GONE);
                 buttonParams.gravity = Gravity.BOTTOM;
-                if(image.logisticsTradeno == null){
+                if(image.logisticsTradeno != null){
                     imageHolder.wait_to_quality.setVisibility(View.VISIBLE);
                     imageHolder.wait_to_express.setVisibility(View.GONE);
                 }else{

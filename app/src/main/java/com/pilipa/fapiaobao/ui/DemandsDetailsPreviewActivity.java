@@ -105,9 +105,13 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     @Bind(R.id.ll_no_info)
     LinearLayout llNoInfo;
     @Bind(R.id.tv_tip)//顶部tip
-            TextView tv_tip;
+    TextView tv_tip;
+    @Bind(R.id.ll_sure_view)//底部确认
+    LinearLayout ll_sure_view;
+    @Bind(R.id.tv_msg)//中间的提示信息
+    TextView tv_msg;
     @Bind(R.id.tv_reject_reason)//不合格理由
-            TextView tv_reject_reason;
+    TextView tv_reject_reason;
     private MyRejectTypeAdapter mSpinnerAdapter;
 
 
@@ -199,20 +203,24 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                 layout_unqualified_item.setVisibility(View.GONE);
                 layout_willchecked_item.setVisibility(View.VISIBLE);
                 layout_reject_item.setVisibility(View.GONE);
-                if (image.logisticsTradeno != null) {//有无邮寄信息
+                if (image.logisticsTradeno != null) {//有邮寄信息
                     llExpressInfo.setVisibility(View.VISIBLE);
                     llNoInfo.setVisibility(View.GONE);
+                    ll_sure_view.setVisibility(View.VISIBLE);
                 } else {
                     llExpressInfo.setVisibility(View.GONE);
                     llNoInfo.setVisibility(View.VISIBLE);
+                    ll_sure_view.setVisibility(View.GONE);
                 }
                 break;
         }
         if ("provided".equals(image.from)) {
             //提供详情点击预览界面
             layout_qualified_item.setVisibility(View.GONE);
-            layout_willchecked_item.setVisibility(View.GONE);
             layout_reject_item.setVisibility(View.GONE);
+            tv_msg.setText("正在等待邮寄");
+            tv_tip.setVisibility(View.INVISIBLE);
+            ll_sure_view.setVisibility(View.GONE);
         }
     }
 

@@ -122,27 +122,23 @@
     </RelativeLayout>
     <!--保存到相册-->
     <include
-        android:id="@+id/layout_qualified_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         layout="@layout/layout_qualified_item"></include>
     <include
-        android:id="@+id/layout_unqualified_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         layout="@layout/layout_unqualified_item"></include>
     <!--物流信息 确认是否合格-->
     <include
-        android:id="@+id/layout_willchecked_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         layout="@layout/layout_willchecked_item"></include>
     <!--驳回原因-->
     <include
-        android:id="@+id/layout_reject_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"

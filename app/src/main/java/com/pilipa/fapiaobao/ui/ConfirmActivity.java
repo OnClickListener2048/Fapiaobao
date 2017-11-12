@@ -20,11 +20,10 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.net.bean.me.FavBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
-import com.pilipa.fapiaobao.utils.UnicodeUtil;
-import com.pilipa.fapiaobao.zxing.android.Intents;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 
 import butterknife.Bind;
@@ -165,9 +164,9 @@ public class ConfirmActivity extends BaseActivity {
                     public void setData(LoginWithInfoBean normalBean) {
                         if (normalBean.getStatus() == 200) {
                             if (isCollected) {
-                                Api.deleteFavoriteCompany(company_info.getId(), AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                                Api.deleteFavoriteCompany(company_info.getId(), AccountHelper.getToken(), new Api.BaseViewCallback<FavBean>() {
                                     @Override
-                                    public void setData(NormalBean normalBean) {
+                                    public void setData(FavBean normalBean) {
                                         if (normalBean.getStatus() == 200) {
                                             isCollected = false;
                                             collect.setImageResource(R.mipmap.collect);

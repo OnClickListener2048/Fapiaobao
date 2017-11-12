@@ -17,8 +17,8 @@ import com.pilipa.fapiaobao.adapter.CompanyDetailsAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.me.FavBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
-import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.fragment.MyCompanyDetailsPagerFragment;
 
 import java.util.ArrayList;
@@ -109,9 +109,9 @@ public class FavCompanyDetailsActivity extends BaseActivity implements MyCompany
         setDialog();
     }
     public void deleteFavCompany(String id){
-        Api.deleteFavoriteCompany(id, AccountHelper.getToken(),new Api.BaseViewCallback<NormalBean>() {
+        Api.deleteFavoriteCompany(id, AccountHelper.getToken(),new Api.BaseViewCallback<FavBean>() {
             @Override
-            public void setData(NormalBean normalBean) {
+            public void setData(FavBean normalBean) {
                 if(normalBean.getStatus() == REQUEST_SUCCESS){
                     companyDetailsAdapter.remove(mPreviousPos);
                     mDialog.dismiss();

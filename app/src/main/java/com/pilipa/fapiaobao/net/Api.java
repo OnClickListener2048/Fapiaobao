@@ -30,6 +30,7 @@ import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditHistroyBean;
 import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
+import com.pilipa.fapiaobao.net.bean.me.FavBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.FeedBackBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
@@ -397,10 +398,10 @@ public class Api {
      */
     public static void deleteFavoriteCompany(String id, String token, final BaseViewCallback baseViewCallback) {
 
-        OkGo.<NormalBean>delete(String.format(FAVORITE_COMPANY_REMOVE, id, token))
-                .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+        OkGo.<FavBean>delete(String.format(FAVORITE_COMPANY_REMOVE, id, token))
+                .execute(new JsonCallBack<FavBean>(FavBean.class) {
                     @Override
-                    public void onSuccess(Response<NormalBean> response) {
+                    public void onSuccess(Response<FavBean> response) {
                         if ("OK".equals(response.body().getMsg())) {
                             baseViewCallback.setData(response.body());
                         }
