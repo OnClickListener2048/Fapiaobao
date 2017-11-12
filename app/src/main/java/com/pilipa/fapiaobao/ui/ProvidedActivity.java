@@ -231,7 +231,6 @@ public class ProvidedActivity extends BaseActivity {
                                         if (normalBean.getStatus() == 200) {
                                             isCollected = false;
                                             collect.setImageResource(R.mipmap.collect);
-                                            favoriteId = normalBean.getFavoriteId();
                                         }
                                     }
                                 });
@@ -242,12 +241,13 @@ public class ProvidedActivity extends BaseActivity {
                                 companyCollectBean.setCompany(companyBean);
                                 companyCollectBean.setToken(normalBean.getData().getToken());
 
-                                Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<NormalBean>() {
+                                Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<FavBean>() {
                                     @Override
-                                    public void setData(NormalBean normalBean) {
+                                    public void setData(FavBean normalBean) {
                                         if (normalBean.getStatus() == 200) {
                                             BaseApplication.showToast("收藏成功");
                                             isCollected = true;
+                                            favoriteId = normalBean.getFavoriteId();
                                             collect.setImageResource(R.mipmap.collected);
                                         }
                                     }
@@ -317,6 +317,7 @@ public class ProvidedActivity extends BaseActivity {
             image.position = -1;
             image.isCapture = false;
             image.isFromNet = true;
+            image.amount = String.valueOf(result.getAmount());
             image.logisticsTradeno = result.getLogisticsTradeno();
             image.logisticsCompany = result.getLogisticsCompany();
             image.state = result.getState();
@@ -401,12 +402,12 @@ public class ProvidedActivity extends BaseActivity {
         findAllRejectType();
     }
 
-    public void checkFav(String favoriteId) {
+    public void checkFav(final String companyId) {
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginWithInfoBean != null) {
-            Api.judgeCompanyIsCollcted(favoriteId, loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<NormalBean>() {
+            Api.judgeCompanyIsCollcted(companyId, loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<FavBean>() {
                 @Override
-                public void setData(NormalBean s) {
+                public void setData(FavBean s) {
                     if (s != null && s.getStatus() == 200) {
                         //TODO 设置收藏图片
                         isCollected = false;

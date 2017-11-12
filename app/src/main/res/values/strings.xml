@@ -352,7 +352,8 @@
     <string name="gallery_save_file_success">保存成功</string>
     <string name="gallery_save_file_failed">保存失败</string>
     <string name="provided_details">提供详情</string>
-    <string name="message_center">消息中心</string>
+    <string name="message_center">消息中心</string>、
+    <string name="message_details">消息详情</string>
     <string name="integral">积分 : %1$d</string>
     <string name="collected_amount">已收集%1$d张发票</string>
     <string name="left_bouns">剩余%1$f元红包待领取</string>

@@ -33,6 +33,7 @@ import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.FavBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.FeedBackBean;
+import com.pilipa.fapiaobao.net.bean.me.MessageDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
 import com.pilipa.fapiaobao.net.bean.me.NegativeCreditInfoBean;
@@ -83,6 +84,7 @@ import static com.pilipa.fapiaobao.net.Constant.FIND_DEFAULT_FREQUENTLY_INVOICE_
 import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
 import static com.pilipa.fapiaobao.net.Constant.MAIL_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.MESSAGE_DETAILS;
 import static com.pilipa.fapiaobao.net.Constant.MESSAGE_MESSAGES;
 import static com.pilipa.fapiaobao.net.Constant.MESSAGE_READ;
 import static com.pilipa.fapiaobao.net.Constant.MESSAGE_REMOVE;
@@ -377,14 +379,12 @@ public class Api {
     public static void favCompanyCreate(CompanyCollectBean favCompany, final BaseViewCallback baseViewCallback) {
         Gson gson = new Gson();
         String jsonFavCompany = gson.toJson(favCompany);
-        OkGo.<NormalBean>post(FAVORITE_COMPANY_CREATE)
+        OkGo.<FavBean>post(FAVORITE_COMPANY_CREATE)
                 .upJson(jsonFavCompany)
-                .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+                .execute(new JsonCallBack<FavBean>(FavBean.class) {
                     @Override
-                    public void onSuccess(Response<NormalBean> response) {
-                        if ("OK".equals(response.body().getMsg())) {
+                    public void onSuccess(Response<FavBean> response) {
                             baseViewCallback.setData(response.body());
-                        }
                     }
                 });
     }
@@ -768,6 +768,19 @@ public class Api {
 
             }
         });
+    } /**
+     * 消息中心详情
+     * @param token
+     * @param baseViewCallback
+     */
+    public static void messageDetails(String type ,String token, final BaseViewCallback baseViewCallback) {
+        OkGo.<MessageDetailsBean>get(String.format(MESSAGE_DETAILS,type, token)).execute(new JsonCallBack<MessageDetailsBean>(MessageDetailsBean.class) {
+            @Override
+            public void onSuccess(Response<MessageDetailsBean> response) {
+                    baseViewCallback.setData(response.body());
+
+            }
+        });
     }
     /**
      * 消息已读
@@ -776,12 +789,10 @@ public class Api {
      * @param baseViewCallback
      */
     public static void messageRead(String token,String type, final BaseViewCallback baseViewCallback) {
-        OkGo.<OrderDetailsBean>get(String.format(MESSAGE_READ,type,token)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
+        OkGo.<NormalBean>get(String.format(MESSAGE_READ,type,token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
-            public void onSuccess(Response<OrderDetailsBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
+            public void onSuccess(Response<NormalBean> response) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -909,9 +920,9 @@ public class Api {
 
     public static void judgeCompanyIsCollcted(String companyId, String token, final BaseViewCallback baseViewCallback) {
         String url = String.format(FAVORITE_COMPANY, companyId, token);
-        OkGo.<NormalBean>get(url).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+        OkGo.<FavBean>get(url).execute(new JsonCallBack<FavBean>(FavBean.class) {
             @Override
-            public void onSuccess(Response<NormalBean> response) {
+            public void onSuccess(Response<FavBean> response) {
                 baseViewCallback.setData(response.body());
             }
         });

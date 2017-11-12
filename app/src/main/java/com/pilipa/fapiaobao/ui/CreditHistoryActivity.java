@@ -66,7 +66,7 @@ public class CreditHistoryActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        findCreditHistory("0","10");
+        findCreditHistory("0","100");
     }
 
     @Override

@@ -12,8 +12,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.lljjcoder.city_20170724.bean.CityBean;
 import com.lljjcoder.city_20170724.bean.DistrictBean;
 import com.lljjcoder.city_20170724.bean.ProvinceBean;
@@ -23,7 +21,6 @@ import com.lljjcoder.citypickerview.widget.wheel.OnWheelChangedListener;
 import com.lljjcoder.citypickerview.widget.wheel.WheelView;
 import com.lljjcoder.citypickerview.widget.wheel.adapters.ArrayWheelAdapter;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -174,17 +171,17 @@ public class CityPickerView implements CanShow, OnWheelChangedListener {
     /**
      * 第一次默认的显示省份，一般配合定位，使用
      */
-    private String defaultProvinceName = "江苏";
+    private String defaultProvinceName = "天津市";
     
     /**
      * 第一次默认得显示城市，一般配合定位，使用
      */
-    private String defaultCityName = "常州";
+    private String defaultCityName = "天津市";
     
     /**
      * 第一次默认得显示，一般配合定位，使用
      */
-    private String defaultDistrict = "新北区";
+    private String defaultDistrict = "和平区";
     
     /**
      * 两级联动

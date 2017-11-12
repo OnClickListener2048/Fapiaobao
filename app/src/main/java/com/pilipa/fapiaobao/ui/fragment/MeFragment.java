@@ -34,6 +34,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.net.Constant.INSTRUCTION;
+import static com.pilipa.fapiaobao.net.Constant.WIKI;
+
 /**
  * Created by lyt on 2017/10/13.
  */
@@ -90,14 +93,14 @@ public class MeFragment extends BaseFragment{
             case R.id.encyclopedia:
             {
                 Intent intent  =new Intent(getContext(), Op.class);
-                intent.putExtra("url","http://39.106.4.193/fapiaobao/doc/wiki");
+                intent.putExtra("url",WIKI);
                 startActivity(intent);
             }
                 break;
             case R.id.helpCenter:
             {
                 Intent intent  =new Intent(getContext(), Op.class);
-                intent.putExtra("url","");
+                intent.putExtra("url",INSTRUCTION);
                 startActivity(intent);
             }
                 break;

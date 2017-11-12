@@ -20,8 +20,8 @@ import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
+import com.pilipa.fapiaobao.net.bean.me.FavBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
-import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.FavCompanyDetailsActivity;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
@@ -194,9 +194,9 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
     }
 
     public void favCompanyCreate(CompanyCollectBean favCompany){
-        Api.favCompanyCreate(favCompany,new Api.BaseViewCallback<NormalBean>() {
+        Api.favCompanyCreate(favCompany,new Api.BaseViewCallback<FavBean>() {
             @Override
-            public void setData(NormalBean normalBean) {
+            public void setData(FavBean normalBean) {
                 if(normalBean.getStatus() == REQUEST_SUCCESS){
                     Log.d(TAG, "favCompanyCreate success");
                 }

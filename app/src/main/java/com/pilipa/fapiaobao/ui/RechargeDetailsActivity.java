@@ -62,7 +62,7 @@ public class RechargeDetailsActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        amountHistory("0","10");
+        amountHistory("0","100");
     }
 
     @Override

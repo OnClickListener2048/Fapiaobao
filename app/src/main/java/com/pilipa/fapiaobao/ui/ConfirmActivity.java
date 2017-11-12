@@ -21,7 +21,6 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.FavBean;
-import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
@@ -75,6 +74,7 @@ public class ConfirmActivity extends BaseActivity {
     private String order;
     private double bonus;
     private int type;
+    private String favoriteId;
 
     @Override
     protected int getLayoutId() {
@@ -123,9 +123,12 @@ public class ConfirmActivity extends BaseActivity {
 
         loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginWithInfoBean != null) {
-            Api.judgeCompanyIsCollcted(company_info.getId(), loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<NormalBean>() {
+            Api.judgeCompanyIsCollcted(company_info.getId(), loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<FavBean>() {
                 @Override
-                public void setData(NormalBean s) {
+                public void setData(FavBean s) {
+                    if(s.getFavoriteId() != null){
+                        favoriteId = s.getFavoriteId();
+                    }
                     if (s != null && s.getStatus() == 200) {
                         //TODO 设置收藏图片
                         isCollected = false;
@@ -164,7 +167,7 @@ public class ConfirmActivity extends BaseActivity {
                     public void setData(LoginWithInfoBean normalBean) {
                         if (normalBean.getStatus() == 200) {
                             if (isCollected) {
-                                Api.deleteFavoriteCompany(company_info.getId(), AccountHelper.getToken(), new Api.BaseViewCallback<FavBean>() {
+                                Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseViewCallback<FavBean>() {
                                     @Override
                                     public void setData(FavBean normalBean) {
                                         if (normalBean.getStatus() == 200) {
@@ -180,12 +183,13 @@ public class ConfirmActivity extends BaseActivity {
                                 companyCollectBean.setCompany(companyBean);
                                 companyCollectBean.setToken(normalBean.getData().getToken());
 
-                                Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<NormalBean>() {
+                                Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<FavBean>() {
                                     @Override
-                                    public void setData(NormalBean normalBean) {
+                                    public void setData(FavBean normalBean) {
                                         if (normalBean.getStatus() == 200) {
                                             BaseApplication.showToast("收藏成功");
                                             isCollected = true;
+                                            favoriteId = normalBean.getFavoriteId();
                                             collect.setImageResource(R.mipmap.collected);
                                         }
                                     }

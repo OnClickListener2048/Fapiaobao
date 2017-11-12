@@ -112,6 +112,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     TextView tv_msg;
     @Bind(R.id.tv_reject_reason)//不合格理由
     TextView tv_reject_reason;
+    @Bind(R.id.reject_amount)//不合格理由
+    TextView rejectAmount;
     private MyRejectTypeAdapter mSpinnerAdapter;
 
 
@@ -197,6 +199,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                 layout_reject_item.setVisibility(View.GONE);
                 layout_unqualified_item.setVisibility(View.VISIBLE);
                 tv_reject_reason.setText(image.reason);
+                rejectAmount.setText("发票金额："+image.amount+"元");
                 break;
             case STATE_MAILING:
                 layout_qualified_item.setVisibility(View.GONE);

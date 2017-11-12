@@ -62,7 +62,7 @@ public class NegetiveActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        findCreditNegativeHistory("0","10");
+        findCreditNegativeHistory("0","100");
     }
 
     @Override

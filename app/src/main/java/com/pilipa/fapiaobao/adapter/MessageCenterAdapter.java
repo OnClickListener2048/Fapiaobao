@@ -7,13 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.TimeUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 
-import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_GOT_BONUS;
-import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_INCOMPETENT_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_NEWCOME_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_SERVICE_NOTIFICATION;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lyt on 2017/10/23.
@@ -21,19 +20,19 @@ import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_SERVICE_NOTIFICATION;
 
 public class MessageCenterAdapter extends BaseAdapter {
     private Context mContext = null;
-    private MessageListBean.DataBean bean = new MessageListBean.DataBean();
+    private List<MessageListBean.DataBean> list = new ArrayList();
     public MessageCenterAdapter(Context context)
     {
         mContext = context;
     }
     @Override
     public int getCount() {
-        return 4;
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return bean;
+        return list.get(position);
     }
 
     @Override
@@ -58,11 +57,15 @@ public class MessageCenterAdapter extends BaseAdapter {
         {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        MessageListBean.DataBean bean = list.get(position);
+        viewHolder.tv_title.setText(bean.getMessageTypeName());
+        viewHolder.tv_date.setText(TimeUtils.millis2String(bean.getNewComeDate()));
+        viewHolder.tv_size.setText(String.valueOf(bean.getUnreadMessages()));
         return convertView;
     }
 
-    public void initData(MessageListBean.DataBean dataBean) {
-        this.bean = dataBean;
+    public void initData(List<MessageListBean.DataBean> listBean) {
+        this.list = listBean;
         notifyDataSetChanged();
     }
 

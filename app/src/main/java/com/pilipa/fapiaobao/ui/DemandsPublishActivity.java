@@ -582,7 +582,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                             BaseApplication.showToast("账户余额不足，请先充值");
                             intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
                             startActivityForResult(intent, REQUEST_CODE);
-
                         }
                     }
                 });
@@ -785,8 +784,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         if (!elec && paperNormal || paperSpecial) {
             bean.setMailMinimum(Integer.valueOf(etExpressAmountMinimum.getText().toString().trim()));
         }
-        if(!etAmountRedbag.getText().toString().trim().isEmpty()){
-            bean.setTotalBonus((int) Double.parseDouble(etAmountRedbag.getText().toString().trim()));
+        if(Switch.isChecked()){
+            if(!etAmountRedbag.getText().toString().trim().isEmpty()){
+                bean.setTotalBonus((int) Double.parseDouble(etAmountRedbag.getText().toString().trim()));
+            }
         }
         if(!etAmount.getText().toString().trim().isEmpty()){
             bean.setTotalAmount((int) Double.parseDouble(etAmount.getText().toString().trim()));
@@ -805,6 +806,12 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             BaseApplication.showToast("单次需求总额不得超过50000元");
             return false;
         }
+        if (Double.valueOf(etExpressAmountMinimum.getText().toString().trim())
+                > Double.valueOf(etAmount.getText().toString().trim()) ) {
+            BaseApplication.showToast("最少寄送限额必须小于等于需求总额");
+            return false;
+        }
+
         if (Switch.isChecked()) {
             if (!checkIfIsEmpty(etAmountRedbag)) {
                 BaseApplication.showToast("悬赏红包不能为空");
@@ -853,6 +860,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
             if (TextUtils.isEmpty(tvArea.getText())) {
                 BaseApplication.showToast("所在地区不能为空");
+                return false;
             }
         }
 

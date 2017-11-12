@@ -117,6 +117,8 @@ public class Constant {
      *message-rest-controller : 消息中心
      */
 
+    /*获取消息详情  */
+    public static final String MESSAGE_DETAILS= BASE_URL + "message/detail/%s/%s";
     /*获取消息列表+详情  */
     public static final String MESSAGE_MESSAGES= BASE_URL + "message/messages/%s";
     /*改变消息状态为已读   */

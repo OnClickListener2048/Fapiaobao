@@ -41,7 +41,7 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
     TwinklingRefreshLayout trl;
     private MyReceiptAdapter mAdapter;
     private int pageNo=0;
-    private int pageSize=10;
+    private int pageSize=100;
     List<OrderListBean.DataBean> mDataList =new ArrayList<>();
     public ProvidePagerFragment() {
 

@@ -1,7 +1,6 @@
 package com.pilipa.fapiaobao.adapter;
 
 import android.content.Context;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,35 +9,34 @@ import android.widget.TextView;
 
 import com.example.mylibrary.utils.TimeUtils;
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
+import com.pilipa.fapiaobao.net.bean.me.MessageDetailsBean;
 
-import java.text.DateFormat;
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by lyt on 2017/10/23.
  */
 
 public class MessageDetailsAdapter extends BaseAdapter {
-    private final ArrayList<? extends Parcelable> arrayList;
+    private List<MessageDetailsBean.DataBean> list = new ArrayList();
     private Context mContext = null;
     private String flag;
 
-    public MessageDetailsAdapter(Context context, ArrayList<? extends Parcelable> arrayList)
+    public MessageDetailsAdapter(Context context)
     {
         mContext = context;
-        this.arrayList = arrayList;
     }
     @Override
     public int getCount() {
-        return arrayList.size();
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return arrayList.get(position);
+        return list.get(position);
     }
 
     @Override
@@ -57,31 +55,27 @@ public class MessageDetailsAdapter extends BaseAdapter {
             viewHolder.tv_title =(TextView) convertView.findViewById(R.id.tv_title);
             viewHolder.tv_date =(TextView) convertView.findViewById(R.id.tv_date);
             viewHolder.tv_time =(TextView) convertView.findViewById(R.id.tv_time);
-
-            DateFormat dateFormat = DateFormat.getDateInstance();
-            try {
-                Date date1 = dateFormat.parse("yyyy-MM-dd");
-                Date date2 = dateFormat.parse("HH:mm");
-                String s1 = TimeUtils.date2String(date1);
-                String s2 = TimeUtils.date2String(date2);
-                viewHolder.tv_date.setText(s1);
-                viewHolder.tv_time.setText(s2);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
             convertView.setTag(viewHolder);
         }
         else
         {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
+        MessageDetailsBean.DataBean bean = list.get(position);
+        viewHolder.tv_title.setText(bean.getMessage().getContent());
+        SimpleDateFormat dft1=new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dft2=new SimpleDateFormat("HH:mm");
+        Date date = TimeUtils.string2Date(bean.getCreateDate());
+        viewHolder.tv_date.setText(TimeUtils.date2String(date,dft1));
+        viewHolder.tv_time.setText(TimeUtils.date2String(date,dft2));
 
         return convertView;
     }
 
-
+    public void initData(List<MessageDetailsBean.DataBean> listBean) {
+        this.list = listBean;
+        notifyDataSetChanged();
+    }
     private static class ViewHolder
     {
         TextView tv_title,tv_date,tv_time;
