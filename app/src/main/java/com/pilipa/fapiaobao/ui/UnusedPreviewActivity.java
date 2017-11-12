@@ -19,6 +19,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
@@ -207,14 +208,32 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == 200) {
-                    Api.deleteMyInvoice(AccountHelper.getToken(),invoiceId, new Api.BaseViewCallback<NormalBean>() {
+                    Api.deleteMyInvoice(AccountHelper.getToken(), invoiceId, new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+                        @Override
+                        public void onStart() {
+                            showProgressDialog();
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onError() {
+                            hideProgressDialog();
+                            BaseApplication.showToast("删除失败");
+                        }
+
                         @Override
                         public void setData(NormalBean normalBean) {
                             if(normalBean.getStatus() == 200){
                                 mDelDialog.dismiss();
                                 deleteLoc();
+                                BaseApplication.showToast("删除成功");
                             }
                             Log.d("", "initData:deleteMyInvoice success");
+
                         }
                     });
                 }else {

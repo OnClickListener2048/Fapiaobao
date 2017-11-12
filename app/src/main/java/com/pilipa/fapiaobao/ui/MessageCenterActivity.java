@@ -2,10 +2,11 @@ package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -14,6 +15,7 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
+import com.pilipa.fapiaobao.utils.TDevice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,23 +23,62 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_GOT_BONUS;
-import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_INCOMPETENT_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_NEWCOME_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_SERVICE_NOTIFICATION;
-
 /**
  * Created by wjn on 2017/10/23.
  */
 
-public class MessageCenterActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public class MessageCenterActivity extends BaseActivity {
     private static final String TAG = "MessageCenterActivity";
 
-    @Bind(R.id.listview)
-    ListView listView;
+    @Bind(R.id.no_content)
+    LinearLayout noContent;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id._back)
+    ImageView Back;
+    @Bind(R.id.rl_title)
+    RelativeLayout rlTitle;
+    @Bind(R.id.tv_new_title)
+    TextView tvNewTitle;
+    @Bind(R.id.tv_new_size)
+    TextView tvNewSize;
+    @Bind(R.id.tv_new_date)
+    TextView tvNewDate;
+    @Bind(R.id.ll_new)
+    LinearLayout llNew;
+    @Bind(R.id.tv_redbag_title)
+    TextView tvRedbagTitle;
+    @Bind(R.id.tv_redbag_size)
+    TextView tvRedbagSize;
+    @Bind(R.id.tv_redbag_date)
+    TextView tvRedbagDate;
+    @Bind(R.id.ll_redbag)
+    LinearLayout llRedbag;
+    @Bind(R.id.tv_unqualify_title)
+    TextView tvUnqualifyTitle;
+    @Bind(R.id.tv_unqualify_size)
+    TextView tvUnqualifySize;
+    @Bind(R.id.tv_unqualify_date)
+    TextView tvUnqualifyDate;
+    @Bind(R.id.ll_unqualify)
+    LinearLayout llUnqualify;
+    @Bind(R.id.tv_service_title)
+    TextView tvServiceTitle;
+    @Bind(R.id.tv_service_size)
+    TextView tvServiceSize;
+    @Bind(R.id.tv_service_date)
+    TextView tvServiceDate;
+    @Bind(R.id.ll_service)
+    LinearLayout llService;
+    @Bind(R.id.ll_content)
+    LinearLayout llContent;
+    @Bind(R.id.tips)
+    TextView tips;
     private MessageCenterAdapter messageCenterAdapter;
     private List<MessageListBean.DataBean> list = new ArrayList();
-    private MessageListBean.DataBean receiceData ;
+    private MessageListBean.DataBean receiceData;
+
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_message_center;
@@ -46,18 +87,17 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
     @OnClick({R.id._back})
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id._back:{
+        switch (v.getId()) {
+            case R.id._back: {
                 finish();
-            }break;
+            }
+            break;
         }
     }
 
     @Override
     public void initView() {
         messageCenterAdapter = new MessageCenterAdapter(this);
-        listView.setAdapter(messageCenterAdapter);
-        listView.setOnItemClickListener(this);
     }
 
     @Override
@@ -69,57 +109,62 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     private void messageList() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus() == 200) {
-                    Api.messageList(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<MessageListBean>() {
-                        @Override
-                        public void setData(MessageListBean messageListBean) {
-                            if(messageListBean.getStatus() == 200){
-                                receiceData = messageListBean.getData();
-                                messageCenterAdapter.initData(messageListBean.getData());
+        if (TDevice.hasInternet()) {
+            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                @Override
+                public void setData(LoginWithInfoBean loginWithInfoBean) {
+                    if (loginWithInfoBean.getStatus() == 200) {
+                        Api.messageList(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<MessageListBean>() {
+                            @Override
+                            public void setData(MessageListBean messageListBean) {
+                                if (messageListBean.getStatus() == 200) {
+                                    llContent.setVisibility(View.VISIBLE);
+                                    noContent.setVisibility(View.GONE);
+                                    if (receiceData != null) {
+                                        setNotifications(receiceData);
+                                    }
+                                } else if (messageListBean.getStatus() == 400) {
+                                    llContent.setVisibility(View.GONE);
+                                    noContent.setVisibility(View.VISIBLE);
+                                    tips.setText("没有内容");
+                                } else {
+                                    llContent.setVisibility(View.GONE);
+                                    noContent.setVisibility(View.VISIBLE);
+                                    tips.setText("登陆后才能查看到红包通知哦");
+                                }
                             }
-                            Log.d("", "initData:suggestion success");
-                        }
-                    });
-                }else {
-                    startActivity(new Intent(MessageCenterActivity.this, LoginActivity.class));
-                    finish();
+                        });
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            llContent.setVisibility(View.GONE);
+            noContent.setVisibility(View.VISIBLE);
+            tips.setText("当前没有网络哦~");
+        }
+
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = null;
-        switch ((position+1)+""){
-            case MSG_TYPE_NEWCOME_INVOICE:{
-                 intent = new Intent(MessageCenterActivity.this,MessageDetailsActivity.class);
-                intent.putExtra("title","新票到账");
-                intent.putParcelableArrayListExtra("dataList1",receiceData.get_$1());
-            }break;
-            case MSG_TYPE_GOT_BONUS:{
-                intent = new Intent(MessageCenterActivity.this,MessageDetailsActivity.class);
-                intent.putExtra("title","收到红包");
-                intent.putParcelableArrayListExtra("dataList2",receiceData.get_$2());
-            }break;
-            case MSG_TYPE_INCOMPETENT_INVOICE:{
-                intent = new Intent(MessageCenterActivity.this,MessageDetailsActivity.class);
-                intent.putExtra("title","新票到账");
-                intent.putParcelableArrayListExtra("dataList3",receiceData.get_$3());
+    private void setNotifications(MessageListBean.DataBean receiceData) {
+    }
 
-            }break;
-            case MSG_TYPE_SERVICE_NOTIFICATION:{
-                intent = new Intent(MessageCenterActivity.this,MessageDetailsActivity.class);
-                intent.putExtra("title","服务通知");
-                intent.putParcelableArrayListExtra("dataList4",receiceData.get_$4());
-            }break;
-        }
-        if(intent != null){
-//            startActivity(intent);
+
+    @OnClick({R.id.ll_new, R.id.ll_redbag, R.id.ll_unqualify, R.id.ll_service, R.id.ll_content})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+
+            case R.id.ll_new:
+                break;
+            case R.id.ll_redbag:
+                break;
+            case R.id.ll_unqualify:
+                break;
+            case R.id.ll_service:
+                break;
+            case R.id.ll_content:
+                break;
         }
     }
 }

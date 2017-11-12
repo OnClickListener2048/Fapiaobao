@@ -1,42 +1,44 @@
 package com.pilipa.fapiaobao.adapter;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.TimeUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
-
-import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_GOT_BONUS;
-import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_INCOMPETENT_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_NEWCOME_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_SERVICE_NOTIFICATION;
+import java.util.Date;
 
 /**
  * Created by lyt on 2017/10/23.
  */
 
 public class MessageDetailsAdapter extends BaseAdapter {
+    private final ArrayList<? extends Parcelable> arrayList;
     private Context mContext = null;
-    private ArrayList<?> list = new ArrayList<>();
     private String flag;
-    public MessageDetailsAdapter(Context context)
+
+    public MessageDetailsAdapter(Context context, ArrayList<? extends Parcelable> arrayList)
     {
         mContext = context;
+        this.arrayList = arrayList;
     }
     @Override
     public int getCount() {
-        return list.size();
+        return arrayList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return arrayList.get(position);
     }
 
     @Override
@@ -55,6 +57,19 @@ public class MessageDetailsAdapter extends BaseAdapter {
             viewHolder.tv_title =(TextView) convertView.findViewById(R.id.tv_title);
             viewHolder.tv_date =(TextView) convertView.findViewById(R.id.tv_date);
             viewHolder.tv_time =(TextView) convertView.findViewById(R.id.tv_time);
+
+            DateFormat dateFormat = DateFormat.getDateInstance();
+            try {
+                Date date1 = dateFormat.parse("yyyy-MM-dd");
+                Date date2 = dateFormat.parse("HH:mm");
+                String s1 = TimeUtils.date2String(date1);
+                String s2 = TimeUtils.date2String(date2);
+                viewHolder.tv_date.setText(s1);
+                viewHolder.tv_time.setText(s2);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             convertView.setTag(viewHolder);
         }
         else
@@ -62,42 +77,10 @@ public class MessageDetailsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        switch (flag){
-            case MSG_TYPE_NEWCOME_INVOICE:{
-                MessageListBean.DataBean._$1Bean  bean =(MessageListBean.DataBean._$1Bean) list.get(position);
-                viewHolder.tv_title.setText(bean.getMessage().getContent());
-                viewHolder.tv_date.setText(bean.getCreateDate());
-                viewHolder.tv_time.setText(bean.getCreateDate());
-            }break;
-            case MSG_TYPE_GOT_BONUS:{
-                MessageListBean.DataBean._$2Bean  bean =(MessageListBean.DataBean._$2Bean) list.get(position);
-                viewHolder.tv_title.setText(bean.getMessage().getContent());
-                viewHolder.tv_date.setText(bean.getCreateDate());
-                viewHolder.tv_time.setText(bean.getCreateDate());
-            }break;
-            case MSG_TYPE_INCOMPETENT_INVOICE:{
-                MessageListBean.DataBean._$3Bean  bean =(MessageListBean.DataBean._$3Bean) list.get(position);
-                viewHolder.tv_title.setText(bean.getMessage().getContent());
-                viewHolder.tv_date.setText(bean.getCreateDate());
-                viewHolder.tv_time.setText(bean.getCreateDate());
-            }break;
-            case MSG_TYPE_SERVICE_NOTIFICATION:{
-                MessageListBean.DataBean._$4Bean  bean =(MessageListBean.DataBean._$4Bean) list.get(position);
-                viewHolder.tv_title.setText(bean.getMessage().getContent());
-                viewHolder.tv_date.setText(bean.getCreateDate());
-                viewHolder.tv_time.setText(bean.getCreateDate());
-            }break;
-        }
-//        viewHolder.tv_title.setText(list.);
 
         return convertView;
     }
 
-    public void initData(ArrayList<?> list,String flag) {
-        this.list = list;
-        this.flag = flag;
-        notifyDataSetChanged();
-    }
 
     private static class ViewHolder
     {

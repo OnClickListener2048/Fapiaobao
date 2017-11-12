@@ -58,36 +58,6 @@ public class MessageCenterAdapter extends BaseAdapter {
         {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        switch ((position+1)+""){
-            case MSG_TYPE_NEWCOME_INVOICE:{
-                viewHolder.tv_title.setText("新到发票");
-                if(bean.get_$1() != null){
-                    viewHolder.tv_date.setText(bean.get_$1().get(0).getCreateDate());
-                    viewHolder.tv_size.setText(bean.get_$1().size()+"");
-                }
-            }break;
-            case MSG_TYPE_GOT_BONUS:{
-                viewHolder.tv_title.setText("红包到帐");
-                if(bean.get_$2() != null){
-                    viewHolder.tv_date.setText(bean.get_$2().get(0).getCreateDate());
-                    viewHolder.tv_size.setText(bean.get_$2().size()+"");
-                }
-            }break;
-            case MSG_TYPE_INCOMPETENT_INVOICE:{
-                viewHolder.tv_title.setText("不合格发票");
-                if(bean.get_$3() != null){
-                    viewHolder.tv_date.setText(bean.get_$3().get(0).getCreateDate());
-                    viewHolder.tv_size.setText(bean.get_$3().size()+"");
-                }
-            }break;
-            case MSG_TYPE_SERVICE_NOTIFICATION:{
-                viewHolder.tv_title.setText("服务通知");
-                if(bean.get_$4() != null){
-                    viewHolder.tv_date.setText(bean.get_$4().get(0).getCreateDate());
-                    viewHolder.tv_size.setText(bean.get_$4().size()+"");
-                }
-            }break;
-        }
         return convertView;
     }
 

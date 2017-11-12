@@ -100,7 +100,9 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
     @Override
     public void initData() {
         initAMap();
-        checkOutVersion();
+        if (TDevice.UPDATE) {
+            checkOutVersion();
+        }
         bg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,8 +203,8 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
                                             TLog.log(progress.currentSize+"progress.currentSize");
                                             TLog.log(progress.totalSize+"progress.totalSize");
 
-                                            progressBar.setProgress((int) ((progress.currentSize / (float) progress.totalSize) * 100));
-                                            tvProgress.setText((int) ((((float) progress.currentSize / (float) progress.totalSize) * 100)) + "%");
+                                            progressBar.setProgress((int) ((progress.currentSize / (float) dataBean.getSize()) * 100));
+                                            tvProgress.setText((int) ((((float) progress.currentSize / (float) dataBean.getSize()) * 100)) + "%");
                                         }
 
                                         @Override
@@ -252,6 +254,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
                     MainActivity.this.finish();
                     System.exit(0);
                 } else {
+                    TDevice.UPDATE = false;
                     popWnd.dismiss();
                 }
             }

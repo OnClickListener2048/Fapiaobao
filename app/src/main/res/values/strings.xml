@@ -270,7 +270,7 @@
     <string name="number">电话号码</string>
     <string name="bank_account">银行账户</string>
     <string name="confirm_upload">将开好的发票保存至手机，就可以上传啦~</string>
-    <string name="upload_receipt">上传发票</string>
+    <string name="upload_receipt">继续上传发票</string>
     <string name="hurry_up">快来上传您的发票吧~</string>
     <string name="my_provide">我提供的</string>
     <string name="receipt_number">发票张数:</string>

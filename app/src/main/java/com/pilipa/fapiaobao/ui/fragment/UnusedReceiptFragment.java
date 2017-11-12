@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.UnusedReceiptAdapter;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;
@@ -34,6 +36,7 @@ import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.UploadLocalReceipt;
 import com.pilipa.fapiaobao.ui.LoginActivity;
+import com.pilipa.fapiaobao.ui.ReceiptFolderActivity;
 import com.pilipa.fapiaobao.ui.UnusedPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
@@ -453,13 +456,31 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
+                 final ReceiptFolderActivity activity = (ReceiptFolderActivity) getActivity();
                 if (loginWithInfoBean.getStatus() == 200) {
-                    Api.deleteMyInvoice(AccountHelper.getToken(),invoiceId, new Api.BaseViewCallback<NormalBean>() {
+                    Api.deleteMyInvoice(AccountHelper.getToken(),invoiceId, new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+                        @Override
+                        public void onStart() {
+                            activity.showProgressDialog();
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            activity.hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onError() {
+                            activity.hideProgressDialog();
+                            BaseApplication.showToast("删除失败");
+                        }
+
                         @Override
                         public void setData(NormalBean normalBean) {
                             if(normalBean.getStatus() == 200){
                                 mDelDialog.dismiss();
                                 unusedReceiptAdapter.delete(pos);
+                                BaseApplication.showToast("删除成功");
                             }
                             Log.d("", "initData:deleteMyInvoice success");
                         }

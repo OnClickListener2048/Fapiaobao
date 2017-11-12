@@ -2,6 +2,7 @@ package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,23 +48,14 @@ public class MessageDetailsActivity extends BaseActivity  {
 
     @Override
     public void initView() {
-        MessageDetailsAdapter adapter = new MessageDetailsAdapter(this);
-        listview.setAdapter(adapter);
+
         String title = getIntent().getStringExtra("title");
-        ArrayList dataList1 = getIntent().getParcelableArrayListExtra("dataList1");
-        ArrayList dataList2 = getIntent().getParcelableArrayListExtra("dataList2");
-        ArrayList dataList3 = getIntent().getParcelableArrayListExtra("dataList3");
-        ArrayList dataList4 = getIntent().getParcelableArrayListExtra("dataList4");
-        if(dataList1 != null){
-            adapter.initData(dataList1,MSG_TYPE_NEWCOME_INVOICE);
-        }else if(dataList2 != null){
-            adapter.initData(dataList2,MSG_TYPE_GOT_BONUS);
-        }else if(dataList3 != null){
-            adapter.initData(dataList3,MSG_TYPE_INCOMPETENT_INVOICE);
-        }else if(dataList4 != null){
-            adapter.initData(dataList4,MSG_TYPE_SERVICE_NOTIFICATION);
-        }
         tv_title.setText(title);
+        ArrayList<? extends Parcelable> arrayList = getIntent().getParcelableArrayListExtra("extra_list");
+
+        MessageDetailsAdapter adapter = new MessageDetailsAdapter(this,arrayList);
+        listview.setAdapter(adapter);
+
     }
     @Override
     public void initData() {

@@ -285,11 +285,7 @@
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/if_money_isnt_right"
-                        android:textSize="@dimen/s10" />
+
 
                     <TextView
                         android:id="@+id/continue_to_upload"
@@ -297,7 +293,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/upload_receipt"
                         android:textColor="@color/main_style"
-                        android:textSize="@dimen/s10" />
+                        android:textSize="@dimen/s14" />
                 </LinearLayout>
 
             </LinearLayout>

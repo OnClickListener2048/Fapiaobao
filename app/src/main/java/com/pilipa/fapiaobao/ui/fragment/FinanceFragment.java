@@ -9,33 +9,24 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.mylibrary.utils.AppUtils;
 import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
-import com.lzy.okgo.model.Progress;
-import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.AllInvoiceAdapter;
 import com.pilipa.fapiaobao.adapter.FinanceAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
-import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
-import com.pilipa.fapiaobao.net.bean.update.VersionMode;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.Op;
@@ -46,13 +37,13 @@ import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.io.File;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+
+import static android.support.v7.appcompat.R.id.top;
 
 /**
  * Created by edz on 2017/10/23.
@@ -75,6 +66,12 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
     public static final String EXTRA_DATA_LABEL = "extra_data_label";
     public static final String EXTRA_DATA_LABEL_NAME = "extra_data_label_name";
+    @Bind(R.id.rl_pull_to_find_more)
+    RelativeLayout rlPullToFindMore;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.select_your_receipt_kind)
+    TextView selectYourReceiptKind;
     private LoginWithInfoBean loginBean;
     FinanceAdapter financeAdapter;
     public static final String DECODED_CONTENT_KEY = "codedContent";
@@ -137,7 +134,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     @Override
     protected void initData() {
         super.initData();
-
 
 
         final MainActivity activity = (MainActivity) getActivity();
@@ -210,8 +206,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     }
 
 
-
-    @OnClick({R.id.scan, R.id.notification})
+    @OnClick({R.id.scan, R.id.notification,R.id.pull_to_find_more, R.id.rl_pull_to_find_more})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.scan:
@@ -219,6 +214,13 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 break;
             case R.id.notification:
                 startActivity(new Intent(mContext, MessageCenterActivity.class));
+                break;
+            case R.id.pull_to_find_more:
+            case R.id.rl_pull_to_find_more:
+                srollview.setSmoothScrollingEnabled(true);
+                pullToFindMore.measure(0, 0);
+
+                srollview.smoothScrollTo(0,  rlPullToFindMore.getTop());
                 break;
         }
     }
@@ -270,13 +272,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         intent.setClass(mContext, EstimateActivity.class);
         startActivity(intent);
     }
-
-    @OnClick(R.id.pull_to_find_more)
-    public void onViewClicked() {
-        srollview.smoothScrollTo(0, srollview.getChildAt(0).getBottom());
-    }
-
-
 
 
 }

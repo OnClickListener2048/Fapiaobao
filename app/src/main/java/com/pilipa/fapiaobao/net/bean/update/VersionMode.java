@@ -57,7 +57,17 @@ public class VersionMode {
         private String remarks;
         private String createDate;
         private String updateDate;
+
+        public int getSize() {
+            return size;
+        }
+
+        public void setSize(int size) {
+            this.size = size;
+        }
+
         private String url;
+        private int size;
         private String version;
         private String forced;
 

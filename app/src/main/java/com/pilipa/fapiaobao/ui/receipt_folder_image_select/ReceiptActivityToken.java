@@ -83,13 +83,23 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
             Api.myInvoiceList(AccountHelper.getToken(), new Api.BaseViewCallback<MyInvoiceListBean>() {
                 @Override
                 public void setData(MyInvoiceListBean myInvoiceListBean) {
-                    List<MyInvoiceListBean.DataBean> list = myInvoiceListBean.getData();
-                    setUpData(list);
-                    Log.d(TAG, "updateData:myInvoiceList success");
+                    if (myInvoiceListBean.getStatus() == 200) {
+                        List<MyInvoiceListBean.DataBean> list = myInvoiceListBean.getData();
+                        if (list != null && list.size() > 0) {
+                            setUpData(list);
+                            Log.d(TAG, "updateData:myInvoiceList success");
+                        }
+                    }else if (myInvoiceListBean.getStatus() ==400) {
+
+                    }
+
+
+
+
                 }
             });
         } else {
-            BaseApplication.showToast("登录超期");
+            BaseApplication.showToast("登录超时");
         }
     }
 

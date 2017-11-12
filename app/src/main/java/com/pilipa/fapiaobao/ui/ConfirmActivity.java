@@ -220,6 +220,8 @@ public class ConfirmActivity extends BaseActivity {
             case R.id.bank_account:
                 break;
             case R.id.translate_details:
+                translate.setVisibility(View.VISIBLE);
+                translateDetails.setVisibility(View.GONE);
                 break;
             case R.id.upload_receipt:
                 Intent intent = new Intent();

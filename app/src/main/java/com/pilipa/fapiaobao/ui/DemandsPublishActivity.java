@@ -237,6 +237,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     };
     private boolean isAreaLimited = false;
     private View view;
+    private String tempCompanyId;
 
     @Override
     protected int getLayoutId() {
@@ -515,7 +516,11 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             case R.id.tv_area:
             case R.id.ll_select_area:
             case R.id.iv_select_area:
-                cityPicker.show();
+                try {
+                    cityPicker.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.et_area_details:
                 break;
@@ -666,7 +671,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             case REQUEST_CODE_SCAN:
                 if (resultCode == RESULT_OK) {
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
-                    TLog.log("DECODED_CONTENT_KEY" + content);
                     Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
                     Gson gson = new Gson();
                     String s = EncodeUtils.urlDecode(content);
@@ -678,6 +682,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     }
 
     private void updateCompanyInfo(MacherBeanToken.DataBean.CompanyBean companyBean) {
+        tempCompanyId = companyBean.getId();
         etPublishCompanyName.setText(companyBean.getName());
         etPublishAddress.setText(companyBean.getAddress());
         etPublishTexNumber.setText(companyBean.getTaxno());
@@ -703,6 +708,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     }
 
     private void updateCompanyInfo(CompaniesBean.DataBean databean) {
+        tempCompanyId = databean.getId();
         etPublishCompanyName.setText(databean.getName());
         etPublishAddress.setText(databean.getAddress());
         etPublishTexNumber.setText(databean.getTaxno());
@@ -736,7 +742,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         if (dataBean != null) {
             companyBean.setId(dataBean.getId());
         }
-
+        companyBean.setId(tempCompanyId);
         companyBean.setAccount(etPublishBankAccount.getText().toString().trim());
         companyBean.setAddress(etPublishAddress.getText().toString().trim());
         companyBean.setTaxno(etPublishTexNumber.getText().toString().trim());
@@ -780,10 +786,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             bean.setMailMinimum(Integer.valueOf(etExpressAmountMinimum.getText().toString().trim()));
         }
         if(!etAmountRedbag.getText().toString().trim().isEmpty()){
-            bean.setTotalBonus(Integer.valueOf(etAmountRedbag.getText().toString().trim()));
+            bean.setTotalBonus((int) Double.parseDouble(etAmountRedbag.getText().toString().trim()));
         }
         if(!etAmount.getText().toString().trim().isEmpty()){
-            bean.setTotalAmount(Integer.valueOf(etAmount.getText().toString().trim()));
+            bean.setTotalAmount((int) Double.parseDouble(etAmount.getText().toString().trim()));
         }
         TLog.log(bean.toString());
         return bean;
@@ -843,6 +849,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             if (!checkIfIsEmpty(etExpressAmountMinimum) && llExpressLimited.getVisibility() == View.VISIBLE) {
                 BaseApplication.showToast("最少邮寄限额不能为空");
                 return false;
+            }
+
+            if (TextUtils.isEmpty(tvArea.getText())) {
+                BaseApplication.showToast("所在地区不能为空");
             }
         }
 
@@ -1057,7 +1067,11 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
             @Override
             public void onCancel() {
-                cityPicker.hide();
+                try {
+                    cityPicker.hide();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 

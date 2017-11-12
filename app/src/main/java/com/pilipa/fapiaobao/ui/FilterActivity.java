@@ -72,6 +72,7 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
                     Log.e("AmapError", "location Error, ErrCode:"
                             + aMapLocation.getErrorCode() + ", errInfo:"
                             + aMapLocation.getErrorInfo());
+                    locate = "定位失败";
                 }
             }
         }
@@ -155,7 +156,11 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
                 finish();
                 break;
             case R.id.others_province:
-                cityPicker.show();
+                try {
+                    cityPicker.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }

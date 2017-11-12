@@ -142,8 +142,6 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         String location = BaseApplication.get("location", "定位异常");
         locating.setText(location);
         locate = location;
-
-
         llFilterTypesLocation.setVisibility(View.VISIBLE);
         llFilterConditionTop.setVisibility(View.GONE);
         llFilterConditionBottom.setVisibility(View.GONE);
@@ -160,20 +158,10 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         httpParams.put("invoiceType", label);
         llConfirmCaution.setVisibility(View.GONE);
         llFilterKey.setVisibility(View.GONE);
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                addFragment(dlContainer.getId(), FilterFragment.newInstance(new Bundle()));
-//
-//            }
-//        }.start();
-
-
         ultraViewpager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
         ultraViewpager.disableAutoScroll();
         ultraViewpager.disableIndicator();
         ultraViewpager.setOnPageChangeListener(this);
-
         tonext.setEnabled(true);
         tolast.setEnabled(false);
         initCityPicker();
@@ -262,67 +250,11 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                             intent.setClass(EstimateActivity.this, ConfirmActivity.class);
                             startActivity(intent);
                             finish();
-                            //                if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-//                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-//                        @Override
-//                        public void setData(LoginWithInfoBean normalBean) {
-//                            if (normalBean.getStatus() == 200) {
-//
-//                                SharedPreferencesHelper.save(EstimateActivity.this, matchBean.getData().get(currentItem));
-//
-//
-//                                Api.createOrder(AccountHelper.getToken(), matchBean.getData().get(currentItem).getDemandId(), label, amount, new Api.BaseViewCallbackWithOnStart<OrderBean>() {
-//                                    @Override
-//                                    public void onStart() {
-//                                        showProgressDialog();
-//                                    }
-//
-//                                    @Override
-//                                    public void onFinish() {
-//                                        hideProgressDialog();
-//                                    }
-//
-//                                    @Override
-//                                    public void onError() {
-//                                        hideProgressDialog();
-//                                    }
-//
-//                                    @Override
-//                                    public void setData(OrderBean o) {
-//                                        if (o.getStatus() == 200) {
-//                                            BaseApplication.showToast("创建订单成功");
-//                                            SharedPreferencesHelper.save(EstimateActivity.this, o);
-//                                            MacherBeanToken.DataBean dataBean = matchBean.getData().get(currentItem);
-//                                            Intent intent = new Intent();
-//                                            intent.putExtra("amount", amount);
-//                                            intent.putExtra("bonus", dataBean.getBonus());
-//                                            intent.putExtra("company_info", dataBean.getCompany());
-//                                            intent.putExtra("order", o.getData().getOrderId());
-//                                            intent.setClass(EstimateActivity.this, ConfirmActivity.class);
-//                                            startActivity(intent);
-//                                        }
-//                                    }
-//                                });
-//                            } else {
-//                                BaseApplication.showToast("token验证失败请重新登陆");
-//                                startActivity(new Intent(EstimateActivity.this, LoginActivity.class));
-//                                finish()
-//                            }
-//                        }
-//                    });
-//                }
                         } else {
                             startActivity(new Intent(EstimateActivity.this, LoginActivity.class));
                         }
                     }
                 });
-
-
-
-
-
-
-
                 break;
             case R.id.tolast:
                 ultraViewpager.setCurrentItem(currentItem - 1, true);
@@ -344,7 +276,13 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 break;
             case R.id.select_other_area:
                 if (cityPicker.isShow()) cityPicker.hide();
-                else cityPicker.show();
+                else {
+                    try {
+                        cityPicker.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case R.id.reset_filter:
             case R.id.reset_filter_top:
@@ -418,6 +356,8 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     }
 
     private void setUpData(MacherBeanToken matchBean) {
+        ultraViewpager.setOffscreenPageLimit(matchBean.getData().size()-1);
+        ultraViewpager.setAdapter(null);
         ultraViewpager.setAdapter(new ExtimatePagerAdapter(getSupportFragmentManager(), matchBean));
     }
 

@@ -220,8 +220,8 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                             public void setData(RedBagBean redBagBean) {
                                 if (redBagBean.getStatus() == 200) {
                                     BigDecimal bigDecimal = new BigDecimal(redBagBean.getData().getBonus());
-                                    bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
-                                    estimateMoney.setText(String.valueOf(bigDecimal));
+                                    BigDecimal bigDecimal1 = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
+                                    estimateMoney.setText(String.valueOf(bigDecimal1));
                                 }
                             }
                         });

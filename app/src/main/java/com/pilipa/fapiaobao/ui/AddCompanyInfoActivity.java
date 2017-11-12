@@ -153,10 +153,10 @@ public class AddCompanyInfoActivity extends BaseActivity {
                 tvMustfillCompanyPhone.setText("必填");
             } else {
                 tvMustfillTexno.setText("必填");
-                tvMustfillAddress.setText("必填");
+                tvMustfillAddress.setText("选填");
                 tvMustfillBankName.setText("选填");
                 tvMustfillBankNumber.setText("选填");
-                tvMustfillCompanyName.setText("选填");
+                tvMustfillCompanyName.setText("必填");
                 tvMustfillCompanyPhone.setText("选填");
             }
         }

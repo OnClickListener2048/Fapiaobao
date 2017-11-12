@@ -474,35 +474,40 @@ public class Api {
      * @param baseViewCallback
      */
     public static void findAllInvoice(final BaseViewCallbackWithOnStart baseViewCallback) {
-        OkGo.<AllInvoiceType>get(FIND_ALL_INVIICE_TYPE).execute(new JsonCallBack<AllInvoiceType>(AllInvoiceType.class) {
-            @Override
-            public void onSuccess(Response<AllInvoiceType> response) {
-                if (response.isSuccessful() && response.body().getMsg().equals("OK")) {
-                    baseViewCallback.setData(response.body());
+        if (TDevice.hasInternet()) {
+            OkGo.<AllInvoiceType>get(FIND_ALL_INVIICE_TYPE).execute(new JsonCallBack<AllInvoiceType>(AllInvoiceType.class) {
+                @Override
+                public void onSuccess(Response<AllInvoiceType> response) {
+                    if (response.isSuccessful() && response.body().getMsg().equals("OK")) {
+                        baseViewCallback.setData(response.body());
+                    }
+
+
                 }
 
+                @Override
+                public void onError(Response<AllInvoiceType> response) {
+                    super.onError(response);
+                    baseViewCallback.onError();
+                }
 
-            }
+                @Override
+                public void onStart(Request<AllInvoiceType, ? extends Request> request) {
+                    super.onStart(request);
+                    baseViewCallback.onStart();
+                }
 
-            @Override
-            public void onError(Response<AllInvoiceType> response) {
-                super.onError(response);
-                baseViewCallback.onError();
-            }
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    baseViewCallback.onFinish();
 
-            @Override
-            public void onStart(Request<AllInvoiceType, ? extends Request> request) {
-                super.onStart(request);
-                baseViewCallback.onStart();
-            }
+                }
+            });
+        } else {
+            BaseApplication.showToast("请检查您的网络~");
+        }
 
-            @Override
-            public void onFinish() {
-                super.onFinish();
-                baseViewCallback.onFinish();
-
-            }
-        });
     }
 
     public static void estimateRedBag(String token, String demandId, double amount, final BaseViewCallbackWithOnStart baseViewCallback) {
@@ -576,14 +581,19 @@ public class Api {
      * @param <T>
      */
     public static <T> void findDefaultInvoiceType(final BaseViewCallback baseViewCallback) {
-        OkGo.<T>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE).execute(new JsonCallBack<T>(DefaultInvoiceBean.class) {
-            @Override
-            public void onSuccess(Response<T> response) {
-                if (response.isSuccessful()) {
-                    baseViewCallback.setData(response.body());
+        if (TDevice.hasInternet()) {
+            OkGo.<T>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE).execute(new JsonCallBack<T>(DefaultInvoiceBean.class) {
+                @Override
+                public void onSuccess(Response<T> response) {
+                    if (response.isSuccessful()) {
+                        baseViewCallback.setData(response.body());
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            BaseApplication.showToast("请检查您的网络~");
+        }
+
     }
 
     /**
@@ -593,15 +603,20 @@ public class Api {
      * @param <T>
      */
     public static <T> void findUserInvoiceType(String token, final BaseViewCallback baseViewCallback) {
-        String url = String.format(FIND_FREQUENTLY_INVOICE_TYPE, token);
-        OkGo.<T>get(url).execute(new JsonCallBack<T>(DefaultInvoiceBean.class) {
-            @Override
-            public void onSuccess(Response<T> response) {
-                if (response.isSuccessful()) {
-                    baseViewCallback.setData(response.body());
+        if (TDevice.hasInternet()) {
+
+            String url = String.format(FIND_FREQUENTLY_INVOICE_TYPE, token);
+            OkGo.<T>get(url).execute(new JsonCallBack<T>(DefaultInvoiceBean.class) {
+                @Override
+                public void onSuccess(Response<T> response) {
+                    if (response.isSuccessful()) {
+                        baseViewCallback.setData(response.body());
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            BaseApplication.showToast("请检查您的网络~");
+        }
     }
 
     /**
@@ -743,16 +758,14 @@ public class Api {
     /**
      * 消息中心列表
      * @param token
-     * @param orderID
      * @param baseViewCallback
      */
     public static void messageList(String token, final BaseViewCallback baseViewCallback) {
         OkGo.<MessageListBean>get(String.format(MESSAGE_MESSAGES, token)).execute(new JsonCallBack<MessageListBean>(MessageListBean.class) {
             @Override
             public void onSuccess(Response<MessageListBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
+
             }
         });
     }
@@ -794,13 +807,31 @@ public class Api {
      * @param invoiceId
      * @param baseViewCallback
      */
-    public static void deleteMyInvoice(String token,String invoiceId, final BaseViewCallback baseViewCallback) {
+    public static void deleteMyInvoice(String token,String invoiceId, final BaseViewCallbackWithOnStart baseViewCallback) {
         OkGo.<NormalBean>delete(String.format(DELETE_MY_INVOICE,token,invoiceId)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }
+            }
+
+            @Override
+            public void onStart(Request<NormalBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onError(Response<NormalBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
             }
         });
     }

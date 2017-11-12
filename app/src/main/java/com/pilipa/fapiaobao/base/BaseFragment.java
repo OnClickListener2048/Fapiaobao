@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.mylibrary.utils.ImageLoader;
+import com.example.mylibrary.utils.ImageUtils;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.TDevice;
 
@@ -118,7 +119,8 @@ public abstract class BaseFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String bmpStr = BitmapUtils.bitmapToBase64(bmp);
+        Bitmap bitmap = ImageUtils.compressByQuality(bmp, 20, true);
+        String bmpStr = BitmapUtils.bitmapToBase64(bitmap);
         return bmpStr;
     }
 

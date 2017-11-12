@@ -40,7 +40,7 @@ public class PublishSpinnerAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater _LayoutInflater = LayoutInflater.from(parent.getContext());
         TextView textView = (TextView) _LayoutInflater.inflate(android.R.layout.simple_dropdown_item_1line, null);
-        textView.setTextSize(TDevice.spToPx(parent.getResources(),13));
+        textView.setTextSize(TDevice.spToPx(parent.getResources(),10));
         textView.setText(expressCompanyBean.getData().get(position).getLabel());
         return textView;
     }
