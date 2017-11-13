@@ -84,6 +84,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     private double sum;
     private String company_id;
     private int type = 0;
+    private double aDouble;
 
 
     @Override
@@ -220,7 +221,8 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                             @Override
                             public void setData(RedBagBean redBagBean) {
                                 if (redBagBean.getStatus() == 200) {
-                                    BigDecimal bigDecimal = new BigDecimal(redBagBean.getData().getBonus());
+                                    aDouble = redBagBean.getData().getBonus();
+                                    BigDecimal bigDecimal = new BigDecimal(aDouble);
                                     BigDecimal bigDecimal1 = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
                                     estimateMoney.setText(String.valueOf(bigDecimal1));
                                 }
@@ -376,8 +378,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                                 Intent intent = new Intent(UploadReceiptPreviewActivity.this, UploadSuccessActivity.class);
                                 intent.putExtra("order_id", orderBean.getData().getOrderId());
                                 intent.putExtra("company_id", company_id);
-                               
-
+                                intent.putExtra("bonus", aDouble);
                                 startActivity(intent);
                                 ActivityUtils.finishActivity(EstimateActivity.class);
                                 ActivityUtils.finishActivity(ConfirmActivity.class);

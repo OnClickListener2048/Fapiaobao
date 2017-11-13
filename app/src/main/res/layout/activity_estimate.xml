@@ -297,8 +297,6 @@
                                 android:textColor="@color/main_style"
                                 android:textSize="@dimen/s12" />
                         </LinearLayout>
-
-
                     </LinearLayout>
 
                     <android.support.v4.widget.Space

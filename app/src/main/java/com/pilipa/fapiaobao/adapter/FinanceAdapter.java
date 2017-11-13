@@ -83,6 +83,9 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
+        if (allInvoiceType.getData().size()>12) {
+            return 12;
+        }
         return allInvoiceType.getData().size();
     }
 

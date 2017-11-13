@@ -24,14 +24,14 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
+import com.umeng.weixin.callback.WXCallbackActivity;
 
 
 /**
  * Created by edz on 2017/10/26.
  */
 
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
+public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHandler {
     private static final String TAG = "WXEntryActivity";
 
 

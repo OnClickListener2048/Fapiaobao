@@ -14,10 +14,13 @@ import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Constant;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,21 +53,24 @@ public class UploadSuccessActivity extends BaseActivity {
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA share_media) {
-
+            showProgressDialog();
         }
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
+            hideProgressDialog();
             Toast.makeText(UploadSuccessActivity.this, "分享成功", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+            hideProgressDialog();
             Toast.makeText(UploadSuccessActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
+            hideProgressDialog();
             Toast.makeText(UploadSuccessActivity.this, "分享取消", Toast.LENGTH_SHORT).show();
         }
     };
@@ -72,6 +78,8 @@ public class UploadSuccessActivity extends BaseActivity {
     private UMShareAPI umShareAPI;
     private String company_id;
     private String order_id;
+    private double bonus;
+    private UMWeb web;
 
     @Override
     protected int getLayoutId() {
@@ -101,7 +109,15 @@ public class UploadSuccessActivity extends BaseActivity {
         company_id = getIntent().getStringExtra("company_id");
         order_id = getIntent().getStringExtra("order_id");
         demand = getIntent().getStringExtra("demand");
+        bonus = getIntent().getDoubleExtra("bonus", 0);
         TLog.log("order_id"+order_id);
+
+
+        web = new UMWeb(Constant.MATCH+"/"+bonus);
+        web.setTitle("伙伴们，多余的发票也能挣红包了~");//标题
+        UMImage umImage = new UMImage(this, R.mipmap.icon);
+        web.setThumb(umImage);  //缩略图
+        web.setDescription("伙伴们，多余的发票也能挣红包了~");//描述
     }
 
     @Override
@@ -146,7 +162,7 @@ public class UploadSuccessActivity extends BaseActivity {
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN)) {
                     new ShareAction(this)
                             .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
-                            .withText("hello")//分享内容
+                            .withMedia(web)
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {
@@ -158,7 +174,7 @@ public class UploadSuccessActivity extends BaseActivity {
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN_CIRCLE)) {
                     new ShareAction(this)
                             .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
-                            .withText("hello")//分享内容
+                            .withMedia(web)
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {
@@ -170,7 +186,7 @@ public class UploadSuccessActivity extends BaseActivity {
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.QQ)) {
                     new ShareAction(this)
                             .setPlatform(SHARE_MEDIA.QQ)//传入平台
-                            .withText("hello")//分享内容
+                            .withMedia(web)
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {
@@ -182,7 +198,7 @@ public class UploadSuccessActivity extends BaseActivity {
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.QZONE)) {
                     new ShareAction(this)
                             .setPlatform(SHARE_MEDIA.QZONE)//传入平台
-                            .withText("hello")//分享内容
+                            .withMedia(web)
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {
@@ -194,7 +210,7 @@ public class UploadSuccessActivity extends BaseActivity {
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.SINA)) {
                     new ShareAction(this)
                             .setPlatform(SHARE_MEDIA.SINA)//传入平台
-                            .withText("hello")//分享内容
+                            .withMedia(web)
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {

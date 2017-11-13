@@ -11,10 +11,13 @@ import android.widget.Toast;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Constant;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -66,6 +69,7 @@ public class PubSuccessActivity extends BaseActivity {
     };
     private String demand;
     private UMShareAPI umShareAPI;
+    private UMWeb web;
 
     @Override
     protected int getLayoutId() {
@@ -85,6 +89,12 @@ public class PubSuccessActivity extends BaseActivity {
     @Override
     public void initData() {
         demand = getIntent().getStringExtra("demand");
+
+        web = new UMWeb(Constant.MATCH);
+        web.setTitle("伙伴们，多余的发票也能挣红包了~");//标题
+        UMImage umImage = new UMImage(this, R.mipmap.icon);
+        web.setThumb(umImage);  //缩略图
+        web.setDescription("伙伴们，多余的发票也能挣红包了~");//描述
     }
 
     @Override
@@ -122,7 +132,7 @@ public class PubSuccessActivity extends BaseActivity {
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN)) {
                     new ShareAction(this)
                             .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
-                            .withText("hello")//分享内容
+                            .withMedia(web)
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {
@@ -134,7 +144,7 @@ public class PubSuccessActivity extends BaseActivity {
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN_CIRCLE)) {
                     new ShareAction(this)
                             .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
-                            .withText("hello")//分享内容
+                            .withMedia(web)
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {
@@ -146,7 +156,7 @@ public class PubSuccessActivity extends BaseActivity {
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.QQ)) {
                     new ShareAction(this)
                             .setPlatform(SHARE_MEDIA.QQ)//传入平台
-                            .withText("hello")//分享内容
+                            .withMedia(web)
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {
@@ -158,7 +168,7 @@ public class PubSuccessActivity extends BaseActivity {
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.QZONE)) {
                     new ShareAction(this)
                             .setPlatform(SHARE_MEDIA.QZONE)//传入平台
-                            .withText("hello")//分享内容
+                            .withMedia(web)
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {
@@ -170,7 +180,7 @@ public class PubSuccessActivity extends BaseActivity {
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.SINA)) {
                     new ShareAction(this)
                             .setPlatform(SHARE_MEDIA.SINA)//传入平台
-                            .withText("hello")//分享内容
+                            .withMedia(web)
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {
