@@ -202,6 +202,8 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
                 .confirTextColor("#000000")
                 .cancelTextColor("#000000")
                 .city("天津")
+                .province("天津")
+                .district("红桥区")
                 .textColor(Color.parseColor("#000000"))
                 .provinceCyclic(false)
                 .cityCyclic(false)

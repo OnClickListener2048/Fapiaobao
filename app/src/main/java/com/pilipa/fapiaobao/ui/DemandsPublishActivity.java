@@ -684,7 +684,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         tempCompanyId = companyBean.getId();
         etPublishCompanyName.setText(companyBean.getName());
         etPublishAddress.setText(companyBean.getAddress());
-        etPublishTexNumber.setText(companyBean.getTaxno());
+        etPublishTexNumber.setText(companyBean.getTaxno().toUpperCase());
         etPublishPhoneNumber.setText(companyBean.getPhone());
         etPublishBank.setText(companyBean.getDepositBank());
         etPublishBankAccount.setText(companyBean.getAccount());
@@ -710,7 +710,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         tempCompanyId = databean.getId();
         etPublishCompanyName.setText(databean.getName());
         etPublishAddress.setText(databean.getAddress());
-        etPublishTexNumber.setText(databean.getTaxno());
+        etPublishTexNumber.setText(databean.getTaxno().toUpperCase());
         etPublishPhoneNumber.setText(databean.getPhone());
         etPublishBank.setText(databean.getDepositBank());
         etPublishBankAccount.setText(databean.getAccount());
@@ -735,6 +735,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         if (dataBean != null) {
             bean.setId(dataBean.getId());
         }
+        bean.setCompanyId(tempCompanyId);
         bean.setToken(loginWithInfoBean.getData().getToken());
         DemandsPublishBean.CompanyBean companyBean = new DemandsPublishBean.CompanyBean();
         CompaniesBean.DataBean dataBean = SharedPreferencesHelper.loadFormSource(this, CompaniesBean.DataBean.class);
@@ -744,7 +745,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         companyBean.setId(tempCompanyId);
         companyBean.setAccount(etPublishBankAccount.getText().toString().trim());
         companyBean.setAddress(etPublishAddress.getText().toString().trim());
-        companyBean.setTaxno(etPublishTexNumber.getText().toString().trim());
+        companyBean.setTaxno(etPublishTexNumber.getText().toString().trim().toUpperCase());
         companyBean.setName(etPublishCompanyName.getText().toString().trim());
         companyBean.setDepositBank(etPublishBank.getText().toString().trim());
         companyBean.setPhone(etPublishPhoneNumber.getText().toString().trim());
@@ -1016,8 +1017,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             llAmount.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             llToggleSwitch.setVisibility(isChecked ? View.GONE : View.VISIBLE);
         }
-
-
     }
 
     @Override
@@ -1043,7 +1042,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 .backgroundPop(0x0000000)
                 .confirTextColor("#000000")
                 .cancelTextColor("#000000")
-                .city("天津市")
+                .city("天津")
+                .district("红桥区")
+                .province("天津")
                 .textColor(Color.parseColor("#000000"))
                 .provinceCyclic(false)
                 .cityCyclic(false)

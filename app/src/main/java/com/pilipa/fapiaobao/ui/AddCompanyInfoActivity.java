@@ -97,7 +97,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
                     String decode = EncodeUtils.urlDecode(codedContent);
                     MacherBeanToken.DataBean.CompanyBean companyBean = gson.fromJson(decode, MacherBeanToken.DataBean.CompanyBean.class);
                     edtCompany_name.setText(companyBean.getName());
-                    edtTaxno.setText(companyBean.getTaxno());
+                    edtTaxno.setText(companyBean.getTaxno().toUpperCase());
                     edtCompanyAddress.setText(companyBean.getAddress());
                     edtCompanyNumber.setText(companyBean.getPhone());
                     edtBankName.setText(companyBean.getDepositBank());
@@ -180,7 +180,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
 
         Company company = new Company();
         company.setName(edtCompany_name.getText().toString().trim());
-        company.setTaxno(edtTaxno.getText().toString().trim());
+        company.setTaxno(edtTaxno.getText().toString().trim().toUpperCase());
         company.setAddress(edtCompanyAddress.getText().toString().trim());
         company.setPhone(edtCompanyNumber.getText().toString().trim());
         company.setDepositBank(edtBankName.getText().toString().trim());

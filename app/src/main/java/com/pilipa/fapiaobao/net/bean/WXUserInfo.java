@@ -1,12 +1,15 @@
 package com.pilipa.fapiaobao.net.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by edz on 2017/10/26.
  */
 
-public class WXUserInfo {
+public class WXUserInfo implements Parcelable{
 
     /**
      * openid : OPENID
@@ -29,6 +32,30 @@ public class WXUserInfo {
     private String headimgurl;
     private String unionid;
     private List<String> privilege;
+
+    protected WXUserInfo(Parcel in) {
+        openid = in.readString();
+        nickname = in.readString();
+        sex = in.readInt();
+        province = in.readString();
+        city = in.readString();
+        country = in.readString();
+        headimgurl = in.readString();
+        unionid = in.readString();
+        privilege = in.createStringArrayList();
+    }
+
+    public static final Creator<WXUserInfo> CREATOR = new Creator<WXUserInfo>() {
+        @Override
+        public WXUserInfo createFromParcel(Parcel in) {
+            return new WXUserInfo(in);
+        }
+
+        @Override
+        public WXUserInfo[] newArray(int size) {
+            return new WXUserInfo[size];
+        }
+    };
 
     public String getOpenid() {
         return openid;
@@ -115,5 +142,23 @@ public class WXUserInfo {
                 ", unionid='" + unionid + '\'' +
                 ", privilege=" + privilege +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(openid);
+        dest.writeString(nickname);
+        dest.writeInt(sex);
+        dest.writeString(province);
+        dest.writeString(city);
+        dest.writeString(country);
+        dest.writeString(headimgurl);
+        dest.writeString(unionid);
+        dest.writeStringList(privilege);
     }
 }

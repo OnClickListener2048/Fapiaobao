@@ -63,7 +63,5 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
     @Override
     public void onError(com.lzy.okgo.model.Response<T> response) {
         super.onError(response);
-        TLog.log(response.message());
-        BaseApplication.showToast("网络异常，请检查网络连接情况");
     }
 }

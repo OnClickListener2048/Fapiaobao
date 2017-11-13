@@ -36,6 +36,7 @@ import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.HorizontalListView;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
@@ -175,10 +176,19 @@ public class DemandActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
+
         return R.layout.activity_demand;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
     @OnClick({R.id.demand_back, R.id.fl_change, btn_shut_down_early, R.id.link_to_telephone, R.id.link_to_phone, R.id.tv_qualified_list, R.id.iv_demand_share})
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

@@ -1,8 +1,12 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.TimeUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
@@ -52,9 +57,12 @@ public class EstimatePagerFragment extends BaseFragment {
         return R.layout.item_estimate_matcher;
     }
 
+
     @Override
-    protected void initWidget(View root) {
-        super.initWidget(root);
+    public void onStart() {
+        super.onStart();
+        TLog.log("onStart");
+        TLog.log("dataBean==null"+dataBean);
         if (dataBean != null) {
             date.setText(TimeUtils.millis2String(dataBean.getDeadline(), TimeUtils.FORMAT));
             publishCautions.setText(dataBean.getAttentions());
@@ -67,6 +75,89 @@ public class EstimatePagerFragment extends BaseFragment {
                     }
                 }
             }
+            TLog.log("labelList.toString()----------------"+labelList.toString());
+            labels.setLabels(labelList);
+        }
+    }
+
+    @Override
+    protected void onBindViewBefore(View root) {
+        super.onBindViewBefore(root);
+        TLog.log("onBindViewBefore");
+    }
+
+    @Override
+    protected void onRestartInstance(Bundle bundle) {
+        super.onRestartInstance(bundle);
+        TLog.log("onRestartInstance");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        TLog.log("onAttach");
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        TLog.log("onCreate");
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        TLog.log("onDetach");
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        TLog.log("onActivityCreated");
+
+    }
+
+
+
+
+    @Override
+    public void onAttachFragment(Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+        TLog.log("onAttachFragment");
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        TLog.log("onPause");
+    }
+
+    @Override
+    protected void initWidget(View root) {
+        super.initWidget(root);
+        TLog.log("dataBean==null"+dataBean);
+        if (dataBean != null) {
+            date.setText(TimeUtils.millis2String(dataBean.getDeadline(), TimeUtils.FORMAT));
+            publishCautions.setText(dataBean.getAttentions());
+            List<MacherBeanToken.DataBean.InvoiceTypesBean> invoiceVarieties = dataBean.getInvoiceTypes();
+            ArrayList<String> labelList = new ArrayList<>();
+            if (invoiceVarieties != null && invoiceVarieties.size() > 0) {
+                for (MacherBeanToken.DataBean.InvoiceTypesBean invoiceVariety : invoiceVarieties) {
+                    if (invoiceVariety.getInvoiceType() != null) {
+                        labelList.add(invoiceVariety.getInvoiceType().getName());
+                    }
+                }
+            }
+            TLog.log("labelList.toString()----------------"+labelList.toString());
             labels.setLabels(labelList);
         }
     }

@@ -52,6 +52,14 @@ public class DemandsPublishBean {
                 '}';
     }
 
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
     /**
      * areaRestrict : string
      * attentions : string
@@ -92,6 +100,7 @@ public class DemandsPublishBean {
      * updateDate : 2017-10-29T12:32:36.248Z
      */
 
+    private String companyId;
     private String areaRestrict;
     private String attentions;
     private String beginCloseDate;

@@ -17,6 +17,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.CreditRatingActivity;
@@ -93,7 +94,7 @@ public class MeFragment extends BaseFragment{
             case R.id.encyclopedia:
             {
                 Intent intent  =new Intent(getContext(), Op.class);
-                intent.putExtra("url",WIKI);
+                intent.putExtra("url", Constant.WIKI);
                 startActivity(intent);
             }
                 break;

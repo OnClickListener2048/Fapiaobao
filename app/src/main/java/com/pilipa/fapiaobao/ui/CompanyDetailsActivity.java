@@ -20,6 +20,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.fragment.MyCompanyDetailsPagerFragment;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
 
@@ -60,9 +61,7 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1000){
-
-        }
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
 

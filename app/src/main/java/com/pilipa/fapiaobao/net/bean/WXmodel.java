@@ -1,10 +1,13 @@
 package com.pilipa.fapiaobao.net.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by edz on 2017/10/26.
  */
 
-public class WXmodel {
+public class WXmodel implements Parcelable{
 
     /**
      * access_token : ACCESS_TOKEN
@@ -21,6 +24,27 @@ public class WXmodel {
     private String openid;
     private String scope;
     private String unionid;
+
+    protected WXmodel(Parcel in) {
+        access_token = in.readString();
+        expires_in = in.readInt();
+        refresh_token = in.readString();
+        openid = in.readString();
+        scope = in.readString();
+        unionid = in.readString();
+    }
+
+    public static final Creator<WXmodel> CREATOR = new Creator<WXmodel>() {
+        @Override
+        public WXmodel createFromParcel(Parcel in) {
+            return new WXmodel(in);
+        }
+
+        @Override
+        public WXmodel[] newArray(int size) {
+            return new WXmodel[size];
+        }
+    };
 
     public String getAccess_token() {
         return access_token;
@@ -80,5 +104,20 @@ public class WXmodel {
                 ", scope='" + scope + '\'' +
                 ", unionid='" + unionid + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(access_token);
+        dest.writeInt(expires_in);
+        dest.writeString(refresh_token);
+        dest.writeString(openid);
+        dest.writeString(scope);
+        dest.writeString(unionid);
     }
 }

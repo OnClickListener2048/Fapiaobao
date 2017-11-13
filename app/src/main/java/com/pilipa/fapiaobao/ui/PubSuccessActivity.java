@@ -94,6 +94,13 @@ public class PubSuccessActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
     @OnClick({R.id.btn_continue_to_supply, R.id.btn_watch, R.id.WeChat, R.id.moments, R.id.qq, R.id.qzone, R.id.weibo})
     public void onViewClicked(View view) {
         switch (view.getId()) {

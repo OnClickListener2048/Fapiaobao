@@ -357,6 +357,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     private void setUpData(MacherBeanToken matchBean) {
         ultraViewpager.setOffscreenPageLimit(matchBean.getData().size()-1);
         ultraViewpager.setAdapter(null);
+        TLog.log(" ultraViewpager.setAdapter(new ExtimatePagerAdapter(getSupportFragmentManager(), matchBean));");
         ultraViewpager.setAdapter(new ExtimatePagerAdapter(getSupportFragmentManager(), matchBean));
     }
 
@@ -423,7 +424,9 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 .backgroundPop(0x0000000)
                 .confirTextColor("#000000")
                 .cancelTextColor("#000000")
-                .city("天津市")
+                .city("天津")
+                .province("天津")
+                .district("红桥区")
                 .textColor(Color.parseColor("#000000"))
                 .provinceCyclic(false)
                 .cityCyclic(false)

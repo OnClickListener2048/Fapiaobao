@@ -1,7 +1,11 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.RegexUtils;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -17,6 +22,8 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
+import com.pilipa.fapiaobao.net.bean.WXUserInfo;
+import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.utils.CountDownTimerUtils;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.wxapi.Constants;
@@ -61,6 +68,29 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
     private IWXAPI api;
     private boolean mobileExact;
 
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("com.pilipa.wxlogin")) {
+                String deviceToken = BaseApplication.get("deviceToken","");
+                Bundle bundle = intent.getBundleExtra("extra_bundle");
+                WXmodel wx_info = bundle.getParcelable("wx_info");
+                Api.login("1", wx_info.getOpenid(), wx_info.getAccess_token(), deviceToken, new Api.BaseViewCallback<LoginWithInfoBean>() {
+                    @Override
+                    public void setData(final LoginWithInfoBean loginWithInfoBean) {
+                        if (loginWithInfoBean.getStatus()==200) {
+
+                            BaseApplication.showToast("微信绑定成功");
+
+
+                        }
+                    }
+                });
+            }
+
+        }
+    };
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
@@ -73,6 +103,9 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
 
     @Override
     public void initView() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.pilipa.wxlogin");
+        registerReceiver(mBroadcastReceiver, intentFilter);
         countDownTimerUtils = new CountDownTimerUtils(requireVerify, 60000, 1000);
         regexToWX();
 
@@ -89,6 +122,11 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +191,8 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                         @Override
                         public void setData(LoginWithInfoBean loginWithInfoBean) {
                             Log.d(TAG, "setData: SharedPreferencesHelper.save(LoginActivity.this,loginBean);success");
+                            LoginWithInfoBean.DataBean.CustomerBean customerBean = SharedPreferencesHelper.loadFormSource(LoginActivity.this, LoginWithInfoBean.DataBean.CustomerBean.class);
+                            loginWithInfoBean.getData().setCustomer(customerBean);
                             boolean save = SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
                             Log.d(TAG, "setData:save "+save);
                             Intent intent = new Intent();
@@ -163,6 +203,15 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                     });
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            TLog.log("RESULT_OKRESULT_OKRESULT_OKRESULT_OK");
+        }
+    }
+
     private String checkedLogin(){
         mobileExact = RegexUtils.isMobileExact(etUsername.getText().toString().trim());
         if(etUsername.getText().toString().trim().isEmpty()){

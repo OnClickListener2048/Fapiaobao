@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
-import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
@@ -129,27 +128,49 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     }
 
-    private void getWXUserInfo(WXmodel body) {
+    /**
+     * openid : OPENID
+     * nickname : NICKNAME
+     * sex : 1
+     * province : PROVINCE
+     * city : CITY
+     * country : COUNTRY
+     * headimgurl : http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/0
+     * privilege : ["PRIVILEGE1","PRIVILEGE2"]
+     * unionid :  o6_bmasdasdsad6_2sgVt7hMZOPfL
+     */
+
+    private void getWXUserInfo(final WXmodel body) {
         String deviceToken;
         deviceToken = BaseApplication.get("deviceToken", "");
 
         Api.login("1", body.getOpenid(), body.getAccess_token(), deviceToken, new Api.BaseViewCallback<LoginWithInfoBean>() {
             @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
+            public void setData(final LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus()==200) {
-                    SharedPreferencesHelper.save(WXEntryActivity.this, loginWithInfoBean);
-                    BaseApplication.showToast("微信登录成功");
-                    startActivity(new Intent(WXEntryActivity.this,MainActivity.class));
+
+                    BaseApplication.showToast("微信绑定成功");
+                    String url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
+                    String urlToken = String.format(url, body.getAccess_token(), body.getOpenid());
+                    OkGo.<WXUserInfo>get(urlToken).execute(new JsonCallBack<WXUserInfo>(WXUserInfo.class) {
+
+                        @Override
+                        public void onSuccess(Response<WXUserInfo> response) {
+                            if (response.isSuccessful()) {
+                                Intent intent = new Intent();
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelable("wx_info",response.body());
+                                intent.putExtra("extra_bundle", bundle);
+                                setResult(RESULT_OK,intent);
+                                finish();
+                            }
+
+                        }
+                    });
+
                 }
             }
         });
-        String url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
-        String urlToken = String.format(url, body.getAccess_token(), body.getOpenid());
-        OkGo.<WXUserInfo>get(urlToken).execute(new JsonCallBack<WXUserInfo>(WXUserInfo.class) {
-            @Override
-            public void onSuccess(Response<WXUserInfo> response) {
-//                BaseApplication.showToast(response.body().toString());
-            }
-        });
+
     }
 }
