@@ -435,9 +435,6 @@
                         android:layout_width="match_parent"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center_horizontal">
-
-
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -450,7 +447,7 @@
                             android:elevation="@dimen/d5"
                             android:translationZ="@dimen/d5"
                             android:layout_width="match_parent"
-                            android:layout_height="200dp"
+                            android:layout_height="wrap_content"
                             android:layout_margin="@dimen/d15"
                             android:background="@drawable/selector_estimate_receipt_kind_bg"
                             android:orientation="vertical">

@@ -70,7 +70,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                         }
                     });
                     Log.i("savedInstanceState", "ERR_OK");
-                    BaseApplication.showToast("ERR_OK");
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
                     Log.i("savedInstanceState", "发送取消ERR_USER_CANCEL");

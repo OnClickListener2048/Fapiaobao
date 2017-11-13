@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
     @Override
     public void initData() {
-        initAMap();
+//        initAMap();
         if (TDevice.UPDATE) {
             checkOutVersion();
         }
