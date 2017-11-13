@@ -135,7 +135,6 @@ public class ConfirmActivity extends BaseActivity {
                         collect.setImageResource(R.mipmap.collect);
                     } else if (s.getStatus() == 701 && s.getMsg().equals("token验证失败")) {
                         startActivity(new Intent(ConfirmActivity.this, LoginActivity.class));
-                        finish();
                     } else if (s.getStatus() == 400) {
                         collect.setImageResource(R.mipmap.collected);
                         isCollected = true;
@@ -237,7 +236,6 @@ public class ConfirmActivity extends BaseActivity {
                 intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
                 intent.setClass(this, UploadReceiptActivity.class);
                 startActivity(intent);
-                finish();
                 break;
         }
     }

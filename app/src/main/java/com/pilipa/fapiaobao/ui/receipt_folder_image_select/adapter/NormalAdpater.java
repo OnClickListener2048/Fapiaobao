@@ -84,7 +84,14 @@ public class NormalAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //            }
             holder.radioButton.setChecked(image.isSelected);
 
-            requestManager.load(image.path).asBitmap().placeholder(R.mipmap.ic_launcher).override(mImageResize, mImageResize).thumbnail(0.1f).into(holder.iv_image_item);
+            requestManager
+                    .load(image.path)
+                    .asBitmap()
+                    .placeholder(R.mipmap.loading_small)
+                    .error(R.mipmap.error_small)
+                    .override(mImageResize, mImageResize)
+                    .thumbnail(0.1f)
+                    .into(holder.iv_image_item);
 //            holder.radioButton.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {

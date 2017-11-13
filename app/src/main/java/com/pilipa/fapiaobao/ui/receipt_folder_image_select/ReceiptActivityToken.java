@@ -20,6 +20,7 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
+import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.receipt_folder_image_select.adapter.NormalAdpater;
@@ -100,6 +101,9 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
             });
         } else {
             BaseApplication.showToast("登录超时");
+            Intent intent = new Intent();
+            intent.setClass(this, LoginActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -145,7 +149,6 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
     public void onViewClicked() {
         if (arrayList != null && arrayList.size() != 0) {
             Log.d(TAG, "onViewClicked: " + arrayList.get(0).toString());
-            Toast.makeText(this, arrayList.get(0).toString(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(RESULT_RECEIPT_FOLDER, arrayList);

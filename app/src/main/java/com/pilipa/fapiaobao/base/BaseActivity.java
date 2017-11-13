@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.example.mylibrary.utils.ImageUtils;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.interf.BaseView;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
@@ -234,7 +235,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         Bitmap bitmap = null;
         try {
             bmp = MediaStore.Images.Media.getBitmap(cr,uri);
-            bitmap = ImageUtils.compressByQuality(bmp, 10, true);
+            TLog.log("bmp.size"+bmp.getRowBytes());
+//            bitmap = ImageUtils.compressByQuality(bmp, (long)50*1024, true);
+            bitmap =ImageUtils.compressByScale(bmp, 500, 500);
+            TLog.log("bitmap.size"+bitmap.getRowBytes());
+
         } catch (IOException e) {
             e.printStackTrace();
         }

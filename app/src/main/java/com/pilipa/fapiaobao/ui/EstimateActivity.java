@@ -248,7 +248,6 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                             intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
                             intent.setClass(EstimateActivity.this, ConfirmActivity.class);
                             startActivity(intent);
-                            finish();
                         } else {
                             startActivity(new Intent(EstimateActivity.this, LoginActivity.class));
                         }
