@@ -104,6 +104,7 @@ public class Withdraw2WXActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
     private void setTipDialog() {
         mTipDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
@@ -161,6 +162,7 @@ public class Withdraw2WXActivity extends BaseActivity {
                                             }
                                         });
                             }else{
+                                BaseApplication.showToast("请先绑定微信账号");
                                 weChatLogin();
                             }
                         }

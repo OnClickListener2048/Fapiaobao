@@ -114,7 +114,6 @@
                 android:id="@+id/tv_startdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@mipmap/icon28px"
                 android:drawablePadding="@dimen/d4"
                 android:text="2017-10-10" />
         </LinearLayout>
@@ -138,7 +137,6 @@
                 android:id="@+id/tv_finaldate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@mipmap/icon28px"
                 android:drawablePadding="@dimen/d4"
                 android:text="2017-10-10" />
         </LinearLayout>

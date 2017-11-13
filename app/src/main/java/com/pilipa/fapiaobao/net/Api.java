@@ -119,9 +119,9 @@ public class Api {
     static String TAG = "api";
 
     public static void bindWX(String customerId,String platform,String code, final BaseViewCallback baseViewCallback) {
-        OkGo.<LoginBean>get(String.format(BIND, customerId,platform,code)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
+        OkGo.<NormalBean>get(String.format(BIND, customerId,platform,code)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
-            public void onSuccess(Response<LoginBean> response) {
+            public void onSuccess(Response<NormalBean> response) {
                 if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
                 }

@@ -2,7 +2,10 @@ package com.pilipa.fapiaobao.ui;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -29,10 +32,13 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.WXmodel;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
 import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.model.Image;
@@ -195,12 +201,44 @@ public class UserInfoActivity extends BaseActivity {
         }
     }
 
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(LoginActivity.WX_LOGIN_ACTION)) {
+                String deviceToken = BaseApplication.get("deviceToken","");
+                Bundle bundle = intent.getBundleExtra("extra_bundle");
+                WXmodel wx_info = bundle.getParcelable("wx_info");
+                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
+                    @Override
+                    public void setData(NormalBean normalBean) {
+                        if (normalBean.getStatus() == 200) {
+                            tv_wx.setText("已绑定");
+                            tv_wx.setOnClickListener(null);
+                        }
+                    }
+                });
+            }
+
+        }
+    };
+
     @Override
     public void initView() {
         regexToWX();
         dialog = new TimePickerDialog(this);
         mediaStoreCompat = new MediaStoreCompat(this);
         requestManager = Glide.with(this);
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(LoginActivity.WX_LOGIN_ACTION);
+        registerReceiver(mBroadcastReceiver, intentFilter);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver);
     }
 
     private void openMedia() {
@@ -413,24 +451,14 @@ public class UserInfoActivity extends BaseActivity {
             }
         });
     }
+
     private void bindWX() {
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == 200) {
-                        if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
-
-                            Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX
-                                ,loginWithInfoBean.getData().getCustomer().getOpenid(), new Api.BaseViewCallback<UpdateCustomerBean>() {
-                            @Override
-                            public void setData(UpdateCustomerBean updateCustomerBean) {
-                                Log.d(TAG, "updateData:bindWX success");
-                                    tv_wx.setText("已绑定");
-                                    tv_wx.setOnClickListener(null);
-                            }
-                        });
-                    }else{
-                            weChatLogin();
+                    if (loginWithInfoBean.getData().getCustomer().getOpenid() == null) {
+                        weChatLogin();
                     }
                 }else {
                     startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));

@@ -27,6 +27,7 @@ import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.utils.CountDownTimerUtils;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.wxapi.Constants;
+import com.pilipa.share.wxapi.WXEntryActivity;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -67,11 +68,11 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
     private CountDownTimerUtils countDownTimerUtils;
     private IWXAPI api;
     private boolean mobileExact;
-
+    public static final String WX_LOGIN_ACTION = "com.pilipa.fapiaobao.wxlogin";
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals("com.pilipa.wxlogin")) {
+            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 WXmodel wx_info = bundle.getParcelable("wx_info");
@@ -79,10 +80,12 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                     @Override
                     public void setData(final LoginWithInfoBean loginWithInfoBean) {
                         if (loginWithInfoBean.getStatus()==200) {
-
                             BaseApplication.showToast("微信绑定成功");
-
-
+                            SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
+                            Intent intent = new Intent();
+                            intent.setClass(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     }
                 });
@@ -104,7 +107,7 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
     @Override
     public void initView() {
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("com.pilipa.wxlogin");
+        intentFilter.addAction(WX_LOGIN_ACTION);
         registerReceiver(mBroadcastReceiver, intentFilter);
         countDownTimerUtils = new CountDownTimerUtils(requireVerify, 60000, 1000);
         regexToWX();

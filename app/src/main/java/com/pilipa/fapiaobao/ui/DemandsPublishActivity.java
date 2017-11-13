@@ -269,7 +269,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         tvPublishAddressMustFill.setText(paperSpecial ? "必填" : "选填");
         tvPublishBankAccountMustFill.setText(paperSpecial ? "必填" : "选填");
         tvPublishPhoneNumberMustFill.setText(paperSpecial ? "必填" : "选填");
-        llAreaLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
+//        llAreaLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
         llExpressLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
 
         etDate.setText(TimeUtils.millis2String(System.currentTimeMillis() + fourteen_days_miliseconds, TimeUtils.FORMAT));
@@ -553,38 +553,52 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private void publish() {
         if (checkParams()) {
             if (makeParams() != null) {
-                Gson gson = new GsonBuilder().serializeNulls().create();
-                Api.publish(gson.toJson(makeParams()), new Api.BaseViewCallbackWithOnStart<BalanceBean>() {
+                final Gson gson = new GsonBuilder().serializeNulls().create();
+                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                     @Override
-                    public void onStart() {
-                        showProgressDialog();
-                    }
+                    public void setData(LoginWithInfoBean loginWithInfoBean) {
+                        if (loginWithInfoBean.getStatus() == 200) {
+                            Api.publish(gson.toJson(makeParams()), new Api.BaseViewCallbackWithOnStart<BalanceBean>() {
+                                @Override
+                                public void onStart() {
+                                    showProgressDialog();
+                                }
 
-                    @Override
-                    public void onFinish() {
-                        hideProgressDialog();
-                    }
+                                @Override
+                                public void onFinish() {
+                                    hideProgressDialog();
+                                }
 
-                    @Override
-                    public void onError() {
-                        hideProgressDialog();
-                    }
+                                @Override
+                                public void onError() {
+                                    hideProgressDialog();
+                                }
 
-                    @Override
-                    public void setData(BalanceBean balanceBean) {
-                        Intent intent = new Intent();
-                        if (balanceBean.getStatus() == 200) {
-                            intent.putExtra("demand", balanceBean.getData().getDemand());
-                            intent.setClass(DemandsPublishActivity.this, PubSuccessActivity.class);
-                            startActivity(intent);
+                                @Override
+                                public void setData(BalanceBean balanceBean) {
+                                    Intent intent = new Intent();
+                                    if (balanceBean.getStatus() == 200) {
+                                        intent.putExtra("demand", balanceBean.getData().getDemand());
+                                        intent.setClass(DemandsPublishActivity.this, PubSuccessActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else if (balanceBean.getStatus() == 888) {
+                                        BaseApplication.showToast("账户余额不足，请先充值");
+                                        intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
+                                        startActivityForResult(intent, REQUEST_CODE);
+                                    }
+                                }
+                            });
+                        } else if (loginWithInfoBean.getStatus() == 701) {
+                            BaseApplication.showToast("登录超时");
                             finish();
-                        } else if (balanceBean.getStatus() == 888) {
-                            BaseApplication.showToast("账户余额不足，请先充值");
-                            intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
-                            startActivityForResult(intent, REQUEST_CODE);
+                        } else {
+                            BaseApplication.showToast("服务器超时");
                         }
+
                     }
                 });
+
             }
 
         }

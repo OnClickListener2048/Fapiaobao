@@ -1,11 +1,14 @@
 package com.pilipa.fapiaobao.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.SizeUtils;
+import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 import com.pilipa.fapiaobao.utils.TDevice;
 
@@ -39,8 +42,9 @@ public class PublishSpinnerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater _LayoutInflater = LayoutInflater.from(parent.getContext());
-        TextView textView = (TextView) _LayoutInflater.inflate(android.R.layout.simple_dropdown_item_1line, null);
-        textView.setTextSize(TDevice.spToPx(parent.getResources(),10));
+        TextView textView = (TextView) _LayoutInflater.inflate(R.layout.item_simple_text_spinner, null);
+        textView.setTextSize(SizeUtils.px2sp(80));
+        textView.setTextColor(Color.parseColor("#434343"));
         textView.setText(expressCompanyBean.getData().get(position).getLabel());
         return textView;
     }

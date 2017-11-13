@@ -86,7 +86,6 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
         labelsArea.setLabels(arrayListReceiptArea);
         labelsArea.setSelects(0);
         locate = aMapLocation.getCity();
-
     }
 
     @Override

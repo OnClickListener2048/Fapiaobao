@@ -33,6 +33,8 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private static final String TAG = "WXEntryActivity";
+
+
     private IWXAPI api;
 
     @Override
@@ -150,23 +152,27 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 if (loginWithInfoBean.getStatus()==200) {
 
                     BaseApplication.showToast("微信绑定成功");
-                    String url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
-                    String urlToken = String.format(url, body.getAccess_token(), body.getOpenid());
-                    OkGo.<WXUserInfo>get(urlToken).execute(new JsonCallBack<WXUserInfo>(WXUserInfo.class) {
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("wx_info",body);
+                    intent.putExtra("extra_bundle", bundle);
+                    intent.setAction(LoginActivity.WX_LOGIN_ACTION);
+                    sendBroadcast(intent);
 
-                        @Override
-                        public void onSuccess(Response<WXUserInfo> response) {
-                            if (response.isSuccessful()) {
-                                Intent intent = new Intent();
-                                Bundle bundle = new Bundle();
-                                bundle.putParcelable("wx_info",response.body());
-                                intent.putExtra("extra_bundle", bundle);
-                                setResult(RESULT_OK,intent);
-                                finish();
-                            }
-
-                        }
-                    });
+//                    String url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
+//                    String urlToken = String.format(url, body.getAccess_token(), body.getOpenid());
+//                    OkGo.<WXUserInfo>get(urlToken).execute(new JsonCallBack<WXUserInfo>(WXUserInfo.class) {
+//
+//                        @Override
+//                        public void onSuccess(Response<WXUserInfo> response) {
+//                            if (response.isSuccessful()) {
+//
+//                                setResult(RESULT_OK,intent);
+//                                finish();
+//                            }
+//
+//                        }
+//                    });
 
                 }
             }
