@@ -85,7 +85,8 @@ public class UnusedReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
             requestManager
                     .load(image.isFromNet?image.path:image.uri)
                     .asBitmap()
-                    .placeholder(R.mipmap.ic_launcher)
+                    .placeholder(R.mipmap.loading_small)
+                    .error(R.mipmap.error_small)
                     .override(imageResize, imageResize*3/4)
                     .thumbnail(0.1f)
                     .into(imageHolder.iv_image_item);

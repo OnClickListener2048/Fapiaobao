@@ -67,7 +67,8 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
         requestManager
                     .load(image.path)
                     .asBitmap()
-                    .placeholder(R.mipmap.ic_launcher)
+                    .placeholder(R.mipmap.loading_small)
+                .error(R.mipmap.error_small)
                     .override(imageResize, imageResize*3/4)
                     .thumbnail(0.1f)
                     .into(imageHolder.iv_image_item);

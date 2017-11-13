@@ -55,7 +55,8 @@ public class UploadReceiptPreviewAdapter extends RecyclerView.Adapter<RecyclerVi
             requestManager
                     .load(images.get(position).isFromNet?images.get(position).path:images.get(position).uri)
                     .asBitmap()
-                    .placeholder(R.mipmap.ic_launcher)
+                    .error(R.mipmap.error_big)
+                    .placeholder(R.mipmap.loading_big)
                     .override(imageResize, imageResize*3/4)
                     .thumbnail(0.1f)
                     .into(imageHolder.iv_image_item);
