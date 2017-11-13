@@ -20,6 +20,7 @@ import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.AllInvoiceAdapter;
 import com.pilipa.fapiaobao.adapter.FinanceAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
@@ -28,6 +29,7 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
+import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
@@ -42,8 +44,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-
-import static android.support.v7.appcompat.R.id.top;
 
 /**
  * Created by edz on 2017/10/23.
@@ -213,7 +213,16 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 quickResponse();
                 break;
             case R.id.notification:
-                startActivity(new Intent(mContext, MessageCenterActivity.class));
+                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                    @Override
+                    public void setData(LoginWithInfoBean normalBean) {
+                        if (normalBean.getStatus() == 200) {
+                                startActivity(new Intent(mContext, MessageCenterActivity.class));
+                        } else {
+                            startActivity(new Intent(mContext, LoginActivity.class));
+                        }
+                    }
+                });
                 break;
             case R.id.pull_to_find_more:
             case R.id.rl_pull_to_find_more:

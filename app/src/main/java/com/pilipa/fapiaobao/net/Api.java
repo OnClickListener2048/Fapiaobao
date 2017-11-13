@@ -1017,6 +1017,28 @@ public class Api {
                 BaseApplication.showToast("上传成功");
             }
         });
+//        OkGo.<NormalBean>post(PUBLISH).upJson(json).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+//
+//            @Override
+//            public void onStart(Request<NormalBean, ? extends Request> request) {
+//                super.onStart(request);
+//                baseViewCallbackWithOnStart.onStart();
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                super.onFinish();
+//                baseViewCallbackWithOnStart.onFinish();
+//            }
+//
+//            @Override
+//            public void onSuccess(Response<NormalBean> response) {
+//                if (response.isSuccessful()) {
+//                    baseViewCallbackWithOnStart.setData(response.body());
+//                }
+//            }
+//        });
+
     }
 
     public static void publish(String json, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
@@ -1138,6 +1160,13 @@ public class Api {
     }
 
     public interface BaseViewCallbackWithOnStart<T> extends BaseViewCallback<T> {
+        void onStart();
+
+        void onFinish();
+
+        void onError();
+    }
+    public interface BaseViewCallbackWithOnStartForString<T> extends BaseViewCallback<T> {
         void onStart();
 
         void onFinish();

@@ -334,8 +334,10 @@ public class ProvidedActivity extends BaseActivity {
                 if ("8".equals(result.getInvoiceReject().getType())) {
                     image.reason = result.getInvoiceReject().getReason();
                 } else {
-                    RejectTypeBean.DataBean bean = list.get(Integer.parseInt(result.getInvoiceReject().getType()));
-                    image.reason = bean.getLabel();
+                    if(list!=null){
+                        RejectTypeBean.DataBean bean = list.get(Integer.parseInt(result.getInvoiceReject().getType()));
+                        image.reason = bean.getLabel();
+                    }
                 }
             }
 

@@ -807,7 +807,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             BaseApplication.showToast("单次需求总额不得超过50000元");
             return false;
         }
-        if (Double.valueOf(etExpressAmountMinimum.getText().toString().trim())
+        if (!etExpressAmountMinimum.getText().toString().isEmpty()
+                &&Double.valueOf(etExpressAmountMinimum.getText().toString().trim())
                 > Double.valueOf(etAmount.getText().toString().trim()) ) {
             BaseApplication.showToast("最少寄送限额必须小于等于需求总额");
             return false;
