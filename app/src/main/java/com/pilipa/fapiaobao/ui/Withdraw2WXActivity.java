@@ -18,7 +18,7 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
-import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -152,11 +152,14 @@ public class Withdraw2WXActivity extends BaseActivity {
                                         ,NetworkUtils.getIPAddress(true)
                                         ,Double.parseDouble(tv_amount.getText().toString())
                                         ,loginWithInfoBean.getData().getCustomer().getOpenid()
-                                        , new Api.BaseViewCallback<NormalBean>() {
+                                        , new Api.BaseViewCallback<PrepayBean>() {
                                             @Override
-                                            public void setData(NormalBean normalBean) {
+                                            public void setData(PrepayBean normalBean) {
                                                 if (normalBean.getStatus() ==200) {
                                                     BaseApplication.showToast("提现成功");
+                                                    finish();
+                                                }else {
+                                                    BaseApplication.showToast("当日充值不支持当日提现");
                                                     finish();
                                                 }
                                             }

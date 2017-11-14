@@ -140,9 +140,11 @@ public class RechargeDetailsActivity extends BaseActivity {
             }
             AmountHistoryBean.DataBean bean =(AmountHistoryBean.DataBean)mMarkerData.get(position);
             if(bean.getFee() >= (double) 0){
-                viewHolder.tvAmountOffered.setText("+"+bean.getFee());
+                viewHolder.tvAmountOffered.setText("+"+String.format("%.2f", bean.getFee())+"");//钱包金额
+                viewHolder.tvAmountOffered.setTextColor(R.color.add);
             }else{
-                viewHolder.tvAmountOffered.setText(bean.getFee()+"");
+                viewHolder.tvAmountOffered.setText(String.format("%.2f", bean.getFee())+"");//钱包金额
+                viewHolder.tvAmountOffered.setTextColor(R.color.reduce);
             }
             viewHolder.title.setText(bean.getTitle());
             viewHolder.createDate.setText(bean.getCreateDate());

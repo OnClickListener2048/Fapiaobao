@@ -109,14 +109,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/we_need" />
-
-                        <com.pilipa.fapiaobao.ui.widget.XCFlowLayout
-                            android:id="@+id/flowLayout"
-                            android:layout_marginTop="@dimen/d2"
-
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                        </com.pilipa.fapiaobao.ui.widget.XCFlowLayout>
+                            <com.pilipa.fapiaobao.ui.widget.XCFlowLayout
+                                android:id="@+id/flowLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                            </com.pilipa.fapiaobao.ui.widget.XCFlowLayout>
                     </LinearLayout>
 
                 </LinearLayout>

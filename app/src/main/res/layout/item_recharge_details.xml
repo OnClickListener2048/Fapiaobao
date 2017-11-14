@@ -17,15 +17,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="红包充入余额"/>
+                android:textColor="@color/title"
+                android:textSize="12sp"
+                android:text=""/>
             <TextView
                 android:id="@+id/tv_amount_offered"
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/main_style"
-                android:textSize="@dimen/s20"
-                android:text="+5" />
+                android:textSize="@dimen/s15"
+                android:text=""
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
         <RelativeLayout
@@ -37,15 +40,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:textSize="@dimen/s12"
-                android:text="2017-05-12 18：00"/>
+                android:textSize="@dimen/s10"
+                android:textColor="#959595"
+                android:layout_marginTop="10dp"
+                android:text=""/>
             <TextView
                 android:id="@+id/subTitle"
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/s12"
-                android:text="微信支付" />
+                android:textSize="@dimen/s10"
+                android:layout_marginTop="10dp"
+
+                android:text=""
+                android:textColor="#959595"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
     </LinearLayout>

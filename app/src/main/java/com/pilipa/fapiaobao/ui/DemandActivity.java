@@ -64,7 +64,7 @@ import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
  * Created by lyt on 2017/10/16.
  */
 
-public class DemandActivity extends BaseActivity {
+public class DemandActivity extends BaseActivity{
     private static final String TAG = "DemandActivity";
     @Bind(R.id.container_paper_normal_receipt)
     FrameLayout containerPaperNormalReceipt;
@@ -180,7 +180,6 @@ public class DemandActivity extends BaseActivity {
             Toast.makeText(DemandActivity.this, "分享取消", Toast.LENGTH_SHORT).show();
         }
     };
-
     @Override
     protected int getLayoutId() {
 
@@ -191,6 +190,7 @@ public class DemandActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+
     }
 
     @OnClick({R.id.demand_back, R.id.fl_change, btn_shut_down_early, R.id.link_to_telephone, R.id.link_to_phone, R.id.tv_qualified_list, R.id.iv_demand_share})
@@ -331,7 +331,6 @@ public class DemandActivity extends BaseActivity {
         }
     }
 
-
     @Override
     public void initData() {
         demandId = getIntent().getStringExtra("demandId");
@@ -453,6 +452,7 @@ public class DemandActivity extends BaseActivity {
                         @Override
                         public void setData(NormalBean normalBean) {
                             Toast.makeText(DemandActivity.this, "需求已关闭", Toast.LENGTH_SHORT).show();
+                            demandDetails(id);
                             DemandActivity.this.finish();
                             Log.d(TAG, "updateData:shatDownEarly success");
                         }
@@ -592,4 +592,5 @@ public class DemandActivity extends BaseActivity {
         dialogWindow.setAttributes(lp);
         mDialog.show();
     }
+
 }

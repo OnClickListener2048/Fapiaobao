@@ -910,9 +910,7 @@ public class Api {
 
             @Override
             public void onSuccess(Response<PrepayBean> response) {
-                if (response.isSuccessful() && response.body().getStatus() == 200) {
                     b.setData(response.body());
-                }
             }
         });
     }

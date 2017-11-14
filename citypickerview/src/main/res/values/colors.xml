@@ -20,6 +20,10 @@
     <color name="sort_catagory">#FFE0E0E0</color>
     <color name="white">#FFFFFF</color>
 
+
+    <color name="recharge_add">#fd8e8e</color>
+    <color name="recharge_cust">#13b5b1</color>
+
     <color name="province_line_border">#C7C7C7</color>
     <color name="liji_c_blue">#26A5FF</color>
     <color name="liji_material_blue_500">#03a9f4</color>

@@ -65,7 +65,8 @@ import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
  * Created by edz on 2017/10/20.
  */
 
-public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewPager.OnPageChangeListener, AdapterView.OnItemSelectedListener {
+public class DemandsDetailsPreviewActivity extends BaseActivity implements
+        ViewPager.OnPageChangeListener, AdapterView.OnItemSelectedListener {
     private static final String TAG = "DemandsDetailsPreviewActivity";
     @Bind(R.id.preview_viewpager)
     PreviewViewpager previewViewpager;
@@ -89,6 +90,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     EditText edt_reason_reject;
     @Bind(R.id.edt_amount_reject)
     EditText edt_amount_reject;
+    @Bind(R.id.tv_Unqualified_reject)
+    TextView tv_Unqualified_reject;
 
     TextView saveToMedia;
     @Bind(R.id.layout_qualified_item)
@@ -105,15 +108,15 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     @Bind(R.id.ll_no_info)
     LinearLayout llNoInfo;
     @Bind(R.id.tv_tip)//顶部tip
-    TextView tv_tip;
+            TextView tv_tip;
     @Bind(R.id.ll_sure_view)//底部确认
-    LinearLayout ll_sure_view;
+            LinearLayout ll_sure_view;
     @Bind(R.id.tv_msg)//中间的提示信息
-    TextView tv_msg;
+            TextView tv_msg;
     @Bind(R.id.tv_reject_reason)//不合格理由
-    TextView tv_reject_reason;
+            TextView tv_reject_reason;
     @Bind(R.id.reject_amount)//不合格理由
-    TextView rejectAmount;
+            TextView rejectAmount;
     private MyRejectTypeAdapter mSpinnerAdapter;
 
 
@@ -126,6 +129,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
 
     private int REJECT_START = 0;
     private int REJECT_FINISH = 1;
+    public static int REJECT_CODE = 1000;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_demands_details_preview;
@@ -199,7 +203,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                 layout_reject_item.setVisibility(View.GONE);
                 layout_unqualified_item.setVisibility(View.VISIBLE);
                 tv_reject_reason.setText(image.reason);
-                rejectAmount.setText("发票金额："+image.amount+"元");
+                rejectAmount.setText("发票金额：" + image.amount + "元");
                 break;
             case STATE_MAILING:
                 layout_qualified_item.setVisibility(View.GONE);
@@ -235,7 +239,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             R.id.confirm_back,
             R.id.tv_cancel_reject,
             R.id.tv_Unqualified,
-            R.id.tv_Unqualified_reject,
+            R.id. tv_Unqualified_reject,
             R.id.tv_qualified,
             R.id.save_to_media})
     public void onViewClicked(View view) {
@@ -334,10 +338,12 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
             default:
         }
     }
+
     @Override
     public void onClick(View v) {
 
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -476,19 +482,20 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
     public void onPageScrollStateChanged(int state) {
 
     }
+
     private String reason;
 
-    private void rejectInvoice(){
-        if(!edt_amount_reject.getText().toString().isEmpty()){
-           final RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
-            if("8".equals(data.getValue())){
+    private void rejectInvoice() {
+        if (!edt_amount_reject.getText().toString().isEmpty()) {
+            final RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
+            if ("8".equals(data.getValue())) {
                 reason = edt_reason_reject.getText().toString().trim();
-            }else {
+            } else {
                 reason = data.getLabel();
             }
-            if("8".equals(data.getValue()) && edt_reason_reject.getText().toString().isEmpty()){
+            if ("8".equals(data.getValue()) && edt_reason_reject.getText().toString().isEmpty()) {
                 BaseApplication.showToast("请认真填写驳回理由");
-            }else{
+            } else {
                 AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                     @Override
                     public void setData(LoginWithInfoBean normalBean) {
@@ -505,6 +512,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                                             if (normalBean.getStatus() == 200) {
                                                 String reason = normalBean.getData().getReason();
                                                 setRejectDialog(REJECT_FINISH);
+
                                             }
                                         }
                                     });
@@ -515,16 +523,18 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                     }
                 });
             }
-        }else{
+        } else {
             BaseApplication.showToast("请认真填写驳回金额");
         }
 
     }
-    private  Dialog mDialog;
+
+    private Dialog mDialog;
+
     private void setRejectDialog(int step) {
         mDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout  root = null;
-        if(step == REJECT_START){
+        LinearLayout root = null;
+        if (step == REJECT_START) {
             changeLayout();
             root = (LinearLayout) LayoutInflater.from(this).inflate(
                     R.layout.layout_reject1_tip, null);
@@ -534,7 +544,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
                     mDialog.dismiss();
                 }
             });
-        }else if(step == REJECT_FINISH){
+        } else if (step == REJECT_FINISH) {
             root = (LinearLayout) LayoutInflater.from(this).inflate(
                     R.layout.layout_reject2_tip, null);
             root.findViewById(R.id.btn_finish).setOnClickListener(new View.OnClickListener() {
@@ -564,22 +574,23 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements ViewP
 
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
-         mDialog.show();
+        mDialog.show();//TODO ?
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         final int OTHER = 8;//其他
-        if(OTHER == position+1){
+        if (OTHER == position + 1) {
             edt_reason_reject.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             edt_reason_reject.setVisibility(View.GONE);
         }
-        Log.d("onItemSelected",""+position);
+        Log.d("onItemSelected", "" + position);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        Log.d("onNothingSelected","");
+        Log.d("onNothingSelected", "");
     }
+
 }
