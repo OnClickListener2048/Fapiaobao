@@ -9,73 +9,101 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/d10"
-        android:visibility="gone"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_num_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/d10"
-            android:text="@string/paper_normal_receipt"
-            android:textSize="@dimen/d12"
-            android:textColor="@color/text_normal" />
+        <LinearLayout
+            android:id="@+id/ll_container_paper_normal_receipt"
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
-
-        <FrameLayout
-            android:id="@+id/container_paper_normal_receipt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></FrameLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
-
-        <TextView
-            android:id="@+id/tv_num_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/d10"
-            android:text="@string/paper_special_receipt"
-            android:textSize="@dimen/d12"
-            android:textColor="@color/text_normal" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
-
-        <FrameLayout
-            android:id="@+id/container_paper_special_receipt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </FrameLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
-
-        <TextView
-            android:id="@+id/tv_num_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/d10"
-            android:text="@string/paper_elec_receipt"
-            android:textColor="@color/text_normal"
-            android:textSize="@dimen/d12"
-            />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
-
-        <FrameLayout
-            android:id="@+id/container_paper_elec_receipt"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        </FrameLayout>
+            <TextView
+                android:id="@+id/tv_num_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/d10"
+                android:text="@string/paper_normal_receipt"
+                android:textSize="@dimen/d12"
+                android:textColor="@color/text_normal" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
+
+            <FrameLayout
+                android:id="@+id/container_paper_normal_receipt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></FrameLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_container_paper_special_receipt"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
+
+            <TextView
+                android:id="@+id/tv_num_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/d10"
+                android:text="@string/paper_special_receipt"
+                android:textSize="@dimen/d12"
+                android:textColor="@color/text_normal" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
+
+            <FrameLayout
+                android:id="@+id/container_paper_special_receipt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </FrameLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_container_paper_elec_receipt"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
+
+            <TextView
+                android:id="@+id/tv_num_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/d10"
+                android:text="@string/paper_elec_receipt"
+                android:textColor="@color/text_normal"
+                android:textSize="@dimen/d12"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
+
+            <FrameLayout
+                android:id="@+id/container_paper_elec_receipt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+
+
+
     </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_no_record"

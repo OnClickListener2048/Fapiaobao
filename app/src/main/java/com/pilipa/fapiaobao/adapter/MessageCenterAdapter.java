@@ -59,7 +59,11 @@ public class MessageCenterAdapter extends BaseAdapter {
         }
         MessageListBean.DataBean bean = list.get(position);
         viewHolder.tv_title.setText(bean.getMessageTypeName());
-        viewHolder.tv_date.setText(TimeUtils.millis2String(bean.getNewComeDate()));
+        if(bean.getNewComeDate() != 0L){
+            viewHolder.tv_date.setText(TimeUtils.millis2String(bean.getNewComeDate()));
+        }else{
+            viewHolder.tv_date.setText(TimeUtils.millis2String(System.currentTimeMillis()));
+        }
         viewHolder.tv_size.setText(String.valueOf(bean.getUnreadMessages()));
         return convertView;
     }

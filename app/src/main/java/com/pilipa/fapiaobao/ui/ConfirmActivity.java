@@ -22,6 +22,7 @@ import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.FavBean;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
+import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 
@@ -160,47 +161,47 @@ public class ConfirmActivity extends BaseActivity {
             case R.id.filter:
                 break;
             case R.id.collect:
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                if (!ButtonUtils.isFastDoubleClick(R.id.collect)) {
+                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
 
-                    @Override
-                    public void setData(LoginWithInfoBean normalBean) {
-                        if (normalBean.getStatus() == 200) {
-                            if (isCollected) {
-                                Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseViewCallback<FavBean>() {
-                                    @Override
-                                    public void setData(FavBean normalBean) {
-                                        if (normalBean.getStatus() == 200) {
-                                            isCollected = false;
-                                            collect.setImageResource(R.mipmap.collect);
+                        @Override
+                        public void setData(LoginWithInfoBean normalBean) {
+                            if (normalBean.getStatus() == 200) {
+                                if (isCollected) {
+                                    Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseViewCallback<FavBean>() {
+                                        @Override
+                                        public void setData(FavBean normalBean) {
+                                            if (normalBean.getStatus() == 200) {
+                                                isCollected = false;
+                                                collect.setImageResource(R.mipmap.collect);
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                } else {
+                                    CompanyCollectBean companyCollectBean = new CompanyCollectBean();
+                                    CompanyCollectBean.CompanyBean companyBean = new CompanyCollectBean.CompanyBean();
+                                    companyBean.setId(company_info.getId());
+                                    companyCollectBean.setCompany(companyBean);
+                                    companyCollectBean.setToken(normalBean.getData().getToken());
+
+                                    Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<FavBean>() {
+                                        @Override
+                                        public void setData(FavBean normalBean) {
+                                            if (normalBean.getStatus() == 200) {
+                                                BaseApplication.showToast("收藏成功");
+                                                isCollected = true;
+                                                favoriteId = normalBean.getFavoriteId();
+                                                collect.setImageResource(R.mipmap.collected);
+                                            }
+                                        }
+                                    });
+                                }
                             } else {
-                                CompanyCollectBean companyCollectBean = new CompanyCollectBean();
-                                CompanyCollectBean.CompanyBean companyBean = new CompanyCollectBean.CompanyBean();
-                                companyBean.setId(company_info.getId());
-                                companyCollectBean.setCompany(companyBean);
-                                companyCollectBean.setToken(normalBean.getData().getToken());
-
-                                Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<FavBean>() {
-                                    @Override
-                                    public void setData(FavBean normalBean) {
-                                        if (normalBean.getStatus() == 200) {
-                                            BaseApplication.showToast("收藏成功");
-                                            isCollected = true;
-                                            favoriteId = normalBean.getFavoriteId();
-                                            collect.setImageResource(R.mipmap.collected);
-                                        }
-                                    }
-                                });
+                                startActivity(new Intent(ConfirmActivity.this, LoginActivity.class));
                             }
-                        } else {
-                            startActivity(new Intent(ConfirmActivity.this, LoginActivity.class));
                         }
-                    }
-                });
-
-
+                    });
+                }
                 break;
             case R.id.qr:
                 break;

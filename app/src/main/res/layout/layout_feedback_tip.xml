@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/rl_root"
         android:background="@drawable/shape_tip_bg"
         android:layout_margin="@dimen/d20"
         android:layout_width="match_parent"

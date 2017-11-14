@@ -25,18 +25,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:orientation="horizontal"
+        android:layout_height="140dp"
+        android:layout_margin="@dimen/d10"
         android:background="@drawable/edittext_bg"
-        android:padding="@dimen/d10"
-        android:layout_margin="@dimen/d10">
+        android:orientation="horizontal"
+        android:padding="@dimen/d10">
+
         <TextView
             android:id="@+id/tv_reject_reason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
-            />
+            android:text="" />
     </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -98,6 +99,7 @@
                 android:background="@drawable/shape_qualified"
                 android:paddingBottom="@dimen/d10"
                 android:paddingTop="@dimen/d10"
+                android:layout_marginBottom="@dimen/d5"
                 android:text="@string/confirm"
                 android:textColor="@color/white" />
         </RelativeLayout>

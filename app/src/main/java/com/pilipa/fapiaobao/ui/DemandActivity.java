@@ -54,6 +54,7 @@ import static com.pilipa.fapiaobao.net.Constant.STATE_CONFIRMING;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_FINISH;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_ING;
+import static com.pilipa.fapiaobao.net.Constant.STATE_INCOMPETENT;
 import static com.pilipa.fapiaobao.net.Constant.STATE_MAILING;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_PAPER;
@@ -131,6 +132,12 @@ public class DemandActivity extends BaseActivity {
     ImageView qr;
     @Bind(R.id.ll_receive)
     LinearLayout ll_receive;
+    @Bind(R.id.ll_container_paper_normal_receipt)
+    LinearLayout container_paper_normal_receipt;
+    @Bind(R.id.ll_container_paper_special_receipt)
+    LinearLayout container_paper_special_receipt;
+    @Bind(R.id.ll_container_paper_elec_receipt)
+    LinearLayout container_paper_elec_receipt;
 
     List<DemandDetails.DataBean.OrderInvoiceListBean> mDataList = new ArrayList<>();
     List<String> mList = new ArrayList<>();
@@ -265,6 +272,7 @@ public class DemandActivity extends BaseActivity {
                 image.isCapture = false;
                 image.isFromNet = true;
                 image.state = result.getState();
+                image.amount = String.valueOf(result.getAmount());
                 image.logisticsTradeno = result.getLogisticsTradeno();
                 image.logisticsCompany = result.getLogisticsCompany();
                 image.variety = result.getVariety();
@@ -280,30 +288,46 @@ public class DemandActivity extends BaseActivity {
                 if (STATE_COMPETENT.equals(images.get(i).state)) {
                     images_qualified.add(images.get(i));//合格发票
                 }
-                if (VARIETY_GENERAL_PAPER.equals(images.get(i).variety)) {
-                    images1.add(images.get(i));
-                } else if (VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)) {
-                    images2.add(images.get(i));
-                } else if (VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)) {
-                    images3.add(images.get(i));
+                if(!STATE_INCOMPETENT .equals(images.get(i).state)){
+                    if (VARIETY_GENERAL_PAPER.equals(images.get(i).variety)) {
+                        images1.add(images.get(i));
+                    } else if (VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)) {
+                        images2.add(images.get(i));
+                    } else if (VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)) {
+                        images3.add(images.get(i));
+                    }
                 }
             }
+
             tv_num_1.setText(String.format(getResources().getString(R.string.paper_normal_receipt_num), images1.size()));
             tv_num_2.setText(String.format(getResources().getString(R.string.paper_special_receipt_num), images2.size()));
             tv_num_3.setText(String.format(getResources().getString(R.string.paper_elec_receipt_num), images3.size()));
 
             Bundle bundle = new Bundle();
+
             bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
             paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
             addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
-
             bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
             paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
             addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
-
             bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
             paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
             addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+            if(images1.size()==0){
+                container_paper_normal_receipt.setVisibility(View.GONE);
+            }
+            if(images2.size()==0){
+                container_paper_special_receipt.setVisibility(View.GONE);
+            }
+            if(images3.size()==0){
+                container_paper_elec_receipt.setVisibility(View.GONE);
+            }
+
+           if(images1.size()==0&&images2.size()==0&&images3.size()==0){
+                ll_no_record.setVisibility(View.VISIBLE);
+                ll_receiptlist.setVisibility(View.GONE);
+            }
         }
     }
 

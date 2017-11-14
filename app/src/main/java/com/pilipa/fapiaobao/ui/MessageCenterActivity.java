@@ -28,7 +28,7 @@ import butterknife.OnClick;
  * Created by wjn on 2017/10/23.
  */
 
-public class MessageCenterActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public class MessageCenterActivity extends BaseActivity implements AdapterView.OnItemClickListener{
     private static final String TAG = "MessageCenterActivity";
 
     @Bind(R.id.no_content)
@@ -65,6 +65,7 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
         messageCenterAdapter = new MessageCenterAdapter(this);
         lvContent.setAdapter(messageCenterAdapter);
         lvContent.setOnItemClickListener(this);
+
     }
 
     @Override
@@ -151,6 +152,5 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
         intent.putExtra("type",list.get(position).getMessageType());
         startActivity(intent);
         messageRead(list.get(position).getMessageType());
-
     }
 }
