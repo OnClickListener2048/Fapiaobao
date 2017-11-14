@@ -53,24 +53,20 @@ public class UploadSuccessActivity extends BaseActivity {
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA share_media) {
-            showProgressDialog();
         }
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
-            hideProgressDialog();
             Toast.makeText(UploadSuccessActivity.this, "分享成功", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-            hideProgressDialog();
             Toast.makeText(UploadSuccessActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
-            hideProgressDialog();
             Toast.makeText(UploadSuccessActivity.this, "分享取消", Toast.LENGTH_SHORT).show();
         }
     };

@@ -30,6 +30,12 @@
             <!--android:exported="false"-->
             <!--android:windowSoftInputMode="adjustResize">-->
         <!--</activity>-->
+
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:launchMode="singleTop"
+            android:exported="true"/>
+
+
         <activity
             android:name="com.sina.weibo.sdk.share.WbShareTransActivity"
             android:launchMode="singleTask"
@@ -50,7 +56,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="tencent100424468" />
+                <data android:scheme="tencent1106395149" />
             </intent-filter>
         </activity>
 

@@ -76,12 +76,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-
                 android:textColor="@color/main_style"
                 android:text="收票截止时间:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
             <TextView
                 android:id="@+id/date"
                 android:drawablePadding="@dimen/d5"
@@ -89,6 +87,10 @@
                 android:textColor="@color/gray_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
         </LinearLayout>
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d17" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

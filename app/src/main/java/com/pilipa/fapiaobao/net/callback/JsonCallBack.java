@@ -7,6 +7,7 @@ import com.google.gson.stream.JsonReader;
 import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.utils.TDevice;
 
 import java.lang.reflect.Type;
 
@@ -63,8 +64,14 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
     @Override
     public void onError(com.lzy.okgo.model.Response<T> response) {
         super.onError(response);
-        if (!response.isSuccessful()) {
-            BaseApplication.showToast("服务器异常");
+        if (TDevice.hasInternet()) {
+            if (!response.isSuccessful()) {
+                BaseApplication.showToast("服务器异常");
+            }
+        } else {
+            BaseApplication.showToast("请检查网络~");
+            return;
         }
+
     }
 }

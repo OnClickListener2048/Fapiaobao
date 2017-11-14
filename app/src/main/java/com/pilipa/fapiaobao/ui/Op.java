@@ -17,6 +17,7 @@ import com.just.library.AgentWeb;
 import com.just.library.ChromeClientCallbackManager;
 import com.just.library.DownLoadResultListener;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.utils.WebViewUtils;
 
 import butterknife.Bind;
@@ -37,7 +38,7 @@ public class Op extends AppCompatActivity implements
     ImageView webViewBack;
     @Bind(R.id.ll)
     LinearLayout ll;
-
+    private  MacherBeanToken.DataBean.CompanyBean company_info;
     WebViewClient webViewClient = new WebViewClient() {
         @Override
         public void onLoadResource(WebView view, String url) {
@@ -47,6 +48,7 @@ public class Op extends AppCompatActivity implements
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            if (company_info != null) {
             view.loadUrl("javascript:;(function(currentRules){\n" +
                     "            var jQueryUrl = 'https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js';\n" +
                     "            function writeValue(conf) {\n" +
@@ -72,11 +74,16 @@ public class Op extends AppCompatActivity implements
                     "                setFormVals();\n" +
                     "            }\n" +
                     "        })([\n" +
-                    "            {selector:'#invoiceTitle', value:'抬头'},\n" +
-                    "            {selector:'#taxpayerNumber', value:'税号'},\n" +
-                    "            {selector:'#mailAccount', value:'邮箱'},\n" +
-                    "            {selector:'#abc', value:'4444'}\n" +
+                    "            {selector:'#invoiceTitle', value:'"+company_info.getName()+"'},\n" +
+                    "            {selector:'#taxpayerNumber', value:'"+company_info.getTaxno()+"'},\n" +
+                    "            {selector:'#cellPhoneNumber', value:'"+company_info.getPhone()+"'},\n" +
+                    "            {selector:'#address', value:'"+company_info.getAddress()+"'},\n" +
+                    "            {selector:'#depositBank',value:'"+company_info.getAccount()+"'},\n" +
+                    "            {selector:'#bankAccount',value:'"+company_info.getDepositBank()+"'}\n" +
                     "        ]);");
+            }
+
+
         }
     };
 
@@ -94,6 +101,8 @@ public class Op extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
         ButterKnife.bind(this);
+        company_info = getIntent().getParcelableExtra("company_info");
+        TLog.log(" company_info = getIntent().getParcelableExtra(\"company_info\");");
         preAgentWeb = WebViewUtils.init(this, ll, this, webViewClient, webChromeClient, this);
         String url = getIntent().getStringExtra("url");
         preAgentWeb.go(url);

@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.UploadReceiptAdapter;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.ui.FillUpActivity;
@@ -290,6 +291,10 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             List<Uri> uris = Matisse.obtainResult(data);
             ArrayList<Image> arrayList = new ArrayList<>();
             for (Uri uri : uris) {
+                if (uri.equals("")) {
+                    BaseApplication.showToast("图片格式不符，请上传其他的发票~");
+                    return;
+                }
                 Image image = new Image();
                 image.isCapture = false;
                 image.position = mPreviousPosition;

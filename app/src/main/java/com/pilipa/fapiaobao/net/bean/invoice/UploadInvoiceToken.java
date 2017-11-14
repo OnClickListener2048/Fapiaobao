@@ -70,16 +70,16 @@ public class UploadInvoiceToken {
          * variety : string
          */
 
-        private int amount;
+        private double amount;
         private String id;
         private String picture;
         private String variety;
 
-        public int getAmount() {
+        public double getAmount() {
             return amount;
         }
 
-        public void setAmount(int amount) {
+        public void setAmount(double amount) {
             this.amount = amount;
         }
 

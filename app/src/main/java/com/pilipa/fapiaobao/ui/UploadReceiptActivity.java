@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.fragment.UploadNormalReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
@@ -71,6 +73,8 @@ public class UploadReceiptActivity extends BaseActivity {
     private String label;
     private String company_id;
     private int type;
+    private  MacherBeanToken.DataBean.CompanyBean company_info;
+
 
 
     @Override
@@ -86,6 +90,7 @@ public class UploadReceiptActivity extends BaseActivity {
         label = getIntent().getStringExtra(FinanceFragment.EXTRA_DATA_LABEL);
         amount = getIntent().getDoubleExtra("amount", 0);
         bonus = getIntent().getDoubleExtra("bonus", 0);
+        company_info = getIntent().getParcelableExtra("company_info");
         demandsId = getIntent().getStringExtra("demandsId");
         paperNormalReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
@@ -135,7 +140,8 @@ public class UploadReceiptActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.upload_scan:
-                startActivityForResult(new Intent(this, CaptureActivity.class), REQUEST_CODE_SCAN);
+                Intent intent = new Intent(this, CaptureActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_SCAN);
                 break;
         }
     }
@@ -155,6 +161,7 @@ public class UploadReceiptActivity extends BaseActivity {
                     TLog.log(content);
                     if (RegexUtils.isURL(content)) {
                         Intent intent = new Intent();
+                        intent.putExtra("company_info", company_info);
                         intent.setClass(this, Op.class);
                         intent.putExtra("url", content);
                         startActivity(intent);

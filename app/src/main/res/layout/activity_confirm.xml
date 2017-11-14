@@ -53,8 +53,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:layout_margin="@dimen/d20"
+            android:layout_height="400dp"
+            android:layout_marginLeft="@dimen/d20"
+            android:layout_marginRight="@dimen/d20"
             android:background="@drawable/receipt_info_bg"
             android:elevation="@dimen/d5"
             android:orientation="vertical"
@@ -94,6 +95,7 @@
                         android:layout_height="@dimen/d30" />
 
                     <TextView
+                        android:textSize="@dimen/s12"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -112,7 +114,10 @@
                             android:layout_centerInParent="true" />
                     </RelativeLayout>
 
-
+                    <android.support.v4.widget.Space
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/look_directly"
@@ -250,33 +255,44 @@
             </FrameLayout>
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d21" />
         <TextView
+
+            android:textColor="#ad9d7e"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:text="@string/confirm_upload"
-            android:textColor="@color/main_style" />
+            android:textSize="@dimen/s11" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/d5" />
 
         <TextView
+            android:textColor="#ad9d7e"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
             android:text="纸质发票要拍照上传哦~"
-            android:textColor="@color/main_style" />
+            android:textSize="@dimen/s11" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d16" />
         <Button
+            android:layout_marginLeft="@dimen/d20"
+            android:layout_marginRight="@dimen/d20"
             android:id="@+id/upload_receipt"
             android:layout_width="match_parent"
             android:layout_height="@dimen/d40"
-            android:layout_margin="@dimen/d15"
-            android:background="@color/btn_confirm"
-            android:text="@string/upload_receipt"
+
+            android:background="@drawable/shape_extimate_go"
+            android:text="上传发票"
             android:textColor="@color/white" />
 
     </LinearLayout>

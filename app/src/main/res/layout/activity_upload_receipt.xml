@@ -8,11 +8,12 @@
         android:layout_height="48dp">
 
         <TextView
+            android:text="上传发票"
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/upload_receipt" />
+            android:textSize="@dimen/s16" />
 
         <ImageView
             android:id="@+id/upload_back"
@@ -36,6 +37,9 @@
 
     </RelativeLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -140,22 +144,30 @@
 
                 </FrameLayout>
             </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/d10" />
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/upload_receipt"
-                android:text="@string/upload_receipt"
-                android:textColor="@color/white"
-                android:background="@color/main_style"
-                android:layout_margin="@dimen/d20"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/d40" />
+                android:layout_height="@dimen/d40"
+                android:layout_margin="@dimen/d20"
+                android:background="@drawable/shape_extimate_go"
+                android:text="@string/confirm"
+                android:textColor="@color/white" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+
+    </FrameLayout>
 
 
 </LinearLayout>

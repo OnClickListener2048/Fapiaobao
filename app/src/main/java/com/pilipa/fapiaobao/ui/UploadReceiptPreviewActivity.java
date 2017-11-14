@@ -30,6 +30,7 @@ import com.pilipa.fapiaobao.ui.fragment.UploadPreviewReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -197,7 +198,10 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
 
                 receiptNumber.setText(count + "");
-                receiptMoney.setText(String.valueOf(sum));
+                Double aDouble = Double.valueOf(sum);
+                BigDecimal bigDecimal = new BigDecimal(aDouble);
+                BigDecimal bigDecimal1 = bigDecimal.setScale(2, RoundingMode.UP);
+                receiptMoney.setText(String.valueOf(bigDecimal1));
 
                 AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                     @Override
@@ -221,8 +225,8 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                             @Override
                             public void setData(RedBagBean redBagBean) {
                                 if (redBagBean.getStatus() == 200) {
-                                    aDouble = redBagBean.getData().getBonus();
-                                    BigDecimal bigDecimal = new BigDecimal(aDouble);
+                                    UploadReceiptPreviewActivity.this.aDouble = redBagBean.getData().getBonus();
+                                    BigDecimal bigDecimal = new BigDecimal(UploadReceiptPreviewActivity.this.aDouble);
                                     BigDecimal bigDecimal1 = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
                                     estimateMoney.setText(String.valueOf(bigDecimal1));
                                 }
@@ -313,7 +317,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         ArrayList<Image> currentImagesPN = paperNormalReceiptFragment.getCurrentImages();
                         for (Image image : currentImagesPN) {
                             UploadInvoiceToken.InvoiceListBean invoiceListBeanPN = new UploadInvoiceToken.InvoiceListBean();
-                            invoiceListBeanPN.setAmount(Integer.valueOf(image.amount));
+                            invoiceListBeanPN.setAmount(Double.valueOf(image.amount));
                             invoiceListBeanPN.setPicture(upLoadReceipt(image.uri));
                             invoiceListBeanPN.setVariety("1");
                             invoiceListBeanArrayList.add(invoiceListBeanPN);
@@ -325,7 +329,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         ArrayList<Image> currentImagesPS = paperSpecialReceiptFragment.getCurrentImages();
                         for (Image image : currentImagesPS) {
                             UploadInvoiceToken.InvoiceListBean invoiceListBeanPN = new UploadInvoiceToken.InvoiceListBean();
-                            invoiceListBeanPN.setAmount(Integer.valueOf(image.amount));
+                            invoiceListBeanPN.setAmount(Double.valueOf(image.amount));
                             invoiceListBeanPN.setPicture(upLoadReceipt(image.uri));
                             invoiceListBeanPN.setVariety("2");
                             invoiceListBeanArrayList.add(invoiceListBeanPN);
@@ -336,7 +340,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         ArrayList<Image> currentImagesPE = paperElecReceiptFragment.getCurrentImages();
                         for (Image image : currentImagesPE) {
                             UploadInvoiceToken.InvoiceListBean invoiceListBeanPN = new UploadInvoiceToken.InvoiceListBean();
-                            invoiceListBeanPN.setAmount(Integer.valueOf(image.amount));
+                            invoiceListBeanPN.setAmount(Double.valueOf(image.amount));
 
                             invoiceListBeanPN.setVariety("3");
 

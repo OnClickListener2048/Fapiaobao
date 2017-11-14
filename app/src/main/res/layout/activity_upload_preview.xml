@@ -15,7 +15,7 @@
             android:layout_centerInParent="true"
             android:textSize="@dimen/d18"
             android:textColor="@color/title"
-            android:text="@string/upload_receipt" />
+            android:text="上传发票" />
 
         <ImageView
             android:id="@+id/upload_back"
@@ -39,264 +39,280 @@
             android:visibility="gone" />
 
     </RelativeLayout>
-
-    <android.support.v4.widget.NestedScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/ll_container_paper_normal_receipt"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/d10"
-                    android:text="@string/paper_normal_receipt"
-                    android:textColor="@color/main_style" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d10" />
-
-                <FrameLayout
-                    android:id="@+id/container_paper_normal_receipt"
-                    android:layout_margin="@dimen/d3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d10" />
-
-            <LinearLayout
-                android:id="@+id/ll_container_paper_special_receipt"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/d10"
-                    android:text="@string/paper_special_receipt"
-                    android:textColor="@color/main_style" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d10" />
-
-                <FrameLayout
-                    android:id="@+id/container_paper_special_receipt"
-                    android:layout_margin="@dimen/d3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </FrameLayout>
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d10" />
-
-            <LinearLayout
-                android:id="@+id/ll_container_paper_elec_receipt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/d10"
-                    android:text="@string/paper_elec_receipt"
-                    android:textColor="@color/main_style" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d10" />
-
-                <FrameLayout
-                    android:id="@+id/container_paper_elec_receipt"
-                    android:layout_margin="@dimen/d3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d10" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d200"
-                android:layout_margin="@dimen/d5"
-                android:background="@drawable/receipt_info_bg"
-                android:elevation="@dimen/d5"
-                android:orientation="vertical"
-                android:translationZ="@dimen/d5">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d20" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/d10"
-                    android:text="@string/my_provide" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d20" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/ll_container_paper_normal_receipt"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:gravity="left"
-                        android:orientation="horizontal">
+                        android:layout_marginStart="@dimen/d10"
+                        android:text="@string/paper_normal_receipt"
+                        android:textColor="@color/main_style" />
 
-                        <TextView
-                            android:layout_marginLeft="@dimen/d10"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/receipt_number" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d10" />
 
-                        <TextView
-                            android:id="@+id/receipt_number"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@color/main_style"
-                            android:textSize="@dimen/s30" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/piece" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginLeft="@dimen/d10"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:gravity="left"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/receipt_money" />
-
-                        <TextView
-                            android:id="@+id/receipt_money"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@color/main_style"
-                            android:textSize="@dimen/s30" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/yuan" />
-                    </LinearLayout>
+                    <FrameLayout
+                        android:id="@+id/container_paper_normal_receipt"
+                        android:layout_margin="@dimen/d3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
+
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/d20" />
+                    android:layout_height="@dimen/d10" />
+
+                <LinearLayout
+                    android:id="@+id/ll_container_paper_special_receipt"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/d10"
+                        android:text="@string/paper_special_receipt"
+                        android:textColor="@color/main_style" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d10" />
+
+                    <FrameLayout
+                        android:id="@+id/container_paper_special_receipt"
+                        android:layout_margin="@dimen/d3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </FrameLayout>
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/d10" />
+
+                <LinearLayout
+                    android:id="@+id/ll_container_paper_elec_receipt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/d10"
+                        android:text="@string/paper_elec_receipt"
+                        android:textColor="@color/main_style" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d10" />
+
+                    <FrameLayout
+                        android:id="@+id/container_paper_elec_receipt"
+                        android:layout_margin="@dimen/d3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/d10" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="@dimen/d200"
+                    android:layout_margin="@dimen/d13"
+                    android:background="@drawable/receipt_info_bg"
+                    android:elevation="@dimen/d5"
+                    android:orientation="vertical"
+                    android:translationZ="@dimen/d5">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d20" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/d10"
+                        android:text="@string/my_provide" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d20" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:gravity="left"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_marginLeft="@dimen/d10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/receipt_number" />
+
+                            <TextView
+                                android:id="@+id/receipt_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/main_style"
+                                android:textSize="@dimen/s30" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/piece" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_marginLeft="@dimen/d10"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="@string/estimate_money" />
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/estimate_money"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textColor="@color/main_style"
-                            android:textSize="@dimen/s30" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/receipt_money" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/yuan" />
+                            <TextView
+                                android:id="@+id/receipt_money"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/main_style"
+                                android:textSize="@dimen/s30" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/yuan" />
+                        </LinearLayout>
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d20" />
+
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_marginLeft="@dimen/d10"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/estimate_money" />
+
+                            <TextView
+                                android:id="@+id/estimate_money"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textColor="@color/main_style"
+                                android:textSize="@dimen/s30" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/yuan" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="horizontal">
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d10" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal">
 
 
+
+                        <TextView
+                            android:id="@+id/continue_to_upload"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/upload_receipt"
+                            android:textColor="@color/main_style"
+                            android:textSize="@dimen/s14" />
                     </LinearLayout>
+
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d10" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal">
 
 
-
-                    <TextView
-                        android:id="@+id/continue_to_upload"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/upload_receipt"
-                        android:textColor="@color/main_style"
-                        android:textSize="@dimen/s14" />
-                </LinearLayout>
 
             </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/confirm"
@@ -306,10 +322,11 @@
                 android:background="@color/main_style"
                 android:text="@string/confirm"
                 android:textColor="@color/white" />
-
-
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+
+
+    </FrameLayout>
+
 
 
 </LinearLayout>
