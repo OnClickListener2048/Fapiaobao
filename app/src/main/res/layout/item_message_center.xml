@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:textSize="@dimen/s12"
-                android:text="2017-05-12 18：00"/>
+                android:text=""/>
 
 
         </RelativeLayout>

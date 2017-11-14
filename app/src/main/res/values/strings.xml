@@ -370,7 +370,7 @@
     <string name="qualified_list">查看已确认合格发票</string>
     <string name="paper_normal_receipt_num">增值税普票 %1$d 张</string>
     <string name="paper_special_receipt_num">增值税专票 %1$d 张</string>
-    <string name="paper_elec_receipt_num">电子普票 %1$d 张</string>
+    <string name="paper_elec_receipt_num">电子发票 %1$d 张</string>
     <string name="tip_reject_start">驳回不实将影响您的使用与信用值</string>
     <string name="tip_reject_finish">发票已驳回，您的红包奖励不会被扣除</string>
     <string name="hint_reject">请如实填写您的不合格原因...</string>

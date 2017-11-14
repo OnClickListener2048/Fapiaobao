@@ -1009,35 +1009,35 @@ public class Api {
         });
     }
 
-    public static void uploadLocalReceipt(String json) {
-        OkGo.<String>post(UPLOAD_MY_INVOICE).upJson(json).execute(new StringCallback() {
-            @Override
-            public void onSuccess(Response<String> response) {
-                TLog.log(response.body());
-                BaseApplication.showToast("上传成功");
-            }
-        });
-//        OkGo.<NormalBean>post(PUBLISH).upJson(json).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
-//
+    public static void uploadLocalReceipt(String json,final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
+//        OkGo.<String>post(UPLOAD_MY_INVOICE).upJson(json).execute(new StringCallback() {
 //            @Override
-//            public void onStart(Request<NormalBean, ? extends Request> request) {
-//                super.onStart(request);
-//                baseViewCallbackWithOnStart.onStart();
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//                super.onFinish();
-//                baseViewCallbackWithOnStart.onFinish();
-//            }
-//
-//            @Override
-//            public void onSuccess(Response<NormalBean> response) {
-//                if (response.isSuccessful()) {
-//                    baseViewCallbackWithOnStart.setData(response.body());
-//                }
+//            public void onSuccess(Response<String> response) {
+//                TLog.log(response.body());
+//                BaseApplication.showToast("上传成功");
 //            }
 //        });
+        OkGo.<NormalBean>post(UPLOAD_MY_INVOICE).upJson(json).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+
+            @Override
+            public void onStart(Request<NormalBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallbackWithOnStart.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallbackWithOnStart.onFinish();
+            }
+
+            @Override
+            public void onSuccess(Response<NormalBean> response) {
+                if (response.isSuccessful()) {
+                    baseViewCallbackWithOnStart.setData(response.body());
+                }
+            }
+        });
 
     }
 

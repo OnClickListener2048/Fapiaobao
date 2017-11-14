@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ import butterknife.OnClick;
  * Created by wjn on 2017/10/23.
  */
 
-public class MessageDetailsActivity extends BaseActivity  {
+public class MessageDetailsActivity extends BaseActivity  implements AdapterView.OnItemClickListener{
     @Bind(R.id.title)
     TextView tv_title;
     @Bind(R.id.lv_content)
@@ -36,6 +37,7 @@ public class MessageDetailsActivity extends BaseActivity  {
     TextView tips;
     @Bind(R.id.no_content)
     LinearLayout noContent;
+    private String type;
     private MessageDetailsAdapter adapter;
     private List<MessageDetailsBean.DataBean> list = new ArrayList();
 
@@ -64,11 +66,12 @@ public class MessageDetailsActivity extends BaseActivity  {
     public void initView() {
 
         String title = getIntent().getStringExtra("title");
-        String type = getIntent().getStringExtra("type");
+        type = getIntent().getStringExtra("type");
         tv_title.setText(title);
         messageDetails(type);
         adapter = new MessageDetailsAdapter(this);
         listview.setAdapter(adapter);
+        listview.setOnItemClickListener(this);
     }
     @Override
     public void initData() {
@@ -110,5 +113,29 @@ public class MessageDetailsActivity extends BaseActivity  {
 //            tips.setText("当前没有网络哦~");
         }
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        MessageDetailsBean.DataBean bean  = list.get(position);
+//        Intent intent = null;
+//        switch (type){
+//            case MSG_TYPE_NEWCOME_INVOICE:
+//                intent = new Intent(MessageDetailsActivity.this,DemandActivity.class);
+//                intent.putExtra("demandId",bean.getMessage().getDemand().getId());
+//                break;
+//            case MSG_TYPE_GOT_BONUS:
+//                intent = new Intent(MessageDetailsActivity.this,DemandActivity.class);
+//                break;
+//            case MSG_TYPE_INCOMPETENT_INVOICE:
+//                intent = new Intent(MessageDetailsActivity.this,ProvidedActivity.class);
+//                intent.putExtra("OrderId",bean.getMessage().getDemand().getId());
+//                intent.putExtra("CompanyId",bean.getMessage().getDemand().getId());
+//                break;
+//            case MSG_TYPE_SERVICE_NOTIFICATION:
+//                intent = new Intent(MessageDetailsActivity.this,DemandActivity.class);
+//                break;
+//        }
+//        startActivity(intent);
     }
 }

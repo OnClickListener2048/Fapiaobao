@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +26,7 @@ import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.UnusedReceiptAdapter;
+import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
@@ -322,7 +322,27 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
             imageList.add(upLoadReceipt(image.uri));
             uploadLocalReceipt.setPictureList(imageList);
             Gson gson = new Gson();
-            Api.uploadLocalReceipt(gson.toJson(uploadLocalReceipt));
+            Api.uploadLocalReceipt(gson.toJson(uploadLocalReceipt), new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+                @Override
+                public void onStart() {
+                    ((BaseActivity)getActivity()).showProgressDialog();
+                }
+
+                @Override
+                public void onFinish() {
+                    ((BaseActivity)getActivity()).hideProgressDialog();
+                }
+
+                @Override
+                public void onError() {
+                    ((BaseActivity)getActivity()).hideProgressDialog();
+                }
+                @Override
+                public void setData(NormalBean response) {
+//                    TLog.log(response.body());
+                    BaseApplication.showToast("上传成功");
+                }
+            });
         } else if (REQUEST_CODE_IMAGE_CLICK == requestCode) {
             switch (resultCode) {
                 case RESULT_CODE_BACK:
@@ -360,8 +380,27 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
             uploadLocalReceipt.setPictureList(imageList);
             Gson gson = new Gson();
-            Api.uploadLocalReceipt(gson.toJson(uploadLocalReceipt));
+            Api.uploadLocalReceipt(gson.toJson(uploadLocalReceipt), new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+                @Override
+                public void onStart() {
+                    ((BaseActivity)getActivity()).showProgressDialog();
+                }
 
+                @Override
+                public void onFinish() {
+                    ((BaseActivity)getActivity()).hideProgressDialog();
+                }
+
+                @Override
+                public void onError() {
+                    ((BaseActivity)getActivity()).hideProgressDialog();
+                }
+                @Override
+                public void setData(NormalBean response) {
+//                    TLog.log(response.body());
+                    BaseApplication.showToast("上传成功");
+                }
+            });
         }
     }
 

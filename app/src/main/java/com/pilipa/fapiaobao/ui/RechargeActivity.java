@@ -27,6 +27,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.net.Constant.RECHARGE;
+
 /**
  * Created by lyt on 2017/10/24.
  */
@@ -66,6 +68,13 @@ public class RechargeActivity extends BaseActivity  {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.recharge: {
+                Intent intent = new Intent();
+                intent.putExtra("url", RECHARGE);
+                intent.setClass(this, Op.class);
+                startActivity(intent);
+            }
+            break;
             case R.id._back: {
                 setResult(RESULT_CANCELED);
                 finish();

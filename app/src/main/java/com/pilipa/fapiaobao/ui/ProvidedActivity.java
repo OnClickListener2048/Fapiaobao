@@ -129,7 +129,12 @@ public class ProvidedActivity extends BaseActivity {
     LinearLayout ll_no_record;
     @Bind(R.id.qr)
     ImageView qr;
-
+    @Bind(R.id.ll_container_paper_normal_receipt)
+    LinearLayout container_paper_normal_receipt;
+    @Bind(R.id.ll_container_paper_special_receipt)
+    LinearLayout container_paper_special_receipt;
+    @Bind(R.id.ll_container_paper_elec_receipt)
+    LinearLayout container_paper_elec_receipt;
     public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
     public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
     public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
@@ -335,7 +340,7 @@ public class ProvidedActivity extends BaseActivity {
                     image.reason = result.getInvoiceReject().getReason();
                 } else {
                     if(list!=null){
-                        RejectTypeBean.DataBean bean = list.get(Integer.parseInt(result.getInvoiceReject().getType()));
+                        RejectTypeBean.DataBean bean = list.get(Integer.parseInt(result.getInvoiceReject().getType())-1);
                         image.reason = bean.getLabel();
                     }
                 }
@@ -367,15 +372,21 @@ public class ProvidedActivity extends BaseActivity {
         bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
         paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
-
-
         bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
         paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
-
         bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
         paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+        if(images1.size()==0){
+            container_paper_normal_receipt.setVisibility(View.GONE);
+        }
+        if(images2.size()==0){
+            container_paper_special_receipt.setVisibility(View.GONE);
+        }
+        if(images3.size()==0){
+            container_paper_elec_receipt.setVisibility(View.GONE);
+        }
 
     }
 
@@ -399,9 +410,10 @@ public class ProvidedActivity extends BaseActivity {
 //        orderId ="94dd9e0524544ea29c592912640ec3bd";
         CompanyId = getIntent().getStringExtra("CompanyId");
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
-        showOrderDetail(orderId);
-        checkFav(CompanyId);
         findAllRejectType();
+        checkFav(CompanyId);
+        showOrderDetail(orderId);
+
     }
 
     public void checkFav(final String companyId) {

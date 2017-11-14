@@ -51,6 +51,8 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
     private Dialog mCameraDialog;
     private XCFlowLayout flowLayout;
     private ImageView img_details_viewpager_next;
+    private TextView tv_newNeed;
+    private LinearLayout ll_we_need;
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA share_media) {
@@ -102,6 +104,8 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
         tv_bankName = (TextView) view.findViewById(R.id.tv_bankName);
         tv_account = (TextView) view.findViewById(R.id.tv_account);
         flowLayout = (XCFlowLayout) view.findViewById(R.id.flowLayout);
+        ll_we_need = (LinearLayout) view.findViewById(R.id.ll_we_need);
+        tv_newNeed = (TextView) view.findViewById(R.id.tv_newNeed);
         ImageView img_qr_code1 = (ImageView) view.findViewById(R.id.img_qr_code1);
         ImageView img_qr_code2 = (ImageView) view.findViewById(R.id.img_qr_code2);
         LinearLayout ll_qr_code2 = (LinearLayout) view.findViewById(R.id.ll_qr_code2);
@@ -117,8 +121,12 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             if (company.getInvoiceTypeList() != null) {
                 ll_qr_code2.setVisibility(View.VISIBLE);
                 img_qr_code1.setVisibility(View.GONE);
+                ll_we_need.setVisibility(View.VISIBLE);
+                tv_newNeed.setVisibility(View.VISIBLE);
                 initChildViews((List<FavoriteCompanyBean.DataBean.InvoiceTypeListBean>) company.getInvoiceTypeList());
             } else {
+                ll_we_need.setVisibility(View.GONE);
+                tv_newNeed.setVisibility(View.GONE);
                 img_qr_code1.setVisibility(View.VISIBLE);
                 ll_qr_code2.setVisibility(View.GONE);
             }
@@ -158,7 +166,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             TextView view = new TextView(mContext);
             view.setGravity(Gravity.CENTER);
             view.setText(list.get(i).getName());
-            view.setPadding(5, 2, 5, 2);
+            view.setPadding(5, 3, 5, 3);
             view.setTextColor(getResources().getColor(R.color.main_style));
             view.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_invoice_receipt_kind_bg));
             initEvents(view,list.get(i).getId());

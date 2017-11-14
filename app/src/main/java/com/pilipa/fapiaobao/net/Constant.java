@@ -233,13 +233,9 @@ public class Constant {
      */
     public static final String WIKI = "http://p.pilipa.cn/fapiaobao/doc/wiki";
     /**
-     * 发票宝匹配需求
+     * 发票宝匹配需求(分享,提供发票分享需要bonus参数)
      */
     public static final String MATCH = "http://p.pilipa.cn/fapiaobao/guide/match";
-    /**
-     * 发票宝估算红包
-     */
-    public static final String GUIDE_ESTIMATE = "http://p.pilipa.cn/fapiaobao/guide/estimate";
     /**
      * 发票宝开票信息
      */
