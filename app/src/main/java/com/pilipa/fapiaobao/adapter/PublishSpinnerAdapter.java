@@ -43,7 +43,7 @@ public class PublishSpinnerAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater _LayoutInflater = LayoutInflater.from(parent.getContext());
         TextView textView = (TextView) _LayoutInflater.inflate(R.layout.item_simple_text_spinner, null);
-        textView.setTextSize(SizeUtils.px2sp(20));
+        textView.setTextSize(12);
         textView.setTextColor(Color.parseColor("#434343"));
         textView.setText(expressCompanyBean.getData().get(position).getLabel());
         return textView;
