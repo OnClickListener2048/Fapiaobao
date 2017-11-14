@@ -235,7 +235,8 @@ public class Constant {
     /**
      * 发票宝匹配需求(分享,提供发票分享需要bonus参数)
      */
-    public static final String MATCH = "http://p.pilipa.cn/fapiaobao/guide/match";
+//    public static final String MATCH = "http://p.pilipa.cn/fapiaobao/guide/match";
+    public static final String MATCH = "https://www.youpiao8.cn/fapiaobao/guide/match";
     /**
      * 发票宝开票信息
      */
