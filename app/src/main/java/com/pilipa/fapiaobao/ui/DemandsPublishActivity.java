@@ -799,10 +799,14 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         if (!elec && paperNormal || paperSpecial) {
             bean.setMailMinimum(Integer.valueOf(etExpressAmountMinimum.getText().toString().trim()));
         }
-        if(Switch.isChecked()){
-            if(!etAmountRedbag.getText().toString().trim().isEmpty()){
+        if (Switch.isChecked()) {
+            if (!etAmountRedbag.getText().toString().trim().isEmpty()) {
                 bean.setTotalBonus((int) Double.parseDouble(etAmountRedbag.getText().toString().trim()));
+            } else {
+                bean.setTotalAmount(0);
             }
+        } else {
+            bean.setTotalAmount(0);
         }
         if(!etAmount.getText().toString().trim().isEmpty()){
             bean.setTotalAmount((int) Double.parseDouble(etAmount.getText().toString().trim()));

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
@@ -375,7 +376,12 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                                 Intent intent = new Intent(UploadReceiptPreviewActivity.this, UploadSuccessActivity.class);
                                 intent.putExtra("order_id", orderBean.getData().getOrderId());
                                 intent.putExtra("company_id", company_id);
+                               
+
                                 startActivity(intent);
+                                ActivityUtils.finishActivity(EstimateActivity.class);
+                                ActivityUtils.finishActivity(ConfirmActivity.class);
+                                ActivityUtils.finishActivity(UploadReceiptActivity.class);
                                 finish();
                             }
                         }

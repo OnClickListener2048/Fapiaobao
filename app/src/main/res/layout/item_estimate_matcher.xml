@@ -78,7 +78,7 @@
             <TextView
 
                 android:textColor="@color/main_style"
-                android:text="收集截止时间:"
+                android:text="收票截止时间:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

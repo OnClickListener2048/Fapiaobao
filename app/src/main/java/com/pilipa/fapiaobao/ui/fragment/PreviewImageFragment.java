@@ -69,7 +69,8 @@ public class PreviewImageFragment extends BaseFragment {
         Glide.with(getActivity())
                 .load(imageItem.isFromNet ? imageItem.path : imageItem.uri)
                 .asBitmap()
-                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.error_big)
+                .placeholder(R.mipmap.loading_big)
                 .into(image);
     }
 

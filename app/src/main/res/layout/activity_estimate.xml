@@ -382,6 +382,8 @@
                                     </LinearLayout>
 
                                     <LinearLayout
+                                        android:layout_gravity="center_horizontal"
+                                        android:gravity="center_horizontal"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal">
@@ -493,6 +495,9 @@
                                 android:id="@+id/ultra_viewpager"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"></com.tmall.ultraviewpager.UltraViewPager>
+                            <android.support.v4.widget.Space
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d10" />
                         </LinearLayout>
 
                         <android.support.v4.widget.Space
