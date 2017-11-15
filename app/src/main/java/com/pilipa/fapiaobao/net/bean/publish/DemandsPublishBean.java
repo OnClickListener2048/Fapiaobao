@@ -134,8 +134,8 @@ public class DemandsPublishBean {
     private String province;
     private String remarks;
     private String state;
-    private int totalAmount;
-    private int totalBonus;
+    private double totalAmount;
+    private double totalBonus;
     private String updateDate;
     private String token;
     private List<DemandInvoiceTypeListBean> demandInvoiceTypeList;
@@ -413,19 +413,19 @@ public class DemandsPublishBean {
         this.state = state;
     }
 
-    public int getTotalAmount() {
+    public double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(int totalAmount) {
+    public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
-    public int getTotalBonus() {
+    public double getTotalBonus() {
         return totalBonus;
     }
 
-    public void setTotalBonus(int totalBonus) {
+    public void setTotalBonus(double totalBonus) {
         this.totalBonus = totalBonus;
     }
 

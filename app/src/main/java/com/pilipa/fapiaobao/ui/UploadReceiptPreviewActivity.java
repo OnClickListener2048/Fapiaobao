@@ -196,11 +196,12 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
                 count = count0 + count1 + count2;
 
-
+                TLog.log("sum"+sum);
                 receiptNumber.setText(count + "");
-                Double aDouble = Double.valueOf(sum);
-                BigDecimal bigDecimal = new BigDecimal(aDouble);
-                BigDecimal bigDecimal1 = bigDecimal.setScale(2, RoundingMode.UP);
+                BigDecimal bigDecimal = new BigDecimal(sum);
+                TLog.log("BigDecimal bigDecimal = new BigDecimal(sum);"+sum);
+                BigDecimal bigDecimal1 = bigDecimal.setScale(2, RoundingMode.HALF_DOWN);
+                TLog.log(" bigDecimal.setScale(2, RoundingMode.UP);"+bigDecimal1);
                 receiptMoney.setText(String.valueOf(bigDecimal1));
 
                 AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {

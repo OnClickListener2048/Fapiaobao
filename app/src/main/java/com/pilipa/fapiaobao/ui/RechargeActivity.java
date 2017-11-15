@@ -149,7 +149,7 @@ public class RechargeActivity extends BaseActivity  {
         if (loginWithInfoBean != null) {
 
 
-            Api.wxRecharge(loginWithInfoBean.getData().getToken(), NetworkUtils.getIPAddress(true), amount, new Api.BaseViewCallback<PrepayBean>() {
+            Api.wxRecharge(loginWithInfoBean.getData().getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallback<PrepayBean>() {
                 @Override
                 public void setData(PrepayBean prepayBean) {
 
