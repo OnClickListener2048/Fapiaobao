@@ -25,6 +25,7 @@ import com.pilipa.fapiaobao.adapter.MyInvoiceNameAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
@@ -39,6 +40,8 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +141,7 @@ public class DemandActivity extends BaseActivity{
     LinearLayout container_paper_special_receipt;
     @Bind(R.id.ll_container_paper_elec_receipt)
     LinearLayout container_paper_elec_receipt;
+    private UMWeb web;
     //发票类型
     @Bind(R.id.paper_normal_receipt)
     TextView paperNormalReceipt;
@@ -249,6 +253,12 @@ public class DemandActivity extends BaseActivity{
     public void initView() {
         invoiceNameAdapter = new MyInvoiceNameAdapter(this);
         horizontalListView.setAdapter(invoiceNameAdapter);
+
+        web = new UMWeb(Constant.MATCH);
+        web.setTitle("伙伴们，多余的发票也能挣红包了~");//标题
+        UMImage umImage = new UMImage(this, R.mipmap.icon);
+        web.setThumb(umImage);  //缩略图
+        web.setDescription("伙伴们，多余的发票也能挣红包了~");//描述
     }
 
     private void setUpData(List<DemandDetails.DataBean.OrderInvoiceListBean> results) {
@@ -493,7 +503,7 @@ public class DemandActivity extends BaseActivity{
             public void onClick(View v) {
                 new ShareAction(DemandActivity.this)
                         .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
-                        .withText("hello")//分享内容
+                        .withMedia(web)
                         .setCallback(umShareListener)//回调监听器
                         .share();
                 mCameraDialog.dismiss();
@@ -504,7 +514,7 @@ public class DemandActivity extends BaseActivity{
             public void onClick(View v) {
                 new ShareAction(DemandActivity.this)
                         .setPlatform(SHARE_MEDIA.SINA)//传入平台
-                        .withText("hello")//分享内容
+                        .withMedia(web)
                         .setCallback(umShareListener)//回调监听器
                         .share();
                 mCameraDialog.dismiss();
@@ -515,7 +525,7 @@ public class DemandActivity extends BaseActivity{
             public void onClick(View v) {
                 new ShareAction(DemandActivity.this)
                         .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
-                        .withText("hello")//分享内容
+                        .withMedia(web)
                         .setCallback(umShareListener)//回调监听器
                         .share();
                 mCameraDialog.dismiss();
@@ -526,7 +536,7 @@ public class DemandActivity extends BaseActivity{
             public void onClick(View v) {
                 new ShareAction(DemandActivity.this)
                         .setPlatform(SHARE_MEDIA.QQ)//传入平台
-                        .withText("hello")//分享内容
+                        .withMedia(web)
                         .setCallback(umShareListener)//回调监听器
                         .share();
                 mCameraDialog.dismiss();
@@ -537,7 +547,7 @@ public class DemandActivity extends BaseActivity{
             public void onClick(View v) {
                 new ShareAction(DemandActivity.this)
                         .setPlatform(SHARE_MEDIA.QZONE)//传入平台
-                        .withText("hello")//分享内容
+                        .withMedia(web)
                         .setCallback(umShareListener)//回调监听器
                         .share();
                 mCameraDialog.dismiss();

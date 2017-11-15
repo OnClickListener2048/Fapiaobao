@@ -82,9 +82,6 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                         if (loginWithInfoBean.getStatus()==200) {
                             BaseApplication.showToast("微信绑定成功");
                             SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
-                            Intent intent = new Intent();
-                            intent.setClass(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
                             finish();
                         }
                     }
@@ -198,9 +195,6 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                             loginWithInfoBean.getData().setCustomer(customerBean);
                             boolean save = SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
                             Log.d(TAG, "setData:save "+save);
-                            Intent intent = new Intent();
-                            intent.setClass(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
                             finish();
                         }
                     });

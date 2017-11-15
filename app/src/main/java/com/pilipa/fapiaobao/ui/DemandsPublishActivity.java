@@ -644,6 +644,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         startActivityForResult(intent, REQUEST_CODE_FOR_MORE_TYPE);
     }
 
+
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -656,13 +660,15 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 }
             case REQUEST_CODE_FOR_MORE_TYPE:
                 if (resultCode == RESULT_OK) {
-                    Bundle bundle = data.getBundleExtra(MoreTypesActivity.EXTRA_BUNDLE);
-                    bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundle.getSerializable("new_data");
-                    ArrayList<String> arrayReceipt = new ArrayList<>();
-                    for (DefaultInvoiceBean.DataBean dataBean : bean) {
-                        arrayReceipt.add(dataBean.getName());
+                    if (data != null) {
+                        Bundle bundle = data.getBundleExtra(MoreTypesActivity.EXTRA_BUNDLE);
+                        bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundle.getSerializable("new_data");
+                        ArrayList<String> arrayReceipt = new ArrayList<>();
+                        for (DefaultInvoiceBean.DataBean dataBean : bean) {
+                            arrayReceipt.add(dataBean.getName());
+                        }
+                        labelsReceiptKind.setLabels(arrayReceipt);
                     }
-                    labelsReceiptKind.setLabels(arrayReceipt);
                 }
             case REQUEST_ADD_COMPANY_INFO:
                 if (resultCode == RESULT_OK) {
@@ -775,8 +781,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 demandInvoiceTypeListBean.setInvoiceType(invoiceTypeBeanX);
                 listBeen.add(demandInvoiceTypeListBean);
             }
-
-
         }
         if (listBeen.size() == 0) {
             BaseApplication.showToast("请指定一种发票类型");
@@ -801,15 +805,18 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         }
         if (Switch.isChecked()) {
             if (!etAmountRedbag.getText().toString().trim().isEmpty()) {
-                bean.setTotalBonus((int) Double.parseDouble(etAmountRedbag.getText().toString().trim()));
+                TLog.log("Double.parseDouble(etAmountRedbag.getText().toString().trim())"+Double.parseDouble(etAmountRedbag.getText().toString().trim()));
+                bean.setTotalBonus(Double.parseDouble(etAmountRedbag.getText().toString().trim()));
             } else {
-                bean.setTotalAmount(0);
+                TLog.log("Double.parseDouble(etAmountRedbag.getText().toString().trim())"+Double.parseDouble(etAmountRedbag.getText().toString().trim()));
+                bean.setTotalBonus(0);
             }
         } else {
-            bean.setTotalAmount(0);
+            TLog.log("Double.parseDouble(etAmountRedbag.getText().toString().trim())"+Double.parseDouble(etAmountRedbag.getText().toString().trim()));
+            bean.setTotalBonus(0);
         }
         if(!etAmount.getText().toString().trim().isEmpty()){
-            bean.setTotalAmount((int) Double.parseDouble(etAmount.getText().toString().trim()));
+            bean.setTotalAmount( Double.parseDouble(etAmount.getText().toString().trim()));
         }
         TLog.log(bean.toString());
         return bean;

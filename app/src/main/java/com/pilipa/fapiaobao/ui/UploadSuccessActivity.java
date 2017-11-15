@@ -108,8 +108,8 @@ public class UploadSuccessActivity extends BaseActivity {
         bonus = getIntent().getDoubleExtra("bonus", 0);
         TLog.log("order_id"+order_id);
 
-
-        web = new UMWeb(Constant.MATCH+"/"+bonus);
+//        https://www.youpiao8.cn/fapiaobao/guide/match?bonus=15
+        web = new UMWeb(Constant.MATCH+"?bonus="+bonus);
         web.setTitle("伙伴们，多余的发票也能挣红包了~");//标题
         UMImage umImage = new UMImage(this, R.mipmap.icon);
         web.setThumb(umImage);  //缩略图

@@ -45,7 +45,7 @@ public class TDevice {
     public static final String FLAVOR = "";
     public static final int VERSION_CODE = 1;
     public static final String VERSION_NAME = "1.0";
-    public static  boolean UPDATE = false;
+    public static  boolean UPDATE = true;
     public static  boolean IS_UPDATE = false;
 
     public final static String DEFAULT_SAVE_FILE_PATH = Environment
