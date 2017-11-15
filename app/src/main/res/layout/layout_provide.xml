@@ -62,7 +62,7 @@
                         android:id="@+id/receipt_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
+                        android:text="0"
                         android:textColor="@color/main_style"
                         android:textSize="@dimen/d18" />
 
@@ -91,7 +91,7 @@
                         android:id="@+id/receipt_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
+                        android:text="0"
                         android:textColor="@color/main_style"
                         android:textSize="@dimen/d18" />
 
@@ -105,10 +105,11 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d20" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/d15"
+                android:layout_marginRight="@dimen/d15"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -117,23 +118,19 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:layout_marginLeft="@dimen/d15"
-                    android:layout_marginRight="@dimen/d15"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/title_small"
-
                         android:text="@string/estimate_money" />
 
                     <TextView
                         android:id="@+id/estimate_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
+                        android:text="0"
                         android:textColor="@color/main_style"
                         android:textSize="@dimen/d18" />
 
@@ -143,6 +140,34 @@
                         android:text="@string/yuan" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:layout_marginRight="@dimen/d10"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/title_small"
+                        android:text="收到红包" />
+
+                    <TextView
+                        android:id="@+id/received_bonus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@color/main_style"
+                        android:textSize="@dimen/d18" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/yuan" />
+                </LinearLayout>
             </LinearLayout>
 
             <View

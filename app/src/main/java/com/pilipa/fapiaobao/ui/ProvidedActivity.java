@@ -103,7 +103,9 @@ public class ProvidedActivity extends BaseActivity {
     @Bind(R.id.receipt_money)
     TextView receiptMoney;
     @Bind(R.id.estimate_money)//预计红包数
-            TextView estimateMoney;
+    TextView estimateMoney;
+    @Bind(R.id.received_bonus)//收到红包
+    TextView receivedBonus;
     @Bind(R.id.continue_to_upload)
     TextView continueToUpload;
 
@@ -515,18 +517,19 @@ public class ProvidedActivity extends BaseActivity {
                             if (bean.getPostage().getCity() == null) {
                                 tvPublishAddress.setText(bean.getPostage().getAddress());
                             } else {
-                                tvPublishAddress.setText(bean.getPostage().getCity() + " " + bean.getPostage().getAddress());
+                                tvPublishAddress.setText(bean.getPostage().getCity() + " "
+                                        +bean.getPostage().getDistrict()+ " "
+                                        + bean.getPostage().getAddress());
                             }
                             tv_low_limit.setText(new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
                         }
-
-                        estimateMoney.setText(String.format("%.2f", bean.getBonus()) + "");
-                        receiptNumber.setText(bean.getInvoiceCount() + "");
-                        receiptMoney.setText(String.format("%.2f", bean.getAmount()) + "");
+                        receivedBonus.setText(String.format("%.2f", bean.getReceivedBonus()));
+                        estimateMoney.setText(String.format("%.2f", bean.getBonus()));
+                        receiptNumber.setText(String.valueOf(bean.getInvoiceCount()));
+                        receiptMoney.setText(String.format("%.2f", bean.getAmount()));
                         if (bean.getCompany() != null) {
                             companyName.setText(bean.getCompany().getName());
                             number.setText(bean.getCompany().getPhone());
-
                             companyAddress.setText(bean.getCompany().getAddress());
                             bankAccount.setText(bean.getCompany().getAccount());
                             bank.setText(bean.getCompany().getDepositBank());

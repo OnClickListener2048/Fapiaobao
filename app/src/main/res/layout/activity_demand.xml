@@ -61,6 +61,53 @@
                     android:layout_height="30dp">
                 </com.pilipa.fapiaobao.ui.widget.HorizontalListView>
             </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/d10"
+                    android:paddingLeft="@dimen/d10"
+                    android:paddingTop="@dimen/d10"
+                    android:text="@string/need"
+                    android:textColor="@color/text_normal"
+                    android:textSize="@dimen/d12" />
+                <TextView
+                    android:id="@+id/paper_normal_receipt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/d10"
+                    android:paddingLeft="@dimen/d10"
+                    android:paddingTop="@dimen/d10"
+                    android:visibility="gone"
+                    android:text="@string/paper_normal_receipt"
+                    android:textColor="@color/title"
+                    android:textSize="@dimen/d12" />
+                <TextView
+                    android:id="@+id/paper_special_receipt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/d10"
+                    android:paddingLeft="@dimen/d10"
+                    android:paddingTop="@dimen/d10"
+                    android:visibility="gone"
+                    android:text="@string/paper_special_receipt"
+                    android:textColor="@color/title"
+                    android:textSize="@dimen/d12" />
+                <TextView
+                    android:id="@+id/paper_elec_receipt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/d10"
+                    android:paddingLeft="@dimen/d10"
+                    android:paddingTop="@dimen/d10"
+                    android:visibility="gone"
+                    android:text="@string/paper_elec_receipt"
+                    android:textColor="@color/title"
+                    android:textSize="@dimen/d12" />
+            </LinearLayout>
             <!--票据列表-->
             <RelativeLayout
                 android:layout_width="match_parent"

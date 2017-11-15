@@ -67,13 +67,14 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
 
     @Override
     public void initView() {
-         companyList = getIntent().getParcelableArrayListExtra("companyList");
+        companyList = getIntent().getParcelableArrayListExtra("companyList");
         mPreviousPos= getIntent().getIntExtra("mPreviousPos",0);
 
         FragmentList  = new ArrayList<>();
         for (int i = 0; i <companyList.size() ; i++) {
             Bundle b = new Bundle();
             Company company = new Company();
+            company.setId(companyList.get(i).getId());
             company.setName(companyList.get(i).getName());
             company.setTaxno(companyList.get(i).getTaxno());
             company.setAddress(companyList.get(i).getAddress());

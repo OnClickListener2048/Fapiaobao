@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="@dimen/d5"
-        android:textSize="@dimen/s12"
+        android:textSize="@dimen/s10"
+        android:textColor="@color/text_normal_item"
         android:text="2017-05-12"/>
     <View
         android:layout_width="match_parent"
@@ -33,21 +34,20 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/d15"
                 android:gravity="center_vertical"
-                android:text="1213213"
+                android:textColor="@color/title_small"
+                android:textSize="@dimen/s12"
+                android:text=""
                 />
             <TextView
                 android:id="@+id/tv_time"
+                android:textColor="@color/text_normal_item"
+                android:textSize="@dimen/s10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="18.00" />
+                android:text="" />
         </RelativeLayout>
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="@dimen/d15"
-        android:layout_marginRight="@dimen/d15"
-        android:background="@color/gray_line" />
+
 </LinearLayout>

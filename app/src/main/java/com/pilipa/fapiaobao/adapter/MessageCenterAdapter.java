@@ -61,10 +61,10 @@ public class MessageCenterAdapter extends BaseAdapter {
         viewHolder.tv_title.setText(bean.getMessageTypeName());
         if(bean.getNewComeDate() != 0L){
             viewHolder.tv_date.setText(TimeUtils.millis2String(bean.getNewComeDate()));
+            viewHolder.tv_size.setText(String.valueOf(bean.getUnreadMessages()));
         }else{
             viewHolder.tv_date.setText(TimeUtils.millis2String(System.currentTimeMillis()));
         }
-        viewHolder.tv_size.setText(String.valueOf(bean.getUnreadMessages()));
         return convertView;
     }
 

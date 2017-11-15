@@ -24,6 +24,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_GOT_BONUS;
+import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_INCOMPETENT_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_NEWCOME_INVOICE;
+
 /**
  * Created by wjn on 2017/10/23.
  */
@@ -38,6 +42,7 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
     @Bind(R.id.no_content)
     LinearLayout noContent;
     private String type;
+    private String bonus;//红包金额
     private MessageDetailsAdapter adapter;
     private List<MessageDetailsBean.DataBean> list = new ArrayList();
 
@@ -75,6 +80,7 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
     }
     @Override
     public void initData() {
+
     }
 
     @Override
@@ -88,17 +94,19 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
             AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                 @Override
                 public void setData(LoginWithInfoBean loginWithInfoBean) {
+                    bonus = String.valueOf(loginWithInfoBean.getData().getCustomer().getBonus());
                     if (loginWithInfoBean.getStatus() == 200) {
                         Api.messageDetails(type,loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<MessageDetailsBean>() {
                             @Override
                             public void setData(MessageDetailsBean messageDetailsBean) {
+
                                 if (messageDetailsBean.getStatus() == 200) {
                                     noContent.setVisibility(View.GONE);
                                     list.addAll(messageDetailsBean.getData());
                                     adapter.initData(list);
                                 } else if (messageDetailsBean.getStatus() == 400) {
                                     noContent.setVisibility(View.VISIBLE);
-                                    tips.setText("没有内容");
+                                    tips.setText("暂时还没有消息哦~");
                                 } else {
                                     noContent.setVisibility(View.VISIBLE);
                                     tips.setText("登陆后才能查看到哦");
@@ -112,30 +120,27 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
 //            noContent.setVisibility(View.VISIBLE);
 //            tips.setText("当前没有网络哦~");
         }
-
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MessageDetailsBean.DataBean bean  = list.get(position);
-//        Intent intent = null;
-//        switch (type){
-//            case MSG_TYPE_NEWCOME_INVOICE:
-//                intent = new Intent(MessageDetailsActivity.this,DemandActivity.class);
-//                intent.putExtra("demandId",bean.getMessage().getDemand().getId());
-//                break;
-//            case MSG_TYPE_GOT_BONUS:
-//                intent = new Intent(MessageDetailsActivity.this,DemandActivity.class);
-//                break;
-//            case MSG_TYPE_INCOMPETENT_INVOICE:
-//                intent = new Intent(MessageDetailsActivity.this,ProvidedActivity.class);
+        Intent intent = null;
+        switch (type){
+            case MSG_TYPE_NEWCOME_INVOICE:
+                intent = new Intent(MessageDetailsActivity.this,DemandActivity.class);
+                intent.putExtra("demandId",bean.getMessage().getDemand().getId());
+                break;
+            case MSG_TYPE_GOT_BONUS:
+                intent = new Intent(MessageDetailsActivity.this,MyRedEnvelopeActivity.class);
+                intent.putExtra("bonus",bonus);
+                break;
+            case MSG_TYPE_INCOMPETENT_INVOICE:
+                intent = new Intent(MessageDetailsActivity.this,ProvidedActivity.class);
 //                intent.putExtra("OrderId",bean.getMessage().getDemand().getId());
 //                intent.putExtra("CompanyId",bean.getMessage().getDemand().getId());
-//                break;
-//            case MSG_TYPE_SERVICE_NOTIFICATION:
-//                intent = new Intent(MessageDetailsActivity.this,DemandActivity.class);
-//                break;
-//        }
-//        startActivity(intent);
+                break;
+        }
+        startActivity(intent);
     }
 }

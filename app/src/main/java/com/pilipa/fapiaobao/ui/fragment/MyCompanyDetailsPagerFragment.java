@@ -132,6 +132,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             }
 
         }
+        Log.d(TAG,"Company id" +company.getId());
 
         try {
             MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();

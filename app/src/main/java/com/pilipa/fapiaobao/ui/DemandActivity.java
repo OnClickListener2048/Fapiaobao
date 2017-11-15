@@ -138,6 +138,14 @@ public class DemandActivity extends BaseActivity{
     LinearLayout container_paper_special_receipt;
     @Bind(R.id.ll_container_paper_elec_receipt)
     LinearLayout container_paper_elec_receipt;
+    //发票类型
+    @Bind(R.id.paper_normal_receipt)
+    TextView paperNormalReceipt;
+    @Bind(R.id.paper_special_receipt)
+    TextView paperSpecialReceipt;
+    @Bind(R.id.paper_elec_receipt)
+    TextView paperElecReceipt;
+
 
     List<DemandDetails.DataBean.OrderInvoiceListBean> mDataList = new ArrayList<>();
     List<String> mList = new ArrayList<>();
@@ -371,27 +379,30 @@ public class DemandActivity extends BaseActivity{
                         mList.addAll(bean.getInvoiceNameList());
                         invoiceNameAdapter.initData(mList);
 
-                        tvBounsAmount.setText(String.format("%.2f",bean.getDemand().getTotalBonus())+ "元");
-                        tvAmount.setText(String.format("%.2f",bean.getDemand().getTotalAmount())+ "元");
-                        tvLeftAmount.setText(String.format("%.2f",bean.getDemand().getLeftBonus())+ "");
-                        tvPublishTime.setText("发布时间："+bean.getDemand().getPublishDate());
+                        tvBounsAmount.setText(String.format("%.2f", bean.getDemand().getTotalBonus()) + "元");
+                        tvAmount.setText(String.format("%.2f", bean.getDemand().getTotalAmount()) + "元");
+                        tvLeftAmount.setText(String.format("%.2f", bean.getDemand().getLeftBonus()) + "");
+                        tvPublishTime.setText("发布时间：" + bean.getDemand().getPublishDate());
                         tvDeadline.setText("截止日期：" + bean.getDemand().getDeadline());
-                        tvAttentions.setText(bean.getDemand().getAttentions().isEmpty()?"无":bean.getDemand().getAttentions());
-                        tv_receive.setText(String.format("%.2f",bean.getReceivedAmount())+ "");
+                        tvAttentions.setText(bean.getDemand().getAttentions().isEmpty() ? "无" : bean.getDemand().getAttentions());
+                        tv_receive.setText(String.format("%.2f", bean.getReceivedAmount()) + "");
                         String collected_amount = getResources().getString(R.string.collected_amount);
                         tvAlreadyCollected.setText(String.format(collected_amount, bean.getReceivedNum()));
 //                        tv_low_limit.setText(bean.getDemand().getMailMinimum()+ "元");
+                        if (bean.getDemand().getCity() == null) {
+                            tvAddress.setText(bean.getDemand().getDemandPostage().getAddress());
+                        } else {
+                            tvAddress.setText(bean.getDemand().getDemandPostage().getCity()+" "+
+                                    bean.getDemand().getDemandPostage().getDistrict()+ " "
+                                    + bean.getDemand().getDemandPostage().getAddress());
+                        }
                         if (!VARIETY_GENERAL_ELECTRON.equals(bean.getDemand().getInvoiceVarieties())) {
                             ll_receive.setVisibility(View.VISIBLE);
-                            if(bean.getDemand().getCity() == null){
-                                tvAddress.setText(bean.getDemand().getDemandPostage().getAddress());
-                            }else{
-                                tvAddress.setText(bean.getDemand().getCity()+" "+bean.getDemand().getDemandPostage().getAddress());
-                            }
+
                             tvPhone.setText(bean.getDemand().getDemandPostage().getPhone());
                             tvTelephone.setText(bean.getDemand().getDemandPostage().getTelephone());
                             tvReceiver.setText(bean.getDemand().getDemandPostage().getReceiver());
-                        }else{
+                        } else {
                             ll_receive.setVisibility(View.GONE);
                         }
                         if (bean.getDemand().getCompany() != null) {
@@ -411,10 +422,10 @@ public class DemandActivity extends BaseActivity{
                                 companyBean.setDepositBank(bean.getDemand().getCompany().getDepositBank());
                                 companyBean.setTaxno(bean.getDemand().getCompany().getTaxno());
                                 Gson gson = new Gson();
-                                String comStr = gson.toJson(companyBean,MacherBeanToken.DataBean.CompanyBean.class);
-                                Log.d(TAG,"qrCode" +comStr);
-                                String comStrGson =  EncodeUtils.urlEncode(comStr);
-                                Bitmap qrCode = CodeCreator.createQRCode(DemandActivity.this,comStrGson);
+                                String comStr = gson.toJson(companyBean, MacherBeanToken.DataBean.CompanyBean.class);
+                                Log.d(TAG, "qrCode" + comStr);
+                                String comStrGson = EncodeUtils.urlEncode(comStr);
+                                Bitmap qrCode = CodeCreator.createQRCode(DemandActivity.this, comStrGson);
                                 qr.setImageBitmap(qrCode);
                             } catch (Exception e) {
                                 BaseApplication.showToast("二维码生成失败");
@@ -437,6 +448,12 @@ public class DemandActivity extends BaseActivity{
                             img_state.setImageResource(R.mipmap.close);
                             btnShutDownEarly.setVisibility(View.GONE);
                         }
+                        //发票类型列表
+                        String sourceStr = bean.getDemand().getInvoiceVarieties();
+                        if(sourceStr.contains("1")){paperNormalReceipt.setVisibility(View.VISIBLE);}
+                        if(sourceStr.contains("2")) {paperSpecialReceipt.setVisibility(View.VISIBLE);}
+                        if(sourceStr.contains("3")){paperElecReceipt.setVisibility(View.VISIBLE);}
+
                     }
                 }
             });

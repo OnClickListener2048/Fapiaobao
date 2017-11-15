@@ -103,7 +103,7 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
                                     }
                                 } else if (messageListBean.getStatus() == 400) {
                                     noContent.setVisibility(View.VISIBLE);
-                                    tips.setText("没有内容");
+                                    tips.setText("暂时还没有消息哦");
                                 } else {
                                     noContent.setVisibility(View.VISIBLE);
                                     tips.setText("登陆后才能查看到红包通知哦");

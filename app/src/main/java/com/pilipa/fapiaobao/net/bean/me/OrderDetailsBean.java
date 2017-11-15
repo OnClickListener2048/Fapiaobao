@@ -65,7 +65,17 @@ public class OrderDetailsBean {
         private String orderState;
         private boolean needMail;
         private String favoriteId;
+        private double receivedBonus;
         private double mailMinimum;
+
+        public double getReceivedBonus() {
+            return receivedBonus;
+        }
+
+
+        public void setReceivedBonus(double receivedBonus) {
+            this.receivedBonus = receivedBonus;
+        }
 
         public double getMailMinimum() {
             return mailMinimum;

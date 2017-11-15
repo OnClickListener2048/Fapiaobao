@@ -77,6 +77,7 @@ public class FavCompanyDetailsActivity extends BaseActivity implements MyCompany
         for (int i = 0; i <companyList.size() ; i++) {
             Bundle b = new Bundle();
             Company company = new Company();
+            company.setId(companyList.get(i).getId());
             company.setName(companyList.get(i).getName());
             company.setTaxno(companyList.get(i).getTaxno());
             company.setAddress(companyList.get(i).getAddress());
