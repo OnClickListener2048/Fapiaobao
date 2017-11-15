@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,6 +34,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mylibrary.utils.EncodeUtils;
+import com.example.mylibrary.utils.PhoneUtils;
+import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.TimeUtils;
 import com.google.gson.Gson;
@@ -327,6 +328,17 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 return replacementCharArr;
             }
         });
+
+
+        BaseApplication.set("etAreaDetails",etAreaDetails.getText().toString().trim());
+        BaseApplication.set("tvArea",tvArea.getText().toString().trim());
+        BaseApplication.set("etReceptionNumber",etReceptionNumber.getText().toString().trim());
+        BaseApplication.set("etReceptionName",etReceptionName.getText().toString().trim());
+
+        etAreaDetails.setText(BaseApplication.get("etAreaDetails",null));
+        tvArea.setText(BaseApplication.get("tvArea",null));
+        etReceptionNumber.setText(BaseApplication.get("etReceptionNumber",null));
+        etReceptionName.setText(BaseApplication.get("etReceptionName",null));
 
     }
 
@@ -654,9 +666,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CODE:
-                if (requestCode == RESULT_CANCELED) {
+                if (RESULT_CANCELED == resultCode) {
                     BaseApplication.showToast("没钱");
-                } else if (RESULT_OK == requestCode) {
+                } else if (RESULT_OK == resultCode) {
                     publish();
                 }
             case REQUEST_CODE_FOR_MORE_TYPE:
@@ -724,7 +736,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         company.setDepositBank(companyBean.getDepositBank());
         company.setAccount(companyBean.getAccount());
         createCompany(company);
-
     }
 
     private void updateCompanyInfo(CompaniesBean.DataBean databean) {
@@ -796,6 +807,11 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         demandPostageBean.setReceiver(etReceptionName.getText().toString().trim());
         demandPostageBean.setTelephone(etReceptionNumber.getText().toString().trim());
 
+        BaseApplication.set("etAreaDetails",etAreaDetails.getText().toString().trim());
+        BaseApplication.set("tvArea",tvArea.getText().toString().trim());
+        BaseApplication.set("etReceptionNumber",etReceptionNumber.getText().toString().trim());
+        BaseApplication.set("etReceptionName",etReceptionName.getText().toString().trim());
+
 
         bean.setDemandPostage(demandPostageBean);
 
@@ -806,14 +822,11 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         }
         if (Switch.isChecked()) {
             if (!etAmountRedbag.getText().toString().trim().isEmpty()) {
-                TLog.log("Double.parseDouble(etAmountRedbag.getText().toString().trim())"+Double.parseDouble(etAmountRedbag.getText().toString().trim()));
                 bean.setTotalBonus(Double.parseDouble(etAmountRedbag.getText().toString().trim()));
             } else {
-                TLog.log("Double.parseDouble(etAmountRedbag.getText().toString().trim())"+Double.parseDouble(etAmountRedbag.getText().toString().trim()));
                 bean.setTotalBonus(0);
             }
         } else {
-            TLog.log("Double.parseDouble(etAmountRedbag.getText().toString().trim())"+Double.parseDouble(etAmountRedbag.getText().toString().trim()));
             bean.setTotalBonus(0);
         }
         if(!etAmount.getText().toString().trim().isEmpty()){
@@ -863,14 +876,22 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             return false;
         }
         if (paperNormal || paperSpecial) {
-            if (!checkIfIsEmpty(etReceptionNumber) && view.getVisibility() == View.VISIBLE) {
-                BaseApplication.showToast("收件人手机号不能为空");
-                return false;
+            if (view.getVisibility() == View.VISIBLE) {
+                if (!checkIfIsEmpty(etReceptionNumber)) {
+                    BaseApplication.showToast("收件人手机号不能为空");
+                    return false;
+                } else if (!RegexUtils.isMobileExact(etReceptionNumber.getText().toString().trim())) {
+                    BaseApplication.showToast("请填写正确的手机号码");
+                    return false;
+                }
             }
-            if (!checkIfIsEmpty(etReceptionName) && view.getVisibility() == View.VISIBLE) {
-                BaseApplication.showToast("收件人姓名不能为空");
-                return false;
+            if (view.getVisibility() == View.VISIBLE) {
+                if (!checkIfIsEmpty(etReceptionName)) {
+                    BaseApplication.showToast("收件人姓名不能为空");
+                    return false;
+                }
             }
+
             if (!checkIfIsEmpty(etPublishTexNumber)) {
                 BaseApplication.showToast("税号不能为空");
                 return false;

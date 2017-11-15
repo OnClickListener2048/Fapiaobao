@@ -423,6 +423,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             case R.id.btn_shopping_stamp:
                 UploadReceiptActivity activity = (UploadReceiptActivity) getActivity();
                 activity.scan();
+                mCameraDialog.dismiss();
                 break;
 
             default:

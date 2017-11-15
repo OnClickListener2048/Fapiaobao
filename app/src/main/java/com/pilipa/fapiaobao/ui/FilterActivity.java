@@ -206,7 +206,7 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
                 .districtCyclic(false)
                 .itemPadding(5)
                 .setCityInfoType(CityConfig.CityInfoType.BASE)
-                .setCityWheelType(CityConfig.WheelType.PRO_CITY_DIS)
+                .setCityWheelType(CityConfig.WheelType.PRO_CITY)
                 .build();
 
         cityPicker = new CityPickerView(cityConfig);

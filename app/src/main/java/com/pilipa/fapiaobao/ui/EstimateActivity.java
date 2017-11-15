@@ -1,7 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -247,20 +246,27 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                             intent.putExtra("bonus", dataBean.getBonus());
                             intent.putExtra("company_info", dataBean.getCompany());
                             intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
-                            intent.setClass(EstimateActivity.this, ConfirmActivity.class);
+                            if (type == 3) {
+                                intent.setClass(EstimateActivity.this, UploadReceiptActivity.class);
+                            } else {
+                                intent.setClass(EstimateActivity.this, ConfirmActivity.class);
+                            }
                             startActivity(intent);
                         } else {
-                            startActivity(new Intent(EstimateActivity.this, LoginActivity.class));
+
+                            login();
                         }
                     }
                 });
                 break;
             case R.id.tolast:
                 ultraViewpager.setCurrentItem(currentItem - 1, true);
+                bonus.setText(String.valueOf(matchBean.getData().get(currentItem).getBonus()));
                 updateButtonStatus();
                 break;
             case R.id.tonext:
                 ultraViewpager.scrollNextPage();
+                bonus.setText(String.valueOf(matchBean.getData().get(currentItem).getBonus()));
                 updateButtonStatus();
                 break;
             case R.id.filter:
@@ -428,7 +434,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 .districtCyclic(false)
                 .itemPadding(5)
                 .setCityInfoType(CityConfig.CityInfoType.BASE)
-                .setCityWheelType(CityConfig.WheelType.PRO_CITY_DIS)
+                .setCityWheelType(CityConfig.WheelType.PRO_CITY)
                 .build();
 
         cityPicker = new CityPickerView(cityConfig);

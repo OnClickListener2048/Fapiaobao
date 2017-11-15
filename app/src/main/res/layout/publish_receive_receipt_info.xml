@@ -157,7 +157,7 @@
 
                 <EditText
                     android:textSize="@dimen/s14"
-                    android:inputType="numberDecimal"
+                    android:inputType="phone"
                     android:id="@+id/et_reception_number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

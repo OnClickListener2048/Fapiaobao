@@ -87,6 +87,10 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    public void login() {
+        BaseApplication.showToast("请先登录");
+    }
+
 
     protected void onBeforeSetContentLayout() {
 
