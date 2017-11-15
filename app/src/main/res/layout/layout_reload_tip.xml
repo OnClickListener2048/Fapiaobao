@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="314dp"
+        android:layout_height="141dp"
         android:background="@drawable/shape_tip_bg"
-        android:layout_margin="@dimen/d20"
+        android:layout_gravity="center"
         android:orientation="vertical">
         <LinearLayout
             android:layout_marginLeft="@dimen/d30"
@@ -18,6 +18,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/title_small"
+                android:textSize="13sp"
                 android:text="确认将红包余额全部充入发票宝吗？"/>
 
         </LinearLayout>

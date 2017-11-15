@@ -434,7 +434,7 @@ public class DemandActivity extends BaseActivity{
                             bankAccount.setText(bean.getDemand().getCompany().getAccount());
                             bank.setText(bean.getDemand().getCompany().getDepositBank());
                             texNumber.setText(bean.getDemand().getCompany().getTaxno());
- 
+
                             try {
                                 MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
                                 companyBean.setName(bean.getDemand().getCompany().getName());

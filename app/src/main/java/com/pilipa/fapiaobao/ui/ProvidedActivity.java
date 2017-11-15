@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -163,6 +164,8 @@ public class ProvidedActivity extends BaseActivity {
     CardView layout_mailing_information;
     @Bind(R.id.ll_logisticsInfo)
     LinearLayout ll_logisticsInfo;
+    @Bind(R.id.btn_mailing)
+    Button btn_mailing;
     private boolean isShow = true;//当前详情是否显示
     private boolean isLogisticShow = false;//当前物流信息是否显示
     boolean isCollected;
@@ -475,6 +478,7 @@ public class ProvidedActivity extends BaseActivity {
                                     if(normalBean.getStatus() == 200){
                                         showOrderDetail(orderId);
                                     }
+
                                     BaseApplication.showToast(normalBean.getMsg());
                                 }
                             });

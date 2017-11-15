@@ -538,6 +538,12 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             changeLayout();
             root = (LinearLayout) LayoutInflater.from(this).inflate(
                     R.layout.layout_reject1_tip, null);
+            root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDialog.dismiss();
+                }
+            });
             root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -5,27 +5,30 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="314dp"
+        android:layout_height="141dp"
         android:background="@drawable/shape_tip_bg"
         android:layout_margin="@dimen/d20"
         android:orientation="vertical">
-
+        <TextView
+            android:layout_marginLeft="19dp"
+            android:layout_marginTop="19dp"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#959595"
+            android:text="温馨提示"/>
         <TextView
             android:id="@+id/tv_tip"
-            android:layout_marginTop="@dimen/d50"
-            android:layout_marginLeft="@dimen/d35"
-            android:layout_marginRight="@dimen/d35"
+            android:layout_marginTop="@dimen/d14"
+            android:layout_marginLeft="19dp"
+            android:layout_marginRight="19dp"
+            android:textSize="13sp"
+            android:textColor="@color/title_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tip_reject_start"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/d35"
-            android:layout_marginRight="@dimen/d35"
-            android:layout_marginTop="@dimen/d5"
-            android:text="请谨慎操作哦~"/>
+
         <LinearLayout
             android:gravity="right"
             android:layout_marginRight="@dimen/d30"
@@ -35,13 +38,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:background="@null"
+                android:textColor="@color/main_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="取消"/>
             <Button
                 android:id="@+id/btn_confirm"
                 android:background="@null"
                 android:textColor="@color/main_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="知道了"/>
+                android:text="确定"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

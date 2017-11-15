@@ -27,7 +27,7 @@ import butterknife.OnClick;
  * Created by wjn on 2017/10/23.
  */
 
-public class CompanyManagerActivity extends BaseActivity {
+public class CompanyManagerActivity extends BaseActivity implements TabLayout.OnTabSelectedListener{
 
     @Bind(R.id.tl_tabLayout)
     TabLayout tlTabLayout;
@@ -57,11 +57,11 @@ public class CompanyManagerActivity extends BaseActivity {
     public void initView() {
         List list = StaticDataCreator.initCompanyManagerTabData(BaseApplication.context());
         fragmentList = new ArrayList<>();
-        fragmentList.add(new MyFavoriteCompanyViewPagerFragment());
         fragmentList.add(new MyCompanyViewPagerFragment());
-
+        fragmentList.add(new MyFavoriteCompanyViewPagerFragment());
         vpVerpager.setAdapter(new TabPageIndicatorAdapter(getSupportFragmentManager(),list,fragmentList));
         tlTabLayout.setupWithViewPager(vpVerpager);
+        tlTabLayout.setOnTabSelectedListener(this);
     }
 
     @Override
@@ -74,5 +74,25 @@ public class CompanyManagerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        if(tlTabLayout.getSelectedTabPosition() == 1){
+            imgAdd.setVisibility(View.GONE);
+        }else{
+            imgAdd.setVisibility(View.VISIBLE);
+        }
+        vpVerpager.setCurrentItem(tlTabLayout.getSelectedTabPosition());
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
     }
 }

@@ -5,10 +5,10 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="314dp"
+        android:layout_height="141dp"
         android:background="@drawable/shape_tip_bg"
-        android:layout_margin="@dimen/d20"
+        android:layout_gravity="center"
         android:orientation="vertical">
 
         <TextView
@@ -17,6 +17,8 @@
             android:layout_marginLeft="@dimen/d30"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/title_small"
             android:text="@string/tip_reject_finish"/>
         <LinearLayout
             android:gravity="right"

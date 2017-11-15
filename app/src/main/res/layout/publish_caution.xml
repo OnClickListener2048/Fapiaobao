@@ -26,7 +26,7 @@
             android:background="@null"
             android:hint="@string/awareness"
             android:padding="@dimen/d10"
-            android:textSize="@dimen/s16" />
+            android:textSize="@dimen/s13" />
     </LinearLayout>
 
     <Button

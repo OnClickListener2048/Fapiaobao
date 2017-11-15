@@ -30,8 +30,9 @@ public class StaticDataCreator {
             list = new ArrayList();
         }
         list.clear();
-        list.add(context.getString(R.string.my_collection));
         list.add(context.getString(R.string.my_company));
+        list.add(context.getString(R.string.my_collection));
+
         return list;
     }
     public static List initReceiptFolderTabData(Context context) {

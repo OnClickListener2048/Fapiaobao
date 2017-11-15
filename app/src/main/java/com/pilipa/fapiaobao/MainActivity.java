@@ -27,6 +27,7 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.update.VersionMode;
+import com.pilipa.fapiaobao.receiver.MessageReceiver;
 import com.pilipa.fapiaobao.receiver.PackageInstallReceiver;
 import com.pilipa.fapiaobao.ui.fragment.NavFragment;
 import com.pilipa.fapiaobao.ui.widget.NavigationButton;
@@ -95,6 +96,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
         mNavBar = ((NavFragment) manager.findFragmentById(R.id.fag_nav));
         mNavBar.setup(this, manager, R.id.main_container, this);
         PackageInstallReceiver.registerReceiver(this);
+        MessageReceiver.registerReceiver(this);
     }
 
     @Override
@@ -122,6 +124,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
         TDevice.UPDATE = false;
         TDevice.IS_UPDATE = false;
         PackageInstallReceiver.unregisterReceiver(this);
+        MessageReceiver.unregisterReceiver(this);
     }
 
     @Override
