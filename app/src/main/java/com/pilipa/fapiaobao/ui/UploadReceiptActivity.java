@@ -140,10 +140,14 @@ public class UploadReceiptActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.upload_scan:
-                Intent intent = new Intent(this, CaptureActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_SCAN);
+
                 break;
         }
+    }
+
+    public void scan() {
+        Intent intent = new Intent(this, CaptureActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_SCAN);
     }
 
     @Override

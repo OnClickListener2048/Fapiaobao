@@ -103,12 +103,7 @@ public class LaunchActivity extends AppCompatActivity {
         mContentView = findViewById(R.id.fullscreen_content);
         frameLayout = (FrameLayout) findViewById(R.id.bg);
 
-        AppOperator.getExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                BaseApplication.initAreaSelector();
-            }
-        });
+
         initAMap();
     }
 

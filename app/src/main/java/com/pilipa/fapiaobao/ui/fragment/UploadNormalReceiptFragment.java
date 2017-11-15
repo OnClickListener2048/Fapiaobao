@@ -21,6 +21,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.UploadReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -220,6 +221,8 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
         root.findViewById(R.id.btn_cancel).setOnClickListener(this);
         root.findViewById(R.id.btn_choose_img_receipt_folder).setOnClickListener(this);
+        root.findViewById(R.id.btn_shopping_stamp).setOnClickListener(this);
+
         mCameraDialog.setContentView(root);
         Window dialogWindow = mCameraDialog.getWindow();
         dialogWindow.setGravity(Gravity.BOTTOM);
@@ -247,6 +250,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
             String path = mediaStoreCompat.getCurrentPhotoPath();
             try {
+                TLog.log("path"+path);
                 MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
                 getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,contentUri));
             } catch (FileNotFoundException e) {
@@ -415,6 +419,10 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             case R.id.btn_choose_img_receipt_folder:
                 startActivityForResult(new Intent(mContext, ReceiptActivityToken.class),REQUEST_CODE_FROM_ELEC);
                 mCameraDialog.dismiss();
+                break;
+            case R.id.btn_shopping_stamp:
+                UploadReceiptActivity activity = (UploadReceiptActivity) getActivity();
+                activity.scan();
                 break;
 
             default:

@@ -16,13 +16,16 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.example.mylibrary.utils.TLog;
-import com.lljjcoder.city_20170724.CityPickerView;
-import com.lljjcoder.city_20170724.bean.CityBean;
-import com.lljjcoder.city_20170724.bean.DistrictBean;
-import com.lljjcoder.city_20170724.bean.ProvinceBean;
+
+import com.lljjcoder.bean.CityBean;
+import com.lljjcoder.bean.DistrictBean;
+import com.lljjcoder.bean.ProvinceBean;
+import com.lljjcoder.citywheel.CityConfig;
+import com.lljjcoder.citywheel.CityPickerView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.ui.DemandsPublishActivity;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
@@ -196,25 +199,27 @@ public class FilterFragment extends BaseFragment {
     }
 
     private void initCityPicker() {
-        cityPicker = new CityPickerView.Builder(getActivity())
-                .setData(BaseApplication.mProvinceBeanArrayList)
+        CityConfig cityConfig = new CityConfig.Builder(getActivity())
+                .title("选择地区")
+                .titleBackgroundColor("#E9E9E9")
                 .textSize(15)
-                .title("其他省市选择")
-                .backgroundPop(0xa0000000)
-                .titleBackgroundColor("#ffffff")
-                .titleTextColor("#000000")
-                .backgroundPop(0x0000000)
-                .confirTextColor("#000000")
+                .titleTextColor("#585858")
+                .textColor("0xFF585858")
+                .confirTextColor("#0000FF")
                 .cancelTextColor("#000000")
-                .city("天津市")
-                .textColor(Color.parseColor("#000000"))
+                .province("天津")
+                .city("天津")
+                .district("红桥区")
+                .visibleItemsCount(5)
                 .provinceCyclic(false)
                 .cityCyclic(false)
                 .districtCyclic(false)
-                .visibleItemsCount(5)
-                .itemPadding(20)
-                .onlyShowProvinceAndCity(true)
+                .itemPadding(5)
+                .setCityInfoType(CityConfig.CityInfoType.BASE)
+                .setCityWheelType(CityConfig.WheelType.PRO_CITY_DIS)
                 .build();
+
+        cityPicker = new CityPickerView(cityConfig);
 
         cityPicker.setOnCityItemClickListener(new CityPickerView.OnCityItemClickListener() {
             @Override

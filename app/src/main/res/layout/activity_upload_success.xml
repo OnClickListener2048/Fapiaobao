@@ -96,7 +96,7 @@
             android:layout_height="@dimen/d45"
             android:layout_weight="1"
             android:background="@drawable/shape_watch_btn"
-            android:text="@string/watch"
+            android:text="查看本次提供"
             android:textColor="@color/white" />
 
         <View

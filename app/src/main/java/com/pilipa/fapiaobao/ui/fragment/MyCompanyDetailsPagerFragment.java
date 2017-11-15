@@ -18,21 +18,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mylibrary.utils.EncodeUtils;
+import com.example.mylibrary.utils.ImageUtils;
 import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.widget.XCFlowLayout;
+import com.pilipa.fapiaobao.wxapi.Constants;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.util.List;
 
@@ -53,6 +63,9 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
     private ImageView img_details_viewpager_next;
     private TextView tv_newNeed;
     private LinearLayout ll_we_need;
+
+
+    private IWXAPI api;
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA share_media) {
@@ -74,6 +87,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             Toast.makeText(getActivity(), "分享取消", Toast.LENGTH_SHORT).show();
         }
     };
+    private UMWeb web;
 
     @Override
     protected int getLayoutId() {
@@ -85,7 +99,19 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        api = WXAPIFactory.createWXAPI(getActivity(), Constants.APP_ID);
+        api.registerApp(Constants.APP_ID);
         return rootView;
+    }
+
+    @Override
+    protected void initWidget(View root) {
+        super.initWidget(root);
+        web = new UMWeb(Constant.MATCH);
+        web.setTitle("伙伴们，多余的发票也能挣红包了~");//标题
+        UMImage umImage = new UMImage(getActivity(), R.mipmap.icon);
+        web.setThumb(umImage);  //缩略图
+        web.setDescription("伙伴们，多余的发票也能挣红包了~");//描述
     }
 
     public static MyCompanyDetailsPagerFragment newInstance(Bundle bundle) {
@@ -218,11 +244,20 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
         root.findViewById(R.id.weixin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ShareAction(getActivity())
-                        .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
-                        .withText("hello")//分享内容
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
+                WXWebpageObject wxWebpageObject = new WXWebpageObject();
+                wxWebpageObject.webpageUrl = Constant.MATCH ;
+
+                WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
+                wxMediaMessage.description = "伙伴们，多余的发票也能挣红包了~";
+                wxMediaMessage.title = "伙伴们，多余的发票也能挣红包了~";
+                wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.icon), Bitmap.CompressFormat.JPEG);
+
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = String.valueOf(System.currentTimeMillis());
+                req.message = wxMediaMessage;
+
+                req.scene = SendMessageToWX.Req.WXSceneSession;
+                api.sendReq(req);
                 mCameraDialog.dismiss();
             }
         });
@@ -231,7 +266,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             public void onClick(View v) {
                 new ShareAction(getActivity())
                         .setPlatform(SHARE_MEDIA.SINA)//传入平台
-                        .withText("hello")//分享内容
+                        .withMedia(web)
                         .setCallback(umShareListener)//回调监听器
                         .share();
                 mCameraDialog.dismiss();
@@ -242,7 +277,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             public void onClick(View v) {
                 new ShareAction(getActivity())
                         .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
-                        .withText("hello")//分享内容
+                        .withMedia(web)
                         .setCallback(umShareListener)//回调监听器
                         .share();
                 mCameraDialog.dismiss();
@@ -253,7 +288,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             public void onClick(View v) {
                 new ShareAction(getActivity())
                         .setPlatform(SHARE_MEDIA.QQ)//传入平台
-                        .withText("hello")//分享内容
+                        .withMedia(web)
                         .setCallback(umShareListener)//回调监听器
                         .share();
                 mCameraDialog.dismiss();
@@ -264,7 +299,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             public void onClick(View v) {
                 new ShareAction(getActivity())
                         .setPlatform(SHARE_MEDIA.QZONE)//传入平台
-                        .withText("hello")//分享内容
+                        .withMedia(web)
                         .setCallback(umShareListener)//回调监听器
                         .share();
                 mCameraDialog.dismiss();

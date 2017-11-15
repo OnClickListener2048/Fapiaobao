@@ -1,1 +1,1 @@
-include ':app', ':mylibrary', ':push', ':share', ':citypickerview'
+include ':app', ':mylibrary', ':push', ':share'

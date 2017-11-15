@@ -353,7 +353,7 @@ public class LabelsView extends ViewGroup implements View.OnClickListener {
         //label通过tag保存自己的位置(position)
         label.setTag(position);
         label.setOnClickListener(this);
-        addView(label);
+        addView(label,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
     }
 
     @Override

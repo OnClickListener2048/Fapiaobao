@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v4.os.EnvironmentCompat;
 
+import com.example.mylibrary.utils.TLog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -48,12 +49,7 @@ public class MediaStoreCompat {
         mFragment = fragment;
     }
 
-    /**
-     * Checks whether the device has a camera feature or not.
-     *
-     * @param context a context to check for camera feature.
-     * @return true if the device has a camera feature. false otherwise.
-     */
+
     public static boolean hasCameraFeature(Context context) {
         PackageManager pm = context.getApplicationContext().getPackageManager();
         return pm.hasSystemFeature(PackageManager.FEATURE_CAMERA);
@@ -117,7 +113,6 @@ public class MediaStoreCompat {
 
             }
         });
-
     }
 
     private File createImageFile() throws IOException {
@@ -127,11 +122,14 @@ public class MediaStoreCompat {
         String imageFileName = String.format("JPEG_%s.jpg", timeStamp);
 
         String extDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                .getAbsolutePath() + File.separator + "发票宝";
+                .getAbsolutePath() + File.separator + "fapiaobao"+File.separator;
         File extDirFile = new File(extDir);
+        extDirFile.mkdirs();
+
+        TLog.log("extDirFile.exists"+extDirFile.exists());
         // Avoid joining path components manually
         File tempFile = new File(extDirFile, imageFileName);
-
+        TLog.log("tempFile.exists"+tempFile.exists());
         // Handle the situation that user's external storage is not ready
         if (!Environment.MEDIA_MOUNTED.equals(EnvironmentCompat.getStorageState(tempFile))) {
             return null;

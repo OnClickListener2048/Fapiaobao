@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,10 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.ImageUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Constant;
+import com.pilipa.fapiaobao.wxapi.Constants;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -46,6 +54,8 @@ public class PubSuccessActivity extends BaseActivity {
     TextView qzone;
     @Bind(R.id.weibo)
     TextView weibo;
+
+    private IWXAPI api;
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA share_media) {
@@ -84,6 +94,9 @@ public class PubSuccessActivity extends BaseActivity {
     @Override
     public void initView() {
         umShareAPI = UMShareAPI.get(this);
+
+        api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
+        api.registerApp(Constants.APP_ID);
     }
 
     @Override
@@ -129,15 +142,20 @@ public class PubSuccessActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.WeChat:
-                if (umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN)) {
-                    new ShareAction(this)
-                            .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
-                            .withMedia(web)
-                            .setCallback(umShareListener)//回调监听器
-                            .share();
-                } else {
-                    BaseApplication.showToast("请安装微信客户端");
-                }
+                WXWebpageObject wxWebpageObject = new WXWebpageObject();
+                wxWebpageObject.webpageUrl = Constant.MATCH;
+
+                WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
+                wxMediaMessage.description = "伙伴们，多余的发票也能挣红包了~";
+                wxMediaMessage.title = "伙伴们，多余的发票也能挣红包了~";
+                wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.icon), Bitmap.CompressFormat.JPEG);
+
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
+                req.transaction = String.valueOf(System.currentTimeMillis());
+                req.message = wxMediaMessage;
+
+                req.scene = SendMessageToWX.Req.WXSceneSession;
+                api.sendReq(req);
 
                 break;
             case R.id.moments:

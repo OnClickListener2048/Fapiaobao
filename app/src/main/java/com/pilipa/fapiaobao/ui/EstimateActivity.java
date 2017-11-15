@@ -17,10 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
-import com.lljjcoder.city_20170724.CityPickerView;
-import com.lljjcoder.city_20170724.bean.CityBean;
-import com.lljjcoder.city_20170724.bean.DistrictBean;
-import com.lljjcoder.city_20170724.bean.ProvinceBean;
+import com.lljjcoder.bean.CityBean;
+import com.lljjcoder.bean.DistrictBean;
+import com.lljjcoder.bean.ProvinceBean;
+import com.lljjcoder.citywheel.CityConfig;
+import com.lljjcoder.citywheel.CityPickerView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
@@ -413,39 +414,38 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
 
     private void initCityPicker() {
-        cityPicker = new CityPickerView.Builder(this)
-                .setData(BaseApplication.mProvinceBeanArrayList)
+        CityConfig cityConfig = new CityConfig.Builder(EstimateActivity.this)
+                .title("选择地区")
                 .textSize(15)
-                .title("其他省市选择")
-                .backgroundPop(0xa0000000)
-                .titleBackgroundColor("#ffffff")
-                .titleTextColor("#000000")
-                .backgroundPop(0x0000000)
                 .confirTextColor("#000000")
                 .cancelTextColor("#000000")
-                .city("天津")
                 .province("天津")
+                .city("天津")
                 .district("红桥区")
-                .textColor(Color.parseColor("#000000"))
+                .visibleItemsCount(5)
                 .provinceCyclic(false)
                 .cityCyclic(false)
                 .districtCyclic(false)
-                .visibleItemsCount(5)
-                .itemPadding(20)
-                .onlyShowProvinceAndCity(true)
+                .itemPadding(5)
+                .setCityInfoType(CityConfig.CityInfoType.BASE)
+                .setCityWheelType(CityConfig.WheelType.PRO_CITY_DIS)
                 .build();
 
+        cityPicker = new CityPickerView(cityConfig);
+
+
         cityPicker.setOnCityItemClickListener(new CityPickerView.OnCityItemClickListener() {
+
+
             @Override
-            public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
+            public void onSelected(ProvinceBean provinceBean, CityBean cityBean, DistrictBean districtBean) {
                 //返回结果
                 //ProvinceBean 省份信息
                 //CityBean     城市信息
                 //DistrictBean 区县信息
-                locating.setText(city.getName()+"市");
-                locate = city.getName()+"市";
+                locating.setText(cityBean.getName()+"市");
+                locate = cityBean.getName()+"市";
                 cityPicker.hide();
-
             }
 
             @Override
