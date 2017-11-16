@@ -170,7 +170,7 @@
     <string name="upload_electric_receipt">上传电子发票</string>
     <string name="already_have">已有发票</string>
     <string name="company_name">单位名称</string>
-    <string name="receipt_code">税号</string>
+    <string name="receipt_code">税\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020号</string>
     <string name="must_fill">必填</string>
     <string name="settings">发布设置</string>
     <string name="reward">悬赏红包</string>
@@ -178,10 +178,10 @@
     <string name="point_receipt_kind">指定发票类型</string>
     <string name="publish_cautions">开票注意事项</string>
     <string name="publish">立即发布</string>
-    <string name="address">地址</string>
-    <string name="phone_number">电话</string>
+    <string name="address">单位地址</string>
+    <string name="phone_number">电话号码</string>
     <string name="bank_name">开户银行</string>
-    <string name="account">账号</string>
+    <string name="account">银行账户</string>
     <string name="receive_info">收票信息</string>
     <string name="receive_person">收票人</string>
     <string name="default_address">默认地址</string>
@@ -238,7 +238,7 @@
     <string name="arrival_no">不到账</string>
     <string name="add_company_info">添加开票的公司信息</string>
     <string name="company_details">公司详情</string>
-    <string name="we_need">点击以下类型提供发票 :</string>
+    <string name="we_need">点击以下类型,提供发票</string>
     <string name="provide_for_me">我提供的</string>
     <string name="provide_size"> %1$d张</string>
     <string name="bouns_amount">赏金预估 %1$d元</string>
@@ -336,6 +336,8 @@
     <string name="withdraw_tip3">确定提现么？</string>
     <string name="logout_tip">确定要退出登录么？</string>
     <string name="express_mail">快递已邮寄</string>
+    <string name="waitting_mail">等待签收中</string>
+
     <string name="credit_history">信用历史</string>
     <string name="credit_life">点滴积累 继续加油</string>
     <string name="credit_bfb">您的信用值超过了 %.0f%% 的票友</string>

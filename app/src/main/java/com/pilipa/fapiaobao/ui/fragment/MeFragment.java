@@ -36,7 +36,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.INSTRUCTION;
-import static com.pilipa.fapiaobao.net.Constant.WIKI;
 
 /**
  * Created by lyt on 2017/10/13.
@@ -178,6 +177,17 @@ public class MeFragment extends BaseFragment{
                                     .into(imageHead);
                             imgLevelIcon.setImageResource(LevelIcon[customer.getCreditLevel()]);
                         }
+                }else if(loginWithInfoBean.getStatus() == 701){
+                    tvUserName.setText("");
+                    tvCreditRating.setText("积分："+"");
+                    tvBouns.setText("0 元");//钱包金额
+                    imgLevelIcon.setImageResource(LevelIcon[0]);
+                    requestManager
+                            .load("")
+                            .asBitmap()
+                            .placeholder(R.mipmap.ic_head_circle_default_small_)
+                            .thumbnail(0.1f)
+                            .into(imageHead);
                 }
             }
         });

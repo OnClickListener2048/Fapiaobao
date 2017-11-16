@@ -7,14 +7,14 @@
         android:id="@+id/rl_root"
         android:background="@drawable/shape_tip_bg"
         android:layout_margin="@dimen/d20"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="314dp"
+        android:layout_height="141dp">
         <ImageView
             android:id="@+id/img"
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/d30"
+            android:layout_marginTop="@dimen/d10"
             android:scaleType="fitXY"
             android:src="@drawable/feedback_tip" />
         <TextView

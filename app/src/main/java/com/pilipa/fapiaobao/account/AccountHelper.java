@@ -5,7 +5,6 @@ import android.app.Application;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
@@ -42,7 +41,7 @@ public class AccountHelper {
     public static void logout(){
         SharedPreferencesHelper.remove(instances.application,LoginWithInfoBean.class);
 //        BaseApplication.finishAllActivites();
-        ActivityUtils.finishAllActivities();
+//        ActivityUtils.finishAllActivities();
         Log.d(TAG, "logout: success");
     }
     public static String getToken() {

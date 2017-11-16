@@ -191,9 +191,9 @@ public class UserInfoActivity extends BaseActivity {
                 mDialog.dismiss();
                 break;
             case R.id.btn_confirm://确认登出\
-                startActivity(new Intent(this, LoginActivity.class));
                 mDialog.dismiss();
                 AccountHelper.logout();
+                UserInfoActivity.this.finish();
                 break;
             case R.id.img_logout:
                 setLogoutDialog();

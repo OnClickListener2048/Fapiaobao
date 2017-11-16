@@ -165,7 +165,7 @@ public class ProvidedActivity extends BaseActivity {
     @Bind(R.id.ll_logisticsInfo)
     LinearLayout ll_logisticsInfo;
     @Bind(R.id.btn_mailing)
-    Button btn_mailing;
+    Button btnMailing;
     private boolean isShow = true;//当前详情是否显示
     private boolean isLogisticShow = false;//当前物流信息是否显示
     boolean isCollected;
@@ -356,11 +356,11 @@ public class ProvidedActivity extends BaseActivity {
         }
 
         //判断是否需要显示物流信息 view
-        if (isLogisticShow) {
-            ll_logisticsInfo.setVisibility(View.VISIBLE);
-        } else {
-            ll_logisticsInfo.setVisibility(View.GONE);
-        }
+//        if (isLogisticShow) {
+//            ll_logisticsInfo.setVisibility(View.VISIBLE);
+//        } else {
+//            ll_logisticsInfo.setVisibility(View.GONE);
+//        }
         ArrayList<Image> images1 = new ArrayList<>();
         ArrayList<Image> images2 = new ArrayList<>();
         ArrayList<Image> images3 = new ArrayList<>();
@@ -499,6 +499,18 @@ public class ProvidedActivity extends BaseActivity {
                         OrderDetailsBean.DataBean bean = orderDetailsBean.getData();
                         tvInvoiceType.setText(bean.getInvoiceType().getName());
                         favoriteId = bean.getFavoriteId();//收藏ID
+                        //是否需要邮寄
+                        if(bean.isNeedMail()){
+                            btnMailing.setTextColor(getResources().getColor(R.color.main_style));
+                            btnMailing.setEnabled(true);
+                            btnMailing.setText(getResources().getString(R.string.express_mail));
+                            btnMailing.setBackgroundResource(R.drawable.shape_receipt_type);
+                        }else{
+                            btnMailing.setTextColor(getResources().getColor(R.color.gray_hint));
+                            btnMailing.setEnabled(false);
+                            btnMailing.setText(getResources().getString(R.string.waitting_mail));
+                            btnMailing.setBackgroundResource(R.drawable.shape_receipt_type_false);
+                        }
                         if (STATE_FLYING.equals(bean.getOrderState())) {
                             tvArrivalState.setText("红包飞来中");
                             tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_2));
@@ -518,13 +530,15 @@ public class ProvidedActivity extends BaseActivity {
                             tvReceiver.setText(bean.getPostage().getReceiver());
                             tvTelephone.setText(bean.getPostage().getTelephone());
                             tvPhone.setText(bean.getPostage().getPhone());
-                            if (bean.getPostage().getCity() == null) {
-                                tvPublishAddress.setText(bean.getPostage().getAddress());
-                            } else {
-                                tvPublishAddress.setText(bean.getPostage().getCity() + " "
-                                        +bean.getPostage().getDistrict()+ " "
-                                        + bean.getPostage().getAddress());
+                            String district = null;
+                            if(bean.getPostage().getDistrict()!=null && !bean.getPostage().getDistrict().isEmpty()){
+                                district = bean.getPostage().getDistrict()+ " ";
                             }
+                            String city = null;
+                            if(bean.getPostage().getCity()!=null && !bean.getPostage().getCity().isEmpty()){
+                                city = bean.getPostage().getCity()+" ";
+                            }
+                            tvPublishAddress.setText(city+ district + bean.getPostage().getAddress());
                             tv_low_limit.setText(new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
                         }
                         receivedBonus.setText(String.format("%.2f", bean.getReceivedBonus()));

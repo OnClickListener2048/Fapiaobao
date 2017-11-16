@@ -376,36 +376,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="@dimen/d8"-->
-                        <!--android:orientation="horizontal">-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/d8"
+                        android:orientation="horizontal">
 
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:textColor="@color/title_small"-->
-                            <!--android:textSize="@dimen/d12"-->
-                            <!--android:layout_gravity="center"-->
-                            <!--android:text="@string/low_limit" />-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/title_small"
+                            android:textSize="@dimen/d12"
+                            android:layout_gravity="center"
+                            android:text="@string/low_limit" />
 
-                        <!--<TextView-->
-                            <!--android:id="@+id/tv_low_limit"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_marginLeft="@dimen/d20"-->
-                            <!--android:textColor="@color/main_style"-->
-                            <!--android:layout_gravity="center"-->
-                            <!--android:textSize="@dimen/d12"-->
-                            <!--android:text="200元" />-->
-                        <!--<ImageView-->
-                            <!--android:id="@+id/question"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_marginLeft="@dimen/d10"-->
-                            <!--android:src="@mipmap/question"/>-->
-                    <!--</LinearLayout>-->
+                        <TextView
+                            android:id="@+id/tv_low_limit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/d20"
+                            android:textColor="@color/main_style"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/d12"
+                            android:text="元" />
+                        <ImageView
+                            android:id="@+id/question"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/d10"
+                            android:src="@mipmap/question"/>
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

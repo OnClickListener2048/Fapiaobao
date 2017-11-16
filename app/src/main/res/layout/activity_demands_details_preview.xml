@@ -130,6 +130,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        layout="@layout/layout_qualified_privoide_item"></include>
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         layout="@layout/layout_unqualified_item"></include>
     <!--物流信息 确认是否合格-->
     <include

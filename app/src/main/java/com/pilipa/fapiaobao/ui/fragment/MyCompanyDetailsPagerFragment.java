@@ -15,7 +15,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mylibrary.utils.EncodeUtils;
 import com.example.mylibrary.utils.ImageUtils;
@@ -31,6 +30,7 @@ import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.widget.XCFlowLayout;
+import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -74,17 +74,14 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
-            Toast.makeText(getActivity(), "分享成功", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-            Toast.makeText(getActivity(), "分享失败", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
-            Toast.makeText(getActivity(), "分享取消", Toast.LENGTH_SHORT).show();
         }
     };
     private UMWeb web;
@@ -193,6 +190,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             TextView view = new TextView(mContext);
             view.setGravity(Gravity.CENTER);
             view.setText(list.get(i).getName());
+            view.setTextSize(TDevice.px2dp(26));
             view.setPadding(5, 3, 5, 3);
             view.setTextColor(getResources().getColor(R.color.main_style));
             view.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_invoice_receipt_kind_bg));

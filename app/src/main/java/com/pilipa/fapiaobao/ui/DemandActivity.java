@@ -140,6 +140,8 @@ public class DemandActivity extends BaseActivity{
     TextView tv_num_3;
     @Bind(R.id.qr)
     ImageView qr;
+    @Bind(R.id.tv_low_limit)
+    TextView tv_low_limit;
     @Bind(R.id.ll_receive)
     LinearLayout ll_receive;
     @Bind(R.id.ll_container_paper_normal_receipt)
@@ -188,17 +190,14 @@ public class DemandActivity extends BaseActivity{
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
-            Toast.makeText(DemandActivity.this, "分享成功", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-            Toast.makeText(DemandActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
-            Toast.makeText(DemandActivity.this, "分享取消", Toast.LENGTH_SHORT).show();
         }
     };
     @Override
@@ -403,21 +402,24 @@ public class DemandActivity extends BaseActivity{
 
                         tvBounsAmount.setText(String.format("%.2f", bean.getDemand().getTotalBonus()) + "元");
                         tvAmount.setText(String.format("%.2f", bean.getDemand().getTotalAmount()) + "元");
-                        tvLeftAmount.setText(String.format("%.2f", bean.getDemand().getLeftBonus()) + "");
+                        tvLeftAmount.setText(String.format("%.2f", bean.getDemand().getLeftBonus()));
                         tvPublishTime.setText("发布时间：" + bean.getDemand().getPublishDate());
                         tvDeadline.setText("截止日期：" + bean.getDemand().getDeadline());
                         tvAttentions.setText(bean.getDemand().getAttentions().isEmpty() ? "无" : bean.getDemand().getAttentions());
-                        tv_receive.setText(String.format("%.2f", bean.getReceivedAmount()) + "");
+                        tv_receive.setText(String.format("%.2f", bean.getReceivedAmount()));
                         String collected_amount = getResources().getString(R.string.collected_amount);
                         tvAlreadyCollected.setText(String.format(collected_amount, bean.getReceivedNum()));
-//                        tv_low_limit.setText(bean.getDemand().getMailMinimum()+ "元");
-                        if (bean.getDemand().getCity() == null) {
-                            tvAddress.setText(bean.getDemand().getDemandPostage().getAddress());
-                        } else {
-                            tvAddress.setText(bean.getDemand().getDemandPostage().getCity()+" "+
-                                    bean.getDemand().getDemandPostage().getDistrict()+ " "
-                                    + bean.getDemand().getDemandPostage().getAddress());
+                        tv_low_limit.setText(String.format("%.2f",bean.getDemand().getMailMinimum())+ "元");
+                        String district = null;
+                        if(bean.getDemand().getDemandPostage().getDistrict()!=null){
+                            district = bean.getDemand().getDemandPostage().getDistrict()+ " ";
                         }
+                        String city = null;
+                        if(bean.getDemand().getDemandPostage().getCity()!=null){
+                            city = bean.getDemand().getDemandPostage().getCity()+" ";
+                        }
+                        tvAddress.setText(city+ district + bean.getDemand().getDemandPostage().getAddress());
+
                         if (!VARIETY_GENERAL_ELECTRON.equals(bean.getDemand().getInvoiceVarieties())) {
                             ll_receive.setVisibility(View.VISIBLE);
 

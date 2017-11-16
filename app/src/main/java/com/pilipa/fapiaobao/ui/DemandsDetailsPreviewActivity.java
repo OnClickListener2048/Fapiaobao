@@ -102,21 +102,25 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     LinearLayout layout_willchecked_item;
     @Bind(R.id.layout_reject_item)
     LinearLayout layout_reject_item;
+    @Bind(R.id.layout_qualified_privoide_item)
+    LinearLayout layout_qualified_privoide_item;
+    @Bind(R.id.tv_receive_amount)
+    TextView tv_receive_amount;
 
     @Bind(R.id.ll_express_info)
     LinearLayout llExpressInfo;
     @Bind(R.id.ll_no_info)
     LinearLayout llNoInfo;
     @Bind(R.id.tv_tip)//顶部tip
-            TextView tv_tip;
+    TextView tv_tip;
     @Bind(R.id.ll_sure_view)//底部确认
-            LinearLayout ll_sure_view;
+    LinearLayout ll_sure_view;
     @Bind(R.id.tv_msg)//中间的提示信息
-            TextView tv_msg;
+    TextView tv_msg;
     @Bind(R.id.tv_reject_reason)//不合格理由
-            TextView tv_reject_reason;
+    TextView tv_reject_reason;
     @Bind(R.id.reject_amount)//不合格理由
-            TextView rejectAmount;
+    TextView rejectAmount;
     private MyRejectTypeAdapter mSpinnerAdapter;
 
 
@@ -196,12 +200,17 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                 layout_willchecked_item.setVisibility(View.GONE);
                 layout_unqualified_item.setVisibility(View.GONE);
                 layout_reject_item.setVisibility(View.GONE);
+                if ("provided".equals(image.from)) {
+                    layout_qualified_privoide_item.setVisibility(View.VISIBLE);
+                    tv_receive_amount.setText("收到红包"+image.amount+"元");
+                }
                 break;
             case STATE_INCOMPETENT:
                 layout_qualified_item.setVisibility(View.GONE);
                 layout_willchecked_item.setVisibility(View.GONE);
                 layout_reject_item.setVisibility(View.GONE);
                 layout_unqualified_item.setVisibility(View.VISIBLE);
+                layout_qualified_privoide_item.setVisibility(View.GONE);
                 tv_reject_reason.setText(image.reason);
                 rejectAmount.setText("发票金额：" + image.amount + "元");
                 break;
@@ -210,6 +219,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                 layout_unqualified_item.setVisibility(View.GONE);
                 layout_willchecked_item.setVisibility(View.VISIBLE);
                 layout_reject_item.setVisibility(View.GONE);
+                layout_qualified_privoide_item.setVisibility(View.GONE);
+
                 if (image.logisticsTradeno != null) {//有邮寄信息
                     llExpressInfo.setVisibility(View.VISIBLE);
                     llNoInfo.setVisibility(View.GONE);
@@ -241,9 +252,13 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             R.id.tv_Unqualified,
             R.id. tv_Unqualified_reject,
             R.id.tv_qualified,
+            R.id.confirm,
             R.id.save_to_media})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.confirm:{
+                finish();
+            }break;
             case R.id.confirm_back: {
                 DemandsDetailsPreviewActivity.this.finish();
             }
@@ -538,12 +553,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             changeLayout();
             root = (LinearLayout) LayoutInflater.from(this).inflate(
                     R.layout.layout_reject1_tip, null);
-            root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialog.dismiss();
-                }
-            });
             root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

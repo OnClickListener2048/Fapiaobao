@@ -32,8 +32,9 @@
                     android:layout_centerVertical="true"
                     android:drawableLeft="@drawable/red_new_dot"
                     android:drawablePadding="@dimen/d5"
+                    android:textSize="@dimen/d13"
                     android:text="有新发布的需求~"
-                    android:textColor="@color/viewfinder_laser"
+                    android:textColor="@color/amount_red"
                     android:visibility="gone" />
 
                 <ImageView
@@ -106,11 +107,14 @@
                         android:layout_marginLeft="@dimen/d15">
                         <TextView
                             android:id="@+id/textView4"
+                            android:textSize="13sp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/text_normal_item"
                             android:text="@string/we_need" />
                             <com.pilipa.fapiaobao.ui.widget.XCFlowLayout
                                 android:id="@+id/flowLayout"
+                                android:layout_marginTop="@dimen/d1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                             </com.pilipa.fapiaobao.ui.widget.XCFlowLayout>
