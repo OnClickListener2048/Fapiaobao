@@ -10,8 +10,6 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.WXAccessModel;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
@@ -143,38 +141,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private void getWXUserInfo(final WXmodel body) {
         String deviceToken;
         deviceToken = BaseApplication.get("deviceToken", "");
-
-        Api.login("1", body.getOpenid(), body.getAccess_token(), deviceToken, new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(final LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus()==200) {
-
-//                    BaseApplication.showToast("微信绑定成功");
-                    Intent intent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("wx_info",body);
-                    intent.putExtra("extra_bundle", bundle);
-                    intent.setAction(LoginActivity.WX_LOGIN_ACTION);
-                    sendBroadcast(intent);
-
-//                    String url = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s";
-//                    String urlToken = String.format(url, body.getAccess_token(), body.getOpenid());
-//                    OkGo.<WXUserInfo>get(urlToken).execute(new JsonCallBack<WXUserInfo>(WXUserInfo.class) {
-//
-//                        @Override
-//                        public void onSuccess(Response<WXUserInfo> response) {
-//                            if (response.isSuccessful()) {
-//
-//                                setResult(RESULT_OK,intent);
-//                                finish();
-//                            }
-//
-//                        }
-//                    });
-
-                }
-            }
-        });
-
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("wx_info",body);
+        intent.putExtra("extra_bundle", bundle);
+        intent.setAction(LoginActivity.WX_LOGIN_ACTION);
+        sendBroadcast(intent);
     }
 }

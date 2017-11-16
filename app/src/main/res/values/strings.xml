@@ -273,10 +273,10 @@
     <string name="upload_receipt">继续上传发票</string>
     <string name="hurry_up">快来上传您的发票吧~</string>
     <string name="my_provide">我提供的</string>
-    <string name="receipt_number">发票张数:</string>
+    <string name="receipt_number">发票张数：</string>
     <string name="piece">\u0020张</string>
-    <string name="receipt_money">发票金额:</string>
-    <string name="estimate_money">预估红包:</string>
+    <string name="receipt_money">发票金额：</string>
+    <string name="estimate_money">预估红包：</string>
     <string name="if_money_isnt_right">如果金额不符，请继续添加</string>
     <string name="demand_publish">需求发布</string>
     <string name="express_limited">最少寄送限额</string>

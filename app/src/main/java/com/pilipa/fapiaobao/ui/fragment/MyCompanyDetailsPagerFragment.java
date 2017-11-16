@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.mylibrary.utils.EncodeUtils;
 import com.example.mylibrary.utils.ImageUtils;
+import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -141,6 +142,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             tv_phoneNum.setText(company.getPhone());
             tv_bankName.setText(company.getDepositBank());
             tv_account.setText(company.getAccount());
+            TLog.d("qrcode" , company.getQrcode()+"");
             if (company.getInvoiceTypeList() != null) {
                 ll_qr_code2.setVisibility(View.VISIBLE);
                 img_qr_code1.setVisibility(View.GONE);

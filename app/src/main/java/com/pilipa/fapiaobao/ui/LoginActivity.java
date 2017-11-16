@@ -79,9 +79,6 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                         if (loginWithInfoBean.getStatus()==200) {
                             BaseApplication.showToast("微信登录成功");
                             SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
-                            Intent intent1 = new Intent();
-                            intent1.setClass(LoginActivity.this, MainActivity.class);
-                            startActivity(intent1);
                             finish();
                         }
                     }

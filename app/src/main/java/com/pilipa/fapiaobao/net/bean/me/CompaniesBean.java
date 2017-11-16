@@ -15,7 +15,7 @@ public class CompaniesBean implements Parcelable{
     /**
      * status : 200
      * msg : OK
-     * data : [{"id":"43c8035b659a49fb8e464bc9d4333e0f","isNewRecord":false,"createDate":"2017-11-07 09:00:08","updateDate":"2017-11-07 09:00:08","customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"大理","taxno":"123456","address":"大理一夜","phone":"2934343","depositBank":"大女当嫁点解点解","account":"123456789"},{"id":"6a0ef1e7000442139e24c040730f8dd2","isNewRecord":false,"createDate":"2017-11-01 11:38:27","updateDate":"2017-11-01 11:38:27","customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"天津波康数码","taxno":"57568765828856","address":"天津和平","phone":"022-8758469","depositBank":"建设银行","account":"6825524665425853"},{"id":"856f48071da345b49781b38e03b06d57","isNewRecord":false,"createDate":"2017-11-07 09:00:13","updateDate":"2017-11-07 09:00:13","customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"大理","taxno":"123456","address":"大理一夜","phone":"2934343","depositBank":"大女当嫁点解点解","account":"123456789"},{"id":"fb736c0bed9949f7881dfc4e486805f2","isNewRecord":false,"createDate":"2017-11-02 10:30:11","updateDate":"2017-11-02 10:30:11","customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"柏迪士尼","taxno":"50578880058","address":"北京","phone":"022-585755","depositBank":"建设银行","account":"1867678580889"},{"id":"ff0bd16a16074b7a905e028bf2341a6f","isNewRecord":false,"createDate":"2017-11-02 10:32:16","updateDate":"2017-11-02 10:32:16","customer":{"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"天津同仁医院","taxno":"2685468542","address":"天津","phone":"55545599","depositBank":"建设银行","account":"4268568005799"}]
+     * data : [{"id":"a9380222214c4ef9aa5530875db1dce0","isNewRecord":false,"createDate":"2017-11-16 15:19:47","updateDate":"2017-11-16 15:19:47","customer":{"id":"2c11bbe4a22d4e4dbeb94afee7e5fd08","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0},"name":"大王鑫公司","taxno":"0123456789","address":"王大鑫道五号","phone":"9876543210","depositBank":"天津建设银行","account":"123456789321564","qrcode":"http://39.106.4.193/fapiaobao/fapiaobao/share/billingInfo?id=a9380222214c4ef9aa5530875db1dce0&name=大王鑫公司&taxno=0123456789&address=王大鑫道五号&phone=9876543210&depositBank=天津建设银行&account=123456789321564"}]
      */
 
     private int status;
@@ -25,7 +25,17 @@ public class CompaniesBean implements Parcelable{
     protected CompaniesBean(Parcel in) {
         status = in.readInt();
         msg = in.readString();
-        data = in.createTypedArrayList(DataBean.CREATOR);
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(status);
+        dest.writeString(msg);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<CompaniesBean> CREATOR = new Creator<CompaniesBean>() {
@@ -64,31 +74,20 @@ public class CompaniesBean implements Parcelable{
         this.data = data;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(status);
-        dest.writeString(msg);
-        dest.writeTypedList(data);
-    }
-
     public static class DataBean implements Parcelable{
         /**
-         * id : 43c8035b659a49fb8e464bc9d4333e0f
+         * id : a9380222214c4ef9aa5530875db1dce0
          * isNewRecord : false
-         * createDate : 2017-11-07 09:00:08
-         * updateDate : 2017-11-07 09:00:08
-         * customer : {"id":"91f5fa30a8f64d62a6bd17baaa14645d","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0}
-         * name : 大理
-         * taxno : 123456
-         * address : 大理一夜
-         * phone : 2934343
-         * depositBank : 大女当嫁点解点解
-         * account : 123456789
+         * createDate : 2017-11-16 15:19:47
+         * updateDate : 2017-11-16 15:19:47
+         * customer : {"id":"2c11bbe4a22d4e4dbeb94afee7e5fd08","isNewRecord":false,"amount":0,"bonus":0,"frozen":0,"creditScore":0,"creditLevel":0,"beginAmount":0,"endAmount":0,"beginBonus":0,"endBonus":0,"beginFrozen":0,"endFrozen":0}
+         * name : 大王鑫公司
+         * taxno : 0123456789
+         * address : 王大鑫道五号
+         * phone : 9876543210
+         * depositBank : 天津建设银行
+         * account : 123456789321564
+         * qrcode : http://39.106.4.193/fapiaobao/fapiaobao/share/billingInfo?id=a9380222214c4ef9aa5530875db1dce0&name=大王鑫公司&taxno=0123456789&address=王大鑫道五号&phone=9876543210&depositBank=天津建设银行&account=123456789321564
          */
 
         private String id;
@@ -102,18 +101,21 @@ public class CompaniesBean implements Parcelable{
         private String phone;
         private String depositBank;
         private String account;
+        private String qrcode;
 
         protected DataBean(Parcel in) {
             id = in.readString();
             isNewRecord = in.readByte() != 0;
             createDate = in.readString();
             updateDate = in.readString();
+            customer = in.readParcelable(CustomerBean.class.getClassLoader());
             name = in.readString();
             taxno = in.readString();
             address = in.readString();
             phone = in.readString();
             depositBank = in.readString();
             account = in.readString();
+            qrcode = in.readString();
         }
 
         public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
@@ -216,6 +218,14 @@ public class CompaniesBean implements Parcelable{
             this.account = account;
         }
 
+        public String getQrcode() {
+            return qrcode;
+        }
+
+        public void setQrcode(String qrcode) {
+            this.qrcode = qrcode;
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -227,17 +237,19 @@ public class CompaniesBean implements Parcelable{
             dest.writeByte((byte) (isNewRecord ? 1 : 0));
             dest.writeString(createDate);
             dest.writeString(updateDate);
+            dest.writeParcelable(customer, flags);
             dest.writeString(name);
             dest.writeString(taxno);
             dest.writeString(address);
             dest.writeString(phone);
             dest.writeString(depositBank);
             dest.writeString(account);
+            dest.writeString(qrcode);
         }
 
-        public static class CustomerBean {
+        public static class CustomerBean implements Parcelable{
             /**
-             * id : 91f5fa30a8f64d62a6bd17baaa14645d
+             * id : 2c11bbe4a22d4e4dbeb94afee7e5fd08
              * isNewRecord : false
              * amount : 0
              * bonus : 0
@@ -265,6 +277,34 @@ public class CompaniesBean implements Parcelable{
             private int endBonus;
             private int beginFrozen;
             private int endFrozen;
+
+            protected CustomerBean(Parcel in) {
+                id = in.readString();
+                isNewRecord = in.readByte() != 0;
+                amount = in.readInt();
+                bonus = in.readInt();
+                frozen = in.readInt();
+                creditScore = in.readInt();
+                creditLevel = in.readInt();
+                beginAmount = in.readInt();
+                endAmount = in.readInt();
+                beginBonus = in.readInt();
+                endBonus = in.readInt();
+                beginFrozen = in.readInt();
+                endFrozen = in.readInt();
+            }
+
+            public static final Creator<CustomerBean> CREATOR = new Creator<CustomerBean>() {
+                @Override
+                public CustomerBean createFromParcel(Parcel in) {
+                    return new CustomerBean(in);
+                }
+
+                @Override
+                public CustomerBean[] newArray(int size) {
+                    return new CustomerBean[size];
+                }
+            };
 
             public String getId() {
                 return id;
@@ -368,6 +408,28 @@ public class CompaniesBean implements Parcelable{
 
             public void setEndFrozen(int endFrozen) {
                 this.endFrozen = endFrozen;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(id);
+                dest.writeByte((byte) (isNewRecord ? 1 : 0));
+                dest.writeInt(amount);
+                dest.writeInt(bonus);
+                dest.writeInt(frozen);
+                dest.writeInt(creditScore);
+                dest.writeInt(creditLevel);
+                dest.writeInt(beginAmount);
+                dest.writeInt(endAmount);
+                dest.writeInt(beginBonus);
+                dest.writeInt(endBonus);
+                dest.writeInt(beginFrozen);
+                dest.writeInt(endFrozen);
             }
         }
     }

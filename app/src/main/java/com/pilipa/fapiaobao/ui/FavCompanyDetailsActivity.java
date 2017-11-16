@@ -84,6 +84,7 @@ public class FavCompanyDetailsActivity extends BaseActivity implements MyCompany
             company.setPhone(companyList.get(i).getPhone());
             company.setDepositBank(companyList.get(i).getDepositBank());
             company.setAccount(companyList.get(i).getAccount());
+            company.setQrcode(companyList.get(i).getQrcode());
             company.setInvoiceTypeList(companyList.get(i).getInvoiceTypeList());
 
             b.putParcelable("company",company);

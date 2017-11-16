@@ -81,6 +81,8 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
             company.setPhone(companyList.get(i).getPhone());
             company.setDepositBank(companyList.get(i).getDepositBank());
             company.setAccount(companyList.get(i).getAccount());
+            company.setQrcode(companyList.get(i).getQrcode());
+
             b.putParcelable("company",company);
             MyCompanyDetailsPagerFragment fragment1 = MyCompanyDetailsPagerFragment.newInstance(b);
             fragment1.setOnDelClickListener(this);

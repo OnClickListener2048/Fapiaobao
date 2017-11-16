@@ -356,11 +356,11 @@ public class ProvidedActivity extends BaseActivity {
         }
 
         //判断是否需要显示物流信息 view
-//        if (isLogisticShow) {
-//            ll_logisticsInfo.setVisibility(View.VISIBLE);
-//        } else {
-//            ll_logisticsInfo.setVisibility(View.GONE);
-//        }
+        if (isLogisticShow) {
+            ll_logisticsInfo.setVisibility(View.VISIBLE);
+        } else {
+            ll_logisticsInfo.setVisibility(View.GONE);
+        }
         ArrayList<Image> images1 = new ArrayList<>();
         ArrayList<Image> images2 = new ArrayList<>();
         ArrayList<Image> images3 = new ArrayList<>();

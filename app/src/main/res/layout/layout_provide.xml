@@ -153,7 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/title_small"
-                        android:text="收到红包" />
+                        android:text="收到红包：" />
 
                     <TextView
                         android:id="@+id/received_bonus"

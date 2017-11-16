@@ -227,6 +227,7 @@ public class UserInfoActivity extends BaseActivity {
                         if (normalBean.getStatus() == 200) {
                             tv_wx.setText("已绑定");
                             tv_wx.setOnClickListener(null);
+                            BaseApplication.showToast("微信绑定成功");
                         }else if(normalBean.getStatus() == 707){
                             BaseApplication.showToast(normalBean.getMsg());
                         }
@@ -342,11 +343,21 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean normalBean) {
+                if (normalBean.getStatus() == 200) {
+                    setUserData(normalBean.getData().getCustomer());
+                }
+            }
+        });
+        super.onResume();
+    }
+
+    @Override
     public void initData() {
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            LoginWithInfoBean.DataBean.CustomerBean customer = AccountHelper.getUser().getData().getCustomer();
-            setUserData(customer);
-        }
+
     }
 
     public void setUserData(LoginWithInfoBean.DataBean.CustomerBean customer) {
