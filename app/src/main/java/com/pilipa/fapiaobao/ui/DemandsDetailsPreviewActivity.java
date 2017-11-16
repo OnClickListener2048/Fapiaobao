@@ -248,7 +248,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             R.id.tolast,
             R.id.tonext,
             R.id.confirm_back,
-            R.id.tv_cancel_reject,
+            R.id.cancel_reject,
             R.id.tv_Unqualified,
             R.id. tv_Unqualified_reject,
             R.id.tv_qualified,
@@ -266,8 +266,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             case R.id.tv_Unqualified:
                 setRejectDialog(REJECT_START);
                 break;
-            case R.id.tv_cancel_reject: {
-                mDialog.dismiss();
+            case R.id.cancel_reject: {
+                changeLayout();
             }
             break;
             case R.id.tv_qualified: {

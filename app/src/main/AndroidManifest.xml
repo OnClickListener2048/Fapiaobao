@@ -145,6 +145,8 @@
         <activity android:name=".ui.CreditHistoryActivity" />
         <activity android:name=".ui.CompanyDetailsActivity" />
         <activity android:name=".ui.FavCompanyDetailsActivity" />
+        <activity android:name=".ui.BindPhoneActivity" />
+
         <activity android:name=".ui.EstimateActivity">
         </activity>
 

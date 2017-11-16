@@ -13,18 +13,15 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.WXAccessModel;
-import com.pilipa.fapiaobao.net.bean.WXUserInfo;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.LoginActivity;
-import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.umeng.weixin.callback.WXCallbackActivity;
 
 
 /**
@@ -75,21 +72,21 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     break;
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
                     Log.i("savedInstanceState", "发送取消ERR_USER_CANCEL");
-                    BaseApplication.showToast("发送取消");
+//                    BaseApplication.showToast("发送取消");
                     finish();
 //                    startActivity(intent);
                     //发送取消
                     break;
                 case BaseResp.ErrCode.ERR_AUTH_DENIED:
                     Log.i("savedInstanceState", "发送取消ERR_AUTH_DENIEDERR_AUTH_DENIEDERR_AUTH_DENIED");
-                    BaseApplication.showToast("发送被拒绝");
+//                    BaseApplication.showToast("发送被拒绝");
                     finish();
 //                    startActivity(intent);
                     //发送被拒绝
                     break;
                 default:
                     Log.i("savedInstanceState", "发送返回breakbreakbreak");
-                    BaseApplication.showToast("发送返回");
+//                    BaseApplication.showToast("发送返回");
                     finish();
 //                    startActivity(intent);
                     //发送返回
@@ -152,7 +149,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             public void setData(final LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus()==200) {
 
-                    BaseApplication.showToast("微信绑定成功");
+//                    BaseApplication.showToast("微信绑定成功");
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("wx_info",body);

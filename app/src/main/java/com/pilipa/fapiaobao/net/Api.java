@@ -122,9 +122,7 @@ public class Api {
         OkGo.<NormalBean>get(String.format(BIND, customerId,platform,code)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }

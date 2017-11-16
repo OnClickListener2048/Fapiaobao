@@ -389,7 +389,8 @@
     <string name="awareness">请填写注意事项,如:\n1.需要经济型酒店的住宿费;\n2.单张餐费发票金额不能超过100元;\n3.不要定额发票;\n4.出租车发票不要连号.</string>
     <string name="next_step">下一步</string>
     <string name="need">我需要：</string>
-
+    <string name="bind_phone">手机绑定</string>
+    <string name="confirm_bind_phone">确认绑定</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

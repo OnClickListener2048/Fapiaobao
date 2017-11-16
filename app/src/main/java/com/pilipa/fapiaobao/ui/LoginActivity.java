@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,12 +21,10 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
-import com.pilipa.fapiaobao.net.bean.WXUserInfo;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.utils.CountDownTimerUtils;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.wxapi.Constants;
-import com.pilipa.share.wxapi.WXEntryActivity;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -80,7 +77,7 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                     @Override
                     public void setData(final LoginWithInfoBean loginWithInfoBean) {
                         if (loginWithInfoBean.getStatus()==200) {
-                            BaseApplication.showToast("微信登陆成功");
+                            BaseApplication.showToast("微信登录成功");
                             SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
                             Intent intent1 = new Intent();
                             intent1.setClass(LoginActivity.this, MainActivity.class);

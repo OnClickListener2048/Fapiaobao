@@ -376,6 +376,8 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:textSize="12sp"
+                                            android:textColor="#cac8c6"
                                             android:text="@string/estimate_redbag" />
                                     </LinearLayout>
 
@@ -518,11 +520,12 @@
                     android:layout_height="400dp">
 
                     <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        >
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -581,11 +584,12 @@
                             <android.support.v4.widget.Space
                                 android:layout_width="@dimen/d10"
                                 android:layout_height="match_parent" />
+
                             <TextView
                                 android:id="@+id/filter_condition_bottom"
-                                android:textColor="@color/main_style"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/main_style"
                                 android:textSize="12sp" />
                         </LinearLayout>
 

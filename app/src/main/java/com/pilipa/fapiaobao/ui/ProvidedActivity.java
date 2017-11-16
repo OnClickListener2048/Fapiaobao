@@ -477,9 +477,11 @@ public class ProvidedActivity extends BaseActivity {
                                 public void setData(NormalBean normalBean) {
                                     if(normalBean.getStatus() == 200){
                                         showOrderDetail(orderId);
+                                        BaseApplication.showToast(normalBean.getData());
                                     }
-
-                                    BaseApplication.showToast(normalBean.getMsg());
+                                    if(normalBean.getStatus() == 890){
+                                        BaseApplication.showToast(normalBean.getMsg());
+                                    }
                                 }
                             });
                 } else {

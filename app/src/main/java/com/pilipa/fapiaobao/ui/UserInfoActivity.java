@@ -28,6 +28,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.example.mylibrary.utils.RegexUtils;
+import com.example.mylibrary.utils.TLog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -66,6 +68,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_PLATFORM_WX;
+import static com.pilipa.fapiaobao.ui.LoginActivity.WX_LOGIN_ACTION;
 
 
 /**
@@ -134,6 +137,12 @@ public class UserInfoActivity extends BaseActivity {
                     bindWX();
                 }
             }break;
+            case R.id.edt_phone:{//绑定手机
+                if (!ButtonUtils.isFastDoubleClick(R.id.edt_phone)) {
+                    Intent intent = new Intent(UserInfoActivity.this,BindPhoneActivity.class);
+                    startActivity(intent);
+                }
+            }break;
             case R.id.btn_save: {
                 if (!ButtonUtils.isFastDoubleClick(R.id.tv_wx)) {
                     LoginWithInfoBean.DataBean.CustomerBean customer = new LoginWithInfoBean.DataBean.CustomerBean();
@@ -161,7 +170,10 @@ public class UserInfoActivity extends BaseActivity {
                         String bmpStr = BitmapUtils.bitmapToBase64(bm);
                         customer.setHeadimg(bmpStr);
                     }
-                    customer.setTelephone(edtPhone.getText().toString().trim());
+                    boolean mobileExact = RegexUtils.isMobileExact(edtPhone.getText().toString().trim());
+                    if(mobileExact){
+                        customer.setTelephone(edtPhone.getText().toString().trim());
+                    }
                     updateUserInfo(customer);
                 }
             }
@@ -204,16 +216,19 @@ public class UserInfoActivity extends BaseActivity {
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(LoginActivity.WX_LOGIN_ACTION)) {
+            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
+                TLog.d(TAG,WX_LOGIN_ACTION +" success");
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 WXmodel wx_info = bundle.getParcelable("wx_info");
-                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
+                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
                     @Override
                     public void setData(NormalBean normalBean) {
                         if (normalBean.getStatus() == 200) {
                             tv_wx.setText("已绑定");
                             tv_wx.setOnClickListener(null);
+                        }else if(normalBean.getStatus() == 707){
+                            BaseApplication.showToast(normalBean.getMsg());
                         }
                     }
                 });
@@ -230,7 +245,7 @@ public class UserInfoActivity extends BaseActivity {
         requestManager = Glide.with(this);
 
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(LoginActivity.WX_LOGIN_ACTION);
+        intentFilter.addAction(WX_LOGIN_ACTION);
         registerReceiver(mBroadcastReceiver, intentFilter);
 
     }
@@ -352,6 +367,14 @@ public class UserInfoActivity extends BaseActivity {
         }else{
             tv_wx.setText("已绑定");
             tv_wx.setOnClickListener(null);
+        }
+        if(customer.getTelephone() == null){
+            edtPhone.setText("去绑定");
+            edtPhone.setTextColor(getResources().getColor(R.color.main_style));
+            edtPhone.setOnClickListener(this);
+        }else{
+            edtPhone.setTextColor(getResources().getColor(R.color.title_small));
+            edtPhone.setOnClickListener(null);
         }
         if (Constant.GENDER_FEMALE.equals(customer.getGender())) {
             radioGroup.check(R.id.rb_female);
