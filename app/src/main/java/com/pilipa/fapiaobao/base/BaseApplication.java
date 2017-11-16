@@ -17,6 +17,7 @@ import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.pilipa.fapiaobao.Constants.Bugly;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
+import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.commonsdk.UMConfigure;
@@ -26,7 +27,6 @@ import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -220,8 +220,9 @@ public class BaseApplication extends Application {
     }
 
     public static void showToast(String message, int duration, int icon, int gravity) {
+
         Context context = _context;
         if (context != null)
-            SimplexToast.show(context, message, gravity, duration);
+            if (TDevice.showToast) SimplexToast.show(context, message, gravity, duration);
     }
 }

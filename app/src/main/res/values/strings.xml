@@ -391,6 +391,11 @@
     <string name="need">我需要：</string>
     <string name="bind_phone">手机绑定</string>
     <string name="confirm_bind_phone">确认绑定</string>
+    <string name="share_pub_title">伙伴们，快来帮我集发票~~~</string>
+    <string name="share_pub_description">江湖救急，知道你会帮忙的我的需要已经发布到这里了快戳进来看看吧！</string>
+    <string name="share_upload_title">伙伴们，多余的发票现在有大用处了~~~</string>
+    <string name="share_upload_description">这么有用的APP一定要分享给你，快戳进来看看吧！~</string>
+    <string name="please_install_WX">请安装微信客户端后再登录</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

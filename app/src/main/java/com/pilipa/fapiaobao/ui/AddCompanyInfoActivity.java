@@ -160,10 +160,14 @@ public class AddCompanyInfoActivity extends BaseActivity {
             } else {
                 tvMustfillTexno.setText("必填");
                 tvMustfillAddress.setText("选填");
+                tvMustfillAddress.setVisibility(View.GONE);
                 tvMustfillBankName.setText("选填");
+                tvMustfillBankName.setVisibility(View.GONE);
                 tvMustfillBankNumber.setText("选填");
+                tvMustfillBankNumber.setVisibility(View.GONE);
                 tvMustfillCompanyName.setText("必填");
                 tvMustfillCompanyPhone.setText("选填");
+                tvMustfillCompanyPhone.setVisibility(View.GONE);
             }
         }
 

@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'key0'
             keyPassword '111111'
-            storeFile file('C:/Users/edz/AndroidStudioProjects/Fapiaobao/keystore_release.jks')
+            storeFile file('C:/Users/edz/StudioProjects/Fapiaobao/keystore_release.jks')
             storePassword '111111'
         }
     }
@@ -16,8 +16,8 @@ android {
         applicationId "com.pilipa.fapiaobao"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 100
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         defaultConfig {
             multiDexEnabled true
@@ -49,7 +49,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     testCompile 'junit:junit:4.12'
     compile project(':share')
-    compile 'liji.library.dev:citypickerview:2.1.0'
+    compile 'liji.library.dev:citypickerview:2.1.1'
     compile 'com.makeramen:roundedimageview:2.1.2'
     compile 'com.amap.api:location:latest.integration'
     compile 'com.android.support:cardview-v7:25.1.0'

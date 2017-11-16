@@ -2,6 +2,9 @@ package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
@@ -16,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
+import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
 import com.lljjcoder.bean.DistrictBean;
 import com.lljjcoder.bean.ProvinceBean;
@@ -138,7 +142,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
     @Override
     public void initView() {
-        String location = BaseApplication.get("location", "定位异常");
+        String location = BaseApplication.get("location", "定位异常，请点击重新定位");
         locating.setText(location);
         locate = location;
         llFilterTypesLocation.setVisibility(View.VISIBLE);
@@ -227,7 +231,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     }
 
 
-    @OnClick({R.id.reset_filter_top, R.id.test_redbag, R.id.go, R.id.tolast, R.id.tonext, R.id.filter, R.id.other_demand, R.id.select_other_area, R.id.reset_filter})
+    @OnClick({R.id.reset_filter_top, R.id.test_redbag,R.id.locating, R.id.go, R.id.tolast, R.id.tonext, R.id.filter, R.id.other_demand, R.id.select_other_area, R.id.reset_filter})
     public void onViewClicked(View view) {
        final Intent intent = new Intent();
         switch (view.getId()) {
@@ -253,7 +257,6 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                             }
                             startActivity(intent);
                         } else {
-
                             login();
                         }
                     }
@@ -293,6 +296,12 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             case R.id.reset_filter_top:
                 intent.setClass(this, FilterActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_ESTIMATE);
+                break;
+            case R.id.locating:
+                mLocationClient.startLocation();
+                locating.setText("定位中...");
+                String location = BaseApplication.get("location", "定位异常，请点击重新定位");
+                locating.setText(location);
                 break;
         }
     }
@@ -363,9 +372,10 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     private void setUpData(MacherBeanToken matchBean) {
         ultraViewpager.setOffscreenPageLimit(matchBean.getData().size()-1);
         ultraViewpager.setAdapter(null);
-        TLog.log(" ultraViewpager.setAdapter(new ExtimatePagerAdapter(getSupportFragmentManager(), matchBean));");
         ultraViewpager.setAdapter(new ExtimatePagerAdapter(getSupportFragmentManager(), matchBean));
     }
+
+
 
     public void closeDrawer() {
         if (dl != null) {
@@ -425,9 +435,9 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 .textSize(15)
                 .confirTextColor("#000000")
                 .cancelTextColor("#000000")
-                .province("天津")
+                .province("直辖市")
                 .city("天津")
-                .district("红桥区")
+                .district("和平区")
                 .visibleItemsCount(5)
                 .provinceCyclic(false)
                 .cityCyclic(false)
@@ -439,26 +449,28 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
         cityPicker = new CityPickerView(cityConfig);
 
-
-        cityPicker.setOnCityItemClickListener(new CityPickerView.OnCityItemClickListener() {
-
-
+        cityPicker.setOnCityItemClickListener(new OnCityItemClickListener() {
             @Override
-            public void onSelected(ProvinceBean provinceBean, CityBean cityBean, DistrictBean districtBean) {
+            public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
+                super.onSelected(province, city, district);
                 //返回结果
                 //ProvinceBean 省份信息
                 //CityBean     城市信息
                 //DistrictBean 区县信息
-                locating.setText(cityBean.getName()+"市");
-                locate = cityBean.getName()+"市";
+                locating.setText(city.getName()+"市");
+                locate = city.getName()+"市";
                 cityPicker.hide();
             }
 
             @Override
             public void onCancel() {
+                super.onCancel();
                 cityPicker.hide();
             }
         });
+
+
+
 
     }
 

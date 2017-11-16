@@ -64,17 +64,14 @@ public class PubSuccessActivity extends BaseActivity {
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
-            Toast.makeText(PubSuccessActivity.this, "分享成功", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-            Toast.makeText(PubSuccessActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
-            Toast.makeText(PubSuccessActivity.this, "分享取消", Toast.LENGTH_SHORT).show();
         }
     };
     private String demand;
@@ -104,10 +101,10 @@ public class PubSuccessActivity extends BaseActivity {
         demand = getIntent().getStringExtra("demand");
 
         web = new UMWeb(Constant.MATCH);
-        web.setTitle("伙伴们，多余的发票也能挣红包了~");//标题
-        UMImage umImage = new UMImage(this, R.mipmap.icon);
+        web.setTitle(getString(R.string.share_pub_title));//标题
+        UMImage umImage = new UMImage(this, R.mipmap.share_redbag);
         web.setThumb(umImage);  //缩略图
-        web.setDescription("伙伴们，多余的发票也能挣红包了~");//描述
+        web.setDescription(getString(R.string.share_pub_description));//描述
     }
 
     @Override
@@ -146,9 +143,9 @@ public class PubSuccessActivity extends BaseActivity {
                 wxWebpageObject.webpageUrl = Constant.MATCH;
 
                 WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
-                wxMediaMessage.description = "伙伴们，多余的发票也能挣红包了~";
-                wxMediaMessage.title = "伙伴们，多余的发票也能挣红包了~";
-                wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.icon), Bitmap.CompressFormat.JPEG);
+                wxMediaMessage.description = getString(R.string.share_pub_description);
+                wxMediaMessage.title = getString(R.string.share_pub_title);
+                wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.share_redbag), Bitmap.CompressFormat.JPEG);
 
                 SendMessageToWX.Req req = new SendMessageToWX.Req();
                 req.transaction = String.valueOf(System.currentTimeMillis());

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
+import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -385,10 +386,10 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                                 intent.putExtra("company_id", company_id);
                                 intent.putExtra("bonus", aDouble);
                                 startActivity(intent);
-                                ActivityUtils.finishActivity(EstimateActivity.class);
-                                ActivityUtils.finishActivity(ConfirmActivity.class);
-                                ActivityUtils.finishActivity(UploadReceiptActivity.class);
-                                finish();
+                                ActivityUtils.finishToActivity(EstimateActivity.class, true);
+                            } else if (orderBean.getStatus() == 887) {
+                                BaseApplication.showToast(orderBean.getMsg());
+                                ActivityUtils.finishToActivity(EstimateActivity.class, true);
                             }
                         }
                     });

@@ -53,6 +53,8 @@ public class TDevice {
             + File.separator
             + "fapiaobao"
             + File.separator + "download" + File.separator;
+    public static boolean showToast =true;
+
     /**
      * Change SP to PX
      *

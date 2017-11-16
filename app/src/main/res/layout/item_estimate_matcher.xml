@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/publish_cautions"
-                android:textColor="@color/main_style" />
+                android:textColor="#ad9d7e" />
 
 
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/accept_receipt_kind"
-                android:textColor="@color/main_style" />
+                android:textColor="#ad9d7e" />
 
             <View
                 android:layout_width="match_parent"
@@ -76,7 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:textColor="@color/main_style"
+
+                android:textColor="#ad9d7e"
                 android:text="收票截止时间:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

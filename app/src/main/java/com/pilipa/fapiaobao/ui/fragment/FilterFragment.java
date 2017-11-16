@@ -17,6 +17,7 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.example.mylibrary.utils.TLog;
 
+import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
 import com.lljjcoder.bean.DistrictBean;
 import com.lljjcoder.bean.ProvinceBean;
@@ -207,7 +208,7 @@ public class FilterFragment extends BaseFragment {
                 .textColor("0xFF585858")
                 .confirTextColor("#0000FF")
                 .cancelTextColor("#000000")
-                .province("天津")
+                .province("直辖市")
                 .city("天津")
                 .district("红桥区")
                 .visibleItemsCount(5)
@@ -221,9 +222,10 @@ public class FilterFragment extends BaseFragment {
 
         cityPicker = new CityPickerView(cityConfig);
 
-        cityPicker.setOnCityItemClickListener(new CityPickerView.OnCityItemClickListener() {
+        cityPicker.setOnCityItemClickListener(new OnCityItemClickListener() {
             @Override
             public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
+                super.onSelected(province, city, district);
                 //返回结果
                 //ProvinceBean 省份信息
                 //CityBean     城市信息
@@ -238,9 +240,13 @@ public class FilterFragment extends BaseFragment {
 
             @Override
             public void onCancel() {
+                super.onCancel();
                 cityPicker.hide();
             }
         });
+
+
+
 
     }
 

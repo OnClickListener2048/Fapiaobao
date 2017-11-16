@@ -73,17 +73,14 @@ public class UploadSuccessActivity extends BaseActivity {
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
-            Toast.makeText(UploadSuccessActivity.this, "分享成功", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-            Toast.makeText(UploadSuccessActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
-            Toast.makeText(UploadSuccessActivity.this, "分享取消", Toast.LENGTH_SHORT).show();
         }
     };
     private String demand;
@@ -131,10 +128,10 @@ public class UploadSuccessActivity extends BaseActivity {
 
 //        https://www.youpiao8.cn/fapiaobao/guide/match?bonus=15
         web = new UMWeb(Constant.MATCH+"?bonus="+bonus);
-        web.setTitle("伙伴们，多余的发票也能挣红包了~");//标题
-        UMImage umImage = new UMImage(this, R.mipmap.icon);
+        web.setTitle(getString(R.string.share_upload_title));//标题
+        UMImage umImage = new UMImage(this, R.mipmap.share_redbag);
         web.setThumb(umImage);  //缩略图
-        web.setDescription("伙伴们，多余的发票也能挣红包了~");//描述
+        web.setDescription(getString(R.string.share_upload_description));//描述
     }
 
     @Override
@@ -176,21 +173,27 @@ public class UploadSuccessActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.WeChat:
+                if (umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN)) {
+                    WXWebpageObject wxWebpageObject = new WXWebpageObject();
+                    wxWebpageObject.webpageUrl = Constant.MATCH + "?bonus=" + bonus;
 
-                WXWebpageObject wxWebpageObject = new WXWebpageObject();
-                wxWebpageObject.webpageUrl = Constant.MATCH + "?bonus=" + bonus;
+                    WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
+                    wxMediaMessage.description = getString(R.string.share_upload_description);
+                    wxMediaMessage.title = getString(R.string.share_upload_title);
+                    wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.share_redbag), Bitmap.CompressFormat.JPEG);
 
-                WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
-                wxMediaMessage.description = "伙伴们，多余的发票也能挣红包了~";
-                wxMediaMessage.title = "伙伴们，多余的发票也能挣红包了~";
-                wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.icon), Bitmap.CompressFormat.JPEG);
+                    SendMessageToWX.Req req = new SendMessageToWX.Req();
+                    req.transaction = String.valueOf(System.currentTimeMillis());
+                    req.message = wxMediaMessage;
 
-                SendMessageToWX.Req req = new SendMessageToWX.Req();
-                req.transaction = String.valueOf(System.currentTimeMillis());
-                req.message = wxMediaMessage;
+                    req.scene = SendMessageToWX.Req.WXSceneSession;
+                    api.sendReq(req);
+                } else {
+                    BaseApplication.showToast("请安装微信客户端");
+                }
 
-                req.scene = SendMessageToWX.Req.WXSceneSession;
-                api.sendReq(req);
+                
+
 
 
                 break;

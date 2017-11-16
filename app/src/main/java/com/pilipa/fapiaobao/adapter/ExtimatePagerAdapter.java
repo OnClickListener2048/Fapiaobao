@@ -39,7 +39,24 @@ public class ExtimatePagerAdapter extends FragmentPagerAdapter {
         return 0;
     }
 
+    @Override
+    public long getItemId(int position) {
+        if (matchBean != null) {
+            if (matchBean.getData() != null) {
+                if (matchBean.getData().size()>0) {
+                    return matchBean.getData().get(position).hashCode();
+                }
+            }
+        }
+        return 0;
+    }
 
+
+    @Override
+    public int getItemPosition(Object object) {
+        return super.getItemPosition(object);
+
+    }
 
     @Override
     public Fragment getItem(int position) {

@@ -167,10 +167,15 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
     }
 
     private void weChatLogin() {
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo_test";
-        api.sendReq(req);
+        if (api.isWXAppInstalled()) {
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_demo_test";
+            api.sendReq(req);
+        } else {
+            BaseApplication.showToast(getString(R.string.please_install_WX));
+        }
+
     }
 
     private void login(String platform,String credenceName,String credenceCode){
@@ -192,9 +197,9 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                             loginWithInfoBean.getData().setCustomer(customerBean);
                             boolean save = SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
                             Log.d(TAG, "setData:save "+save);
-                            Intent intent1 = new Intent();
-                            intent1.setClass(LoginActivity.this, MainActivity.class);
-                            startActivity(intent1);
+//                            Intent intent1 = new Intent();
+//                            intent1.setClass(LoginActivity.this, MainActivity.class);
+//                            startActivity(intent1);
                             finish();
                         }
                     });

@@ -1,6 +1,10 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,13 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mylibrary.utils.NetworkUtils;
+import com.example.mylibrary.utils.TLog;
+import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.WXmodel;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
+import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -31,6 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.ACCOUNT_TYPE_WALLET;
+import static com.pilipa.fapiaobao.net.Constant.LOGIN_PLATFORM_WX;
 
 /**
  * Created by lyt on 2017/10/17.
@@ -46,6 +56,28 @@ public class Withdraw2WXActivity extends BaseActivity {
     private Dialog mDialog;
     private Dialog mTipDialog;
     private BigDecimal yue;
+
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(LoginActivity.WX_LOGIN_ACTION)) {
+                String deviceToken = BaseApplication.get("deviceToken","");
+                Bundle bundle = intent.getBundleExtra("extra_bundle");
+                WXmodel wx_info = bundle.getParcelable("wx_info");
+                if (wx_info != null) {
+                    Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
+                        @Override
+                        public void setData(NormalBean normalBean) {
+                            if (normalBean.getStatus()==707) {
+                                BaseApplication.showToast("绑定失败"+normalBean.getMsg());
+                            }
+                        }
+                    });
+                }
+            }
+        }
+    };
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_withdraw_to_wx;
@@ -77,6 +109,17 @@ public class Withdraw2WXActivity extends BaseActivity {
     @Override
     public void initView() {
         regexToWX();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(LoginActivity.WX_LOGIN_ACTION);
+
+        registerReceiver(mBroadcastReceiver, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override
@@ -199,16 +242,25 @@ public class Withdraw2WXActivity extends BaseActivity {
 
     }
 
+    private void bindWX() {
+
+    }
+
     private IWXAPI api;
     private void regexToWX() {
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         api.registerApp(Constants.APP_ID);
     }
     private void weChatLogin() {
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo_test";
-        api.sendReq(req);
+        if (api.isWXAppInstalled()) {
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_demo_test";
+            api.sendReq(req);
+        } else {
+            BaseApplication.showToast("请安装微信客户端");
+        }
+
     }
 
 }

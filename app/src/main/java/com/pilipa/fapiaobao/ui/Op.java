@@ -17,6 +17,7 @@ import com.just.library.AgentWeb;
 import com.just.library.ChromeClientCallbackManager;
 import com.just.library.DownLoadResultListener;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.utils.WebViewUtils;
 
@@ -76,14 +77,13 @@ public class Op extends AppCompatActivity implements
                     "        })([\n" +
                     "            {selector:'#invoiceTitle', value:'"+company_info.getName()+"'},\n" +
                     "            {selector:'#taxpayerNumber', value:'"+company_info.getTaxno()+"'},\n" +
-                    "            {selector:'#cellPhoneNumber', value:'"+company_info.getPhone()+"'},\n" +
+                    "            {selector:'#telephoneNumber', value:'"+company_info.getPhone()+"'},\n" +
                     "            {selector:'#address', value:'"+company_info.getAddress()+"'},\n" +
                     "            {selector:'#depositBank',value:'"+company_info.getDepositBank()+"'},\n" +
                     "            {selector:'#bankAccount',value:'"+company_info.getAccount()+"'}\n" +
+                    "            {selector:'#bankAccount',value:'"+ AccountHelper.getUser().getData().getCustomer().getTelephone()+"'}\n" +
                     "        ]);");
             }
-
-
         }
     };
 

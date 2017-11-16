@@ -34,13 +34,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mylibrary.utils.EncodeUtils;
-import com.example.mylibrary.utils.PhoneUtils;
 import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.TimeUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
 import com.lljjcoder.bean.DistrictBean;
 import com.lljjcoder.bean.ProvinceBean;
@@ -312,7 +312,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         intentFilter.addAction(WXPayReceiver.pay_success);
 
         registerReceiver(wxPayReceiver, intentFilter);
-        String location = BaseApplication.get("location", "定位失败");
+        String location = BaseApplication.get("location", "定位失败，点击选择地区");
         tvAreaLimited.setText(location);
 
         etPublishTexNumber.setTransformationMethod(new ReplacementTransformationMethod() {
@@ -608,12 +608,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                         } else {
                             BaseApplication.showToast("服务器超时");
                         }
-
                     }
                 });
-
             }
-
         }
     }
 
@@ -657,19 +654,14 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         startActivityForResult(intent, REQUEST_CODE_FOR_MORE_TYPE);
     }
 
-
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CODE:
                 if (RESULT_CANCELED == resultCode) {
-                    BaseApplication.showToast("没钱");
+                    BaseApplication.showToast("余额不足");
                 } else if (RESULT_OK == resultCode) {
-                    publish();
                 }
             case REQUEST_CODE_FOR_MORE_TYPE:
                 if (resultCode == RESULT_OK) {
@@ -976,10 +968,15 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                     public void setData(CompaniesBean companiesBean) {
                         DemandsPublishActivity.this.companiesBean = companiesBean;
                         if (companiesBean.getStatus() == 200 && companiesBean.getData() != null) {
-                            companyListAdapter.addCompanyInfo(companiesBean.getData());
-                            if (companiesBean.getData().size() > 5) {
-                                moreCompany.setVisibility(View.VISIBLE);
+                            if (companiesBean.getData().size() == 1) {
+                                updateCompanyInfo(companiesBean.getData().get(0));
+                            } else {
+                                companyListAdapter.addCompanyInfo(companiesBean.getData());
+                                if (companiesBean.getData().size() > 5) {
+                                    moreCompany.setVisibility(View.VISIBLE);
+                                }
                             }
+
                         } else if (companiesBean.getStatus() == 400) {
 
                         }
@@ -987,7 +984,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 });
             }
         });
-
     }
 
     private void setDialog(final List<CompaniesBean.DataBean> data) {
@@ -1086,13 +1082,13 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 .textSize(15)
                 .confirTextColor("#000000")
                 .cancelTextColor("#000000")
-                .province("天津")
+                .province("直辖市")
                 .city("天津")
-                .district("红桥区")
+                .district("和平区")
                 .visibleItemsCount(5)
-                .provinceCyclic(false)
-                .cityCyclic(false)
-                .districtCyclic(false)
+                .provinceCyclic(true)
+                .cityCyclic(true)
+                .districtCyclic(true)
                 .itemPadding(5)
                 .setCityInfoType(CityConfig.CityInfoType.BASE)
                 .setCityWheelType(CityConfig.WheelType.PRO_CITY_DIS)
@@ -1100,28 +1096,30 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
         cityPicker = new CityPickerView(cityConfig);
 
-        cityPicker.setOnCityItemClickListener(new CityPickerView.OnCityItemClickListener() {
 
+        cityPicker.setOnCityItemClickListener(new OnCityItemClickListener() {
             @Override
-            public void onSelected(ProvinceBean provinceBean, CityBean cityBean, DistrictBean districtBean) {
+            public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
+                super.onSelected(province, city, district);
                 //返回结果
                 //ProvinceBean 省份信息
                 //CityBean     城市信息
                 //DistrictBean 区县信息
                 if (isAreaLimited) {
-                    tvAreaLimited.setText(cityBean.getName() + "市");
+                    tvAreaLimited.setText(city.getName() + "市");
                     isAreaLimited = false;
                 } else {
-                    demandPostageBean.setProvince(provinceBean.getName());
-                    demandPostageBean.setCity(cityBean.getName());
-                    demandPostageBean.setDistrict(districtBean.getName());
-                    tvArea.setText(provinceBean.getName() + "-" + cityBean.getName() + "-" + districtBean.getName());
+                    demandPostageBean.setProvince(province.getName());
+                    demandPostageBean.setCity(city.getName());
+                    demandPostageBean.setDistrict(district.getName());
+                    tvArea.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
                 }
                 cityPicker.hide();
             }
 
             @Override
             public void onCancel() {
+                super.onCancel();
                 try {
                     cityPicker.hide();
                 } catch (Exception e) {
@@ -1129,7 +1127,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 }
             }
         });
-
     }
 
     @Override

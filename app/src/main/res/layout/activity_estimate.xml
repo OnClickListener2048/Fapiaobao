@@ -145,7 +145,7 @@
                                 android:drawableLeft="@mipmap/caution"
                                 android:drawablePadding="@dimen/d5"
                                 android:text="请如实填写,与票面合计金额保持一致,否则将被拒收"
-                                android:textColor="@color/main_style"
+                                android:textColor="#ad9d7e"
                                 android:textSize="@dimen/s13" />
                         </LinearLayout>
 
@@ -169,10 +169,11 @@
                                 android:layout_height="match_parent" />
 
                             <TextView
+
                                 android:id="@+id/filter_condition_top"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/main_style"
+                                android:textColor="#ad9d7e"
                                 android:textSize="12sp" />
 
                             <android.support.v4.widget.Space
@@ -360,8 +361,9 @@
                                 </RelativeLayout>
 
                                 <LinearLayout
-                                    android:layout_gravity="bottom"
-                                    android:gravity="bottom"
+
+                                    android:layout_gravity="bottom|center_horizontal"
+                                    android:gravity="bottom|center_horizontal"
                                     android:id="@+id/ll_bonus"
                                     android:layout_height="wrap_content"
                                     android:layout_width="wrap_content"
@@ -376,7 +378,7 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:textSize="12sp"
+                                            android:textSize="10sp"
                                             android:textColor="#cac8c6"
                                             android:text="@string/estimate_redbag" />
                                     </LinearLayout>
@@ -384,7 +386,7 @@
                                     <LinearLayout
                                         android:layout_gravity="center_horizontal"
                                         android:gravity="center_horizontal"
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal">
 
@@ -392,9 +394,9 @@
                                             android:id="@+id/bonus"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="10.0"
+                                            android:text="10.00"
                                             android:textColor="@color/red_estimate"
-                                            android:textSize="35sp" />
+                                            android:textSize="30sp" />
 
                                         <TextView
                                             android:layout_width="wrap_content"

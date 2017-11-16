@@ -14,6 +14,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.example.mylibrary.utils.TLog;
+import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
 import com.lljjcoder.bean.DistrictBean;
 import com.lljjcoder.bean.ProvinceBean;
@@ -211,16 +212,16 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
 
         cityPicker = new CityPickerView(cityConfig);
 
-        cityPicker.setOnCityItemClickListener(new CityPickerView.OnCityItemClickListener() {
-
+        cityPicker.setOnCityItemClickListener(new OnCityItemClickListener() {
             @Override
-            public void onSelected(ProvinceBean provinceBean, CityBean cityBean, DistrictBean districtBean) {
+            public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
+                super.onSelected(province, city, district);
                 //返回结果
                 //ProvinceBean 省份信息
                 //CityBean     城市信息
                 //DistrictBean 区县信息
-                if (!arrayListReceiptArea.contains(cityBean.getName())) {
-                    arrayListReceiptArea.add(cityBean.getName()+"市");
+                if (!arrayListReceiptArea.contains(city.getName())) {
+                    arrayListReceiptArea.add(city.getName()+"市");
                 }
 
                 labelsArea.setLabels(arrayListReceiptArea);
@@ -230,9 +231,12 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
 
             @Override
             public void onCancel() {
+                super.onCancel();
                 cityPicker.hide();
             }
         });
+
+
     }
 
     @Override

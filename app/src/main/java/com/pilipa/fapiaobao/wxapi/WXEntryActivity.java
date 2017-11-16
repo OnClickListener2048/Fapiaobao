@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
@@ -49,11 +50,15 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp baseResp) {
+        TLog.log("wxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwx");
         if (baseResp instanceof SendAuth.Resp) {
             SendAuth.Resp newResp = (SendAuth.Resp) baseResp;
             //获取微信传回的code
             Intent intent = new Intent();
             intent.setClass(this, LoginActivity.class);
+
+
+
             switch (baseResp.errCode) {
                 case BaseResp.ErrCode.ERR_OK:
                     //发送成功
@@ -90,10 +95,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     //发送返回
                     break;
             }
-            finish();
-
-
         }
+        finish();
+
     }
 
     private void refreshAccessToken(final WXmodel body) {
