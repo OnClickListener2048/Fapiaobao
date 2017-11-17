@@ -137,8 +137,8 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
                 break;
             case MSG_TYPE_INCOMPETENT_INVOICE:
                 intent = new Intent(MessageDetailsActivity.this,ProvidedActivity.class);
-//                intent.putExtra("OrderId",bean.getMessage().getDemand().getId());
-//                intent.putExtra("CompanyId",bean.getMessage().getDemand().getId());
+                intent.putExtra("OrderId",bean.getMessage().getOrderId());
+                intent.putExtra("CompanyId",bean.getMessage().getCompanyId());
                 break;
         }
         startActivity(intent);

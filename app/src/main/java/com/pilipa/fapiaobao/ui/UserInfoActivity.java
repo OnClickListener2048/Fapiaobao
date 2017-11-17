@@ -160,16 +160,7 @@ public class UserInfoActivity extends BaseActivity {
                             break;
                     }
 
-                    if(image != null){
-                        Bitmap bm = null;
-                        try {
-                            bm = BitmapUtils.getBitmapFormUri(this,image.uri);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        String bmpStr = BitmapUtils.bitmapToBase64(bm);
-                        customer.setHeadimg(bmpStr);
-                    }
+
                     boolean mobileExact = RegexUtils.isMobileExact(edtPhone.getText().toString().trim());
                     if(mobileExact){
                         customer.setTelephone(edtPhone.getText().toString().trim());
@@ -294,7 +285,7 @@ public class UserInfoActivity extends BaseActivity {
             }
         });
     }
-
+    LoginWithInfoBean.DataBean.CustomerBean customerBean;
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -339,7 +330,40 @@ public class UserInfoActivity extends BaseActivity {
             }
 
         }
+        //上传头像
+        if(image != null){
+            Bitmap bm = null;
+            try {
+                bm = BitmapUtils.getBitmapFormUri(this,image.uri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            customerBean = new LoginWithInfoBean.DataBean.CustomerBean();
 
+            String bmpStr = BitmapUtils.bitmapToBase64(bm);
+            customerBean.setHeadimg(bmpStr);
+
+            Api.updateCustomer(AccountHelper.getToken(), customerBean, new Api.BaseViewCallbackWithOnStart<UpdateCustomerBean>() {
+                @Override
+                public void setData(UpdateCustomerBean updateCustomerBean) {
+                    AccountHelper.updateCustomer(customerBean);
+                    Log.d(TAG, "updateData:updateUserInfo success");
+                }
+                @Override
+                public void onStart() {
+                    showProgressDialog();
+                }
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+                @Override
+                public void onError() {
+                    hideProgressDialog();
+                }
+
+            });
+        }
     }
 
     @Override
@@ -357,20 +381,20 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+       requestManager
+                .load(AccountHelper.getUser().getData().getCustomer().getHeadimg())
+                .asBitmap()
+                .placeholder(R.mipmap.ic_head_circle_default_small)
+                .error(R.mipmap.ic_head_circle_default_small)
+                .thumbnail(0.1f)
+                .into(img_head);
     }
 
     public void setUserData(LoginWithInfoBean.DataBean.CustomerBean customer) {
         tv_birthday.setText(customer.getBirthday());
         edtUserName.setText(customer.getNickname());
         edtPhone.setText(customer.getTelephone());
-        requestManager
-                .load(customer.getHeadimg())
-                .asBitmap()
-                .placeholder(R.mipmap.ic_head_circle_default_small)
-                .error(R.mipmap.ic_head_circle_default_small)
-                .thumbnail(0.1f)
-                .into(img_head);
+
 
         if(customer.getOpenid() == null){
             tv_wx.setText("去绑定");
@@ -459,9 +483,8 @@ public class UserInfoActivity extends BaseActivity {
                         @Override
                         public void setData(UpdateCustomerBean updateCustomerBean) {
                             Toast.makeText(UserInfoActivity.this, "用户信息保存成功", Toast.LENGTH_SHORT).show();
-                            setUserData(customer);
                             AccountHelper.updateCustomer(customer);
-                            UserInfoActivity.this.finish();
+                            setUserData(customer);
                             Log.d(TAG, "updateData:updateUserInfo success");
                         }
                         @Override

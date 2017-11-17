@@ -159,6 +159,7 @@
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
 
+
     </application>
 
 </manifest>

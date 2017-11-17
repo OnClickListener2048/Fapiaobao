@@ -129,7 +129,6 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
                             @Override
                             public void setData(NormalBean normalBean) {
                                 if (normalBean.getStatus() == 200) {
-
                                 }
                             }
                         });

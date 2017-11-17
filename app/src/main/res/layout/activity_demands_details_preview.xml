@@ -13,9 +13,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <View
+        <TextView
+            android:id="@+id/tv_state"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:paddingLeft="@dimen/d15"
+            android:textColor="@color/main_style"
+            android:gravity="left|center_vertical"
             android:layout_weight="1" />
 
         <ImageView

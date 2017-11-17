@@ -110,7 +110,25 @@ public class MessageDetailsBean {
             private boolean isNewRecord;
             private String type;
             private String content;
+            private String orderId;
+            private String companyId;
             private DemandBean demand;
+
+            public String getOrderId() {
+                return orderId;
+            }
+
+            public void setOrderId(String orderId) {
+                this.orderId = orderId;
+            }
+
+            public String getCompanyId() {
+                return companyId;
+            }
+
+            public void setCompanyId(String companyId) {
+                this.companyId = companyId;
+            }
 
             public String getId() {
                 return id;

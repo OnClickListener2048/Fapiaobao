@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.example.mylibrary.utils.NetworkUtils;
 import com.example.mylibrary.utils.TLog;
-import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -27,7 +26,6 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
-import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -41,12 +39,15 @@ import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.ACCOUNT_TYPE_WALLET;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_PLATFORM_WX;
+import static com.pilipa.fapiaobao.ui.LoginActivity.WX_LOGIN_ACTION;
 
 /**
  * Created by lyt on 2017/10/17.
  */
 
 public class Withdraw2WXActivity extends BaseActivity {
+    private static final String TAG = "Withdraw2WXActivity";
+
     @Bind(R.id.amount)
     TextView tv_amount;
     @Bind(R.id.withdraw_current)
@@ -57,23 +58,41 @@ public class Withdraw2WXActivity extends BaseActivity {
     private Dialog mTipDialog;
     private BigDecimal yue;
 
+    private WXmodel wx_info;
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(LoginActivity.WX_LOGIN_ACTION)) {
+            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
+                TLog.d(TAG,WX_LOGIN_ACTION +" success");
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
-                WXmodel wx_info = bundle.getParcelable("wx_info");
-                if (wx_info != null) {
-                    Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
-                        @Override
-                        public void setData(NormalBean normalBean) {
-                            if (normalBean.getStatus()==707) {
-                                BaseApplication.showToast("绑定失败"+normalBean.getMsg());
-                            }
+                wx_info = bundle.getParcelable("wx_info");
+                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
+                    @Override
+                    public void setData(NormalBean normalBean) {
+                        if (normalBean.getStatus() == 200) {
+                            TLog.d("WX_LOGIN_ACTION BROADCASTRECEIVER","TO WITHDRAW");
+                            Api.withdaw(AccountHelper.getToken()
+                                    ,ACCOUNT_TYPE_WALLET
+                                    ,NetworkUtils.getIPAddress(true)
+                                    ,Double.parseDouble(tv_amount.getText().toString())
+                                    ,wx_info.getOpenid()
+                                    , new Api.BaseViewCallback<PrepayBean>() {
+                                        @Override
+                                        public void setData(PrepayBean normalBean) {
+                                            if (normalBean.getStatus() ==200) {
+                                                BaseApplication.showToast("提现成功");
+                                                finish();
+                                            }else if(normalBean.getStatus() ==888){
+                                                BaseApplication.showToast("账户余额不足");
+                                            }
+                                        }
+                                    });
+                        }else if(normalBean.getStatus() == 707){
+                            BaseApplication.showToast(normalBean.getMsg());
                         }
-                    });
-                }
+                    }
+                });
             }
         }
     };
@@ -201,14 +220,12 @@ public class Withdraw2WXActivity extends BaseActivity {
                                                 if (normalBean.getStatus() ==200) {
                                                     BaseApplication.showToast("提现成功");
                                                     finish();
-                                                }else {
-                                                    BaseApplication.showToast("当日充值不支持当日提现");
-                                                    finish();
+                                                }else if(normalBean.getStatus() ==888){
+                                                    BaseApplication.showToast("账户余额不足");
                                                 }
                                             }
                                         });
                             }else{
-                                BaseApplication.showToast("请先绑定微信账号");
                                 weChatLogin();
                             }
                         }
@@ -239,10 +256,6 @@ public class Withdraw2WXActivity extends BaseActivity {
         }else{
             Toast.makeText(this,"提现金额不正确",Toast.LENGTH_SHORT).show();
         }
-
-    }
-
-    private void bindWX() {
 
     }
 

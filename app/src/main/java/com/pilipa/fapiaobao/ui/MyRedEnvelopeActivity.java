@@ -1,6 +1,10 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,12 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.NetworkUtils;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
 import com.pilipa.fapiaobao.wxapi.Constants;
@@ -29,12 +35,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.ACCOUNT_TYPE_RED;
+import static com.pilipa.fapiaobao.net.Constant.ACCOUNT_TYPE_WALLET;
+import static com.pilipa.fapiaobao.net.Constant.LOGIN_PLATFORM_WX;
+import static com.pilipa.fapiaobao.ui.LoginActivity.WX_LOGIN_ACTION;
 
 /**
  * Created by lyt on 2017/10/17.
  */
 
 public class MyRedEnvelopeActivity extends BaseActivity {
+    private static final String TAG = "MyRedEnvelopeActivity";
+
     @Bind(R.id.bonus)
     TextView tv_bonus;
     private Dialog mDialog;
@@ -43,7 +54,44 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_red_envelope;
     }
-
+    private WXmodel wx_info;
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
+                TLog.d(TAG,WX_LOGIN_ACTION +" success");
+                String deviceToken = BaseApplication.get("deviceToken","");
+                Bundle bundle = intent.getBundleExtra("extra_bundle");
+                wx_info = bundle.getParcelable("wx_info");
+                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
+                    @Override
+                    public void setData(NormalBean normalBean) {
+                        if (normalBean.getStatus() == 200) {
+                            TLog.d("WX_LOGIN_ACTION BROADCASTRECEIVER","TO WITHDRAW");
+                            Api.withdaw(AccountHelper.getToken()
+                                    ,ACCOUNT_TYPE_WALLET
+                                    ,NetworkUtils.getIPAddress(true)
+                                    ,Double.parseDouble(tv_bonus.getText().toString())
+                                    ,wx_info.getOpenid()
+                                    , new Api.BaseViewCallback<PrepayBean>() {
+                                        @Override
+                                        public void setData(PrepayBean normalBean) {
+                                            if (normalBean.getStatus() ==200) {
+                                                BaseApplication.showToast("提现成功");
+                                                finish();
+                                            }else if(normalBean.getStatus() ==888){
+                                                BaseApplication.showToast("账户余额不足");
+                                            }
+                                        }
+                                    });
+                        }else if(normalBean.getStatus() == 707){
+                            BaseApplication.showToast(normalBean.getMsg());
+                        }
+                    }
+                });
+            }
+        }
+    };
     @OnClick({R.id._back, R.id.btn_withdraw, R.id.btn_recharge})
     @Override
     public void onClick(View v) {
@@ -53,7 +101,11 @@ public class MyRedEnvelopeActivity extends BaseActivity {
             }
             break;
             case R.id.btn_withdraw: {
-                setDialog();
+                if(Double.parseDouble(bonus)>0.0){
+                    setDialog();
+                }else{
+                    BaseApplication.showToast("账户余额不足");
+                }
             }
             break;
             case R.id.btn_recharge: {
@@ -66,6 +118,15 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     @Override
     public void initView() {
         regexToWX();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(LoginActivity.WX_LOGIN_ACTION);
+        registerReceiver(mBroadcastReceiver, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override
@@ -95,6 +156,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                     @Override
                     public void setData(LoginWithInfoBean loginWithInfoBean) {
                         if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
+
                             Api.withdaw(loginWithInfoBean.getData().getToken()
                                     ,ACCOUNT_TYPE_RED
                                     ,NetworkUtils.getIPAddress(true)
@@ -106,8 +168,8 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                                             if (normalBean.getStatus() ==200) {
                                                 BaseApplication.showToast("提现成功");
                                                 finish();
-                                            }else {
-                                                BaseApplication.showToast("当日充值不支持当日提现");
+                                            }else if(normalBean.getStatus() ==888){
+                                                BaseApplication.showToast("账户余额不足");
                                             }
                                         }
                                     });
@@ -157,6 +219,9 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                             public void setData(NormalBean normalBean) {
                                 if (normalBean.getStatus() ==200) {
                                     BaseApplication.showToast("充值成功");
+                                    finish();
+                                }else {
+                                    BaseApplication.showToast(normalBean.getMsg());
                                     finish();
                                 }
                             }

@@ -11,14 +11,20 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.NetworkUtils;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.WXmodel;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
 import com.pilipa.fapiaobao.receiver.WXPayReceiver;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.wxapi.Constants;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -27,13 +33,17 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.net.Constant.LOGIN_PLATFORM_WX;
 import static com.pilipa.fapiaobao.net.Constant.RECHARGE;
+import static com.pilipa.fapiaobao.ui.LoginActivity.WX_LOGIN_ACTION;
 
 /**
  * Created by lyt on 2017/10/24.
  */
 
 public class RechargeActivity extends BaseActivity  {
+    private static final String TAG = "RechargeActivity";
+
     @Bind(R.id.tv_recharge_10)
     TextView tv_recharge_10;
     @Bind(R.id.tv_recharge_30)
@@ -55,6 +65,47 @@ public class RechargeActivity extends BaseActivity  {
             } else if (TextUtils.equals(intent.getAction(), WXPayReceiver.pay_fail)) {
                 RechargeActivity.this.setResult(RESULT_CANCELED);
                 finish();
+            }
+            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
+                TLog.d(TAG,WX_LOGIN_ACTION +" success");
+                String deviceToken = BaseApplication.get("deviceToken","");
+                Bundle bundle = intent.getBundleExtra("extra_bundle");
+                WXmodel wx_info = bundle.getParcelable("wx_info");
+                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
+                    @Override
+                    public void setData(NormalBean normalBean) {
+                        if (normalBean.getStatus() == 200) {
+                            BaseApplication.showToast("微信绑定成功");
+                            Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallback<PrepayBean>() {
+                                @Override
+                                public void setData(PrepayBean prepayBean) {
+
+                                    PrepayBean.DataBean data = prepayBean.getData();
+
+                                    PayReq request = new PayReq();
+
+                                    request.appId = data.getAppId();
+
+                                    request.partnerId = data.getPartnerId();
+
+                                    request.prepayId = data.getPrepayId();
+
+                                    request.packageValue = "Sign=WXPay";
+
+                                    request.nonceStr = data.getNonceStr();
+
+                                    request.timeStamp = data.getTimeStamp();
+
+                                    request.sign = data.getSign();
+
+                                    api.sendReq(request);
+                                }
+                            });
+                        }else if(normalBean.getStatus() == 707){
+                            BaseApplication.showToast(normalBean.getMsg());
+                        }
+                    }
+                });
             }
         }
     };
@@ -105,9 +156,11 @@ public class RechargeActivity extends BaseActivity  {
 
     @Override
     public void initView() {
+
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WXPayReceiver.pay_fail);
         intentFilter.addAction(WXPayReceiver.pay_success);
+        intentFilter.addAction(WX_LOGIN_ACTION);
 
         registerReceiver(mBroadcastReceiver, intentFilter);
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
@@ -146,37 +199,46 @@ public class RechargeActivity extends BaseActivity  {
     @OnClick(R.id.go_recharge)
     public void onViewClicked() {
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
-        if (loginWithInfoBean != null) {
+        if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
+            if (loginWithInfoBean != null) {
 
 
-            Api.wxRecharge(loginWithInfoBean.getData().getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallback<PrepayBean>() {
-                @Override
-                public void setData(PrepayBean prepayBean) {
+                Api.wxRecharge(loginWithInfoBean.getData().getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallback<PrepayBean>() {
+                    @Override
+                    public void setData(PrepayBean prepayBean) {
 
-                    PrepayBean.DataBean data = prepayBean.getData();
+                        PrepayBean.DataBean data = prepayBean.getData();
 
-                    PayReq request = new PayReq();
+                        PayReq request = new PayReq();
 
-                    request.appId = data.getAppId();
+                        request.appId = data.getAppId();
 
-                    request.partnerId = data.getPartnerId();
+                        request.partnerId = data.getPartnerId();
 
-                    request.prepayId = data.getPrepayId();
+                        request.prepayId = data.getPrepayId();
 
-                    request.packageValue = "Sign=WXPay";
+                        request.packageValue = "Sign=WXPay";
 
-                    request.nonceStr = data.getNonceStr();
+                        request.nonceStr = data.getNonceStr();
 
-                    request.timeStamp = data.getTimeStamp();
+                        request.timeStamp = data.getTimeStamp();
 
-                    request.sign = data.getSign();
+                        request.sign = data.getSign();
 
-                    api.sendReq(request);
-                }
+                        api.sendReq(request);
+                    }
 
-            });
+                });
+            }
+        }else{
+            weChatLogin();
         }
+    }
 
-
+    private void weChatLogin() {
+        SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "wechat_sdk_demo_test";
+        api.sendReq(req);
     }
 }

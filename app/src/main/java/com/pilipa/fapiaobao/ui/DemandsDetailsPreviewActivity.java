@@ -92,6 +92,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     EditText edt_amount_reject;
     @Bind(R.id.tv_Unqualified_reject)
     TextView tv_Unqualified_reject;
+    @Bind(R.id.tv_state)
+    TextView tv_state;
 
     TextView saveToMedia;
     @Bind(R.id.layout_qualified_item)
@@ -194,6 +196,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                 } else {
                     tv_tip.setText(getResources().getString(R.string.tip_wait_dowload));
                 }
+                tv_state.setText("待确认");
                 break;
             case STATE_COMPETENT://ok
                 layout_qualified_item.setVisibility(View.VISIBLE);
@@ -204,6 +207,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                     layout_qualified_privoide_item.setVisibility(View.VISIBLE);
                     tv_receive_amount.setText("收到红包"+image.amount+"元");
                 }
+                tv_state.setText("合格");
                 break;
             case STATE_INCOMPETENT:
                 layout_qualified_item.setVisibility(View.GONE);
@@ -213,6 +217,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                 layout_qualified_privoide_item.setVisibility(View.GONE);
                 tv_reject_reason.setText(image.reason);
                 rejectAmount.setText("发票金额：" + image.amount + "元");
+                tv_state.setText("不合格");
+
                 break;
             case STATE_MAILING:
                 layout_qualified_item.setVisibility(View.GONE);
@@ -225,10 +231,12 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                     llExpressInfo.setVisibility(View.VISIBLE);
                     llNoInfo.setVisibility(View.GONE);
                     ll_sure_view.setVisibility(View.VISIBLE);
+                    tv_state.setText("待查验");
                 } else {
                     llExpressInfo.setVisibility(View.GONE);
                     llNoInfo.setVisibility(View.VISIBLE);
                     ll_sure_view.setVisibility(View.GONE);
+                    tv_state.setText("待邮寄");
                 }
                 break;
         }
