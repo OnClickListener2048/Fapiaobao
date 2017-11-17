@@ -12,8 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -58,6 +59,10 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
     ImageView demandBack;
     @Bind(R.id.iv_demand_share)
     ImageView ivDemandShare;
+    @Bind(R.id.ll_elec_receipt)
+    LinearLayout llElecReceipt;
+    @Bind(R.id.rl_no_elec_receipt)
+    RelativeLayout rlNoElecReceipt;
     private int mImageResize;
     private ArrayList<Image> arrayList;
     private NormalAdpater normal;
@@ -73,7 +78,8 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
         recyclerview.setLayoutManager(grid);
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
         recyclerview.addItemDecoration(new GridInset(3, spacing, false));
-
+        llElecReceipt.setVisibility(View.VISIBLE);
+        rlNoElecReceipt.setVisibility(View.GONE);
 
         myInvoiceList();
 
@@ -85,16 +91,17 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
                 @Override
                 public void setData(MyInvoiceListBean myInvoiceListBean) {
                     if (myInvoiceListBean.getStatus() == 200) {
+                        llElecReceipt.setVisibility(View.VISIBLE);
+                        rlNoElecReceipt.setVisibility(View.GONE);
                         List<MyInvoiceListBean.DataBean> list = myInvoiceListBean.getData();
                         if (list != null && list.size() > 0) {
                             setUpData(list);
                             Log.d(TAG, "updateData:myInvoiceList success");
                         }
-                    }else if (myInvoiceListBean.getStatus() ==400) {
-
+                    } else if (myInvoiceListBean.getStatus() == 400) {
+                        llElecReceipt.setVisibility(View.GONE);
+                        rlNoElecReceipt.setVisibility(View.VISIBLE);
                     }
-
-
 
 
                 }

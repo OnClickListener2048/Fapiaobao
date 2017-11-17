@@ -123,7 +123,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     private HashMap<String, String> httpParams;
     private int currentItem = 0;
     private MacherBeanToken matchBean;
-    private Double amount;
+    private double amount;
 
     private CityPickerView cityPicker;
     private ArrayList<String> arrayListSelectedReceiptKind;

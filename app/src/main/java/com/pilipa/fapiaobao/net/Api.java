@@ -207,7 +207,12 @@ public class Api {
             @Override
             public void onSuccess(Response<LoginWithInfoBean> response) {
                 if (response.isSuccessful()) {
+                    if (response.body().getStatus() == 400) {
+                        BaseApplication.showToast("没有找到业务数据");
+                    } else {
+
                     baseViewCallback.setData(response.body());
+                    }
                 }
 
             }

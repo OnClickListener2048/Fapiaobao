@@ -227,7 +227,7 @@
     <string name="publish_time">发布时间</string>
     <string name="early_end_collection">提前结束收集</string>
     <string name="collection_ing">收集中</string>
-    <string name="select_your_receipt_kind">请选择你要开具的发票类型</string>
+    <string name="select_your_receipt_kind">请选择您要开具的发票类型</string>
     <string name="normal_kind_receipt">常用类型</string>
     <string name="offered">我提供了</string>
     <string name="receive">收到红包 %1$d元</string>
@@ -236,7 +236,7 @@
     <string name="arrival_part">部分到账</string>
     <string name="arrival_ing">到账中</string>
     <string name="arrival_no">不到账</string>
-    <string name="add_company_info">添加开票的公司信息</string>
+    <string name="add_company_info">添加开票单位的信息</string>
     <string name="company_details">公司详情</string>
     <string name="we_need">点击以下类型,提供发票</string>
     <string name="provide_for_me">我提供的</string>

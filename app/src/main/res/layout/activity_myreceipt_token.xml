@@ -26,6 +26,7 @@
             android:src="@mipmap/estimate_back_brawn" />
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_demand_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,27 +36,74 @@
             android:src="@drawable/share" />
     </RelativeLayout>
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/d10" />
-
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <LinearLayout
+            android:id="@+id/ll_elec_receipt"
+        android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
+
+            <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        </android.support.v7.widget.RecyclerView>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/confirm"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d40"
+                android:layout_margin="@dimen/d20"
+                android:background="@color/main_style"
+                android:text="@string/confirm"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_no_elec_receipt"
+        android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/d30"
+                android:src="@mipmap/no_record_bg" />
+
+            <TextView
+                android:id="@+id/tv_line1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_bg"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/d5"
+                android:text="您还没有添加电子发票到这里哦"
+                android:textSize="@dimen/s12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_line1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/d5"
+                android:text="悄悄告诉您：平时可以将电子发票存在这里~"
+                android:textSize="@dimen/s12" />
+        </RelativeLayout>
     </FrameLayout>
 
-    <Button
-        android:layout_height="@dimen/d40"
-        android:layout_margin="@dimen/d20"
-        android:background="@color/main_style"
-        android:id="@+id/confirm"
-        android:layout_width="match_parent"
-        android:textColor="@color/white"
-        android:text="@string/confirm" />
+
 </LinearLayout>

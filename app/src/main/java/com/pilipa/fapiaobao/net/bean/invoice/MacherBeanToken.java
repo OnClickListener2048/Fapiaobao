@@ -88,24 +88,24 @@ public class MacherBeanToken implements Parcelable{
          * invoiceTypes : [{"id":"3d6dd28e93ae44529bc51b6328a635ab","isNewRecord":false,"createDate":"2017-11-16 17:46:40","updateDate":"2017-11-16 17:46:40","demand":{"id":"f4a3606d08984d7f80253fe554830f63","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"invoiceType":{"id":"bac478bb52e6440fa745e15d53e42282","isNewRecord":false,"name":"餐饮费","categorySort":0,"frequentSort":0}},{"id":"7dc8e4d87ee44c91820a0f2a1976ae78","isNewRecord":false,"createDate":"2017-11-16 17:46:40","updateDate":"2017-11-16 17:46:40","demand":{"id":"f4a3606d08984d7f80253fe554830f63","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"invoiceType":{"id":"43f1faf2cfee4f508d02c36975dfa06d","isNewRecord":false,"name":"会议费","categorySort":0,"frequentSort":0}},{"id":"91693da01129448f96bc45b65ceb32f5","isNewRecord":false,"createDate":"2017-11-16 17:46:40","updateDate":"2017-11-16 17:46:40","demand":{"id":"f4a3606d08984d7f80253fe554830f63","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"invoiceType":{"id":"46a421bf1c0e4fa0a5f8260334096b92","isNewRecord":false,"name":"快递费","categorySort":0,"frequentSort":0}},{"id":"9d4d83bea4f34a3894e655369f81f32a","isNewRecord":false,"createDate":"2017-11-16 17:46:40","updateDate":"2017-11-16 17:46:40","demand":{"id":"f4a3606d08984d7f80253fe554830f63","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"invoiceType":{"id":"8d8cdbb335b84e0a89c92e75e1f0c1c3","isNewRecord":false,"name":"礼品费","categorySort":0,"frequentSort":0}},{"id":"cc4ab112089742d19acfc6ae9bd7c6d2","isNewRecord":false,"createDate":"2017-11-16 17:46:40","updateDate":"2017-11-16 17:46:40","demand":{"id":"f4a3606d08984d7f80253fe554830f63","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0},"invoiceType":{"id":"46930352ad15484dbe667867a9abca99","isNewRecord":false,"name":"住宿费","categorySort":0,"frequentSort":0}}]
          */
 
-        private int amount;
-        private int bonus;
+        private double amount;
+        private double bonus;
         private String attentions;
         private CompanyBean company;
         private String demandId;
         private long deadline;
         private String invoiceType;
-        private int mailMinimum;
+        private double mailMinimum;
         private List<InvoiceTypesBean> invoiceTypes;
 
         protected DataBean(Parcel in) {
-            amount = in.readInt();
-            bonus = in.readInt();
+            amount = in.readDouble();
+            bonus = in.readDouble();
             attentions = in.readString();
             demandId = in.readString();
             deadline = in.readLong();
             invoiceType = in.readString();
-            mailMinimum = in.readInt();
+            mailMinimum = in.readDouble();
         }
 
         public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
@@ -120,19 +120,19 @@ public class MacherBeanToken implements Parcelable{
             }
         };
 
-        public int getAmount() {
+        public double getAmount() {
             return amount;
         }
 
-        public void setAmount(int amount) {
+        public void setAmount(double amount) {
             this.amount = amount;
         }
 
-        public int getBonus() {
+        public double getBonus() {
             return bonus;
         }
 
-        public void setBonus(int bonus) {
+        public void setBonus(double bonus) {
             this.bonus = bonus;
         }
 
@@ -176,11 +176,11 @@ public class MacherBeanToken implements Parcelable{
             this.invoiceType = invoiceType;
         }
 
-        public int getMailMinimum() {
+        public double getMailMinimum() {
             return mailMinimum;
         }
 
-        public void setMailMinimum(int mailMinimum) {
+        public void setMailMinimum(double mailMinimum) {
             this.mailMinimum = mailMinimum;
         }
 
@@ -199,13 +199,13 @@ public class MacherBeanToken implements Parcelable{
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(amount);
-            dest.writeInt(bonus);
+            dest.writeDouble(amount);
+            dest.writeDouble(bonus);
             dest.writeString(attentions);
             dest.writeString(demandId);
             dest.writeLong(deadline);
             dest.writeString(invoiceType);
-            dest.writeInt(mailMinimum);
+            dest.writeDouble(mailMinimum);
         }
 
         public static class CompanyBean implements Parcelable{

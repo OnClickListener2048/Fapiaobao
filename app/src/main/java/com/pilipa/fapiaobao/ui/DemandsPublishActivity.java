@@ -330,10 +330,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         });
 
 
-        BaseApplication.set("etAreaDetails",etAreaDetails.getText().toString().trim());
-        BaseApplication.set("tvArea",tvArea.getText().toString().trim());
-        BaseApplication.set("etReceptionNumber",etReceptionNumber.getText().toString().trim());
-        BaseApplication.set("etReceptionName",etReceptionName.getText().toString().trim());
 
         etAreaDetails.setText(BaseApplication.get("etAreaDetails",null));
         tvArea.setText(BaseApplication.get("tvArea",null));
