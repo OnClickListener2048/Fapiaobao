@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -58,6 +57,7 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
+import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsPublishBean;
@@ -529,11 +529,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             case R.id.tv_area:
             case R.id.ll_select_area:
             case R.id.iv_select_area:
-                try {
-                    cityPicker.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                cityPicker.show();
                 break;
             case R.id.et_area_details:
                 break;
@@ -695,12 +691,29 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             case REQUEST_CODE_SCAN:
                 if (resultCode == RESULT_OK) {
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
-                    Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
-                    Gson gson = new Gson();
-                    String s = EncodeUtils.urlDecode(content);
-                    TypeToken<MacherBeanToken.DataBean.CompanyBean> typeToken = TypeToken.get(MacherBeanToken.DataBean.CompanyBean.class);
-                    MacherBeanToken.DataBean.CompanyBean companyBean = gson.fromJson(s, typeToken.getType());
-                    updateCompanyInfo(companyBean);
+                    TLog.log("content" + content);
+                    String[] split = content.split("\\?");
+                    String[] split1 = split[1].split("=");
+                    Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
+
+                        private CompanyDetailsBean.DataBean data;
+
+                        @Override
+                        public void setData(CompanyDetailsBean companyDetailsBean) {
+                            MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+                            data = companyDetailsBean.getData();
+                            companyBean.setAccount(data.getAccount());
+                            companyBean.setAddress(data.getAddress());
+                            companyBean.setDepositBank(data.getDepositBank());
+                            companyBean.setId(data.getId());
+                            companyBean.setIsNewRecord(data.isIsNewRecord());
+                            companyBean.setName(data.getName());
+                            companyBean.setPhone(data.getPhone());
+                            companyBean.setTaxno(data.getTaxno());
+                            updateCompanyInfo(companyBean);
+                        }
+                    });
+//
                 }
         }
     }
@@ -1120,11 +1133,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             @Override
             public void onCancel() {
                 super.onCancel();
-                try {
-                    cityPicker.hide();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                cityPicker.hide();
             }
         });
     }

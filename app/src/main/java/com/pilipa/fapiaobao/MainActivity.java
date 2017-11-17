@@ -85,7 +85,6 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
     @Override
     public void initData() {
-//        initAMap();
 
         bg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +92,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
             }
         });
+        mLocationClient.startLocation();
     }
 
     @Override

@@ -10,8 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mylibrary.utils.EncodeUtils;
-import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -20,6 +18,7 @@ import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
@@ -92,25 +91,45 @@ public class AddCompanyInfoActivity extends BaseActivity {
             case REQUEST_CODE_SCAN:
                 if (resultCode == RESULT_OK) {
                     String codedContent = data.getStringExtra(DECODED_CONTENT_KEY);
-                    Log.d("codedContent", codedContent);
-                    Gson gson = new Gson();
-                    String decode = EncodeUtils.urlDecode(codedContent);
-                    try {
+                    String[] split = codedContent.split("\\?");
+                    String[] split1 = split[1].split("=");
+                    Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
 
-                    MacherBeanToken.DataBean.CompanyBean companyBean = gson.fromJson(decode, MacherBeanToken.DataBean.CompanyBean.class);
-                        edtCompany_name.setText(companyBean.getName());
-                        edtTaxno.setText(companyBean.getTaxno().toUpperCase());
-                        edtCompanyAddress.setText(companyBean.getAddress());
-                        edtCompanyNumber.setText(companyBean.getPhone());
-                        edtBankName.setText(companyBean.getDepositBank());
-                        edtBankAccount.setText(companyBean.getAccount());
-                    } catch (Exception e) {
-                        BaseApplication.showToast("加载公司失败");
-                    }
+                        private CompanyDetailsBean.DataBean data;
+
+                        @Override
+                        public void setData(CompanyDetailsBean companyDetailsBean) {
+                            MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+                            data = companyDetailsBean.getData();
+                            companyBean.setAccount(data.getAccount());
+                            companyBean.setAddress(data.getAddress());
+                            companyBean.setDepositBank(data.getDepositBank());
+                            companyBean.setId(data.getId());
+                            companyBean.setIsNewRecord(data.isIsNewRecord());
+                            companyBean.setName(data.getName());
+                            companyBean.setPhone(data.getPhone());
+                            companyBean.setTaxno(data.getTaxno());
+                            try {
+                                updateCompanyinfo(companyBean);
+                            } catch (Exception e) {
+                                BaseApplication.showToast("加载公司失败");
+                            }
+
+                        }
+                    });
 
                 }
                 break;
         }
+    }
+
+    private void updateCompanyinfo(MacherBeanToken.DataBean.CompanyBean companyBean) {
+        edtCompany_name.setText(companyBean.getName());
+        edtTaxno.setText(companyBean.getTaxno().toUpperCase());
+        edtCompanyAddress.setText(companyBean.getAddress());
+        edtCompanyNumber.setText(companyBean.getPhone());
+        edtBankName.setText(companyBean.getDepositBank());
+        edtBankAccount.setText(companyBean.getAccount());
     }
 
     @Override

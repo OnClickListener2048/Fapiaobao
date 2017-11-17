@@ -216,6 +216,12 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
             @Override
             public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
                 super.onSelected(province, city, district);
+
+            }
+
+            @Override
+            public void onSelected(ProvinceBean province, CityBean city) {
+                super.onSelected(province, city);
                 //返回结果
                 //ProvinceBean 省份信息
                 //CityBean     城市信息

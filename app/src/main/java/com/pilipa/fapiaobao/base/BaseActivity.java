@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -82,7 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         BaseApplication.saveActivity(this);
         initWindow();
-
+        initAMap();
         onBeforeSetContentLayout();
         if (getLayoutId() != 0) {
             setContentView(getLayoutId());
@@ -96,7 +97,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         initView();
         initData();
         initProgressDialog();
-        initAMap();
+
     }
 
     private void initProgressDialog() {
@@ -278,10 +279,13 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         Bitmap bitmap = null;
         try {
             bmp = MediaStore.Images.Media.getBitmap(cr,uri);
-            TLog.log("bmp.size"+bmp.getRowBytes());
+            byte[] bytes = ImageUtils.bitmap2Bytes(bmp, Bitmap.CompressFormat.JPEG);
+            TLog.log("bytes.getByteCount()"+bytes.length);
+
 //            bitmap = ImageUtils.compressByQuality(bmp, (long)50*1024, true);
-            bitmap = ImageUtils.compressByScale(bmp, (int) (bmp.getWidth() * 0.3), (int) (bmp.getHeight() * 0.3), true);
-            TLog.log("bitmap.size"+bitmap.getRowBytes());
+            bitmap = ImageUtils.compressByQuality(bmp, (long) (100 * 1024));
+            byte[] bytes2 = ImageUtils.bitmap2Bytes(bitmap, Bitmap.CompressFormat.JPEG);
+            TLog.log("bytes2.getByteCount()"+ bytes2.length);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -322,7 +326,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                     //给定位客户端对象设置定位参数
                     mLocationClient.setLocationOption(mLocationOption);
                     //启动定位
-                    mLocationClient.startLocation();
                 }
             }
 

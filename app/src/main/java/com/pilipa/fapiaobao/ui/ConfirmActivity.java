@@ -111,11 +111,9 @@ public class ConfirmActivity extends BaseActivity {
 
 
         try {
-            Gson gson = new Gson();
-            String company_info = gson.toJson(this.company_info);
-            String s = EncodeUtils.urlEncode(company_info);
-            TLog.log("company_info"+company_info);
-            Bitmap qrCode = CodeCreator.createQRCode(this,s);
+            String content = new String(company_info.getQrcode().getBytes("UTF-8"), "ISO-8859-1");
+            TLog.log("content-----------"+content);
+            Bitmap qrCode = CodeCreator.createQRCode(this,content);
             qr.setImageBitmap(qrCode);
         } catch (Exception e) {
             BaseApplication.showToast("二维码生成失败");

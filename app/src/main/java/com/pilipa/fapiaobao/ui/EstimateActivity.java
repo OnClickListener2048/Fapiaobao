@@ -128,6 +128,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     private CityPickerView cityPicker;
     private ArrayList<String> arrayListSelectedReceiptKind;
     private String name;
+    private ExtimatePagerAdapter adapter;
 
 
     @Override
@@ -342,7 +343,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                         llBonus.setVisibility(View.VISIBLE);
                         EstimateActivity.this.matchBean = matchBean;
                         tonext.setEnabled(matchBean.getData().size() != 1);
-                        bonus.setText(matchBean.getData().get(0).getBonus() + "");
+                        bonus.setText(String.valueOf(matchBean.getData().get(0).getBonus()));
                         setUpData(matchBean);
                     } else if (matchBean.getStatus() == 400) {
                         llhasRedbag.setVisibility(View.GONE);
@@ -371,8 +372,15 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
     private void setUpData(MacherBeanToken matchBean) {
         ultraViewpager.setOffscreenPageLimit(matchBean.getData().size()-1);
-        ultraViewpager.setAdapter(null);
-        ultraViewpager.setAdapter(new ExtimatePagerAdapter(getSupportFragmentManager(), matchBean));
+//        ultraViewpager.setAdapter(new ExtimatePagerAdapter(getSupportFragmentManager(), matchBean));
+        if (adapter == null) {
+            adapter = new ExtimatePagerAdapter(getSupportFragmentManager(), matchBean.getData());
+        } else {
+            adapter.update(matchBean.getData());
+        }
+        ultraViewpager.setAdapter(adapter);
+        ultraViewpager.setCurrentItem(0,true);
+        updateButtonStatus();
     }
 
 
@@ -386,7 +394,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     }
 
     public void setFilterKeys(ArrayList<String> arrayListKind, String area) {
-        String param = new String();
+        String param = "";
 
 
         for (int i = 0; i < arrayListKind.size(); i++) {
@@ -447,12 +455,20 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 .setCityWheelType(CityConfig.WheelType.PRO_CITY)
                 .build();
 
+
         cityPicker = new CityPickerView(cityConfig);
 
         cityPicker.setOnCityItemClickListener(new OnCityItemClickListener() {
+
             @Override
-            public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
-                super.onSelected(province, city, district);
+            public void onSelected(ProvinceBean province) {
+                super.onSelected(province);
+            }
+
+            @Override
+            public void onSelected(ProvinceBean province, CityBean city) {
+                super.onSelected(province, city);
+                TLog.log("public void onSelectedpublic void onSelectedpublic void onSelectedpublic void onSelected");
                 //返回结果
                 //ProvinceBean 省份信息
                 //CityBean     城市信息
@@ -463,8 +479,13 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             }
 
             @Override
+            public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
+                super.onSelected(province, city, district);
+
+            }
+
+            @Override
             public void onCancel() {
-                super.onCancel();
                 cityPicker.hide();
             }
         });

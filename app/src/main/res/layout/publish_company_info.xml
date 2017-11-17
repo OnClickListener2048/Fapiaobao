@@ -112,6 +112,8 @@
                         android:focusableInTouchMode="true">
 
                         <EditText
+                            android:maxLines="1"
+                            android:textSize="@dimen/s12"
                             android:id="@+id/et_publish_company_name"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -166,6 +168,8 @@
                         android:focusableInTouchMode="true">
 
                         <EditText
+                            android:maxLines="1"
+                            android:textSize="@dimen/s12"
                             android:id="@+id/et_publish_tex_number"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -221,6 +225,8 @@
                         android:focusableInTouchMode="true">
 
                         <EditText
+                            android:maxLines="1"
+                            android:textSize="@dimen/s12"
                             android:id="@+id/et_publish_address"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -272,6 +278,8 @@
                         android:layout_weight="1">
 
                         <EditText
+                            android:maxLines="1"
+                            android:textSize="@dimen/s12"
                             android:id="@+id/et_publish_phone_number"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -326,6 +334,8 @@
                         android:layout_weight="1">
 
                         <EditText
+                            android:maxLines="1"
+                            android:textSize="@dimen/s12"
                             android:id="@+id/et_publish_bank"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -380,6 +390,8 @@
                         android:layout_weight="1">
 
                         <EditText
+                            android:maxLines="1"
+                            android:textSize="@dimen/s12"
                             android:id="@+id/et_publish_bank_account"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"

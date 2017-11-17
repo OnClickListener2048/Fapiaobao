@@ -346,7 +346,7 @@ public class LabelsView extends ViewGroup implements View.OnClickListener {
         label.setPadding(mTextPaddingLeft, mTextPaddingTop, mTextPaddingRight, mTextPaddingBottom);
         label.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         label.setTextColor(mTextColor != null ? mTextColor : ColorStateList.valueOf(0xFF000000));
-        label.setText(text);
+        label.setText(text.trim());
         if (mLabelBgResId != 0) {
             label.setBackgroundResource(mLabelBgResId);
         }

@@ -199,11 +199,11 @@ public class RechargeActivity extends BaseActivity  {
     @OnClick(R.id.go_recharge)
     public void onViewClicked() {
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
+        if (loginWithInfoBean != null) {
         if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
-            if (loginWithInfoBean != null) {
 
 
-                Api.wxRecharge(loginWithInfoBean.getData().getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallback<PrepayBean>() {
+            Api.wxRecharge(loginWithInfoBean.getData().getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallback<PrepayBean>() {
                     @Override
                     public void setData(PrepayBean prepayBean) {
 
@@ -229,9 +229,9 @@ public class RechargeActivity extends BaseActivity  {
                     }
 
                 });
-            }
-        }else{
+        } else {
             weChatLogin();
+        }
         }
     }
 

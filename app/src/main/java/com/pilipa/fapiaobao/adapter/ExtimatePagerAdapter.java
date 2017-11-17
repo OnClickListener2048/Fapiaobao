@@ -10,45 +10,45 @@ import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.ui.fragment.EstimatePagerFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by edz on 2017/10/30.
  */
 
 public class ExtimatePagerAdapter extends FragmentPagerAdapter {
-    private final MacherBeanToken matchBean;
+    private  List<MacherBeanToken.DataBean> list;
 
-    public ExtimatePagerAdapter(FragmentManager fm, MacherBeanToken matchBean) {
+    public ExtimatePagerAdapter(FragmentManager fm, List<MacherBeanToken.DataBean> data) {
         super(fm);
-        this.matchBean = matchBean;
+        this.list = data;
     }
 
+
+    public void update(List<MacherBeanToken.DataBean> list)  {
+        if (this.list != null) {
+            this.list.clear();
+            this.list.addAll(list);
+        } else {
+            this.list = list;
+        }
+        notifyDataSetChanged();
+    }
 
 
 
 
     @Override
     public int getCount() {
-        if (matchBean != null) {
-            if (matchBean.getData() != null) {
-                if (matchBean.getData().size()>0) {
-                    return matchBean.getData().size();
-                }
-            }
+        if (list != null) {
+            return list.size();
         }
         return 0;
     }
 
     @Override
     public long getItemId(int position) {
-        if (matchBean != null) {
-            if (matchBean.getData() != null) {
-                if (matchBean.getData().size()>0) {
-                    return matchBean.getData().get(position).hashCode();
-                }
-            }
-        }
-        return 0;
+        return list.get(position).hashCode();
     }
 
 
@@ -61,7 +61,7 @@ public class ExtimatePagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable("estimate_item", matchBean.getData().get(position));
+        bundle.putParcelable("estimate_item", list.get(position));
         TLog.log("EstimatePagerFragment.newInstance(bundle)");
         return EstimatePagerFragment.newInstance(bundle);
     }

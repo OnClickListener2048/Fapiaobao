@@ -20,6 +20,7 @@ import com.example.mylibrary.utils.EncodeUtils;
 import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
@@ -40,6 +41,7 @@ import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
@@ -86,6 +88,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
         }
     };
     private UMWeb web;
+    private UMShareAPI umShareAPI;
 
     @Override
     protected int getLayoutId() {
@@ -99,7 +102,14 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
         ButterKnife.bind(this, rootView);
         api = WXAPIFactory.createWXAPI(getActivity(), Constants.APP_ID);
         api.registerApp(Constants.APP_ID);
+        umShareAPI = UMShareAPI.get(mContext);
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        umShareAPI.release();
     }
 
     @Override
@@ -155,23 +165,13 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
                 img_qr_code1.setVisibility(View.VISIBLE);
                 ll_qr_code2.setVisibility(View.GONE);
             }
-
         }
         Log.d(TAG,"Company id" +company.getId());
 
         try {
-            MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
-            companyBean.setName(company.getName());
-            companyBean.setPhone(company.getPhone());
-            companyBean.setAddress(company.getAddress());
-            companyBean.setAccount(company.getAccount());
-            companyBean.setDepositBank(company.getDepositBank());
-            companyBean.setTaxno(company.getTaxno());
-            Gson gson = new Gson();
-            String comStr = gson.toJson(companyBean,MacherBeanToken.DataBean.CompanyBean.class);
-            Log.d(TAG,"qrCode" +comStr);
-            String comStrGson =  EncodeUtils.urlEncode(comStr);
-            Bitmap qrCode = CodeCreator.createQRCode(mContext,comStrGson);
+            String content = new String(company.getQrcode().getBytes("UTF-8"), "ISO-8859-1");
+            TLog.log("content-----------"+content);
+            Bitmap qrCode = CodeCreator.createQRCode(mContext,content);
             img_qr_code1.setImageBitmap(qrCode);
             img_qr_code2.setImageBitmap(qrCode);
         } catch (Exception e) {
@@ -244,65 +244,90 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
         root.findViewById(R.id.weixin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WXWebpageObject wxWebpageObject = new WXWebpageObject();
-                wxWebpageObject.webpageUrl = Constant.MATCH ;
+                if (api.isWXAppInstalled()) {
+                    WXWebpageObject wxWebpageObject = new WXWebpageObject();
+                    wxWebpageObject.webpageUrl = Constant.MATCH;
 
-                WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
-                wxMediaMessage.description = "伙伴们，多余的发票也能挣红包了~";
-                wxMediaMessage.title = "伙伴们，多余的发票也能挣红包了~";
-                wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.icon), Bitmap.CompressFormat.JPEG);
+                    WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
+                    wxMediaMessage.description = "伙伴们，多余的发票也能挣红包了~";
+                    wxMediaMessage.title = "伙伴们，多余的发票也能挣红包了~";
+                    wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.icon), Bitmap.CompressFormat.JPEG);
 
-                SendMessageToWX.Req req = new SendMessageToWX.Req();
-                req.transaction = String.valueOf(System.currentTimeMillis());
-                req.message = wxMediaMessage;
+                    SendMessageToWX.Req req = new SendMessageToWX.Req();
+                    req.transaction = String.valueOf(System.currentTimeMillis());
+                    req.message = wxMediaMessage;
 
-                req.scene = SendMessageToWX.Req.WXSceneSession;
-                api.sendReq(req);
-                mCameraDialog.dismiss();
+                    req.scene = SendMessageToWX.Req.WXSceneSession;
+                    api.sendReq(req);
+                    mCameraDialog.dismiss();
+                } else {
+                    BaseApplication.showToast("请安装微信客户端");
+                }
+
             }
         });
         root.findViewById(R.id.weibo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ShareAction(getActivity())
-                        .setPlatform(SHARE_MEDIA.SINA)//传入平台
-                        .withMedia(web)
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
-                mCameraDialog.dismiss();
+                if (umShareAPI.isInstall(getActivity(), SHARE_MEDIA.SINA)) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.SINA)//传入平台
+                            .withMedia(web)
+                            .setCallback(umShareListener)//回调监听器
+                            .share();
+                    mCameraDialog.dismiss();
+                } else {
+                    BaseApplication.showToast("请安装新浪微博客户端");
+                }
+
             }
         });
         root.findViewById(R.id.moments).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ShareAction(getActivity())
-                        .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
-                        .withMedia(web)
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
-                mCameraDialog.dismiss();
+                if (umShareAPI.isInstall(getActivity(), SHARE_MEDIA.WEIXIN_CIRCLE)) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
+                            .withMedia(web)
+                            .setCallback(umShareListener)//回调监听器
+                            .share();
+                    mCameraDialog.dismiss();
+                } else {
+                    BaseApplication.showToast("请安装微信客户端");
+                }
+
             }
         });
         root.findViewById(R.id.qq).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ShareAction(getActivity())
-                        .setPlatform(SHARE_MEDIA.QQ)//传入平台
-                        .withMedia(web)
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
-                mCameraDialog.dismiss();
+                if (umShareAPI.isInstall(getActivity(), SHARE_MEDIA.QQ)) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.QQ)//传入平台
+                            .withMedia(web)
+                            .setCallback(umShareListener)//回调监听器
+                            .share();
+                    mCameraDialog.dismiss();
+                } else {
+                    BaseApplication.showToast("请安装QQ客户端");
+                }
+
             }
         });
         root.findViewById(R.id.qzone).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ShareAction(getActivity())
-                        .setPlatform(SHARE_MEDIA.QZONE)//传入平台
-                        .withMedia(web)
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
-                mCameraDialog.dismiss();
+                if (umShareAPI.isInstall(getActivity(), SHARE_MEDIA.QZONE)) {
+                    new ShareAction(getActivity())
+                            .setPlatform(SHARE_MEDIA.QZONE)//传入平台
+                            .withMedia(web)
+                            .setCallback(umShareListener)//回调监听器
+                            .share();
+                    mCameraDialog.dismiss();
+                } else {
+                    BaseApplication.showToast("请安装QQ空间客户端");
+                }
+
             }
         });
         root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
