@@ -17,6 +17,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
+import com.pilipa.fapiaobao.ui.widget.AdjustTextView;
 
 
 /**
@@ -91,12 +92,12 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     static class Financeholder extends RecyclerView.ViewHolder {
 
-        private final TextView tv_finance;
+        private final AdjustTextView tv_finance;
         private final ImageView iv_finance;
 
         public Financeholder(View itemView) {
             super(itemView);
-            tv_finance = (TextView) itemView.findViewById(R.id.tv_finance_kind);
+            tv_finance = (AdjustTextView) itemView.findViewById(R.id.tv_finance_kind);
             iv_finance = (ImageView) itemView.findViewById(R.id.iv_finance_kind);
         }
     }

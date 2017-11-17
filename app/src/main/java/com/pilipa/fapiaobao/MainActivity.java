@@ -93,7 +93,10 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
             }
         });
+        if (mLocationClient != null) {
+
         mLocationClient.startLocation();
+        }
     }
 
     @Override
