@@ -70,13 +70,13 @@ public class RechargeActivity extends BaseActivity  {
                 TLog.d(TAG,WX_LOGIN_ACTION +" success");
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
-                WXmodel wx_info = bundle.getParcelable("wx_info");
+                final WXmodel wx_info = bundle.getParcelable("wx_info");
                 Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
                     @Override
                     public void setData(NormalBean normalBean) {
                         if (normalBean.getStatus() == 200) {
                             BaseApplication.showToast("微信绑定成功");
-                            Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallback<PrepayBean>() {
+                            Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), 1,wx_info.getOpenid(), new Api.BaseViewCallback<PrepayBean>() {
                                 @Override
                                 public void setData(PrepayBean prepayBean) {
 
@@ -203,7 +203,7 @@ public class RechargeActivity extends BaseActivity  {
         if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
 
 
-            Api.wxRecharge(loginWithInfoBean.getData().getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallback<PrepayBean>() {
+            Api.wxRecharge(loginWithInfoBean.getData().getToken(), NetworkUtils.getIPAddress(true), 1, loginWithInfoBean.getData().getCustomer().getOpenid(),new Api.BaseViewCallback<PrepayBean>() {
                     @Override
                     public void setData(PrepayBean prepayBean) {
 

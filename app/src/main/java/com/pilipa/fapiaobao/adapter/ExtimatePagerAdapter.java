@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
@@ -17,21 +19,24 @@ import java.util.List;
  */
 
 public class ExtimatePagerAdapter extends FragmentPagerAdapter {
-    private  List<MacherBeanToken.DataBean> list;
+    private  List<EstimatePagerFragment> list;
 
-    public ExtimatePagerAdapter(FragmentManager fm, List<MacherBeanToken.DataBean> data) {
+    public ExtimatePagerAdapter(FragmentManager fm, List<EstimatePagerFragment> data) {
         super(fm);
         this.list = data;
     }
 
 
-    public void update(List<MacherBeanToken.DataBean> list)  {
-        if (this.list != null) {
-            this.list.clear();
-            this.list.addAll(list);
-        } else {
-            this.list = list;
-        }
+    public void update(List<EstimatePagerFragment> list)  {
+//        if (this.list != null) {
+//            this.list.clear();
+//            this.list.addAll(list);
+//            notifyDataSetChanged();
+//        } else {
+//            this.list = list;
+//            notifyDataSetChanged();
+//        }
+        this.list = list;
         notifyDataSetChanged();
     }
 
@@ -55,15 +60,16 @@ public class ExtimatePagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getItemPosition(Object object) {
         return super.getItemPosition(object);
-
     }
 
     @Override
     public Fragment getItem(int position) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("estimate_item", list.get(position));
-        TLog.log("EstimatePagerFragment.newInstance(bundle)");
-        return EstimatePagerFragment.newInstance(bundle);
+        return list.get(position);
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        super.destroyItem(container, position, object);
     }
 
 }

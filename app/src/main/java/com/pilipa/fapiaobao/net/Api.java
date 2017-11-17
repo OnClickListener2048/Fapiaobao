@@ -659,20 +659,12 @@ public class Api {
      * @param city
      * @param baseViewCallback
      */
-    public static void doMatchDemand(String invoiceType, Double amount, String varieties, String city, final BaseViewCallback baseViewCallback) {
+    public static void doMatchDemand(String invoiceType, Double amount, String varieties, String city, final BaseViewCallbackWithOnStart baseViewCallback) {
         String url = String.format(DO_MATCH_DEMAND, invoiceType, amount);
-//        OkGo.<MacherBeanToken>get(url).execute(new JsonCallBack<MacherBeanToken>(MacherBeanToken.class) {
-//            @Override
-//            public void onSuccess(Response<MacherBeanToken> response) {
-//                if (response.isSuccessful() && response.body().getStatus() == 200) {
-//                    Log.d(TAG, "doMatchDemandonSuccess: "+response.body());
-//                    baseViewCallback.setData(response.body());
-//                }
-//            }
-//
-//        });
 
-        OkGo.<MacherBeanToken>post(url)
+
+        OkGo
+                .<MacherBeanToken>post(url)
                 .upJson(JsonCreator.matcher(varieties,city))
                 .execute(new JsonCallBack<MacherBeanToken>(MacherBeanToken.class) {
             @Override
@@ -682,7 +674,30 @@ public class Api {
                         baseViewCallback.setData(response.body());
                 }
             }
-        });
+
+                    @Override
+                    public void onError(Response<MacherBeanToken> response) {
+                        super.onError(response);
+                        baseViewCallback.onError();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        baseViewCallback.onFinish();
+                    }
+
+                    @Override
+                    public void onStart(Request<MacherBeanToken, ? extends Request> request) {
+                        super.onStart(request);
+                        baseViewCallback.onStart();
+                    }
+
+                });
+
+
+
+
     }
 
 
@@ -933,8 +948,8 @@ public class Api {
      * @param amount
      * @param b
      */
-    public static void wxRecharge(String token, String ip, double amount, final BaseViewCallback b) {
-        String url = String.format(WX_RECHARGE, token, ip, amount);
+    public static void wxRecharge(String token, String ip, double amount,String openid, final BaseViewCallback b) {
+        String url = String.format(WX_RECHARGE, token, ip, amount,openid);
         OkGo.<PrepayBean>get(url).execute(new JsonCallBack<PrepayBean>(PrepayBean.class) {
 
             @Override
@@ -1107,18 +1122,7 @@ public class Api {
         });
     }
 
-    public static void wxRecharge1(String token, String ip, double amount, final BaseViewCallback b) {
-        String url = String.format(WX_RECHARGE, token, ip, amount);
-        OkGo.<String>get(url).execute(new StringCallback() {
 
-            @Override
-            public void onSuccess(Response<String> response) {
-                if (response.isSuccessful()) {
-                   TLog.log(response.body());
-                }
-            }
-        });
-    }
 
     /**
      * 红包充入余额

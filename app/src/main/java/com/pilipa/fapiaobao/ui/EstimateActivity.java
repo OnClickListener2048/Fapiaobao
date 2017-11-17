@@ -2,9 +2,7 @@ package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
@@ -34,6 +32,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.ui.fragment.EstimatePagerFragment;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 import com.tmall.ultraviewpager.UltraViewPager;
@@ -128,7 +127,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     private CityPickerView cityPicker;
     private ArrayList<String> arrayListSelectedReceiptKind;
     private String name;
-    private ExtimatePagerAdapter adapter;
+    public ExtimatePagerAdapter adapter;
 
 
     @Override
@@ -201,16 +200,22 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     }
 
     public void updateButtonStatus() {
-
         if (matchBean != null) {
             if (matchBean.getData() != null) {
-                if (matchBean.getData().size() - 1 == currentItem) {
+                if (matchBean.getData().size() == 0) {
+                    TLog.log("matchBean.getData().size()" + matchBean.getData().size());
+                    tonext.setEnabled(false);
+                    tolast.setEnabled(false);
+                } else if (matchBean.getData().size() - 1 == currentItem) {
+                    TLog.log("matchBean.getData().size()" + matchBean.getData().size());
                     tonext.setEnabled(false);
                     tolast.setEnabled(true);
                 } else if (currentItem > 0 && currentItem < matchBean.getData().size()) {
+                    TLog.log("matchBean.getData().size()" + matchBean.getData().size());
                     tonext.setEnabled(true);
                     tolast.setEnabled(true);
                 } else if (currentItem == 0) {
+                    TLog.log("matchBean.getData().size()" + matchBean.getData().size());
                     tonext.setEnabled(true);
                     tolast.setEnabled(false);
                 }
@@ -326,7 +331,22 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             BaseApplication.showToast("请输入正确的发票金额");
             return;
         } else {
-            Api.doMatchDemand(label, amount, String.valueOf(type), locate, new Api.BaseViewCallback<MacherBeanToken>() {
+            Api.doMatchDemand(label, amount, String.valueOf(type), locate, new Api.BaseViewCallbackWithOnStart<MacherBeanToken>() {
+
+                @Override
+                public void onStart() {
+                    showProgressDialog();
+                }
+
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onError() {
+                    hideProgressDialog();
+                }
 
                 @Override
                 public void setData(MacherBeanToken matchBean) {
@@ -345,6 +365,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                         tonext.setEnabled(matchBean.getData().size() != 1);
                         bonus.setText(String.valueOf(matchBean.getData().get(0).getBonus()));
                         setUpData(matchBean);
+
                     } else if (matchBean.getStatus() == 400) {
                         llhasRedbag.setVisibility(View.GONE);
                         llnoredbag.setVisibility(View.VISIBLE);
@@ -353,6 +374,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                     }
                 }
             });
+
         }
     }
 
@@ -371,15 +393,26 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     }
 
     private void setUpData(MacherBeanToken matchBean) {
-        ultraViewpager.setOffscreenPageLimit(matchBean.getData().size()-1);
-//        ultraViewpager.setAdapter(new ExtimatePagerAdapter(getSupportFragmentManager(), matchBean));
-        if (adapter == null) {
-            adapter = new ExtimatePagerAdapter(getSupportFragmentManager(), matchBean.getData());
-        } else {
-            adapter.update(matchBean.getData());
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        List<EstimatePagerFragment> list = new ArrayList<>();
+        List<MacherBeanToken.DataBean> data = matchBean.getData();
+        for (MacherBeanToken.DataBean dataBean : data) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("estimate_item", dataBean);
+            TLog.log("EstimatePagerFragment.newInstance(bundle)");
+            list.add(EstimatePagerFragment.newInstance(bundle));
         }
+        if (adapter != null) {
+            ultraViewpager.getViewPager().setCurrentItem(0, true);
+            ultraViewpager.setCurrentItem(0, true);
+            currentItem = 0;
+        }
+
+        ultraViewpager.setOffscreenPageLimit(data.size() - 1);
+//        ultraViewpager.setAdapter(new ExtimatePagerAdapter(getSupportFragmentManager(), matchBean));
+        adapter = new ExtimatePagerAdapter(getSupportFragmentManager(), list);
         ultraViewpager.setAdapter(adapter);
-        ultraViewpager.setCurrentItem(0,true);
+
         updateButtonStatus();
     }
 

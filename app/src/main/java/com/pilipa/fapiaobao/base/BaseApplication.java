@@ -10,12 +10,14 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.Utils;
 import com.example.mylibrary.widget.SimplexToast;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.pilipa.fapiaobao.Constants.Bugly;
 import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.service.UmengPushIntentService;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
@@ -23,6 +25,9 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
+import com.umeng.message.UHandler;
+import com.umeng.message.UmengNotificationClickHandler;
+import com.umeng.message.entity.UMessage;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -79,6 +84,7 @@ public class BaseApplication extends Application {
         UMConfigure.init(this, PushConstant.APP_KEY, PushConstant.Umeng_Message_Secret, UMConfigure.DEVICE_TYPE_PHONE, PushConstant.Umeng_Message_Secret);
         PushAgent mPushAgent = PushAgent.getInstance(_context);
         mPushAgent.onAppStart();
+//        mPushAgent.setPushIntentServiceClass(UmengPushIntentService.class);
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String s) {
@@ -91,6 +97,22 @@ public class BaseApplication extends Application {
 
             }
         });
+
+        mPushAgent.setDisplayNotificationNumber(10);
+//        mPushAgent.setMessageHandler(new UHandler() {
+//            @Override
+//            public void handleMessage(Context context, UMessage uMessage) {
+//                TLog.log("uMessage.activity"+uMessage.activity);
+//            }
+//        });
+        UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
+            @Override
+            public void dealWithCustomAction(Context context, UMessage msg) {
+                Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
+            }
+        };
+        mPushAgent.setNotificationClickHandler(notificationClickHandler);
+
         Config.DEBUG = true;
         PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
         PlatformConfig.setQQZone("1106395149", "gtn8LLR4FxWRvwWb");

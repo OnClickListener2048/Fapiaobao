@@ -212,7 +212,7 @@ public class Constant {
     /**
      * 微信支付
      */
-    public static final String WX_RECHARGE = BASE_URL+"wxpay/recharge/%s/%s/%s";
+    public static final String WX_RECHARGE = BASE_URL+"wxpay/recharge/%s/%s/%s/%s";
     /*明细*/
     public static final String AMOUNT_HISTORY = BASE_URL+"wxpay/amountHistory/%s/%s/%s";
     /*提现到余额*/

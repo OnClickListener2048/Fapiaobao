@@ -35,6 +35,7 @@ import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.umeng.message.PushAgent;
 
 import java.io.IOException;
 
@@ -97,7 +98,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         initView();
         initData();
         initProgressDialog();
-
+        PushAgent.getInstance(this).onAppStart();
     }
 
     private void initProgressDialog() {
