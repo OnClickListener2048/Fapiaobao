@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.lzy.okgo.OkGo;
+import com.example.mylibrary.utils.TLog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -19,6 +19,7 @@ import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.CreditRatingActivity;
 import com.pilipa.fapiaobao.ui.FeedbackActivity;
@@ -30,12 +31,16 @@ import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.ReceiptFolderActivity;
 import com.pilipa.fapiaobao.ui.UserInfoActivity;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
+import com.pilipa.fapiaobao.utils.TDevice;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.INSTRUCTION;
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
  * Created by lyt on 2017/10/13.
@@ -52,7 +57,8 @@ public class MeFragment extends BaseFragment{
     TextView tvBouns;
     @Bind(R.id.LevelIcon)
     ImageView imgLevelIcon;
-
+    @Bind(R.id.red_new_dot)
+    TextView red_new_dot;
     int[] LevelIcon=new int[]{R.mipmap.star0,R.mipmap.star1,R.mipmap.star2,R.mipmap.star3,R.mipmap.star4,R.mipmap.star5
                               ,R.mipmap.star6,R.mipmap.star7,R.mipmap.star8,R.mipmap.star9,R.mipmap.star10};
 
@@ -149,12 +155,46 @@ public class MeFragment extends BaseFragment{
 
     @Override
     public void onPause() {
-        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"loginByToken");
         super.onPause();
     }
-
+    private void messageList() {
+        if (TDevice.hasInternet()) {
+            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                @Override
+                public void setData(LoginWithInfoBean loginWithInfoBean) {
+                    if (loginWithInfoBean.getStatus() == 200) {
+                        Api.messageList(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<MessageListBean>() {
+                            @Override
+                            public void setData(MessageListBean messageListBean) {
+                                boolean hasNewMsg = false;
+                                if(messageListBean.getStatus() == REQUEST_SUCCESS){
+                                    List<MessageListBean.DataBean> data = messageListBean.getData();
+                                    for (int i = 0; i <data.size() ; i++) {
+                                        if(data.get(i).getUnreadMessages() > 0 ){
+                                            hasNewMsg =true;
+                                            TLog.d("MainActivity","message center had new message");
+                                            break;
+                                        }else{
+                                            TLog.d("MainActivity","message center no message1");
+                                        }
+                                    }
+                                    if(red_new_dot!=null)
+                                    if(hasNewMsg){
+                                        red_new_dot.setVisibility(View.VISIBLE);
+                                    }else{
+                                        red_new_dot.setVisibility(View.GONE);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
     @Override
     public void onResume() {
+        messageList();
          requestManager = Glide.with(mContext);
 
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
@@ -164,7 +204,7 @@ public class MeFragment extends BaseFragment{
                 if (loginWithInfoBean.getStatus() == 200) {
                     SharedPreferencesHelper.save(mContext, loginWithInfoBean);
                         LoginWithInfoBean.DataBean.CustomerBean customer = loginWithInfoBean.getData().getCustomer();
-                        if(customer != null){
+                        if(tvUserName != null){
                             tvUserName.setText(customer.getNickname());
                             tvCreditRating.setText("积分："+customer.getCreditScore());
                             tvBouns.setText(String.format("%.2f", customer.getAmount())+"元");//钱包金额

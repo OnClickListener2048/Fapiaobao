@@ -100,17 +100,8 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
         // TODO: inflate a fragment view
         Bundle arguments = getArguments();
         ArrayList<Image> arrayList;
-        if (images == null) {
-            images = new ArrayList<>();
-        }
+        images = new ArrayList<>();
         arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_SPECIAL_RECEIPT_DATA);
-//        if (arrayList == null) {
-//            arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_SPECIAL_RECEIPT_DATA);
-//        }
-//
-//        if (arrayList == null) {
-//            arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_NORMAL_RECEIPT_DATA);
-//        }
         Log.d(TAG, "onCreateView: ");
         if (arrayList != null) {
             for (Image image : arrayList) {
@@ -119,6 +110,7 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
                 }
             }
         }
+
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
 
@@ -183,11 +175,6 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
         rvUploadReceipt.setLayoutManager(grid);
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
         rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, false));
-//        Image image = new Image();
-//        image.isFromNet = false;
-//        image.isCapture = true;
-//        images = new ArrayList<>();
-//        images.add(image);
         mPreviousPosition = images.size();
         DemandsDetailsReceiptAdapter uploadReceiptAdapter = new DemandsDetailsReceiptAdapter(images, getImageResize(getActivity()));
         uploadReceiptAdapter.setOnImageClickListener(this);

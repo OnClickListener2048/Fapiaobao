@@ -148,12 +148,12 @@ public class Withdraw2WXActivity extends BaseActivity {
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == 200) {
                     if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-                        BigDecimal max = new BigDecimal("20000");
                         double d = loginWithInfoBean.getData().getCustomer().getAmount()
                                 -loginWithInfoBean.getData().getCustomer().getFrozen();
+                        BigDecimal amount = new BigDecimal(loginWithInfoBean.getData().getCustomer().getAmount());
                         yue = new BigDecimal(d);
-                        withdraw_max.setText("当前余额为"+yue.setScale(2,BigDecimal.ROUND_HALF_UP)+"元,");
-                        withdraw_current.setText("最大提现额度为"+max.setScale(2,BigDecimal.ROUND_HALF_UP)+"元");
+                        withdraw_max.setText(String.valueOf(yue.setScale(2,BigDecimal.ROUND_HALF_UP)));
+                        withdraw_current.setText(String.valueOf(amount.setScale(2,BigDecimal.ROUND_HALF_UP)));
                     }
                 }
             }

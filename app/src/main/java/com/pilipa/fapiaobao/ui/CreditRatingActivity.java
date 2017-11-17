@@ -57,7 +57,8 @@ public class CreditRatingActivity extends BaseActivity {
             case R.id.tv_rules:{
                 Intent intent  =new Intent(this, Op.class);
                 intent.putExtra("url",INSTRUCTION);
-                startActivity(intent);            }break;
+                startActivity(intent);
+            }break;
         }
     }
 

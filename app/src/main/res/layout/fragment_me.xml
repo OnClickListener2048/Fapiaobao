@@ -24,6 +24,8 @@
                     android:layout_margin="@dimen/d10"
                     android:src="@mipmap/notification_w" />
                 <TextView
+                    android:id="@+id/red_new_dot"
+                    android:visibility="gone"
                     android:layout_width="@dimen/d10"
                     android:layout_height="@dimen/d10"
                     android:layout_gravity="top|right"

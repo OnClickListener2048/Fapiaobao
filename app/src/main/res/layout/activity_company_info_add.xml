@@ -93,7 +93,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:textSize="@dimen/s12"
                         android:id="@+id/edt_company_name"
                         android:layout_width="match_parent"
@@ -142,7 +142,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:textSize="@dimen/s12"
                         android:id="@+id/edt_taxno"
                         android:layout_width="match_parent"
@@ -188,7 +188,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:textSize="@dimen/s12"
                         android:id="@+id/edt_company_address"
                         android:layout_width="match_parent"
@@ -235,7 +235,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:textSize="@dimen/s12"
                         android:inputType="phone"
                         android:id="@+id/edt_company_number"
@@ -283,7 +283,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:textSize="@dimen/s12"
                         android:id="@+id/edt_bank_name"
                         android:layout_width="match_parent"
@@ -330,7 +330,7 @@
                     android:padding="@dimen/d10">
 
                     <EditText
-                        android:maxLines="1"
+                        android:maxLines="2"
                         android:textSize="@dimen/s12"
                         android:inputType="phone"
                         android:id="@+id/edt_bank_account"

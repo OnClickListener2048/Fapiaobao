@@ -66,6 +66,8 @@ public class MessageCenterAdapter extends BaseAdapter {
         }
         if(bean.getUnreadMessages() != 0){
             viewHolder.tv_size.setText(String.valueOf(bean.getUnreadMessages()));
+        }else{
+            viewHolder.tv_size.setText("");
         }
 
         return convertView;

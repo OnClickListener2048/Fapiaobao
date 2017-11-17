@@ -339,7 +339,7 @@
     <string name="waitting_mail">等待签收中</string>
 
     <string name="credit_history">信用历史</string>
-    <string name="credit_life">点滴积累 继续加油</string>
+    <string name="credit_life">信用生活 点滴积累</string>
     <string name="credit_bfb">您的信用值超过了 %.0f%% 的票友</string>
     <string name="rules">规则解读</string>
     <string name="negative">负面记录</string>

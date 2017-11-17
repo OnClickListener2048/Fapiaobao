@@ -38,6 +38,7 @@ import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+
 public class MainActivity extends BaseActivity implements NavFragment.OnNavigationReselectListener {
 
     @Bind(R.id.bg)
@@ -256,6 +257,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
             }
         });
     }
+
 
 
 

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -82,7 +82,7 @@ public class FeedbackActivity extends BaseActivity {
                 FeedbackActivity.this.finish();
             }
         });
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+        RelativeLayout root = (RelativeLayout) LayoutInflater.from(this).inflate(
                 R.layout.layout_feedback_tip, null);
         root.findViewById(R.id.rl_root).setOnClickListener(new View.OnClickListener() {
             @Override

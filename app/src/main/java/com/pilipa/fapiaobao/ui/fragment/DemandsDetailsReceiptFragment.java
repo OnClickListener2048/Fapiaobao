@@ -176,11 +176,7 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
         rvUploadReceipt.setLayoutManager(grid);
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
         rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, false));
-//        Image image = new Image();
-//        image.isFromNet = false;
-//        image.isCapture = true;
-//        images = new ArrayList<>();
-//        images.add(image);
+
         mPreviousPosition = images.size();
         DemandsDetailsReceiptAdapter uploadReceiptAdapter = new DemandsDetailsReceiptAdapter(images, getImageResize(getActivity()));
         uploadReceiptAdapter.setOnImageClickListener(this);

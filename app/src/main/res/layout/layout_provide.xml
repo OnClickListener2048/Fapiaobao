@@ -56,6 +56,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/title_small"
+                        android:textSize="13dp"
                         android:text="@string/receipt_number" />
 
                     <TextView
@@ -69,6 +70,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/title_small"
+                        android:textSize="13dp"
                         android:text="@string/piece" />
                 </LinearLayout>
 
@@ -78,13 +81,13 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:layout_marginRight="@dimen/d10"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/title_small"
+                        android:textSize="13dp"
                         android:text="@string/receipt_money" />
 
                     <TextView
@@ -98,6 +101,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/title_small"
+                        android:textSize="13dp"
                         android:text="@string/yuan" />
                 </LinearLayout>
             </LinearLayout>
@@ -124,6 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/title_small"
+                        android:textSize="13dp"
                         android:text="@string/estimate_money" />
 
                     <TextView
@@ -137,6 +143,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/title_small"
+                        android:textSize="13dp"
                         android:text="@string/yuan" />
                 </LinearLayout>
 
@@ -146,13 +154,13 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:layout_marginRight="@dimen/d10"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/title_small"
+                        android:textSize="13dp"
                         android:text="收到红包：" />
 
                     <TextView
@@ -166,6 +174,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/title_small"
+                        android:textSize="13dp"
                         android:text="@string/yuan" />
                 </LinearLayout>
             </LinearLayout>

@@ -28,6 +28,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
+import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
@@ -39,11 +40,15 @@ import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
  * Created by edz on 2017/10/23.
@@ -63,7 +68,8 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     TextView pullToFindMore;
     @Bind(R.id.srollview)
     NestedScrollView srollview;
-
+    @Bind(R.id.new_notification)
+    TextView newNotification;
     public static final String EXTRA_DATA_LABEL = "extra_data_label";
     public static final String EXTRA_DATA_LABEL_NAME = "extra_data_label_name";
     @Bind(R.id.rl_pull_to_find_more)
@@ -282,5 +288,46 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         startActivity(intent);
     }
 
+    @Override
+    public void onResume() {
+        messageList();
+        super.onResume();
+    }
+
+    private void messageList() {
+        if (TDevice.hasInternet()) {
+            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                @Override
+                public void setData(LoginWithInfoBean loginWithInfoBean) {
+                    if (loginWithInfoBean.getStatus() == 200) {
+                        Api.messageList(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<MessageListBean>() {
+                            @Override
+                            public void setData(MessageListBean messageListBean) {
+                                boolean hasNewMsg = false;
+                                if(messageListBean.getStatus() == REQUEST_SUCCESS){
+                                    List<MessageListBean.DataBean> data = messageListBean.getData();
+                                    for (int i = 0; i <data.size() ; i++) {
+                                        if(data.get(i).getUnreadMessages() > 0 ){
+                                            hasNewMsg =true;
+                                            TLog.d("MainActivity","message center had new message");
+                                            break;
+                                        }else{
+                                            TLog.d("MainActivity","message center no message1");
+                                        }
+                                    }
+                                    if(newNotification!=null)
+                                    if(hasNewMsg){
+                                        newNotification.setVisibility(View.VISIBLE);
+                                    }else{
+                                        newNotification.setVisibility(View.GONE);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
 
 }

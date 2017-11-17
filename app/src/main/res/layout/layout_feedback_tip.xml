@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_centerHorizontal="true">
 
     <RelativeLayout
         android:id="@+id/rl_root"
         android:background="@drawable/shape_tip_bg"
-        android:layout_margin="@dimen/d20"
+        android:layout_centerHorizontal="true"
         android:layout_width="314dp"
         android:layout_height="141dp">
         <ImageView
             android:id="@+id/img"
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/d10"
+            android:layout_marginTop="@dimen/d16"
+            android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
             android:src="@drawable/feedback_tip" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/img"
-            android:id="@+id/thanks"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/d5"
-            android:layout_marginLeft="@dimen/d25"
-            android:text="@string/thanks"/>
         <LinearLayout
-            android:layout_marginLeft="@dimen/d25"
-            android:layout_marginTop="@dimen/d5"
-            android:layout_marginBottom="@dimen/d30"
-            android:layout_below="@+id/thanks"
-            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/img"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+
+            android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/thanks"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/d5"
+                android:text="@string/thanks"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/d5"
                 android:text="@string/link_to"/>
         </LinearLayout>
     </RelativeLayout>
 
 
 
-</LinearLayout>
+</RelativeLayout>

@@ -98,9 +98,7 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
                                     list.clear();
                                     list.addAll(messageListBean.getData());
                                     messageCenterAdapter.initData(list);
-                                    if (receiceData != null) {
-                                        setNotifications(receiceData);
-                                    }
+
                                 } else if (messageListBean.getStatus() == 400) {
                                     noContent.setVisibility(View.VISIBLE);
                                     tips.setText("暂时还没有消息哦");
@@ -141,8 +139,7 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
         }
 
     }
-    private void setNotifications(MessageListBean.DataBean receiceData) {
-    }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

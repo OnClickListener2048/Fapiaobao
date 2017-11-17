@@ -30,8 +30,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_marginTop="102dp"
-        android:layout_marginLeft="@dimen/d15"
-        android:layout_marginRight="@dimen/d15"
+        android:layout_marginRight="@dimen/d10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/relativeLayout"
@@ -39,17 +38,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/title"
             android:text="提现金额"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_centerHorizontal="true"
             android:orientation="horizontal"
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/title"
                 android:text="¥ " />
             <EditText
                 android:id="@+id/amount"
@@ -64,6 +64,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/title"
                 android:text="@string/yuan" />
         </LinearLayout>
         <View
@@ -72,38 +73,86 @@
             android:layout_marginLeft="@dimen/d10"
             android:layout_marginRight="@dimen/d10"
             android:background="#cbcacf" />
-        <LinearLayout
-            android:layout_marginTop="@dimen/d10"
-            android:orientation="horizontal"
+        <RelativeLayout
+            android:layout_marginTop="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/withdraw_current"
-                android:textSize="@dimen/d10"
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/withdraw_current"/>
-            <TextView
-                android:id="@+id/withdraw_max"
-                android:textSize="@dimen/d10"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_normal_item"
+                    android:text="最大提现额度为"/>
+                <TextView
+                    android:id="@+id/withdraw_max"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/bouns_1"
+                    android:text="0"/>
+                <TextView
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_normal_item"
+                    android:text="@string/yuan"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/d10"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/withdraw_max"/>
-            <ImageView
-                android:id="@+id/question"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/d5"
-                android:src="@mipmap/question"/>
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/withdraw_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/d12"
+                    android:text="@string/withdraw_all"
+                    android:textSize="@dimen/d10"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/main_style" />
+                <ImageView
+                    android:id="@+id/question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/d15"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/question"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/d5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/withdraw_all"
+                android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/d15"
-                android:text="@string/withdraw_all"
-                android:textSize="@dimen/d10"
-                android:textColor="@color/main_style" />
+                android:text="当前余额为"
+                android:textColor="@color/text_normal_item"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/withdraw_current"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/bouns_1"
+                android:text="0"/>
+            <TextView
+                android:textSize="13sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_normal_item"
+                android:text="@string/yuan"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="268dp"
-    android:layout_height="364dp"
-    android:background="@mipmap/update_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="268dp"
         android:layout_height="364dp"
+        android:background="@mipmap/update_bg"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:orientation="vertical">
+        >
 
         <android.support.v4.widget.Space
+            android:id="@+id/space"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/d150" />
+            android:layout_height="@dimen/d140" />
 
         <LinearLayout
+            android:id="@+id/top"
+            android:layout_below="@+id/space"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal">
 
@@ -31,31 +35,35 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:typeface="monospace" />
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d14" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="给你惊喜X.X"
+                android:textSize="15sp"
+                android:textColor="#666666" />
         </LinearLayout>
 
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d14" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="给你惊喜X.X"
-                android:textColor="#666666" />
+
         </LinearLayout>
 
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d28" />
+
 
         <LinearLayout
+            android:layout_below="@+id/top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/d20"
             android:layout_marginLeft="@dimen/d20"
             android:layout_marginRight="@dimen/d20"
             android:orientation="vertical">
@@ -65,14 +73,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#434343"
+                android:text=""
                 android:textSize="13sp" />
         </LinearLayout>
 
-      <android.support.v4.widget.Space
-          android:layout_weight="1"
-          android:layout_width="match_parent"
-          android:layout_height="0dp" />
+
         <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -80,11 +88,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <android.support.v4.widget.Space
@@ -145,11 +156,11 @@
 
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/d10" />
+                android:layout_height="@dimen/d14" />
         </LinearLayout>
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

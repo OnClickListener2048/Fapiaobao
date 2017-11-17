@@ -436,13 +436,42 @@ public class Api {
      * @param demandId
      * @param baseViewCallback
      */
-    public static void demandDetails(String token, String demandId, final BaseViewCallback baseViewCallback) {
-        OkGo.<DemandDetails>get(String.format(USER_ISSUED_DETAILS, demandId, token)).tag("demandDetails").execute(new JsonCallBack<DemandDetails>(DemandDetails.class) {
+//    public static void demandDetails(String token, String demandId, final BaseViewCallback baseViewCallback) {
+//        OkGo.<DemandDetails>get(String.format(USER_ISSUED_DETAILS, demandId, token)).tag("demandDetails").execute(new JsonCallBack<DemandDetails>(DemandDetails.class) {
+//            @Override
+//            public void onSuccess(Response<DemandDetails> response) {
+//                if ("OK".equals(response.body().getMsg())) {
+//                    baseViewCallback.setData(response.body());
+//                }
+//            }
+//        });
+//    }
+    public static void demandDetails(String token, String demandId, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart ){
+        OkGo.<DemandDetails>get(String.format(USER_ISSUED_DETAILS, demandId, token))
+                .tag("demandDetails")
+                .execute(new JsonCallBack<DemandDetails>(DemandDetails.class) {
             @Override
             public void onSuccess(Response<DemandDetails> response) {
-                if ("OK".equals(response.body().getMsg())) {
-                    baseViewCallback.setData(response.body());
-                }
+                 baseViewCallbackWithOnStart.setData(response.body());
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallbackWithOnStart.onFinish();
+            }
+
+            @Override
+            public void onStart(Request<DemandDetails, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallbackWithOnStart.onStart();
+            }
+
+            @Override
+            public void onError(Response<DemandDetails> response) {
+                super.onError(response);
+                baseViewCallbackWithOnStart.onError();
+
             }
         });
     }
@@ -747,13 +776,31 @@ public class Api {
      * @param orderID
      * @param baseViewCallback
      */
-    public static void showOrderDetail(String token,String orderID, final BaseViewCallback baseViewCallback) {
-        OkGo.<OrderDetailsBean>get(String.format(SHOW_ORDER_DETAIL, token,orderID)).tag("showOrderDetail").execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
+    public static void showOrderDetail(String token,String orderID,final BaseViewCallbackWithOnStart baseViewCallback) {
+
+        OkGo.<OrderDetailsBean>get(String.format(SHOW_ORDER_DETAIL, token,orderID))
+                .tag("showOrderDetail").execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
             @Override
             public void onSuccess(Response<OrderDetailsBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
+            }
+
+            @Override
+            public void onStart(Request<OrderDetailsBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onError(Response<OrderDetailsBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
             }
         });
     }
@@ -1011,13 +1058,7 @@ public class Api {
     }
 
     public static void uploadLocalReceipt(String json,final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
-//        OkGo.<String>post(UPLOAD_MY_INVOICE).upJson(json).execute(new StringCallback() {
-//            @Override
-//            public void onSuccess(Response<String> response) {
-//                TLog.log(response.body());
-//                BaseApplication.showToast("上传成功");
-//            }
-//        });
+
         OkGo.<NormalBean>post(UPLOAD_MY_INVOICE).upJson(json).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
 
             @Override
@@ -1167,14 +1208,6 @@ public class Api {
 
         void onError();
     }
-    public interface BaseViewCallbackWithOnStartForString<T> extends BaseViewCallback<T> {
-        void onStart();
-
-        void onFinish();
-
-        void onError();
-    }
-
 
     public interface BaseViewCallBackWithProgress<T> extends BaseViewCallback<T> {
         void setProgress(Progress progress);

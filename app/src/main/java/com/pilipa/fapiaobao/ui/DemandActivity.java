@@ -16,9 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mylibrary.utils.EncodeUtils;
 import com.example.mylibrary.utils.ImageUtils;
-import com.google.gson.Gson;
+import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -28,7 +27,6 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
-import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
@@ -177,6 +175,7 @@ public class DemandActivity extends BaseActivity{
     private MyInvoiceNameAdapter invoiceNameAdapter;
     ArrayList<Image> images_qualified ;
     private Dialog mCameraDialog;
+    private Dialog mTipDialog;
     private Dialog mDialog;
     private boolean isCanShutDown = false;//能否提前关闭
 
@@ -390,7 +389,19 @@ public class DemandActivity extends BaseActivity{
     public void demandDetails(String demandId) {
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
             String token = AccountHelper.getToken();
-            Api.demandDetails(token, demandId, new Api.BaseViewCallback<DemandDetails>() {
+            Api.demandDetails(token, demandId, new Api.BaseViewCallbackWithOnStart<DemandDetails>() {
+                @Override
+                public void onStart() {
+                    showProgressDialog();
+                }
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+                @Override
+                public void onError() {
+                    hideProgressDialog();
+                }
                 @Override
                 public void setData(DemandDetails demandDetails) {
                     if (demandDetails.getStatus() == REQUEST_SUCCESS) {
@@ -400,15 +411,14 @@ public class DemandActivity extends BaseActivity{
                         mList.addAll(bean.getInvoiceNameList());
                         invoiceNameAdapter.initData(mList);
 
-                        tvBounsAmount.setText(String.format("%.2f", bean.getDemand().getTotalBonus()) + "元");
-                        tvAmount.setText(String.format("%.2f", bean.getDemand().getTotalAmount()) + "元");
+                        tvBounsAmount.setText(String.format("%.2f", bean.getDemand().getTotalBonus()));
+                        tvAmount.setText(String.format("%.2f", bean.getDemand().getTotalAmount()));
                         tvLeftAmount.setText(String.format("%.2f", bean.getDemand().getLeftBonus()));
                         tvPublishTime.setText("发布时间：" + bean.getDemand().getPublishDate());
                         tvDeadline.setText("截止日期：" + bean.getDemand().getDeadline());
                         tvAttentions.setText(bean.getDemand().getAttentions().isEmpty() ? "无" : bean.getDemand().getAttentions());
                         tv_receive.setText(String.format("%.2f", bean.getReceivedAmount()));
-                        String collected_amount = getResources().getString(R.string.collected_amount);
-                        tvAlreadyCollected.setText(String.format(collected_amount, bean.getReceivedNum()));
+                        tvAlreadyCollected.setText(String.valueOf(bean.getReceivedNum()));
                         tv_low_limit.setText(String.format("%.2f",bean.getDemand().getMailMinimum())+ "元");
                         String district = null;
                         if(bean.getDemand().getDemandPostage().getDistrict()!=null){
@@ -438,24 +448,14 @@ public class DemandActivity extends BaseActivity{
                             texNumber.setText(bean.getDemand().getCompany().getTaxno());
 
                             try {
-                                MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
-                                companyBean.setName(bean.getDemand().getCompany().getName());
-                                companyBean.setPhone(bean.getDemand().getCompany().getPhone());
-                                companyBean.setAddress(bean.getDemand().getCompany().getAddress());
-                                companyBean.setAccount(bean.getDemand().getCompany().getAccount());
-                                companyBean.setDepositBank(bean.getDemand().getCompany().getDepositBank());
-                                companyBean.setTaxno(bean.getDemand().getCompany().getTaxno());
-                                Gson gson = new Gson();
-                                String comStr = gson.toJson(companyBean, MacherBeanToken.DataBean.CompanyBean.class);
-                                Log.d(TAG, "qrCode" + comStr);
-                                String comStrGson = EncodeUtils.urlEncode(comStr);
-                                Bitmap qrCode = CodeCreator.createQRCode(DemandActivity.this, comStrGson);
+                                String content = new String(bean.getDemand().getCompany().getQrcode().getBytes("UTF-8"), "ISO-8859-1");
+                                TLog.log("content-----------"+content);
+                                Bitmap qrCode = CodeCreator.createQRCode(DemandActivity.this,content);
                                 qr.setImageBitmap(qrCode);
                             } catch (Exception e) {
                                 BaseApplication.showToast("二维码生成失败");
                                 e.printStackTrace();
                             }
-
                         }
                         //发票列表
                         mDataList.clear();
@@ -642,5 +642,4 @@ public class DemandActivity extends BaseActivity{
         dialogWindow.setAttributes(lp);
         mDialog.show();
     }
-
 }

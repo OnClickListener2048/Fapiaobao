@@ -23,8 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.mylibrary.utils.EncodeUtils;
-import com.google.gson.Gson;
+import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -35,7 +34,6 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
-import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.FavBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
@@ -494,7 +492,22 @@ public class ProvidedActivity extends BaseActivity {
 
     public void showOrderDetail(String orderID) {
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.showOrderDetail(AccountHelper.getToken(), orderID, new Api.BaseViewCallback<OrderDetailsBean>() {
+            Api.showOrderDetail(AccountHelper.getToken(), orderID, new Api.BaseViewCallbackWithOnStart<OrderDetailsBean>() {
+                @Override
+                public void onStart() {
+                    showProgressDialog();
+                }
+
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onError() {
+                    hideProgressDialog();
+                }
+
                 @Override
                 public void setData(OrderDetailsBean orderDetailsBean) {
                     if (orderDetailsBean.getStatus() == REQUEST_SUCCESS) {
@@ -556,18 +569,9 @@ public class ProvidedActivity extends BaseActivity {
                             texNumber.setText(bean.getCompany().getTaxno());
 
                             try {
-                                MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
-                                companyBean.setName(bean.getCompany().getName());
-                                companyBean.setPhone(bean.getCompany().getPhone());
-                                companyBean.setAddress(bean.getCompany().getAddress());
-                                companyBean.setAccount(bean.getCompany().getAccount());
-                                companyBean.setDepositBank(bean.getCompany().getDepositBank());
-                                companyBean.setTaxno(bean.getCompany().getTaxno());
-                                Gson gson = new Gson();
-                                String comStr = gson.toJson(companyBean, MacherBeanToken.DataBean.CompanyBean.class);
-                                Log.d(TAG, "qrCode" + comStr);
-                                String comStrGson = EncodeUtils.urlEncode(comStr);
-                                Bitmap qrCode = CodeCreator.createQRCode(ProvidedActivity.this, comStrGson);
+                                String content = new String(bean.getCompany().getQrcode().getBytes("UTF-8"), "ISO-8859-1");
+                                TLog.log("content-----------"+content);
+                                Bitmap qrCode = CodeCreator.createQRCode(ProvidedActivity.this,content);
                                 qr.setImageBitmap(qrCode);
                             } catch (Exception e) {
                                 BaseApplication.showToast("二维码生成失败");
