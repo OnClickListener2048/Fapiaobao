@@ -332,7 +332,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
 
         etAreaDetails.setText(BaseApplication.get("etAreaDetails",null));
-        tvArea.setText(BaseApplication.get("tvArea",null));
+//        tvArea.setText(BaseApplication.get("tvArea",null));
         etReceptionNumber.setText(BaseApplication.get("etReceptionNumber",null));
         etReceptionName.setText(BaseApplication.get("etReceptionName",null));
 
@@ -374,6 +374,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     @Override
     public void initData() {
         demandPostageBean = new DemandsPublishBean.DemandPostageBean();
+        demandPostageBean.setDistrict(BaseApplication.get("district",null));
+        demandPostageBean.setCity(BaseApplication.get("city",null));
+        demandPostageBean.setProvince(BaseApplication.get("province",null));
         Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
             @Override
             public void setData(ExpressCompanyBean expressCompanyBean) {
@@ -809,7 +812,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         demandPostageBean.setTelephone(etReceptionNumber.getText().toString().trim());
 
         BaseApplication.set("etAreaDetails",etAreaDetails.getText().toString().trim());
-        BaseApplication.set("tvArea",tvArea.getText().toString().trim());
+//        BaseApplication.set("tvArea",tvArea.getText().toString().trim());
         BaseApplication.set("etReceptionNumber",etReceptionNumber.getText().toString().trim());
         BaseApplication.set("etReceptionName",etReceptionName.getText().toString().trim());
 
@@ -1121,6 +1124,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                     demandPostageBean.setProvince(province.getName());
                     demandPostageBean.setCity(city.getName());
                     demandPostageBean.setDistrict(district.getName());
+
+                    BaseApplication.set("province",province.getName());
+                    BaseApplication.set("city",city.getName());
+                    BaseApplication.set("district",district.getName());
                     tvArea.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
                 }
                 cityPicker.hide();
