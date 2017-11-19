@@ -202,20 +202,20 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     public void updateButtonStatus() {
         if (matchBean != null) {
             if (matchBean.getData() != null) {
-                if (matchBean.getData().size() == 0) {
-                    TLog.log("matchBean.getData().size()" + matchBean.getData().size());
+                if (matchBean.getData().size() == 1) {
+                    TLog.log("matchBean.getData().size() == 1" + matchBean.getData().size());
                     tonext.setEnabled(false);
                     tolast.setEnabled(false);
                 } else if (matchBean.getData().size() - 1 == currentItem) {
-                    TLog.log("matchBean.getData().size()" + matchBean.getData().size());
+                    TLog.log("matchBean.getData().size() - 1 == currentItem" + matchBean.getData().size());
                     tonext.setEnabled(false);
                     tolast.setEnabled(true);
                 } else if (currentItem > 0 && currentItem < matchBean.getData().size()) {
-                    TLog.log("matchBean.getData().size()" + matchBean.getData().size());
+                    TLog.log("currentItem > 0 && currentItem < matchBean.getData().size()" + matchBean.getData().size());
                     tonext.setEnabled(true);
                     tolast.setEnabled(true);
                 } else if (currentItem == 0) {
-                    TLog.log("matchBean.getData().size()" + matchBean.getData().size());
+                    TLog.log("currentItem == 0" + matchBean.getData().size());
                     tonext.setEnabled(true);
                     tolast.setEnabled(false);
                 }
