@@ -434,18 +434,8 @@ public class Api {
      *
      * @param token
      * @param demandId
-     * @param baseViewCallback
      */
-//    public static void demandDetails(String token, String demandId, final BaseViewCallback baseViewCallback) {
-//        OkGo.<DemandDetails>get(String.format(USER_ISSUED_DETAILS, demandId, token)).tag("demandDetails").execute(new JsonCallBack<DemandDetails>(DemandDetails.class) {
-//            @Override
-//            public void onSuccess(Response<DemandDetails> response) {
-//                if ("OK".equals(response.body().getMsg())) {
-//                    baseViewCallback.setData(response.body());
-//                }
-//            }
-//        });
-//    }
+
     public static void demandDetails(String token, String demandId, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart ){
         OkGo.<DemandDetails>get(String.format(USER_ISSUED_DETAILS, demandId, token))
                 .tag("demandDetails")
@@ -659,13 +649,12 @@ public class Api {
      * @param city
      * @param baseViewCallback
      */
-    public static void doMatchDemand(String invoiceType, Double amount, String varieties, String city, final BaseViewCallbackWithOnStart baseViewCallback) {
+    public static void doMatchDemand(String invoiceType, Double amount, String varieties, String city,String companyId, final BaseViewCallbackWithOnStart baseViewCallback) {
         String url = String.format(DO_MATCH_DEMAND, invoiceType, amount);
 
 
-        OkGo
-                .<MacherBeanToken>post(url)
-                .upJson(JsonCreator.matcher(varieties,city))
+        OkGo.<MacherBeanToken>post(url)
+                .upJson(JsonCreator.matcher(varieties,city,companyId))
                 .execute(new JsonCallBack<MacherBeanToken>(MacherBeanToken.class) {
             @Override
             public void onSuccess(Response<MacherBeanToken> response) {

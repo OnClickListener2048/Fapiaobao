@@ -127,6 +127,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     private CityPickerView cityPicker;
     private ArrayList<String> arrayListSelectedReceiptKind;
     private String name;
+    private String companyId;
     public ExtimatePagerAdapter adapter;
 
 
@@ -157,6 +158,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         httpParams = new HashMap<>();
         label = getIntent().getStringExtra(FinanceFragment.EXTRA_DATA_LABEL);
         name = getIntent().getStringExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME);
+        companyId = getIntent().getStringExtra("companyId");
         tvLabel.setText(name);
         httpParams.put("invoiceType", label);
         llConfirmCaution.setVisibility(View.GONE);
@@ -331,7 +333,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             BaseApplication.showToast("请输入正确的发票金额");
             return;
         } else {
-            Api.doMatchDemand(label, amount, String.valueOf(type), locate, new Api.BaseViewCallbackWithOnStart<MacherBeanToken>() {
+            Api.doMatchDemand(label, amount, String.valueOf(type), locate,companyId,new Api.BaseViewCallbackWithOnStart<MacherBeanToken>() {
 
                 @Override
                 public void onStart() {

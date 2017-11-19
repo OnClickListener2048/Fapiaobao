@@ -164,6 +164,8 @@ public class ProvidedActivity extends BaseActivity {
     LinearLayout ll_logisticsInfo;
     @Bind(R.id.btn_mailing)
     Button btnMailing;
+    @Bind(R.id.btn_scan)
+    ImageView btnScan;
     private boolean isShow = true;//当前详情是否显示
     private boolean isLogisticShow = false;//当前物流信息是否显示
     boolean isCollected;
@@ -520,11 +522,15 @@ public class ProvidedActivity extends BaseActivity {
                             btnMailing.setEnabled(true);
                             btnMailing.setText(getResources().getString(R.string.express_mail));
                             btnMailing.setBackgroundResource(R.drawable.shape_receipt_type);
+                            edtOddNumber.setEnabled(true);
+                            btnScan.setEnabled(true);
                         }else{
                             btnMailing.setTextColor(getResources().getColor(R.color.gray_hint));
                             btnMailing.setEnabled(false);
                             btnMailing.setText(getResources().getString(R.string.waitting_mail));
                             btnMailing.setBackgroundResource(R.drawable.shape_receipt_type_false);
+                            edtOddNumber.setEnabled(false);
+                            btnScan.setEnabled(false);
                         }
                         if (STATE_FLYING.equals(bean.getOrderState())) {
                             tvArrivalState.setText("红包飞来中");
