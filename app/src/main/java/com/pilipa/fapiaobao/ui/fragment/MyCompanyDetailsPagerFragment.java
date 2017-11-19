@@ -16,18 +16,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.mylibrary.utils.EncodeUtils;
 import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
-import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
@@ -66,7 +62,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
     private ImageView img_details_viewpager_next;
     private TextView tv_newNeed;
     private LinearLayout ll_we_need;
-
+    private String companyId;
 
     private IWXAPI api;
     private UMShareListener umShareListener = new UMShareListener() {
@@ -166,8 +162,11 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
                 ll_qr_code2.setVisibility(View.GONE);
             }
         }
-        Log.d(TAG,"Company id" +company.getId());
-
+        Log.d(TAG,"Company getQrcode" +company.getQrcode());
+        //TODO 截取qrCode中 companyId
+        String [] temp = null;
+        temp = company.getQrcode().split("id=");
+        companyId = temp[1];
         try {
             String content = new String(company.getQrcode().getBytes("UTF-8"), "ISO-8859-1");
             TLog.log("content-----------"+content);
@@ -209,6 +208,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, EstimateActivity.class);
+                intent.putExtra("companyId",companyId);
                 intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL,typeId);
                 intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME,tv.getText().toString().trim());
                 mContext.startActivity(intent);

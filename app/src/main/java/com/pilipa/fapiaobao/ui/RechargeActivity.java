@@ -77,7 +77,7 @@ public class RechargeActivity extends BaseActivity  {
                     if(wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())){
                         recharge(wx_info.getOpenid());
                     }else{
-                        BaseApplication.showToast("绑定的微信已注册");
+                        BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
                     }
                 }
             }
@@ -215,12 +215,7 @@ public class RechargeActivity extends BaseActivity  {
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
-                    recharge(loginWithInfoBean.getData().getCustomer().getOpenid());
-
-                } else {
-                    weChatLogin();
-                }
+            weChatLogin();
             }
         });
     }

@@ -67,35 +67,51 @@ public class Withdraw2WXActivity extends BaseActivity {
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 wx_info = bundle.getParcelable("wx_info");
-                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
-                    @Override
-                    public void setData(NormalBean normalBean) {
-                        if (normalBean.getStatus() == 200) {
-                            TLog.d("WX_LOGIN_ACTION BROADCASTRECEIVER","TO WITHDRAW");
-                            Api.withdaw(AccountHelper.getToken()
-                                    ,ACCOUNT_TYPE_WALLET
-                                    ,NetworkUtils.getIPAddress(true)
-                                    ,Double.parseDouble(tv_amount.getText().toString())
-                                    ,wx_info.getOpenid()
-                                    , new Api.BaseViewCallback<PrepayBean>() {
-                                        @Override
-                                        public void setData(PrepayBean normalBean) {
-                                            if (normalBean.getStatus() ==200) {
-                                                BaseApplication.showToast("提现成功");
-                                                finish();
-                                            }else if(normalBean.getStatus() ==888){
-                                                BaseApplication.showToast("账户余额不足");
-                                            }
-                                        }
-                                    });
-                        }else if(normalBean.getStatus() == 707){
-                            BaseApplication.showToast(normalBean.getMsg());
-                        }
+
+                if(AccountHelper.getUser().getData().getCustomer().getOpenid()!=null){
+                    bind(wx_info.getOpenid());
+                }else{
+                    if(wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())){
+                        withdaw(wx_info.getOpenid());
+                    }else{
+                        BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
                     }
-                });
+                }
+
             }
         }
     };
+    private void bind(final String openID){
+        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , openID, new Api.BaseViewCallback<NormalBean>() {
+            @Override
+            public void setData(NormalBean normalBean) {
+                if (normalBean.getStatus() == 200) {
+                    BaseApplication.showToast("微信绑定成功");
+                    withdaw(openID);
+                }else if(normalBean.getStatus() == 707){
+                    BaseApplication.showToast(normalBean.getMsg());
+                }
+            }
+        });
+    }
+    private void withdaw(String openID){
+        Api.withdaw(AccountHelper.getToken()
+                ,ACCOUNT_TYPE_WALLET
+                ,NetworkUtils.getIPAddress(true)
+                ,Double.parseDouble(tv_amount.getText().toString())
+                ,openID
+                , new Api.BaseViewCallback<PrepayBean>() {
+                    @Override
+                    public void setData(PrepayBean normalBean) {
+                        if (normalBean.getStatus() ==200) {
+                            BaseApplication.showToast("提现成功");
+                            finish();
+                        }else if(normalBean.getStatus() ==888){
+                            BaseApplication.showToast("账户余额不足");
+                        }
+                    }
+                });
+    }
 
     @Override
     protected int getLayoutId() {
@@ -208,26 +224,7 @@ public class Withdraw2WXActivity extends BaseActivity {
                     AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                         @Override
                         public void setData(LoginWithInfoBean loginWithInfoBean) {
-                            if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
-                                Api.withdaw(loginWithInfoBean.getData().getToken()
-                                        ,ACCOUNT_TYPE_WALLET
-                                        ,NetworkUtils.getIPAddress(true)
-                                        ,Double.parseDouble(tv_amount.getText().toString())
-                                        ,loginWithInfoBean.getData().getCustomer().getOpenid()
-                                        , new Api.BaseViewCallback<PrepayBean>() {
-                                            @Override
-                                            public void setData(PrepayBean normalBean) {
-                                                if (normalBean.getStatus() ==200) {
-                                                    BaseApplication.showToast("提现成功");
-                                                    finish();
-                                                }else if(normalBean.getStatus() ==888){
-                                                    BaseApplication.showToast("账户余额不足");
-                                                }
-                                            }
-                                        });
-                            }else{
-                                weChatLogin();
-                            }
+                        weChatLogin();
                         }
                     });
                     mDialog.dismiss();

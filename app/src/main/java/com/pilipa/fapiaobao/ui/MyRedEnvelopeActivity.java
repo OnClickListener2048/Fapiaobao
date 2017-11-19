@@ -63,35 +63,51 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 wx_info = bundle.getParcelable("wx_info");
-                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
-                    @Override
-                    public void setData(NormalBean normalBean) {
-                        if (normalBean.getStatus() == 200) {
-                            TLog.d("WX_LOGIN_ACTION BROADCASTRECEIVER","TO WITHDRAW");
-                            Api.withdaw(AccountHelper.getToken()
-                                    ,ACCOUNT_TYPE_WALLET
-                                    ,NetworkUtils.getIPAddress(true)
-                                    ,Double.parseDouble(tv_bonus.getText().toString())
-                                    ,wx_info.getOpenid()
-                                    , new Api.BaseViewCallback<PrepayBean>() {
-                                        @Override
-                                        public void setData(PrepayBean normalBean) {
-                                            if (normalBean.getStatus() ==200) {
-                                                BaseApplication.showToast("提现成功");
-                                                finish();
-                                            }else if(normalBean.getStatus() ==888){
-                                                BaseApplication.showToast("账户余额不足");
-                                            }
-                                        }
-                                    });
-                        }else if(normalBean.getStatus() == 707){
-                            BaseApplication.showToast(normalBean.getMsg());
-                        }
+                if(AccountHelper.getUser().getData().getCustomer().getOpenid()!=null){
+                    bind(wx_info.getOpenid());
+                }else{
+                    if(wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())){
+                        withdaw(wx_info.getOpenid());
+                    }else{
+                        BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
                     }
-                });
+                }
             }
         }
     };
+
+    private void bind(final String openID){
+        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , openID, new Api.BaseViewCallback<NormalBean>() {
+            @Override
+            public void setData(NormalBean normalBean) {
+                if (normalBean.getStatus() == 200) {
+                    BaseApplication.showToast("微信绑定成功");
+                    withdaw(openID);
+                }else if(normalBean.getStatus() == 707){
+                    BaseApplication.showToast(normalBean.getMsg());
+                }
+            }
+        });
+    }
+    private void withdaw(String openID){
+        Api.withdaw(AccountHelper.getToken()
+                ,ACCOUNT_TYPE_WALLET
+                ,NetworkUtils.getIPAddress(true)
+                ,Double.parseDouble(tv_bonus.getText().toString())
+                ,openID
+                , new Api.BaseViewCallback<PrepayBean>() {
+                    @Override
+                    public void setData(PrepayBean normalBean) {
+                        if (normalBean.getStatus() ==200) {
+                            BaseApplication.showToast("提现成功");
+                            finish();
+                        }else if(normalBean.getStatus() ==888){
+                            BaseApplication.showToast("账户余额不足");
+                        }
+                    }
+                });
+    }
+
     @OnClick({R.id._back, R.id.btn_withdraw, R.id.btn_recharge})
     @Override
     public void onClick(View v) {
@@ -109,7 +125,11 @@ public class MyRedEnvelopeActivity extends BaseActivity {
             }
             break;
             case R.id.btn_recharge: {
-                setReloadDialog();
+                if(Double.parseDouble(bonus)>0.0){
+                    setReloadDialog();
+                }else{
+                    BaseApplication.showToast("账户余额不足");
+                }
             }
             break;
         }

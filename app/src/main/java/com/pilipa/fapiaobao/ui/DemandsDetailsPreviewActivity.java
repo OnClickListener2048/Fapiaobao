@@ -111,6 +111,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
 
     @Bind(R.id.ll_express_info)
     LinearLayout llExpressInfo;
+    @Bind(R.id.tv_qualified)
+    TextView tvQualified;
     @Bind(R.id.ll_no_info)
     LinearLayout llNoInfo;
     @Bind(R.id.tv_tip)//顶部tip
@@ -193,6 +195,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                 layout_reject_item.setVisibility(View.GONE);
                 if (!VARIETY_GENERAL_ELECTRON.equals(image.variety)) {//纸质票
                     tv_tip.setText(getResources().getString(R.string.tip_wait_mail));
+                    tvQualified.setText("确认合格 可以邮寄");
                 } else {
                     tv_tip.setText(getResources().getString(R.string.tip_wait_dowload));
                 }
@@ -231,7 +234,9 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                     llExpressInfo.setVisibility(View.VISIBLE);
                     llNoInfo.setVisibility(View.GONE);
                     ll_sure_view.setVisibility(View.VISIBLE);
+                    tv_tip.setText("查验合格后，您就可以下载这张票了哦~");
                     tv_state.setText("待查验");
+                    tvQualified.setText("查验合格");
                 } else {
                     llExpressInfo.setVisibility(View.GONE);
                     llNoInfo.setVisibility(View.VISIBLE);
