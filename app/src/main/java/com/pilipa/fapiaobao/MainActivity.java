@@ -18,6 +18,8 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.blog.www.guideview.Guide;
+import com.blog.www.guideview.GuideBuilder;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.request.base.Request;
@@ -26,6 +28,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.update.VersionMode;
 import com.pilipa.fapiaobao.receiver.PackageInstallReceiver;
+import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.fragment.NavFragment;
 import com.pilipa.fapiaobao.ui.widget.NavigationButton;
 import com.pilipa.fapiaobao.utils.TDevice;
@@ -63,6 +66,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
     private TextView tvProgress;
     private LinearLayout ll_progress;
     private PopupWindow popUpProgress;
+    private Guide guide;
 
     @Override
     protected int getLayoutId() {
@@ -82,6 +86,15 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
         PackageInstallReceiver.registerReceiver(this);
 
         mHandler.sendEmptyMessageDelayed(UPDATE, 3000);
+
+
+        mNavBar.navItemPublish.post(new Runnable() {
+            @Override
+            public void run() {
+                showGuideView();
+            }
+        });
+
     }
 
     @Override
@@ -97,6 +110,31 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
         mLocationClient.startLocation();
         }
+    }
+
+
+    public void showGuideView() {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(mNavBar.navItemPublish)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(true);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
+
+            @Override
+            public void onDismiss() {
+            }
+        });
+
+        builder.addComponent(new SimpleComponent());
+        guide = builder.createGuide();
+        guide.setShouldCheckLocInWindow(false);
+        guide.show(MainActivity.this);
     }
 
     @Override

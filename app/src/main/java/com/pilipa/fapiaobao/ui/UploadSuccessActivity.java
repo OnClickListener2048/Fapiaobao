@@ -145,7 +145,11 @@ public class UploadSuccessActivity extends BaseActivity {
 
     @OnClick(R.id.publish_success_back)
     public void onViewClicked() {
-        finish();
+       ActivityUtils.finishActivity(this);
+       ActivityUtils.finishActivity(UploadReceiptActivity.class);
+       ActivityUtils.finishActivity(UploadReceiptPreviewActivity.class);
+       ActivityUtils.finishActivity(ConfirmActivity.class);
+       ActivityUtils.finishActivity(EstimateActivity.class);
     }
 
     @Override
@@ -161,7 +165,12 @@ public class UploadSuccessActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.setClass(this, MainActivity.class);
                 startActivity(intent);
-                finish();
+                ActivityUtils.finishActivity(this);
+                ActivityUtils.finishActivity(UploadReceiptActivity.class);
+                ActivityUtils.finishActivity(UploadReceiptPreviewActivity.class);
+                ActivityUtils.finishActivity(ConfirmActivity.class);
+                ActivityUtils.finishActivity(EstimateActivity.class);
+
                 break;
             case R.id.btn_watch:
                 //TODO 跳转到发布详情页面
@@ -170,7 +179,12 @@ public class UploadSuccessActivity extends BaseActivity {
                 intent1.putExtra("CompanyId", company_id);
                 intent1.setClass(this, ProvidedActivity.class);
                 startActivity(intent1);
-                finish();
+                ActivityUtils.finishActivity(this);
+                ActivityUtils.finishActivity(UploadReceiptActivity.class);
+                ActivityUtils.finishActivity(UploadReceiptPreviewActivity.class);
+                ActivityUtils.finishActivity(ConfirmActivity.class);
+                ActivityUtils.finishActivity(EstimateActivity.class);
+
                 break;
             case R.id.WeChat:
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN)) {

@@ -51,6 +51,16 @@ public class Constant {
     public static final String ACCOUNT_TYPE_WX    = "3";//微信账户
 
 
+//    NEWCOME_INVOICE("1", "新到发票"),
+//    GOT_BONUS("2", "红包到账"),
+//    INCOMPETENT_INVOICE("3", "不合格发票"),
+//    SERVICE_NOTIFICATION("4", "服务通知"),
+//    NEW_DEMAND("5", "新的需求");
+private static final int NEWCOME_INVOICE = 81;
+    
+
+
+
     /**
      company-rest-controller : 代理公司
      */

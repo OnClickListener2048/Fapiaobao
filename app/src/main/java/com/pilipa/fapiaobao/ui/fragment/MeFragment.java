@@ -1,6 +1,9 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import com.example.mylibrary.utils.TLog;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
@@ -24,7 +28,6 @@ import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.CreditRatingActivity;
 import com.pilipa.fapiaobao.ui.FeedbackActivity;
 import com.pilipa.fapiaobao.ui.HistoryActivity2;
-import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.MyWalletActivity;
 import com.pilipa.fapiaobao.ui.Op;
@@ -62,6 +65,17 @@ public class MeFragment extends BaseFragment{
     int[] LevelIcon=new int[]{R.mipmap.star0,R.mipmap.star1,R.mipmap.star2,R.mipmap.star3,R.mipmap.star4,R.mipmap.star5
                               ,R.mipmap.star6,R.mipmap.star7,R.mipmap.star8,R.mipmap.star9,R.mipmap.star10};
 
+    private BroadcastReceiver mBoradcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(BaseApplication.PUSH_RECEIVE)) {
+                if (red_new_dot != null) {
+                    red_new_dot.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    };
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_me;
@@ -79,10 +93,34 @@ public class MeFragment extends BaseFragment{
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mContext.unregisterReceiver(mBoradcastReceiver);
+    }
+
+
+    @Override
+    protected void initWidget(View root) {
+        super.initWidget(root);
+
+        initBroadcast();
+    }
+
+    private void initBroadcast() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BaseApplication.PUSH_RECEIVE);
+        mContext.registerReceiver(mBoradcastReceiver, intentFilter);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
+
+
+
     @OnClick({R.id.tv_userName
             ,R.id.img_head_me
             ,R.id.btn_mPublish
@@ -127,6 +165,8 @@ public class MeFragment extends BaseFragment{
                                     startActivity(new Intent(getContext(), UserInfoActivity.class));
                                     break;
                                 case R.id.notification:
+                                    red_new_dot.setVisibility(View.GONE);
+                                    BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
                                     startActivity(new Intent(getContext(), MessageCenterActivity.class));
                                     break;
                                 case R.id.btn_mPublish:
@@ -143,7 +183,7 @@ public class MeFragment extends BaseFragment{
                                     break;
                             }
                         } else {
-                            startActivity(new Intent(mContext, LoginActivity.class));
+                            login();
                         }
                     }
                 });
@@ -194,9 +234,9 @@ public class MeFragment extends BaseFragment{
     }
     @Override
     public void onResume() {
-        messageList();
+//        messageList();
          requestManager = Glide.with(mContext);
-
+        red_new_dot.setVisibility(BaseApplication.get(BaseApplication.PUSH_RECEIVE, false) ? View.VISIBLE : View.GONE);
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
 
             @Override

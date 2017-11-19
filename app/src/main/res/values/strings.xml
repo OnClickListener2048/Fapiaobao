@@ -396,6 +396,10 @@
     <string name="share_upload_title">伙伴们，多余的发票现在有大用处了~~~</string>
     <string name="share_upload_description">这么有用的APP一定要分享给你，快戳进来看看吧！~</string>
     <string name="please_install_WX">请安装微信客户端后再登录</string>
+    <string name="please_open_check">劳驾请按这里的信息开具发票~</string>
+    <string name="tohave_fapiaobao">拥有【发票宝】，发票变得如此简单。</string>
+    <string name="demand_publish_quit">退出后，信息将不被保存，确定退出吗？</string>
+    <string name="demand_publish_title">提示</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

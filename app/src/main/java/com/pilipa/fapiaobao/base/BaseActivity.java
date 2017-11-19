@@ -82,7 +82,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BaseApplication.saveActivity(this);
         initWindow();
         initAMap();
         onBeforeSetContentLayout();
@@ -280,13 +279,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         Bitmap bitmap = null;
         try {
             bmp = MediaStore.Images.Media.getBitmap(cr,uri);
-            byte[] bytes = ImageUtils.bitmap2Bytes(bmp, Bitmap.CompressFormat.JPEG);
-            TLog.log("bytes.getByteCount()"+bytes.length);
-
-//            bitmap = ImageUtils.compressByQuality(bmp, (long)50*1024, true);
-            bitmap = ImageUtils.compressByQuality(bmp, (long) (100 * 1024));
-            byte[] bytes2 = ImageUtils.bitmap2Bytes(bitmap, Bitmap.CompressFormat.JPEG);
-            TLog.log("bytes2.getByteCount()"+ bytes2.length);
+            try {
+                bitmap = ImageUtils.compressByQuality(bmp, (long) (100 * 1024),true);
+            } catch (OutOfMemoryError error) {
+                error.printStackTrace();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

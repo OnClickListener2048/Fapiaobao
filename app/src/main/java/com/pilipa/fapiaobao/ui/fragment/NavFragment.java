@@ -38,7 +38,7 @@ public class NavFragment extends BaseFragment {
     @Bind(R.id.nav_item_me)
     NavigationButton navItemMe;
     @Bind(R.id.nav_item_publish)
-    ImageView navItemPublish;
+    public ImageView navItemPublish;
     private Context mContext;
     private int mContainerId;
     private FragmentManager mFragmentManager;

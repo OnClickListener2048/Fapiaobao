@@ -2,6 +2,7 @@ package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
@@ -240,6 +242,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private boolean isAreaLimited = false;
     private View view;
     private String tempCompanyId;
+    private AlertDialog alertDialog;
 
     @Override
     protected int getLayoutId() {
@@ -288,7 +291,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
 
         setUpReceiptParams();
-
+        initDialog();
         new Thread() {
             @Override
             public void run() {
@@ -332,10 +335,33 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
 
         etAreaDetails.setText(BaseApplication.get("etAreaDetails",null));
-//        tvArea.setText(BaseApplication.get("tvArea",null));
+        tvArea.setText(BaseApplication.get("tvArea",null));
         etReceptionNumber.setText(BaseApplication.get("etReceptionNumber",null));
         etReceptionName.setText(BaseApplication.get("etReceptionName",null));
 
+    }
+
+    private void initDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage(getString(R.string.demand_publish_quit));
+        builder.setTitle(getString(R.string.demand_publish_title));
+
+
+        builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog = builder.create();
     }
 
     @Override
@@ -451,7 +477,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             case R.id.title:
                 break;
             case R.id.upload_back:
-                finish();
+
+                if (!alertDialog.isShowing()) {
+                    alertDialog.show();
+                }
                 break;
             case R.id.upload_scan:
                 break;
@@ -812,7 +841,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         demandPostageBean.setTelephone(etReceptionNumber.getText().toString().trim());
 
         BaseApplication.set("etAreaDetails",etAreaDetails.getText().toString().trim());
-//        BaseApplication.set("tvArea",tvArea.getText().toString().trim());
+        BaseApplication.set("tvArea",tvArea.getText().toString().trim());
         BaseApplication.set("etReceptionNumber",etReceptionNumber.getText().toString().trim());
         BaseApplication.set("etReceptionName",etReceptionName.getText().toString().trim());
 

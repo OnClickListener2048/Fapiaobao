@@ -1,24 +1,30 @@
 package com.pilipa.fapiaobao.base;
 
 import android.app.Application;
+import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.SharedPreferencesCompat;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.Utils;
 import com.example.mylibrary.widget.SimplexToast;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.pilipa.fapiaobao.Constants.Bugly;
+import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.service.UmengPushIntentService;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
+import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -26,6 +32,7 @@ import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UHandler;
+import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
 import com.umeng.socialize.Config;
@@ -51,6 +58,8 @@ public class BaseApplication extends Application {
     private static final int WRITE_TIMEOUT = 7*1000;
     private static final int CONNECT_TIMEOUT = 10*1000;
     public static ArrayList<BaseActivity> activities = new ArrayList<>();
+    private PushAgent mPushAgent;
+    public static final String PUSH_RECEIVE = "push_receive";
 
     public void initOkGo(Application app) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -82,7 +91,7 @@ public class BaseApplication extends Application {
 //        OkGo.getInstance().init(this);
         CrashReport.initCrashReport(getApplicationContext(), Bugly.APP_ID, Bugly.TOOGLE);
         UMConfigure.init(this, PushConstant.APP_KEY, PushConstant.Umeng_Message_Secret, UMConfigure.DEVICE_TYPE_PHONE, PushConstant.Umeng_Message_Secret);
-        PushAgent mPushAgent = PushAgent.getInstance(_context);
+        mPushAgent = PushAgent.getInstance(_context);
         mPushAgent.onAppStart();
 //        mPushAgent.setPushIntentServiceClass(UmengPushIntentService.class);
         mPushAgent.register(new IUmengRegisterCallback() {
@@ -99,19 +108,7 @@ public class BaseApplication extends Application {
         });
 
         mPushAgent.setDisplayNotificationNumber(10);
-//        mPushAgent.setMessageHandler(new UHandler() {
-//            @Override
-//            public void handleMessage(Context context, UMessage uMessage) {
-//                TLog.log("uMessage.activity"+uMessage.activity);
-//            }
-//        });
-        UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
-            @Override
-            public void dealWithCustomAction(Context context, UMessage msg) {
-                Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
-            }
-        };
-        mPushAgent.setNotificationClickHandler(notificationClickHandler);
+
 
         Config.DEBUG = true;
         PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
@@ -124,7 +121,54 @@ public class BaseApplication extends Application {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
+        notificationClick();
+        UmengCustom();
 
+    }
+
+    private void notificationClick() {
+        UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
+            @Override
+            public void dealWithCustomAction(Context context, UMessage msg) {
+                BaseApplication.showToast(msg.custom);
+                ActivityUtils.startActivity(LoginActivity.class);
+            }
+        };
+        mPushAgent.setNotificationClickHandler(notificationClickHandler);
+    }
+
+    private void UmengCustom() {
+        UmengMessageHandler messageHandler = new UmengMessageHandler() {
+            @Override
+            public Notification getNotification(Context context, UMessage msg) {
+                switch (msg.builder_id) {
+                    case 1:
+                        Notification.Builder builder = new Notification.Builder(context);
+                        RemoteViews myNotificationView = new RemoteViews(context.getPackageName(),
+                                R.layout.notification_view);
+                        myNotificationView.setTextViewText(R.id.notification_title, msg.title);
+                        myNotificationView.setTextViewText(R.id.notification_text, msg.text);
+                        myNotificationView.setImageViewBitmap(R.id.notification_large_icon,
+                                getLargeIcon(context, msg));
+                        myNotificationView.setImageViewResource(R.id.notification_small_icon,
+                                getSmallIconId(context, msg));
+                        builder.setContent(myNotificationView)
+                                .setSmallIcon(getSmallIconId(context, msg))
+                                .setTicker(msg.ticker)
+                                .setAutoCancel(true);
+
+                        return builder.getNotification();
+                    default:
+                        //默认为0，若填写的builder_id并不存在，也使用默认。
+                        Intent intent = new Intent();
+                        intent.setAction(PUSH_RECEIVE);
+                        sendBroadcast(intent);
+                        set(PUSH_RECEIVE, true);
+                        return super.getNotification(context, msg);
+                }
+            }
+        };
+        mPushAgent.setMessageHandler(messageHandler);
     }
 
     public static void saveActivity(BaseActivity baseActivity) {

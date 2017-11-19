@@ -89,6 +89,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
     };
     private UMWeb web;
     private UMShareAPI umShareAPI;
+    private Company company;
 
     @Override
     protected int getLayoutId() {
@@ -144,7 +145,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
         ImageView img_qr_code2 = (ImageView) view.findViewById(R.id.img_qr_code2);
         LinearLayout ll_qr_code2 = (LinearLayout) view.findViewById(R.id.ll_qr_code2);
         Bundle arguments = getArguments();
-        Company company = arguments.getParcelable("company");
+        company = arguments.getParcelable("company");
         if (company != null) {
             tv_companyName.setText(company.getName());
             tv_receptCode.setText(company.getTaxno());
@@ -166,7 +167,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
                 ll_qr_code2.setVisibility(View.GONE);
             }
         }
-        Log.d(TAG,"Company id" +company.getId());
+        Log.d(TAG,"Company id" + company.getId());
 
         try {
             String content = new String(company.getQrcode().getBytes("UTF-8"), "ISO-8859-1");
@@ -246,11 +247,11 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             public void onClick(View v) {
                 if (api.isWXAppInstalled()) {
                     WXWebpageObject wxWebpageObject = new WXWebpageObject();
-                    wxWebpageObject.webpageUrl = Constant.MATCH;
+                    wxWebpageObject.webpageUrl = company.getQrcode();
 
                     WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
-                    wxMediaMessage.description = "伙伴们，多余的发票也能挣红包了~";
-                    wxMediaMessage.title = "伙伴们，多余的发票也能挣红包了~";
+                    wxMediaMessage.description = getString(R.string.please_open_check);
+                    wxMediaMessage.title = getString(R.string.tohave_fapiaobao);
                     wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.icon), Bitmap.CompressFormat.JPEG);
 
                     SendMessageToWX.Req req = new SendMessageToWX.Req();
@@ -327,9 +328,9 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
                 } else {
                     BaseApplication.showToast("请安装QQ空间客户端");
                 }
-
             }
         });
+
         root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

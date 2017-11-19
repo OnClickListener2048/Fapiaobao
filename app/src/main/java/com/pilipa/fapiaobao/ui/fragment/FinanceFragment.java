@@ -2,7 +2,10 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,6 +26,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.AllInvoiceAdapter;
 import com.pilipa.fapiaobao.adapter.FinanceAdapter;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
@@ -30,7 +34,6 @@ import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
-import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
@@ -84,6 +87,17 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     public static final String DECODED_BITMAP_KEY = "codedBitmap";
     public static final int REQUEST_CODE_SCAN = 0x0234;
 
+    private BroadcastReceiver mBoradcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(BaseApplication.PUSH_RECEIVE)) {
+                if (newNotification != null) {
+                    newNotification.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    };
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_finance;
@@ -118,6 +132,8 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         }
     }
 
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -135,6 +151,20 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         recyclerviewMoreKind.setNestedScrollingEnabled(false);
         recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext, LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(), 23), R.color.white));
 
+        initBroadcast();
+
+    }
+
+    private void initBroadcast() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BaseApplication.PUSH_RECEIVE);
+        mContext.registerReceiver(mBoradcastReceiver, intentFilter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mContext.unregisterReceiver(mBoradcastReceiver);
     }
 
     @Override
@@ -223,9 +253,11 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                     @Override
                     public void setData(LoginWithInfoBean normalBean) {
                         if (normalBean.getStatus() == 200) {
-                                startActivity(new Intent(mContext, MessageCenterActivity.class));
+                            newNotification.setVisibility(View.GONE);
+                            BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
+                            startActivity(new Intent(mContext, MessageCenterActivity.class));
                         } else {
-                            startActivity(new Intent(mContext, LoginActivity.class));
+                            login();
                         }
                     }
                 });
@@ -290,8 +322,9 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
     @Override
     public void onResume() {
-        messageList();
+//        messageList();
         super.onResume();
+        newNotification.setVisibility(BaseApplication.get(BaseApplication.PUSH_RECEIVE, false) ? View.VISIBLE : View.GONE);
     }
 
     private void messageList() {

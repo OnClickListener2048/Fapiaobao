@@ -387,10 +387,11 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                                 intent.putExtra("bonus", aDouble);
                                 startActivity(intent);
                                 ActivityUtils.finishToActivity(EstimateActivity.class, true);
-                            } else  {
-                                TLog.log("orderBean。getStatus"+orderBean.getStatus());
+                            } else if (orderBean.getStatus() == 886) {
+                                TLog.log("orderBean。getStatus" + orderBean.getStatus());
                                 BaseApplication.showToast(orderBean.getMsg());
-                                ActivityUtils.finishToActivity(EstimateActivity.class, true);
+                            } else {
+//                                ActivityUtils.finishToActivity(EstimateActivity.class, true);
                             }
                         }
                     });

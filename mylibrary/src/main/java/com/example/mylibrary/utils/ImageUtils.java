@@ -1621,6 +1621,7 @@ public final class ImageUtils {
             bytes = baos.toByteArray();
         } else {
             baos.reset();
+
             src.compress(CompressFormat.JPEG, 0, baos);
             if (baos.size() >= maxByteSize) { // 最差质量不小于最大字节，则返回最差质量
                 bytes = baos.toByteArray();
