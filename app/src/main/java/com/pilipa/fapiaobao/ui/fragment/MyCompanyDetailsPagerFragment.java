@@ -16,17 +16,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
+import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
+import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
+import com.pilipa.fapiaobao.ui.FavCompanyDetailsActivity;
 import com.pilipa.fapiaobao.ui.widget.XCFlowLayout;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
@@ -112,11 +115,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
-        web = new UMWeb(Constant.MATCH);
-        web.setTitle("伙伴们，多余的发票也能挣红包了~");//标题
-        UMImage umImage = new UMImage(getActivity(), R.mipmap.icon);
-        web.setThumb(umImage);  //缩略图
-        web.setDescription("伙伴们，多余的发票也能挣红包了~");//描述
+
     }
 
     public static MyCompanyDetailsPagerFragment newInstance(Bundle bundle) {
@@ -166,6 +165,14 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
         Log.d(TAG,"Company id" + company.getId());
 
         Log.d(TAG,"Company getQrcode" +company.getQrcode());
+        //初始化 web
+        web = new UMWeb(company.getQrcode());
+        web.setTitle(getString(R.string.please_open_check));//标题
+        UMImage umImage = new UMImage(getActivity(), R.mipmap.icon);
+        web.setThumb(umImage);  //缩略图
+        web.setDescription(getString(R.string.tohave_fapiaobao));//描述
+
+
         //TODO 截取qrCode中 companyId
         String [] temp = null;
         temp = company.getQrcode().split("id=");
@@ -215,6 +222,9 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
                 intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL,typeId);
                 intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME,tv.getText().toString().trim());
                 mContext.startActivity(intent);
+
+                ActivityUtils.finishActivity(FavCompanyDetailsActivity.class);
+                ActivityUtils.finishActivity(CompanyManagerActivity.class);
 
             }
         });
