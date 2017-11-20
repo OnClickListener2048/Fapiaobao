@@ -17,7 +17,7 @@ import com.pilipa.fapiaobao.ui.widget.ColorArcProgressBar;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-import static com.pilipa.fapiaobao.net.Constant.INSTRUCTION;
+import static com.pilipa.fapiaobao.net.Constant.READINGRULES;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
@@ -56,7 +56,7 @@ public class CreditRatingActivity extends BaseActivity {
             }break;
             case R.id.tv_rules:{
                 Intent intent  =new Intent(this, Op.class);
-                intent.putExtra("url",INSTRUCTION);
+                intent.putExtra("url",READINGRULES);
                 startActivity(intent);
             }break;
         }

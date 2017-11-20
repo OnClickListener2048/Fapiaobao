@@ -260,6 +260,10 @@ public static final String NEW_DEMAND = "5";
      */
     public static final String INSTRUCTION = "http://p.pilipa.cn/fapiaobao/instruction";
     /**
+     * 发票宝规则解读
+     */
+    public static final String READINGRULES = "https://www.youpiao8.cn/fapiaobao/readingRules";
+    /**
      * 版本更新接口
      */
     public static final String URL_UPDATE = BASE_URL+"version/info";
