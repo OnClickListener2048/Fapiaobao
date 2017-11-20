@@ -82,6 +82,7 @@ import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_NEGATIVE_HISTORY;
 import static com.pilipa.fapiaobao.net.Constant.FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
+import static com.pilipa.fapiaobao.net.Constant.LOGOUT_BY_TOKEN;
 import static com.pilipa.fapiaobao.net.Constant.MAIL_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.MESSAGE_DETAILS;
 import static com.pilipa.fapiaobao.net.Constant.MESSAGE_MESSAGES;
@@ -200,7 +201,14 @@ public class Api {
             }
         });
     }
-
+    public static void logoutByToken(String token, final BaseViewCallback baseViewCallback) {
+        OkGo.<NormalBean>get(String.format(LOGOUT_BY_TOKEN, token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+            @Override
+            public void onSuccess(Response<NormalBean> response) {
+                    baseViewCallback.setData(response.body());
+            }
+        });
+    }
     public static void loginByToken(String token, final BaseViewCallback baseViewCallback) {
         OkGo.<LoginWithInfoBean>get(String.format(LOGIN_BY_TOKEN, token)).tag("loginByToken").execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
             @Override

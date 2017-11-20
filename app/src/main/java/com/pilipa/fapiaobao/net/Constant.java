@@ -101,7 +101,8 @@ public static final String NEW_DEMAND = "5";
     public static final String UBIND = BASE_URL + "customer/unbind/%s/%s/%s";
     /*修改用户信息*/
     public static final String UPDATE_CUSTOMER = BASE_URL + "customer/updateCustomer";
-
+    /*退出登录*/
+    public static final String LOGOUT_BY_TOKEN = BASE_URL + "customer/logoutByToken/%s";
     /**
      * demand-rest-controller : 需求发布
      */

@@ -51,6 +51,8 @@ import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+import static com.pilipa.fapiaobao.base.BaseApplication.PUSH_RECEIVE;
+import static com.pilipa.fapiaobao.base.BaseApplication.set;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
@@ -108,6 +110,9 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+
+        messageList();
+
         return rootView;
     }
 
@@ -322,7 +327,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
     @Override
     public void onResume() {
-//        messageList();
         super.onResume();
         newNotification.setVisibility(BaseApplication.get(BaseApplication.PUSH_RECEIVE, false) ? View.VISIBLE : View.GONE);
     }
@@ -348,11 +352,10 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                                             TLog.d("MainActivity","message center no message1");
                                         }
                                     }
-                                    if(newNotification!=null)
                                     if(hasNewMsg){
-                                        newNotification.setVisibility(View.VISIBLE);
+                                        set(PUSH_RECEIVE, true);
                                     }else{
-                                        newNotification.setVisibility(View.GONE);
+                                        set(PUSH_RECEIVE, false);
                                     }
                                 }
                             }

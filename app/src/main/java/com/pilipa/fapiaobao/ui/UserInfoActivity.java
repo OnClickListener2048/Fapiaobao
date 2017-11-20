@@ -67,6 +67,8 @@ import butterknife.OnClick;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+import static com.pilipa.fapiaobao.base.BaseApplication.PUSH_RECEIVE;
+import static com.pilipa.fapiaobao.base.BaseApplication.set;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_PLATFORM_WX;
 import static com.pilipa.fapiaobao.ui.LoginActivity.WX_LOGIN_ACTION;
 
@@ -194,9 +196,8 @@ public class UserInfoActivity extends BaseActivity {
                 mDialog.dismiss();
                 break;
             case R.id.btn_confirm://确认登出\
-                mDialog.dismiss();
-                AccountHelper.logout();
-                UserInfoActivity.this.finish();
+                logoutByToken();
+
                 break;
             case R.id.img_logout:
                 setLogoutDialog();
@@ -508,6 +509,32 @@ public class UserInfoActivity extends BaseActivity {
                 }
             }
         });
+    }
+    private void logoutByToken() {
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean lo ) {
+                if (lo.getStatus() == 200) {
+                    Api.logoutByToken(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                        @Override
+                        public void setData(NormalBean normalBean) {
+                            if (normalBean.getStatus() ==200) {
+                                Toast.makeText(UserInfoActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
+                                mDialog.dismiss();
+                                AccountHelper.logout();
+                                UserInfoActivity.this.finish();
+                                set(PUSH_RECEIVE, false);
+                                Log.d(TAG, "updateData:logoutByToken success");
+                            }else if(normalBean.getStatus() ==400){
+                                BaseApplication.showToast("没有找到业务数据");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+
     }
 
     private void bindWX() {
