@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/ll_estimate"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -47,6 +48,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -62,7 +64,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                    android:layout_gravity="center"
                     android:text="@string/receipt_amount" />
 
                 <RelativeLayout
@@ -77,6 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/d50"
+                        android:layout_marginLeft="@dimen/d10"
                         android:background="@null"
                         android:gravity="center_horizontal"
                         android:hint="0"
@@ -89,7 +92,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
+                    android:layout_gravity="center|right"
                     android:text="@string/yuan" />
             </LinearLayout>
         </RelativeLayout>

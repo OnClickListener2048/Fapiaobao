@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.blog.www.guideview.Guide;
+import com.blog.www.guideview.GuideBuilder;
 import com.example.mylibrary.utils.TLog;
 import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
@@ -23,6 +25,7 @@ import com.lljjcoder.bean.DistrictBean;
 import com.lljjcoder.bean.ProvinceBean;
 import com.lljjcoder.citywheel.CityConfig;
 import com.lljjcoder.citywheel.CityPickerView;
+import com.pilipa.fapiaobao.Constants.Config;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
@@ -32,6 +35,8 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.ui.component.MutiComponent;
+import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.fragment.EstimatePagerFragment;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
@@ -236,6 +241,15 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+        boolean isShow = BaseApplication.get(Config.IS_SHOW_ESTIMATE, false);
+        if(!isShow){
+            etEstimate.post(new Runnable() {
+                @Override
+                public void run() {
+                    showGuideView(etEstimate);
+                }
+            });
+        }
     }
 
 
@@ -525,10 +539,52 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             }
         });
 
-
-
-
     }
 
+    public void showGuideView(View targetView) {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(targetView)
+                .setAlpha(150)
+                .setHighTargetCorner(0)
+                .setHighTargetPadding(0)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
 
+            @Override
+            public void onDismiss() {
+                showGuideView2(testRedbag);
+            }
+        });
+        builder.addComponent(new SimpleComponent());
+        Guide guide = builder.createGuide();
+        guide.setShouldCheckLocInWindow(false);
+        guide.show(this);
+    }
+    public void showGuideView2(View targetView) {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(targetView)
+                .setAlpha(150)
+                .setHighTargetCorner(100)
+                .setHighTargetPadding(10)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
+
+            @Override
+            public void onDismiss() {
+                BaseApplication.set(Config.IS_SHOW_ESTIMATE, true);
+            }
+        });
+        builder.addComponent(new MutiComponent());
+        Guide guide = builder.createGuide();
+        guide.setShouldCheckLocInWindow(false);
+        guide.show(this);
+    }
 }

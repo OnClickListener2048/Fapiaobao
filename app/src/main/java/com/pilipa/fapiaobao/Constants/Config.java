@@ -6,4 +6,6 @@ package com.pilipa.fapiaobao.Constants;
 
 public class Config {
     public static final  String IS_FIRST_COMING = "isFirstComing";
+    public static final  String IS_SHOW_ESTIMATE = "isShowEstimate";
+
 }

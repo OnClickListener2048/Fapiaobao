@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
@@ -371,7 +372,6 @@ public class DemandActivity extends BaseActivity{
             demandDetails(demandId);
         }
         Log.d(TAG, "onResume:demandDetails demandId" + demandId);
-
         super.onResume();
     }
 

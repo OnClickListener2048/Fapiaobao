@@ -14,15 +14,15 @@
         android:paddingRight="@dimen/d12" />
 
     <ImageView
-        android:src="@mipmap/publish"
         android:id="@+id/nav_item_publish"
         android:layout_width="0dp"
-        android:paddingTop="@dimen/d2"
-        android:paddingBottom="@dimen/d2"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:paddingBottom="@dimen/d2"
         android:paddingLeft="@dimen/d12"
-        android:paddingRight="@dimen/d12" />
+        android:paddingRight="@dimen/d12"
+        android:paddingTop="@dimen/d2"
+        android:src="@mipmap/publish" />
 
     <com.pilipa.fapiaobao.ui.widget.NavigationButton
         android:paddingTop="@dimen/d5"

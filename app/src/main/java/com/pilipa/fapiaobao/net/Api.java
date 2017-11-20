@@ -3,7 +3,6 @@ package com.pilipa.fapiaobao.net;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.FileCallback;

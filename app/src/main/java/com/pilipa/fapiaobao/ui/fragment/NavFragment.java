@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.blog.www.guideview.Guide;
+import com.blog.www.guideview.GuideBuilder;
+import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseFragment;
@@ -18,6 +21,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.PubActivity;
+import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.widget.NavigationButton;
 
 import java.util.List;
@@ -212,4 +216,5 @@ public class NavFragment extends BaseFragment {
     protected void initData() {
         super.initData();
     }
+
 }
