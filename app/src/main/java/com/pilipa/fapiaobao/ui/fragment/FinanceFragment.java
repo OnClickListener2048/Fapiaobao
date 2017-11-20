@@ -64,7 +64,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     @Bind(R.id.notification)
     ImageView notification;
     @Bind(R.id.recyclerview)
-    RecyclerView recyclerview;
+    public RecyclerView recyclerview;
     @Bind(R.id.recyclerview_more_kind)
     RecyclerView recyclerviewMoreKind;
     @Bind(R.id.pull_to_find_more)

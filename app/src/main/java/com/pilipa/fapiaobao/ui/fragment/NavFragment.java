@@ -38,9 +38,9 @@ public class NavFragment extends BaseFragment {
 
 
     @Bind(R.id.nav_item_tex)
-    NavigationButton navItemTex;
+    public NavigationButton navItemTex;
     @Bind(R.id.nav_item_me)
-    NavigationButton navItemMe;
+    public  NavigationButton navItemMe;
     @Bind(R.id.nav_item_publish)
     public ImageView navItemPublish;
     private Context mContext;

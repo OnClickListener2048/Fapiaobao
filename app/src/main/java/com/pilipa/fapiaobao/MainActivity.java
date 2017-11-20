@@ -7,7 +7,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,17 +20,22 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.blog.www.guideview.Component;
 import com.blog.www.guideview.Guide;
 import com.blog.www.guideview.GuideBuilder;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.request.base.Request;
+import com.pilipa.fapiaobao.adapter.FinanceAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.update.VersionMode;
 import com.pilipa.fapiaobao.receiver.PackageInstallReceiver;
+import com.pilipa.fapiaobao.ui.component.MutiComponent;
 import com.pilipa.fapiaobao.ui.component.SimpleComponent;
+import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.fragment.NavFragment;
 import com.pilipa.fapiaobao.ui.widget.NavigationButton;
 import com.pilipa.fapiaobao.utils.TDevice;
@@ -87,13 +94,15 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
         mHandler.sendEmptyMessageDelayed(UPDATE, 3000);
 
+        if (BaseApplication.get("IS_FIRST_IN_MAIN", true)) {
+            mNavBar.navItemPublish.post(new Runnable() {
+                @Override
+                public void run() {
+                    showGuideView();
+                }
+            });
+        }
 
-        mNavBar.navItemPublish.post(new Runnable() {
-            @Override
-            public void run() {
-                showGuideView();
-            }
-        });
 
     }
 
@@ -117,22 +126,53 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
         GuideBuilder builder = new GuideBuilder();
         builder.setTargetView(mNavBar.navItemPublish)
                 .setAlpha(150)
-                .setHighTargetCorner(20)
-                .setHighTargetPadding(10)
+                .setHighTargetGraphStyle(Component.CIRCLE)
                 .setOverlayTarget(false)
-                .setOutsideTouchable(true);
+                .setOutsideTouchable(false);
+
         builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+
+            }
+
+            @Override
+            public void onDismiss() {
+                showGuideView2();
+            }
+        });
+
+        builder.addComponent(new SimpleComponent());
+        guide = builder.createGuide();
+        guide.setShouldCheckLocInWindow(false);
+        guide.show(MainActivity.this);
+    }
+
+
+    public void showGuideView2() {
+
+        FinanceFragment fragment = (FinanceFragment) mNavBar.navItemTex.getFragment();
+        RecyclerView.LayoutManager layoutManager = fragment.recyclerview.getLayoutManager();
+        View childAt = layoutManager.getChildAt(1);
+        final GuideBuilder builder1 = new GuideBuilder();
+        builder1.setTargetView(childAt)
+                .setAlpha(150)
+                .setHighTargetGraphStyle(Component.ROUNDRECT)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false);
+        builder1.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
             @Override
             public void onShown() {
             }
 
             @Override
             public void onDismiss() {
+                BaseApplication.set("IS_FIRST_IN_MAIN",false);
             }
         });
 
-        builder.addComponent(new SimpleComponent());
-        guide = builder.createGuide();
+        builder1.addComponent(new SimpleComponent());
+        Guide guide = builder1.createGuide();
         guide.setShouldCheckLocInWindow(false);
         guide.show(MainActivity.this);
     }

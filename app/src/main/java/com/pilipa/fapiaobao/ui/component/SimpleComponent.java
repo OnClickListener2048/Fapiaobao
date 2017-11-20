@@ -17,7 +17,11 @@ public class SimpleComponent implements Component {
   public View getView(LayoutInflater inflater) {
 
     LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.layer_frends, null);
-
+    ll.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+      }
+    });
     return ll;
   }
 

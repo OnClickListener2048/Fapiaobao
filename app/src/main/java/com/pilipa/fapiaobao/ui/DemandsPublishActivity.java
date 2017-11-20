@@ -34,13 +34,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mylibrary.utils.EncodeUtils;
+import com.blog.www.guideview.Component;
+import com.blog.www.guideview.Guide;
+import com.blog.www.guideview.GuideBuilder;
 import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.TimeUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
 import com.lljjcoder.bean.DistrictBean;
@@ -65,6 +66,7 @@ import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsPublishBean;
 import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 import com.pilipa.fapiaobao.receiver.WXPayReceiver;
+import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
@@ -192,6 +194,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     LinearLayout llSelectArea;
     @Bind(R.id.ll_date)
     LinearLayout llDate;
+    @Bind(R.id.ll_more_company_types)
+    LinearLayout llMoreCompanyTypes;
     private boolean paperNormal;
     private boolean elec;
     private boolean paperSpecial;
@@ -243,6 +247,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private View view;
     private String tempCompanyId;
     private AlertDialog alertDialog;
+    private Guide guide;
 
     @Override
     protected int getLayoutId() {
@@ -256,6 +261,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
     @Override
     public void initView() {
+
         Intent intent = getIntent();
         changeCompanyinfo.setVisibility(View.GONE);
         moreCompany.setVisibility(View.GONE);
@@ -333,11 +339,19 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         });
 
 
+        etAreaDetails.setText(BaseApplication.get("etAreaDetails", null));
+        tvArea.setText(BaseApplication.get("tvArea", null));
+        etReceptionNumber.setText(BaseApplication.get("etReceptionNumber", null));
+        etReceptionName.setText(BaseApplication.get("etReceptionName", null));
+        if (BaseApplication.get("Is_First_In_Publish", true)) {
+            btnAddCompanyInfo.post(new Runnable() {
+                @Override
+                public void run() {
+                    showGuideView();
+                }
+            });
+        }
 
-        etAreaDetails.setText(BaseApplication.get("etAreaDetails",null));
-        tvArea.setText(BaseApplication.get("tvArea",null));
-        etReceptionNumber.setText(BaseApplication.get("etReceptionNumber",null));
-        etReceptionName.setText(BaseApplication.get("etReceptionName",null));
 
     }
 
@@ -400,9 +414,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     @Override
     public void initData() {
         demandPostageBean = new DemandsPublishBean.DemandPostageBean();
-        demandPostageBean.setDistrict(BaseApplication.get("district",null));
-        demandPostageBean.setCity(BaseApplication.get("city",null));
-        demandPostageBean.setProvince(BaseApplication.get("province",null));
+        demandPostageBean.setDistrict(BaseApplication.get("district", null));
+        demandPostageBean.setCity(BaseApplication.get("city", null));
+        demandPostageBean.setProvince(BaseApplication.get("province", null));
         Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
             @Override
             public void setData(ExpressCompanyBean expressCompanyBean) {
@@ -840,10 +854,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         demandPostageBean.setReceiver(etReceptionName.getText().toString().trim());
         demandPostageBean.setTelephone(etReceptionNumber.getText().toString().trim());
 
-        BaseApplication.set("etAreaDetails",etAreaDetails.getText().toString().trim());
-        BaseApplication.set("tvArea",tvArea.getText().toString().trim());
-        BaseApplication.set("etReceptionNumber",etReceptionNumber.getText().toString().trim());
-        BaseApplication.set("etReceptionName",etReceptionName.getText().toString().trim());
+        BaseApplication.set("etAreaDetails", etAreaDetails.getText().toString().trim());
+        BaseApplication.set("tvArea", tvArea.getText().toString().trim());
+        BaseApplication.set("etReceptionNumber", etReceptionNumber.getText().toString().trim());
+        BaseApplication.set("etReceptionName", etReceptionName.getText().toString().trim());
 
 
         bean.setDemandPostage(demandPostageBean);
@@ -862,8 +876,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         } else {
             bean.setTotalBonus(0);
         }
-        if(!etAmount.getText().toString().trim().isEmpty()){
-            bean.setTotalAmount( Double.parseDouble(etAmount.getText().toString().trim()));
+        if (!etAmount.getText().toString().trim().isEmpty()) {
+            bean.setTotalAmount(Double.parseDouble(etAmount.getText().toString().trim()));
         }
         TLog.log(bean.toString());
         return bean;
@@ -880,8 +894,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             return false;
         }
         if (!etExpressAmountMinimum.getText().toString().isEmpty()
-                &&Double.valueOf(etExpressAmountMinimum.getText().toString().trim())
-                > Double.valueOf(etAmount.getText().toString().trim()) ) {
+                && Double.valueOf(etExpressAmountMinimum.getText().toString().trim())
+                > Double.valueOf(etAmount.getText().toString().trim())) {
             BaseApplication.showToast("最少寄送限额必须小于等于需求总额");
             return false;
         }
@@ -1154,9 +1168,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                     demandPostageBean.setCity(city.getName());
                     demandPostageBean.setDistrict(district.getName());
 
-                    BaseApplication.set("province",province.getName());
-                    BaseApplication.set("city",city.getName());
-                    BaseApplication.set("district",district.getName());
+                    BaseApplication.set("province", province.getName());
+                    BaseApplication.set("city", city.getName());
+                    BaseApplication.set("district", district.getName());
                     tvArea.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
                 }
                 cityPicker.hide();
@@ -1188,5 +1202,65 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     public void onViewClicked() {
         isAreaLimited = true;
         cityPicker.show();
+    }
+
+    public void showGuideView() {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(btnAddCompanyInfo)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetGraphStyle(Component.ROUNDRECT)
+                .setHighTargetPadding(10)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false);
+
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
+
+            @Override
+            public void onDismiss() {
+                llMoreCompanyTypes.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        showGuideView2();
+
+                    }
+                });
+            }
+        });
+
+        builder.addComponent(new SimpleComponent());
+        guide = builder.createGuide();
+        guide.setShouldCheckLocInWindow(false);
+        guide.show(DemandsPublishActivity.this);
+    }
+
+
+    public void showGuideView2() {
+
+
+        final GuideBuilder builder1 = new GuideBuilder();
+        builder1.setTargetView(llMoreCompanyTypes)
+                .setAlpha(150)
+                .setHighTargetGraphStyle(Component.ROUNDRECT)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false);
+        builder1.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
+
+            @Override
+            public void onDismiss() {
+                BaseApplication.set("Is_First_In_Publish",false);
+            }
+        });
+
+        builder1.addComponent(new SimpleComponent());
+        Guide guide = builder1.createGuide();
+        guide.setShouldCheckLocInWindow(false);
+        guide.show(DemandsPublishActivity.this);
     }
 }

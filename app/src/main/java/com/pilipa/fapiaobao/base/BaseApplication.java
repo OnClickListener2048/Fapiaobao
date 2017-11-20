@@ -22,9 +22,14 @@ import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.pilipa.fapiaobao.Constants.Bugly;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.service.UmengPushIntentService;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
+import com.pilipa.fapiaobao.ui.DemandActivity;
 import com.pilipa.fapiaobao.ui.LoginActivity;
+import com.pilipa.fapiaobao.ui.MessageCenterActivity;
+import com.pilipa.fapiaobao.ui.MyRedEnvelopeActivity;
+import com.pilipa.fapiaobao.ui.ProvidedActivity;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -39,11 +44,19 @@ import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
+
+import static com.pilipa.fapiaobao.net.Constant.GOT_BONUS;
+import static com.pilipa.fapiaobao.net.Constant.INCOMPETENT_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.NEWCOME_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.SERVICE_NOTIFICATION;
 
 /**
  * Created by lyt on 2017/10/9.
@@ -130,8 +143,54 @@ public class BaseApplication extends Application {
         UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
             @Override
             public void dealWithCustomAction(Context context, UMessage msg) {
-                BaseApplication.showToast(msg.custom);
-                ActivityUtils.startActivity(LoginActivity.class);
+                TLog.log("msg.custom"+msg.custom);
+                try {
+                    JSONObject jsonObject = new JSONObject(msg.custom);
+                    String type = (String) jsonObject.get("type");
+                    switch (type) {
+                        case NEWCOME_INVOICE:
+                            String demandid = (String) jsonObject.get("demandId");
+                            Intent intent = new Intent();
+                            intent.putExtra("demandId", demandid);
+                            intent.setClass(getApplicationContext(), DemandActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            break;
+
+                        case INCOMPETENT_INVOICE:
+
+                            String  company_id = (String) jsonObject.get("company_id");
+                            String  order_id = (String) jsonObject.get("order_id");
+                            Intent intent1 = new Intent();
+                            intent1.putExtra("CompanyId", company_id);
+                            intent1.putExtra("OrderId", order_id);
+                            intent1.setClass(getApplicationContext(), ProvidedActivity.class);
+                            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent1);
+
+                            break;
+
+                        case SERVICE_NOTIFICATION:
+                            Intent intent2 = new Intent();
+                            intent2.setClass(getApplicationContext(), MessageCenterActivity.class);
+                            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent2);
+                            break;
+
+                        case GOT_BONUS:
+                            String  bonus = (String) jsonObject.get("bonus");
+                            Intent intent3 = new Intent();
+                            intent3.putExtra("bonus", bonus);
+                            intent3.setClass(getApplicationContext(), MyRedEnvelopeActivity.class);
+                            intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent3);
+                            break;
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
             }
         };
         mPushAgent.setNotificationClickHandler(notificationClickHandler);

@@ -56,8 +56,12 @@ public class Constant {
 //    INCOMPETENT_INVOICE("3", "不合格发票"),
 //    SERVICE_NOTIFICATION("4", "服务通知"),
 //    NEW_DEMAND("5", "新的需求");
-private static final int NEWCOME_INVOICE = 81;
-    
+public static final String NEWCOME_INVOICE = "1";
+public static final String GOT_BONUS = "2";
+public static final String INCOMPETENT_INVOICE = "3";
+public static final String SERVICE_NOTIFICATION = "4";
+public static final String NEW_DEMAND = "5";
+
 
 
 
