@@ -29,6 +29,8 @@ import com.pilipa.fapiaobao.net.bean.invoice.UploadInvoiceToken;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.fragment.UploadPreviewReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.utils.ButtonUtils;
+import com.pilipa.fapiaobao.utils.TDevice;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -296,7 +298,9 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                 break;
             case R.id.confirm:
                 showProgressDialog();
-                upload();
+                if (!ButtonUtils.isFastDoubleClick(R.id.confirm)) {
+                    upload();
+                }
                 break;
         }
     }
@@ -390,8 +394,9 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                             } else if (orderBean.getStatus() == 886) {
                                 TLog.log("orderBean。getStatus" + orderBean.getStatus());
                                 BaseApplication.showToast(orderBean.getMsg());
-                            } else {
-//                                ActivityUtils.finishToActivity(EstimateActivity.class, true);
+                            } else if (orderBean.getStatus() == 887){
+                                TLog.log("orderBean。getStatus" + orderBean.getStatus());
+                                BaseApplication.showToast(orderBean.getMsg());
                             }
                         }
                     });

@@ -160,7 +160,6 @@ public class BaseApplication extends Application {
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             break;
-
                         case INCOMPETENT_INVOICE:
                             String  company_id = (String) jsonObject.get("companyId");
                             String  order_id = (String) jsonObject.get("orderId");
@@ -171,7 +170,6 @@ public class BaseApplication extends Application {
                             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent1);
                             break;
-
                         case SERVICE_NOTIFICATION:
                             AppUtils.launchApp("com.pilipa.fapiaobao");
                             Intent intent2 = new Intent();
@@ -179,7 +177,6 @@ public class BaseApplication extends Application {
                             intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent2);
                             break;
-
                         case GOT_BONUS:
                             int  bonus = (int) jsonObject.get("bonus");
                             Intent intent3 = new Intent();
@@ -192,9 +189,13 @@ public class BaseApplication extends Application {
                         case NEW_DEMAND:
                             String  companyId = (String) jsonObject.get("companyId");
                             String  invoiceTypeId = (String) jsonObject.get("invoiceTypeId");
+                            String  invoiceVarieties = (String) jsonObject.get("invoiceVarieties");
+                            String  city = (String) jsonObject.get("city");
                             Intent intent4 = new Intent();
                             intent4.putExtra(FinanceFragment.EXTRA_DATA_LABEL, invoiceTypeId);
                             intent4.putExtra("companyId", companyId);
+                            intent4.putExtra("city", city);
+                            intent4.putExtra("invoiceVarieties", invoiceVarieties);
                             intent4.setClass(getApplicationContext(), EstimateActivity.class);
                             intent4.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent4);
