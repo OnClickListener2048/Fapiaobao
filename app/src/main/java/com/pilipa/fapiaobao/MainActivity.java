@@ -1,7 +1,10 @@
 package com.pilipa.fapiaobao;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,6 +49,8 @@ import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+import static com.pilipa.fapiaobao.ui.fragment.model.Constant.START_ACTIVITY_FROM_DETAILS;
+
 
 public class MainActivity extends BaseActivity implements NavFragment.OnNavigationReselectListener {
 
@@ -53,6 +58,8 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
     FrameLayout bg;
     private NavFragment mNavBar;
     private static final int UPDATE = 924;
+
+
 
 
     private  Handler mHandler = new Handler(){
@@ -101,7 +108,11 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
             });
         }
 
+
+
     }
+
+
 
     @Override
     public void initData() {

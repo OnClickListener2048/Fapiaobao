@@ -1,7 +1,9 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +28,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.ui.fragment.model.Constant.START_ACTIVITY_FROM_DETAILS;
+
 /**
  * Created by lyt on 2017/10/13.
  */
@@ -44,7 +48,13 @@ public class NavFragment extends BaseFragment implements MyCompanyDetailsPagerFr
     private FragmentManager mFragmentManager;
     private NavigationButton mCurrentNavButton;
     private OnNavigationReselectListener mOnNavigationReselectListener;
-
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (START_ACTIVITY_FROM_DETAILS.equals(intent.getAction())) {
+            }
+        }
+    };
     public NavFragment() {
         // Required empty public constructor
     }
@@ -71,7 +81,17 @@ public class NavFragment extends BaseFragment implements MyCompanyDetailsPagerFr
                 R.string.main_tab_name_me,
                 MeFragment.class);
 
+
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(START_ACTIVITY_FROM_DETAILS);
+        context.registerReceiver(mBroadcastReceiver, intentFilter);
+    }
+
 
 
     public void setup(Context context, FragmentManager fragmentManager, int contentId, OnNavigationReselectListener listener) {
@@ -173,6 +193,7 @@ public class NavFragment extends BaseFragment implements MyCompanyDetailsPagerFr
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        mContext.unregisterReceiver(mBroadcastReceiver);
     }
 
 

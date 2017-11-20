@@ -51,6 +51,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
+import static com.pilipa.fapiaobao.ui.fragment.model.Constant.START_ACTIVITY_FROM_DETAILS;
 
 /**
  * Created by lyt on 2017/10/17.
@@ -58,6 +59,7 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 public class MyCompanyDetailsPagerFragment extends BaseFragment {
     private static final String TAG = "MyCompanyDetailsPagerFragment";
+
     private TextView tv_companyName, tv_receptCode, tv_address, tv_phoneNum, tv_bankName, tv_account;
     private Dialog mCameraDialog;
     private XCFlowLayout flowLayout;
@@ -221,9 +223,12 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
                 intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL,typeId);
                 intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME,tv.getText().toString().trim());
                 mContext.startActivity(intent);
-
+                Intent intent1 = new Intent();
+                intent1.setAction(START_ACTIVITY_FROM_DETAILS);
+                mContext.sendBroadcast(intent1);
                 ActivityUtils.finishActivity(FavCompanyDetailsActivity.class);
                 ActivityUtils.finishActivity(CompanyManagerActivity.class);
+
                 if (onFinanceSkipListener!= null) {
                     onFinanceSkipListener.onFinanceSkip();
                 }
