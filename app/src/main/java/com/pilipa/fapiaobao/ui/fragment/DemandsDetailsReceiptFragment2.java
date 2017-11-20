@@ -229,55 +229,55 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
 //        }
 
         if (requestCode == REQUEST_CODE_CAPTURE && resultCode == RESULT_OK) {
-            Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
-            String path = mediaStoreCompat.getCurrentPhotoPath();
-            try {
-                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
-                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            Image image = new Image();
-            image.isFromNet = false;
-            image.name = new File(path).getName();
-            image.isCapture = false;
-            image.position = mPreviousPosition;
-            image.uri = contentUri;
-            images.add(image);
-            uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
-            uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
-            mPreviousPosition = images.size();
-
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                getActivity().revokeUriPermission(contentUri,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            }
+//            Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
+//            String path = mediaStoreCompat.getCurrentPhotoPath();
+//            try {
+//                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
+//                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri));
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//            Image image = new Image();
+//            image.isFromNet = false;
+//            image.name = new File(path).getName();
+//            image.isCapture = false;
+//            image.position = mPreviousPosition;
+//            image.uri = contentUri;
+//            images.add(image);
+//            uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
+//            uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
+//            mPreviousPosition = images.size();
+//
+//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//                getActivity().revokeUriPermission(contentUri,
+//                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            }
         } else if (REQUEST_CODE_IMAGE_CLICK == requestCode) {
             switch (resultCode) {
                 case RESULT_CODE_BACK:
-                    Bundle bundleExtra = data.getBundleExtra(EXTRA_BUNDLE);
-                    ArrayList<Image> images = bundleExtra.getParcelableArrayList(EXTRA_ALL_DATA);
-                    uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
-                    uploadReceiptAdapter.refresh(images);
-                    DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
-                    diffResult.dispatchUpdatesTo(uploadReceiptAdapter);
-                    this.images = images;
-                    mPreviousPosition = images.size();
+//                    Bundle bundleExtra = data.getBundleExtra(EXTRA_BUNDLE);
+//                    ArrayList<Image> images = bundleExtra.getParcelableArrayList(EXTRA_ALL_DATA);
+//                    uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
+//                    uploadReceiptAdapter.refresh(images);
+//                    DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
+//                    diffResult.dispatchUpdatesTo(uploadReceiptAdapter);
+//                    this.images = images;
+//                    mPreviousPosition = images.size();
                     break;
                 default:
             }
         } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<Uri> uris = Matisse.obtainResult(data);
             for (Uri uri : uris) {
-                Image image = new Image();
-                image.isCapture = false;
-                image.position = mPreviousPosition;
-                mPreviousPosition++;
-                image.uri = uri;
-                image.isFromNet = false;
-                images.add(image);
-                uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
-                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
+//                Image image = new Image();
+//                image.isCapture = false;
+//                image.position = mPreviousPosition;
+//                mPreviousPosition++;
+//                image.uri = uri;
+//                image.isFromNet = false;
+//                images.add(image);
+//                uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
+//                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
             }
 
         }

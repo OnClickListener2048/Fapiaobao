@@ -345,11 +345,14 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             return;
         }
         String trim = etEstimate.getText().toString().trim();
+        TLog.log("trim"+trim);
         amount = Double.valueOf(trim);
+        TLog.log("amount"+amount);
         if (!(amount > 0) && amount == 0) {
             BaseApplication.showToast("请输入正确的发票金额");
             return;
         } else {
+            TLog.log(" Api.doMatchDemand(label, amount"+amount);
             Api.doMatchDemand(label, amount, String.valueOf(type), locate,companyId,new Api.BaseViewCallbackWithOnStart<MacherBeanToken>() {
 
                 @Override

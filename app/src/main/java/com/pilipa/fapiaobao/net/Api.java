@@ -649,7 +649,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void doMatchDemand(String invoiceType, Double amount, String varieties, String city,String companyId, final BaseViewCallbackWithOnStart baseViewCallback) {
-        String url = String.format(DO_MATCH_DEMAND, invoiceType, amount);
+        String url = String.format(DO_MATCH_DEMAND, invoiceType, String.valueOf(amount));
 
 
         OkGo.<MacherBeanToken>post(url)
