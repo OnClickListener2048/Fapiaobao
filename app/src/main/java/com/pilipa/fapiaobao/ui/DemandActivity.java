@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
@@ -353,7 +352,7 @@ public class DemandActivity extends BaseActivity{
                 container_paper_elec_receipt.setVisibility(View.GONE);
             }
 
-           if(images1.size()==0&&images2.size()==0&&images3.size()==0){
+            if(images1.size()==0&&images2.size()==0&&images3.size()==0){
                 ll_no_record.setVisibility(View.VISIBLE);
                 ll_receiptlist.setVisibility(View.GONE);
             }

@@ -804,6 +804,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private DemandsPublishBean makeParams() {
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         DemandsPublishBean bean = new DemandsPublishBean();
+
         if (SwitchArea.isChecked()) {
             bean.setAreaRestrict("1");
             bean.setCity(tvAreaLimited.getText().toString());
@@ -864,7 +865,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
         bean.setAttentions(etPublishCautions.getText().toString().trim());
         bean.setDeadline(etDate.getText().toString().trim());
-        if (!elec && paperNormal || paperSpecial) {
+        if (paperNormal||paperSpecial) {
             bean.setMailMinimum(Integer.valueOf(etExpressAmountMinimum.getText().toString().trim()));
         }
         if (Switch.isChecked()) {

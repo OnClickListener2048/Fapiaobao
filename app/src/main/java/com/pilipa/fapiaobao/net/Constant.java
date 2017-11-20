@@ -213,8 +213,9 @@ public static final String NEW_DEMAND = "5";
     public static final String FIND_ALL_EXPRESS_COMPANY = BASE_URL+"system/findAllLogisticsCompany";
 
 
-    //获取所有发票类型种类
-    //http://192.168.1.205:8181/fapiaobao/rest/system/findAllInvoiceType
+    /**
+     *  获取所有发票类型种类
+     */
     public static final String FIND_ALL_INVIICE_TYPE = BASE_URL + "system/findAllInvoiceType";
 
 
