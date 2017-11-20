@@ -109,6 +109,7 @@
         android:id="@+id/ll_no_record"
         android:orientation="vertical"
         android:layout_margin="@dimen/d10"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
@@ -117,7 +118,6 @@
             android:layout_gravity="center"
             android:src="@mipmap/no_list"/>
         <TextView
-            android:layout_marginTop="@dimen/d20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

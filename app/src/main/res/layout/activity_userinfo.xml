@@ -87,7 +87,7 @@
                 android:gravity="right"
                 android:textSize="13sp"
                 android:background="@null"
-                android:maxLength="10"
+                android:maxLength="20"
                 android:layout_height="wrap_content"
                 android:paddingRight="@dimen/d5"
                 android:text=""/>

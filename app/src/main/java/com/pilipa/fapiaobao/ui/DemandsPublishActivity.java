@@ -637,6 +637,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                                         BaseApplication.showToast("账户余额不足，请先充值");
                                         intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
                                         startActivityForResult(intent, REQUEST_CODE);
+                                    } else if (balanceBean.getStatus() == 885) {
+                                        BaseApplication.showToast("可用金额不足，已发红包占用中");
+                                        intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
+                                        startActivityForResult(intent, REQUEST_CODE);
                                     }
                                 }
                             });

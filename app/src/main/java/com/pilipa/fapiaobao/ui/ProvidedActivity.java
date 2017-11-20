@@ -171,7 +171,7 @@ public class ProvidedActivity extends BaseActivity {
     boolean isCollected;
     private String favoriteId;
     private List<RejectTypeBean.DataBean> list = new ArrayList<>();
-
+    PublishSpinnerAdapter spinnerAdapter;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_provided;
@@ -281,7 +281,8 @@ public class ProvidedActivity extends BaseActivity {
             @Override
             public void setData(ExpressCompanyBean expressCompanyBean) {
                 Log.d(TAG, "setData: initDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitData");
-                mSpinner.setAdapter(new PublishSpinnerAdapter(expressCompanyBean));
+               spinnerAdapter =  new PublishSpinnerAdapter(expressCompanyBean);
+                mSpinner.setAdapter(spinnerAdapter);
             }
         });
 
@@ -479,7 +480,7 @@ public class ProvidedActivity extends BaseActivity {
                                         showOrderDetail(orderId);
                                         BaseApplication.showToast(normalBean.getData());
                                     }
-                                    if(normalBean.getStatus() == 890){
+                                    if(normalBean.getStatus() == 886){
                                         BaseApplication.showToast(normalBean.getMsg());
                                     }
                                 }
@@ -523,6 +524,7 @@ public class ProvidedActivity extends BaseActivity {
                             btnMailing.setText(getResources().getString(R.string.express_mail));
                             btnMailing.setBackgroundResource(R.drawable.shape_receipt_type);
                             edtOddNumber.setEnabled(true);
+                            mSpinner.setEnabled(true);
                             btnScan.setEnabled(true);
                         }else{
                             btnMailing.setTextColor(getResources().getColor(R.color.gray_hint));
@@ -530,6 +532,7 @@ public class ProvidedActivity extends BaseActivity {
                             btnMailing.setText(getResources().getString(R.string.waitting_mail));
                             btnMailing.setBackgroundResource(R.drawable.shape_receipt_type_false);
                             edtOddNumber.setEnabled(false);
+                            mSpinner.setEnabled(false);
                             btnScan.setEnabled(false);
                         }
                         if (STATE_FLYING.equals(bean.getOrderState())) {
