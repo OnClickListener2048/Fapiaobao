@@ -49,6 +49,7 @@ public class Op extends AppCompatActivity implements
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            TLog.log("company_info"+company_info);
             if (company_info != null) {
             view.loadUrl("javascript:;(function(currentRules){\n" +
                     "            var jQueryUrl = 'https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js';\n" +
@@ -81,7 +82,6 @@ public class Op extends AppCompatActivity implements
                     "            {selector:'#address', value:'"+company_info.getAddress()+"'},\n" +
                     "            {selector:'#depositBank',value:'"+company_info.getDepositBank()+"'},\n" +
                     "            {selector:'#bankAccount',value:'"+company_info.getAccount()+"'}\n" +
-                    "            {selector:'#bankAccount',value:'"+ AccountHelper.getUser().getData().getCustomer().getTelephone()+"'}\n" +
                     "        ]);");
             }
         }

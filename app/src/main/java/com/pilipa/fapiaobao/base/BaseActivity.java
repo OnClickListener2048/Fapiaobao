@@ -188,10 +188,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     protected void addCaptureFragment2(int frameLayoutId, Fragment fragment) {
         if (fragment != null) {
-
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            transaction.remove(fragment);
             transaction.add(frameLayoutId, fragment).show(fragment);
             transaction.commit();
         }

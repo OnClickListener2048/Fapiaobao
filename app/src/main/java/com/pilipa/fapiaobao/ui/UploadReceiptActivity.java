@@ -91,6 +91,7 @@ public class UploadReceiptActivity extends BaseActivity {
         amount = getIntent().getDoubleExtra("amount", 0);
         bonus = getIntent().getDoubleExtra("bonus", 0);
         company_info = getIntent().getParcelableExtra("company_info");
+        TLog.log("company_info== null?"+company_info);
         demandsId = getIntent().getStringExtra("demandsId");
         paperNormalReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
