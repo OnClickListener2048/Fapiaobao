@@ -101,7 +101,6 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
             });
         }
 
-
     }
 
     @Override

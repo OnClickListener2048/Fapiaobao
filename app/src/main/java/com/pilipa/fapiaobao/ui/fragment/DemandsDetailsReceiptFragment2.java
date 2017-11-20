@@ -77,6 +77,7 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
     private MediaStoreCompat mediaStoreCompat;
     private int mPreviousPosition = -1;
     private Dialog mCameraDialog;
+    private DemandsDetailsReceiptAdapter uploadReceiptAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -176,7 +177,7 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
         rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, false));
         mPreviousPosition = images.size();
-        DemandsDetailsReceiptAdapter uploadReceiptAdapter = new DemandsDetailsReceiptAdapter(images, getImageResize(getActivity()));
+        uploadReceiptAdapter = new DemandsDetailsReceiptAdapter(images, getImageResize(getActivity()));
         uploadReceiptAdapter.setOnImageClickListener(this);
         uploadReceiptAdapter.setOnImageSelectListener(this);
         uploadReceiptAdapter.setOnPhotoCapture(this);
@@ -243,7 +244,7 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
             image.position = mPreviousPosition;
             image.uri = contentUri;
             images.add(image);
-            DemandsDetailsReceiptAdapter uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
+            uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
             uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
             mPreviousPosition = images.size();
 
@@ -256,7 +257,7 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
                 case RESULT_CODE_BACK:
                     Bundle bundleExtra = data.getBundleExtra(EXTRA_BUNDLE);
                     ArrayList<Image> images = bundleExtra.getParcelableArrayList(EXTRA_ALL_DATA);
-                    DemandsDetailsReceiptAdapter uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
+                    uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
                     uploadReceiptAdapter.refresh(images);
                     DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
                     diffResult.dispatchUpdatesTo(uploadReceiptAdapter);
@@ -275,7 +276,7 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
                 image.uri = uri;
                 image.isFromNet = false;
                 images.add(image);
-                DemandsDetailsReceiptAdapter uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
+                uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
                 uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
             }
 
@@ -344,5 +345,11 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
         }
 
         return 0;
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        rvUploadReceipt.setAdapter(null);
+        uploadReceiptAdapter = null;
     }
 }

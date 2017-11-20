@@ -200,7 +200,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             TextView view = new TextView(mContext);
             view.setGravity(Gravity.CENTER);
             view.setText(list.get(i).getName());
-            view.setTextSize(TDevice.px2dp(26));
+            view.setTextSize(TDevice.px2dp(28));
             view.setPadding(5, 3, 5, 3);
             view.setTextColor(getResources().getColor(R.color.main_style));
             view.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_invoice_receipt_kind_bg));
@@ -224,7 +224,9 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
 
                 ActivityUtils.finishActivity(FavCompanyDetailsActivity.class);
                 ActivityUtils.finishActivity(CompanyManagerActivity.class);
-
+                if (onFinanceSkipListener!= null) {
+                    onFinanceSkipListener.onFinanceSkip();
+                }
             }
         });
     }
@@ -261,8 +263,8 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
                     wxWebpageObject.webpageUrl = company.getQrcode();
 
                     WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
-                    wxMediaMessage.description = getString(R.string.please_open_check);
-                    wxMediaMessage.title = getString(R.string.tohave_fapiaobao);
+                    wxMediaMessage.title = getString(R.string.please_open_check);
+                    wxMediaMessage.description = getString(R.string.tohave_fapiaobao);
                     wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.icon), Bitmap.CompressFormat.JPEG);
 
                     SendMessageToWX.Req req = new SendMessageToWX.Req();
@@ -406,5 +408,13 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
     }
     public interface OnNextClickListener {
         void onNextClick();
+    }
+    private OnFinanceSkipListener onFinanceSkipListener;
+    public interface OnFinanceSkipListener {
+        void onFinanceSkip();
+    }
+
+    public void setOnFinanceSkipListener(OnFinanceSkipListener onFinanceSkipListener) {
+        this.onFinanceSkipListener = onFinanceSkipListener;
     }
 }

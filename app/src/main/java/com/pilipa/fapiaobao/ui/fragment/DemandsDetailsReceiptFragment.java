@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,7 +29,6 @@ import com.pilipa.fapiaobao.ui.DemandsDetailsPreviewActivity;
 import com.pilipa.fapiaobao.ui.UploadReceiptPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
-import com.pilipa.fapiaobao.utils.ReceiptDiff;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -247,7 +245,7 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
             image.position = mPreviousPosition;
             image.uri = contentUri;
             images.add(image);
-            DemandsDetailsReceiptAdapter uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
+            uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
             uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
             mPreviousPosition = images.size();
 
@@ -279,7 +277,7 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
                 image.uri = uri;
                 image.isFromNet = false;
                 images.add(image);
-                DemandsDetailsReceiptAdapter uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
+                uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
                 uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
             }
 

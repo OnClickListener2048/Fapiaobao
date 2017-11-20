@@ -176,23 +176,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                     @Override
                     public void setData(LoginWithInfoBean loginWithInfoBean) {
                         if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
-
-                            Api.withdaw(loginWithInfoBean.getData().getToken()
-                                    ,ACCOUNT_TYPE_RED
-                                    ,NetworkUtils.getIPAddress(true)
-                                    ,Double.parseDouble(tv_bonus.getText().toString())
-                                    ,loginWithInfoBean.getData().getCustomer().getOpenid()
-                                    , new Api.BaseViewCallback<PrepayBean>() {
-                                        @Override
-                                        public void setData(PrepayBean normalBean) {
-                                            if (normalBean.getStatus() ==200) {
-                                                BaseApplication.showToast("提现成功");
-                                                finish();
-                                            }else if(normalBean.getStatus() ==888){
-                                                BaseApplication.showToast("账户余额不足");
-                                            }
-                                        }
-                                    });
+                            withdaw(loginWithInfoBean.getData().getCustomer().getOpenid());
                         }else{
                             weChatLogin();
                         }

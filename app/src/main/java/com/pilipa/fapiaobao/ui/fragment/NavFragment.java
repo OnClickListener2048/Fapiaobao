@@ -11,9 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.blog.www.guideview.Guide;
-import com.blog.www.guideview.GuideBuilder;
-import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseFragment;
@@ -21,7 +18,6 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.PubActivity;
-import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.widget.NavigationButton;
 
 import java.util.List;
@@ -34,7 +30,7 @@ import butterknife.OnClick;
  * Created by lyt on 2017/10/13.
  */
 
-public class NavFragment extends BaseFragment {
+public class NavFragment extends BaseFragment implements MyCompanyDetailsPagerFragment.OnFinanceSkipListener{
 
 
     @Bind(R.id.nav_item_tex)
@@ -63,7 +59,6 @@ public class NavFragment extends BaseFragment {
     protected void initWidget(View root) {
         super.initWidget(root);
 
-
         navItemTex.init(R.drawable.selector_finance_tab,
                 R.string.main_tab_name_tex,
                 FinanceFragment.class);
@@ -75,7 +70,6 @@ public class NavFragment extends BaseFragment {
         navItemMe.init(R.drawable.selector_me_tab,
                 R.string.main_tab_name_me,
                 MeFragment.class);
-
 
     }
 
@@ -201,6 +195,11 @@ public class NavFragment extends BaseFragment {
             });
 
         }
+    }
+
+    @Override
+    public void onFinanceSkip() {
+        doSelect(navItemTex);
     }
 
     public interface OnNavigationReselectListener {
