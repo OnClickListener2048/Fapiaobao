@@ -418,8 +418,13 @@ public class ProvidedActivity extends BaseActivity {
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
         findAllRejectType();
         checkFav(CompanyId);
-        showOrderDetail(orderId);
 
+    }
+
+    @Override
+    protected void onResume() {
+        showOrderDetail(orderId);
+        super.onResume();
     }
 
     public void checkFav(final String companyId) {
@@ -548,7 +553,6 @@ public class ProvidedActivity extends BaseActivity {
                             tvArrivalState.setText("红包飞走了");
                             tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_3));
                         }
-
 
                         if (bean.getPostage() != null) {
                             tvReceiver.setText(bean.getPostage().getReceiver());
