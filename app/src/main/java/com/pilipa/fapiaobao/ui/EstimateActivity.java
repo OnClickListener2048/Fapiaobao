@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.fragment.EstimatePagerFragment;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
+import com.pilipa.fapiaobao.utils.TDevice;
 import com.tmall.ultraviewpager.UltraViewPager;
 
 import java.util.ArrayList;
@@ -151,6 +153,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         String location = BaseApplication.get("location", "定位异常，请点击重新定位");
         locating.setText(location);
         locate = location;
+        go.setVisibility(View.GONE);
         llFilterTypesLocation.setVisibility(View.VISIBLE);
         llFilterConditionTop.setVisibility(View.GONE);
         llFilterConditionBottom.setVisibility(View.GONE);
@@ -368,6 +371,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 public void setData(MacherBeanToken matchBean) {
                     TLog.log(matchBean.getStatus() + "");
                     if (matchBean.getStatus() == 200) {
+                        go.setVisibility(View.VISIBLE);
                         llhasRedbag.setVisibility(View.VISIBLE);
                         llnoredbag.setVisibility(View.GONE);
                         llEstimateCaution.setVisibility(View.GONE);
@@ -383,6 +387,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                         setUpData(matchBean);
 
                     } else if (matchBean.getStatus() == 400) {
+                        go.setVisibility(View.GONE);
                         llhasRedbag.setVisibility(View.GONE);
                         llnoredbag.setVisibility(View.VISIBLE);
                         filter.setVisibility(View.GONE);
@@ -470,6 +475,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     @Override
     public void onPageSelected(int position) {
         currentItem = position;
+        bonus.setText(String.valueOf(matchBean.getData().get(currentItem).getBonus()));
         updateButtonStatus();
     }
 
@@ -559,7 +565,24 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 showGuideView2(testRedbag);
             }
         });
-        builder.addComponent(new SimpleComponent());
+        builder.addComponent(new SimpleComponent(){
+            @Override
+            public View getView(LayoutInflater inflater) {
+                ImageView imageView = new ImageView(inflater.getContext());
+                imageView.setImageResource(R.mipmap.estimate_002);
+                return imageView;
+            }
+
+            @Override
+            public int getXOffset() {
+                return -(int) TDevice.dp2px(-25);
+            }
+
+            @Override
+            public int getYOffset() {
+                return super.getYOffset();
+            }
+        });
         Guide guide = builder.createGuide();
         guide.setShouldCheckLocInWindow(false);
         guide.show(this);
@@ -582,7 +605,19 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 BaseApplication.set(Config.IS_SHOW_ESTIMATE, true);
             }
         });
-        builder.addComponent(new MutiComponent());
+        builder.addComponent(new SimpleComponent(){
+            @Override
+            public View getView(LayoutInflater inflater) {
+                ImageView imageView = new ImageView(inflater.getContext());
+                imageView.setImageResource(R.mipmap.estimate_001);
+                return imageView;
+            }
+
+            @Override
+            public int getYOffset() {
+                return 10;
+            }
+        });
         Guide guide = builder.createGuide();
         guide.setShouldCheckLocInWindow(false);
         guide.show(this);

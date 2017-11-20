@@ -14,6 +14,7 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.example.mylibrary.utils.ActivityUtils;
+import com.example.mylibrary.utils.AppUtils;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.Utils;
 import com.example.mylibrary.widget.SimplexToast;
@@ -26,10 +27,12 @@ import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.service.UmengPushIntentService;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.pilipa.fapiaobao.ui.DemandActivity;
+import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.MyRedEnvelopeActivity;
 import com.pilipa.fapiaobao.ui.ProvidedActivity;
+import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -56,6 +59,7 @@ import okhttp3.OkHttpClient;
 import static com.pilipa.fapiaobao.net.Constant.GOT_BONUS;
 import static com.pilipa.fapiaobao.net.Constant.INCOMPETENT_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.NEWCOME_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.NEW_DEMAND;
 import static com.pilipa.fapiaobao.net.Constant.SERVICE_NOTIFICATION;
 
 /**
@@ -158,19 +162,18 @@ public class BaseApplication extends Application {
                             break;
 
                         case INCOMPETENT_INVOICE:
-
-                            String  company_id = (String) jsonObject.get("company_id");
-                            String  order_id = (String) jsonObject.get("order_id");
+                            String  company_id = (String) jsonObject.get("companyId");
+                            String  order_id = (String) jsonObject.get("orderId");
                             Intent intent1 = new Intent();
                             intent1.putExtra("CompanyId", company_id);
                             intent1.putExtra("OrderId", order_id);
                             intent1.setClass(getApplicationContext(), ProvidedActivity.class);
                             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent1);
-
                             break;
 
                         case SERVICE_NOTIFICATION:
+                            AppUtils.launchApp("com.pilipa.fapiaobao");
                             Intent intent2 = new Intent();
                             intent2.setClass(getApplicationContext(), MessageCenterActivity.class);
                             intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -178,14 +181,25 @@ public class BaseApplication extends Application {
                             break;
 
                         case GOT_BONUS:
-                            String  bonus = (String) jsonObject.get("bonus");
+                            int  bonus = (int) jsonObject.get("bonus");
                             Intent intent3 = new Intent();
-                            intent3.putExtra("bonus", bonus);
+                            intent3.putExtra("bonus", String.valueOf(bonus));
                             intent3.setClass(getApplicationContext(), MyRedEnvelopeActivity.class);
                             intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent3);
+                            TLog.log("startActivity(intent3);");
                             break;
-
+                        case NEW_DEMAND:
+                            String  companyId = (String) jsonObject.get("companyId");
+                            String  invoiceTypeId = (String) jsonObject.get("invoiceTypeId");
+                            Intent intent4 = new Intent();
+                            intent4.putExtra(FinanceFragment.EXTRA_DATA_LABEL, invoiceTypeId);
+                            intent4.putExtra("companyId", companyId);
+                            intent4.setClass(getApplicationContext(), EstimateActivity.class);
+                            intent4.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent4);
+                            TLog.log("startActivity(intent4);");
+                            break;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -4,6 +4,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -201,7 +204,6 @@ public class DemandActivity extends BaseActivity{
     };
     @Override
     protected int getLayoutId() {
-
         return R.layout.activity_demand;
     }
 
@@ -333,15 +335,22 @@ public class DemandActivity extends BaseActivity{
 
             Bundle bundle = new Bundle();
 
+            FragmentManager supportFragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+
+
             bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
             paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
-            addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
+
+            addCaptureFragment2(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
+
             bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
             paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
-            addCaptureFragment(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
+
+            addCaptureFragment2(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
             bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
             paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
-            addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+            addCaptureFragment2(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
             if(images1.size()==0){
                 container_paper_normal_receipt.setVisibility(View.GONE);
             }
@@ -518,8 +527,8 @@ public class DemandActivity extends BaseActivity{
                 wxWebpageObject.webpageUrl = Constant.MATCH;
 
                 WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
-                wxMediaMessage.description = "伙伴们，多余的发票也能挣红包了~";
-                wxMediaMessage.title = "伙伴们，多余的发票也能挣红包了~";
+                wxMediaMessage.description = getString(R.string.share_pub_title);
+                wxMediaMessage.title = getString(R.string.share_pub_description);
                 wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.icon), Bitmap.CompressFormat.JPEG);
 
                 SendMessageToWX.Req req = new SendMessageToWX.Req();

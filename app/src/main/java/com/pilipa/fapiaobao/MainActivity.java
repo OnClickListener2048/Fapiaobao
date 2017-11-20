@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
@@ -139,7 +140,24 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
             }
         });
 
-        builder.addComponent(new SimpleComponent());
+        builder.addComponent(new SimpleComponent(){
+            @Override
+            public View getView(LayoutInflater inflater) {
+                ImageView imageView = new ImageView(inflater.getContext());
+                imageView.setImageResource(R.mipmap.finance_002);
+                return imageView;
+            }
+
+            @Override
+            public int getYOffset() {
+                return -180;
+            }
+
+            @Override
+            public int getXOffset() {
+                return 130;
+            }
+        });
         guide = builder.createGuide();
         guide.setShouldCheckLocInWindow(false);
         guide.show(MainActivity.this);
@@ -168,7 +186,24 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
             }
         });
 
-        builder1.addComponent(new SimpleComponent());
+        builder1.addComponent(new SimpleComponent(){
+            @Override
+            public View getView(LayoutInflater inflater) {
+                ImageView imageView = new ImageView(inflater.getContext());
+                imageView.setImageResource(R.mipmap.finance_001);
+                return imageView;
+            }
+            // -30
+            @Override
+            public int getXOffset() {
+                return -30;
+            }
+
+            @Override
+            public int getYOffset() {
+                return -35;
+            }
+        });
         Guide guide = builder1.createGuide();
         guide.setShouldCheckLocInWindow(false);
         guide.show(MainActivity.this);

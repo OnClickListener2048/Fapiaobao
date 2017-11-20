@@ -71,6 +71,7 @@
                 android:layout_height="match_parent" />
 
             <android.support.v7.widget.AppCompatSpinner
+                android:layout_gravity="center_vertical"
                 android:background="@color/gray_line"
                 android:gravity="center_horizontal"
                 android:id="@+id/spinner"

@@ -1125,7 +1125,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        TextView textView = (TextView) view;
+        LinearLayout linearLayout = (LinearLayout) view;
+
+        TextView textView = (TextView) linearLayout.findViewById(R.id.spinner_item);
         demandPostageBean.setLogisticsCompany(textView.getText().toString().trim());
     }
 
@@ -1236,7 +1238,24 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             }
         });
 
-        builder.addComponent(new SimpleComponent());
+        builder.addComponent(new SimpleComponent(){
+            @Override
+            public View getView(LayoutInflater inflater) {
+                ImageView imageView = new ImageView(inflater.getContext());
+                imageView.setImageResource(R.mipmap.demand_publish_01);
+                return imageView;
+            }
+
+            @Override
+            public int getXOffset() {
+                return super.getXOffset();
+            }
+
+            @Override
+            public int getYOffset() {
+                return 10;
+            }
+        });
         guide = builder.createGuide();
         guide.setShouldCheckLocInWindow(false);
         guide.show(DemandsPublishActivity.this);
@@ -1263,7 +1282,24 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             }
         });
 
-        builder1.addComponent(new SimpleComponent());
+        builder1.addComponent(new SimpleComponent(){
+            @Override
+            public View getView(LayoutInflater inflater) {
+                ImageView imageView = new ImageView(inflater.getContext());
+                imageView.setImageResource(R.mipmap.demand_publish_02);
+                return imageView;
+            }
+
+            @Override
+            public int getXOffset() {
+                return -60;
+            }
+
+            @Override
+            public int getYOffset() {
+                return -250;
+            }
+        });
         Guide guide = builder1.createGuide();
         guide.setShouldCheckLocInWindow(false);
         guide.show(DemandsPublishActivity.this);

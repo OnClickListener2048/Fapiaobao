@@ -60,6 +60,7 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
 
     private void setUpAddress() {
         arrayListReceiptArea.add(BaseApplication.get("location","定位异常"));
+        TLog.log("BaseApplication.get(\"location\",\"定位异常\")"+BaseApplication.get("location","定位异常"));
         labelsArea.setLabels(arrayListReceiptArea);
         labelsArea.setSelects(0);
         locate = BaseApplication.get("location","定位异常");
@@ -177,7 +178,7 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
                 //ProvinceBean 省份信息
                 //CityBean     城市信息
                 //DistrictBean 区县信息
-                if (!arrayListReceiptArea.contains(city.getName())) {
+                if (!arrayListReceiptArea.contains(city.getName()+"市")) {
                     arrayListReceiptArea.add(city.getName()+"市");
                 }
 
