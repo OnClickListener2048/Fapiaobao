@@ -23,6 +23,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -327,33 +328,26 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         etPublishTexNumber.setTransformationMethod(new ReplacementTransformationMethod() {
             @Override
             protected char[] getOriginal() {
-                char[] originalCharArr = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-                return originalCharArr;
+                return new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
             }
 
             @Override
             protected char[] getReplacement() {
-                char[] replacementCharArr = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-                return replacementCharArr;
+                return new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
             }
         });
+
 
 
         etAreaDetails.setText(BaseApplication.get("etAreaDetails", null));
         tvArea.setText(BaseApplication.get("tvArea", null));
         etReceptionNumber.setText(BaseApplication.get("etReceptionNumber", null));
         etReceptionName.setText(BaseApplication.get("etReceptionName", null));
-        if (BaseApplication.get("Is_First_In_Publish", true)) {
-            btnAddCompanyInfo.post(new Runnable() {
-                @Override
-                public void run() {
-                    showGuideView();
-                }
-            });
-        }
+
 
 
     }
+
 
     private void initDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -414,9 +408,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     @Override
     public void initData() {
         demandPostageBean = new DemandsPublishBean.DemandPostageBean();
-        demandPostageBean.setDistrict(BaseApplication.get("district", null));
-        demandPostageBean.setCity(BaseApplication.get("city", null));
-        demandPostageBean.setProvince(BaseApplication.get("province", null));
         Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
             @Override
             public void setData(ExpressCompanyBean expressCompanyBean) {
@@ -870,7 +861,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         bean.setAttentions(etPublishCautions.getText().toString().trim());
         bean.setDeadline(etDate.getText().toString().trim());
         if (paperNormal||paperSpecial) {
-            bean.setMailMinimum(Integer.valueOf(etExpressAmountMinimum.getText().toString().trim()));
+            bean.setMailMinimum(Double.valueOf(etExpressAmountMinimum.getText().toString().trim()));
         }
         if (Switch.isChecked()) {
             if (!etAmountRedbag.getText().toString().trim().isEmpty()) {
@@ -1031,6 +1022,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                         if (companiesBean.getStatus() == 200 && companiesBean.getData() != null) {
                             if (companiesBean.getData().size() == 1) {
                                 updateCompanyInfo(companiesBean.getData().get(0));
+
                             } else {
                                 companyListAdapter.addCompanyInfo(companiesBean.getData());
                                 if (companiesBean.getData().size() > 5) {
@@ -1040,6 +1032,15 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
                         } else if (companiesBean.getStatus() == 400) {
 
+                        }
+
+                        if (BaseApplication.get("Is_First_In_Publish", true)) {
+                            btnAddCompanyInfo.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showGuideView();
+                                }
+                            });
                         }
                     }
                 });

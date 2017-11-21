@@ -74,7 +74,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     @Bind(R.id.srollview)
     NestedScrollView srollview;
     @Bind(R.id.new_notification)
-    TextView newNotification;
+    ImageView newNotification;
     public static final String EXTRA_DATA_LABEL = "extra_data_label";
     public static final String EXTRA_DATA_LABEL_NAME = "extra_data_label_name";
     @Bind(R.id.rl_pull_to_find_more)
@@ -151,7 +151,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         srollview.setSmoothScrollingEnabled(true);
         GridLayoutManager manager = new GridLayoutManager(mContext, 2, LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(manager);
-        recyclerview.addItemDecoration(new GridInsetFinance(2, 20, true));
+        recyclerview.addItemDecoration(new GridInsetFinance(2,0, true));
         recyclerviewMoreKind.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         recyclerviewMoreKind.setNestedScrollingEnabled(false);
         recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext, LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(), 23), R.color.white));

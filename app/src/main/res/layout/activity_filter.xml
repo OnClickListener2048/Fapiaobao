@@ -89,35 +89,37 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/d15" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/location"
-            android:textColor="@color/main_style" />
-
-        <View
-            android:layout_width="match_parent"
             android:layout_height="@dimen/d5" />
 
-        <com.pilipa.fapiaobao.ui.widget.LabelsView
-            android:id="@+id/labels_area"
-            android:layout_width="match_parent"
+        <TextView
+            android:textSize="@dimen/s12"
+            android:text="定位异常"
+            android:paddingTop="@dimen/d5"
+            android:paddingBottom="@dimen/d5"
+            android:paddingLeft="@dimen/d10"
+            android:paddingRight="@dimen/d10"
+            android:id="@+id/tv_area"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:labelBackground="@drawable/selector_estimate_receipt_kind_bg"
-            app:labelTextColor="@drawable/selector_estimate_receipt_kind_text"
-            app:labelTextPaddingBottom="5dp"
-            app:labelTextPaddingLeft="10dp"
-            app:labelTextPaddingRight="10dp"
-            app:labelTextPaddingTop="5dp"
-            app:labelTextSize="14sp"
-            app:lineMargin="10dp"
-            app:maxSelect="0"
-            app:selectType="SINGLE"
-            app:wordMargin="10dp">
+            android:background="@drawable/shape_filter_area"
+            android:textColor="@color/main_style" />
+        <!--<com.pilipa.fapiaobao.ui.widget.LabelsView-->
+        <!--android:id="@+id/labels_area"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:labelBackground="@drawable/selector_estimate_receipt_kind_bg"-->
+        <!--app:labelTextColor="@drawable/selector_estimate_receipt_kind_text"-->
+        <!--app:labelTextPaddingBottom="5dp"-->
+        <!--app:labelTextPaddingLeft="10dp"-->
+        <!--app:labelTextPaddingRight="10dp"-->
+        <!--app:labelTextPaddingTop="5dp"-->
+        <!--app:labelTextSize="14sp"-->
+        <!--app:lineMargin="10dp"-->
+        <!--app:maxSelect="0"-->
+        <!--app:selectType="SINGLE"-->
+        <!--app:wordMargin="10dp">-->
 
-        </com.pilipa.fapiaobao.ui.widget.LabelsView>
+        <!--</com.pilipa.fapiaobao.ui.widget.LabelsView>-->
     </LinearLayout>
 
     <LinearLayout

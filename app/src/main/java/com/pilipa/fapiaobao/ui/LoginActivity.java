@@ -73,6 +73,7 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 WXmodel wx_info = bundle.getParcelable("wx_info");
+                assert wx_info != null;
                 Api.login("1", wx_info.getOpenid(), wx_info.getAccess_token(), deviceToken, new Api.BaseViewCallback<LoginWithInfoBean>() {
                     @Override
                     public void setData(final LoginWithInfoBean loginWithInfoBean) {
@@ -130,19 +131,6 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
-        Log.d(TAG, "onCreate: ButterKnife.bind(this);ButterKnife.bind(this);ButterKnife.bind(this);ButterKnife.bind(this);");
-        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
-//        if (loginBean != null) {
-//            Api.loginByToken(loginBean.getData().getToken(), new Api.BaseViewCallback<LoginWithInfoBean>() {
-//                @Override
-//                public void setData(LoginWithInfoBean loginBean) {
-//                    //TODO 验证token是否失效
-//                    Intent intent = new Intent();
-//                    intent.setClass(LoginActivity.this, MainActivity.class);
-//                    startActivity(intent);
-//                }
-//            });
-//        }
     }
 
     @OnClick({R.id.btn_login, R.id.WeChat_login, R.id.laws})
@@ -193,13 +181,10 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                         @Override
                         public void setData(LoginWithInfoBean loginWithInfoBean) {
                             Log.d(TAG, "setData: SharedPreferencesHelper.save(LoginActivity.this,loginBean);success");
-                            LoginWithInfoBean.DataBean.CustomerBean customerBean = SharedPreferencesHelper.loadFormSource(LoginActivity.this, LoginWithInfoBean.DataBean.CustomerBean.class);
-                            loginWithInfoBean.getData().setCustomer(customerBean);
+                            loginWithInfoBean.getData().setCustomer(loginWithInfoBean.getData().getCustomer());
+                            SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean.getData().getCustomer());
                             boolean save = SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
                             Log.d(TAG, "setData:save "+save);
-//                            Intent intent1 = new Intent();
-//                            intent1.setClass(LoginActivity.this, MainActivity.class);
-//                            startActivity(intent1);
                             finish();
                         }
                     });
@@ -210,7 +195,7 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            TLog.log("RESULT_OKRESULT_OKRESULT_OKRESULT_OK");
+            TLog.log("RESULT_OK");
         }
     }
 

@@ -314,7 +314,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                     uploadInvoiceToken.setDemandId(demandsId);
                     uploadInvoiceToken.setInvoiceType(label);
                     uploadInvoiceToken.setToken(loginWithInfoBean.getData().getToken());
-                    uploadInvoiceToken.setTotalAmount((int) sum);
+                    uploadInvoiceToken.setTotalAmount(sum);
 
 
                     ArrayList<UploadInvoiceToken.InvoiceListBean> invoiceListBeanArrayList = new ArrayList<UploadInvoiceToken.InvoiceListBean>();

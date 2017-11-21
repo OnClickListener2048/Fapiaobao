@@ -51,5 +51,6 @@
     <color name="user_info_message_notice">#318923</color>
     <color name="red_estimate">#ff9076</color>
     <color name="btn_confirm">#ebb884</color>
+    <color name="shadow_finance_item">#11d4d4d4</color>
 
 </resources>

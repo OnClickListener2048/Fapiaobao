@@ -288,7 +288,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         try {
             bmp = MediaStore.Images.Media.getBitmap(cr,uri);
             try {
-                bitmap = ImageUtils.compressByQuality(bmp, (long) (100 * 1024),true);
+                bitmap = ImageUtils.compressByQuality(bmp, (long) (200 * 1024),true);
             } catch (OutOfMemoryError error) {
                 error.printStackTrace();
             }

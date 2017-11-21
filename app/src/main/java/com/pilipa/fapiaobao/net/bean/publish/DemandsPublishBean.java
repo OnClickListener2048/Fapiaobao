@@ -105,11 +105,11 @@ public class DemandsPublishBean {
     private String attentions;
     private String beginCloseDate;
     private String beginDeadline;
-    private int beginLeftAmount;
-    private int beginLeftBonus;
-    private int beginMailMinimum;
-    private int beginTotalAmount;
-    private int beginTotalBonus;
+    private double beginLeftAmount;
+    private double beginLeftBonus;
+    private double beginMailMinimum;
+    private double beginTotalAmount;
+    private double beginTotalBonus;
     private String city;
     private String closeDate;
     private CompanyBean company;
@@ -119,17 +119,17 @@ public class DemandsPublishBean {
     private DemandPostageBean demandPostage;
     private String endCloseDate;
     private String endDeadline;
-    private int endLeftAmount;
-    private int endLeftBonus;
-    private int endMailMinimum;
-    private int endTotalAmount;
-    private int endTotalBonus;
+    private double endLeftAmount;
+    private double endLeftBonus;
+    private double endMailMinimum;
+    private double endTotalAmount;
+    private double endTotalBonus;
     private String id;
     private String invoiceVarieties;
     private boolean isNewRecord;
-    private int leftAmount;
-    private int leftBonus;
-    private int mailMinimum;
+    private double leftAmount;
+    private double leftBonus;
+    private double mailMinimum;
     private OrderInvoiceBean orderInvoice;
     private String province;
     private String remarks;
@@ -181,7 +181,7 @@ public class DemandsPublishBean {
         this.beginDeadline = beginDeadline;
     }
 
-    public int getBeginLeftAmount() {
+    public double getBeginLeftAmount() {
         return beginLeftAmount;
     }
 
@@ -189,7 +189,7 @@ public class DemandsPublishBean {
         this.beginLeftAmount = beginLeftAmount;
     }
 
-    public int getBeginLeftBonus() {
+    public double getBeginLeftBonus() {
         return beginLeftBonus;
     }
 
@@ -197,7 +197,7 @@ public class DemandsPublishBean {
         this.beginLeftBonus = beginLeftBonus;
     }
 
-    public int getBeginMailMinimum() {
+    public double getBeginMailMinimum() {
         return beginMailMinimum;
     }
 
@@ -205,7 +205,7 @@ public class DemandsPublishBean {
         this.beginMailMinimum = beginMailMinimum;
     }
 
-    public int getBeginTotalAmount() {
+    public double getBeginTotalAmount() {
         return beginTotalAmount;
     }
 
@@ -213,7 +213,7 @@ public class DemandsPublishBean {
         this.beginTotalAmount = beginTotalAmount;
     }
 
-    public int getBeginTotalBonus() {
+    public double getBeginTotalBonus() {
         return beginTotalBonus;
     }
 
@@ -293,7 +293,7 @@ public class DemandsPublishBean {
         this.endDeadline = endDeadline;
     }
 
-    public int getEndLeftAmount() {
+    public double getEndLeftAmount() {
         return endLeftAmount;
     }
 
@@ -301,7 +301,7 @@ public class DemandsPublishBean {
         this.endLeftAmount = endLeftAmount;
     }
 
-    public int getEndLeftBonus() {
+    public double getEndLeftBonus() {
         return endLeftBonus;
     }
 
@@ -309,7 +309,7 @@ public class DemandsPublishBean {
         this.endLeftBonus = endLeftBonus;
     }
 
-    public int getEndMailMinimum() {
+    public double getEndMailMinimum() {
         return endMailMinimum;
     }
 
@@ -317,7 +317,7 @@ public class DemandsPublishBean {
         this.endMailMinimum = endMailMinimum;
     }
 
-    public int getEndTotalAmount() {
+    public double getEndTotalAmount() {
         return endTotalAmount;
     }
 
@@ -325,7 +325,7 @@ public class DemandsPublishBean {
         this.endTotalAmount = endTotalAmount;
     }
 
-    public int getEndTotalBonus() {
+    public double getEndTotalBonus() {
         return endTotalBonus;
     }
 
@@ -357,7 +357,7 @@ public class DemandsPublishBean {
         this.isNewRecord = isNewRecord;
     }
 
-    public int getLeftAmount() {
+    public double getLeftAmount() {
         return leftAmount;
     }
 
@@ -365,7 +365,7 @@ public class DemandsPublishBean {
         this.leftAmount = leftAmount;
     }
 
-    public int getLeftBonus() {
+    public double getLeftBonus() {
         return leftBonus;
     }
 
@@ -373,11 +373,11 @@ public class DemandsPublishBean {
         this.leftBonus = leftBonus;
     }
 
-    public int getMailMinimum() {
+    public double getMailMinimum() {
         return mailMinimum;
     }
 
-    public void setMailMinimum(int mailMinimum) {
+    public void setMailMinimum(double mailMinimum) {
         this.mailMinimum = mailMinimum;
     }
 

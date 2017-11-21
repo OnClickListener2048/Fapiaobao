@@ -19,7 +19,7 @@ public class UploadInvoiceToken {
     private String demandId;
     private String invoiceType;
     private String token;
-    private int totalAmount;
+    private double totalAmount;
     private List<InvoiceListBean> invoiceList;
 
     public String getDemandId() {
@@ -46,11 +46,11 @@ public class UploadInvoiceToken {
         this.token = token;
     }
 
-    public int getTotalAmount() {
+    public double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(int totalAmount) {
+    public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
 

@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:elevation="5dp"
-    android:translationZ="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_gravity="center"
     android:layout_height="wrap_content">
+
+
+        <com.dd.ShadowLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:sl_cornerRadius="@dimen/d10"
+            app:sl_dx="@dimen/d5"
+            app:sl_dy="@dimen/d5"
+            app:sl_shadowColor="@color/shadow_finance_item"
+            app:sl_shadowRadius="@dimen/d5">
         <ImageView
             android:layout_gravity="center"
             android:id="@+id/iv_finance_kind"
@@ -12,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <com.pilipa.fapiaobao.ui.widget.AdjustTextView
+            android:textColor="#787878"
             android:gravity="center"
             android:id="@+id/tv_finance_kind"
             android:layout_marginLeft="@dimen/d20"
@@ -20,4 +32,6 @@
             android:text="汽车票"
             android:layout_width="@dimen/d90"
             android:layout_height="wrap_content" />
+        </com.dd.ShadowLayout>
+
 </FrameLayout>

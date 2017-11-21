@@ -53,8 +53,8 @@ public class AccountHelper {
         return token == null ? "notoken" : token;
     }
 
-    public static String getUserId() {
-        return getUser().getData().getCustomer().getId();
+    public static LoginWithInfoBean.DataBean.CustomerBean getUserCustormer() {
+        return SharedPreferencesHelper.loadFormSource(instances.application, LoginWithInfoBean.DataBean.CustomerBean.class);
     }
 
     public synchronized static LoginWithInfoBean getUser() {

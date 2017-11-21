@@ -52,6 +52,7 @@ public class NavFragment extends BaseFragment{
         @Override
         public void onReceive(Context context, Intent intent) {
             if (START_ACTIVITY_FROM_DETAILS.equals(intent.getAction())) {
+                doSelect(navItemTex);
             }
         }
     };
@@ -164,7 +165,7 @@ public class NavFragment extends BaseFragment{
                 ft.attach(newNavButton.getFragment());
             }
         }
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     /**

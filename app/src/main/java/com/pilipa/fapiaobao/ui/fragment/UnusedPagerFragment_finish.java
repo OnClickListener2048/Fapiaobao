@@ -170,7 +170,7 @@ public class UnusedPagerFragment_finish extends BaseFragment implements AdapterV
                 public void setData(DemandsListBean demandsListBean) {
                     if(demandsListBean.getStatus() == REQUEST_SUCCESS){
                         List<DemandsListBean.DataBean> list =  demandsListBean.getData();
-                        dataBeanList.addAll(list);
+                        dataBeanList = list;
                         mAdapter.initData(list);
                         Log.d(TAG, "demandsList success");
                     }

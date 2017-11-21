@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.example.mylibrary.utils.ImageLoader;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.ui.widget.AdjustTextView;
+import com.pilipa.fapiaobao.utils.TDevice;
 
 
 /**
@@ -93,6 +95,10 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public Financeholder(View itemView) {
             super(itemView);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                itemView.setTranslationZ(TDevice.dp2px(5));
+                itemView.setElevation(TDevice.dp2px(5));
+            }
             tv_finance = (AdjustTextView) itemView.findViewById(R.id.tv_finance_kind);
             iv_finance = (ImageView) itemView.findViewById(R.id.iv_finance_kind);
         }

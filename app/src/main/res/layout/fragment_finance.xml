@@ -40,14 +40,15 @@
                 android:layout_height="@dimen/d20"
                 android:layout_margin="@dimen/d10"
                 android:src="@mipmap/notification" />
-            <TextView
-                android:id="@+id/new_notification"
+
+            <ImageView
+                android:src="@mipmap/dot_notification"
                 android:visibility="gone"
+                android:id="@+id/new_notification"
                 android:layout_width="@dimen/d10"
                 android:layout_height="@dimen/d10"
                 android:layout_gravity="top|right"
                 android:layout_margin="@dimen/d10"
-                android:background="@drawable/red_new_dot"
                 />
         </FrameLayout>
 
@@ -74,7 +75,7 @@
 
                 <android.support.v4.widget.Space
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/d21" />
+                    android:layout_height="@dimen/d15" />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -86,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
-                        android:layout_marginTop="@dimen/d21"
+                        android:layout_marginTop="@dimen/d15"
                         android:textColor="@color/main_style"
                         android:layout_below="@+id/select_your_receipt_kind"
                         android:layout_centerHorizontal="true"
@@ -97,8 +98,8 @@
                 </RelativeLayout>
 
                 <android.support.v4.widget.Space
-                    android:layout_width="@dimen/d2"
-                    android:layout_height="@dimen/d23" />
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/d3" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"

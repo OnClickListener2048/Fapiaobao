@@ -1,18 +1,12 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
 import com.example.mylibrary.utils.TLog;
 import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
@@ -36,7 +30,7 @@ import butterknife.OnClick;
  * Created by edz on 2017/11/5.
  */
 
-public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSelectChangeListener {
+public class FilterActivity extends BaseActivity {
 
     @Bind(R.id.title)
     TextView title;
@@ -46,24 +40,20 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
     TextView confirm;
     @Bind(R.id.labels_receipt_kind)
     LabelsView labelsReceiptKind;
-    @Bind(R.id.labels_area)
-    LabelsView labelsArea;
     @Bind(R.id.others_province)
     RelativeLayout othersProvince;
     String locate = "";
     int type = 0;
-    private ArrayList<String> arrayListSelectedReceiptKind;
-    private ArrayList<String> arrayListReceiptArea = new ArrayList<>();
+    @Bind(R.id.tv_area)
+    TextView tvArea;
     private ArrayList<String> arrayListReceiptKind = new ArrayList<>();
 
     private CityPickerView cityPicker;
 
     private void setUpAddress() {
-        arrayListReceiptArea.add(BaseApplication.get("location","定位异常"));
-        TLog.log("BaseApplication.get(\"location\",\"定位异常\")"+BaseApplication.get("location","定位异常"));
-        labelsArea.setLabels(arrayListReceiptArea);
-        labelsArea.setSelects(0);
-        locate = BaseApplication.get("location","定位异常");
+        tvArea.setText(BaseApplication.get("location", "定位异常"));
+        locate = BaseApplication.get("location", "定位异常");
+        TLog.log("BaseApplication.get(\"location\",\"定位异常\")" + BaseApplication.get("location", "定位异常"));
     }
 
     @Override
@@ -81,7 +71,6 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
         initLabels();
         initCityPicker();
         setUpAddress();
-        labelsArea.setOnLabelSelectChangeListener(this);
         labelsReceiptKind.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
             @Override
             public void onLabelSelectChange(View label, String labelText, boolean isSelect, int position) {
@@ -95,7 +84,6 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
     }
 
     private void initLabels() {
-        arrayListSelectedReceiptKind = new ArrayList<>();
         arrayListReceiptKind.addAll(StaticDataCreator.initReceiptKindData(this));
         labelsReceiptKind.setLabels(arrayListReceiptKind);
 
@@ -128,7 +116,7 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
                     return;
                 }
                 intent.putExtra("type", type);
-                setResult(RESULT_OK,intent);
+                setResult(RESULT_OK, intent);
                 finish();
                 break;
             case R.id.others_province:
@@ -140,7 +128,6 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
                 break;
         }
     }
-
 
 
     private void initCityPicker() {
@@ -174,16 +161,8 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
             @Override
             public void onSelected(ProvinceBean province, CityBean city) {
                 super.onSelected(province, city);
-                //返回结果
-                //ProvinceBean 省份信息
-                //CityBean     城市信息
-                //DistrictBean 区县信息
-                if (!arrayListReceiptArea.contains(city.getName()+"市")) {
-                    arrayListReceiptArea.add(city.getName()+"市");
-                }
-
-                labelsArea.setLabels(arrayListReceiptArea);
-                labelsArea.setSelects(arrayListReceiptArea.size()-1);
+                locate = city.getName() + "市";
+                tvArea.setText(city.getName() + "市");
                 cityPicker.hide();
             }
 
@@ -197,10 +176,4 @@ public class FilterActivity extends BaseActivity implements LabelsView.OnLabelSe
 
     }
 
-    @Override
-    public void onLabelSelectChange(View label, String labelText, boolean isSelect, int position) {
-        if (isSelect) {
-            locate = labelText;
-        }
-    }
 }

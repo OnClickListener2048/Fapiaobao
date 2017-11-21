@@ -76,8 +76,13 @@
             android:text="@string/paper_normal_receipt"
             android:textColor="@color/main_style"
             android:visibility="gone" />
-    </LinearLayout>
 
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d2"
+        android:layout_marginTop="@dimen/d5"
+        android:background="@color/main_style" />
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -87,11 +92,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d2"
-                android:layout_marginTop="@dimen/d5"
-                android:background="@color/main_style" />
+
 
             <include layout="@layout/publish_company_info" />
 

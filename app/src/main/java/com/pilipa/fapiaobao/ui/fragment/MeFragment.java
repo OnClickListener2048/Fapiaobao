@@ -62,7 +62,7 @@ public class MeFragment extends BaseFragment{
     @Bind(R.id.LevelIcon)
     ImageView imgLevelIcon;
     @Bind(R.id.red_new_dot)
-    TextView red_new_dot;
+    ImageView red_new_dot;
     int[] LevelIcon=new int[]{R.mipmap.star0,R.mipmap.star1,R.mipmap.star2,R.mipmap.star3,R.mipmap.star4,R.mipmap.star5
                               ,R.mipmap.star6,R.mipmap.star7,R.mipmap.star8,R.mipmap.star9,R.mipmap.star10};
 

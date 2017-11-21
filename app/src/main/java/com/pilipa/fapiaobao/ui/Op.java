@@ -81,7 +81,8 @@ public class Op extends AppCompatActivity implements
                     "            {selector:'#telephoneNumber', value:'"+company_info.getPhone()+"'},\n" +
                     "            {selector:'#address', value:'"+company_info.getAddress()+"'},\n" +
                     "            {selector:'#depositBank',value:'"+company_info.getDepositBank()+"'},\n" +
-                    "            {selector:'#bankAccount',value:'"+company_info.getAccount()+"'}\n" +
+                    "            {selector:'#bankAccount',value:'"+company_info.getAccount()+"'},\n" +
+                    "            {selector:'#cellPhoneNumber',value:'"+AccountHelper.getUserCustormer().getTelephone()+"'}\n" +
                     "        ]);");
             }
         }

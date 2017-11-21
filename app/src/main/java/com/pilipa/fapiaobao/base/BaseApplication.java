@@ -105,12 +105,10 @@ public class BaseApplication extends Application {
         Utils.init(this);
         AccountHelper.init(this);
 
-//        OkGo.getInstance().init(this);
         CrashReport.initCrashReport(getApplicationContext(), Bugly.APP_ID, Bugly.TOOGLE);
         UMConfigure.init(this, PushConstant.APP_KEY, PushConstant.Umeng_Message_Secret, UMConfigure.DEVICE_TYPE_PHONE, PushConstant.Umeng_Message_Secret);
         mPushAgent = PushAgent.getInstance(_context);
         mPushAgent.onAppStart();
-//        mPushAgent.setPushIntentServiceClass(UmengPushIntentService.class);
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String s) {
@@ -178,7 +176,7 @@ public class BaseApplication extends Application {
                             startActivity(intent2);
                             break;
                         case GOT_BONUS:
-                            int  bonus = (int) jsonObject.get("bonus");
+                            double  bonus = (double) jsonObject.get("bonus");
                             Intent intent3 = new Intent();
                             intent3.putExtra("bonus", String.valueOf(bonus));
                             intent3.setClass(getApplicationContext(), MyRedEnvelopeActivity.class);
