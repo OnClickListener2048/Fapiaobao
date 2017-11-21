@@ -33,6 +33,7 @@ import com.pilipa.fapiaobao.ui.MyWalletActivity;
 import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.ReceiptFolderActivity;
 import com.pilipa.fapiaobao.ui.UserInfoActivity;
+import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
 
@@ -162,24 +163,37 @@ public class MeFragment extends BaseFragment{
                             switch (view.getId()) {
                                 case R.id.tv_userName:
                                 case R.id.img_head_me:
-                                    startActivity(new Intent(getContext(), UserInfoActivity.class));
+                                    if (!ButtonUtils.isFastDoubleClick(R.id.tv_userName)||
+                                            !ButtonUtils.isFastDoubleClick(R.id.img_head_me)) {
+                                        startActivity(new Intent(getContext(), UserInfoActivity.class));
+                                    }
                                     break;
                                 case R.id.notification:
-                                    red_new_dot.setVisibility(View.GONE);
-                                    BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
-                                    startActivity(new Intent(getContext(), MessageCenterActivity.class));
+                                    if (!ButtonUtils.isFastDoubleClick(R.id.notification)) {
+                                        red_new_dot.setVisibility(View.GONE);
+                                        BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
+                                        startActivity(new Intent(getContext(), MessageCenterActivity.class));
+                                    }
                                     break;
                                 case R.id.btn_mPublish:
-                                    startActivity(new Intent(getContext(), HistoryActivity2.class));
+                                    if (!ButtonUtils.isFastDoubleClick(R.id.btn_mPublish)) {
+                                        startActivity(new Intent(getContext(), HistoryActivity2.class));
+                                    }
                                     break;
                                 case R.id.btn_manager:
-                                    startActivity(new Intent(getContext(), CompanyManagerActivity.class));
+                                    if (!ButtonUtils.isFastDoubleClick(R.id.btn_manager)) {
+                                        startActivity(new Intent(getContext(), CompanyManagerActivity.class));
+                                    }
                                     break;
                                 case R.id.btn_receipt_folder:
-                                    startActivity(new Intent(getContext(), ReceiptFolderActivity.class));
+                                    if (!ButtonUtils.isFastDoubleClick(R.id.btn_receipt_folder)) {
+                                        startActivity(new Intent(getContext(), ReceiptFolderActivity.class));
+                                    }
                                     break;
                                 case R.id.tv_creditRating:
-                                    startActivity(new Intent(getContext(), CreditRatingActivity.class));
+                                    if (!ButtonUtils.isFastDoubleClick(R.id.tv_creditRating)) {
+                                        startActivity(new Intent(getContext(), CreditRatingActivity.class));
+                                    }
                                     break;
                             }
                         } else {
@@ -247,7 +261,7 @@ public class MeFragment extends BaseFragment{
                         if(tvUserName != null){
                             tvUserName.setText(customer.getNickname());
                             tvCreditRating.setText("积分："+customer.getCreditScore());
-                            tvBouns.setText(String.format("%.2f", customer.getAmount())+"元");//钱包金额
+                            tvBouns.setText(String.format("%.2f", customer.getAmount()));//钱包金额
                             Log.d("IMAGE_HEAD",customer.getHeadimg());
                             requestManager
                                     .load(customer.getHeadimg())

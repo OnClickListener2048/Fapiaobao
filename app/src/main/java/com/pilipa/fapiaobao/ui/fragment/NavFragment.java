@@ -34,7 +34,7 @@ import static com.pilipa.fapiaobao.ui.fragment.model.Constant.START_ACTIVITY_FRO
  * Created by lyt on 2017/10/13.
  */
 
-public class NavFragment extends BaseFragment implements MyCompanyDetailsPagerFragment.OnFinanceSkipListener{
+public class NavFragment extends BaseFragment{
 
 
     @Bind(R.id.nav_item_tex)
@@ -218,10 +218,6 @@ public class NavFragment extends BaseFragment implements MyCompanyDetailsPagerFr
         }
     }
 
-    @Override
-    public void onFinanceSkip() {
-        doSelect(navItemTex);
-    }
 
     public interface OnNavigationReselectListener {
         void onReselect(NavigationButton navigationButton);

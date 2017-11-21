@@ -116,6 +116,7 @@ public class UnusedPagerFragment_close extends BaseFragment implements AdapterVi
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    demandsList(STATE_DEMAND_CLOSE);
                     if(trl != null)
                         trl.finishRefreshing();
                 }

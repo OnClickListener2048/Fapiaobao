@@ -115,6 +115,7 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    demandsList(STATE_DEMAND_ING);
                     if(trl != null)
                         trl.finishRefreshing();
                 }

@@ -117,6 +117,7 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
                     if (normalBean.getStatus() == REQUEST_SUCCESS) {
                         mDialog.dismiss();
                         companyDetailsAdapter.remove(mPreviousPos);
+
                     }
                 }
             });

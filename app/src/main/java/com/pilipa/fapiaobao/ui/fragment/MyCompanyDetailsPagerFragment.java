@@ -228,10 +228,6 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
                 mContext.sendBroadcast(intent1);
                 ActivityUtils.finishActivity(FavCompanyDetailsActivity.class);
                 ActivityUtils.finishActivity(CompanyManagerActivity.class);
-
-                if (onFinanceSkipListener!= null) {
-                    onFinanceSkipListener.onFinanceSkip();
-                }
             }
         });
     }
@@ -414,12 +410,5 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
     public interface OnNextClickListener {
         void onNextClick();
     }
-    private OnFinanceSkipListener onFinanceSkipListener;
-    public interface OnFinanceSkipListener {
-        void onFinanceSkip();
-    }
 
-    public void setOnFinanceSkipListener(OnFinanceSkipListener onFinanceSkipListener) {
-        this.onFinanceSkipListener = onFinanceSkipListener;
-    }
 }

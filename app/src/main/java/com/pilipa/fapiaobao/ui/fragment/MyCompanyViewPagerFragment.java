@@ -116,6 +116,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    getCompanyList();
                     if(trl != null)
                         trl.finishRefreshing();
                 }
@@ -173,8 +174,8 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
                         List<CompaniesBean.DataBean> list =  companiesBean.getData();
                         mData.clear();
                         mData.addAll(list);
-                        mAdapter.initData(list);
-                        Log.d(TAG, "CompanyList"+list.get(0).toString());
+                        mAdapter.initData(mData);
+                        Log.d(TAG, "CompanyList"+list.size());
                     }
                 }
             });
