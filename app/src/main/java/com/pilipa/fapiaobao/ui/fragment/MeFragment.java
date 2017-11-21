@@ -274,7 +274,7 @@ public class MeFragment extends BaseFragment{
                 }else if(loginWithInfoBean.getStatus() == 701){
                     tvUserName.setText("");
                     tvCreditRating.setText("积分："+"");
-                    tvBouns.setText("0 元");//钱包金额
+                    tvBouns.setText("0 ");//钱包金额
                     imgLevelIcon.setImageResource(LevelIcon[0]);
                     requestManager
                             .load("")
