@@ -117,7 +117,11 @@ public class MyRedEnvelopeActivity extends BaseActivity {
             break;
             case R.id.btn_withdraw: {
                 if(Double.parseDouble(bonus)>0.0){
-                    setDialog();
+                    if(Double.parseDouble(bonus)<1.0){
+                        BaseApplication.showToast("提现金额不能少于1元");
+                    }else{
+                        setDialog();
+                    }
                 }else{
                     BaseApplication.showToast("账户余额不足");
                 }

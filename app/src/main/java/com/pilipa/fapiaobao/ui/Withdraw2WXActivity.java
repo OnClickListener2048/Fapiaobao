@@ -131,7 +131,11 @@ public class Withdraw2WXActivity extends BaseActivity {
             }
             break;
             case R.id.btn_withdraw: {
-                setDialog();
+                if(Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ?"0":tv_amount.getText().toString().trim())<1.0){
+                    BaseApplication.showToast("提现金额不能少于1元");
+                }else{
+                    setDialog();
+                }
             }
             break;
             case R.id.withdraw_all: {
