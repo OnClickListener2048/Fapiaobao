@@ -203,7 +203,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
     private int getImageResize(Context context) {
 
-        if (mImageResize == 0) {
+        if (mImageResize == 0 && recyclerview !=null) {
             RecyclerView.LayoutManager lm = recyclerview.getLayoutManager();
             int spanCount = ((GridLayoutManager) lm).getSpanCount();
             int screenWidth = context.getResources().getDisplayMetrics().widthPixels;

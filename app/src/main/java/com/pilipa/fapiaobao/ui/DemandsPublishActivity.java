@@ -1017,6 +1017,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         mTipDialog.show();
     }
 
+
     private void requestForCompanies() {
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
             @Override

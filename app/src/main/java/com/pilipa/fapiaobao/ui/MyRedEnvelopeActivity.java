@@ -35,7 +35,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.ACCOUNT_TYPE_RED;
-import static com.pilipa.fapiaobao.net.Constant.ACCOUNT_TYPE_WALLET;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_PLATFORM_WX;
 import static com.pilipa.fapiaobao.ui.LoginActivity.WX_LOGIN_ACTION;
 
@@ -91,7 +90,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     }
     private void withdaw(String openID){
         Api.withdaw(AccountHelper.getToken()
-                ,ACCOUNT_TYPE_WALLET
+                ,ACCOUNT_TYPE_RED
                 ,NetworkUtils.getIPAddress(true)
                 ,Double.parseDouble(tv_bonus.getText().toString())
                 ,openID
