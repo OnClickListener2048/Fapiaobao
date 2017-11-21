@@ -187,7 +187,7 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
                     List<FavoriteCompanyBean.DataBean> list =  favoriteCompanyBean.getData();
                     mData.clear();
                     mData=list ;
-                    mAdapter.initData(list);
+                    mAdapter.initData(mData);
                     Log.d(TAG, "FavoriteCompany success");
                 }
             });
