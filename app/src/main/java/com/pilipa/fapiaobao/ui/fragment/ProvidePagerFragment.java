@@ -164,7 +164,7 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
                     @Override
                     public void setData(OrderListBean orderListBean) {
                         List<OrderListBean.DataBean> list =  orderListBean.getData();
-                        mDataList.addAll(list);
+                        mDataList = list;
                         mAdapter.initData(mDataList);
                         Log.d(TAG, "updateData:orderList success");
                     }

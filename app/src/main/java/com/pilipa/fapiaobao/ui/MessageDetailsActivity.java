@@ -102,7 +102,7 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
 
                                 if (messageDetailsBean.getStatus() == 200) {
                                     noContent.setVisibility(View.GONE);
-                                    list.addAll(messageDetailsBean.getData());
+                                    list = messageDetailsBean.getData();
                                     adapter.initData(list);
                                 } else if (messageDetailsBean.getStatus() == 400) {
                                     noContent.setVisibility(View.VISIBLE);

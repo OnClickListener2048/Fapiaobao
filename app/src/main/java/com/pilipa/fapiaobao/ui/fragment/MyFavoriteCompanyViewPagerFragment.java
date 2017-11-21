@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +46,7 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
     @Bind(R.id.trl)
     TwinklingRefreshLayout trl;
     private MyCompanyAdapter mAdapter;
-    public ArrayList<FavoriteCompanyBean.DataBean> mData = new ArrayList();
+    public List<FavoriteCompanyBean.DataBean> mData = new ArrayList();
 
     public MyFavoriteCompanyViewPagerFragment() {
 
@@ -172,7 +173,7 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(mContext, FavCompanyDetailsActivity.class);
-        intent.putParcelableArrayListExtra("favCompanyList",mData);
+        intent.putParcelableArrayListExtra("favCompanyList", (ArrayList<? extends Parcelable>) mData);
         intent.putExtra("mPreviousPos",position);
         startActivity(intent);
     }
@@ -185,7 +186,7 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
                 public void setData(FavoriteCompanyBean favoriteCompanyBean) {
                     List<FavoriteCompanyBean.DataBean> list =  favoriteCompanyBean.getData();
                     mData.clear();
-                    mData.addAll(list) ;
+                    mData=list ;
                     mAdapter.initData(list);
                     Log.d(TAG, "FavoriteCompany success");
                 }

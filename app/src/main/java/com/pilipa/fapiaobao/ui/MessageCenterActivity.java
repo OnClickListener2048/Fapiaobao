@@ -95,8 +95,7 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
                             public void setData(MessageListBean messageListBean) {
                                 if (messageListBean.getStatus() == 200) {
                                     noContent.setVisibility(View.GONE);
-                                    list.clear();
-                                    list.addAll(messageListBean.getData());
+                                    list =messageListBean.getData();
                                     messageCenterAdapter.initData(list);
 
                                 } else if (messageListBean.getStatus() == 400) {

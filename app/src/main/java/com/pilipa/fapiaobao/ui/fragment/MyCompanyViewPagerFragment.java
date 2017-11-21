@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
     TwinklingRefreshLayout trl;
     private MyCompanyAdapter mAdapter;
 
-    public ArrayList<CompaniesBean.DataBean> mData = new ArrayList();
+    public List<CompaniesBean.DataBean> mData = new ArrayList();
     public MyCompanyViewPagerFragment() {
 
     }
@@ -160,7 +161,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(mContext, CompanyDetailsActivity.class);
-        intent.putParcelableArrayListExtra("companyList",mData);
+        intent.putParcelableArrayListExtra("companyList", (ArrayList<? extends Parcelable>) mData);
         intent.putExtra("mPreviousPos",position);
         startActivity(intent);
     }
@@ -173,7 +174,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
                     if(companiesBean.getStatus() == REQUEST_SUCCESS){
                         List<CompaniesBean.DataBean> list =  companiesBean.getData();
                         mData.clear();
-                        mData.addAll(list);
+                        mData=list;
                         mAdapter.initData(mData);
                         Log.d(TAG, "CompanyList"+list.size());
                     }
