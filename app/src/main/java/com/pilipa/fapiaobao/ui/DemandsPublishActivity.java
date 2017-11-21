@@ -957,20 +957,21 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         }
 
         if (paperSpecial) {
+            String str = "请完善必填信息";
             if (!checkIfIsEmpty(etPublishAddress)) {
-                BaseApplication.showToast("发布地址不能为空");
+                BaseApplication.showToast(str);
                 return false;
             }
             if (!checkIfIsEmpty(etPublishPhoneNumber)) {
-                BaseApplication.showToast("电话号码不能为空");
+                BaseApplication.showToast(str);
                 return false;
             }
             if (!checkIfIsEmpty(etPublishBankAccount)) {
-                BaseApplication.showToast("银行账户不能为空");
+                BaseApplication.showToast(str);
                 return false;
             }
             if (!checkIfIsEmpty(etPublishBank)) {
-                BaseApplication.showToast("开户银行不能为空");
+                BaseApplication.showToast(str);
                 return false;
             }
         }
