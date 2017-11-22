@@ -125,9 +125,14 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
     @Override
     protected void initData() {
-        super.initData();
         myInvoiceList();
 
+        super.initData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     private void setUpData(List<MyInvoiceListBean.DataBean> results) {
