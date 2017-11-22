@@ -343,9 +343,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         tvArea.setText(BaseApplication.get("tvArea", null));
         etReceptionNumber.setText(BaseApplication.get("etReceptionNumber", null));
         etReceptionName.setText(BaseApplication.get("etReceptionName", null));
-
-
-
     }
 
 
@@ -408,6 +405,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     @Override
     public void initData() {
         demandPostageBean = new DemandsPublishBean.DemandPostageBean();
+        demandPostageBean.setProvince(BaseApplication.get("province",null));
+        demandPostageBean.setCity(BaseApplication.get("city",null));
+        demandPostageBean.setDistrict(BaseApplication.get("district",null));
         Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
             @Override
             public void setData(ExpressCompanyBean expressCompanyBean) {
