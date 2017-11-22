@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="268dp"
-        android:layout_height="364dp"
+        android:layout_height="374dp"
         android:background="@mipmap/update_bg"
         android:clipChildren="false"
         android:clipToPadding="false"
@@ -16,7 +16,7 @@
         <android.support.v4.widget.Space
             android:id="@+id/space"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/d140" />
+            android:layout_height="@dimen/d150" />
 
         <LinearLayout
             android:id="@+id/top"

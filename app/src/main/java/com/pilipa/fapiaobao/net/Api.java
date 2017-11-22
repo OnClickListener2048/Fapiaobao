@@ -217,8 +217,7 @@ public class Api {
                     if (response.body().getStatus() == 400) {
                         BaseApplication.showToast("没有找到业务数据");
                     } else {
-
-                    baseViewCallback.setData(response.body());
+                        baseViewCallback.setData(response.body());
                     }
                 }
 
@@ -236,9 +235,7 @@ public class Api {
         OkGo.<ShortMessageBean>get(String.format(SHORT_MESSAGE_VERIFY, moible)).execute(new JsonCallBack<ShortMessageBean>(ShortMessageBean.class) {
             @Override
             public void onSuccess(Response<ShortMessageBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -247,9 +244,7 @@ public class Api {
         OkGo.<LoginBean>get(String.format(UBIND, token)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
             @Override
             public void onSuccess(Response<LoginBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -301,9 +296,7 @@ public class Api {
         OkGo.<CompaniesBean>get(String.format(COMPANIES_LIST, token)).execute(new JsonCallBack<CompaniesBean>(CompaniesBean.class) {
             @Override
             public void onSuccess(Response<CompaniesBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -318,9 +311,7 @@ public class Api {
         OkGo.<CompanyDetailsBean>get(String.format(COMPANY_INFO, id)).execute(new JsonCallBack<CompanyDetailsBean>(CompanyDetailsBean.class) {
             @Override
             public void onSuccess(Response<CompanyDetailsBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -339,9 +330,7 @@ public class Api {
                 .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
                     @Override
                     public void onSuccess(Response<NormalBean> response) {
-                        if ("OK".equals(response.body().getMsg())) {
                             baseViewCallback.setData(response.body());
-                        }
                     }
                 });
     }
@@ -357,9 +346,7 @@ public class Api {
         OkGo.<NormalBean>delete(String.format(DELETE_COMPANY, id, token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -374,9 +361,7 @@ public class Api {
         OkGo.<FavoriteCompanyBean>get(String.format(FAVORITE_COMPANY_LIST, token)).execute(new JsonCallBack<FavoriteCompanyBean>(FavoriteCompanyBean.class) {
             @Override
             public void onSuccess(Response<FavoriteCompanyBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -412,9 +397,7 @@ public class Api {
                 .execute(new JsonCallBack<FavBean>(FavBean.class) {
                     @Override
                     public void onSuccess(Response<FavBean> response) {
-                        if ("OK".equals(response.body().getMsg())) {
                             baseViewCallback.setData(response.body());
-                        }
                     }
                 });
     }
@@ -429,9 +412,7 @@ public class Api {
         OkGo.<DemandsListBean>get(String.format(USER_ISSUED_LIST,state,token)).execute(new JsonCallBack<DemandsListBean>(DemandsListBean.class) {
             @Override
             public void onSuccess(Response<DemandsListBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -483,9 +464,7 @@ public class Api {
         OkGo.<NormalBean>get(String.format(SHAT_DOWN_EARLY,demandId,token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -596,9 +575,7 @@ public class Api {
             @Override
             public void onSuccess(Response<ExpressCompanyBean> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getMsg().equals("OK")) {
                         baseViewCallback.setData(response.body());
-                    }
                 }
             }
         });
@@ -735,9 +712,7 @@ public class Api {
         OkGo.<OrderListBean>get(String.format(ORDER_LIST, token,pageNo,pageSize)).execute(new JsonCallBack<OrderListBean>(OrderListBean.class) {
             @Override
             public void onSuccess(Response<OrderListBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -752,9 +727,7 @@ public class Api {
         OkGo.<ConfirmInvoiceBean>get(String.format(CONFIRM_INVOICE,token,orderInvoiceId)).execute(new JsonCallBack<ConfirmInvoiceBean>(ConfirmInvoiceBean.class) {
             @Override
             public void onSuccess(Response<ConfirmInvoiceBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -774,9 +747,7 @@ public class Api {
                 .execute(new JsonCallBack<RejectInvoiceBean>(RejectInvoiceBean.class) {
             @Override
             public void onSuccess(Response<RejectInvoiceBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -867,9 +838,7 @@ public class Api {
         OkGo.<OrderDetailsBean>delete(String.format(MESSAGE_REMOVE,customerId,token)).execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
             @Override
             public void onSuccess(Response<OrderDetailsBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -883,9 +852,7 @@ public class Api {
         OkGo.<NormalBean>delete(String.format(DELETE_MY_INVOICE,token,invoiceId)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
 
             @Override
@@ -918,9 +885,7 @@ public class Api {
                 .execute(new JsonCallBack<FeedBackBean>(FeedBackBean.class) {
             @Override
             public void onSuccess(Response<FeedBackBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
@@ -1143,9 +1108,7 @@ public class Api {
         OkGo.<RejectTypeBean>get(FIND_ALL_REJECT_TYPE).execute(new JsonCallBack<RejectTypeBean>(RejectTypeBean.class) {
             @Override
             public void onSuccess(Response<RejectTypeBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }
