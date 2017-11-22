@@ -1,7 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -90,9 +89,6 @@ public class RechargeDetailsActivity extends BaseActivity {
                             }
                         }
                     });
-                }else {
-                    startActivity(new Intent(RechargeDetailsActivity.this, LoginActivity.class));
-                    finish();
                 }
             }
         });
@@ -141,10 +137,10 @@ public class RechargeDetailsActivity extends BaseActivity {
             AmountHistoryBean.DataBean bean =(AmountHistoryBean.DataBean)mMarkerData.get(position);
             if(bean.getFee() >= (double) 0){
                 viewHolder.tvAmountOffered.setText("+"+String.format("%.2f", bean.getFee())+"");//钱包金额
-                viewHolder.tvAmountOffered.setTextColor(R.color.add);
+                viewHolder.tvAmountOffered.setTextColor(getResources().getColor(R.color.add));
             }else{
                 viewHolder.tvAmountOffered.setText(String.format("%.2f", bean.getFee())+"");//钱包金额
-                viewHolder.tvAmountOffered.setTextColor(R.color.reduce);
+                viewHolder.tvAmountOffered.setTextColor(getResources().getColor(R.color.reduce));
             }
             viewHolder.title.setText(bean.getTitle());
             viewHolder.createDate.setText(bean.getCreateDate());
