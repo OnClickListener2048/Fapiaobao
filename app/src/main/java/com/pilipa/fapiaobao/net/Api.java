@@ -94,7 +94,6 @@ import static com.pilipa.fapiaobao.net.Constant.ORDER_LIST;
 import static com.pilipa.fapiaobao.net.Constant.PUBLISH;
 import static com.pilipa.fapiaobao.net.Constant.REJECT_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.RELOAD;
-import static com.pilipa.fapiaobao.net.Constant.REQUEST_NO_CONTENT;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 import static com.pilipa.fapiaobao.net.Constant.SHAT_DOWN_EARLY;
 import static com.pilipa.fapiaobao.net.Constant.SHORT_MESSAGE_VERIFY;
@@ -157,9 +156,7 @@ public class Api {
         OkGo.<CreditInfoBean>get(String.format(FIND_CREDIT_INFO, token)).execute(new JsonCallBack<CreditInfoBean>(CreditInfoBean.class) {
             @Override
             public void onSuccess(Response<CreditInfoBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
                     baseViewCallback.setData(response.body());
-                }
             }
         });
     }

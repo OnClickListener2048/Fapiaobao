@@ -642,8 +642,8 @@
                         android:id="@+id/translate_details"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="gone"
                         android:layout_margin="@dimen/d20"
+                        android:visibility="gone"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -664,6 +664,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:text="爱康鼎天津科技有限公司"
+                                android:textIsSelectable="true"
                                 android:textColor="@color/title_small" />
                         </LinearLayout>
 
@@ -685,6 +686,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:text="爱康鼎天津科技有限公司"
+                                android:textIsSelectable="true"
                                 android:textColor="@color/title_small" />
                         </LinearLayout>
 
@@ -705,6 +707,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
+                                android:textIsSelectable="true"
                                 android:text="爱康鼎天津科技有限公司"
                                 android:textColor="@color/title_small" />
                         </LinearLayout>
@@ -726,6 +729,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
+                                android:textIsSelectable="true"
                                 android:text="爱康鼎天津科技有限公司"
                                 android:textColor="@color/title_small" />
                         </LinearLayout>
@@ -747,6 +751,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
+                                android:textIsSelectable="true"
                                 android:text="爱康鼎天津科技有限公司"
                                 android:textColor="@color/title_small" />
                         </LinearLayout>
@@ -768,6 +773,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
+                                android:textIsSelectable="true"
                                 android:text="爱康鼎天津科技有限公司"
                                 android:textColor="@color/title_small" />
                         </LinearLayout>

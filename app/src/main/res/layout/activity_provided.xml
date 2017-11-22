@@ -199,6 +199,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:textColor="@color/title_small"
+                                android:textIsSelectable="true"
                                 android:text="" />
                         </LinearLayout>
 
@@ -219,6 +220,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/title_small"
+                                android:textIsSelectable="true"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:text="" />
                         </LinearLayout>
@@ -241,6 +243,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:textColor="@color/title_small"
+                                android:textIsSelectable="true"
                                 android:text="" />
                         </LinearLayout>
 
@@ -262,6 +265,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:textColor="@color/title_small"
+                                android:textIsSelectable="true"
                                 android:text="" />
                         </LinearLayout>
 
@@ -283,6 +287,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:textColor="@color/title_small"
+                                android:textIsSelectable="true"
                                 android:text="" />
                         </LinearLayout>
 
@@ -303,6 +308,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
+                                android:textIsSelectable="true"
                                 android:textColor="@color/title_small"
                                 android:text="" />
                         </LinearLayout>

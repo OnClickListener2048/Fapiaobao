@@ -101,14 +101,16 @@ public class AddCompanyInfoActivity extends BaseActivity {
                         public void setData(CompanyDetailsBean companyDetailsBean) {
                             MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
                             data = companyDetailsBean.getData();
-                            companyBean.setAccount(data.getAccount());
-                            companyBean.setAddress(data.getAddress());
-                            companyBean.setDepositBank(data.getDepositBank());
-                            companyBean.setId(data.getId());
-                            companyBean.setIsNewRecord(data.isIsNewRecord());
-                            companyBean.setName(data.getName());
-                            companyBean.setPhone(data.getPhone());
-                            companyBean.setTaxno(data.getTaxno());
+                            if(data != null){
+                                companyBean.setAccount(data.getAccount());
+                                companyBean.setAddress(data.getAddress());
+                                companyBean.setDepositBank(data.getDepositBank());
+                                companyBean.setId(data.getId());
+                                companyBean.setIsNewRecord(data.isIsNewRecord());
+                                companyBean.setName(data.getName());
+                                companyBean.setPhone(data.getPhone());
+                                companyBean.setTaxno(data.getTaxno());
+                            }
                             try {
                                 updateCompanyinfo(companyBean);
                             } catch (Exception e) {
