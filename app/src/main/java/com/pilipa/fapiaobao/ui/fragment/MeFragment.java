@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.mylibrary.utils.TLog;
+import com.lzy.okgo.OkGo;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -210,6 +211,7 @@ public class MeFragment extends BaseFragment{
     @Override
     public void onPause() {
         super.onPause();
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"loginByToken");
     }
     private void messageList() {
         if (TDevice.hasInternet()) {
@@ -272,6 +274,9 @@ public class MeFragment extends BaseFragment{
                             imgLevelIcon.setImageResource(LevelIcon[customer.getCreditLevel()]);
                         }
                 }else if(loginWithInfoBean.getStatus() == 701){
+                    if(tvUserName == null) {
+                        return;
+                    }
                     tvUserName.setText("");
                     tvCreditRating.setText("积分："+"");
                     tvBouns.setText("0 ");//钱包金额
