@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="268dp"
-        android:layout_height="374dp"
+        android:layout_height="420dp"
         android:background="@mipmap/update_bg"
         android:clipChildren="false"
         android:clipToPadding="false"

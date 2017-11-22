@@ -185,6 +185,13 @@ public class UnusedPagerFragment_finish extends BaseFragment implements AdapterV
                     }
 
                     if (demandsListBean.getStatus() == REQUEST_NO_CONTENT) {
+                            if (listView != null) {
+                                listView.setAdapter(null);
+                            }
+                            if (mAdapter!= null) {
+                                mAdapter.clearData();
+                                mAdapter = null;
+                            }
 
                     }
                 }

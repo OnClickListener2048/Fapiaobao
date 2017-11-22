@@ -20,6 +20,7 @@ import com.pilipa.fapiaobao.adapter.MyReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
 import com.pilipa.fapiaobao.ui.ProvidedActivity;
 
@@ -168,10 +169,23 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
                 Api.orderList(AccountHelper.getToken(),pageNo+"",pageSize+"", new Api.BaseViewCallback<OrderListBean>() {
                     @Override
                     public void setData(OrderListBean orderListBean) {
+                        if (orderListBean.getStatus() == Constant.REQUEST_SUCCESS) {
+
                         List<OrderListBean.DataBean> list =  orderListBean.getData();
                         mDataList = list;
                         mAdapter.initData(mDataList);
                         Log.d(TAG, "updateData:orderList success");
+                        }
+
+                        if (orderListBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
+                            if (listView != null) {
+                                listView.setAdapter(null);
+                            }
+                            if (mAdapter!= null) {
+                                mAdapter.clearData();
+                                mAdapter = null;
+                            }
+                        }
                     }
                 });
         }else{

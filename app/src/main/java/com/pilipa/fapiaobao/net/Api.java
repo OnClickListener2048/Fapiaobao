@@ -413,10 +413,8 @@ public class Api {
             @Override
             public void onSuccess(Response<DemandsListBean> response) {
                     int status = response.body().getStatus();
-                    if (status == REQUEST_SUCCESS) {
                         TLog.log("status == REQUEST_SUCCESS");
                         baseViewCallback.setData(response.body());
-                    }
             }
         });
     }

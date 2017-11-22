@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.mylibrary.utils.TLog;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
@@ -187,6 +188,14 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
                         Log.d(TAG, "demandsList success");
                     }
                     if (status == REQUEST_NO_CONTENT) {
+                        TLog.log("status == REQUEST_NO_CONTENT");
+                        if (listView != null) {
+                            listView.setAdapter(null);
+                        }
+                        if (mAdapter!= null) {
+                            mAdapter.clearData();
+                            mAdapter = null;
+                        }
 
                     }
 

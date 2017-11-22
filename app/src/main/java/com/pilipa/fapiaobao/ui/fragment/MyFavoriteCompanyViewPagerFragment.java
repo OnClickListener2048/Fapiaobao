@@ -200,6 +200,16 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
                     mAdapter.initData(mData);
                     Log.d(TAG, "FavoriteCompany success");
                     }
+
+                    if (favoriteCompanyBean.getStatus() == REQUEST_NO_CONTENT) {
+                        if (listView != null) {
+                            listView.setAdapter(null);
+                        }
+                        if (mAdapter!= null) {
+                            mAdapter.clearData();
+                            mAdapter = null;
+                        }
+                    }
                 }
             });
         }

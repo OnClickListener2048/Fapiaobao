@@ -79,6 +79,13 @@ public class MyPublishAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void clearData() {
+        if (mMarkerData!= null) {
+            mMarkerData.clear();
+            notifyDataSetChanged();
+        }
+    }
+
     public void initData(List list) {
         mMarkerData = list;
         notifyDataSetChanged();

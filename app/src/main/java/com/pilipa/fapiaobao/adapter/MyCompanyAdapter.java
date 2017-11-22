@@ -75,6 +75,13 @@ public class MyCompanyAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public void clearData() {
+        if (mMarkerData!= null) {
+            mMarkerData.clear();
+            notifyDataSetChanged();
+        }
+    }
+
     public void initData(List list) {
         if(list != null){
             this.mMarkerData = list;
