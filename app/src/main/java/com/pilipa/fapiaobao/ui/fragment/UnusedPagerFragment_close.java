@@ -183,6 +183,8 @@ public class UnusedPagerFragment_close extends BaseFragment implements AdapterVi
                         List<DemandsListBean.DataBean> list = demandsListBean.getData();
                         dataBeanList = list;
                         mAdapter.initData(list);
+                        listView.setAdapter(mAdapter);
+
                         Log.d(TAG, "demandsList success");
                     }
 
@@ -192,7 +194,6 @@ public class UnusedPagerFragment_close extends BaseFragment implements AdapterVi
                         }
                         if (mAdapter!= null) {
                             mAdapter.clearData();
-                            mAdapter = null;
                         }
                     }
                 }

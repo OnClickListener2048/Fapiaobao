@@ -174,7 +174,10 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
                         List<OrderListBean.DataBean> list =  orderListBean.getData();
                         mDataList = list;
                         mAdapter.initData(mDataList);
-                        Log.d(TAG, "updateData:orderList success");
+                        listView.setAdapter(mAdapter);
+
+
+                            Log.d(TAG, "updateData:orderList success");
                         }
 
                         if (orderListBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
@@ -183,7 +186,6 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
                             }
                             if (mAdapter!= null) {
                                 mAdapter.clearData();
-                                mAdapter = null;
                             }
                         }
                     }

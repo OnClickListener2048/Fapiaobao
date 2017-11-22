@@ -79,7 +79,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         trl.setOverScrollBottomShow(false);
         trl.setOverScrollTopShow(false);
         trl.setEnableOverScroll(false);
-        listView.setAdapter(mAdapter = new MyCompanyAdapter(mContext));
+        listView.setAdapter(mAdapter=new MyCompanyAdapter(mContext));
         listView.setOnItemClickListener(this);
         emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
         emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
@@ -185,6 +185,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
                         mData.clear();
                         mData=list;
                         mAdapter.initData(mData);
+                        listView.setAdapter(mAdapter);
                         Log.d(TAG, "CompanyList"+list.size());
                     }
 
@@ -194,7 +195,6 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
                         }
                         if (mAdapter!= null) {
                             mAdapter.clearData();
-                            mAdapter = null;
                         }
                     }
                 }

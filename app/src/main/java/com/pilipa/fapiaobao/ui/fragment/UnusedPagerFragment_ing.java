@@ -185,6 +185,8 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
                         List<DemandsListBean.DataBean> list =  demandsListBean.getData();
                         dataBeanList = list;
                         mAdapter.initData(list);
+                        listView.setAdapter(mAdapter);
+
                         Log.d(TAG, "demandsList success");
                     }
                     if (status == REQUEST_NO_CONTENT) {
@@ -194,7 +196,6 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
                         }
                         if (mAdapter!= null) {
                             mAdapter.clearData();
-                            mAdapter = null;
                         }
 
                     }

@@ -105,9 +105,9 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
     }
 
     @Override
-    public void onDelClick() {
+    public void onDelClick(String deleteId) {
         mPreviousPos =  mViewPager.getCurrentItem();
-        setDialog();
+        setDialog(deleteId);
     }
     public void deleteCompany(String id) {
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
@@ -128,7 +128,7 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
 
     }
     Dialog mDialog;
-    private void setDialog() {
+    private void setDialog(final String deleteId) {
         mDialog = new Dialog(CompanyDetailsActivity.this, R.style.BottomDialog);
         LinearLayout root;
         root = (LinearLayout) LayoutInflater.from(CompanyDetailsActivity.this).inflate(
@@ -142,7 +142,7 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
         root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteCompany(companyList.get(mPreviousPos).getId());
+                deleteCompany(deleteId);
             }
         });
         mDialog.setContentView(root);

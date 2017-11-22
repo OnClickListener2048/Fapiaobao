@@ -67,7 +67,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
     private TextView tv_newNeed;
     private LinearLayout ll_we_need;
     private String companyId;
-
+    private String deleteId;
     private IWXAPI api;
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
@@ -163,7 +163,6 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
                 ll_qr_code2.setVisibility(View.GONE);
             }
         }
-        Log.d(TAG,"Company id" + company.getId());
 
         Log.d(TAG,"Company getQrcode" +company.getQrcode());
         //初始化 web
@@ -178,6 +177,10 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
         String [] temp = null;
         temp = company.getQrcode().split("id=");
         companyId = temp[1];
+        //删除的ID
+        deleteId = company.getId();
+        Log.d(TAG,"deleteId" + deleteId);
+
         try {
             String content = new String(company.getQrcode().getBytes("UTF-8"), "ISO-8859-1");
             TLog.log("content-----------"+content);
@@ -240,7 +243,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
                 break;
             case R.id.img_details_viewpager_delete:
                 if (onDelClickListener != null) {
-                    onDelClickListener.onDelClick();
+                    onDelClickListener.onDelClick(deleteId);
                 }
                 break;
             case R.id.img_details_viewpager_next:
@@ -401,7 +404,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
         this.onDelClickListener = onDelClickListener;
     }
     public interface OnDelClickListener {
-        void onDelClick();
+        void onDelClick(String companyId);
     }
     private OnNextClickListener onNextClickListener;
     public void setOnNextClickListener(OnNextClickListener onNextClickListener) {

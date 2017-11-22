@@ -108,9 +108,9 @@ public class FavCompanyDetailsActivity extends BaseActivity implements MyCompany
     }
 
     @Override
-    public void onDelClick() {
+    public void onDelClick(String deleteId) {
         mPreviousPos =  mViewPager.getCurrentItem();
-        setDialog();
+        setDialog(deleteId);
     }
     public void deleteFavCompany(String id){
         Api.deleteFavoriteCompany(id, AccountHelper.getToken(),new Api.BaseViewCallback<FavBean>() {
@@ -129,7 +129,7 @@ public class FavCompanyDetailsActivity extends BaseActivity implements MyCompany
 
     }
     Dialog mDialog;
-    private void setDialog() {
+    private void setDialog(final String deleteId) {
           mDialog = new Dialog(FavCompanyDetailsActivity.this, R.style.BottomDialog);
         LinearLayout root;
             root = (LinearLayout) LayoutInflater.from(FavCompanyDetailsActivity.this).inflate(
@@ -143,7 +143,7 @@ public class FavCompanyDetailsActivity extends BaseActivity implements MyCompany
             root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    deleteFavCompany(companyList.get(mPreviousPos).getId());
+                    deleteFavCompany(deleteId);
                 }
             });
         mDialog.setContentView(root);
