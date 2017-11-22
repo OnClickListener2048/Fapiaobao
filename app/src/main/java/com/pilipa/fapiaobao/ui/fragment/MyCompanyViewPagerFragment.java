@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -28,6 +29,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_NO_CONTENT;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
@@ -44,6 +46,8 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
     private MyCompanyAdapter mAdapter;
 
     public List<CompaniesBean.DataBean> mData = new ArrayList();
+    private View emptyView;
+
     public MyCompanyViewPagerFragment() {
 
     }
@@ -77,6 +81,11 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         trl.setEnableOverScroll(false);
         listView.setAdapter(mAdapter = new MyCompanyAdapter(mContext));
         listView.setOnItemClickListener(this);
+        emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
+        emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        emptyView.setVisibility(View.GONE);
+        ((ViewGroup)listView.getParent()).addView(emptyView);
+        listView.setEmptyView(emptyView);
     }
 
     @Override
@@ -177,6 +186,10 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
                         mData=list;
                         mAdapter.initData(mData);
                         Log.d(TAG, "CompanyList"+list.size());
+                    }
+
+                    if (companiesBean.getStatus() == REQUEST_NO_CONTENT) {
+
                     }
                 }
             });

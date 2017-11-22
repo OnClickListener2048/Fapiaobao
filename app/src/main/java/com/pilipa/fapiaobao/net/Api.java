@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.net;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.FileCallback;
@@ -93,6 +94,8 @@ import static com.pilipa.fapiaobao.net.Constant.ORDER_LIST;
 import static com.pilipa.fapiaobao.net.Constant.PUBLISH;
 import static com.pilipa.fapiaobao.net.Constant.REJECT_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.RELOAD;
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_NO_CONTENT;
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 import static com.pilipa.fapiaobao.net.Constant.SHAT_DOWN_EARLY;
 import static com.pilipa.fapiaobao.net.Constant.SHORT_MESSAGE_VERIFY;
 import static com.pilipa.fapiaobao.net.Constant.SHOW_ORDER_DETAIL;
@@ -412,7 +415,11 @@ public class Api {
         OkGo.<DemandsListBean>get(String.format(USER_ISSUED_LIST,state,token)).execute(new JsonCallBack<DemandsListBean>(DemandsListBean.class) {
             @Override
             public void onSuccess(Response<DemandsListBean> response) {
-                    baseViewCallback.setData(response.body());
+                    int status = response.body().getStatus();
+                    if (status == REQUEST_SUCCESS) {
+                        TLog.log("status == REQUEST_SUCCESS");
+                        baseViewCallback.setData(response.body());
+                    }
             }
         });
     }
@@ -1165,6 +1172,14 @@ public class Api {
         void setData(T t);
     }
 
+    public interface BaseViewCallbackPromote<T>{
+        void setData(T t);
+
+        void noData(T t);
+    }
+
+
+
     public interface BaseViewCallbackWithOnStart<T> extends BaseViewCallback<T> {
         void onStart();
 
@@ -1172,6 +1187,8 @@ public class Api {
 
         void onError();
     }
+
+
 
     public interface BaseViewCallBackWithProgress<T> extends BaseViewCallback<T> {
         void setProgress(Progress progress);

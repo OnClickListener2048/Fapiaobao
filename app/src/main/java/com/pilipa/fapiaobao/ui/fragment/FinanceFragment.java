@@ -169,7 +169,12 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mContext.unregisterReceiver(mBoradcastReceiver);
+
+        try {
+            mContext.unregisterReceiver(mBoradcastReceiver);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

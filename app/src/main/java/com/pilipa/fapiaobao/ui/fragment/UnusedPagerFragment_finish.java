@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -27,6 +28,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_NO_CONTENT;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_FINISH;
 
@@ -42,6 +44,8 @@ public class UnusedPagerFragment_finish extends BaseFragment implements AdapterV
     TwinklingRefreshLayout trl;
     private MyPublishAdapter mAdapter;
     private List<DemandsListBean.DataBean> dataBeanList = new ArrayList<>();
+    private View emptyView;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_viewpager_item;
@@ -87,6 +91,11 @@ public class UnusedPagerFragment_finish extends BaseFragment implements AdapterV
         mAdapter = new MyPublishAdapter(mContext);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
+        emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
+        emptyView.setVisibility(View.GONE);
+        emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        ((ViewGroup)listView.getParent()).addView(emptyView);
+        listView.setEmptyView(emptyView);
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
@@ -173,6 +182,10 @@ public class UnusedPagerFragment_finish extends BaseFragment implements AdapterV
                         dataBeanList = list;
                         mAdapter.initData(list);
                         Log.d(TAG, "demandsList success");
+                    }
+
+                    if (demandsListBean.getStatus() == REQUEST_NO_CONTENT) {
+
                     }
                 }
             });

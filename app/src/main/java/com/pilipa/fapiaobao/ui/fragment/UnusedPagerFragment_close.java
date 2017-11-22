@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -27,6 +28,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_NO_CONTENT;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE;
 
@@ -42,6 +44,8 @@ public class UnusedPagerFragment_close extends BaseFragment implements AdapterVi
     TwinklingRefreshLayout trl;
     private MyPublishAdapter mAdapter;
     private List<DemandsListBean.DataBean> dataBeanList = new ArrayList<>();
+    private View emptyView;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_viewpager_item;
@@ -79,6 +83,11 @@ public class UnusedPagerFragment_close extends BaseFragment implements AdapterVi
         mAdapter = new MyPublishAdapter(mContext);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
+        emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
+        emptyView.setVisibility(View.GONE);
+        emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        ((ViewGroup)listView.getParent()).addView(emptyView);
+        listView.setEmptyView(emptyView);
     }
 
     @Override
@@ -169,13 +178,21 @@ public class UnusedPagerFragment_close extends BaseFragment implements AdapterVi
             Api.demandsList(AccountHelper.getToken(),state,new Api.BaseViewCallback<DemandsListBean>() {
                 @Override
                 public void setData(DemandsListBean demandsListBean) {
-                    if(demandsListBean.getStatus() == REQUEST_SUCCESS){
-                        List<DemandsListBean.DataBean> list =  demandsListBean.getData();
+                    if (demandsListBean.getStatus() == REQUEST_SUCCESS) {
+
+                        List<DemandsListBean.DataBean> list = demandsListBean.getData();
                         dataBeanList = list;
                         mAdapter.initData(list);
                         Log.d(TAG, "demandsList success");
                     }
+
+                    if (demandsListBean.getStatus() == REQUEST_NO_CONTENT) {
+
+                    }
                 }
+
+
+
             });
         }
     }

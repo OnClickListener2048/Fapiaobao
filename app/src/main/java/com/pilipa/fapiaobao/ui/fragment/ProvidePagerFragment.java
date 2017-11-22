@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -76,6 +77,10 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
         trl.setEnableOverScroll(false);
         listView.setAdapter(mAdapter = new MyReceiptAdapter(mContext));
         listView.setOnItemClickListener(this);
+        View emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
+        emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        ((ViewGroup)listView.getParent()).addView(emptyView);
+        listView.setEmptyView(emptyView);
     }
 
     @Override

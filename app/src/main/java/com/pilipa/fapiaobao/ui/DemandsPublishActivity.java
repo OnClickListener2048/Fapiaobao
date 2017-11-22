@@ -637,7 +637,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                             });
                         } else if (loginWithInfoBean.getStatus() == 701) {
                             BaseApplication.showToast("登录超时");
-                            finish();
+                            login();
                         } else {
                             BaseApplication.showToast("服务器超时");
                         }

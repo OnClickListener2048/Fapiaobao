@@ -94,6 +94,7 @@ public class Withdraw2WXActivity extends BaseActivity {
             }
         });
     }
+
     private void withdaw(String openID){
         Api.withdaw(AccountHelper.getToken()
                 ,ACCOUNT_TYPE_WALLET
@@ -220,7 +221,7 @@ public class Withdraw2WXActivity extends BaseActivity {
        TextView tv_bouns = (TextView)root.findViewById(R.id.tv_bouns);
         double amount  = Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ?"0":tv_amount.getText().toString().trim());
         if(amount > (double)0){
-            tv_bouns.setText(amount+"");
+            tv_bouns.setText(String.valueOf(amount));
             //初始化视图
             root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
                 @Override
