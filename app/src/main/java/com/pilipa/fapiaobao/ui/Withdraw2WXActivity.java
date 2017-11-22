@@ -98,7 +98,7 @@ public class Withdraw2WXActivity extends BaseActivity {
         Api.withdaw(AccountHelper.getToken()
                 ,ACCOUNT_TYPE_WALLET
                 ,NetworkUtils.getIPAddress(true)
-                ,Double.parseDouble(tv_amount.getText().toString())
+                ,Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ?"0":tv_amount.getText().toString().trim())
                 ,openID
                 , new Api.BaseViewCallback<PrepayBean>() {
                     @Override

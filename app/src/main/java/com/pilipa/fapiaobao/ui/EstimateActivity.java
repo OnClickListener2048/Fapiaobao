@@ -36,7 +36,6 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
-import com.pilipa.fapiaobao.ui.component.MutiComponent;
 import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.fragment.EstimatePagerFragment;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
@@ -274,6 +273,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                             intent.putExtra("amount", amount);
                             intent.putExtra("bonus", dataBean.getBonus());
                             intent.putExtra("company_info", dataBean.getCompany());
+                            intent.putExtra("company_id", dataBean.getCompany().getId());
                             intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
                             if (type == 3) {
                                 intent.setClass(EstimateActivity.this, UploadReceiptActivity.class);

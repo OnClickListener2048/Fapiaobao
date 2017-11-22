@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MyCompanyAdapter extends BaseAdapter {
     private Context mContext = null;
-    private List<?> mMarkerData = null;
+    private List<?> mMarkerData = new ArrayList<>();
     public MyCompanyAdapter(Context context)
     {
         mContext = context;
@@ -76,7 +76,9 @@ public class MyCompanyAdapter extends BaseAdapter {
     }
 
     public void initData(List list) {
-        this.mMarkerData = list;
+        if(list != null){
+            this.mMarkerData = list;
+        }
         notifyDataSetChanged();
     }
 

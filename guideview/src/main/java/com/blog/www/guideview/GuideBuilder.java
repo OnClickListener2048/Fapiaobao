@@ -78,7 +78,7 @@ public class GuideBuilder {
     if (mBuilt) {
       throw new BuildException("Already created. rebuild a new one.");
     } else if (v == null) {
-      throw new BuildException("Illegal view.");
+//      throw new BuildException("Illegal view.");
     }
     mConfiguration.mTargetView = v;
     return this;

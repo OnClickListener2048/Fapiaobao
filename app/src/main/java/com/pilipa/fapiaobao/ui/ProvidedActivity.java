@@ -413,7 +413,6 @@ public class ProvidedActivity extends BaseActivity {
     @Override
     public void initData() {
         orderId = getIntent().getStringExtra("OrderId");
-//        orderId ="94dd9e0524544ea29c592912640ec3bd";
         CompanyId = getIntent().getStringExtra("CompanyId");
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
         findAllRejectType();

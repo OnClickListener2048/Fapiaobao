@@ -1,10 +1,7 @@
 package com.pilipa.fapiaobao;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,8 +25,6 @@ import android.widget.Toast;
 import com.blog.www.guideview.Component;
 import com.blog.www.guideview.Guide;
 import com.blog.www.guideview.GuideBuilder;
-import com.example.mylibrary.utils.ActivityUtils;
-import com.example.mylibrary.utils.AppUtils;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.request.base.Request;
@@ -52,8 +47,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-
-import static com.pilipa.fapiaobao.ui.fragment.model.Constant.START_ACTIVITY_FROM_DETAILS;
 
 
 public class MainActivity extends BaseActivity implements NavFragment.OnNavigationReselectListener {
@@ -183,44 +176,48 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
         FinanceFragment fragment = (FinanceFragment) mNavBar.navItemTex.getFragment();
         RecyclerView.LayoutManager layoutManager = fragment.recyclerview.getLayoutManager();
         View childAt = layoutManager.getChildAt(1);
-        final GuideBuilder builder1 = new GuideBuilder();
-        builder1.setTargetView(childAt)
-                .setAlpha(150)
-                .setHighTargetGraphStyle(Component.ROUNDRECT)
-                .setOverlayTarget(false)
-                .setOutsideTouchable(false);
-        builder1.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
-            @Override
-            public void onShown() {
-            }
+        if(childAt != null){
+            final GuideBuilder builder1 = new GuideBuilder();
 
-            @Override
-            public void onDismiss() {
-                BaseApplication.set("IS_FIRST_IN_MAIN",false);
-            }
-        });
+            builder1.setTargetView(childAt)
+                    .setAlpha(150)
+                    .setHighTargetGraphStyle(Component.ROUNDRECT)
+                    .setOverlayTarget(false)
+                    .setOutsideTouchable(false);
+            builder1.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+                @Override
+                public void onShown() {
+                }
 
-        builder1.addComponent(new SimpleComponent(){
-            @Override
-            public View getView(LayoutInflater inflater) {
-                ImageView imageView = new ImageView(inflater.getContext());
-                imageView.setImageResource(R.mipmap.finance_001);
-                return imageView;
-            }
-            // -30
-            @Override
-            public int getXOffset() {
-                return -30;
-            }
+                @Override
+                public void onDismiss() {
+                    BaseApplication.set("IS_FIRST_IN_MAIN",false);
+                }
+            });
 
-            @Override
-            public int getYOffset() {
-                return -35;
-            }
-        });
-        Guide guide = builder1.createGuide();
-        guide.setShouldCheckLocInWindow(false);
-        guide.show(MainActivity.this);
+            builder1.addComponent(new SimpleComponent(){
+                @Override
+                public View getView(LayoutInflater inflater) {
+                    ImageView imageView = new ImageView(inflater.getContext());
+                    imageView.setImageResource(R.mipmap.finance_001);
+                    return imageView;
+                }
+                // -30
+                @Override
+                public int getXOffset() {
+                    return -30;
+                }
+
+                @Override
+                public int getYOffset() {
+                    return -35;
+                }
+            });
+            Guide guide = builder1.createGuide();
+            guide.setShouldCheckLocInWindow(false);
+            guide.show(MainActivity.this);
+        }
+
     }
 
     @Override

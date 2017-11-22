@@ -24,7 +24,7 @@ import static com.pilipa.fapiaobao.net.Constant.STATE_GOT_PARTIALITY;
 
 public class MyReceiptAdapter extends BaseAdapter {
     private Context mContext = null;
-    private List<?> mMarkerData = null;
+    private List<?> mMarkerData = new ArrayList<>();
     public MyReceiptAdapter(Context context)
     {
         mContext = context;
@@ -103,7 +103,9 @@ public class MyReceiptAdapter extends BaseAdapter {
     }
 
     public void initData(List list) {
-        this.mMarkerData = list;
+        if(list != null){
+            this.mMarkerData = list;
+        }
         notifyDataSetChanged();
     }
 
