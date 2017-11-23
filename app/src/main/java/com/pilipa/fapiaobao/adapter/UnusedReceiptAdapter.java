@@ -82,8 +82,12 @@ public class UnusedReceiptAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                 }
             });
+            String thumbnail=null;
+            if(image.isFromNet){
+                 thumbnail = image.path.replace("invoice","thumbnail");
+            }
             requestManager
-                    .load(image.isFromNet?image.path:image.uri)
+                    .load(image.isFromNet?thumbnail:image.uri)
                     .asBitmap()
                     .placeholder(R.mipmap.loading_small)
                     .error(R.mipmap.error_small)

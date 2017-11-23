@@ -196,8 +196,8 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
     private void initChildViews(List<FavoriteCompanyBean.DataBean.InvoiceTypeListBean> list) {
         ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp.leftMargin = 5;
-        lp.rightMargin = 5;
+        lp.leftMargin = 8;
+        lp.rightMargin = 8;
         lp.topMargin = 5;
         lp.bottomMargin = 5;
 
@@ -205,8 +205,8 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             TextView view = new TextView(mContext);
             view.setGravity(Gravity.CENTER);
             view.setText(list.get(i).getName());
-            view.setTextSize(TDevice.px2dp(28));
-            view.setPadding(5, 3, 5, 3);
+            view.setTextSize(TDevice.px2dp(42));
+            view.setPadding(2,2,2,2);
             view.setTextColor(getResources().getColor(R.color.main_style));
             view.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_invoice_receipt_kind_bg));
             initEvents(view,list.get(i).getId());

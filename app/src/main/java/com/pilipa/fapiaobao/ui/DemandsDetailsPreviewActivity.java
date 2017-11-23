@@ -175,6 +175,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         expressInfo.setText(currentImage.logisticsCompany);
         expressNo.setText(currentImage.logisticsTradeno);
         setLayout(currentImage);
+        checkPagePos(mPreviousPos);
     }
 
     @Override
@@ -209,7 +210,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                 layout_reject_item.setVisibility(View.GONE);
                 if ("provided".equals(image.from)) {
                     layout_qualified_privoide_item.setVisibility(View.VISIBLE);
-                    tv_receive_amount.setText("收到红包"+image.amount+"元");
+                    tv_receive_amount.setText("收到红包"+image.bonus+"元");
                 }
                 tv_state.setText("合格");
                 break;
@@ -360,6 +361,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                         expressNo.setText(currentImage.logisticsTradeno);
                         setLayout(currentImage);
                     }
+                    checkPagePos(pos);
                 }
                 break;
             case R.id.tonext:
@@ -373,6 +375,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                         expressNo.setText(currentImage.logisticsTradeno);
                         setLayout(currentImage);
                     }
+                    checkPagePos(pos);
+
                 }
                 break;
             case R.id.save_to_media:
@@ -519,13 +523,23 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             expressNo.setText(currentImage.logisticsTradeno);
             setLayout(currentImage);
         }
+        checkPagePos(position);
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
 
     }
-
+    private void checkPagePos(int postion){
+        if(postion == 0){
+            tolast.setVisibility(View.INVISIBLE);
+        }else if(postion == allList.size() - 1 ){
+            tonext.setVisibility(View.INVISIBLE);
+        }else {
+            tolast.setVisibility(View.VISIBLE);
+            tonext.setVisibility(View.VISIBLE);
+        }
+    }
     private String reason;
 
     private void rejectInvoice() {

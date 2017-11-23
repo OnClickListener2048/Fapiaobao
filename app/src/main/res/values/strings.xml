@@ -238,7 +238,7 @@
     <string name="arrival_no">不到账</string>
     <string name="add_company_info">添加开票单位的信息</string>
     <string name="company_details">公司详情</string>
-    <string name="we_need">点击以下类型,提供发票</string>
+    <string name="we_need">点击以下类型提供发票</string>
     <string name="provide_for_me">我提供的</string>
     <string name="provide_size"> %1$d张</string>
     <string name="bouns_amount">赏金预估 %1$d元</string>

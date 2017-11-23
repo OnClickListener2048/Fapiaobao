@@ -20,6 +20,7 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
 import butterknife.Bind;
@@ -78,7 +79,9 @@ public class AddCompanyInfoActivity extends BaseActivity {
             }
             break;
             case R.id.btn_save: {
-                addCompany();
+                if (!ButtonUtils.isFastDoubleClick(R.id.btn_save)) {
+                    addCompany();
+                }
             }
             break;
         }

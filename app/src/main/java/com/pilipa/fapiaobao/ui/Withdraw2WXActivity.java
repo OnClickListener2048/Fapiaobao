@@ -229,7 +229,8 @@ public class Withdraw2WXActivity extends BaseActivity {
                     AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                         @Override
                         public void setData(LoginWithInfoBean loginWithInfoBean) {
-                        weChatLogin();
+                            AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
+                            weChatLogin();
                         }
                     });
                     mDialog.dismiss();

@@ -331,6 +331,7 @@ public class ProvidedActivity extends BaseActivity {
             image.logisticsTradeno = result.getLogisticsTradeno();
             image.logisticsCompany = result.getLogisticsCompany();
             image.state = result.getState();
+            image.bonus = String.valueOf(result.getBonus());
             image.variety = result.getVariety();
 
             //判断是否需要显示物流信息 view

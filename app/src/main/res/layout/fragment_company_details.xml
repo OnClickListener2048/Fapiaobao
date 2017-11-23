@@ -64,18 +64,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/d10"
                 android:gravity="center">
-
+                <LinearLayout
+                    android:id="@+id/ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
                 <ImageView
                     android:id="@+id/img_qr_code1"
+                    android:layout_marginTop="@dimen/d30"
                     android:layout_width="@dimen/d160"
                     android:layout_height="@dimen/d160"
                     android:layout_gravity="center"
                     android:visibility="invisible" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_qr_code2"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="220dp"
                     android:orientation="vertical">
 
                     <RelativeLayout

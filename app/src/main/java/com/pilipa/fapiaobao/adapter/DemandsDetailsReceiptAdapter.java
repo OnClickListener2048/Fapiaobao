@@ -61,11 +61,11 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
 
             ImageViewHolder imageHolder = (ImageViewHolder) holder;
         image = images.get(position);
-        String state = image.state;
         setStateVisibility(imageHolder,image);
         image.position = position;
+        String thumbnail = image.path.replace("invoice","thumbnail");
         requestManager
-                    .load(image.path)
+                    .load(thumbnail)
                     .asBitmap()
                     .placeholder(R.mipmap.loading_small)
                 .error(R.mipmap.error_small)

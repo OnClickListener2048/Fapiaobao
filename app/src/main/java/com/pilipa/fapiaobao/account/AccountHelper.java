@@ -74,6 +74,9 @@ public class AccountHelper {
             instances.user.getData().getCustomer().setBirthday(customer.getBirthday());
             instances.user.getData().getCustomer().setNickname(customer.getNickname());
             instances.user.getData().getCustomer().setHeadimg(customer.getHeadimg());
+            if(customer.getOpenid() != null){
+                instances.user.getData().getCustomer().setOpenid(customer.getOpenid());
+            }
             SharedPreferencesHelper.save(instances.application,instances.user);
         }
     }

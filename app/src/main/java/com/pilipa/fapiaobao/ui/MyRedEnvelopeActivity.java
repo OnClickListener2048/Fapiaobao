@@ -178,6 +178,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                 AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                     @Override
                     public void setData(LoginWithInfoBean loginWithInfoBean) {
+                        AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
                         if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
                             withdaw(loginWithInfoBean.getData().getCustomer().getOpenid());
                         }else{
