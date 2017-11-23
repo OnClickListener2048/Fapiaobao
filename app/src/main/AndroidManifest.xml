@@ -137,7 +137,7 @@
         <activity android:name=".ui.FillUpActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.MessageDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.CompanySelectActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.Op" />
+        <activity android:name=".ui.Op" android:screenOrientation="portrait" />
         <!--wjn add-->
         <activity android:name=".ui.RechargeActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.RechargeDetailsActivity" android:screenOrientation="portrait"/>
