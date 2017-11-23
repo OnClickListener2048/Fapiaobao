@@ -382,8 +382,10 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public void initData() {
-       requestManager
-                .load(AccountHelper.getUser().getData().getCustomer().getHeadimg())
+
+        String thumbnail =  AccountHelper.getUser().getData().getCustomer().getHeadimg().replace("invoice","thumbnail");
+        requestManager
+                .load(thumbnail)
                 .asBitmap()
                 .placeholder(R.mipmap.ic_head_circle_default_small)
                 .error(R.mipmap.ic_head_circle_default_small)

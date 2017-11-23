@@ -270,8 +270,10 @@ public class MeFragment extends BaseFragment{
                             tvCreditRating.setText("积分："+customer.getCreditScore());
                             tvBouns.setText(String.format("%.2f", customer.getAmount()));//钱包金额
                             Log.d("IMAGE_HEAD",customer.getHeadimg());
+                            String thumbnail = customer.getHeadimg().replace("invoice","thumbnail");
+
                             requestManager
-                                    .load(customer.getHeadimg())
+                                    .load(thumbnail)
                                     .asBitmap()
                                     .placeholder(R.mipmap.ic_head_circle_default_small_)
                                     .thumbnail(0.1f)
