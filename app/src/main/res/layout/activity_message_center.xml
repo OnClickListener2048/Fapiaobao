@@ -54,7 +54,7 @@
                 android:id="@+id/tips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="没有内容" />
+                android:text="" />
         </LinearLayout>
 
     </RelativeLayout>

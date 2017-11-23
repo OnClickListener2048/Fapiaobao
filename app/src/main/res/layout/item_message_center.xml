@@ -3,13 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/d15"
-        android:drawableRight="@drawable/enter_gray"
         android:orientation="vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/enter_gray"/>
         <RelativeLayout
+            android:id="@+id/rl_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             >
@@ -21,7 +28,6 @@
                 android:textSize="@dimen/d12"
                 android:textColor="@color/title_small"
                 android:gravity="center_vertical"
-                android:drawableRight="@drawable/enter_gray"
                 />
             <TextView
                 android:id="@+id/tv_size"
@@ -37,18 +43,20 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_content"
             >
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:textSize="@dimen/s10"
                 android:textColor="@color/text_normal_item"
-                android:text=""/>
+                android:text=""
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
 
 
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

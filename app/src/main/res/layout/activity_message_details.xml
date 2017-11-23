@@ -37,12 +37,11 @@
             android:layout_height="match_parent">
         </ListView>
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/no_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/d100"
             android:orientation="vertical">
 
             <ImageView
@@ -52,9 +51,10 @@
 
             <TextView
                 android:id="@+id/tips"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="没有内容" />
+                android:text="" />
         </LinearLayout>
 
     </RelativeLayout>
