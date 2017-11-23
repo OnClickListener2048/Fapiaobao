@@ -152,7 +152,7 @@
                 android:textSize="12dp"
                 android:layout_marginLeft="@dimen/d5"
                 android:textColor="@color/main_style"
-                android:text="充值协议"/>
+                android:text="《充值协议》"/>
         </LinearLayout>
 
         <TextView
