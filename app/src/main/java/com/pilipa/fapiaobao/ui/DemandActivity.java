@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -527,9 +526,9 @@ public class DemandActivity extends BaseActivity{
                 wxWebpageObject.webpageUrl = Constant.MATCH;
 
                 WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
-                wxMediaMessage.description = getString(R.string.share_pub_title);
-                wxMediaMessage.title = getString(R.string.share_pub_description);
-                wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.icon), Bitmap.CompressFormat.JPEG);
+                wxMediaMessage.title= getString(R.string.share_pub_title);
+                wxMediaMessage.description = getString(R.string.share_pub_description);
+                wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.redbag), Bitmap.CompressFormat.JPEG);
 
                 SendMessageToWX.Req req = new SendMessageToWX.Req();
                 req.transaction = String.valueOf(System.currentTimeMillis());

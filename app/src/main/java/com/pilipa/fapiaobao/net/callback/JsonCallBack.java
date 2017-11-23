@@ -1,6 +1,5 @@
 package com.pilipa.fapiaobao.net.callback;
 
-import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;

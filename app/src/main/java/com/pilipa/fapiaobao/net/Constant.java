@@ -14,53 +14,47 @@ public class Constant {
 //    public static final String BASE_URL = "http://p.pilipa.cn/fapiaobao_test/rest/";
     public static final int REQUEST_SUCCESS = 200;
     public static final int REQUEST_NO_CONTENT = 400;
-
+    /*登陆类型*/
     public static final String LOGIN_PLATFORM_MSG = "0";
     public static final String LOGIN_PLATFORM_WX= "1";
     public static final String LOGIN_PLATFORM_QQ = "2";
-    //性别
+    /*性别*/
     public static final String GENDER_MALE = "1";
     public static final String GENDER_FEMALE = "2";
     public static final String GENDER_SECRECY = "3";
-
+    /*我的发布 状态*/
     public static final String STATE_DEMAND_ING = "0";
     public static final String STATE_DEMAND_FINISH = "1";
     public static final String STATE_DEMAND_CLOSE    = "2";
-
+    /*发票类型*/
     public static final String VARIETY_GENERAL_PAPER = "1";//纸质普票
     public static final String VARIETY_SPECIAL_PAPER = "2";//"纸质专票
     public static final String VARIETY_GENERAL_ELECTRON    = "3";//电子普票
-
+    /*发票确认状态*/
     public static final String STATE_CONFIRMING = "1";//确认中
     public static final String STATE_COMPETENT = "2";//"查验合格
     public static final String STATE_INCOMPETENT    = "3";//查验不合格
     public static final String STATE_MAILING    = "4";//邮寄中
-
+    /*消息中心*/
     public static final String MSG_TYPE_NEWCOME_INVOICE    = "1";//新到发票
     public static final String MSG_TYPE_GOT_BONUS    = "2";//红包到帐
     public static final String MSG_TYPE_INCOMPETENT_INVOICE    = "3";//不合格发票
     public static final String MSG_TYPE_SERVICE_NOTIFICATION    = "4";//服务通知
-
+    /*红包状态*/
     public static final String STATE_FLYING    = "1";//红包飞来中
     public static final String STATE_GOT_ALL    = "2";//红包到帐
     public static final String STATE_GOT_PARTIALITY    = "3";//部分到帐
     public static final String STATE_GONE    = "4";//红包飞走了
-
+    /*提现方式*/
     public static final String ACCOUNT_TYPE_WALLET = "1";//我的钱包
     public static final String ACCOUNT_TYPE_RED = "2";//"红包
     public static final String ACCOUNT_TYPE_WX    = "3";//微信账户
-
-
-//    NEWCOME_INVOICE("1", "新到发票"),
-//    GOT_BONUS("2", "红包到账"),
-//    INCOMPETENT_INVOICE("3", "不合格发票"),
-//    SERVICE_NOTIFICATION("4", "服务通知"),
-//    NEW_DEMAND("5", "新的需求");
-public static final String NEWCOME_INVOICE = "1";
-public static final String GOT_BONUS = "2";
-public static final String INCOMPETENT_INVOICE = "3";
-public static final String SERVICE_NOTIFICATION = "4";
-public static final String NEW_DEMAND = "5";
+    /*消息中心 推送类型*/
+    public static final String NEWCOME_INVOICE = "1";
+    public static final String GOT_BONUS = "2";
+    public static final String INCOMPETENT_INVOICE = "3";
+    public static final String SERVICE_NOTIFICATION = "4";
+    public static final String NEW_DEMAND = "5";
 
 
 
@@ -114,13 +108,9 @@ public static final String NEW_DEMAND = "5";
      *favorite-rest-controller : 收藏公司
      */
 
-    /**
-     * http://192.168.1.205:8181/fapiaobao/rest/favorite/check/{companyId}/{token}
-     */
 
+    /*查验是否收藏的公司 */
     public static final String FAVORITE_COMPANY = BASE_URL+"favorite/check/%s/%s";
-
-
     /*获取用户收藏的公司列表 */
     public static final String FAVORITE_COMPANY_LIST = BASE_URL + "favorite/companies/%s";
     /*收藏需求开票的公司 */
@@ -186,37 +176,19 @@ public static final String NEW_DEMAND = "5";
     /**
      * system-rest-controller : 系统管理
      */
-    /*
-    获取发票默认常用类型
-     */
-
+    /*获取发票默认常用类型*/
     public static final String FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE = BASE_URL + "system/findDefaultFrequentlyInvoiceType";
     /*获取所有发票驳回类型*/
     public static final String FIND_ALL_REJECT_TYPE = BASE_URL + "system/findAllRejectType";
-
-    /*
-    获取用户常用类型
-    获取用户发票常用类型
-*/
+    /*获取用户发票常用类型*/
     public static final String FIND_FREQUENTLY_INVOICE_TYPE = BASE_URL + "system/findFrequentlyInvoiceType/%s";
-
-    /**
-     * 获取所有发票种类
-     * http://192.168.1.205:8181/fapiaobao/rest/system/findAllInvoiceVariety
-     */
-
+    /* 获取所有发票种类*/
     public static final String FIND_ALL_INVOICE_VARIETY = BASE_URL+"system/findAllInvoiceVariety";
 
 
-    /**
-     * 获取所有物流公司
-     */
+    /*获取所有物流公司*/
     public static final String FIND_ALL_EXPRESS_COMPANY = BASE_URL+"system/findAllLogisticsCompany";
-
-
-    /**
-     *  获取所有发票类型种类
-     */
+    /*获取所有发票类型种类 */
     public static final String FIND_ALL_INVIICE_TYPE = BASE_URL + "system/findAllInvoiceType";
 
 

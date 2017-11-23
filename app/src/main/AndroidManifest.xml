@@ -54,18 +54,21 @@
         </meta-data>
 
         <activity
-            android:name=".MainActivity">
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
 
         </activity>
 
         <activity
             android:name=".zxing.android.CaptureActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:theme="@android:style/Theme.NoTitleBar"
+            />
 
         <activity
             android:name="com.pilipa.fapiaobao.wxapi.WXPayEntryActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop">
 
         </activity>
@@ -89,14 +92,15 @@
             <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
             <!--android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
 
-        <activity android:name=".ui.LaunchActivity">
+        <activity android:name=".ui.LaunchActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.LeadActivity" />
-        <activity android:name=".ui.LoginActivity">
+        <activity android:name=".ui.LeadActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.LoginActivity" android:screenOrientation="portrait">
 
         </activity>
 
@@ -106,60 +110,60 @@
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoDisplay" />
         <activity
-            android:name=".ui.HistoryActivity" />
-        <activity android:name=".ui.DemandActivity" />
+            android:name=".ui.HistoryActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.DemandActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.SupplyActivity" />
-        <activity android:name=".ui.SupplyDetailsActivity" />
-        <activity android:name=".ui.HistoryActivity2" />
-        <activity android:name=".ShareActivity" />
-        <activity android:name=".ui.UserInfoActivity" />
-        <activity android:name=".ui.CompanyManagerActivity" />
-        <activity android:name=".ui.ReceiptFolderActivity" />
-        <activity android:name=".ui.MyWalletActivity" />
-        <activity android:name=".ui.FeedbackActivity" />
-        <activity android:name=".ui.AddCompanyInfoActivity" />
-        <activity android:name=".ui.CompanyDetailsActivity_old" />
-        <activity android:name=".ui.ProvidedActivity" />
-        <activity android:name=".ui.PubActivity" />
-        <activity android:name=".ui.ConfirmActivity" />
-        <activity android:name=".ui.DemandsDetailsPreviewActivity" />
-        <activity android:name=".ui.UnusedPreviewActivity" />
-        <activity android:name=".ui.receipt_folder_image_select.ReceiptActivityToken" />
-        <activity android:name=".ui.receipt_folder_image_select.PreviewActivity" />
-        <activity android:name=".ui.PubSuccessActivity" />
-        <activity android:name=".ui.UploadSuccessActivity" />
-        <activity android:name=".ui.MoreTypesActivity" />
-        <activity android:name=".ui.FilterActivity" />
-        <activity android:name=".ui.FillUpActivity" />
-        <activity android:name=".ui.MessageDetailsActivity" />
-        <activity android:name=".ui.CompanySelectActivity" />
+        <activity android:name=".ui.SupplyDetailsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.HistoryActivity2" android:screenOrientation="portrait"/>
+        <activity android:name=".ShareActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.UserInfoActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.CompanyManagerActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.ReceiptFolderActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.MyWalletActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.FeedbackActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.AddCompanyInfoActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.CompanyDetailsActivity_old" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.ProvidedActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.PubActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.ConfirmActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.DemandsDetailsPreviewActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ui.UnusedPreviewActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.receipt_folder_image_select.ReceiptActivityToken" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.receipt_folder_image_select.PreviewActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.PubSuccessActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.UploadSuccessActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MoreTypesActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.FilterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.FillUpActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MessageDetailsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.CompanySelectActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.Op" />
         <!--wjn add-->
-        <activity android:name=".ui.RechargeActivity" />
-        <activity android:name=".ui.RechargeDetailsActivity" />
-        <activity android:name=".ui.MyRedEnvelopeActivity" />
-        <activity android:name=".ui.CreditRatingActivity" />
-        <activity android:name=".ui.MessageCenterActivity" />
-        <activity android:name=".ui.NegetiveActivity" />
-        <activity android:name=".ui.Withdraw2WXActivity" />
-        <activity android:name=".ui.QualifiedInvoiceActivity" />
-        <activity android:name=".ui.CreditHistoryActivity" />
-        <activity android:name=".ui.CompanyDetailsActivity" />
-        <activity android:name=".ui.FavCompanyDetailsActivity" />
-        <activity android:name=".ui.BindPhoneActivity" />
+        <activity android:name=".ui.RechargeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.RechargeDetailsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MyRedEnvelopeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.CreditRatingActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MessageCenterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.NegetiveActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.Withdraw2WXActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.QualifiedInvoiceActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.CreditHistoryActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.CompanyDetailsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.FavCompanyDetailsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.BindPhoneActivity" android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.EstimateActivity">
+        <activity android:name=".ui.EstimateActivity" android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".ui.UploadReceiptActivity">
+        <activity android:name=".ui.UploadReceiptActivity" android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".ui.UploadReceiptPreviewActivity" />
-        <activity android:name=".ui.PreviewActivity" />
-        <activity android:name=".ui.TestActivity">
+        <activity android:name=".ui.UploadReceiptPreviewActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.PreviewActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.TestActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.DemandsPublishActivity" />
+        <activity android:name=".ui.DemandsPublishActivity" android:screenOrientation="portrait"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.pilipa.fapiaobao.fileprovider"
@@ -172,7 +176,6 @@
 
         <service android:name="com.amap.api.location.APSService"></service>
 
-        <!--<service android:name=".service.UmengPushIntentService" />-->
     </application>
 
 </manifest>

@@ -9,6 +9,17 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/d15"
         android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/d30"
+            android:textColor="@color/main_style"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/d15"
+            android:text="" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,16 +40,7 @@
                 android:textColor="@color/title_small"
                 android:gravity="center_vertical"
                 />
-            <TextView
-                android:id="@+id/tv_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:layout_marginRight="@dimen/d30"
-                android:textColor="@color/main_style"
-                android:textSize="@dimen/d15"
-                android:text="" />
+
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
