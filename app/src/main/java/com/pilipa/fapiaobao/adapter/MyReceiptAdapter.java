@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,18 +77,18 @@ public class MyReceiptAdapter extends BaseAdapter {
         if(STATE_FLYING.equals(state)){
             viewHolder.tvArrivalState.setText("红包飞来中");
             viewHolder.bouns_state.setText("预计收到");
-            viewHolder.tvArrivalState.setTextColor(mContext.getResources().getColor(R.color.bouns_2));
+            viewHolder.tvArrivalState.setTextColor(Color.parseColor("#f6b37f"));
         }else if(STATE_GOT_ALL.equals(state)){
             viewHolder.tvArrivalState.setText("红包到帐");
-            viewHolder.tvArrivalState.setTextColor(mContext.getResources().getColor(R.color.bouns_1));
+            viewHolder.tvArrivalState.setTextColor(Color.parseColor("#fd8e8e"));
             viewHolder.bouns_state.setText("收到红包");
         }else if(STATE_GOT_PARTIALITY.equals(state)){
             viewHolder.tvArrivalState.setText("部分到帐");
-            viewHolder.tvArrivalState.setTextColor(mContext.getResources().getColor(R.color.bouns_1));
+            viewHolder.tvArrivalState.setTextColor(Color.parseColor("#fd8e8e"));
             viewHolder.bouns_state.setText("收到红包");
         }else if(STATE_GONE.equals(state)){
             viewHolder.tvArrivalState.setText("红包飞走了");
-            viewHolder.tvArrivalState.setTextColor(mContext.getResources().getColor(R.color.bouns_3));
+            viewHolder.tvArrivalState.setTextColor(Color.parseColor("#89c997"));
             viewHolder.bouns_state.setText("预计收到");
         }
 

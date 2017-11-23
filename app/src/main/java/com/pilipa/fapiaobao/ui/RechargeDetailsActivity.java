@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -137,10 +138,12 @@ public class RechargeDetailsActivity extends BaseActivity {
             AmountHistoryBean.DataBean bean =(AmountHistoryBean.DataBean)mMarkerData.get(position);
             if(bean.getFee() >= (double) 0){
                 viewHolder.tvAmountOffered.setText("+"+String.format("%.2f", bean.getFee())+"");//钱包金额
-                viewHolder.tvAmountOffered.setTextColor(getResources().getColor(R.color.add));
+                viewHolder.tvAmountOffered.setTextColor(Color.parseColor("#ef5c5c"));
+
             }else{
                 viewHolder.tvAmountOffered.setText(String.format("%.2f", bean.getFee())+"");//钱包金额
-                viewHolder.tvAmountOffered.setTextColor(getResources().getColor(R.color.reduce));
+                viewHolder.tvAmountOffered.setTextColor(Color.parseColor("#13b5b1"));
+
             }
             viewHolder.title.setText(bean.getTitle());
             viewHolder.createDate.setText(bean.getCreateDate());
