@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
-import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -22,6 +21,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.CountDownTimerUtils;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.wxapi.Constants;
@@ -185,7 +185,11 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                             SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean.getData().getCustomer());
                             boolean save = SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
                             Log.d(TAG, "setData:save "+save);
+                            if (Constant.LOGIN_TO_PUBLISH.equals(getIntent().getAction())) {
+                                startActivity(new Intent(LoginActivity.this,DemandsPublishActivity.class));
+                            }
                             finish();
+
                         }
                     });
         }

@@ -90,7 +90,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/d10">
+                    android:paddingLeft="@dimen/d10"
+                    android:paddingTop="@dimen/d10"
+                    android:paddingRight="@dimen/d10"
+                    android:paddingBottom="@dimen/d10">
 
                     <EditText
                         android:maxLines="2"
@@ -111,6 +114,7 @@
 
 
                 <TextView
+                    android:textSize="@dimen/s11"
                     android:id="@+id/tv_mustfill_company_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -159,6 +163,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:textSize="@dimen/s11"
                     android:id="@+id/tv_mustfill_texno"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -205,6 +210,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:textSize="@dimen/s11"
                     android:id="@+id/tv_mustfill_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -253,6 +259,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:textSize="@dimen/s11"
                     android:id="@+id/tv_mustfill_company_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -300,6 +307,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:textSize="@dimen/s11"
                     android:id="@+id/tv_mustfill_bank_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -324,7 +332,7 @@
 
                 <LinearLayout
                     android:layout_weight="1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="@dimen/d10">
@@ -348,14 +356,13 @@
                 </LinearLayout>
 
                 <TextView
+                    android:textSize="@dimen/s11"
                     android:id="@+id/tv_mustfill_bank_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="必填"
                     android:textColor="@color/main_style" />
             </LinearLayout>
-
-
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

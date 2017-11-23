@@ -48,6 +48,9 @@ import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+import static com.pilipa.fapiaobao.ui.constants.Constant.FORCE_UPDATE;
+import static com.pilipa.fapiaobao.ui.constants.Constant.IS_FIRST_IN_MAIN;
+
 
 public class MainActivity extends BaseActivity implements NavFragment.OnNavigationReselectListener {
 
@@ -96,7 +99,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
         mHandler.sendEmptyMessageDelayed(UPDATE, 3000);
 
-        if (BaseApplication.get("IS_FIRST_IN_MAIN", true)) {
+        if (BaseApplication.get(IS_FIRST_IN_MAIN, true)) {
             mNavBar.navItemPublish.post(new Runnable() {
                 @Override
                 public void run() {
@@ -191,7 +194,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
                 @Override
                 public void onDismiss() {
-                    BaseApplication.set("IS_FIRST_IN_MAIN",false);
+                    BaseApplication.set(IS_FIRST_IN_MAIN,false);
                 }
             });
 
@@ -293,6 +296,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
     private void showPopup(final VersionMode.DataBean dataBean) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.popup_download_alert, null);
         popWnd = new PopupWindow(this);
+        popWnd.setAnimationStyle(R.style.download_alert_layout_style);
         popWnd.setContentView(contentView);
         popWnd.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_rect));
         popWnd.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -351,7 +355,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
                             @Override
                             public void onError(Throwable e) {
                                 bg.setVisibility(View.INVISIBLE);
-                                if (dataBean.getForced().equals("1")) {
+                                if (dataBean.getForced().equals(FORCE_UPDATE)) {
                                     MainActivity.this.finish();
                                     System.exit(0);
                                 } else {
@@ -371,7 +375,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
             @Override
             public void onClick(View v) {
                 bg.setVisibility(View.INVISIBLE);
-                if (dataBean.getForced().equals("1")) {
+                if (dataBean.getForced().equals(FORCE_UPDATE)) {
                     MainActivity.this.finish();
                     System.exit(0);
                 } else {
@@ -407,7 +411,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
     public void exit() {
         if ((System.currentTimeMillis() - mExitTime) > 2000) {
-            Toast.makeText(MainActivity.this, "再按一次退出发票宝", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getString(R.string.click_twice_to_exit), Toast.LENGTH_SHORT).show();
             mExitTime = System.currentTimeMillis();
         } else {
             finish();

@@ -20,6 +20,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.PubActivity;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.widget.NavigationButton;
 import com.pilipa.fapiaobao.utils.ButtonUtils;
 
@@ -36,6 +37,7 @@ import static com.pilipa.fapiaobao.ui.fragment.model.Constant.START_ACTIVITY_FRO
  */
 
 public class NavFragment extends BaseFragment{
+
 
 
     @Bind(R.id.nav_item_tex)
@@ -213,7 +215,9 @@ public class NavFragment extends BaseFragment{
                         if (loginWithInfoBean.getStatus()==200) {
                             PubActivity.show(mContext);
                         } else if (loginWithInfoBean.getStatus()==701) {
-                            startActivity(new Intent(mContext, LoginActivity.class));
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            intent.setAction(Constant.LOGIN_TO_PUBLISH);
+                            startActivity(intent);
                         }
                     }
                 });

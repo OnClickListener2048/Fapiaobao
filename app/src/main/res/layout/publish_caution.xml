@@ -18,6 +18,7 @@
         android:background="@drawable/shape_rect_demand_info">
 
         <EditText
+            android:lineSpacingExtra="@dimen/d6"
             android:layout_gravity="top"
             android:gravity="top"
             android:id="@+id/et_publish_cautions"
@@ -33,7 +34,7 @@
         android:id="@+id/btn_publish_now"
         android:layout_height="@dimen/d45"
         android:layout_margin="@dimen/d10"
-        android:background="@color/main_style"
+        android:background="@drawable/shape_estimate_publish"
         android:text="@string/publish"
         android:layout_width="match_parent"
         android:textColor="@color/white" />

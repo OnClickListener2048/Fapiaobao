@@ -97,7 +97,12 @@ public class MeFragment extends BaseFragment{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mContext.unregisterReceiver(mBoradcastReceiver);
+        try {
+            mContext.unregisterReceiver(mBoradcastReceiver);
+        } catch (IllegalArgumentException i) {
+            i.printStackTrace();
+        }
+
     }
 
 

@@ -84,4 +84,9 @@
 
     </style>
 
+    <style name="download_alert_layout_style">
+        <item name="android:windowEnterAnimation">@anim/download_alert_layout_in</item>
+        <item name="android:windowExitAnimation">@anim/download_alert_layout_out</item>
+    </style>
+
 </resources>

@@ -37,7 +37,6 @@
             android:text="@string/filter"
             android:textColor="@color/main_style"
             android:visibility="gone" />
-
     </RelativeLayout>
 
     <LinearLayout

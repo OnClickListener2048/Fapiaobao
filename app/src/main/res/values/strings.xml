@@ -400,6 +400,7 @@
     <string name="tohave_fapiaobao">拥有【发票宝】，发票变得如此简单。</string>
     <string name="demand_publish_quit">退出后，信息将不被保存，确定退出吗？</string>
     <string name="demand_publish_title">提示</string>
+    <string name="click_twice_to_exit">再按一次退出发票宝</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>
