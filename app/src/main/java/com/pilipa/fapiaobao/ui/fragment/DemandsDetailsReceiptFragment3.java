@@ -22,6 +22,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.DemandsDetailsReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
@@ -59,7 +60,7 @@ public class DemandsDetailsReceiptFragment3 extends BaseFragment implements
        , DemandsDetailsReceiptAdapter.OnImageSelectListener, DemandsDetailsReceiptAdapter.OnImageClickListener, DemandsDetailsReceiptAdapter.OnPhotoCapture {
 
 
-    private static final String TAG = "DemandsDetailsReceiptFragment";
+    private static final String TAG = "DemandsDetailsReceiptFragment3";
     public static final int REQUEST_CODE_CAPTURE = 10;
     public static final int REQUEST_CODE_CHOOSE = 20;
     public static final String EXTRA_ALL_DATA = "EXTRA_ALL_DATA";
@@ -227,14 +228,16 @@ public class DemandsDetailsReceiptFragment3 extends BaseFragment implements
         setDialog();
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-////        if (resultCode != RESULT_OK) {
-////            return;
-////        }
-//
-//        if (requestCode == REQUEST_CODE_CAPTURE && resultCode == RESULT_OK) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        TLog.log(TAG+"onActivityResult3");
+        super.onActivityResult(requestCode, resultCode, data);
+        TLog.log(TAG+"onActivityResult4");
+//        if (resultCode != RESULT_OK) {
+//            return;
+//        }
+
+        if (requestCode == REQUEST_CODE_CAPTURE && resultCode == RESULT_OK) {
 //            Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
 //            String path = mediaStoreCompat.getCurrentPhotoPath();
 //            try {
@@ -258,21 +261,21 @@ public class DemandsDetailsReceiptFragment3 extends BaseFragment implements
 //                getActivity().revokeUriPermission(contentUri,
 //                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
 //            }
-//        } else if (REQUEST_CODE_IMAGE_CLICK == requestCode) {
-//            switch (resultCode) {
-//                case RESULT_CODE_BACK:
-//                    Bundle bundleExtra = data.getBundleExtra(EXTRA_BUNDLE);
-//                    ArrayList<Image> images = bundleExtra.getParcelableArrayList(EXTRA_ALL_DATA);
-//                    uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
-//                    uploadReceiptAdapter.refresh(images);
-//                    DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
-//                    diffResult.dispatchUpdatesTo(uploadReceiptAdapter);
-//                    this.images = images;
-//                    mPreviousPosition = images.size();
-//                    break;
-//                default:
-//            }
-//        } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+        } else if (REQUEST_CODE_IMAGE_CLICK == requestCode) {
+            switch (resultCode) {
+                case RESULT_CODE_BACK:
+                    Bundle bundleExtra = data.getBundleExtra(EXTRA_BUNDLE);
+                    ArrayList<Image> images = bundleExtra.getParcelableArrayList(EXTRA_ALL_DATA);
+                    uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
+                    uploadReceiptAdapter.refresh(images);
+                    DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
+                    diffResult.dispatchUpdatesTo(uploadReceiptAdapter);
+                    this.images = images;
+                    mPreviousPosition = images.size();
+                    break;
+                default:
+            }
+        } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
 //            List<Uri> uris = Matisse.obtainResult(data);
 //            for (Uri uri : uris) {
 //                Image image = new Image();
@@ -285,10 +288,10 @@ public class DemandsDetailsReceiptFragment3 extends BaseFragment implements
 //                uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
 //                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
 //            }
-//
-//        }
-//
-//    }
+
+        }
+
+    }
 
     private void setDialog() {
         mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
@@ -352,10 +355,5 @@ public class DemandsDetailsReceiptFragment3 extends BaseFragment implements
 
         return 0;
     }
-    @Override
-    public void onPause() {
-        super.onPause();
-        rvUploadReceipt.setAdapter(null);
-        uploadReceiptAdapter = null;
-    }
+
 }

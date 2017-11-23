@@ -52,5 +52,6 @@
     <color name="red_estimate">#ff9076</color>
     <color name="btn_confirm">#ebb884</color>
     <color name="shadow_finance_item">#11d4d4d4</color>
+    <color name="gray_estimate_company_invoice_types">#434343</color>
 
 </resources>

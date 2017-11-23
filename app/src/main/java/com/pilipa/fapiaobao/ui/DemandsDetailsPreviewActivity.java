@@ -31,6 +31,7 @@ import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
 import com.pilipa.fapiaobao.net.bean.me.RejectInvoiceBean;
@@ -292,7 +293,21 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                                 @Override
                                 public void setData(ConfirmInvoiceBean confirmInvoiceBean) {
                                     if (confirmInvoiceBean.getStatus() == 200) {
+                                        if (currentImage.variety.equals(Constant.VARIETY_GENERAL_ELECTRON)) {
+                                            currentImage.state = Constant.STATE_COMPETENT;
+                                        } else {
+                                            if (currentImage.state.equals(Constant.STATE_CONFIRMING)) {
+                                                currentImage.state = Constant.STATE_MAILING;
+                                            } else if (currentImage.state.equals(Constant.STATE_MAILING)) {
+                                                currentImage.state = Constant.STATE_COMPETENT;
+                                            }
+                                        }
                                         BaseApplication.showToast("确认成功");
+                                        Intent intent = new Intent();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putParcelableArrayList(DemandsDetailsReceiptFragment.EXTRA_ALL_DATA, allList);
+                                        intent.putExtra(DemandsDetailsReceiptFragment.EXTRA_BUNDLE, bundle);
+                                        setResult(DemandsDetailsReceiptFragment.RESULT_CODE_BACK, intent);
                                         DemandsDetailsPreviewActivity.this.finish();
                                     }
                                 }
@@ -539,6 +554,13 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                                         public void setData(RejectInvoiceBean normalBean) {
                                             if (normalBean.getStatus() == 200) {
                                                 String reason = normalBean.getData().getReason();
+                                                currentImage.state = Constant.STATE_INCOMPETENT;
+                                                allList.remove(currentImage);
+                                                Intent intent = new Intent();
+                                                Bundle bundle = new Bundle();
+                                                bundle.putParcelableArrayList(DemandsDetailsReceiptFragment.EXTRA_ALL_DATA, allList);
+                                                intent.putExtra(DemandsDetailsReceiptFragment.EXTRA_BUNDLE, bundle);
+                                                setResult(DemandsDetailsReceiptFragment.RESULT_CODE_BACK, intent);
                                                 setRejectDialog(REJECT_FINISH);
 
                                             }

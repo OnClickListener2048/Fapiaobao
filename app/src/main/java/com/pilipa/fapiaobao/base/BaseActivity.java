@@ -117,6 +117,28 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+
+    public void showProgressDialog(String description) {
+        if (progressDialog != null) {
+            if (!progressDialog.isShowing()) {
+                progressDialog.setMessage(description);
+                progressDialog.show();
+            }
+        }
+    }
+
+    public void updateDialogWithDescription(String description) {
+        if (progressDialog != null) {
+            progressDialog.setMessage(description);
+        }
+    }
+
+    public void updateDialog(String description) {
+        if (progressDialog != null) {
+            progressDialog.setMessage(String.format(getString(R.string.upload_receipt_dialog),description));
+        }
+    }
+
     public void hideProgressDialog() {
         if (progressDialog != null) {
             if (progressDialog.isShowing()) {

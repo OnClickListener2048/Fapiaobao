@@ -208,14 +208,21 @@ public class DemandActivity extends BaseActivity{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        TLog.log(TAG+"onActivityResult1");
+        TLog.log(TAG+"requestCode"+requestCode);
+        TLog.log(TAG+"resultCode"+resultCode);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
-
+        switch (resultCode) {
+            case DemandsDetailsReceiptFragment.RESULT_CODE_BACK:
+                TLog.log(TAG+"onActivityResult3");
+                demandDetails(demandId,false);
+                break;
+            default:
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @OnClick({R.id.demand_back, R.id.fl_change, btn_shut_down_early, R.id.link_to_telephone, R.id.link_to_phone, R.id.tv_qualified_list, R.id.iv_demand_share})
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -272,7 +279,7 @@ public class DemandActivity extends BaseActivity{
         api.registerApp(Constants.APP_ID);
     }
 
-    private void setUpData(List<DemandDetails.DataBean.OrderInvoiceListBean> results) {
+    private void setUpData(List<DemandDetails.DataBean.OrderInvoiceListBean> results, boolean isSetList) {
         Log.d(TAG, "setUpData:   private void setUpData(ArrayList<model.ResultsBean> body) {");
         isCanShutDown = true;
         if (results.size() == 0) {
@@ -331,25 +338,19 @@ public class DemandActivity extends BaseActivity{
             tv_num_1.setText(String.format(getResources().getString(R.string.paper_normal_receipt_num), images1.size()));
             tv_num_2.setText(String.format(getResources().getString(R.string.paper_special_receipt_num), images2.size()));
             tv_num_3.setText(String.format(getResources().getString(R.string.paper_elec_receipt_num), images3.size()));
+            if (isSetList) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
+                paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
+                addCaptureFragment2(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
+                bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
+                paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
+                addCaptureFragment2(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
+                bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
+                paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
+                addCaptureFragment2(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+            }
 
-            Bundle bundle = new Bundle();
-
-            FragmentManager supportFragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
-
-
-            bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
-            paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
-
-            addCaptureFragment2(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
-
-            bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
-            paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
-
-            addCaptureFragment2(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
-            bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
-            paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
-            addCaptureFragment2(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
             if(images1.size()==0){
                 container_paper_normal_receipt.setVisibility(View.GONE);
             }
@@ -371,16 +372,11 @@ public class DemandActivity extends BaseActivity{
     public void initData() {
         demandId = getIntent().getStringExtra("demandId");
         Log.d(TAG, "initData:demandDetails demandId" + demandId);
+        if (demandId != null) {
+            demandDetails(demandId,true);
+        }
     }
 
-    @Override
-    protected void onResume() {
-        if (demandId != null) {
-            demandDetails(demandId);
-        }
-        Log.d(TAG, "onResume:demandDetails demandId" + demandId);
-        super.onResume();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -393,7 +389,7 @@ public class DemandActivity extends BaseActivity{
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"demandDetails");
         super.onPause();
     }
-    public void demandDetails(String demandId) {
+    public void demandDetails(String demandId, final boolean isSetList) {
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
             String token = AccountHelper.getToken();
             Api.demandDetails(token, demandId, new Api.BaseViewCallbackWithOnStart<DemandDetails>() {
@@ -465,9 +461,10 @@ public class DemandActivity extends BaseActivity{
                             }
                         }
                         //发票列表
-                        mDataList.clear();
-                        mDataList.addAll(bean.getOrderInvoiceList());
-                        setUpData(mDataList);
+                            mDataList.clear();
+                            mDataList.addAll(bean.getOrderInvoiceList());
+                            setUpData(mDataList,isSetList);
+
 
                         if (STATE_DEMAND_ING.equals(bean.getDemand().getState())) {
                             img_state.setImageResource(R.mipmap.on_the_way);
@@ -500,7 +497,7 @@ public class DemandActivity extends BaseActivity{
                         @Override
                         public void setData(NormalBean normalBean) {
                             Toast.makeText(DemandActivity.this, "需求已关闭", Toast.LENGTH_SHORT).show();
-                            demandDetails(id);
+                            demandDetails(id,false);
                             DemandActivity.this.finish();
                             Log.d(TAG, "updateData:shatDownEarly success");
                         }

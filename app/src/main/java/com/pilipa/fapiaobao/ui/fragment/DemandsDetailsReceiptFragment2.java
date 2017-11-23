@@ -22,6 +22,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.DemandsDetailsReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
@@ -59,7 +60,7 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
        , DemandsDetailsReceiptAdapter.OnImageSelectListener, DemandsDetailsReceiptAdapter.OnImageClickListener, DemandsDetailsReceiptAdapter.OnPhotoCapture {
 
 
-    private static final String TAG = "DemandsDetailsReceiptFragment";
+    private static final String TAG = "DemandsDetailsReceiptFragment2";
     public static final int REQUEST_CODE_CAPTURE = 10;
     public static final int REQUEST_CODE_CHOOSE = 20;
     public static final String EXTRA_ALL_DATA = "EXTRA_ALL_DATA";
@@ -223,7 +224,9 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        TLog.log(TAG+"onActivityResult3");
         super.onActivityResult(requestCode, resultCode, data);
+        TLog.log(TAG+"onActivityResult4");
 //        if (resultCode != RESULT_OK) {
 //            return;
 //        }
@@ -255,14 +258,14 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
         } else if (REQUEST_CODE_IMAGE_CLICK == requestCode) {
             switch (resultCode) {
                 case RESULT_CODE_BACK:
-//                    Bundle bundleExtra = data.getBundleExtra(EXTRA_BUNDLE);
-//                    ArrayList<Image> images = bundleExtra.getParcelableArrayList(EXTRA_ALL_DATA);
-//                    uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
-//                    uploadReceiptAdapter.refresh(images);
-//                    DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
-//                    diffResult.dispatchUpdatesTo(uploadReceiptAdapter);
-//                    this.images = images;
-//                    mPreviousPosition = images.size();
+                    Bundle bundleExtra = data.getBundleExtra(EXTRA_BUNDLE);
+                    ArrayList<Image> images = bundleExtra.getParcelableArrayList(EXTRA_ALL_DATA);
+                    uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
+                    uploadReceiptAdapter.refresh(images);
+                    DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
+                    diffResult.dispatchUpdatesTo(uploadReceiptAdapter);
+                    this.images = images;
+                    mPreviousPosition = images.size();
                     break;
                 default:
             }
@@ -346,10 +349,5 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
 
         return 0;
     }
-    @Override
-    public void onPause() {
-        super.onPause();
-        rvUploadReceipt.setAdapter(null);
-        uploadReceiptAdapter = null;
-    }
+
 }

@@ -220,7 +220,7 @@
     <string name="balance">我的余额</string>
     <string name="recharge">充值</string>
     <string name="withdraw">提现</string>
-    <string name="feedback_hint">请输入您的意见或建议...</string>
+    <string name="feedback_hint">请输入您的意见或建议…</string>
     <string name="submit">提交</string>
     <string name="demand_details">需求详情</string>
     <string name="collected_recript">已收集发票</string>
@@ -375,7 +375,7 @@
     <string name="paper_elec_receipt_num">电子发票 %1$d 张</string>
     <string name="tip_reject_start">请如实进行【不合格】操作哦。经平台查验，操作不实者，将降低其使用权并扣除信用积分。</string>
     <string name="tip_reject_finish">发票已驳回，您的红包奖励不会被扣除</string>
-    <string name="hint_reject">请如实填写您的不合格原因...</string>
+    <string name="hint_reject">请如实填写您的不合格原因…</string>
     <string name="withdraw_wx">提现到微信</string>
     <string name="withdraw_current">当前余额为%1$f元，</string>
     <string name="withdraw_max">最大提现额度为%1$f元</string>
@@ -401,6 +401,11 @@
     <string name="demand_publish_quit">退出后，信息将不被保存，确定退出吗？</string>
     <string name="demand_publish_title">提示</string>
     <string name="click_twice_to_exit">再按一次退出发票宝</string>
+    <string name="upload_receipt_dialog">正在解析图片%s\u3000</string>
+    <string name="uploading">正在上传发票…</string>
+    <string name="upload_success">发票上传成功</string>
+    <string name="analysing">正在解析发票…</string>
+    <string name="wrapping">打包发票…</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

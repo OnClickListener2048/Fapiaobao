@@ -51,7 +51,7 @@
 
             <com.pilipa.fapiaobao.ui.widget.LabelsView
                 app:labelBackground="@drawable/selector_estimate_company_request_bg"
-                app:labelTextColor="@color/gray_line"
+                app:labelTextColor="@color/gray_estimate_company_invoice_types"
                 app:labelTextPaddingBottom="5dp"
                 app:labelTextPaddingLeft="10dp"
                 app:labelTextPaddingTop="5dp"

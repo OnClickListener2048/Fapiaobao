@@ -2,8 +2,15 @@
 <shape android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="@color/white" />
     <stroke
-        android:color="@color/gray_line"
+        android:color="#bfbfbf"
         android:dashGap="@dimen/d4"
         android:dashWidth="@dimen/d10"
         android:width="@dimen/d2" />
+    <corners
+        android:bottomLeftRadius="@dimen/d2"
+        android:bottomRightRadius="@dimen/d2"
+        android:radius="@dimen/d2"
+        android:topLeftRadius="@dimen/d2"
+        android:topRightRadius="@dimen/d2" />
+
 </shape>

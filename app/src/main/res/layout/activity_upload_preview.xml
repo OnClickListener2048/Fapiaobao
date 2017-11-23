@@ -39,11 +39,14 @@
             android:visibility="gone" />
 
     </RelativeLayout>
-    <FrameLayout
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v4.widget.NestedScrollView
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -332,24 +335,24 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <android.support.v4.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+            android:layout_height="wrap_content">
+
 
             <Button
+                android:layout_marginBottom="@dimen/d5"
+                android:layout_marginLeft="@dimen/d20"
                 android:id="@+id/confirm"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d40"
-                android:layout_margin="@dimen/d20"
-                android:background="@color/main_style"
+                android:layout_marginRight="@dimen/d20"
+                android:layout_marginTop="@dimen/d5"
+                android:background="@drawable/shape_extimate_go"
                 android:text="@string/confirm"
                 android:textColor="@color/white" />
         </LinearLayout>
 
 
-    </FrameLayout>
+    </LinearLayout>
 
 
 

@@ -280,7 +280,6 @@ public class ProvidedActivity extends BaseActivity {
         Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
             @Override
             public void setData(ExpressCompanyBean expressCompanyBean) {
-                Log.d(TAG, "setData: initDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitDatainitData");
                spinnerAdapter =  new PublishSpinnerAdapter(expressCompanyBean);
                 mSpinner.setAdapter(spinnerAdapter);
             }
@@ -417,15 +416,8 @@ public class ProvidedActivity extends BaseActivity {
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
         findAllRejectType();
         checkFav(CompanyId);
-
-    }
-
-    @Override
-    protected void onResume() {
         showOrderDetail(orderId);
-        super.onResume();
     }
-
     public void checkFav(final String companyId) {
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginWithInfoBean != null) {
