@@ -11,7 +11,9 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
@@ -407,8 +409,8 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void demandsList(String token,String state, final BaseViewCallback baseViewCallback) {
-        OkGo.<DemandsListBean>get(String.format(USER_ISSUED_LIST,state,token)).execute(new JsonCallBack<DemandsListBean>(DemandsListBean.class) {
+    public static void demandsList(String token, String state, BaseFragment baseFragment, final BaseViewCallback baseViewCallback) {
+        OkGo.<DemandsListBean>get(String.format(USER_ISSUED_LIST,state,token)).tag(baseFragment).execute(new JsonCallBack<DemandsListBean>(DemandsListBean.class) {
             @Override
             public void onSuccess(Response<DemandsListBean> response) {
                     int status = response.body().getStatus();
@@ -680,8 +682,8 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void myInvoiceList(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<MyInvoiceListBean>get(String.format(MY_INVOICE_LIST, token)).execute(new JsonCallBack<MyInvoiceListBean>(MyInvoiceListBean.class) {
+    public static void myInvoiceList(String token, Object baseActivity, final BaseViewCallback baseViewCallback) {
+        OkGo.<MyInvoiceListBean>get(String.format(MY_INVOICE_LIST, token)).tag(baseActivity).execute(new JsonCallBack<MyInvoiceListBean>(MyInvoiceListBean.class) {
             @Override
             public void onSuccess(Response<MyInvoiceListBean> response) {
                     baseViewCallback.setData(response.body());

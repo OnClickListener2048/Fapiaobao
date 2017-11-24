@@ -174,7 +174,7 @@ public class UnusedPagerFragment_finish extends BaseFragment implements AdapterV
 
     public void demandsList(String state){
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.demandsList(AccountHelper.getToken(),state,new Api.BaseViewCallback<DemandsListBean>() {
+            Api.demandsList(AccountHelper.getToken(),state,this,new Api.BaseViewCallback<DemandsListBean>() {
                 @Override
                 public void setData(DemandsListBean demandsListBean) {
                     if(demandsListBean.getStatus() == REQUEST_SUCCESS){

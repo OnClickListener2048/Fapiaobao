@@ -175,8 +175,6 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
                         mDataList = list;
                         mAdapter.initData(mDataList);
                         listView.setAdapter(mAdapter);
-
-
                             Log.d(TAG, "updateData:orderList success");
                         }
 

@@ -101,4 +101,6 @@
     <dimen name="d36">36dp</dimen>
     <dimen name="d41">41dp</dimen>
     <dimen name="d11">11dp</dimen>
+    <dimen name="d400">400dp</dimen>
+    <dimen name="d450">450dp</dimen>
 </resources>

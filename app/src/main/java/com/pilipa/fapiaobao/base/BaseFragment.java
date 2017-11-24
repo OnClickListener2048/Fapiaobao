@@ -21,6 +21,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.mylibrary.utils.ImageLoader;
 import com.example.mylibrary.utils.ImageUtils;
+import com.example.mylibrary.utils.TLog;
+import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.TDevice;
@@ -286,5 +288,12 @@ public abstract class BaseFragment extends Fragment {
             }
             transaction.commit();
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        TLog.log("OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);"+this.getClass().getSimpleName());
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
     }
 }

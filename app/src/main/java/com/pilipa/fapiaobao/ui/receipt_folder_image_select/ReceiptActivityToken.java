@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
@@ -39,7 +40,7 @@ import butterknife.OnClick;
  * @date 2017/10/17
  */
 
-public class ReceiptActivityToken extends AppCompatActivity implements NormalAdpater.OnImageSelectListener, NormalAdpater.OnImageClickListener {
+public class ReceiptActivityToken extends BaseActivity implements NormalAdpater.OnImageSelectListener, NormalAdpater.OnImageClickListener {
     private static final String TAG = "ReceiptActivityToken";
 
     public static final int REQUEST_CODE = 1000;
@@ -87,7 +88,7 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
 
     private void myInvoiceList() {
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.myInvoiceList(AccountHelper.getToken(), new Api.BaseViewCallback<MyInvoiceListBean>() {
+            Api.myInvoiceList(AccountHelper.getToken(),this, new Api.BaseViewCallback<MyInvoiceListBean>() {
                 @Override
                 public void setData(MyInvoiceListBean myInvoiceListBean) {
                     if (myInvoiceListBean.getStatus() == 200) {
@@ -225,5 +226,20 @@ public class ReceiptActivityToken extends AppCompatActivity implements NormalAdp
             case R.id.iv_demand_share:
                 break;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
+
     }
 }

@@ -28,6 +28,7 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
+import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.interf.BaseView;
 import com.pilipa.fapiaobao.ui.LoginActivity;
@@ -145,6 +146,13 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             progressDialog.dismiss();
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TLog.log("OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);"+this.getClass().getSimpleName());
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
     }
 
     public void login() {

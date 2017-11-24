@@ -51,39 +51,74 @@ public class Op extends AppCompatActivity implements
             super.onPageFinished(view, url);
             TLog.log("company_info"+company_info);
             if (company_info != null) {
-            view.loadUrl("javascript:;(function(currentRules){\n" +
-                    "            var jQueryUrl = 'https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js';\n" +
-                    "            function writeValue(conf) {\n" +
-                    "                if(conf===undefined) {return;}\n" +
-                    "                $(conf.selector).val(conf.value);\n" +
-                    "            }\n" +
-                    "            function injectScript(url, cb) {\n" +
-                    "                url = url || jQueryUrl;\n" +
-                    "                cb = cb || function(){};\n" +
-                    "                var script = document.createElement('script');\n" +
-                    "                script.src = url;\n" +
-                    "                document.head.appendChild(script);\n" +
-                    "                script.onload = function(){cb()}\n" +
-                    "            }\n" +
-                    "            function setFormVals() {\n" +
-                    "                $.each(currentRules, function (index, item) {\n" +
-                    "                    writeValue(item);\n" +
-                    "                })\n" +
-                    "            }\n" +
-                    "            if(!window.$ && !window.jQuery) {\n" +
-                    "                injectScript(jQueryUrl, setFormVals);\n" +
-                    "            } else {\n" +
-                    "                setFormVals();\n" +
-                    "            }\n" +
-                    "        })([\n" +
-                    "            {selector:'#invoiceTitle', value:'"+company_info.getName()+"'},\n" +
-                    "            {selector:'#taxpayerNumber', value:'"+company_info.getTaxno()+"'},\n" +
-                    "            {selector:'#telephoneNumber', value:'"+company_info.getPhone()+"'},\n" +
-                    "            {selector:'#address', value:'"+company_info.getAddress()+"'},\n" +
-                    "            {selector:'#depositBank',value:'"+company_info.getDepositBank()+"'},\n" +
-                    "            {selector:'#bankAccount',value:'"+company_info.getAccount()+"'},\n" +
-                    "            {selector:'#cellPhoneNumber',value:'"+AccountHelper.getUserCustormer().getTelephone()+"'}\n" +
-                    "        ]);");
+                if (url.contains("yumchina")) {
+                    view.loadUrl("javascript:;(function(currentRules){\n" +
+                            "            var jQueryUrl = 'https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js';\n" +
+                            "            function writeValue(conf) {\n" +
+                            "                if(conf===undefined) {return;}\n" +
+                            "                $(conf.selector).val(conf.value);\n" +
+                            "            }\n" +
+                            "            function injectScript(url, cb) {\n" +
+                            "                url = url || jQueryUrl;\n" +
+                            "                cb = cb || function(){};\n" +
+                            "                var script = document.createElement('script');\n" +
+                            "                script.src = url;\n" +
+                            "                document.head.appendChild(script);\n" +
+                            "                script.onload = function(){cb()}\n" +
+                            "            }\n" +
+                            "            function setFormVals() {\n" +
+                            "                $.each(currentRules, function (index, item) {\n" +
+                            "                    writeValue(item);\n" +
+                            "                })\n" +
+                            "            }\n" +
+                            "            if(!window.$ && !window.jQuery) {\n" +
+                            "                injectScript(jQueryUrl, setFormVals);\n" +
+                            "            } else {\n" +
+                            "                setFormVals();\n" +
+                            "            }\n" +
+                            "        })([\n" +
+                            "            {selector:'#invTitle', value:'" + company_info.getName() + "'},\n" +
+                            "            {selector:'#invTaxNo', value:'" + company_info.getTaxno() + "'},\n" +
+                            "            {selector:'#invAddrPhone', value:'" + company_info.getAddress() + company_info.getPhone() + "'},\n" +
+                            "            {selector:'#invBank',value:'" + company_info.getDepositBank() + company_info.getAccount() + "'},\n" +
+                            "            {selector:'#mobile',value:'" + AccountHelper.getUserCustormer().getTelephone() + "'}\n" +
+                            "        ]);");
+                } else if (url.contains("starbucks")) {
+                    view.loadUrl("javascript:;(function(currentRules){\n" +
+                            "            var jQueryUrl = 'https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js';\n" +
+                            "            function writeValue(conf) {\n" +
+                            "                if(conf===undefined) {return;}\n" +
+                            "                $(conf.selector).val(conf.value);\n" +
+                            "            }\n" +
+                            "            function injectScript(url, cb) {\n" +
+                            "                url = url || jQueryUrl;\n" +
+                            "                cb = cb || function(){};\n" +
+                            "                var script = document.createElement('script');\n" +
+                            "                script.src = url;\n" +
+                            "                document.head.appendChild(script);\n" +
+                            "                script.onload = function(){cb()}\n" +
+                            "            }\n" +
+                            "            function setFormVals() {\n" +
+                            "                $.each(currentRules, function (index, item) {\n" +
+                            "                    writeValue(item);\n" +
+                            "                })\n" +
+                            "            }\n" +
+                            "            if(!window.$ && !window.jQuery) {\n" +
+                            "                injectScript(jQueryUrl, setFormVals);\n" +
+                            "            } else {\n" +
+                            "                setFormVals();\n" +
+                            "            }\n" +
+                            "        })([\n" +
+                            "            {selector:'#invoiceTitle', value:'" + company_info.getName() + "'},\n" +
+                            "            {selector:'#taxpayerNumber', value:'" + company_info.getTaxno() + "'},\n" +
+                            "            {selector:'#telephoneNumber', value:'" + company_info.getPhone() + "'},\n" +
+                            "            {selector:'#address', value:'" + company_info.getAddress() + "'},\n" +
+                            "            {selector:'#depositBank',value:'" + company_info.getDepositBank() + "'},\n" +
+                            "            {selector:'#bankAccount',value:'" + company_info.getAccount() + "'},\n" +
+                            "            {selector:'#cellPhoneNumber',value:'" + AccountHelper.getUserCustormer().getTelephone() + "'}\n" +
+                            "        ]);");
+                }
+
             }
         }
     };
@@ -95,6 +130,7 @@ public class Op extends AppCompatActivity implements
         }
     };
     private AgentWeb.PreAgentWeb preAgentWeb;
+    private AgentWeb go;
 
 
     @Override
@@ -106,7 +142,8 @@ public class Op extends AppCompatActivity implements
         TLog.log(" company_info = getIntent().getParcelableExtra(\"company_info\");");
         preAgentWeb = WebViewUtils.init(this, ll, this, webViewClient, webChromeClient, this);
         String url = getIntent().getStringExtra("url");
-        preAgentWeb.go(url);
+        go = preAgentWeb.go(url);
+
     }
 
 
@@ -164,6 +201,11 @@ public class Op extends AppCompatActivity implements
 
     @OnClick(R.id.webView_back)
     public void onViewClicked() {
-        finish();
+        if (go.getWebCreator().get().canGoBack()) {
+            go.getWebCreator().get().goBack();
+        } else {
+            finish();
+        }
+
     }
 }

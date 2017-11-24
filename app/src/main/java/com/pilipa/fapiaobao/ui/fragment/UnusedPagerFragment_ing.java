@@ -15,6 +15,7 @@ import com.example.mylibrary.utils.TLog;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
+import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
@@ -173,9 +174,14 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
         startActivity(intent);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
     public void demandsList(String state){
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.demandsList(AccountHelper.getToken(),state,new Api.BaseViewCallback<DemandsListBean>() {
+            Api.demandsList(AccountHelper.getToken(),state,this,new Api.BaseViewCallback<DemandsListBean>() {
 
 
                 @Override
@@ -185,7 +191,9 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
                         List<DemandsListBean.DataBean> list =  demandsListBean.getData();
                         dataBeanList = list;
                         mAdapter.initData(list);
+                        if (listView!= null) {
                         listView.setAdapter(mAdapter);
+                        }
 
                         Log.d(TAG, "demandsList success");
                     }
