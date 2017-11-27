@@ -375,7 +375,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                         expressNo.setText(currentImage.logisticsTradeno);
                         setLayout(currentImage);
                     }
-                    checkPagePos(pos);
+                    checkPagePos(pos -1);
 
                 }
                 break;
