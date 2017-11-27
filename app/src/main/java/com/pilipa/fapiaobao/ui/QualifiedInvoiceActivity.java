@@ -37,6 +37,14 @@ public class QualifiedInvoiceActivity extends BaseActivity {
     TextView tv_num_3;
     @Bind(R.id.ll_receiptlist)
     LinearLayout ll_receiptlist;
+    @Bind(R.id.ll_no_record)
+    LinearLayout ll_no_record;
+    @Bind(R.id.ll_container_paper_normal_receipt)
+    LinearLayout container_paper_normal_receipt;
+    @Bind(R.id.ll_container_paper_special_receipt)
+    LinearLayout container_paper_special_receipt;
+    @Bind(R.id.ll_container_paper_elec_receipt)
+    LinearLayout container_paper_elec_receipt;
     private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
     private DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment;
     private DemandsDetailsReceiptFragment3 paperElecReceiptFragment;
@@ -81,6 +89,8 @@ public class QualifiedInvoiceActivity extends BaseActivity {
         tv_num_1.setText(String.format(getResources().getString(R.string.paper_normal_receipt_num), images1.size()));
         tv_num_2.setText(String.format(getResources().getString(R.string.paper_special_receipt_num), images2.size()));
         tv_num_3.setText(String.format(getResources().getString(R.string.paper_elec_receipt_num), images3.size()));
+
+
             Bundle bundle = new Bundle();
             bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
             paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
@@ -93,6 +103,19 @@ public class QualifiedInvoiceActivity extends BaseActivity {
             bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
             paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
             addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+        if(images1.size()==0){
+            container_paper_normal_receipt.setVisibility(View.GONE);
+        }
+        if(images2.size()==0){
+            container_paper_special_receipt.setVisibility(View.GONE);
+        }
+        if(images3.size()==0){
+            container_paper_elec_receipt.setVisibility(View.GONE);
+        }
+        if(images1.size()==0&&images2.size()==0&&images3.size()==0){
+            ll_no_record.setVisibility(View.VISIBLE);
+            ll_receiptlist.setVisibility(View.GONE);
+        }
     }
 
     @Override
