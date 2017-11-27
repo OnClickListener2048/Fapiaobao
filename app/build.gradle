@@ -16,8 +16,8 @@ android {
         applicationId "com.pilipa.fapiaobao"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 115
-        versionName "1.1.5"
+        versionCode 116
+        versionName "1.1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         defaultConfig {
             multiDexEnabled true

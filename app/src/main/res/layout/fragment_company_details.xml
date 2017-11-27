@@ -119,12 +119,14 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/text_normal_item"
                             android:text="@string/we_need" />
-                            <com.pilipa.fapiaobao.ui.widget.XCFlowLayout
-                                android:id="@+id/flowLayout"
-                                android:layout_marginTop="@dimen/d1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-                            </com.pilipa.fapiaobao.ui.widget.XCFlowLayout>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/view_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="12dp"
+                            android:paddingLeft="6dp"
+                            android:paddingRight="6dp"
+                            android:paddingTop="6dp"/>
                     </LinearLayout>
 
                 </LinearLayout>

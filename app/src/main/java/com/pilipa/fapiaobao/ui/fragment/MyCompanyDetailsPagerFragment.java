@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +22,8 @@ import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.adapter.MyCompanyDetailsAdapter;
+import com.pilipa.fapiaobao.adapter.TabAdapterActive;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.entity.Company;
@@ -29,7 +33,6 @@ import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.FavCompanyDetailsActivity;
-import com.pilipa.fapiaobao.ui.widget.XCFlowLayout;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
@@ -45,8 +48,10 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
+import java.util.Arrays;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -57,15 +62,14 @@ import static com.pilipa.fapiaobao.ui.fragment.model.Constant.START_ACTIVITY_FRO
  * Created by lyt on 2017/10/17.
  */
 
-public class MyCompanyDetailsPagerFragment extends BaseFragment {
+public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCompanyDetailsAdapter.ItemClickListener {
     private static final String TAG = "MyCompanyDetailsPagerFragment";
+    @Bind(R.id.view_recycler)
+    RecyclerView viewRecycler;
 
     private TextView tv_companyName, tv_receptCode, tv_address, tv_phoneNum, tv_bankName, tv_account;
     private Dialog mCameraDialog;
-    private XCFlowLayout flowLayout;
     private ImageView img_details_viewpager_next;
-    private TextView tv_newNeed;
-    private LinearLayout ll_we_need;
     private String companyId;
     private String deleteId;
     private IWXAPI api;
@@ -134,12 +138,12 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
         tv_phoneNum = (TextView) view.findViewById(R.id.tv_phoneNum);
         tv_bankName = (TextView) view.findViewById(R.id.tv_bankName);
         tv_account = (TextView) view.findViewById(R.id.tv_account);
-        flowLayout = (XCFlowLayout) view.findViewById(R.id.flowLayout);
-        ll_we_need = (LinearLayout) view.findViewById(R.id.ll_we_need);
-        tv_newNeed = (TextView) view.findViewById(R.id.tv_newNeed);
+        LinearLayout ll_we_need = (LinearLayout) view.findViewById(R.id.ll_we_need);
+        TextView tv_newNeed = (TextView) view.findViewById(R.id.tv_newNeed);
         ImageView img_qr_code1 = (ImageView) view.findViewById(R.id.img_qr_code1);
         ImageView img_qr_code2 = (ImageView) view.findViewById(R.id.img_qr_code2);
         LinearLayout ll_qr_code2 = (LinearLayout) view.findViewById(R.id.ll_qr_code2);
+        viewRecycler.setLayoutManager(new GridLayoutManager(mContext, 3));
         Bundle arguments = getArguments();
         company = arguments.getParcelable("company");
         if (company != null) {
@@ -149,7 +153,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             tv_phoneNum.setText(company.getPhone());
             tv_bankName.setText(company.getDepositBank());
             tv_account.setText(company.getAccount());
-            TLog.d("qrcode" , company.getQrcode()+"");
+            TLog.d("qrcode", company.getQrcode() + "");
             if (company.getInvoiceTypeList() != null) {
                 ll_qr_code2.setVisibility(View.VISIBLE);
                 img_qr_code1.setVisibility(View.GONE);
@@ -164,7 +168,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
             }
         }
 
-        Log.d(TAG,"Company getQrcode" +company.getQrcode());
+        Log.d(TAG, "Company getQrcode" + company.getQrcode());
         //初始化 web
         web = new UMWeb(company.getQrcode());
         web.setTitle(getString(R.string.please_open_check));//标题
@@ -174,17 +178,17 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
 
 
         //TODO 截取qrCode中 companyId
-        String [] temp = null;
+        String[] temp = null;
         temp = company.getQrcode().split("id=");
         companyId = temp[1];
         //删除的ID
         deleteId = company.getId();
-        Log.d(TAG,"deleteId" + deleteId);
+        Log.d(TAG, "deleteId" + deleteId);
 
         try {
             String content = new String(company.getQrcode().getBytes("UTF-8"), "ISO-8859-1");
-            TLog.log("content-----------"+content);
-            Bitmap qrCode = CodeCreator.createQRCode(mContext,content);
+            TLog.log("content-----------" + content);
+            Bitmap qrCode = CodeCreator.createQRCode(mContext, content);
             img_qr_code1.setImageBitmap(qrCode);
             img_qr_code2.setImageBitmap(qrCode);
         } catch (Exception e) {
@@ -201,30 +205,23 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
         lp.topMargin = 5;
         lp.bottomMargin = 5;
 
-        for (int i = 0; i < list.size(); i++) {
-            TextView view = new TextView(mContext);
-            view.setGravity(Gravity.CENTER);
-            view.setText(list.get(i).getName());
-            view.setTextSize(TDevice.px2dp(42));
-            view.setPadding(2,2,2,2);
-            view.setTextColor(getResources().getColor(R.color.main_style));
-            view.setBackgroundDrawable(getResources().getDrawable(R.drawable.selector_invoice_receipt_kind_bg));
-            initEvents(view,list.get(i).getId());
-            flowLayout.addView(view, lp);
-        }
+        MyCompanyDetailsAdapter myCompanyDetailsAdapter = new MyCompanyDetailsAdapter(list);
+        myCompanyDetailsAdapter.setOnItemClickListener(this);
+        viewRecycler.setAdapter(myCompanyDetailsAdapter);
+
     }
 
     /**
      * 为每个view 添加点击事件
      */
-    private void initEvents(final TextView tv,final String typeId) {
+    private void initEvents(final TextView tv, final String typeId) {
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, EstimateActivity.class);
-                intent.putExtra("companyId",companyId);
-                intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL,typeId);
-                intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME,tv.getText().toString().trim());
+                intent.putExtra("companyId", companyId);
+                intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, typeId);
+                intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME, tv.getText().toString().trim());
                 mContext.startActivity(intent);
                 Intent intent1 = new Intent();
                 intent1.setAction(START_ACTIVITY_FROM_DETAILS);
@@ -400,16 +397,38 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment {
     }
 
     private OnDelClickListener onDelClickListener;
+
     public void setOnDelClickListener(OnDelClickListener onDelClickListener) {
         this.onDelClickListener = onDelClickListener;
     }
+
+    @Override
+    public void onItemClick(FavoriteCompanyBean.DataBean.InvoiceTypeListBean dataBean) {
+        TLog.log("dataBean.getName()"+dataBean.getName());
+        TLog.log("dataBean.getId()"+dataBean.getId());
+
+        Intent intent = new Intent(mContext, EstimateActivity.class);
+        intent.putExtra("companyId", companyId);
+        intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, dataBean.getId());
+        intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME, dataBean.getName());
+        mContext.startActivity(intent);
+        Intent intent1 = new Intent();
+        intent1.setAction(START_ACTIVITY_FROM_DETAILS);
+        mContext.sendBroadcast(intent1);
+        ActivityUtils.finishActivity(FavCompanyDetailsActivity.class);
+        ActivityUtils.finishActivity(CompanyManagerActivity.class);
+    }
+
     public interface OnDelClickListener {
         void onDelClick(String companyId);
     }
+
     private OnNextClickListener onNextClickListener;
+
     public void setOnNextClickListener(OnNextClickListener onNextClickListener) {
         this.onNextClickListener = onNextClickListener;
     }
+
     public interface OnNextClickListener {
         void onNextClick();
     }

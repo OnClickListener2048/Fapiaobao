@@ -1,98 +1,79 @@
 package com.pilipa.fapiaobao.adapter;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
+import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 
 import java.util.List;
 
 /**
- * Created by lyt on 2017/10/23.
+ * Created by edz on 2017/11/27.
  */
 
-public class MyCompanyDetailsAdapter extends BaseAdapter {
-    List list;
-    private OnNextClickListener onNextClickListener;
+public class MyCompanyDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context mContext = null;
-    private List<?> mMarkerData = null;
-    public MyCompanyDetailsAdapter(Context context)
-    {
-        mContext = context;
-    }
-    @Override
-    public int getCount() {
-        return 5;
+
+    private final List<FavoriteCompanyBean.DataBean.InvoiceTypeListBean> list;
+    private ItemClickListener itemClickListener;
+
+    public MyCompanyDetailsAdapter(List<FavoriteCompanyBean.DataBean.InvoiceTypeListBean> list) {
+        this.list = list;
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_tab_item, parent, false);
+        return new Holder(view);
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
-    }
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
-        if (null == convertView)
-        {
-            viewHolder = new ViewHolder();
-            LayoutInflater mInflater = LayoutInflater.from(mContext);
-            convertView = mInflater.inflate(R.layout.fragment_company_details, null);
-            viewHolder.img_details_viewpager_delete =(ImageView) convertView.findViewById(R.id.img_details_viewpager_delete);
-            viewHolder.img_details_viewpager_share =(ImageView) convertView.findViewById(R.id.img_details_viewpager_share);
-            viewHolder.img_details_viewpager_next =(ImageView) convertView.findViewById(R.id.img_details_viewpager_next);
-            viewHolder.img_details_viewpager_next.setOnClickListener(new View.OnClickListener() {
+        if (holder instanceof Holder) {
+            Holder typesHolder = (Holder) holder;
+            final FavoriteCompanyBean.DataBean.InvoiceTypeListBean invoiceTypeListBean = list.get(position);
+            typesHolder.iv_delete.setVisibility(View.GONE);
+            typesHolder.tv_content.setText(invoiceTypeListBean.getName());
+            typesHolder.tv_content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(onNextClickListener != null){
-                        onNextClickListener.onNextClick();
-                    }
+                    itemClickListener.onItemClick(invoiceTypeListBean);
                 }
             });
-            convertView.setTag(viewHolder);
         }
-        else
-        {
-            viewHolder = (ViewHolder) convertView.getTag();
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(FavoriteCompanyBean.DataBean.InvoiceTypeListBean dataBean);
+    }
+
+    public void setOnItemClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+
+    static class Holder extends RecyclerView.ViewHolder {
+
+        private final TextView tv_content;
+        private final ImageView iv_delete;
+
+        public Holder(View itemView) {
+            super(itemView);
+            tv_content = (TextView) itemView.findViewById(R.id.tv_content);
+            iv_delete = (ImageView) itemView.findViewById(R.id.iv_delete);
         }
-
-        return convertView;
-    }
-
-    public void addData(List list) {
-        if (list==null) {
-            this.list.addAll(list);
-        }
-
-        notifyDataSetChanged();
-    }
-
-    public void initData(List list) {
-        this.list = list;
-        notifyDataSetChanged();
-    }
-
-    private static class ViewHolder
-    {
-        ImageView img_details_viewpager_delete;
-        ImageView img_details_viewpager_share;
-        ImageView img_details_viewpager_next;
-    }
-    public void setOnNextClickListener(OnNextClickListener onNextClickListener) {
-        this.onNextClickListener = onNextClickListener;
-    }
-
-    public interface OnNextClickListener {
-        void onNextClick();
     }
 }
