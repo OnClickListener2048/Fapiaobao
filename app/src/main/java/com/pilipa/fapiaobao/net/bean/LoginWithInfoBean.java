@@ -112,7 +112,16 @@ public class LoginWithInfoBean {
             private double frozen;
             private String frequentType;
             private String creditScore;
+            private String email;
             private int creditLevel;
+
+            public String getEmail() {
+                return email;
+            }
+
+            public void setEmail(String email) {
+                this.email = email;
+            }
 
             public String getId() {
                 return id;

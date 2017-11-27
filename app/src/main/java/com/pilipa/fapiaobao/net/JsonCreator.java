@@ -20,6 +20,7 @@ public class JsonCreator {
         map.put("nickname",customer.getNickname());
         map.put("telephone",customer.getTelephone());
         map.put("token",token);
+        map.put("email",customer.getEmail());
         return new JSONObject(map);
     }
     public static JSONObject setCompanyData(Company company, String token){

@@ -219,6 +219,7 @@ public class RechargeActivity extends BaseActivity  {
                 weChatLogin();
             }
         });
+
     }
 
     private void weChatLogin() {

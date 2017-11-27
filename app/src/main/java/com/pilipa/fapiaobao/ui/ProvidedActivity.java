@@ -162,12 +162,20 @@ public class ProvidedActivity extends BaseActivity {
     CardView layout_mailing_information;
     @Bind(R.id.ll_logisticsInfo)
     LinearLayout ll_logisticsInfo;
+    @Bind(R.id.ll_gray)
+    LinearLayout ll_gray;
     @Bind(R.id.btn_mailing)
     Button btnMailing;
     @Bind(R.id.btn_scan)
     ImageView btnScan;
+    @Bind(R.id.tv_minMail)
+    TextView tv_minMail;
+    @Bind(R.id.tv_current_amount)
+    TextView tv_current_amount;
     private boolean isShow = true;//当前详情是否显示
     private boolean isLogisticShow = false;//当前物流信息是否显示
+    private boolean isCanMail = false;//是否可以邮寄
+
     boolean isCollected;
     private String favoriteId;
     private List<RejectTypeBean.DataBean> list = new ArrayList<>();
@@ -281,7 +289,7 @@ public class ProvidedActivity extends BaseActivity {
             @Override
             public void setData(ExpressCompanyBean expressCompanyBean) {
                spinnerAdapter =  new PublishSpinnerAdapter(expressCompanyBean);
-                mSpinner.setAdapter(spinnerAdapter);
+               mSpinner.setAdapter(spinnerAdapter);
             }
         });
 
@@ -337,7 +345,8 @@ public class ProvidedActivity extends BaseActivity {
             //判断是否需要显示物流信息 view
             if (!VARIETY_GENERAL_ELECTRON.equals(image.variety) &&
                     image.logisticsTradeno == null
-                    && STATE_MAILING.equals(image.state) ) {
+                    && STATE_MAILING.equals(image.state)
+                    ) {
                 isLogisticShow = true;
             }
             // 判断驳回理由显示
@@ -357,8 +366,15 @@ public class ProvidedActivity extends BaseActivity {
         }
 
         //判断是否需要显示物流信息 view
+
         if (isLogisticShow) {
-            ll_logisticsInfo.setVisibility(View.VISIBLE);
+            if(isCanMail){
+                ll_logisticsInfo.setVisibility(View.VISIBLE);
+                ll_gray.setVisibility(View.GONE);
+            }else{
+                ll_logisticsInfo.setVisibility(View.VISIBLE);
+                ll_gray.setVisibility(View.VISIBLE);
+            }
         } else {
             ll_logisticsInfo.setVisibility(View.GONE);
         }
@@ -417,7 +433,7 @@ public class ProvidedActivity extends BaseActivity {
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
         findAllRejectType();
         checkFav(CompanyId);
-        showOrderDetail(orderId);
+        showOrderDetail(orderId,true);
     }
     public void checkFav(final String companyId) {
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
@@ -474,7 +490,8 @@ public class ProvidedActivity extends BaseActivity {
                                 @Override
                                 public void setData(NormalBean normalBean) {
                                     if(normalBean.getStatus() == 200){
-                                        showOrderDetail(orderId);
+
+                                        showOrderDetail(orderId,false);
                                         BaseApplication.showToast(normalBean.getData());
                                     }
                                     if(normalBean.getStatus() == 886){
@@ -490,7 +507,7 @@ public class ProvidedActivity extends BaseActivity {
         });
     }
 
-    public void showOrderDetail(String orderID) {
+    public void showOrderDetail(String orderID,final boolean canMail) {
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
             Api.showOrderDetail(AccountHelper.getToken(), orderID, new Api.BaseViewCallbackWithOnStart<OrderDetailsBean>() {
                 @Override
@@ -515,6 +532,11 @@ public class ProvidedActivity extends BaseActivity {
                         tvInvoiceType.setText(bean.getInvoiceType().getName());
                         favoriteId = bean.getFavoriteId();//收藏ID
                         //是否需要邮寄
+                        if(canMail){
+                            isCanMail = bean.isNeedMail();
+                        }
+                        Log.d(TAG, "setData:isNeedMail" + bean.isNeedMail());
+                        Log.d(TAG, "setData:canMail" + canMail);
                         if(bean.isNeedMail()){
                             btnMailing.setTextColor(getResources().getColor(R.color.main_style));
                             btnMailing.setEnabled(true);
@@ -560,6 +582,8 @@ public class ProvidedActivity extends BaseActivity {
                             }
                             tvPublishAddress.setText(city+ district + bean.getPostage().getAddress());
                             tv_low_limit.setText(new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
+                            tv_minMail.setText(new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP)+"");
+                            tv_current_amount.setText(new BigDecimal(bean.getNeedMailAmount()).setScale(2, BigDecimal.ROUND_HALF_UP)+"");
                         }
                         receivedBonus.setText(String.format("%.2f", bean.getReceivedBonus()));
                         estimateMoney.setText(String.format("%.2f", bean.getBonus()));

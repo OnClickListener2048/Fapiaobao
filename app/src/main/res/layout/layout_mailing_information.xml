@@ -13,7 +13,6 @@
         android:layout_marginBottom="@dimen/d2"
         android:layout_marginTop="@dimen/d20"
         android:background="@drawable/receipt_info_bg"
-        android:visibility="gone"
         app:cardCornerRadius="@dimen/d10"
         android:elevation="@dimen/d10"
         android:translationZ="@dimen/d5">
@@ -195,36 +194,40 @@
                 android:layout_marginTop="@dimen/d5"
                 android:layout_marginBottom="@dimen/d5"
                 android:background="@color/gray_line"></View>
+            <FrameLayout
 
-            <LinearLayout
-                android:id="@+id/ll_logisticsInfo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
+
                 <LinearLayout
+                    android:id="@+id/ll_logisticsInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/d10"
-                        android:textColor="@color/text_normal_item"
-                        android:textSize="@dimen/d12"
-                        android:text="@string/ogistics_info" />
+                    android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:padding="@dimen/d15"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d10"
-                            android:textColor="@color/title_small"
-                            android:layout_gravity="center"
+                            android:textColor="@color/text_normal_item"
                             android:textSize="@dimen/d12"
-                            android:text="@string/ogistics_company" />
+                            android:text="@string/ogistics_info" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:padding="@dimen/d15"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/d10"
+                                android:textColor="@color/title_small"
+                                android:layout_gravity="center"
+                                android:textSize="@dimen/d12"
+                                android:text="@string/ogistics_company" />
 
                             <Spinner
                                 android:id="@+id/mSpinner"
@@ -235,74 +238,172 @@
                                 style="@style/spinner_style"
                                 android:drawSelectorOnTop="true"></Spinner>
 
+                        </LinearLayout>
+                        <LinearLayout
+                            android:paddingLeft="@dimen/d15"
+                            android:paddingRight="@dimen/d15"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/d10"
+                                android:textColor="@color/title_small"
+                                android:textSize="@dimen/d12"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:text="@string/ogistics_num" />
+                            <RelativeLayout
+                                android:layout_marginLeft="@dimen/d5"
+                                android:background="@drawable/bg_express"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <EditText
+                                    android:id="@+id/edt_oddNumber"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="@dimen/d15"
+                                    android:layout_toLeftOf="@+id/btn_scan"
+                                    android:layout_centerVertical="true"
+                                    android:background="@null"/>
+                                <ImageView
+                                    android:id="@+id/btn_scan"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@null"
+                                    android:textColor="@color/main_style"
+                                    android:layout_alignParentRight="true"
+                                    android:src="@mipmap/scan"
+                                    android:padding="@dimen/d15"
+                                    />
+                            </RelativeLayout>
+                        </LinearLayout>
                     </LinearLayout>
-                    <LinearLayout
-                        android:paddingLeft="@dimen/d15"
-                        android:paddingRight="@dimen/d15"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
+                    <TextView
+                        android:layout_marginTop="@dimen/d15"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="@dimen/s11"
+                        android:textColor="@color/main_style"
+                        android:text="请确认实际发票与影像信息一致"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/s11"
+                        android:gravity="center"
+                        android:textColor="@color/main_style"
+                        android:text="否则退回的快递费将由您个人承担"/>
+                    <Button
+                        android:id="@+id/btn_mailing"
+                        android:text="@string/express_mail"
+                        android:layout_alignParentBottom="true"
+                        android:textColor="@color/main_style"
+                        android:layout_margin="@dimen/d15"
+                        android:background="@drawable/shape_receipt_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_gray"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@mipmap/mail_bg"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/d40"
+                        android:gravity="center_vertical|left"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:id="@+id/textView9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="您当前的发票总额："
+                            android:textColor="@color/olive"
+                            android:textSize="@dimen/d15" />
+
+                        <TextView
+                            android:id="@+id/tv_current_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:text="0"
+                            android:textColor="@color/olive"
+                            android:textSize="@dimen/d15" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/d10"
-                            android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12"
-                            android:gravity="center"
-                            android:layout_gravity="center"
-                            android:text="@string/ogistics_num" />
-                        <RelativeLayout
-                            android:layout_marginLeft="@dimen/d5"
-                            android:background="@drawable/bg_express"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <EditText
-                                android:id="@+id/edt_oddNumber"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="@dimen/d15"
-                                android:layout_toLeftOf="@+id/btn_scan"
-                                android:layout_centerVertical="true"
-                                android:background="@null"/>
-                            <ImageView
-                                android:id="@+id/btn_scan"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@null"
-                                android:textColor="@color/main_style"
-                                android:layout_alignParentRight="true"
-                                android:src="@mipmap/scan"
-                                android:padding="@dimen/d15"
-                                />
-                        </RelativeLayout>
+                            android:text="@string/yuan"
+                            android:textColor="@color/olive"
+                            android:textSize="@dimen/d15" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/d40"
+                        android:layout_marginTop="@dimen/d10"
+                        android:gravity="center_vertical|left"
+                        android:orientation="horizontal"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="需求最低寄送金额："
+                            android:textColor="@color/olive"
+                            android:textSize="@dimen/d15" />
+
+                        <TextView
+                            android:id="@+id/tv_minMail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:text="0"
+                            android:textColor="@color/olive"
+                            android:textSize="@dimen/d15" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yuan"
+                            android:textColor="@color/olive"
+                            android:textSize="@dimen/d15" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/d23"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/no_mail"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="未满足最低寄送金额，还不能邮寄哦~"
+                            android:layout_marginLeft="@dimen/d5"
+                            android:textColor="@color/olive"
+                            android:textSize="@dimen/d12" />
+                    </LinearLayout>
+
                 </LinearLayout>
-                <TextView
-                    android:layout_marginTop="@dimen/d15"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="@dimen/s11"
-                    android:textColor="@color/main_style"
-                    android:text="请确认实际发票与影像信息一致"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/s11"
-                    android:gravity="center"
-                    android:textColor="@color/main_style"
-                    android:text="否则退回的快递费将由您个人承担"/>
-                <Button
-                    android:id="@+id/btn_mailing"
-                    android:text="@string/express_mail"
-                    android:layout_alignParentBottom="true"
-                    android:textColor="@color/main_style"
-                    android:layout_margin="@dimen/d15"
-                    android:background="@drawable/shape_receipt_type"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+
+            </FrameLayout>
 
 
         </LinearLayout>

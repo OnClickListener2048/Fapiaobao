@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -478,9 +476,11 @@ public class DemandActivity extends BaseActivity{
                         }
                         //发票类型列表
                         String sourceStr = bean.getDemand().getInvoiceVarieties();
-                        if(sourceStr.contains("1")){paperNormalReceipt.setVisibility(View.VISIBLE);}
-                        if(sourceStr.contains("2")) {paperSpecialReceipt.setVisibility(View.VISIBLE);}
-                        if(sourceStr.contains("3")){paperElecReceipt.setVisibility(View.VISIBLE);}
+                        if(sourceStr != null){
+                            if(sourceStr.contains("1")){paperNormalReceipt.setVisibility(View.VISIBLE);}
+                            if(sourceStr.contains("2")) {paperSpecialReceipt.setVisibility(View.VISIBLE);}
+                            if(sourceStr.contains("3")){paperElecReceipt.setVisibility(View.VISIBLE);}
+                        }
 
                     }
                 }
@@ -525,7 +525,7 @@ public class DemandActivity extends BaseActivity{
                 WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
                 wxMediaMessage.title= getString(R.string.share_pub_title);
                 wxMediaMessage.description = getString(R.string.share_pub_description);
-                wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.redbag), Bitmap.CompressFormat.JPEG);
+                wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.share_redbag), Bitmap.CompressFormat.JPEG);
 
                 SendMessageToWX.Req req = new SendMessageToWX.Req();
                 req.transaction = String.valueOf(System.currentTimeMillis());

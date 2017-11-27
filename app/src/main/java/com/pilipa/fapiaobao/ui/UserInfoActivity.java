@@ -82,6 +82,8 @@ public class UserInfoActivity extends BaseActivity {
 
     @Bind(R.id.edt_userName)
     EditText edtUserName;
+    @Bind(R.id.edt_email)
+    EditText edt_email;
     @Bind(R.id.edt_phone)
     EditText edtPhone;
     @Bind(R.id.radioGroup)
@@ -150,6 +152,7 @@ public class UserInfoActivity extends BaseActivity {
                     LoginWithInfoBean.DataBean.CustomerBean customer = new LoginWithInfoBean.DataBean.CustomerBean();
                     customer.setNickname(edtUserName.getText().toString().trim());
                     customer.setBirthday(tv_birthday.getText().toString().trim());
+                    customer.setEmail(edt_email.getText().toString().trim());
                     switch (radioGroup.getCheckedRadioButtonId()) {
                         case R.id.rb_female:
                             customer.setGender(Constant.GENDER_FEMALE);
@@ -397,6 +400,7 @@ public class UserInfoActivity extends BaseActivity {
         tv_birthday.setText(customer.getBirthday());
         edtUserName.setText(customer.getNickname());
         edtPhone.setText(customer.getTelephone());
+        edt_email.setText(customer.getEmail());
 
 
         if(customer.getOpenid() == null){

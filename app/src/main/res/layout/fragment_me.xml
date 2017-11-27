@@ -120,38 +120,6 @@
             android:textColor="@color/title_small"
             android:textSize="12sp"
             android:text="@string/my_published" />
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:visibility="invisible"
-                android:id="@+id/main_tab_unread_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_red_dot"
-                android:gravity="center"
-                android:textSize="10dp"
-                android:text="4"
-                android:layout_marginLeft="@dimen/d60"
-                android:layout_marginTop="@dimen/d10"
-                android:drawablePadding="@dimen/d5"
-                android:textColor="@android:color/white"
-                />
-
-            <Button
-                android:id="@+id/btn_manager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawablePadding="@dimen/d9"
-                android:drawableTop="@drawable/company_manager"
-                android:textColor="@color/title_small"
-                android:textSize="12sp"
-                android:text="@string/company_manager" />
-
-
-        </FrameLayout>
 
         <Button
             android:id="@+id/btn_receipt_folder"
@@ -164,6 +132,22 @@
             android:textColor="@color/title_small"
             android:textSize="12sp"
             android:text="@string/receipt_folder" />
+
+
+            <Button
+                android:id="@+id/btn_manager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawablePadding="@dimen/d9"
+                android:drawableTop="@drawable/company_manager"
+                android:textColor="@color/title_small"
+                android:textSize="12sp"
+                android:layout_weight="1"
+                android:text="@string/company_manager" />
+
+
+
     </LinearLayout>
 
     <android.support.v4.widget.NestedScrollView
