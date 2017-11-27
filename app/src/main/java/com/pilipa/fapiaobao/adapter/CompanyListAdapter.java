@@ -46,6 +46,13 @@ public class CompanyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     onCompanyClickListener.onCompanyClick(list.get(position));
                 }
             });
+
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onCompanyClickListener.onCompanyClick(list.get(position));
+                }
+            });
         }
     }
 

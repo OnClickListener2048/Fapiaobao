@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/logout"
+                android:src="@mipmap/logout"
                 />
         </RelativeLayout>
 
@@ -272,7 +272,7 @@
         android:layout_marginRight="@dimen/d15"
         android:layout_marginBottom="@dimen/d6"
         android:layout_marginTop="@dimen/d6"
-        android:background="@drawable/bg_btn_normal"
+        android:background="@mipmap/bg_btn_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -18,7 +18,7 @@
             android:layout_marginTop="@dimen/d16"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
-            android:src="@drawable/feedback_tip" />
+            android:src="@mipmap/feedback_tip" />
         <LinearLayout
             android:layout_below="@+id/img"
             android:layout_width="wrap_content"

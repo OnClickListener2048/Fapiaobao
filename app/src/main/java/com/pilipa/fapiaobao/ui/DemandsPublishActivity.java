@@ -81,6 +81,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 /**
  * Created by edz on 2017/10/26.
@@ -201,7 +204,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private boolean elec;
     private boolean paperSpecial;
     private Dialog mCameraDialog;
-    private int fourteen_days_miliseconds = 14 * 24 * 60 * 60 * 1000;
     private TimePickerDialog dialog;
     private CityPickerView cityPicker;
     private static Handler handler = new Handler() {
@@ -212,9 +214,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         }
     };
     public CompaniesBean companiesBean;
-    private String invoiceVarieties;
     private CompaniesBean.DataBean dataBean;
-    private LoginWithInfoBean loginBean;
     private ArrayList<DefaultInvoiceBean.DataBean> bean;
     private DemandsPublishBean.DemandPostageBean demandPostageBean;
     public static final int REQUEST_CODE = 300;
@@ -240,15 +240,13 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
             } else if (TextUtils.equals(intent.getAction(), WXPayReceiver.pay_fail)) {
                 BaseApplication.showToast("充值失败");
-
             }
         }
     };
-    private boolean isAreaLimited = false;
     private View view;
     private String tempCompanyId;
     private AlertDialog alertDialog;
-    private Guide guide;
+    private CityPickerView cityPickerAreaLimited;
 
     @Override
     protected int getLayoutId() {
@@ -284,6 +282,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 //        llAreaLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
         llExpressLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
 
+        int fourteen_days_miliseconds = 14 * 24 * 60 * 60 * 1000;
         etDate.setText(TimeUtils.millis2String(System.currentTimeMillis() + fourteen_days_miliseconds, TimeUtils.FORMAT));
         dialog = new TimePickerDialog(this);
         Switch.setChecked(true);
@@ -306,6 +305,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 initCityPicker();
             }
         }.start();
+
+
 
         spinner.setOnItemSelectedListener(this);
 
@@ -376,6 +377,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     }
 
     private String setUpReceiptParams() {
+        String invoiceVarieties;
         if (paperNormal && paperSpecial && elec) {
             invoiceVarieties = "1,2,3";
             return invoiceVarieties;
@@ -420,7 +422,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     }
 
     private void setUsusallyReceiptkind() {
-        loginBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
+        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginBean != null) {
             Api.<DefaultInvoiceBean>findUserInvoiceType(loginBean.getData().getToken(), new Api.BaseViewCallback<DefaultInvoiceBean>() {
                 @Override
@@ -1159,8 +1161,41 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 .setCityWheelType(CityConfig.WheelType.PRO_CITY_DIS)
                 .build();
 
-        cityPicker = new CityPickerView(cityConfig);
 
+        CityConfig cityConfig2 = new CityConfig.Builder(DemandsPublishActivity.this)
+                .title("选择地区")
+                .titleBackgroundColor("#E9E9E9")
+                .textSize(15)
+                .confirTextColor("#000000")
+                .cancelTextColor("#000000")
+                .province("直辖市")
+                .city("天津")
+                .district("和平区")
+                .visibleItemsCount(5)
+                .provinceCyclic(true)
+                .cityCyclic(true)
+                .districtCyclic(true)
+                .itemPadding(5)
+                .setCityInfoType(CityConfig.CityInfoType.BASE)
+                .setCityWheelType(CityConfig.WheelType.PRO_CITY)
+                .build();
+
+        cityPicker = new CityPickerView(cityConfig);
+        cityPickerAreaLimited = new CityPickerView(cityConfig2);
+        cityPickerAreaLimited.setOnCityItemClickListener(new OnCityItemClickListener() {
+            @Override
+            public void onSelected(ProvinceBean province, CityBean city) {
+                super.onSelected(province, city);
+                tvAreaLimited.setText(city.getName() + "市");
+                cityPickerAreaLimited.hide();
+            }
+
+            @Override
+            public void onCancel() {
+                super.onCancel();
+                cityPickerAreaLimited.hide();
+            }
+        });
 
         cityPicker.setOnCityItemClickListener(new OnCityItemClickListener() {
             @Override
@@ -1170,10 +1205,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 //ProvinceBean 省份信息
                 //CityBean     城市信息
                 //DistrictBean 区县信息
-                if (isAreaLimited) {
-                    tvAreaLimited.setText(city.getName() + "市");
-                    isAreaLimited = false;
-                } else {
+
                     demandPostageBean.setProvince(province.getName());
                     demandPostageBean.setCity(city.getName());
                     demandPostageBean.setDistrict(district.getName());
@@ -1182,7 +1214,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                     BaseApplication.set("city", city.getName());
                     BaseApplication.set("district", district.getName());
                     tvArea.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
-                }
+
                 cityPicker.hide();
             }
 
@@ -1210,8 +1242,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
     @OnClick(R.id.tv_area_limited)
     public void onViewClicked() {
-        isAreaLimited = true;
-        cityPicker.show();
+        cityPickerAreaLimited.show();
     }
 
     public void showGuideView() {
@@ -1259,7 +1290,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 return 10;
             }
         });
-        guide = builder.createGuide();
+        Guide guide = builder.createGuide();
         guide.setShouldCheckLocInWindow(false);
         guide.show(DemandsPublishActivity.this);
     }

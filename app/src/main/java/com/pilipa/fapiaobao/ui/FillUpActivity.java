@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.KeyboardUtils;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.PreviewFillupAdapter;
@@ -91,6 +93,11 @@ public class FillUpActivity extends BaseActivity implements ViewPager.OnPageChan
 
     @OnClick(R.id.btn_confirm)
     public void onViewClicked() {
+        verify();
+
+    }
+
+    private void verify() {
         if (!TextUtils.isEmpty(etFillup.getText())) {
             if (Double.valueOf(etFillup.getText().toString().trim()) > 0) {
                 if (!(Double.valueOf(etFillup.getText().toString().trim()) > MAX_AMOUNT)) {
@@ -99,7 +106,9 @@ public class FillUpActivity extends BaseActivity implements ViewPager.OnPageChan
                     TLog.log("images.size()" + images.size());
                     if (mPreviousPos <= images.size()) {
                         previewViewpager.setCurrentItem(mPreviousPos + 1);
+                        KeyboardUtils.showSoftInput(this);
                         if (mPreviousPos + 1 == images.size() && !TextUtils.isEmpty(etFillup.getText())) {
+                            KeyboardUtils.hideSoftInput(this);
                             Intent intent = new Intent();
                             intent.putParcelableArrayListExtra("images", images);
                             setResult(RESULT_OK, intent);
@@ -120,6 +129,14 @@ public class FillUpActivity extends BaseActivity implements ViewPager.OnPageChan
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+            verify();
+        }
+        return super.onKeyUp(keyCode, event);
     }
 
     @Override

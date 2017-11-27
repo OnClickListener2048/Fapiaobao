@@ -87,7 +87,7 @@ public final class ViewfinderView extends View {
         possibleResultPoints = new ArrayList<ResultPoint>(5);
         lastPossibleResultPoints = null;
         scanLight = BitmapFactory.decodeResource(resources,
-                R.drawable.scan_light);
+                R.mipmap.scan_light);
     }
 
     public void setCameraManager(CameraManager cameraManager) {

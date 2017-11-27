@@ -106,7 +106,7 @@ public class PubActivity extends BaseActivity {
     @OnClick(R.id.confirm)
     public void onViewClicked() {
         if (!(receiptPaperSpecial.isSelected() || receiptPaperNormal.isSelected() || receiptElec.isSelected())) {
-            BaseApplication.showToast("请至少选择一种发票类型哦~");
+            BaseApplication.showToast(getString(R.string.please_choose_one_of_types));
             return;
         }
 

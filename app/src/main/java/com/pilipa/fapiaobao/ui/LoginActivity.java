@@ -186,7 +186,7 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                             boolean save = SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
                             Log.d(TAG, "setData:save "+save);
                             if (Constant.LOGIN_TO_PUBLISH.equals(getIntent().getAction())) {
-                                startActivity(new Intent(LoginActivity.this,DemandsPublishActivity.class));
+                                startActivity(new Intent(LoginActivity.this,PubActivity.class));
                             }
                             finish();
 

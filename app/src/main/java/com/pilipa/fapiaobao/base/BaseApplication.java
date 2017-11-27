@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.AppUtils;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.Utils;
@@ -45,6 +46,7 @@ import com.umeng.socialize.UMShareAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -140,6 +142,9 @@ public class BaseApplication extends Application {
         UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
             @Override
             public void dealWithCustomAction(Context context, UMessage msg) {
+                if (!AppUtils.isAppForeground()) {
+                    AppUtils.launchApp("com.pilipa.fapiaobao");
+                }
                 TLog.log("msg.custom"+msg.custom);
                 try {
                     JSONObject jsonObject = new JSONObject(msg.custom);
@@ -164,7 +169,6 @@ public class BaseApplication extends Application {
                             startActivity(intent1);
                             break;
                         case SERVICE_NOTIFICATION:
-                            AppUtils.launchApp("com.pilipa.fapiaobao");
                             Intent intent2 = new Intent();
                             intent2.setClass(getApplicationContext(), MessageCenterActivity.class);
                             intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -197,7 +201,6 @@ public class BaseApplication extends Application {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-
                 }
             }
         };

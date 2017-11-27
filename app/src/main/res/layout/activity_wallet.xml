@@ -64,14 +64,14 @@
             android:layout_width="@dimen/d50"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/d10"
-            android:background="@drawable/btn_wallet"
+            android:background="@mipmap/btn_wallet"
             android:text="@string/recharge"/>
         <Button
             android:id="@+id/btn_withdraw"
             android:layout_weight="1"
             android:layout_width="@dimen/d50"
             android:layout_height="wrap_content"
-            android:background="@drawable/btn_wallet"
+            android:background="@mipmap/btn_wallet"
             android:text="@string/withdraw"/>
     </LinearLayout>
     <View
@@ -89,7 +89,7 @@
             android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/enter_wallet"
+            android:drawableRight="@mipmap/enter_wallet"
             android:text="@string/red_envelope"/>
         <TextView
             android:id="@+id/tv_bouns"

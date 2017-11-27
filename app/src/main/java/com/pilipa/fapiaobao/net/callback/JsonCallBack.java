@@ -65,7 +65,7 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
         super.onError(response);
         if (TDevice.hasInternet()) {
             if (!response.isSuccessful()) {
-                BaseApplication.showToast("服务器异常");
+                BaseApplication.showToast("网络异常");
             }
         } else {
             BaseApplication.showToast("请检查网络~");

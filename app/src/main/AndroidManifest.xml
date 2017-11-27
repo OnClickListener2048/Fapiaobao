@@ -134,7 +134,10 @@
         <activity android:name=".ui.UploadSuccessActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.MoreTypesActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.FilterActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.FillUpActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.FillUpActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.MessageDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.CompanySelectActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.Op" android:screenOrientation="portrait" />
@@ -171,10 +174,10 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths_public"></meta-data>
+                android:resource="@xml/file_paths_public" />
         </provider>
 
-        <service android:name="com.amap.api.location.APSService"></service>
+        <service android:name="com.amap.api.location.APSService" />
 
     </application>
 

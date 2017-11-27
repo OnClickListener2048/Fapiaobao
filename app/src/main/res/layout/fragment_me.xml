@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/bg_my_info">
+        android:background="@mipmap/bg_my_info">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp">
@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/d10"
-                    android:drawableRight="@drawable/enter_small"
+                    android:drawableRight="@mipmap/enter_small"
                     android:paddingLeft="@dimen/d18"
                     android:paddingTop="@dimen/d5"
                     android:paddingBottom="@dimen/d5"
@@ -116,7 +116,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:drawablePadding="@dimen/d9"
-            android:drawableTop="@drawable/my_publish"
+            android:drawableTop="@mipmap/my_publish"
             android:textColor="@color/title_small"
             android:textSize="12sp"
             android:text="@string/my_published" />
@@ -128,7 +128,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:drawablePadding="@dimen/d9"
-            android:drawableTop="@drawable/receipt_folder"
+            android:drawableTop="@mipmap/receipt_folder"
             android:textColor="@color/title_small"
             android:textSize="12sp"
             android:text="@string/receipt_folder" />
@@ -140,14 +140,11 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:drawablePadding="@dimen/d9"
-                android:drawableTop="@drawable/company_manager"
+                android:drawableTop="@mipmap/company_manager"
                 android:textColor="@color/title_small"
                 android:textSize="12sp"
                 android:layout_weight="1"
                 android:text="@string/company_manager" />
-
-
-
     </LinearLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -170,9 +167,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/d18"
-                    android:drawableLeft="@drawable/my_wallet"
+                    android:drawableLeft="@mipmap/my_wallet"
                     android:drawablePadding="@dimen/d15"
-                    android:drawableRight="@drawable/enter_gray"
+                    android:drawableRight="@mipmap/enter_gray"
                     android:gravity="center_vertical"
                     android:textSize="13sp"
                     android:text="@string/my_wallet" />
@@ -213,9 +210,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/d18"
-                android:drawableLeft="@drawable/feedback"
+                android:drawableLeft="@mipmap/feedback"
                 android:drawablePadding="@dimen/d15"
-                android:drawableRight="@drawable/enter_gray"
+                android:drawableRight="@mipmap/enter_gray"
                 android:gravity="center_vertical"
                 android:textSize="13sp"
                 android:text="@string/feedback" />
@@ -232,9 +229,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/d18"
-                android:drawableLeft="@drawable/encyclopedia"
+                android:drawableLeft="@mipmap/encyclopedia"
                 android:drawablePadding="@dimen/d15"
-                android:drawableRight="@drawable/enter_gray"
+                android:drawableRight="@mipmap/enter_gray"
                 android:gravity="center_vertical"
                 android:textSize="13sp"
                 android:text="@string/encyclopedia" />
@@ -251,9 +248,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/d18"
-                android:drawableLeft="@drawable/help_center"
+                android:drawableLeft="@mipmap/help_center"
                 android:drawablePadding="@dimen/d15"
-                android:drawableRight="@drawable/enter_gray"
+                android:drawableRight="@mipmap/enter_gray"
                 android:gravity="center_vertical"
                 android:textSize="13sp"
                 android:text="@string/help_center" />

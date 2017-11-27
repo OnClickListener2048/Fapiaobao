@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/img_details_viewpager_share"
                     android:padding="@dimen/d8"
-                    android:src="@drawable/delete" />
+                    android:src="@mipmap/delete" />
 
                 <ImageView
                     android:id="@+id/img_details_viewpager_share"
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:padding="@dimen/d8"
-                    android:src="@drawable/share" />
+                    android:src="@mipmap/share" />
             </RelativeLayout>
 
             <include

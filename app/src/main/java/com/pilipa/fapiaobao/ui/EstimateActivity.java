@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.blog.www.guideview.Guide;
 import com.blog.www.guideview.GuideBuilder;
 import com.example.mylibrary.utils.TLog;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
 import com.lljjcoder.bean.DistrictBean;
@@ -263,9 +264,11 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 estimate();
                 break;
             case R.id.go:
+                go.setEnabled(false);
                 AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                     @Override
                     public void setData(LoginWithInfoBean normalBean) {
+                        go.setEnabled(true);
                         if (normalBean.getStatus() == 200) {
                             MacherBeanToken.DataBean dataBean = matchBean.getData().get(currentItem);
                             intent.putExtra("type", type);
@@ -353,6 +356,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             return;
         } else {
             TLog.log(" Api.doMatchDemand(label, amount"+amount);
+
             Api.doMatchDemand(label, amount, String.valueOf(type), locate,companyId,new Api.BaseViewCallbackWithOnStart<MacherBeanToken>() {
 
                 @Override

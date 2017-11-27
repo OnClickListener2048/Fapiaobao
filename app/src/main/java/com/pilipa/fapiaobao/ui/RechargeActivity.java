@@ -83,6 +83,7 @@ public class RechargeActivity extends BaseActivity  {
             }
         }
     };
+
     private void bind(final String openID){
         Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , openID, new Api.BaseViewCallback<NormalBean>() {
             @Override
@@ -96,6 +97,7 @@ public class RechargeActivity extends BaseActivity  {
             }
         });
     }
+
     private void recharge(String openID){
         Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), 1,openID, new Api.BaseViewCallback<PrepayBean>() {
             @Override

@@ -52,6 +52,8 @@
                 android:layout_height="match_parent" />
 
             <EditText
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:inputType="numberDecimal"
                 android:id="@+id/et_fillup"
                 android:layout_width="0dp"
