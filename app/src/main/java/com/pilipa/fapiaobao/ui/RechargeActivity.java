@@ -17,7 +17,6 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
@@ -75,7 +74,7 @@ public class RechargeActivity extends BaseActivity  {
                     bind(wx_info.getOpenid());
                 }else{
                     if(wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())){
-                        recharge(wx_info.getOpenid());
+                        recharge();
                     }else{
                         BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
                     }
@@ -90,7 +89,7 @@ public class RechargeActivity extends BaseActivity  {
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == 200) {
                     BaseApplication.showToast("微信绑定成功");
-                    recharge(openID);
+                    recharge();
                 }else if(normalBean.getStatus() == 707){
                     BaseApplication.showToast(normalBean.getMsg());
                 }
@@ -98,8 +97,8 @@ public class RechargeActivity extends BaseActivity  {
         });
     }
 
-    private void recharge(String openID){
-        Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), 1,openID, new Api.BaseViewCallback<PrepayBean>() {
+    private void recharge(){
+        Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallback<PrepayBean>() {
             @Override
             public void setData(PrepayBean prepayBean) {
 
@@ -214,14 +213,14 @@ public class RechargeActivity extends BaseActivity  {
 
     @OnClick(R.id.go_recharge)
     public void onViewClicked() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
-                weChatLogin();
-            }
-        });
-
+//        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+//            @Override
+//            public void setData(LoginWithInfoBean loginWithInfoBean) {
+//                AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
+//                weChatLogin();
+//            }
+//        });
+        recharge();
     }
 
     private void weChatLogin() {

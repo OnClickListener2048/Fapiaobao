@@ -11,7 +11,6 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
-import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.entity.Company;
@@ -64,6 +63,7 @@ import static com.pilipa.fapiaobao.net.Constant.AMOUNT_HISTORY;
 import static com.pilipa.fapiaobao.net.Constant.BIND;
 import static com.pilipa.fapiaobao.net.Constant.COMPANIES_LIST;
 import static com.pilipa.fapiaobao.net.Constant.COMPANY_INFO;
+import static com.pilipa.fapiaobao.net.Constant.CONFIRM_DEMAND;
 import static com.pilipa.fapiaobao.net.Constant.CONFIRM_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.CREATE_COMPANY;
 import static com.pilipa.fapiaobao.net.Constant.CREATE_ORDER;
@@ -192,7 +192,7 @@ public class Api {
         OkGo.<LoginWithInfoBean>get(String.format(USER_LOGIN, platform, credenceName, credenceCode, deviceToken)).execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
             @Override
             public void onSuccess(Response<LoginWithInfoBean> response) {
-                if ("OK".equals(response.body().getMsg())) {
+                if ("OK".equals(response.body().getMsg()) && 200 == response.body().getStatus()) {
                     baseViewCallback.setData(response.body());
                 }
 
@@ -294,7 +294,7 @@ public class Api {
      */
 
     public static void companiesList(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<CompaniesBean>get(String.format(COMPANIES_LIST, token)).execute(new JsonCallBack<CompaniesBean>(CompaniesBean.class) {
+        OkGo.<CompaniesBean>get(String.format(COMPANIES_LIST, token)).tag("companiesList").execute(new JsonCallBack<CompaniesBean>(CompaniesBean.class) {
             @Override
             public void onSuccess(Response<CompaniesBean> response) {
                     baseViewCallback.setData(response.body());
@@ -520,7 +520,20 @@ public class Api {
         }
 
     }
+    public static void confirmDemand(String token,String demandId,final BaseViewCallback baseViewCallback) {
+        if (TDevice.hasInternet()) {
+            OkGo.<NormalBean>get(String.format(CONFIRM_DEMAND,token,demandId)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
 
+                @Override
+                public void onSuccess(Response<NormalBean> response) {
+                    baseViewCallback.setData(response.body());
+                }
+            });
+        } else {
+            BaseApplication.showToast("请检查您的网络~");
+        }
+
+    }
     public static void estimateRedBag(String token, String demandId, double amount, final BaseViewCallbackWithOnStart baseViewCallback) {
         String url = String.format(ESTIMATE, token, demandId, amount);
         OkGo.<RedBagBean>get(url).execute(new JsonCallBack<RedBagBean>(RedBagBean.class) {
@@ -912,8 +925,8 @@ public class Api {
      * @param amount
      * @param b
      */
-    public static void wxRecharge(String token, String ip, double amount,String openid, final BaseViewCallback b) {
-        String url = String.format(WX_RECHARGE, token, ip, amount,openid);
+    public static void wxRecharge(String token, String ip, double amount, final BaseViewCallback b) {
+        String url = String.format(WX_RECHARGE, token, ip, amount);
         OkGo.<PrepayBean>get(url).execute(new JsonCallBack<PrepayBean>(PrepayBean.class) {
 
             @Override

@@ -62,6 +62,7 @@ public class CompanyManagerActivity extends BaseActivity implements TabLayout.On
         vpVerpager.setAdapter(new TabPageIndicatorAdapter(getSupportFragmentManager(),list,fragmentList));
         tlTabLayout.setupWithViewPager(vpVerpager);
         tlTabLayout.setOnTabSelectedListener(this);
+
     }
 
     @Override
@@ -95,4 +96,6 @@ public class CompanyManagerActivity extends BaseActivity implements TabLayout.On
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
+
+
 }

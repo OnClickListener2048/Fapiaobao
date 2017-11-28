@@ -25,6 +25,7 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
+import com.pilipa.fapiaobao.ui.widget.RiseNumberTextView;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -46,7 +47,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     private static final String TAG = "MyRedEnvelopeActivity";
 
     @Bind(R.id.bonus)
-    TextView tv_bonus;
+    RiseNumberTextView tv_bonus;
     private Dialog mDialog;
     private String bonus;
     @Override
@@ -155,7 +156,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     @Override
     public void initData() {
         bonus = getIntent().getStringExtra("bonus");
-        this.tv_bonus.setText(bonus);
+        setupViews(bonus);
     }
 
     @Override
@@ -164,7 +165,20 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+    private void setupViews(String bonus) {
+        // 设置数据
+        tv_bonus.withNumber(Float.parseFloat(bonus));
+        // 设置动画播放时间
+        tv_bonus.setDuration(1000);
+        // 监听动画播放结束
+        tv_bonus.setOnEndListener(new RiseNumberTextView.EndListener() {
 
+            @Override
+            public void onEndFinish() {
+            }
+        });
+        tv_bonus.start();
+    }
     private void setDialog() {
         mDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(

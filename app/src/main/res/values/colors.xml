@@ -42,7 +42,7 @@
     <!--scan code -->
 
 
-    <color name="red">#ffcc0000</color>
+    <color name="red">#cc0000</color>
     <color name="reception_item">#fc5353</color>
     <color name="cancel">#999999</color>
     <color name="main_style">#e6af7a</color>

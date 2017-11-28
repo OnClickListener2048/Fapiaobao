@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
+import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyCompanyAdapter;
@@ -98,7 +99,11 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         getCompanyList();
         super.onResume();
     }
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"companiesList");
+    }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
         public void onPullingDown(TwinklingRefreshLayout refreshLayout, float fraction) {

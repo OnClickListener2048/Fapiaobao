@@ -33,14 +33,14 @@
         android:layout_marginTop="@dimen/d200"
         android:orientation="horizontal"
         >
-        <TextView
+        <com.pilipa.fapiaobao.ui.widget.RiseNumberTextView
             android:id="@+id/bonus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/red"
             android:textSize="@dimen/s30"
             android:padding="@dimen/d5"
-            android:text="28.88" />
+            android:text="" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

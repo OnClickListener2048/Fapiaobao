@@ -24,7 +24,7 @@ public class MessageDetailsAdapter extends BaseAdapter {
     private List<MessageDetailsBean.DataBean> list = new ArrayList();
     private Context mContext = null;
     private String flag;
-
+    private String lastDate =null;//上一条的日期
     public MessageDetailsAdapter(Context context)
     {
         mContext = context;
@@ -66,8 +66,23 @@ public class MessageDetailsAdapter extends BaseAdapter {
         SimpleDateFormat dft1=new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat dft2=new SimpleDateFormat("HH:mm");
         Date date = TimeUtils.string2Date(bean.getCreateDate());
-        viewHolder.tv_date.setText(TimeUtils.date2String(date,dft1));
         viewHolder.tv_time.setText(TimeUtils.date2String(date,dft2));
+        if(lastDate == null){
+            lastDate = TimeUtils.date2String(date,dft1);
+        }
+        if(lastDate.equals(TimeUtils.date2String(date,dft1))){
+            if(position == 0){
+                viewHolder.tv_date.setVisibility(View.VISIBLE);
+                viewHolder.tv_date.setText(TimeUtils.date2String(date,dft1));
+            }else{
+                viewHolder.tv_date.setVisibility(View.GONE);
+            }
+        }else{
+            viewHolder.tv_date.setVisibility(View.VISIBLE);
+            viewHolder.tv_date.setText(TimeUtils.date2String(date,dft1));
+            lastDate = TimeUtils.date2String(date,dft1);
+        }
+
 
         return convertView;
     }

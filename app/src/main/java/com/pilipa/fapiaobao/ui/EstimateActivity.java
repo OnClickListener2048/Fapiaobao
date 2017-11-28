@@ -20,7 +20,6 @@ import android.widget.TextView;
 import com.blog.www.guideview.Guide;
 import com.blog.www.guideview.GuideBuilder;
 import com.example.mylibrary.utils.TLog;
-import com.jakewharton.rxbinding2.view.RxView;
 import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
 import com.lljjcoder.bean.DistrictBean;
@@ -34,9 +33,9 @@ import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.fragment.EstimatePagerFragment;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
@@ -135,6 +134,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     private ArrayList<String> arrayListSelectedReceiptKind;
     private String name;
     private String companyId;
+    private String demandId;
     public ExtimatePagerAdapter adapter;
 
 
@@ -265,9 +265,9 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 break;
             case R.id.go:
                 go.setEnabled(false);
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                Api.confirmDemand(AccountHelper.getToken(),demandId, new Api.BaseViewCallback<NormalBean>() {
                     @Override
-                    public void setData(LoginWithInfoBean normalBean) {
+                    public void setData(NormalBean normalBean) {
                         go.setEnabled(true);
                         if (normalBean.getStatus() == 200) {
                             MacherBeanToken.DataBean dataBean = matchBean.getData().get(currentItem);
@@ -284,7 +284,9 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                                 intent.setClass(EstimateActivity.this, ConfirmActivity.class);
                             }
                             startActivity(intent);
-                        } else {
+                        } else if (normalBean.getStatus() == 401) {
+                            BaseApplication.showToast(normalBean.getMsg());
+                        } else if (normalBean.getStatus() == 701) {
                             login();
                         }
                     }
@@ -391,6 +393,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                         EstimateActivity.this.matchBean = matchBean;
                         tonext.setEnabled(matchBean.getData().size() != 1);
                         bonus.setText(String.valueOf(matchBean.getData().get(0).getBonus()));
+                        demandId = matchBean.getData().get(0).getDemandId();
                         setUpData(matchBean);
 
                     } else if (matchBean.getStatus() == 400) {
@@ -483,6 +486,9 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
     public void onPageSelected(int position) {
         currentItem = position;
         bonus.setText(String.valueOf(matchBean.getData().get(currentItem).getBonus()));
+        demandId = matchBean.getData().get(currentItem).getDemandId();
+        TLog.d(TAG,"onPageSelected demandId"+demandId);
+
         updateButtonStatus();
     }
 

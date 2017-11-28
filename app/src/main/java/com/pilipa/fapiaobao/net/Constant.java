@@ -168,11 +168,11 @@ public class Constant {
     /*上传发票 */
     public static final String UPLOAD_INVOICE= BASE_URL + "order/uploadInvoice";
     /*上传我的发票 */
-    //http://192.168.1.205:8181/fapiaobao/rest/order/uploadMyInvoice
     public static final String UPLOAD_MY_INVOICE= BASE_URL + "order/uploadMyInvoice";
     /*估算红包*/
     public static final String ESTIMATE= BASE_URL + "order/estimate/%s/%s/%s";
-
+    /*确认开票*/
+    public static final String CONFIRM_DEMAND= BASE_URL + "order/confirmDemand/%s/%s";
     /**
      * system-rest-controller : 系统管理
      */
@@ -200,7 +200,7 @@ public class Constant {
     /**
      * 微信支付
      */
-    public static final String WX_RECHARGE = BASE_URL+"wxpay/recharge/%s/%s/%s/%s";
+    public static final String WX_RECHARGE = BASE_URL+"wxpay/recharge/%s/%s/%s";
     /*明细*/
     public static final String AMOUNT_HISTORY = BASE_URL+"wxpay/amountHistory/%s/%s/%s";
     /*提现到余额*/
