@@ -175,7 +175,11 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         expressInfo.setText(currentImage.logisticsCompany);
         expressNo.setText(currentImage.logisticsTradeno);
         setLayout(currentImage);
-        checkPagePos(mPreviousPos);
+        if(allList.size() == 1){
+            checkPagePos(-1);
+        }else{
+            checkPagePos(mPreviousPos);
+        }
     }
 
     @Override
@@ -184,6 +188,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         mSpinner.setAdapter(mSpinnerAdapter);
         mSpinner.setOnItemSelectedListener(this);
     }
+
 
     public void setLayout(Image image) {
         tv_tip.setText("");
@@ -534,6 +539,9 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         if(postion == 0){
             tolast.setVisibility(View.INVISIBLE);
         }else if(postion == allList.size() - 1 ){
+            tonext.setVisibility(View.INVISIBLE);
+        }else if(postion == - 1 ){
+            tolast.setVisibility(View.INVISIBLE);
             tonext.setVisibility(View.INVISIBLE);
         }else {
             tolast.setVisibility(View.VISIBLE);
