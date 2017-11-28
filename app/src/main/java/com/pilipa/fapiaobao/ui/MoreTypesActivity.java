@@ -6,13 +6,17 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.TLog;
+import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.TabAdapterActive;
 import com.pilipa.fapiaobao.adapter.TabAdapterInactive;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -26,6 +30,12 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by edz on 2017/11/2.
@@ -46,8 +56,6 @@ public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.
     RecyclerView viewRecyclerInactive;
     @Bind(R.id.layout_wrapper)
     LinearLayout layoutWrapper;
-    @Bind(R.id.view_scroller)
-    NestedScrollView viewScroller;
     @Bind(R.id.view_wrapper)
     LinearLayout viewWrapper;
     @Bind(R.id.title)
@@ -56,8 +64,8 @@ public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.
     ImageView morekindBack;
     @Bind(R.id.upload_scan)
     TextView uploadScan;
-    private LoginWithInfoBean loginBean;
     private TabAdapterActive tabAdapterActive;
+    private TabAdapterInactive tabAdapterInactive;
     public static String EXTRA_BUNDLE = "extra_bundle";
 
     @Override
@@ -72,9 +80,9 @@ public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.
 
     @Override
     public void initView() {
-        viewRecyclerActive.setNestedScrollingEnabled(false);
+        viewRecyclerActive.setNestedScrollingEnabled(true);
         viewRecyclerActive.setLayoutManager(new GridLayoutManager(this, 4));
-        viewRecyclerInactive.setNestedScrollingEnabled(false);
+        viewRecyclerInactive.setNestedScrollingEnabled(true);
         viewRecyclerInactive.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
@@ -82,13 +90,13 @@ public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.
     public void initData() {
 
         Bundle bundleExtra = getIntent().getBundleExtra(EXTRA_BUNDLE);
-        ArrayList<DefaultInvoiceBean.DataBean> bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundleExtra.getSerializable("new_data");
+        final ArrayList<DefaultInvoiceBean.DataBean> bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundleExtra.getSerializable("new_data");
         tabAdapterActive = new TabAdapterActive(bean);
         tabAdapterActive.setOnItemDeleteListener(MoreTypesActivity.this);
         viewRecyclerActive.setAdapter(tabAdapterActive);
 
 
-        Api.findAllInvoice(new Api.BaseViewCallbackWithOnStart<AllInvoiceType>() {
+        Api.findAllInvoice(AccountHelper.getToken(),new Api.BaseViewCallbackWithOnStart<AllInvoiceType>() {
             @Override
             public void onStart() {
                 showProgressDialog();
@@ -107,13 +115,13 @@ public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.
             @Override
             public void setData(AllInvoiceType allInvoiceType) {
                 if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
-                    TabAdapterInactive tabAdapterInactive = new TabAdapterInactive(allInvoiceType);
+                    tabAdapterInactive = new TabAdapterInactive(allInvoiceType);
                     tabAdapterInactive.setOnItemClickListener(MoreTypesActivity.this);
                     viewRecyclerInactive.setAdapter(tabAdapterInactive);
+                    updateInvoiceHighlight(bean, allInvoiceType);
                 }
             }
         });
-
     }
 
     @Override
@@ -142,8 +150,44 @@ public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.
     public void onItemDelete(DefaultInvoiceBean.DataBean dataBean) {
         if (data != null) {
             data.remove(dataBean);
-
         }
+        tabAdapterInactive.onItemDelete(dataBean);
+    }
+
+    private void updateInvoiceHighlight(final ArrayList<DefaultInvoiceBean.DataBean> data1, final AllInvoiceType allInvoiceType) {
+        Observable.fromIterable(allInvoiceType.getData())
+                .flatMap(new Function<AllInvoiceType.DataBean, ObservableSource<AllInvoiceType.DataBean.InvoiceTypeListBean>>() {
+                    @Override
+                    public ObservableSource<AllInvoiceType.DataBean.InvoiceTypeListBean> apply(AllInvoiceType.DataBean dataBean) throws Exception {
+                        return Observable.fromIterable(dataBean.getInvoiceTypeList());
+                    }
+                }).subscribeOn(Schedulers.from(AppOperator.getExecutor()))
+                .observeOn(Schedulers.from(AppOperator.getExecutor()))
+                .subscribe(new Observer<AllInvoiceType.DataBean.InvoiceTypeListBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        showProgressDialog();
+                    }
+
+                    @Override
+                    public void onNext(AllInvoiceType.DataBean.InvoiceTypeListBean invoiceTypeListBean) {
+                        for (DefaultInvoiceBean.DataBean dataBean : data1) {
+                            if (TextUtils.equals(dataBean.getId(), invoiceTypeListBean.getId())) {
+                                TLog.log("invoiceTypeListBean.setSelected(true);" + invoiceTypeListBean.getName());
+                                invoiceTypeListBean.setSelected(true);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
     }
 
 

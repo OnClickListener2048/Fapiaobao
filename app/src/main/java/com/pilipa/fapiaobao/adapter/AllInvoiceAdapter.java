@@ -1,5 +1,8 @@
 package com.pilipa.fapiaobao.adapter;
 
+import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,10 +21,12 @@ import java.util.List;
  * Created by edz on 2017/10/29.
  */
 
-public class AllInvoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AllInvoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements AllInvoiceTypeRecyclerAdapter.OnLabelClickListener{
     String TAG = "AllInvoiceAdapter";
     AllInvoiceType allInvoiceType;
     private OnLabelClickListener onLabelClickListener;
+    private Context mContext;
+    private AllInvoiceTypeRecyclerAdapter adapter;
 
     public AllInvoiceAdapter(AllInvoiceType allInvoiceType) {
         this.allInvoiceType = allInvoiceType;
@@ -29,9 +34,8 @@ public class AllInvoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        this.mContext = parent.getContext();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_all_invoice, parent, false);
-
-
         return new Holder(view);
     }
 
@@ -42,30 +46,30 @@ public class AllInvoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (allInvoiceType != null) {
                 AllInvoiceType.DataBean.InvoiceCategoryBean invoiceCategory = allInvoiceType.getData().get(position).getInvoiceCategory();
                 final List<AllInvoiceType.DataBean.InvoiceTypeListBean> invoiceTypeList = allInvoiceType.getData().get(position).getInvoiceTypeList();
-
-                ArrayList<String> labelList = new ArrayList<>();
                 if (invoiceTypeList != null) {
                     if (invoiceTypeList.size() > 0) {
-
                         if (invoiceCategory != null) {
                             viewHolder.tv_title.setText(invoiceCategory.getLabel());
                         }
-                        for (AllInvoiceType.DataBean.InvoiceTypeListBean invoiceTypeListBean : invoiceTypeList) {
-                            labelList.add(invoiceTypeListBean.getName());
-                        }
-
-                        viewHolder.labelsView.setLabels(labelList);
-                        viewHolder.labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
-                            @Override
-                            public void onLabelClick(View label, String labelText, int position) {
-                                onLabelClickListener.onLabelClick(invoiceTypeList.get(position).getId());
-                                onLabelClickListener.onLabelNameClick(invoiceTypeList.get(position).getId(),invoiceTypeList.get(position).getName());
-                            }
-                        });
+                        viewHolder.recyclerView.setLayoutManager(new GridLayoutManager(mContext,3, LinearLayoutManager.VERTICAL,false));
+                        viewHolder.recyclerView.setNestedScrollingEnabled(false);
+                        adapter = new AllInvoiceTypeRecyclerAdapter(invoiceTypeList);
+                        adapter.setOnLabelClickListener(this);
+                        viewHolder.recyclerView.setAdapter(adapter);
                     }
                 }
             }
         }
+    }
+
+    @Override
+    public void onLabelClick(String label) {
+        onLabelClickListener.onLabelClick(label);
+    }
+
+    @Override
+    public void onLabelNameClick(String label, String name) {
+        onLabelClickListener.onLabelNameClick(label,name);
     }
 
     public interface OnLabelClickListener {
@@ -76,9 +80,7 @@ public class AllInvoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void setOnLabelClickListener(OnLabelClickListener onLabelClickListener) {
         this.onLabelClickListener = onLabelClickListener;
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -91,12 +93,12 @@ public class AllInvoiceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     static class Holder extends RecyclerView.ViewHolder {
 
         private final TextView tv_title;
-        private final LabelsView labelsView;
+        private final RecyclerView recyclerView;
 
         public Holder(View itemView) {
             super(itemView);
             tv_title = (TextView) itemView.findViewById(R.id.invoice_title);
-            labelsView = (LabelsView) itemView.findViewById(R.id.labels);
+            recyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerView_invoice);
         }
     }
 

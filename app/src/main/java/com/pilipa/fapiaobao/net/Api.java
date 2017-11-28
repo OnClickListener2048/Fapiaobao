@@ -484,9 +484,12 @@ public class Api {
     /**
      * @param baseViewCallback
      */
-    public static void findAllInvoice(final BaseViewCallbackWithOnStart baseViewCallback) {
+    public static void findAllInvoice(String token,final BaseViewCallbackWithOnStart baseViewCallback) {
         if (TDevice.hasInternet()) {
-            OkGo.<AllInvoiceType>get(FIND_ALL_INVIICE_TYPE).execute(new JsonCallBack<AllInvoiceType>(AllInvoiceType.class) {
+
+            OkGo.<AllInvoiceType>post(FIND_ALL_INVIICE_TYPE)
+                    .upJson(JsonCreator.allInvoice(token))
+                    .execute(new JsonCallBack<AllInvoiceType>(AllInvoiceType.class) {
                 @Override
                 public void onSuccess(Response<AllInvoiceType> response) {
                     if (response.isSuccessful() && response.body().getMsg().equals("OK")) {
@@ -602,7 +605,7 @@ public class Api {
      * @param baseViewCallback
      * @param <T>
      */
-    public static <T> void findDefaultInvoiceType(final BaseViewCallback baseViewCallback) {
+    public static <T> void findDefaultInvoiceType(final BaseViewCallbackWithOnStart baseViewCallback) {
         if (TDevice.hasInternet()) {
             OkGo.<T>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE).execute(new JsonCallBack<T>(DefaultInvoiceBean.class) {
                 @Override
@@ -610,6 +613,24 @@ public class Api {
                     if (response.isSuccessful()) {
                         baseViewCallback.setData(response.body());
                     }
+                }
+
+                @Override
+                public void onStart(Request<T, ? extends Request> request) {
+                    super.onStart(request);
+                    baseViewCallback.onStart();
+                }
+
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    baseViewCallback.onFinish();
+                }
+
+                @Override
+                public void onError(Response<T> response) {
+                    super.onError(response);
+                    baseViewCallback.onError();
                 }
             });
         } else {
@@ -624,7 +645,7 @@ public class Api {
      * @param baseViewCallback
      * @param <T>
      */
-    public static <T> void findUserInvoiceType(String token, final BaseViewCallback baseViewCallback) {
+    public static <T> void findUserInvoiceType(String token, final BaseViewCallbackWithOnStart baseViewCallback) {
         if (TDevice.hasInternet()) {
 
             String url = String.format(FIND_FREQUENTLY_INVOICE_TYPE, token);
@@ -634,6 +655,24 @@ public class Api {
                     if (response.isSuccessful()) {
                         baseViewCallback.setData(response.body());
                     }
+                }
+
+                @Override
+                public void onError(Response<T> response) {
+                    super.onError(response);
+                    baseViewCallback.onError();
+                }
+
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    baseViewCallback.onFinish();
+                }
+
+                @Override
+                public void onStart(Request<T, ? extends Request> request) {
+                    super.onStart(request);
+                    baseViewCallback.onStart();
                 }
             });
         } else {

@@ -11,6 +11,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
+import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -43,13 +45,18 @@ import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.pilipa.fapiaobao.base.BaseApplication.PUSH_RECEIVE;
 import static com.pilipa.fapiaobao.base.BaseApplication.set;
@@ -88,7 +95,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     public static final String DECODED_CONTENT_KEY = "codedContent";
     public static final String DECODED_BITMAP_KEY = "codedBitmap";
     public static final int REQUEST_CODE_SCAN = 0x0234;
-
+    private AllInvoiceAdapter adapter;
     private BroadcastReceiver mBoradcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -99,6 +106,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
             }
         }
     };
+    private MainActivity activity;
 
     @Override
     protected int getLayoutId() {
@@ -180,12 +188,13 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     @Override
     protected void initData() {
         super.initData();
+        activity = (MainActivity) getActivity();
+        findAllInvoiceTypes("");
+    }
 
 
-        final MainActivity activity = (MainActivity) getActivity();
-
-        Api.findAllInvoice(new Api.BaseViewCallbackWithOnStart<AllInvoiceType>() {
-
+    private void findUserInvoiceType(String token, final AllInvoiceType allInvoiceType) {
+        Api.<DefaultInvoiceBean>findUserInvoiceType(token, new Api.BaseViewCallbackWithOnStart<DefaultInvoiceBean>() {
             @Override
             public void onStart() {
                 activity.showProgressDialog();
@@ -201,54 +210,122 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 activity.hideProgressDialog();
             }
 
-            private AllInvoiceAdapter adapter;
+            @Override
+            public void setData(DefaultInvoiceBean defaultInvoiceBean) {
+                if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
+                    financeAdapter = new FinanceAdapter(defaultInvoiceBean);
+                    financeAdapter.setOnLabelClickListener(FinanceFragment.this);
+                    recyclerview.setAdapter(financeAdapter);
+                    updateInvoiceHighlight(defaultInvoiceBean, allInvoiceType);
+                } else if (defaultInvoiceBean.getStatus() == 701) {
+                    findDefaultInvoiceType(allInvoiceType);
+                }
+            }
+        });
+    }
+
+    private void updateInvoiceHighlight(final DefaultInvoiceBean defaultInvoiceBean, final AllInvoiceType allInvoiceType) {
+        final ArrayList<DefaultInvoiceBean.DataBean> data1 = defaultInvoiceBean.getData();
+        TLog.log("data1.size()" + data1.size());
+        Observable.fromIterable(allInvoiceType.getData())
+                .flatMap(new Function<AllInvoiceType.DataBean, ObservableSource<AllInvoiceType.DataBean.InvoiceTypeListBean>>() {
+                    @Override
+                    public ObservableSource<AllInvoiceType.DataBean.InvoiceTypeListBean> apply(AllInvoiceType.DataBean dataBean) throws Exception {
+                        return Observable.fromIterable(dataBean.getInvoiceTypeList());
+                    }
+                }).subscribeOn(Schedulers.from(AppOperator.getExecutor()))
+                .observeOn(Schedulers.from(AppOperator.getExecutor()))
+                .subscribe(new Observer<AllInvoiceType.DataBean.InvoiceTypeListBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        activity.showProgressDialog();
+                    }
+
+                    @Override
+                    public void onNext(AllInvoiceType.DataBean.InvoiceTypeListBean invoiceTypeListBean) {
+                        for (DefaultInvoiceBean.DataBean dataBean : data1) {
+                            if (TextUtils.equals(dataBean.getId(), invoiceTypeListBean.getId())) {
+                                TLog.log("invoiceTypeListBean.setSelected(true);" + invoiceTypeListBean.getName());
+                                invoiceTypeListBean.setSelected(true);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        activity.hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+
+    private void findDefaultInvoiceType(final AllInvoiceType allInvoiceType) {
+        Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseViewCallbackWithOnStart<DefaultInvoiceBean>() {
+            @Override
+            public void onStart() {
+                activity.showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                activity.hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+                activity.hideProgressDialog();
+            }
+
+            @Override
+            public void setData(DefaultInvoiceBean defaultInvoiceBean) {
+                if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
+                    financeAdapter = new FinanceAdapter(defaultInvoiceBean);
+                    financeAdapter.setOnLabelClickListener(FinanceFragment.this);
+                    recyclerview.setAdapter(financeAdapter);
+                    updateInvoiceHighlight(defaultInvoiceBean, allInvoiceType);
+                }
+            }
+        });
+    }
+
+    private void findAllInvoiceTypes(String token) {
+        Api.findAllInvoice(token, new Api.BaseViewCallbackWithOnStart<AllInvoiceType>() {
+
+            @Override
+            public void onStart() {
+                activity.showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+            }
+
+            @Override
+            public void onError() {
+            }
 
 
             @Override
             public void setData(AllInvoiceType allInvoiceType) {
-                adapter = new AllInvoiceAdapter(allInvoiceType);
-                adapter.setOnLabelClickListener(FinanceFragment.this);
-                recyclerviewMoreKind.setAdapter(adapter);
+                if (allInvoiceType.getStatus() == 200) {
+                    adapter = new AllInvoiceAdapter(allInvoiceType);
+                    adapter.setOnLabelClickListener(FinanceFragment.this);
+                    recyclerviewMoreKind.setAdapter(adapter);
+                    loginBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
+                    if (loginBean != null) {
+                        findUserInvoiceType(loginBean.getData().getToken(), allInvoiceType);
+                    } else {
+                        findDefaultInvoiceType(allInvoiceType);
+                    }
+
+                }
             }
         });
-
-
-        loginBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
-        if (loginBean != null) {
-            Api.<DefaultInvoiceBean>findUserInvoiceType(loginBean.getData().getToken(), new Api.BaseViewCallback<DefaultInvoiceBean>() {
-                @Override
-                public void setData(DefaultInvoiceBean defaultInvoiceBean) {
-                    if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
-                        financeAdapter = new FinanceAdapter(defaultInvoiceBean);
-                        financeAdapter.setOnLabelClickListener(FinanceFragment.this);
-                        recyclerview.setAdapter(financeAdapter);
-                    } else if (defaultInvoiceBean.getStatus() == 701) {
-                        Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseViewCallback<DefaultInvoiceBean>() {
-                            @Override
-                            public void setData(DefaultInvoiceBean allInvoiceType) {
-                                if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
-                                    financeAdapter = new FinanceAdapter(allInvoiceType);
-                                    financeAdapter.setOnLabelClickListener(FinanceFragment.this);
-                                    //TODO 请求回来前 跳转页面 空指针
-                                    recyclerview.setAdapter(financeAdapter);
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        } else {
-            Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseViewCallback<DefaultInvoiceBean>() {
-                @Override
-                public void setData(DefaultInvoiceBean allInvoiceType) {
-                    if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
-                        financeAdapter = new FinanceAdapter(allInvoiceType);
-                        financeAdapter.setOnLabelClickListener(FinanceFragment.this);
-                        recyclerview.setAdapter(financeAdapter);
-                    }
-                }
-            });
-        }
     }
 
 

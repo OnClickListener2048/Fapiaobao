@@ -116,6 +116,13 @@ public class LoginWithInfoBean {
             private int creditLevel;
 
             public String getEmail() {
+                if ("".equals(email)) {
+                    return null;
+                }
+
+                if (email == null) {
+                    return "";
+                }
                 return email;
             }
 

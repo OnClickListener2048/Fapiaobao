@@ -115,6 +115,7 @@ public class Op extends AppCompatActivity implements
                             "            {selector:'#address', value:'" + company_info.getAddress() + "'},\n" +
                             "            {selector:'#depositBank',value:'" + company_info.getDepositBank() + "'},\n" +
                             "            {selector:'#bankAccount',value:'" + company_info.getAccount() + "'},\n" +
+                            "            {selector:'#mailAccount',value:'" + AccountHelper.getUser().getData().getCustomer().getEmail() + "'},\n" +
                             "            {selector:'#cellPhoneNumber',value:'" + AccountHelper.getUserCustormer().getTelephone() + "'}\n" +
                             "        ]);");
                 }

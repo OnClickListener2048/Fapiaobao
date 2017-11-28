@@ -25,6 +25,8 @@ public class TabAdapterActive extends RecyclerView.Adapter<RecyclerView.ViewHold
     private boolean isEditing;
     private ItemDeleteListener itemDeleteListener;
 
+
+
     public TabAdapterActive(ArrayList<DefaultInvoiceBean.DataBean> data) {
         this.data = data;
     }
@@ -43,14 +45,15 @@ public class TabAdapterActive extends RecyclerView.Adapter<RecyclerView.ViewHold
             tabHolder.iv_delete.setVisibility(isEditing ? View.VISIBLE : View.GONE);
             final DefaultInvoiceBean.DataBean dataBean = data.get(position);
             tabHolder.tv_content.setText(dataBean.getName());
-
-
             tabHolder.iv_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    data.remove(tabHolder.getAdapterPosition());
-                    notifyItemRemoved(tabHolder.getAdapterPosition());
-                    itemDeleteListener.onItemDelete(dataBean);
+                    if (tabHolder.getAdapterPosition()!= -1) {
+                        data.remove(tabHolder.getAdapterPosition());
+                        notifyItemRemoved(tabHolder.getAdapterPosition());
+                        itemDeleteListener.onItemDelete(dataBean);
+                    }
+
                 }
             });
         }

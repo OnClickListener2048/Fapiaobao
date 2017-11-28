@@ -23,7 +23,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -81,9 +80,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 
 /**
  * Created by edz on 2017/10/26.
@@ -424,7 +420,22 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private void setUsusallyReceiptkind() {
         LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginBean != null) {
-            Api.<DefaultInvoiceBean>findUserInvoiceType(loginBean.getData().getToken(), new Api.BaseViewCallback<DefaultInvoiceBean>() {
+            Api.<DefaultInvoiceBean>findUserInvoiceType(loginBean.getData().getToken(), new Api.BaseViewCallbackWithOnStart<DefaultInvoiceBean>() {
+                @Override
+                public void onStart() {
+                    showProgressDialog();
+                }
+
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onError() {
+                    hideProgressDialog();
+                }
+
                 @Override
                 public void setData(DefaultInvoiceBean defaultInvoiceBean) {
                     if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
@@ -438,7 +449,22 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 }
             });
         } else {
-            Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseViewCallback<DefaultInvoiceBean>() {
+            Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseViewCallbackWithOnStart<DefaultInvoiceBean>() {
+                @Override
+                public void onStart() {
+                    showProgressDialog();
+                }
+
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onError() {
+                    hideProgressDialog();
+                }
+
                 @Override
                 public void setData(DefaultInvoiceBean allInvoiceType) {
                     if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {

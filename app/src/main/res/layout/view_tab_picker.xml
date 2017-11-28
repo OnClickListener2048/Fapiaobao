@@ -76,20 +76,16 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:background="#FFFFFF"
         android:id="@+id/view_wrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/view_scroller"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF">
 
             <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_width="match_parent"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
@@ -101,41 +97,49 @@
                     android:paddingRight="6dp"
                     android:paddingTop="6dp"/>
 
-                <LinearLayout
-                    android:id="@+id/layout_wrapper"
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:id="@+id/layout_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="?attr/dividerHorizontal" />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:background="#F9F9F9"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:text="点击添加更多栏目"
+                    android:textColor="#8D8D8D" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:background="?attr/dividerHorizontal"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#F9F9F9"
-                        android:paddingBottom="8dp"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="8dp"
-                        android:text="点击添加更多栏目"
-                        android:textColor="#8D8D8D"/>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:background="?attr/dividerHorizontal"/>
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/view_recycler_inactive"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="6dp"/>
-                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="?attr/dividerHorizontal" />
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
 
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/view_recycler_inactive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

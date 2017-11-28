@@ -139,7 +139,6 @@ public class TabPickerView extends FrameLayout {
 
         mRecyclerActive = (RecyclerView) view.findViewById(R.id.view_recycler_active);
         mRecyclerInactive = (RecyclerView) view.findViewById(R.id.view_recycler_inactive);
-        mViewScroller = (NestedScrollView) view.findViewById(R.id.view_scroller);
         mLayoutTop = (RelativeLayout) view.findViewById(R.id.layout_top);
         mViewWrapper = (LinearLayout) view.findViewById(R.id.view_wrapper);
         mViewDone = (TextView) view.findViewById(R.id.tv_done);
