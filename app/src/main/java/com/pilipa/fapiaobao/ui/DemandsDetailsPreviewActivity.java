@@ -540,6 +540,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             tolast.setVisibility(View.INVISIBLE);
         }else if(postion == allList.size() - 1 ){
             tonext.setVisibility(View.INVISIBLE);
+            tolast.setVisibility(View.VISIBLE);
         }else if(postion == - 1 ){
             tolast.setVisibility(View.INVISIBLE);
             tonext.setVisibility(View.INVISIBLE);

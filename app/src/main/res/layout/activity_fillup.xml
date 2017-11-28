@@ -3,12 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d30"
+        />
     <com.pilipa.fapiaobao.ui.widget.NoScrollViewpager
+        android:background="@color/main_style"
         android:id="@+id/preview_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.5">
+        android:layout_weight="0.7">
     </com.pilipa.fapiaobao.ui.widget.NoScrollViewpager>
 
     <android.support.v4.widget.Space

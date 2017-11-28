@@ -41,7 +41,7 @@
         android:id="@+id/preview_viewpager"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        android:background="@color/white">
+        >
     </com.pilipa.fapiaobao.ui.widget.PreviewViewpager>
     <LinearLayout
         android:layout_gravity="center_vertical"

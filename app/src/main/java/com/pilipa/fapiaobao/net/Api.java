@@ -649,7 +649,7 @@ public class Api {
         if (TDevice.hasInternet()) {
 
             String url = String.format(FIND_FREQUENTLY_INVOICE_TYPE, token);
-            OkGo.<T>get(url).execute(new JsonCallBack<T>(DefaultInvoiceBean.class) {
+            OkGo.<T>get(url).tag("findUserInvoiceType").execute(new JsonCallBack<T>(DefaultInvoiceBean.class) {
                 @Override
                 public void onSuccess(Response<T> response) {
                     if (response.isSuccessful()) {
