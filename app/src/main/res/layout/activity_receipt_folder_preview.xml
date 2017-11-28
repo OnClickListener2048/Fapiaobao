@@ -7,7 +7,7 @@
     <com.pilipa.fapiaobao.ui.widget.PreviewViewpager
         android:id="@+id/preview_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.pilipa.fapiaobao.ui.widget.PreviewViewpager>
+        android:layout_height="match_parent" />
 
     <RelativeLayout
         android:layout_width="match_parent"

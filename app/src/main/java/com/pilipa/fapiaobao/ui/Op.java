@@ -81,6 +81,7 @@ public class Op extends AppCompatActivity implements
                             "            {selector:'#invTaxNo', value:'" + company_info.getTaxno() + "'},\n" +
                             "            {selector:'#invAddrPhone', value:'" + company_info.getAddress() + company_info.getPhone() + "'},\n" +
                             "            {selector:'#invBank',value:'" + company_info.getDepositBank() + company_info.getAccount() + "'},\n" +
+                            "            {selector:'#hxEmail',value:'" + AccountHelper.getUser().getData().getCustomer().getEmail() + "'},\n" +
                             "            {selector:'#mobile',value:'" + AccountHelper.getUserCustormer().getTelephone() + "'}\n" +
                             "        ]);");
                 } else if (url.contains("starbucks")) {

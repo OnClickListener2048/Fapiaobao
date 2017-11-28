@@ -370,6 +370,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(wxPayReceiver);
+        alertDialog.dismiss();
     }
 
     private String setUpReceiptParams() {
@@ -1363,5 +1364,16 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         Guide guide = builder1.createGuide();
         guide.setShouldCheckLocInWindow(false);
         guide.show(DemandsPublishActivity.this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!alertDialog.isShowing()) {
+            TLog.log("alertDialog.show();");
+            alertDialog.show();
+        } else {
+            TLog.log("alertDialog.hide();");
+            alertDialog.hide();
+        }
     }
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,47 +47,46 @@ public class ReceiptActivityToken extends BaseActivity implements NormalAdpater.
     public static final int RESULT_CODE_BACK = 2000;
     public static final String RESULT_RECEIPT_FOLDER = "result_receipt_folder";
     public static final String EXTRA_DATA_FROM_TOKEN = "extra_data_from_token";
-//    public static final int RESULT_CODE_DELETE = 2000;
-
-    @Bind(R.id.confirm)
-    Button confirm;
-    @Bind(R.id.recyclerview)
-    RecyclerView recyclerview;
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.demand_back)
     ImageView demandBack;
     @Bind(R.id.iv_demand_share)
     ImageView ivDemandShare;
+    @Bind(R.id.recyclerview)
+    RecyclerView recyclerview;
+    @Bind(R.id.confirm)
+    Button confirm;
     @Bind(R.id.ll_elec_receipt)
     LinearLayout llElecReceipt;
+    @Bind(R.id.iv_bg)
+    ImageView ivBg;
+    @Bind(R.id.tv_line1)
+    TextView tvLine1;
     @Bind(R.id.rl_no_elec_receipt)
     RelativeLayout rlNoElecReceipt;
+//    public static final int RESULT_CODE_DELETE = 2000;
+
+
     private int mImageResize;
     private ArrayList<Image> arrayList;
     private NormalAdpater normal;
     private ArrayList<Image> images;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected int getLayoutId() {
+        return R.layout.activity_myreceipt_token;
+    }
+
+    @Override
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_myreceipt_token);
         ButterKnife.bind(this);
-        arrayList = new ArrayList<>();
-        GridLayoutManager grid = new GridLayoutManager(this, 3);
-        recyclerview.setLayoutManager(grid);
-        int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
-        recyclerview.addItemDecoration(new GridInset(3, spacing, false));
-        llElecReceipt.setVisibility(View.VISIBLE);
-        rlNoElecReceipt.setVisibility(View.GONE);
-
-        myInvoiceList();
-
     }
 
     private void myInvoiceList() {
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.myInvoiceList(AccountHelper.getToken(),this, new Api.BaseViewCallback<MyInvoiceListBean>() {
+            Api.myInvoiceList(AccountHelper.getToken(), this, new Api.BaseViewCallback<MyInvoiceListBean>() {
                 @Override
                 public void setData(MyInvoiceListBean myInvoiceListBean) {
                     if (myInvoiceListBean.getStatus() == 200) {
@@ -235,11 +233,17 @@ public class ReceiptActivityToken extends BaseActivity implements NormalAdpater.
 
     @Override
     public void initView() {
-
+        arrayList = new ArrayList<>();
+        GridLayoutManager grid = new GridLayoutManager(this, 3);
+        recyclerview.setLayoutManager(grid);
+        int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
+        recyclerview.addItemDecoration(new GridInset(3, spacing, false));
+        llElecReceipt.setVisibility(View.VISIBLE);
+        rlNoElecReceipt.setVisibility(View.GONE);
     }
 
     @Override
     public void initData() {
-
+        myInvoiceList();
     }
 }
