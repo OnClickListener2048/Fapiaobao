@@ -97,6 +97,8 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroy();
         mImgLoader = null;
         mBundle = null;
+        TLog.log("OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);"+this.getClass().getSimpleName());
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
     }
 
     protected abstract int getLayoutId();
@@ -293,7 +295,8 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        TLog.log("OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);"+this.getClass().getSimpleName());
-        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
+
     }
+
+
 }

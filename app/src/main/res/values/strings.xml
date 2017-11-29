@@ -407,6 +407,7 @@
     <string name="analysing">正在解析发票…</string>
     <string name="wrapping">打包发票…</string>
     <string name="please_choose_one_of_types">请至少选择一种发票种类哦~</string>
+    <string name="cant_choose_last_day">您不能选择前一天当做收票日期哦~</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

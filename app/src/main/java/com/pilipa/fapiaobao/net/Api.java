@@ -202,6 +202,7 @@ public class Api {
             }
         });
     }
+
     public static void logoutByToken(String token, final BaseViewCallback baseViewCallback) {
         OkGo.<NormalBean>get(String.format(LOGOUT_BY_TOKEN, token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
@@ -1007,8 +1008,8 @@ public class Api {
         });
     }
 
-    public static void createOrder(String json, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
-        OkGo.<OrderBean>post(CREATE_ORDER).upJson(json).execute(new JsonCallBack<OrderBean>(OrderBean.class) {
+    public static void createOrder(String json,Object o ,final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
+        OkGo.<OrderBean>post(CREATE_ORDER).tag(o).upJson(json).execute(new JsonCallBack<OrderBean>(OrderBean.class) {
 
             @Override
             public void onSuccess(Response<OrderBean> response) {

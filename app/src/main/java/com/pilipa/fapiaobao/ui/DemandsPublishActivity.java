@@ -202,13 +202,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private Dialog mCameraDialog;
     private TimePickerDialog dialog;
     private CityPickerView cityPicker;
-    private static Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-        }
-    };
     public CompaniesBean companiesBean;
     private CompaniesBean.DataBean dataBean;
     private ArrayList<DefaultInvoiceBean.DataBean> bean;
@@ -562,7 +555,14 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 dialog.showDatePickerDialog(new TimePickerDialog.TimePickerDialogInterface() {
                     @Override
                     public void positiveListener() {
-                        etDate.setText(dialog.getYear() + "-" + dialog.getMonth() + "-" + dialog.getDay());
+                        String date = dialog.getYear() + "-" + dialog.getMonth() + "-" + dialog.getDay();
+                        long selectTime = TimeUtils.string2Millis(date, TimeUtils.FORMAT);
+                        long currentTimeMillis = System.currentTimeMillis();
+                        if (selectTime - currentTimeMillis < 0) {
+                            BaseApplication.showToast(getString(R.string.cant_choose_last_day));
+                            return;
+                        }
+                        etDate.setText(date);
                     }
 
                     @Override

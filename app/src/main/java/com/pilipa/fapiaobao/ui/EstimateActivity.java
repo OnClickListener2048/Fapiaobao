@@ -342,7 +342,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
             return;
         }
         filterConditionTop.setText(locate + "\u3000" + arrayListSelectedReceiptKind.get(type - 1));
-        filterConditionBottom.setText(locate + "\u3000" + arrayListSelectedReceiptKind.get(type - 1));
+        filterConditionBottom.setText(locate + "\u3000" + arrayListSelectedReceiptKind.get(type - 1)+"\u3000"+name);
 
 
         if (TextUtils.isEmpty(etEstimate.getText())) {

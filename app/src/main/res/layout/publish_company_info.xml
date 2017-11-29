@@ -75,7 +75,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/d20" />
+            android:layout_height="@dimen/d15" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -438,7 +438,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/d43" />
+            android:layout_height="@dimen/d15" />
 
     </LinearLayout>
 

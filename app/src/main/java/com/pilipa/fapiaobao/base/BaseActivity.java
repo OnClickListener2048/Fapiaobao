@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,7 +49,7 @@ import io.reactivex.disposables.Disposable;
  * Created by lyt on 2017/10/12.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, BaseView {
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, BaseView, DialogInterface.OnKeyListener {
     protected LayoutInflater mInflater;
     private Fragment mFragment;
     private ActionBar mActionBar;
@@ -108,22 +110,27 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setTitle("提示");
         progressDialog.setMessage("正在加载中");
+        progressDialog.setOnKeyListener(this);
     }
 
     public void showProgressDialog() {
-        if (progressDialog != null) {
-            if (!progressDialog.isShowing()) {
-            progressDialog.show();
+        if (!isFinishing()) {
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
+                    progressDialog.show();
+                }
             }
         }
     }
 
 
     public void showProgressDialog(String description) {
-        if (progressDialog != null) {
-            if (!progressDialog.isShowing()) {
-                progressDialog.setMessage(description);
-                progressDialog.show();
+        if (!isFinishing()) {
+            if (progressDialog != null) {
+                if (!progressDialog.isShowing()) {
+                    progressDialog.setMessage(description);
+                    progressDialog.show();
+                }
             }
         }
     }
@@ -382,6 +389,26 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             }
         });
 
+
+    }
+
+    @Override
+    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+        return keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
 
     }
 }

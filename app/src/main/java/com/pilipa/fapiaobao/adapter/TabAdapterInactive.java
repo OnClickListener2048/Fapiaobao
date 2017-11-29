@@ -113,7 +113,6 @@ public class TabAdapterInactive extends RecyclerView.Adapter<RecyclerView.ViewHo
             public void accept(AllInvoiceType.DataBean.InvoiceTypeListBean invoiceTypeListBean) throws Exception {
                 TLog.log("invoiceTypeListBean.setSelected(false);"+invoiceTypeListBean.getName());
                 invoiceTypeListBean.setSelected(false);
-                notifyDataSetChanged();
             }
         });
 

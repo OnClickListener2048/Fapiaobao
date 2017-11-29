@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
-import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
@@ -178,7 +177,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         try {
             mContext.unregisterReceiver(mBoradcastReceiver);
         } catch (IllegalArgumentException e) {
@@ -186,11 +184,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"findUserInvoiceType");
-    }
     @Override
     protected void initData() {
         super.initData();
