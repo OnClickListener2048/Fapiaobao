@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/shape_item_receipt"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@mipmap/timg" />
 
         <TextView
