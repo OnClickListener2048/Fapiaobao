@@ -200,6 +200,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                 layout_unqualified_item.setVisibility(View.GONE);
                 layout_willchecked_item.setVisibility(View.VISIBLE);
                 layout_reject_item.setVisibility(View.GONE);
+                layout_qualified_privoide_item.setVisibility(View.GONE);
+                ll_sure_view.setVisibility(View.VISIBLE);
                 if (!VARIETY_GENERAL_ELECTRON.equals(image.variety)) {//纸质票
                     tv_tip.setText(getResources().getString(R.string.tip_wait_mail));
                     tvQualified.setText("确认合格 可以邮寄");
@@ -241,7 +243,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                     llExpressInfo.setVisibility(View.VISIBLE);
                     llNoInfo.setVisibility(View.GONE);
                     ll_sure_view.setVisibility(View.VISIBLE);
-                    tv_tip.setText("查验合格后，您就可以下载这张票了哦~");
+                    tv_tip.setText("请您确保收到发票并验证合格后，点击【查验合格】按钮");
                     tv_state.setText("待查验");
                     tvQualified.setText("查验合格");
                 } else {
@@ -536,15 +538,18 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
 
     }
     private void checkPagePos(int postion){
-        if(postion == 0){
+
+
+        if(postion == - 1 ){
             tolast.setVisibility(View.INVISIBLE);
+            tonext.setVisibility(View.INVISIBLE);
+        }else if(postion == 0){
+            tolast.setVisibility(View.INVISIBLE);
+            tonext.setVisibility(View.VISIBLE);
         }else if(postion == allList.size() - 1 ){
-            tonext.setVisibility(View.INVISIBLE);
             tolast.setVisibility(View.VISIBLE);
-        }else if(postion == - 1 ){
-            tolast.setVisibility(View.INVISIBLE);
             tonext.setVisibility(View.INVISIBLE);
-        }else {
+        }else{
             tolast.setVisibility(View.VISIBLE);
             tonext.setVisibility(View.VISIBLE);
         }

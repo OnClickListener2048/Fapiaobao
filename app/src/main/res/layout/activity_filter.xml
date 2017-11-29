@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/my_receipt_kind"
+            android:text="我的发票种类"
             android:textColor="@color/main_style" />
 
         <View

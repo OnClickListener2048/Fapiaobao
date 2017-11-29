@@ -279,6 +279,7 @@ public class MeFragment extends BaseFragment{
                             imgLevelIcon.setImageResource(LevelIcon[customer.getCreditLevel()]);
                         }
                 }else if(loginWithInfoBean.getStatus() == 701){
+                    SharedPreferencesHelper.remove(mContext, LoginWithInfoBean.class);
                     if(tvUserName == null) {
                         return;
                     }

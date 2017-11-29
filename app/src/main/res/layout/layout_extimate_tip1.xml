@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="314dp"
         android:layout_height="wrap_content"
         android:background="@mipmap/tip_bg"
-        android:layout_margin="@dimen/d40"
+        android:layout_gravity="center"
         android:orientation="vertical">
         <TextView
             android:textSize="@dimen/s12"

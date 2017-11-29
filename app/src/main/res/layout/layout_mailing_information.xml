@@ -266,6 +266,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:paddingLeft="@dimen/d15"
+                                    android:inputType="number"
+                                    android:maxLength="15"
                                     android:layout_toLeftOf="@+id/btn_scan"
                                     android:layout_centerVertical="true"
                                     android:background="@null"/>
@@ -329,7 +331,7 @@
                             android:id="@+id/textView9"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="您当前的发票总额："
+                            android:text="您当前可邮寄总额："
                             android:textColor="@color/olive"
                             android:textSize="@dimen/d15" />
 

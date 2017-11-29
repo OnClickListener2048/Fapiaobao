@@ -112,7 +112,8 @@ public class FilterActivity extends BaseActivity {
             case R.id.confirm:
                 intent.putExtra("locate", locate);
                 if (type == 0) {
-                    BaseApplication.showToast("请选择发票类型");
+                    BaseApplication.showToast("请选择发票种类" +
+                            "");
                     return;
                 }
                 intent.putExtra("type", type);

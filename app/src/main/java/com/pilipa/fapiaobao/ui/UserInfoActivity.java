@@ -150,7 +150,12 @@ public class UserInfoActivity extends BaseActivity {
             case R.id.btn_save: {
                 if (!ButtonUtils.isFastDoubleClick(R.id.tv_wx)) {
                     LoginWithInfoBean.DataBean.CustomerBean customer = new LoginWithInfoBean.DataBean.CustomerBean();
-                    customer.setNickname(edtUserName.getText().toString().trim());
+                    if(!edtUserName.getText().toString().trim().isEmpty()) {
+                        customer.setNickname(edtUserName.getText().toString().trim());
+                    }else{
+                        BaseApplication.showToast("昵称不能为空");
+                        return;
+                    }
                     customer.setBirthday(tv_birthday.getText().toString().trim());
                     switch (radioGroup.getCheckedRadioButtonId()) {
                         case R.id.rb_female:
@@ -163,13 +168,14 @@ public class UserInfoActivity extends BaseActivity {
                             customer.setGender(Constant.GENDER_SECRECY);
                             break;
                     }
-
-                    boolean emailExact = RegexUtils.isEmail(edt_email.getText().toString().trim());
-                    if(emailExact){
-                        customer.setEmail(edt_email.getText().toString().trim());
-                    }else{
-                        BaseApplication.showToast("邮箱格式不正确");
-                        return;
+                    if(!edt_email.getText().toString().trim().isEmpty()){
+                        boolean emailExact = RegexUtils.isEmail(edt_email.getText().toString().trim());
+                        if(emailExact){
+                            customer.setEmail(edt_email.getText().toString().trim());
+                        }else{
+                            BaseApplication.showToast("邮箱格式不正确");
+                            return;
+                        }
                     }
                     boolean mobileExact = RegexUtils.isMobileExact(edtPhone.getText().toString().trim());
                     if(mobileExact){
@@ -380,14 +386,9 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean normalBean) {
-                if (normalBean.getStatus() == 200) {
-                    setUserData(normalBean.getData().getCustomer());
-                }
-            }
-        });
+
+        setUserData(AccountHelper.getUser().getData().getCustomer());
+
         super.onResume();
     }
 
