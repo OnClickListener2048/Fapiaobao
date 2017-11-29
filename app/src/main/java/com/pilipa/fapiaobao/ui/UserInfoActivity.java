@@ -393,15 +393,16 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
-        String thumbnail =  AccountHelper.getUser().getData().getCustomer().getHeadimg().replace("invoice","thumbnail");
-        requestManager
-                .load(thumbnail)
-                .asBitmap()
-                .placeholder(R.mipmap.ic_head_circle_default_small)
-                .error(R.mipmap.ic_head_circle_default_small)
-                .thumbnail(0.1f)
-                .into(img_head);
+        if(AccountHelper.getUser().getData().getCustomer().getHeadimg() != null){
+            String thumbnail =  AccountHelper.getUser().getData().getCustomer().getHeadimg().replace("invoice","thumbnail");
+            requestManager
+                    .load(thumbnail)
+                    .asBitmap()
+                    .placeholder(R.mipmap.ic_head_circle_default_small)
+                    .error(R.mipmap.ic_head_circle_default_small)
+                    .thumbnail(0.1f)
+                    .into(img_head);
+        }
     }
 
     public void setUserData(LoginWithInfoBean.DataBean.CustomerBean customer) {

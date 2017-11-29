@@ -21,6 +21,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.entity.Customer;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
@@ -164,7 +165,7 @@ public class MeFragment extends BaseFragment{
 
 
             default: {
-                if(AccountHelper.getToken() != null){
+                if(!"notoken".equals(AccountHelper.getToken())){
                     switch (view.getId()) {
                         case R.id.tv_userName:
                         case R.id.img_head_me:
@@ -291,6 +292,7 @@ public class MeFragment extends BaseFragment{
                             .placeholder(R.mipmap.ic_head_circle_default_small_)
                             .thumbnail(0.1f)
                             .into(imageHead);
+                    SharedPreferencesHelper.save(mContext, new Customer());
                 }
             }
         });
