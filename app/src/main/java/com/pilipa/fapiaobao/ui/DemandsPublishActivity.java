@@ -661,6 +661,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                                         BaseApplication.showToast("可用金额不足，已发红包占用中");
                                         intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
                                         startActivityForResult(intent, REQUEST_CODE);
+                                    } else if (balanceBean.getStatus() == 400) {
+                                        BaseApplication.showToast("截止日期不能小于当前时间");
                                     }
                                 }
                             });

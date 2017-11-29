@@ -151,7 +151,9 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         unusedReceiptAdapter.setOnImageSelectListener(this);
         unusedReceiptAdapter.setOnImageLongClickListener(this);
         unusedReceiptAdapter.setOnPhotoCapture(this);
-        recyclerview.setAdapter(unusedReceiptAdapter);
+        if(recyclerview != null){
+            recyclerview.setAdapter(unusedReceiptAdapter);
+        }
     }
 
     @Override
