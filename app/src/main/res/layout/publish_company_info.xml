@@ -441,20 +441,22 @@
             android:layout_height="@dimen/d43" />
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/btn_add_company_info"
         android:layout_width="match_parent"
         android:layout_height="@dimen/d40"
         android:layout_marginLeft="@dimen/d20"
         android:layout_marginRight="@dimen/d20"
-        android:background="@color/main_style"
+        android:background="@mipmap/bg_btn_normal"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/add_company"
+            android:drawableLeft="@mipmap/add_demand"
+            android:gravity="center"
             android:drawablePadding="@dimen/d5"
             android:text="@string/addCompanyInfo"
             android:textColor="@color/white" />

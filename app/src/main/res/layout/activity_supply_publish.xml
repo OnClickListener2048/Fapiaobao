@@ -82,6 +82,7 @@
         android:layout_height="@dimen/d2"
         android:layout_marginTop="@dimen/d5"
         android:background="@color/main_style" />
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -90,7 +91,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
 
             <include layout="@layout/publish_company_info" />

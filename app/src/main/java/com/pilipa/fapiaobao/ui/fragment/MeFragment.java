@@ -161,52 +161,49 @@ public class MeFragment extends BaseFragment{
             case R.id.my_wallet:
                 startActivity(new Intent(getContext(), MyWalletActivity.class));
                 break;
+
+
             default: {
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                    @Override
-                    public void setData(LoginWithInfoBean normalBean) {
-                        if (normalBean.getStatus() == 200) {
-                            switch (view.getId()) {
-                                case R.id.tv_userName:
-                                case R.id.img_head_me:
-                                    if (!ButtonUtils.isFastDoubleClick(R.id.tv_userName)||
-                                            !ButtonUtils.isFastDoubleClick(R.id.img_head_me)) {
-                                        startActivity(new Intent(getContext(), UserInfoActivity.class));
-                                    }
-                                    break;
-                                case R.id.notification:
-                                    if (!ButtonUtils.isFastDoubleClick(R.id.notification)) {
-                                        red_new_dot.setVisibility(View.GONE);
-                                        BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
-                                        startActivity(new Intent(getContext(), MessageCenterActivity.class));
-                                    }
-                                    break;
-                                case R.id.btn_mPublish:
-                                    if (!ButtonUtils.isFastDoubleClick(R.id.btn_mPublish)) {
-                                        startActivity(new Intent(getContext(), HistoryActivity2.class));
-                                    }
-                                    break;
-                                case R.id.btn_manager:
-                                    if (!ButtonUtils.isFastDoubleClick(R.id.btn_manager)) {
-                                        startActivity(new Intent(getContext(), CompanyManagerActivity.class));
-                                    }
-                                    break;
-                                case R.id.btn_receipt_folder:
-                                    if (!ButtonUtils.isFastDoubleClick(R.id.btn_receipt_folder)) {
-                                        startActivity(new Intent(getContext(), ReceiptFolderActivity.class));
-                                    }
-                                    break;
-                                case R.id.tv_creditRating:
-                                    if (!ButtonUtils.isFastDoubleClick(R.id.tv_creditRating)) {
-                                        startActivity(new Intent(getContext(), CreditRatingActivity.class));
-                                    }
-                                    break;
+                if(AccountHelper.getToken() != null){
+                    switch (view.getId()) {
+                        case R.id.tv_userName:
+                        case R.id.img_head_me:
+                            if (!ButtonUtils.isFastDoubleClick(R.id.tv_userName)||
+                                    !ButtonUtils.isFastDoubleClick(R.id.img_head_me)) {
+                                startActivity(new Intent(getContext(), UserInfoActivity.class));
                             }
-                        } else {
-                            login();
-                        }
+                            break;
+                        case R.id.notification:
+                            if (!ButtonUtils.isFastDoubleClick(R.id.notification)) {
+                                red_new_dot.setVisibility(View.GONE);
+                                BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
+                                startActivity(new Intent(getContext(), MessageCenterActivity.class));
+                            }
+                            break;
+                        case R.id.btn_mPublish:
+                            if (!ButtonUtils.isFastDoubleClick(R.id.btn_mPublish)) {
+                                startActivity(new Intent(getContext(), HistoryActivity2.class));
+                            }
+                            break;
+                        case R.id.btn_manager:
+                            if (!ButtonUtils.isFastDoubleClick(R.id.btn_manager)) {
+                                startActivity(new Intent(getContext(), CompanyManagerActivity.class));
+                            }
+                            break;
+                        case R.id.btn_receipt_folder:
+                            if (!ButtonUtils.isFastDoubleClick(R.id.btn_receipt_folder)) {
+                                startActivity(new Intent(getContext(), ReceiptFolderActivity.class));
+                            }
+                            break;
+                        case R.id.tv_creditRating:
+                            if (!ButtonUtils.isFastDoubleClick(R.id.tv_creditRating)) {
+                                startActivity(new Intent(getContext(), CreditRatingActivity.class));
+                            }
+                            break;
                     }
-                });
+                }else{
+                    login();
+                }
             }
         }
     }

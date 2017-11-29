@@ -152,7 +152,6 @@ public class UserInfoActivity extends BaseActivity {
                     LoginWithInfoBean.DataBean.CustomerBean customer = new LoginWithInfoBean.DataBean.CustomerBean();
                     customer.setNickname(edtUserName.getText().toString().trim());
                     customer.setBirthday(tv_birthday.getText().toString().trim());
-                    customer.setEmail(edt_email.getText().toString().trim());
                     switch (radioGroup.getCheckedRadioButtonId()) {
                         case R.id.rb_female:
                             customer.setGender(Constant.GENDER_FEMALE);
@@ -165,10 +164,19 @@ public class UserInfoActivity extends BaseActivity {
                             break;
                     }
 
-
+                    boolean emailExact = RegexUtils.isEmail(edt_email.getText().toString().trim());
+                    if(emailExact){
+                        customer.setEmail(edt_email.getText().toString().trim());
+                    }else{
+                        BaseApplication.showToast("邮箱格式不正确");
+                        return;
+                    }
                     boolean mobileExact = RegexUtils.isMobileExact(edtPhone.getText().toString().trim());
                     if(mobileExact){
                         customer.setTelephone(edtPhone.getText().toString().trim());
+                    }else{
+                        BaseApplication.showToast("手机号码格式不正确");
+                        return;
                     }
                     updateUserInfo(customer);
                 }

@@ -246,7 +246,7 @@
     <string name="outstanding">未到账 %1$d元</string>
     <string name="scan_campany_info">扫一扫 查看公司开票信息</string>
     <string name="view_directly">直接查看</string>
-    <string name="more_kind_receipt">发票类型</string>
+    <string name="more_kind_receipt">更多类型</string>
     <string name="estimate">预估收益</string>
     <string name="receipt_amount">发票金额:</string>
     <string name="estimate_please">  请输入本次的发票余额\n    可以看到预估收益哦</string>
