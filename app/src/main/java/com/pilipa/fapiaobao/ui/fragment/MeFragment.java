@@ -156,9 +156,7 @@ public class MeFragment extends BaseFragment{
                 startActivity(intent);
             }
                 break;
-            case R.id.tv_feedback:
-                startActivity(new Intent(getContext(), FeedbackActivity.class));
-                break;
+
             case R.id.my_wallet:
                 startActivity(new Intent(getContext(), MyWalletActivity.class));
                 break;
@@ -173,6 +171,9 @@ public class MeFragment extends BaseFragment{
                                     !ButtonUtils.isFastDoubleClick(R.id.img_head_me)) {
                                 startActivity(new Intent(getContext(), UserInfoActivity.class));
                             }
+                            break;
+                        case R.id.tv_feedback:
+                            startActivity(new Intent(getContext(), FeedbackActivity.class));
                             break;
                         case R.id.notification:
                             if (!ButtonUtils.isFastDoubleClick(R.id.notification)) {
