@@ -155,6 +155,13 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        progressDialog.dismiss();
+        progressDialog=null;
+    }
+
     public void login() {
         BaseApplication.showToast("请先登录");
         startActivity(new Intent(this, LoginActivity.class));

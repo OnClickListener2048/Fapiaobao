@@ -578,4 +578,5 @@ public class UserInfoActivity extends BaseActivity {
         req.state = "wechat_sdk_demo_test";
         api.sendReq(req);
     }
+
 }
