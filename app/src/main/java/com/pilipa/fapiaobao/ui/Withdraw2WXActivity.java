@@ -168,6 +168,7 @@ public class Withdraw2WXActivity extends BaseActivity {
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == 200) {
+                    AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
                     if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
                         double d = loginWithInfoBean.getData().getCustomer().getAmount()
                                 -loginWithInfoBean.getData().getCustomer().getFrozen();
@@ -226,13 +227,7 @@ public class Withdraw2WXActivity extends BaseActivity {
             root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                        @Override
-                        public void setData(LoginWithInfoBean loginWithInfoBean) {
-                            AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
-                            weChatLogin();
-                        }
-                    });
+                    weChatLogin();
                     mDialog.dismiss();
                 }
             });

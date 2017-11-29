@@ -157,6 +157,12 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     public void initData() {
         bonus = getIntent().getStringExtra("bonus");
         setupViews(bonus);
+        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
+                AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
+            }
+        });
     }
 
     @Override
@@ -189,17 +195,12 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                    @Override
-                    public void setData(LoginWithInfoBean loginWithInfoBean) {
-                        AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
-                        if(loginWithInfoBean.getData().getCustomer().getOpenid() != null){
-                            withdaw(loginWithInfoBean.getData().getCustomer().getOpenid());
-                        }else{
-                            weChatLogin();
-                        }
-                    }
-                });
+
+                if(AccountHelper.getUser().getData().getCustomer().getOpenid() != null){
+                    withdaw(AccountHelper.getUser().getData().getCustomer().getOpenid() );
+                }else{
+                    weChatLogin();
+                }
                 mDialog.dismiss();
             }
         });
@@ -233,21 +234,16 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                Api.reload(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
                     @Override
-                    public void setData(LoginWithInfoBean loginWithInfoBean) {
-                        Api.reload(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<NormalBean>() {
-                            @Override
-                            public void setData(NormalBean normalBean) {
-                                if (normalBean.getStatus() ==200) {
-                                    BaseApplication.showToast("充值成功");
-                                    finish();
-                                }else {
-                                    BaseApplication.showToast(normalBean.getMsg());
-                                    finish();
-                                }
-                            }
-                        });
+                    public void setData(NormalBean normalBean) {
+                        if (normalBean.getStatus() ==200) {
+                            BaseApplication.showToast("充值成功");
+                            finish();
+                        }else {
+                            BaseApplication.showToast(normalBean.getMsg());
+                            finish();
+                        }
                     }
                 });
                 mDialog.dismiss();

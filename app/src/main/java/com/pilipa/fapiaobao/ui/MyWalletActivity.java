@@ -51,11 +51,8 @@ public class MyWalletActivity extends BaseActivity {
                 intent.setClass(this, MyRedEnvelopeActivity.class);
                 startActivity(intent);
             }break;
-        }
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean normalBean) {
-                if (normalBean.getStatus() == 200) {
+            default:
+                if(!"notoken".equals(AccountHelper.getToken())){
                     switch (v.getId()){
                         case R.id.btn_recharge:{
                             startActivity(new Intent(MyWalletActivity.this,RechargeActivity.class));
@@ -68,9 +65,8 @@ public class MyWalletActivity extends BaseActivity {
                 }else {
                     startActivity(new Intent(MyWalletActivity.this, LoginActivity.class));
                 }
-            }
-        });
-
+                break;
+        }
     }
 
     @Override

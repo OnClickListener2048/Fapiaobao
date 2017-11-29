@@ -526,46 +526,32 @@ public class UserInfoActivity extends BaseActivity {
         });
     }
     private void logoutByToken() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+        Api.logoutByToken(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
             @Override
-            public void setData(LoginWithInfoBean lo ) {
-                if (lo.getStatus() == 200) {
-                    Api.logoutByToken(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
-                        @Override
-                        public void setData(NormalBean normalBean) {
-                            if (normalBean.getStatus() ==200) {
-                                Toast.makeText(UserInfoActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
-                                mDialog.dismiss();
-                                AccountHelper.logout();
-                                UserInfoActivity.this.finish();
-                                set(PUSH_RECEIVE, false);
-                                Log.d(TAG, "updateData:logoutByToken success");
-                            }else if(normalBean.getStatus() ==400){
-                                BaseApplication.showToast("没有找到业务数据");
-                            }
-                        }
-                    });
+            public void setData(NormalBean normalBean) {
+                if (normalBean.getStatus() ==200) {
+                    Toast.makeText(UserInfoActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
+                    mDialog.dismiss();
+                    AccountHelper.logout();
+                    UserInfoActivity.this.finish();
+                    set(PUSH_RECEIVE, false);
+                    Log.d(TAG, "updateData:logoutByToken success");
+                }else if(normalBean.getStatus() ==400){
+                    BaseApplication.showToast("没有找到业务数据");
                 }
             }
         });
-
-
     }
 
     private void bindWX() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus() == 200) {
-                    if (loginWithInfoBean.getData().getCustomer().getOpenid() == null) {
-                        weChatLogin();
-                    }
-                }else {
-                    startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));
-                    finish();
-                }
+        if(!"notoken".equals(AccountHelper.getToken())){
+            if (AccountHelper.getUser().getData().getCustomer().getOpenid() == null) {
+                weChatLogin();
             }
-        });
+        }else {
+            startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));
+            finish();
+        }
     }
     private IWXAPI api;
     private void regexToWX() {

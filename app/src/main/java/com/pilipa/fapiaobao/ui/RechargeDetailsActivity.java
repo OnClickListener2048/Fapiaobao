@@ -16,7 +16,6 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.AmountHistoryBean;
 
 import java.util.ArrayList;
@@ -73,23 +72,16 @@ public class RechargeDetailsActivity extends BaseActivity {
     }
 
     private void amountHistory(final String pageNo,final String pageSize) {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+        Api.amountHistory(AccountHelper.getToken(),pageNo,pageSize, new Api.BaseViewCallback<AmountHistoryBean>() {
             @Override
-            public void setData(LoginWithInfoBean normalBean) {
-                if (normalBean.getStatus() == 200) {
-                    Api.amountHistory(AccountHelper.getToken(),pageNo,pageSize, new Api.BaseViewCallback<AmountHistoryBean>() {
-                        @Override
-                        public void setData(AmountHistoryBean amountHistoryBean) {
-                            if(amountHistoryBean.getStatus() == REQUEST_SUCCESS){
-                                ll_no_record.setVisibility(View.GONE);
-                                mData.addAll(amountHistoryBean.getData());
-                                mAdapter.addData(mData);
-                                Log.d("", "initData:amountHistory success");
-                            }else {
-                                ll_no_record.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
+            public void setData(AmountHistoryBean amountHistoryBean) {
+                if(amountHistoryBean.getStatus() == REQUEST_SUCCESS){
+                    ll_no_record.setVisibility(View.GONE);
+                    mData.addAll(amountHistoryBean.getData());
+                    mAdapter.addData(mData);
+                    Log.d("", "initData:amountHistory success");
+                }else {
+                    ll_no_record.setVisibility(View.VISIBLE);
                 }
             }
         });
