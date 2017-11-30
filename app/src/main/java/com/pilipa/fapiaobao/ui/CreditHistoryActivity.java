@@ -80,11 +80,11 @@ public class CreditHistoryActivity extends BaseActivity {
             Api.findCreditHistory(AccountHelper.getToken(),pageNo,pageSize,new Api.BaseViewCallback<CreditHistroyBean>() {
                 @Override
                 public void setData(CreditHistroyBean creditHistroyBean) {
-                    if(creditHistroyBean.getStatus() == REQUEST_SUCCESS){
+                    if(creditHistroyBean != null && creditHistroyBean.getStatus() == REQUEST_SUCCESS){
                         rechargeDetailsAdapter.addData(creditHistroyBean.getData());
                         ll_no_record.setVisibility(View.GONE);
                         Log.d(TAG, "findCreditHistory"+"");
-                    }else if(creditHistroyBean.getStatus() == REQUEST_NO_CONTENT){
+                    }else if(creditHistroyBean != null && creditHistroyBean.getStatus() == REQUEST_NO_CONTENT){
                         ll_no_record.setVisibility(View.VISIBLE);
                     }
                 }
@@ -138,11 +138,39 @@ public class CreditHistoryActivity extends BaseActivity {
             }else{
                 viewHolder.tvAmountOffered.setText(bean.getScore()+"");
             }
-            if("1".equals(bean.getType())){
-                viewHolder.title.setText("交易成功");
-            }else if("0".equals(bean.getType())){
-                viewHolder.title.setText("不实交易");
+            switch (bean.getType()){
+                case "COMMIT_SUGGESTION":
+                    viewHolder.title.setText("意见反馈");
+                    break;
+                case "SIGN_IN":
+                    viewHolder.title.setText("每日登录");
+                    break;
+                case "PERFECT_PROFILE":
+                    viewHolder.title.setText("信息完善");
+                    break;
+                case "CONFIRM_INVOICE":
+                    viewHolder.title.setText("及时确认");
+                    break;
+                case "OFFER_INVOICE":
+                    viewHolder.title.setText("提供成功");
+                    break;
+                case "SHARE":
+                    viewHolder.title.setText("分享");
+                    break;
+                case "REGISTER_SUCCESS":
+                    viewHolder.title.setText("注册成功");
+                    break;
+                case "PUBLISH_DEMAND":
+                    viewHolder.title.setText("发布成功");
+                    break;
+                case "ERROR_MAIL_INVOICE":
+                    viewHolder.title.setText("不实寄送");
+                    break;
+                case "ERROR_REJECT":
+                    viewHolder.title.setText("不实驳回");
+                    break;
             }
+
             viewHolder.createDate.setText(bean.getCreateDate());
             viewHolder.subTitle.setText("信用积分");
 

@@ -2,16 +2,13 @@ package com.pilipa.fapiaobao.base;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -29,7 +26,6 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
@@ -40,11 +36,9 @@ import com.pilipa.fapiaobao.utils.TDevice;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.umeng.message.PushAgent;
 
-import java.io.File;
 import java.io.IOException;
 
 import butterknife.ButterKnife;
-import id.zelory.compressor.Compressor;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -330,18 +324,23 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
 
     public String upLoadReceipt(Uri uri) throws IOException {
-        String imgPath = null;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(uri, proj, null, null, null);
-        if (cursor.moveToFirst()) {
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            imgPath = cursor.getString(column_index);
-            TLog.log("imgPath" + imgPath);
-        }
-        cursor.close();
-        File file = new File(imgPath);
-        compressedImageBitmap = new Compressor(this).compressToBitmap(file);
-        return BitmapUtils.bitmapToBase64(compressedImageBitmap);
+//        ContentResolver cr = getContentResolver();
+//        Bitmap bmp;
+        Bitmap bitmap = null;
+//        try {
+//            bmp = MediaStore.Images.Media.getBitmap(cr,uri);
+//            try {
+//                bitmap = ImageUtils.compressByQuality(bmp, (long) (200 * 1024),true);
+//            } catch (OutOfMemoryError error) {
+//                error.printStackTrace();
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        bitmap = BitmapUtils.getBitmapFormUri(this,uri);
+
+        return BitmapUtils.bitmapToBase64(bitmap);
     }
 
 

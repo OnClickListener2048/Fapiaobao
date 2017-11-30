@@ -8,7 +8,6 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
@@ -253,6 +252,8 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                 TLog.log("path"+path);
                 MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
                 getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,contentUri));
+            } catch (NullPointerException e) {
+                e.printStackTrace();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

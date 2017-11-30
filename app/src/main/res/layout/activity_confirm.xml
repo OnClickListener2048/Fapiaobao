@@ -11,12 +11,13 @@
         android:src="@mipmap/confirm_bg"
         android:translationY="-100dp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_title"
             android:layout_width="match_parent"
             android:layout_height="48dp">
 
@@ -52,8 +53,10 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:layout_below="@+id/rl_title"
+            android:layout_above="@+id/ll_tip"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/d20"
             android:layout_marginRight="@dimen/d20"
             android:background="@drawable/receipt_info_bg"
@@ -82,53 +85,6 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:id="@+id/translate"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="@dimen/d20"
-                    android:orientation="vertical">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/d30" />
-
-                    <TextView
-                        android:textSize="@dimen/s12"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal"
-                        android:text="@string/scan_to_have_info" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_gravity="center">
-
-                        <ImageView
-                            android:id="@+id/qr"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true" />
-                    </RelativeLayout>
-
-                    <android.support.v4.widget.Space
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:id="@+id/look_directly"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal"
-                        android:text="@string/look_directly"
-                        android:textColor="@color/main_style" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:visibility="gone"
@@ -258,50 +214,116 @@
                             android:text="爱康鼎天津科技有限公司" />
                     </LinearLayout>
                 </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:id="@+id/translate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/d20"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/d30" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:text="@string/scan_to_have_info"
+                            android:textSize="@dimen/s12" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_gravity="center">
+
+                            <ImageView
+                                android:id="@+id/qr"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/look_directly"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="@string/look_directly"
+                        android:textColor="@color/main_style" />
+
+                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d21" />
-        <TextView
+       <LinearLayout
+           android:id="@+id/ll_tip"
+           android:layout_above="@+id/upload_receipt"
+           android:orientation="vertical"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/d21" />
+           <TextView
 
-            android:textColor="#ad9d7e"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:text="@string/confirm_upload"
-            android:textSize="@dimen/s11" />
+               android:textColor="#ad9d7e"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center_horizontal"
+               android:gravity="center_horizontal"
+               android:text="@string/confirm_upload"
+               android:textSize="@dimen/s11" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d5" />
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/d5" />
+           <TextView
+               android:textColor="#ad9d7e"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center_horizontal"
+               android:gravity="center_horizontal"
+               android:text="纸质发票要拍照上传哦~"
+               android:textSize="@dimen/s11" />
 
-        <TextView
-            android:textColor="#ad9d7e"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"
-            android:text="纸质发票要拍照上传哦~"
-            android:textSize="@dimen/s11" />
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/d16" />
+       </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d16" />
+
         <Button
             android:layout_marginLeft="@dimen/d20"
             android:layout_marginRight="@dimen/d20"
+            android:layout_marginBottom="@dimen/d13"
             android:id="@+id/upload_receipt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_alignParentBottom="true"
             android:background="@drawable/shape_extimate_go"
             android:text="上传发票"
             android:textColor="@color/white" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </FrameLayout>
