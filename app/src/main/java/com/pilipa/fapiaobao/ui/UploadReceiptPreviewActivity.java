@@ -215,6 +215,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         Api.estimateRedBag(loginWithInfoBean.getData().getToken(), demandsId, sum, new Api.BaseViewCallbackWithOnStart<RedBagBean>() {
                             @Override
                             public void onStart() {
+                                TLog.log(" Api.estimateRedBag(l");
                                 showProgressDialog();
                             }
 
@@ -231,6 +232,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                             @Override
                             public void setData(RedBagBean redBagBean) {
                                 if (redBagBean.getStatus() == 200) {
+                                    TLog.log("redBagBean.getStatus() == 200");
                                     UploadReceiptPreviewActivity.this.aDouble = redBagBean.getData().getBonus();
                                     BigDecimal bigDecimal = new BigDecimal(UploadReceiptPreviewActivity.this.aDouble);
                                     BigDecimal bigDecimal1 = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -290,13 +292,13 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == 200) {
                     makeUpParams(loginWithInfoBean);
-
                 }
             }
         });
     }
 
     private void makeUpParams(LoginWithInfoBean loginWithInfoBean) {
+        TLog.log("private void makeUpParams(LoginWithInfoBean loginWithInfoBean) {");
         final UploadInvoiceToken uploadInvoiceToken = new UploadInvoiceToken();
         uploadInvoiceToken.setDemandId(demandsId);
         uploadInvoiceToken.setInvoiceType(label);
@@ -312,10 +314,15 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                 if (paperNormalReceiptFragment != null) {
                     ArrayList<Image> currentImagesPN = paperNormalReceiptFragment.getCurrentImages();
                     for (Image image : currentImagesPN) {
+                        TLog.log(" for (Image image : currentImagesPN) {");
                         UploadInvoiceToken.InvoiceListBean invoiceListBean = new UploadInvoiceToken.InvoiceListBean();
+                        TLog.log("image.amount"+image.amount);
                         invoiceListBean.setAmount(Double.valueOf(image.amount));
+                        TLog.log("image.uri"+image.uri);
                         invoiceListBean.setPicture(upLoadReceipt(image.uri));
+                        TLog.log("image.uri"+image.uri);
                         invoiceListBean.setVariety("1");
+                        TLog.log("e.onNext(invoiceListBean);");
                         e.onNext(invoiceListBean);
                     }
                 }
@@ -324,6 +331,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                 if (paperSpecialReceiptFragment != null) {
                     ArrayList<Image> currentImagesPS = paperSpecialReceiptFragment.getCurrentImages();
                     for (Image image : currentImagesPS) {
+                        TLog.log("for (Image image : currentImagesPS) {");
                         UploadInvoiceToken.InvoiceListBean invoiceListBean = new UploadInvoiceToken.InvoiceListBean();
                         invoiceListBean.setAmount(Double.valueOf(image.amount));
                         invoiceListBean.setPicture(upLoadReceipt(image.uri));
@@ -335,6 +343,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                 if (paperElecReceiptFragment != null) {
                     ArrayList<Image> currentImagesPE = paperElecReceiptFragment.getCurrentImages();
                     for (Image image : currentImagesPE) {
+                        TLog.log("for (Image image : currentImagesPE) {");
                         UploadInvoiceToken.InvoiceListBean invoiceListBean = new UploadInvoiceToken.InvoiceListBean();
                         invoiceListBean.setAmount(Double.valueOf(image.amount));
                         invoiceListBean.setVariety("3");
@@ -346,6 +355,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         e.onNext(invoiceListBean);
                     }
                 }
+                TLog.log(" e.onComplete();");
                 e.onComplete();
             }
         })
@@ -359,6 +369,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
                     @Override
                     public void onNext(UploadInvoiceToken.InvoiceListBean invoiceListBean) {
+                        TLog.log(" public void onNext(UploadInvoiceToken.InvoiceListBean invoiceListBean) {");
                         invoiceListBeanArrayList.add(invoiceListBean);
                         updateDialog(String.valueOf(invoiceListBeanArrayList.size()+"/"+count));
                     }

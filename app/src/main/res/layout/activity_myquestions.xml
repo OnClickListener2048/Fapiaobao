@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/d18"
+            android:textColor="@color/title"
+            android:text="@string/myfeedback" />
+
+        <ImageView
+            android:id="@+id/feedback_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/d10"
+            android:src="@mipmap/estimate_back_brawn" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_type_area"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/d10"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d5"
+            android:layout_marginTop="@dimen/d10"
+            android:layout_weight="1"
+            android:background="@drawable/shape_feedback_type_area">
+
+            <EditText
+                android:id="@+id/et_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/d10"
+                android:background="@null"
+                android:hint="您的意见反馈"
+                android:maxLines="5"
+                android:minLines="3"
+                android:textSize="@dimen/s14" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/feedback_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/d10"
+            android:src="@mipmap/feedback_send" />
+    </LinearLayout>
+
+    <com.pilipa.fapiaobao.ui.widget.EmptyRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ll_type_area"
+        android:layout_below="@id/rl_title"
+        android:animateLayoutChanges="false"
+        android:layout_width="match_parent"
+        android:overScrollMode="never" />
+</RelativeLayout>

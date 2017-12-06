@@ -68,7 +68,6 @@ public class ConfirmActivity extends BaseActivity {
     Button uploadReceipt;
     boolean isCollected;
     private  MacherBeanToken.DataBean.CompanyBean company_info;
-    private LoginWithInfoBean loginWithInfoBean;
     private String label;
     private String demandsId;
     private double amount;
@@ -120,7 +119,7 @@ public class ConfirmActivity extends BaseActivity {
             e.printStackTrace();
         }
 
-        loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
+        LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginWithInfoBean != null) {
             Api.judgeCompanyIsCollcted(company_info.getId(), loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<FavBean>() {
                 @Override
@@ -128,7 +127,7 @@ public class ConfirmActivity extends BaseActivity {
                     if(s.getFavoriteId() != null){
                         favoriteId = s.getFavoriteId();
                     }
-                    if (s != null && s.getStatus() == 200) {
+                    if (s.getStatus() == 200) {
                         //TODO 设置收藏图片
                         isCollected = false;
                         collect.setImageResource(R.mipmap.collect);

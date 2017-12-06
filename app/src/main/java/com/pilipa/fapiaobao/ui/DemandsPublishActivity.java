@@ -557,8 +557,11 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                     public void positiveListener() {
                         String date = dialog.getYear() + "-" + dialog.getMonth() + "-" + dialog.getDay();
                         long selectTime = TimeUtils.string2Millis(date, TimeUtils.FORMAT);
-                        long currentTimeMillis = System.currentTimeMillis();
-                        if (selectTime - currentTimeMillis < 0) {
+                        TLog.log("selectTime"+selectTime);
+                        String nowString = TimeUtils.getNowString(TimeUtils.FORMAT);
+                        long today = TimeUtils.string2Millis(nowString, TimeUtils.FORMAT);
+                        TLog.log("selectTime - currentTimeMillis"+(selectTime - today));
+                        if (selectTime - today < 0) {
                             BaseApplication.showToast(getString(R.string.cant_choose_last_day));
                             return;
                         }
@@ -599,7 +602,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 break;
             case R.id.btn_publish_now:
                 publish();
-
                 break;
             case R.id.changeCompanyinfo:
             case R.id.more_company:
@@ -622,6 +624,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     }
 
     private void publish() {
+
         if (checkParams()) {
             if (makeParams() != null) {
                 final Gson gson = new GsonBuilder().serializeNulls().create();
@@ -632,21 +635,25 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                             Api.publish(gson.toJson(makeParams()), new Api.BaseViewCallbackWithOnStart<BalanceBean>() {
                                 @Override
                                 public void onStart() {
+                                    btnPublishNow.setEnabled(false);
                                     showProgressDialog();
                                 }
 
                                 @Override
                                 public void onFinish() {
                                     hideProgressDialog();
+                                    btnPublishNow.setEnabled(true);
                                 }
 
                                 @Override
                                 public void onError() {
                                     hideProgressDialog();
+                                    btnPublishNow.setEnabled(true);
                                 }
 
                                 @Override
                                 public void setData(BalanceBean balanceBean) {
+                                    btnPublishNow.setEnabled(true);
                                     Intent intent = new Intent();
                                     if (balanceBean.getStatus() == 200) {
                                         intent.putExtra("demand", balanceBean.getData().getDemand());
@@ -694,7 +701,22 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == 200) {
-                    Api.companyCreate(company, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                    Api.companyCreate(company, AccountHelper.getToken(),new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+
                         @Override
                         public void setData(NormalBean normalBean) {
                             if (normalBean.getStatus() == 200) {
@@ -954,8 +976,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 if (!checkIfIsEmpty(etReceptionNumber)) {
                     BaseApplication.showToast("收件人手机号不能为空");
                     return false;
-                } else if (!RegexUtils.isMobileExact(etReceptionNumber.getText().toString().trim())) {
-                    BaseApplication.showToast("请填写正确的手机号码");
+                } else if (!RegexUtils.isTel(etReceptionNumber.getText().toString().trim())&&!RegexUtils.isMobileExact(etReceptionNumber.getText().toString().trim())) {
+                    BaseApplication.showToast("请填写区号+座机或手机号码");
                     return false;
                 }
             }

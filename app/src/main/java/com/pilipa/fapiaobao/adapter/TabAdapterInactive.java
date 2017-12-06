@@ -27,6 +27,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
@@ -93,7 +94,7 @@ public class TabAdapterInactive extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onItemDelete(final DefaultInvoiceBean.DataBean dataBean) {
-        TLog.log("onItemDelete"+dataBean.getName());
+        TLog.log("onItemDelete1"+dataBean.getName());
         Observable.fromIterable(allInvoiceType.getData())
                 .flatMap(new Function<AllInvoiceType.DataBean, ObservableSource<AllInvoiceType.DataBean.InvoiceTypeListBean>>() {
                     @Override
@@ -103,16 +104,17 @@ public class TabAdapterInactive extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }).filter(new Predicate<AllInvoiceType.DataBean.InvoiceTypeListBean>() {
             @Override
             public boolean test(AllInvoiceType.DataBean.InvoiceTypeListBean invoiceTypeListBean) throws Exception {
-                TLog.log("onItemDelete"+invoiceTypeListBean.getName());
+                TLog.log("onItemDelete2"+invoiceTypeListBean.getName());
                 return TextUtils.equals(dataBean.getId(),invoiceTypeListBean.getId());
             }
         }).subscribeOn(Schedulers.from(AppOperator.getExecutor()))
-                .observeOn(Schedulers.from(AppOperator.getExecutor()))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<AllInvoiceType.DataBean.InvoiceTypeListBean>() {
             @Override
             public void accept(AllInvoiceType.DataBean.InvoiceTypeListBean invoiceTypeListBean) throws Exception {
                 TLog.log("invoiceTypeListBean.setSelected(false);"+invoiceTypeListBean.getName());
                 invoiceTypeListBean.setSelected(false);
+                notifyDataSetChanged();
             }
         });
 

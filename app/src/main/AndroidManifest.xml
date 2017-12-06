@@ -162,6 +162,11 @@
 
         </activity>
 
+        <activity android:name=".ui.SearchActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.MyQuestionsActivity"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".ui.UploadReceiptPreviewActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.PreviewActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.TestActivity" android:screenOrientation="portrait">

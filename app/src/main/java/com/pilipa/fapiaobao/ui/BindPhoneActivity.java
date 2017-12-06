@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.CountDownTimerUtils;
 
 import butterknife.Bind;
@@ -64,10 +66,25 @@ public class BindPhoneActivity extends BaseActivity {
                     return;
                 } else {
                     //TODO 请求短信验证码
-                    Api.sendMessageToVerify(etUsername.getText().toString().trim(), new Api.BaseViewCallback<ShortMessageBean>() {
+                    Api.sendMessageToVerify(etUsername.getText().toString().trim(), new Api.BaseViewCallbackWithOnStart<ShortMessageBean>() {
+                        @Override
+                        public void onStart() {
+                            countDownTimerUtils.start();
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+
                         @Override
                         public void setData(ShortMessageBean shortMessageBean) {
-                            countDownTimerUtils.start();
+
                             BaseApplication.showToast(shortMessageBean.getData());
                         }
                     });
@@ -82,6 +99,10 @@ public class BindPhoneActivity extends BaseActivity {
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == 200) {
                     BaseApplication.showToast(normalBean.getData());
+                    Intent intent = new Intent();
+                    intent.setAction(Constant.BIND_PHONE_ACTION);
+                    intent.putExtra("isbind", true);
+                    sendBroadcast(intent);
                     finish();
                 }else if(normalBean.getStatus() == 708){
                     BaseApplication.showToast(normalBean.getMsg());

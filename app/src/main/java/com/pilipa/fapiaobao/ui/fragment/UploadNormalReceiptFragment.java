@@ -296,7 +296,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             List<Uri> uris = Matisse.obtainResult(data);
             ArrayList<Image> arrayList = new ArrayList<>();
             for (Uri uri : uris) {
-                if (uri.equals("")) {
+                if (uri == null) {
                     BaseApplication.showToast("图片格式不符，请上传其他的发票~");
                     return;
                 }
@@ -360,7 +360,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
         lp.x = 0; // 新位置X坐标
         lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        lp.width =  getResources().getDisplayMetrics().widthPixels; // 宽度
         root.measure(0, 0);
         lp.height = root.getMeasuredHeight();
 

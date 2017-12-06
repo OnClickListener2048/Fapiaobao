@@ -22,7 +22,6 @@ import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.PubActivity;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.widget.NavigationButton;
-import com.pilipa.fapiaobao.utils.ButtonUtils;
 
 import java.util.List;
 
@@ -208,10 +207,11 @@ public class NavFragment extends BaseFragment{
             NavigationButton nav = (NavigationButton) view;
             doSelect(nav);
         } else {
-            if (!ButtonUtils.isFastDoubleClick(R.id.nav_item_publish)) {
+            navItemPublish.setEnabled(false);
                 AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                     @Override
                     public void setData(LoginWithInfoBean loginWithInfoBean) {
+                        navItemPublish.setEnabled(true);
                         if (loginWithInfoBean.getStatus()==200) {
                             PubActivity.show(mContext);
                         } else if (loginWithInfoBean.getStatus()==701) {
@@ -221,7 +221,6 @@ public class NavFragment extends BaseFragment{
                         }
                     }
                 });
-            }
         }
     }
 

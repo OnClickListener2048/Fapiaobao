@@ -59,6 +59,7 @@ public class Constant {
 
 
 
+
     /**
      company-rest-controller : 代理公司
      */
@@ -90,13 +91,15 @@ public class Constant {
     /*发送短信验证码 */
     public static final String SHORT_MESSAGE_VERIFY = BASE_URL + "customer/shortMessage/%s";
     /*发送短信验证码 */
-    public static final String SUGGESTION = BASE_URL + "customer/suggestion/%s";
+    public static final String SUGGESTION = BASE_URL + "customer/suggestion";
     /*解绑第三方平台用户*/
     public static final String UBIND = BASE_URL + "customer/unbind/%s/%s/%s";
     /*修改用户信息*/
     public static final String UPDATE_CUSTOMER = BASE_URL + "customer/updateCustomer";
     /*退出登录*/
     public static final String LOGOUT_BY_TOKEN = BASE_URL + "customer/logoutByToken/%s";
+    /*个人意见记录*/
+    public static final String SUGGESTION_HISTORY = BASE_URL + "customer/findSuggestionHistory/%s/%s";
     /**
      * demand-rest-controller : 需求发布
      */

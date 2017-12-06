@@ -61,18 +61,17 @@ public class PreviewFillupFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         Image imageItem = getArguments().getParcelable(FRAG_IMAGE);
 
+        if (imageItem != null) {
+            ImageViewTouch image = (ImageViewTouch) view.findViewById(R.id.image_view);
+            image.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+            Glide.with(getActivity())
+                    .load(imageItem.isFromNet ? imageItem.path : imageItem.uri)
+                    .asBitmap()
+                    .error(R.mipmap.error_big)
+                    .placeholder(R.mipmap.loading_big)
+                    .into(image);
+        }
 
-        ImageViewTouch image = (ImageViewTouch) view.findViewById(R.id.image_view);
-        image.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
-        Log.d(TAG, "onViewCreated: imageItem.isFromNet ?---"
-                + imageItem.isFromNet + "imageItem.path----" +
-                imageItem.path + "imageItem.uri)-----" + imageItem.uri);
-        Glide.with(getActivity())
-                .load(imageItem.isFromNet ? imageItem.path : imageItem.uri)
-                .asBitmap()
-                .error(R.mipmap.error_big)
-                .placeholder(R.mipmap.loading_big)
-                .into(image);
     }
 
     @Override

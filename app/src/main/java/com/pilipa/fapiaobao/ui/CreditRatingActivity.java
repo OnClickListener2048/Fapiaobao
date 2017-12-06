@@ -88,7 +88,7 @@ public class CreditRatingActivity extends BaseActivity {
                         if(lastCreditScore >= 0){
                             tvLastChange.setText("+"+lastCreditScore+"");
                         }else{
-                            tvLastChange.setText(lastCreditScore+"");
+                            tvLastChange.setText(String.valueOf(lastCreditScore));
                         }
                         star.setImageResource(LevelIcon[creditInfoBean.getData().getCreditLevel()]);
                         Log.d(TAG, "findCreditInfo"+rating);

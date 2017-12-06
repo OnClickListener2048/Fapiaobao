@@ -193,15 +193,11 @@ public class ProvidedActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.link_to_telephone: {
-                if (tvTelephone.getText().toString() != null) {
-                    callPhone(tvTelephone.getText().toString());
-                }
+                callPhone(tvTelephone.getText().toString());
             }
             break;
             case R.id.link_to_phone: {
-                if (tvPhone.getText().toString() != null) {
-                    callPhone(tvPhone.getText().toString());
-                }
+                callPhone(tvPhone.getText().toString());
             }
             break;
             case R.id.question: {

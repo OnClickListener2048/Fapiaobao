@@ -102,6 +102,8 @@ public class UserInfoActivity extends BaseActivity {
     TextView tv_wx;
     @Bind(R.id.tv_birthday)
     EditText tv_birthday;
+    @Bind(R.id.bind_phone)
+    TextView bindPhone;
     private Dialog mCameraDialog;
     private Dialog mDialog;
     private MediaStoreCompat mediaStoreCompat;
@@ -118,41 +120,42 @@ public class UserInfoActivity extends BaseActivity {
         return R.layout.activity_userinfo;
     }
 
-    @OnClick({R.id.userinfo_back, R.id.img_head, R.id.img_logout, R.id.btn_save,R.id.tv_birthday})
+    @OnClick({R.id.userinfo_back, R.id.img_head, R.id.img_logout, R.id.btn_save, R.id.tv_birthday})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_birthday:{//
+            case R.id.tv_birthday: {//
                 if (!ButtonUtils.isFastDoubleClick(R.id.tv_wx)) {
                     dialog.showDatePickerDialog(new TimePickerDialog.TimePickerDialogInterface() {
                         @Override
                         public void positiveListener() {
                             tv_birthday.setText(dialog.getYear() + "-" + dialog.getMonth() + "-" + dialog.getDay());
                         }
+
                         @Override
                         public void negativeListener() {
 
                         }
                     });
                 }
-            }break;
-            case R.id.tv_wx:{//绑定微信
+            }
+            break;
+            case R.id.tv_wx: {//绑定微信
                 if (!ButtonUtils.isFastDoubleClick(R.id.tv_wx)) {
                     bindWX();
                 }
-            }break;
-            case R.id.edt_phone:{//绑定手机
-                if (!ButtonUtils.isFastDoubleClick(R.id.edt_phone)) {
-                    Intent intent = new Intent(UserInfoActivity.this,BindPhoneActivity.class);
-                    startActivity(intent);
-                }
-            }break;
+            }
+            break;
+            case R.id.edt_phone: {//绑定手机
+
+            }
+            break;
             case R.id.btn_save: {
                 if (!ButtonUtils.isFastDoubleClick(R.id.tv_wx)) {
                     LoginWithInfoBean.DataBean.CustomerBean customer = new LoginWithInfoBean.DataBean.CustomerBean();
-                    if(!edtUserName.getText().toString().trim().isEmpty()) {
+                    if (!edtUserName.getText().toString().trim().isEmpty()) {
                         customer.setNickname(edtUserName.getText().toString().trim());
-                    }else{
+                    } else {
                         BaseApplication.showToast("昵称不能为空");
                         return;
                     }
@@ -168,21 +171,23 @@ public class UserInfoActivity extends BaseActivity {
                             customer.setGender(Constant.GENDER_SECRECY);
                             break;
                     }
-                    if(!edt_email.getText().toString().trim().isEmpty()){
+                    if (!edt_email.getText().toString().trim().isEmpty()) {
                         boolean emailExact = RegexUtils.isEmail(edt_email.getText().toString().trim());
-                        if(emailExact){
+                        if (emailExact) {
                             customer.setEmail(edt_email.getText().toString().trim());
-                        }else{
+                        } else {
                             BaseApplication.showToast("邮箱格式不正确");
                             return;
                         }
                     }
-                    boolean mobileExact = RegexUtils.isMobileExact(edtPhone.getText().toString().trim());
-                    if(mobileExact){
-                        customer.setTelephone(edtPhone.getText().toString().trim());
-                    }else{
-                        BaseApplication.showToast("手机号码格式不正确");
-                        return;
+                    if (!(bindPhone.getVisibility() == View.VISIBLE && edtPhone.getVisibility() == View.GONE)) {
+                        boolean mobileExact = RegexUtils.isMobileExact(edtPhone.getText().toString().trim());
+                        if (mobileExact) {
+                            customer.setTelephone(edtPhone.getText().toString().trim());
+                        } else {
+                            BaseApplication.showToast("手机号码格式不正确");
+                            return;
+                        }
                     }
                     updateUserInfo(customer);
                 }
@@ -226,23 +231,29 @@ public class UserInfoActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(WX_LOGIN_ACTION)) {
-                TLog.d(TAG,WX_LOGIN_ACTION +" success");
-                String deviceToken = BaseApplication.get("deviceToken","");
+                TLog.d(TAG, WX_LOGIN_ACTION + " success");
+                String deviceToken = BaseApplication.get("deviceToken", "");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 WXmodel wx_info = bundle.getParcelable("wx_info");
-                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
+                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
                     @Override
                     public void setData(NormalBean normalBean) {
                         if (normalBean.getStatus() == 200) {
                             tv_wx.setText("已绑定");
                             tv_wx.setOnClickListener(null);
                             BaseApplication.showToast("微信绑定成功");
-                        }else if(normalBean.getStatus() == 707){
+                        } else if (normalBean.getStatus() == 707) {
                             BaseApplication.showToast(normalBean.getMsg());
                         }
                     }
                 });
+            } else if (intent.getAction().equals(com.pilipa.fapiaobao.ui.constants.Constant.BIND_PHONE_ACTION)) {
+                boolean isbind = intent.getBooleanExtra("isbind", false);
+                if (isbind) {
+                    updateUserInfo(AccountHelper.getUserCustormer());
+                }
             }
+
 
         }
     };
@@ -256,6 +267,7 @@ public class UserInfoActivity extends BaseActivity {
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WX_LOGIN_ACTION);
+        intentFilter.addAction(com.pilipa.fapiaobao.ui.constants.Constant.BIND_PHONE_ACTION);
         registerReceiver(mBroadcastReceiver, intentFilter);
 
     }
@@ -303,7 +315,9 @@ public class UserInfoActivity extends BaseActivity {
             }
         });
     }
+
     LoginWithInfoBean.DataBean.CustomerBean customerBean;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -349,10 +363,10 @@ public class UserInfoActivity extends BaseActivity {
 
         }
         //上传头像
-        if(image != null){
+        if (image != null) {
             Bitmap bm = null;
             try {
-                bm = BitmapUtils.getBitmapFormUri(this,image.uri);
+                bm = BitmapUtils.getBitmapFormUri(this, image.uri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -367,14 +381,17 @@ public class UserInfoActivity extends BaseActivity {
                     AccountHelper.updateCustomer(customerBean);
                     Log.d(TAG, "updateData:updateUserInfo success");
                 }
+
                 @Override
                 public void onStart() {
                     showProgressDialog();
                 }
+
                 @Override
                 public void onFinish() {
                     hideProgressDialog();
                 }
+
                 @Override
                 public void onError() {
                     hideProgressDialog();
@@ -387,15 +404,15 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     protected void onResume() {
 
-        setUserData(AccountHelper.getUser().getData().getCustomer());
+//        setUserData(AccountHelper.getUser().getData().getCustomer());
 
         super.onResume();
     }
 
     @Override
     public void initData() {
-        if(AccountHelper.getUser().getData().getCustomer().getHeadimg() != null){
-            String thumbnail =  AccountHelper.getUser().getData().getCustomer().getHeadimg().replace("invoice","thumbnail");
+        if (AccountHelper.getUser().getData().getCustomer().getHeadimg() != null) {
+            String thumbnail = AccountHelper.getUser().getData().getCustomer().getHeadimg().replace("invoice", "thumbnail");
             requestManager
                     .load(thumbnail)
                     .asBitmap()
@@ -404,6 +421,7 @@ public class UserInfoActivity extends BaseActivity {
                     .thumbnail(0.1f)
                     .into(img_head);
         }
+        setUserData(AccountHelper.getUser().getData().getCustomer());
     }
 
     public void setUserData(LoginWithInfoBean.DataBean.CustomerBean customer) {
@@ -413,20 +431,25 @@ public class UserInfoActivity extends BaseActivity {
         edt_email.setText(customer.getEmail());
 
 
-        if(customer.getOpenid() == null){
+        if (customer.getOpenid() == null) {
             tv_wx.setText("去绑定");
             tv_wx.setOnClickListener(this);
-        }else{
+        } else {
             tv_wx.setText("已绑定");
             tv_wx.setOnClickListener(null);
         }
-        if(customer.getTelephone() == null){
-            edtPhone.setText("去绑定");
-            edtPhone.setTextColor(getResources().getColor(R.color.main_style));
-            edtPhone.setOnClickListener(this);
-        }else{
-            edtPhone.setTextColor(getResources().getColor(R.color.title_small));
-            edtPhone.setOnClickListener(null);
+        if (customer.getTelephone() == null) {
+            bindPhone.setVisibility(View.VISIBLE);
+            bindPhone.setText("去绑定");
+            edtPhone.setVisibility(View.GONE);
+//            edtPhone.setText("去绑定");
+//            edtPhone.setTextColor(getResources().getColor(R.color.main_style));
+//            edtPhone.setOnClickListener(this);
+        } else {
+            bindPhone.setVisibility(View.GONE);
+            edtPhone.setVisibility(View.VISIBLE);
+//            edtPhone.setTextColor(getResources().getColor(R.color.title_small));
+//            edtPhone.setOnClickListener(null);
         }
         if (Constant.GENDER_FEMALE.equals(customer.getGender())) {
             radioGroup.check(R.id.rb_female);
@@ -459,7 +482,7 @@ public class UserInfoActivity extends BaseActivity {
         WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
         lp.x = 0; // 新位置X坐标
         lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
         root.measure(0, 0);
         lp.height = root.getMeasuredHeight();
 
@@ -505,39 +528,43 @@ public class UserInfoActivity extends BaseActivity {
                             UserInfoActivity.this.finish();
                             Log.d(TAG, "updateData:updateUserInfo success");
                         }
+
                         @Override
                         public void onStart() {
                             showProgressDialog();
                         }
+
                         @Override
                         public void onFinish() {
                             hideProgressDialog();
                         }
+
                         @Override
                         public void onError() {
                             hideProgressDialog();
                         }
 
                     });
-                }else {
+                } else {
                     startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));
                     finish();
                 }
             }
         });
     }
+
     private void logoutByToken() {
         Api.logoutByToken(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
             @Override
             public void setData(NormalBean normalBean) {
-                if (normalBean.getStatus() ==200) {
+                if (normalBean.getStatus() == 200) {
                     Toast.makeText(UserInfoActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
                     mDialog.dismiss();
                     AccountHelper.logout();
                     UserInfoActivity.this.finish();
                     set(PUSH_RECEIVE, false);
                     Log.d(TAG, "updateData:logoutByToken success");
-                }else if(normalBean.getStatus() ==400){
+                } else if (normalBean.getStatus() == 400) {
                     BaseApplication.showToast("没有找到业务数据");
                 }
             }
@@ -545,20 +572,23 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void bindWX() {
-        if(!"notoken".equals(AccountHelper.getToken())){
+        if (!"notoken".equals(AccountHelper.getToken())) {
             if (AccountHelper.getUser().getData().getCustomer().getOpenid() == null) {
                 weChatLogin();
             }
-        }else {
+        } else {
             startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));
             finish();
         }
     }
+
     private IWXAPI api;
+
     private void regexToWX() {
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         api.registerApp(Constants.APP_ID);
     }
+
     private void weChatLogin() {
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
@@ -566,4 +596,11 @@ public class UserInfoActivity extends BaseActivity {
         api.sendReq(req);
     }
 
+    @OnClick(R.id.bind_phone)
+    public void onViewClicked() {
+        if (!ButtonUtils.isFastDoubleClick(R.id.edt_phone)) {
+            Intent intent = new Intent(UserInfoActivity.this, BindPhoneActivity.class);
+            startActivity(intent);
+        }
+    }
 }

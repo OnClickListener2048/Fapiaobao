@@ -631,15 +631,10 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                     DemandsDetailsPreviewActivity.this.finish();
                 }
             });
-            root.findViewById(R.id.btn_cancel2).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialog.dismiss();
-                }
-            });
         }
         //初始化视图
         mDialog.setContentView(root);
+        mDialog.setCanceledOnTouchOutside(false);
         Window dialogWindow = mDialog.getWindow();
         dialogWindow.setGravity(Gravity.CENTER);
 //        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画

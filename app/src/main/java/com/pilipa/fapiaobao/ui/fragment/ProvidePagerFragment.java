@@ -165,8 +165,8 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
         startActivity(intent);
     }
     private void orderList(int pageNo,int pageSize){
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-                Api.orderList(AccountHelper.getToken(),pageNo+"",pageSize+"", new Api.BaseViewCallback<OrderListBean>() {
+        if (AccountHelper.getToken() != null && "".equals(AccountHelper.getToken())) {
+            Api.orderList(AccountHelper.getToken(), pageNo + "", pageSize + "", ProvidePagerFragment.this, new Api.BaseViewCallback<OrderListBean>() {
                     @Override
                     public void setData(OrderListBean orderListBean) {
                         if (orderListBean.getStatus() == Constant.REQUEST_SUCCESS) {

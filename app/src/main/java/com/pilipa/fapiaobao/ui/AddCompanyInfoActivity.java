@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.text.method.ReplacementTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +61,8 @@ public class AddCompanyInfoActivity extends BaseActivity {
     TextView tvMustfillBankName;
     @Bind(R.id.tv_mustfill_bank_number)
     TextView tvMustfillBankNumber;
+    @Bind(R.id.btn_save)
+    Button btnSave;
 
     @Override
     protected int getLayoutId() {
@@ -104,7 +107,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
                         public void setData(CompanyDetailsBean companyDetailsBean) {
                             MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
                             data = companyDetailsBean.getData();
-                            if(data != null){
+                            if (data != null) {
                                 companyBean.setAccount(data.getAccount());
                                 companyBean.setAddress(data.getAddress());
                                 companyBean.setDepositBank(data.getDepositBank());
@@ -232,7 +235,23 @@ public class AddCompanyInfoActivity extends BaseActivity {
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == 200) {
-                    Api.companyCreate(company, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+
+                    Api.companyCreate(company, AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+                        @Override
+                        public void onStart() {
+                            btnSave.setEnabled(false);
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            btnSave.setEnabled(true);
+                        }
+
+                        @Override
+                        public void onError() {
+                            btnSave.setEnabled(true);
+                        }
+
                         @Override
                         public void setData(NormalBean normalBean) {
                             if (normalBean.getStatus() == 200) {

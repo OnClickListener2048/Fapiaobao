@@ -33,6 +33,34 @@ public class Company implements Parcelable{
     private String taxno;
     private List<?> InvoiceTypeList;
 
+    public Company() {
+
+    }
+
+    protected Company(Parcel in) {
+        id = in.readString();
+        account = in.readString();
+        address = in.readString();
+        depositBank = in.readString();
+        isDefault = in.readInt();
+        name = in.readString();
+        phone = in.readString();
+        qrcode = in.readString();
+        taxno = in.readString();
+    }
+
+    public static final Creator<Company> CREATOR = new Creator<Company>() {
+        @Override
+        public Company createFromParcel(Parcel in) {
+            return new Company(in);
+        }
+
+        @Override
+        public Company[] newArray(int size) {
+            return new Company[size];
+        }
+    };
+
     public List<?> getInvoiceTypeList() {
         return InvoiceTypeList;
     }
@@ -128,7 +156,15 @@ public class Company implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(id);
+        dest.writeString(account);
+        dest.writeString(address);
+        dest.writeString(depositBank);
+        dest.writeInt(isDefault);
+        dest.writeString(name);
+        dest.writeString(phone);
+        dest.writeString(qrcode);
+        dest.writeString(taxno);
     }
     public static class InvoiceTypeListBean implements Parcelable{
         /**

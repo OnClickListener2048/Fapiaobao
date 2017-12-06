@@ -169,6 +169,9 @@ public class CreditHistoryActivity extends BaseActivity {
                 case "ERROR_REJECT":
                     viewHolder.title.setText("不实驳回");
                     break;
+                case "INVALID_DEMAND":
+                    viewHolder.title.setText("无效需求");
+                    break;
             }
 
             viewHolder.createDate.setText(bean.getCreateDate());

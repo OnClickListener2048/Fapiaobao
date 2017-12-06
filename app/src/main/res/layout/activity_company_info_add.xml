@@ -5,378 +5,397 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
+
     <LinearLayout
-        android:id="@+id/ll_title"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:textSize="@dimen/d18"
-                android:textColor="@color/title"
-                android:text="@string/add_company_info" />
-
-            <ImageView
-                android:id="@+id/add_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/d10"
-                android:src="@mipmap/estimate_back_brawn" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <android.support.v7.widget.CardView
-        android:layout_below="@+id/ll_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/d10"
-        app:cardCornerRadius="@dimen/d10"
-        android:elevation="@dimen/d10"
-        android:translationZ="@dimen/d10"
-        android:orientation="vertical">
-
+        android:layout_height="match_parent">
         <LinearLayout
+            android:id="@+id/ll_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/receipt_info_bg"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/d10"
-            android:paddingTop="@dimen/d10">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="right"
-                android:padding="@dimen/d5">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/d18"
+                    android:textColor="@color/title"
+                    android:text="@string/add_company_info" />
+
                 <ImageView
-                    android:id="@+id/img_scan"
-                    android:layout_marginRight="@dimen/d15"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@mipmap/scan"/>
-
-            </LinearLayout>
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="@dimen/d5">
-
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="@dimen/d80"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/d10"
-                    android:text="@string/company_name" />
-
-                <LinearLayout
-                    android:layout_weight="1"
+                    android:id="@+id/add_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="@dimen/d10"
-                    android:paddingTop="@dimen/d10"
-                    android:paddingRight="@dimen/d10"
-                    android:paddingBottom="@dimen/d10">
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/d10"
+                    android:src="@mipmap/estimate_back_brawn" />
 
-                    <EditText
-                        android:maxLines="2"
-                        android:textSize="@dimen/s12"
-                        android:id="@+id/edt_company_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:hint="@string/company_name" />
+            </RelativeLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/d0.5"
-                        android:layout_marginTop="@dimen/d5"
-                        android:layout_marginRight="@dimen/d10"
-                        android:background="@color/gray_line" />
-                </LinearLayout>
-
-
-                <TextView
-                    android:textSize="@dimen/s11"
-                    android:id="@+id/tv_mustfill_company_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="必填"
-                    android:textColor="@color/main_style" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="@dimen/d5">
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="@dimen/d80"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/d10"
-                    android:text="税        号" />
-
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/d10">
-
-                    <EditText
-                        android:maxLines="2"
-                        android:textSize="@dimen/s12"
-                        android:id="@+id/edt_taxno"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:hint="@string/limit" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/d0.5"
-                        android:layout_marginTop="@dimen/d5"
-                        android:layout_marginRight="@dimen/d10"
-                        android:background="@color/gray_line" />
-                </LinearLayout>
-
-                <TextView
-                    android:textSize="@dimen/s11"
-                    android:id="@+id/tv_mustfill_texno"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="必填"
-                    android:textColor="@color/main_style" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="@dimen/d5">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/d10"
-                    android:text="@string/company_address" />
-
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/d10">
-
-                    <EditText
-                        android:maxLines="2"
-                        android:textSize="@dimen/s12"
-                        android:id="@+id/edt_company_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:hint="@string/company_address" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/d0.5"
-                        android:layout_marginTop="@dimen/d5"
-                        android:layout_marginRight="@dimen/d10"
-                        android:background="@color/gray_line" />
-                </LinearLayout>
-
-                <TextView
-                    android:textSize="@dimen/s11"
-                    android:id="@+id/tv_mustfill_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="必填"
-                    android:textColor="@color/main_style" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="@dimen/d5">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/d10"
-                    android:text="@string/number" />
-
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/d10">
-
-                    <EditText
-                        android:maxLines="2"
-                        android:textSize="@dimen/s12"
-                        android:inputType="phone"
-                        android:id="@+id/edt_company_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:hint="@string/company_number" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/d0.5"
-                        android:layout_marginTop="@dimen/d5"
-                        android:layout_marginRight="@dimen/d10"
-                        android:background="@color/gray_line" />
-                </LinearLayout>
-
-                <TextView
-                    android:textSize="@dimen/s11"
-                    android:id="@+id/tv_mustfill_company_phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="必填"
-                    android:textColor="@color/main_style" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="@dimen/d5">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/d10"
-                    android:text="@string/bank_name" />
-
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/d10">
-
-                    <EditText
-                        android:maxLines="2"
-                        android:textSize="@dimen/s12"
-                        android:id="@+id/edt_bank_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:hint="@string/bank_name" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/d0.5"
-                        android:layout_marginTop="@dimen/d5"
-                        android:layout_marginRight="@dimen/d10"
-                        android:background="@color/gray_line" />
-                </LinearLayout>
-
-                <TextView
-                    android:textSize="@dimen/s11"
-                    android:id="@+id/tv_mustfill_bank_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="必填"
-                    android:textColor="@color/main_style" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/d5">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/d10"
-                    android:text="@string/bank_account" />
-
-                <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/d10">
-
-                    <EditText
-                        android:maxLines="2"
-                        android:textSize="@dimen/s12"
-                        android:inputType="phone"
-                        android:id="@+id/edt_bank_account"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:hint="@string/bank_account" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/d0.5"
-                        android:layout_marginTop="@dimen/d5"
-                        android:layout_marginRight="@dimen/d10"
-                        android:background="@color/gray_line" />
-                </LinearLayout>
-
-                <TextView
-                    android:textSize="@dimen/s11"
-                    android:id="@+id/tv_mustfill_bank_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="必填"
-                    android:textColor="@color/main_style" />
-            </LinearLayout>
         </LinearLayout>
+        <android.support.v4.widget.NestedScrollView
 
-    </android.support.v7.widget.CardView>
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <android.support.v7.widget.CardView
+                android:background="@drawable/receipt_info_bg"
+                android:layout_below="@+id/ll_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/d10"
+                app:cardCornerRadius="@dimen/d10"
+                android:elevation="@dimen/d10"
+                android:translationZ="@dimen/d10"
+                android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_save"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/d15"
-        android:layout_marginRight="@dimen/d15"
-        android:layout_marginBottom="@dimen/d6"
-        android:layout_marginTop="@dimen/d6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/bg_btn_normal"
-        android:text="@string/save"
-        android:textColor="@color/white" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/d10"
+                    android:paddingTop="@dimen/d10">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="right"
+                        android:padding="@dimen/d5">
+                        <ImageView
+                            android:id="@+id/img_scan"
+                            android:layout_marginRight="@dimen/d15"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@mipmap/scan"/>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="@dimen/d5">
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="@dimen/d80"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/d10"
+                            android:text="@string/company_name" />
+
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingLeft="@dimen/d10"
+                            android:paddingTop="@dimen/d10"
+                            android:paddingRight="@dimen/d10"
+                            android:paddingBottom="@dimen/d10">
+
+                            <EditText
+                                android:maxLines="2"
+                                android:textSize="@dimen/s12"
+                                android:id="@+id/edt_company_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:hint="@string/company_name" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d0.5"
+                                android:layout_marginTop="@dimen/d5"
+                                android:layout_marginRight="@dimen/d10"
+                                android:background="@color/gray_line" />
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:textSize="@dimen/s11"
+                            android:id="@+id/tv_mustfill_company_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="必填"
+                            android:textColor="@color/main_style" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="@dimen/d5">
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="@dimen/d80"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/d10"
+                            android:text="税        号" />
+
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/d10">
+
+                            <EditText
+                                android:maxLines="2"
+                                android:textSize="@dimen/s12"
+                                android:id="@+id/edt_taxno"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:hint="@string/limit" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d0.5"
+                                android:layout_marginTop="@dimen/d5"
+                                android:layout_marginRight="@dimen/d10"
+                                android:background="@color/gray_line" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:textSize="@dimen/s11"
+                            android:id="@+id/tv_mustfill_texno"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="必填"
+                            android:textColor="@color/main_style" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="@dimen/d5">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/d10"
+                            android:text="@string/company_address" />
+
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/d10">
+
+                            <EditText
+                                android:maxLines="2"
+                                android:textSize="@dimen/s12"
+                                android:id="@+id/edt_company_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:hint="@string/company_address" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d0.5"
+                                android:layout_marginTop="@dimen/d5"
+                                android:layout_marginRight="@dimen/d10"
+                                android:background="@color/gray_line" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:textSize="@dimen/s11"
+                            android:id="@+id/tv_mustfill_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="必填"
+                            android:textColor="@color/main_style" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="@dimen/d5">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/d10"
+                            android:text="@string/number" />
+
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/d10">
+
+                            <EditText
+                                android:maxLines="2"
+                                android:textSize="@dimen/s12"
+                                android:inputType="phone"
+                                android:id="@+id/edt_company_number"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:hint="@string/company_number" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d0.5"
+                                android:layout_marginTop="@dimen/d5"
+                                android:layout_marginRight="@dimen/d10"
+                                android:background="@color/gray_line" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:textSize="@dimen/s11"
+                            android:id="@+id/tv_mustfill_company_phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="必填"
+                            android:textColor="@color/main_style" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="@dimen/d5">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/d10"
+                            android:text="@string/bank_name" />
+
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/d10">
+
+                            <EditText
+                                android:maxLines="2"
+                                android:textSize="@dimen/s12"
+                                android:id="@+id/edt_bank_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:hint="@string/bank_name" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d0.5"
+                                android:layout_marginTop="@dimen/d5"
+                                android:layout_marginRight="@dimen/d10"
+                                android:background="@color/gray_line" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:textSize="@dimen/s11"
+                            android:id="@+id/tv_mustfill_bank_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="必填"
+                            android:textColor="@color/main_style" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/d5">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/d10"
+                            android:text="@string/bank_account" />
+
+                        <LinearLayout
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/d10">
+
+                            <EditText
+                                android:maxLines="2"
+                                android:textSize="@dimen/s12"
+                                android:inputType="phone"
+                                android:id="@+id/edt_bank_account"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@null"
+                                android:hint="@string/bank_account" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d0.5"
+                                android:layout_marginTop="@dimen/d5"
+                                android:layout_marginRight="@dimen/d10"
+                                android:background="@color/gray_line" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:textSize="@dimen/s11"
+                            android:id="@+id/tv_mustfill_bank_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="必填"
+                            android:textColor="@color/main_style" />
+                    </LinearLayout>
+                    
+                    <android.support.v4.widget.Space
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+        </android.support.v4.widget.NestedScrollView>
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
+            android:layout_marginBottom="@dimen/d6"
+            android:layout_marginTop="@dimen/d6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/bg_btn_normal"
+            android:text="@string/save"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+
+
 </RelativeLayout>

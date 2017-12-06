@@ -54,7 +54,11 @@ public class AccountHelper {
     }
 
     public static LoginWithInfoBean.DataBean.CustomerBean getUserCustormer() {
-        return SharedPreferencesHelper.loadFormSource(instances.application, LoginWithInfoBean.DataBean.CustomerBean.class);
+        LoginWithInfoBean.DataBean.CustomerBean customerBean = SharedPreferencesHelper.loadFormSource(instances.application, LoginWithInfoBean.DataBean.CustomerBean.class);
+        if (customerBean == null) {
+            customerBean = new LoginWithInfoBean.DataBean.CustomerBean();
+        }
+        return customerBean;
     }
 
     public synchronized static LoginWithInfoBean getUser() {

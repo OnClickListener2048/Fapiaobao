@@ -34,6 +34,7 @@ import com.pilipa.fapiaobao.net.bean.me.CreditInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.FavBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.FeedBackBean;
+import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
@@ -233,11 +234,29 @@ public class Api {
      * @param moible
      * @param baseViewCallback
      */
-    public static void sendMessageToVerify(String moible, final BaseViewCallback baseViewCallback) {
+    public static void sendMessageToVerify(String moible, final BaseViewCallbackWithOnStart baseViewCallback) {
         OkGo.<ShortMessageBean>get(String.format(SHORT_MESSAGE_VERIFY, moible)).execute(new JsonCallBack<ShortMessageBean>(ShortMessageBean.class) {
             @Override
             public void onSuccess(Response<ShortMessageBean> response) {
                     baseViewCallback.setData(response.body());
+            }
+
+            @Override
+            public void onError(Response<ShortMessageBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onStart(Request<ShortMessageBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
             }
         });
     }
@@ -325,7 +344,7 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void companyCreate(Company company, String token, final BaseViewCallback baseViewCallback) {
+    public static void companyCreate(Company company, String token, final BaseViewCallbackWithOnStart baseViewCallback) {
         JSONObject map = JsonCreator.setCompanyData(company, token);
         OkGo.<NormalBean>post(CREATE_COMPANY)
                 .upJson(map)
@@ -333,6 +352,24 @@ public class Api {
                     @Override
                     public void onSuccess(Response<NormalBean> response) {
                             baseViewCallback.setData(response.body());
+                    }
+
+                    @Override
+                    public void onError(Response<NormalBean> response) {
+                        super.onError(response);
+                        baseViewCallback.onError();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        baseViewCallback.onFinish();
+                    }
+
+                    @Override
+                    public void onStart(Request<NormalBean, ? extends Request> request) {
+                        super.onStart(request);
+                        baseViewCallback.onStart();
                     }
                 });
     }
@@ -764,8 +801,8 @@ public class Api {
      * @param pageSize
      * @param baseViewCallback
      */
-    public static void orderList(String token,String pageNo,String pageSize, final BaseViewCallback baseViewCallback) {
-        OkGo.<OrderListBean>get(String.format(ORDER_LIST, token,pageNo,pageSize)).execute(new JsonCallBack<OrderListBean>(OrderListBean.class) {
+    public static void orderList(String token, String pageNo, String pageSize, Object o, final BaseViewCallback baseViewCallback) {
+        OkGo.<OrderListBean>get(String.format(ORDER_LIST, token, pageNo, pageSize)).tag(o).execute(new JsonCallBack<OrderListBean>(OrderListBean.class) {
             @Override
             public void onSuccess(Response<OrderListBean> response) {
                     baseViewCallback.setData(response.body());
@@ -935,9 +972,9 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void suggestion(String token,String suggestion, final BaseViewCallback baseViewCallback) {
-        OkGo.<FeedBackBean>post(String.format(SUGGESTION,token))
-                .upJson(JsonCreator.suggestion(suggestion))
+    public static void suggestion(String id, String suggestions, String token, final BaseViewCallback baseViewCallback) {
+        OkGo.<FeedBackBean>post(SUGGESTION)
+                .upJson(JsonCreator.suggestions(id, suggestions, token))
                 .execute(new JsonCallBack<FeedBackBean>(FeedBackBean.class) {
             @Override
             public void onSuccess(Response<FeedBackBean> response) {
@@ -1215,6 +1252,46 @@ public class Api {
                         }
                     }
                 });
+    }
+
+    public static void getSuggestions(int pageNo
+            , int pageSize
+            , String id
+            , String suggestion
+            , String token
+            , Object o
+            , final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
+
+        String url = String.format(Constant.SUGGESTION_HISTORY, pageNo, pageSize);
+
+        OkGo
+                .<FeedbackMessageBean>post(url)
+                .tag(o).upJson(JsonCreator.suggestions(id, suggestion, token))
+                .execute(new JsonCallBack<FeedbackMessageBean>(FeedbackMessageBean.class) {
+                    @Override
+                    public void onSuccess(Response<FeedbackMessageBean> response) {
+                        baseViewCallbackWithOnStart.setData(response.body());
+                    }
+
+                    @Override
+                    public void onStart(Request<FeedbackMessageBean, ? extends Request> request) {
+                        super.onStart(request);
+                        baseViewCallbackWithOnStart.onStart();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        baseViewCallbackWithOnStart.onFinish();
+                    }
+
+                    @Override
+                    public void onError(Response<FeedbackMessageBean> response) {
+                        super.onError(response);
+                        baseViewCallbackWithOnStart.onError();
+                    }
+                });
+
     }
 
     public interface BaseViewCallback<T> {

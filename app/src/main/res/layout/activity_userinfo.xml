@@ -218,18 +218,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="手机"/>
-            <EditText
-                android:id="@+id/edt_phone"
+            <FrameLayout
                 android:layout_alignParentRight="true"
-                android:layout_width="200dp"
-                android:gravity="right"
-                android:background="@null"
-                android:maxLength="11"
-                android:layout_height="wrap_content"
-                android:paddingRight="@dimen/d5"
-                android:focusable="false"
-                android:textSize="13sp"
-                android:text=""/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/edt_phone"
+                    android:layout_width="200dp"
+                    android:gravity="end"
+                    android:background="@null"
+                    android:maxLength="11"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="@dimen/d5"
+                    android:focusable="false"
+                    android:textSize="13sp"
+                    android:text=""/>
+                <TextView
+                    android:id="@+id/bind_phone"
+                    android:visibility="gone"
+                    android:layout_gravity="end"
+                    android:textSize="13sp"
+                    android:textColor="@color/main_style"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/d5"
+                    android:text="去绑定"/>
+            </FrameLayout>
+
         </RelativeLayout>
 
         <View

@@ -12,6 +12,12 @@ import java.util.HashMap;
  */
 
 class JsonCreator {
+    /**
+     *
+     * @param customer
+     * @param token
+     * @return
+     */
     static JSONObject setCustomerData(LoginWithInfoBean.DataBean.CustomerBean customer, String token){
         HashMap<String, String> map = new HashMap<>();
         map.put("birthday",customer.getBirthday());
@@ -23,6 +29,13 @@ class JsonCreator {
         map.put("email",customer.getEmail());
         return new JSONObject(map);
     }
+
+    /**
+     *
+     * @param company
+     * @param token
+     * @return
+     */
     static JSONObject setCompanyData(Company company, String token){
         HashMap<String, String> map = new HashMap<>();
         map.put("account",company.getAccount());
@@ -35,6 +48,15 @@ class JsonCreator {
         map.put("token",token);
         return new JSONObject(map);
     }
+
+    /**
+     *
+     * @param orderId
+     * @param picture
+     * @param variety
+     * @param token
+     * @return
+     */
     static JSONObject setInvoice(String orderId, String picture, String variety, String token){
         HashMap<String, String> map = new HashMap<>();
         map.put("orderId",orderId);
@@ -43,17 +65,36 @@ class JsonCreator {
         map.put("token",token);
         return new JSONObject(map);
     }
+
+    /**
+     *
+     * @param reason
+     * @return
+     */
     static JSONObject setReject(String reason){
         HashMap<String, String> map = new HashMap<>();
         map.put("reason",reason);
         return new JSONObject(map);
     }
+
+    /**
+     *
+     * @param suggestion
+     * @return
+     */
     static JSONObject suggestion(String suggestion){
         HashMap<String, String> map = new HashMap<>();
         map.put("suggestion",suggestion);
         return new JSONObject(map);
     }
 
+    /**
+     *
+     * @param varieties
+     * @param city
+     * @param companyId
+     * @return
+     */
     static JSONObject matcher(String varieties, String city, String companyId) {
         HashMap<String, String> map = new HashMap<>();
         map.put("variety", varieties);
@@ -62,10 +103,29 @@ class JsonCreator {
         return new JSONObject(map);
     }
 
-
+    /**
+     *
+     * @param token
+     * @return
+     */
     static JSONObject allInvoice(String token) {
         HashMap<String, String> map = new HashMap<>();
         map.put("token", token);
+        return new JSONObject(map);
+    }
+
+    /**
+     *
+     * @param id
+     * @param suggestion
+     * @param token
+     * @return
+     */
+    static JSONObject suggestions(String id, String suggestion, String token) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("id", id);
+        map.put("suggestion", suggestion);
+        map.put("token",token);
         return new JSONObject(map);
     }
 

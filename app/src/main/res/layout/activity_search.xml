@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/search"
+            android:textColor="@color/title"
+            android:textSize="@dimen/d18" />
+
+        <ImageView
+            android:id="@+id/_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/d10"
+            android:src="@mipmap/estimate_back_brawn" />
+
+        <com.dd.ShadowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:sl_cornerRadius="@dimen/d10"
+            app:sl_dx="@dimen/d5"
+            app:sl_dy="@dimen/d5"
+            app:sl_shadowColor="@color/shadow_finance_item"
+            app:sl_shadowRadius="@dimen/d5">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d1" />
+        </com.dd.ShadowLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_type_area"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/d50"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/d10"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d5"
+            android:layout_marginTop="@dimen/d10"
+            android:layout_weight="1"
+            android:background="@drawable/shape_feedback_type_area">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                app:met_autoValidate="false"
+                app:met_errorColor="@color/red_estimate"
+                android:id="@+id/met_feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/d10"
+                android:gravity="center_vertical"
+                android:hint="您的意见反馈"
+                android:maxLines="5"
+                android:textSize="@dimen/s14"
+                app:met_baseColor="@color/main_style"
+                app:met_clearButton="true"
+                app:met_floatingLabelAlwaysShown="false"
+                app:met_hideUnderline="true" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/d10"
+            android:src="@mipmap/search_icon" />
+    </LinearLayout>
+
+    <com.pilipa.fapiaobao.ui.widget.EmptyRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

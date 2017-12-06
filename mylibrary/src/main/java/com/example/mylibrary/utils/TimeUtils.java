@@ -179,7 +179,7 @@ public final class TimeUtils {
      * 注意：SimpleDateFormat不是线程安全的，线程安全需用{@code ThreadLocal<SimpleDateFormat>}
      */
 
-    private static final DateFormat DEFAULT_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+    public static final DateFormat DEFAULT_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
     public static final DateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     private TimeUtils() {

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_questioner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/d10"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_avatar"
+                android:paddingTop="@dimen/d4"
+                android:paddingRight="@dimen/d4"
+                android:background="@mipmap/feedback_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civ_avatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/d10"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_answer_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:drawableLeft="@mipmap/feedback_line"
+                            android:drawablePadding="@dimen/d5"
+                            android:text="票宝回复"
+                            android:textColor="#959595"
+                            android:textSize="@dimen/s13"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tv_questioner_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:text="栗子"
+                            android:textColor="#959595"
+                            android:textSize="@dimen/s13" />
+                    </FrameLayout>
+
+
+                    <android.support.v4.widget.Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/tv_questioner_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:gravity="bottom"
+                        android:text="2017-12-15 14:20"
+                        android:textColor="#959595"
+                        android:textSize="@dimen/s10" />
+                </LinearLayout>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/d10" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="5"
+                        android:text="测试测试测试测试测试测测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试"
+                        android:textColor="#434343"
+                        android:textSize="@dimen/s12" />
+                </LinearLayout>
+
+                <android.support.v4.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/d10" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/feedback_response"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/feedback_response"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/feedback_supplement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/feedback_supplement"
+                        android:visibility="gone" />
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!--<View-->
+        <!--android:id="@+id/view_line"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/d1"-->
+        <!--android:background="@color/gray_line" />-->
+
+        <!--<LinearLayout-->
+        <!--android:id="@+id/ll_answer"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="@dimen/d10"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<View-->
+        <!--android:layout_width="35dp"-->
+        <!--android:layout_height="35dp" />-->
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="@dimen/d10"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_answer_name"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="left"-->
+        <!--android:drawableLeft="@mipmap/feedback_line"-->
+        <!--android:drawablePadding="@dimen/d5"-->
+        <!--android:text="票宝回复"-->
+        <!--android:textColor="#959595"-->
+        <!--android:textSize="@dimen/s13" />-->
+
+        <!--<android.support.v4.widget.Space-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1" />-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_answer_data"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="end"-->
+        <!--android:gravity="bottom"-->
+        <!--android:text="2017-12-15 14:20"-->
+        <!--android:textColor="#959595"-->
+        <!--android:textSize="@dimen/s10" />-->
+        <!--</LinearLayout>-->
+
+        <!--<android.support.v4.widget.Space-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/d10" />-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/tv_answer"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:maxLines="5"-->
+        <!--android:text="测试测试测试测试测试测测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试"-->
+        <!--android:textColor="#434343"-->
+        <!--android:textSize="@dimen/s12" />-->
+        <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+
+        <!--</LinearLayout>-->
+
+    </LinearLayout>
+</LinearLayout>
