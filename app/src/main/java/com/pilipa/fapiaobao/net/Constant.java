@@ -193,6 +193,8 @@ public class Constant {
     public static final String FIND_ALL_EXPRESS_COMPANY = BASE_URL+"system/findAllLogisticsCompany";
     /*获取所有发票类型种类 */
     public static final String FIND_ALL_INVIICE_TYPE = BASE_URL + "system/findAllInvoiceType";
+    /*分享加积分*/
+    public static final String SHARE_SCORE_ADD = BASE_URL + "share/credit/score/%s";
 
 
     /**

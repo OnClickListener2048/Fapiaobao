@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,6 +30,7 @@ import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.interf.BaseView;
 import com.pilipa.fapiaobao.ui.LoginActivity;
+import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -41,6 +41,9 @@ import java.io.IOException;
 import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+
+import static com.pilipa.fapiaobao.utils.BitmapUtils.readPictureDegree;
+import static com.pilipa.fapiaobao.utils.BitmapUtils.rotaingImageView;
 
 
 /**
@@ -323,24 +326,17 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    public String upLoadReceipt(Uri uri) throws IOException {
-//        ContentResolver cr = getContentResolver();
-//        Bitmap bmp;
-        Bitmap bitmap = null;
-//        try {
-//            bmp = MediaStore.Images.Media.getBitmap(cr,uri);
-//            try {
-//                bitmap = ImageUtils.compressByQuality(bmp, (long) (200 * 1024),true);
-//            } catch (OutOfMemoryError error) {
-//                error.printStackTrace();
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        bitmap = BitmapUtils.getBitmapFormUri(this,uri);
-
-        return BitmapUtils.bitmapToBase64(bitmap);
+    public String upLoadReceipt(Image image) throws IOException {
+        Bitmap bm = null;
+        Bitmap newbitmap = null;
+        try {
+            int degree = readPictureDegree(image.path);
+            bm = BitmapUtils.getBitmapFormUri(this, image.uri);
+            newbitmap = rotaingImageView(degree, bm);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return BitmapUtils.bitmapToBase64(newbitmap);
     }
 
 

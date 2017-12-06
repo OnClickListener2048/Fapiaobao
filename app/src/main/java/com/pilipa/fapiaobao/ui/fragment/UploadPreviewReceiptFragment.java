@@ -2,11 +2,9 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,12 +33,10 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
 import com.pilipa.fapiaobao.net.bean.invoice.UploadInvoice;
 import com.pilipa.fapiaobao.net.bean.invoice.UploadProcessing;
-import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.PreviewActivity;
 import com.pilipa.fapiaobao.ui.UploadReceiptPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
-import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -49,11 +45,8 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -399,7 +392,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
                         if (image.isFromNet) {
                            invoiceImageListBean.setId(image.name);
                         } else {
-                            invoiceImageListBean.setPicture(upLoadReceipt(image.uri));
+                            invoiceImageListBean.setPicture(upLoadReceipt(image));
                         }
                         listBeen.add(invoiceImageListBean);
                     }

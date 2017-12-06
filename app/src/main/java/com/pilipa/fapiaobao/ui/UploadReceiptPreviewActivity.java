@@ -46,7 +46,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
 
 /**
  * Created by edz on 2017/10/25.
@@ -319,7 +318,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         TLog.log("image.amount"+image.amount);
                         invoiceListBean.setAmount(Double.valueOf(image.amount));
                         TLog.log("image.uri"+image.uri);
-                        invoiceListBean.setPicture(upLoadReceipt(image.uri));
+                        invoiceListBean.setPicture(upLoadReceipt(image));
                         TLog.log("image.uri"+image.uri);
                         invoiceListBean.setVariety("1");
                         TLog.log("e.onNext(invoiceListBean);");
@@ -334,7 +333,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         TLog.log("for (Image image : currentImagesPS) {");
                         UploadInvoiceToken.InvoiceListBean invoiceListBean = new UploadInvoiceToken.InvoiceListBean();
                         invoiceListBean.setAmount(Double.valueOf(image.amount));
-                        invoiceListBean.setPicture(upLoadReceipt(image.uri));
+                        invoiceListBean.setPicture(upLoadReceipt(image));
                         invoiceListBean.setVariety("2");
                         e.onNext(invoiceListBean);
                     }
@@ -350,7 +349,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         if (image.isFromNet) {
                             invoiceListBean.setId(image.id);
                         } else {
-                            invoiceListBean.setPicture(upLoadReceipt(image.uri));
+                            invoiceListBean.setPicture(upLoadReceipt(image));
                         }
                         e.onNext(invoiceListBean);
                     }

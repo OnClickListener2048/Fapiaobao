@@ -8,7 +8,6 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +19,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.UploadReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -32,6 +30,7 @@ import com.pilipa.fapiaobao.ui.UploadReceiptActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.receipt_folder_image_select.ReceiptActivityToken;
+import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
@@ -40,7 +39,6 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -241,26 +239,24 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode != RESULT_OK) {
-//            return;
-//        }
 
         if (requestCode == REQUEST_CODE_CAPTURE&&resultCode == RESULT_OK) {
             Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
             String path = mediaStoreCompat.getCurrentPhotoPath();
-            try {
-                TLog.log("path"+path);
-                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
-                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,contentUri));
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                TLog.log("path"+path);
+//                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
+//                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,contentUri));
+//            } catch (NullPointerException e) {
+//                e.printStackTrace();
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
             Image image = new Image();
             image.isFromNet = false;
             image.name = new File(path).getName();
             image.isCapture = false;
+            image.path = path;
             image.position = mPreviousPosition;
             image.uri = contentUri;
             ArrayList<Image> arrayList = new ArrayList<>();
@@ -300,11 +296,14 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                     BaseApplication.showToast("图片格式不符，请上传其他的发票~");
                     return;
                 }
+                String path = BitmapUtils.getRealFilePath(getActivity(),uri);
+
                 Image image = new Image();
                 image.isCapture = false;
                 image.position = mPreviousPosition;
                 mPreviousPosition++;
                 image.uri = uri;
+                image.path = path;
                 image.isFromNet = false;
                 arrayList.add(image);
 //                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();

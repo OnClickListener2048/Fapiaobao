@@ -11,7 +11,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -57,7 +56,6 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -333,12 +331,12 @@ public class UserInfoActivity extends BaseActivity {
             Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
             String path = mediaStoreCompat.getCurrentPhotoPath();
             Log.d(TAG, "updateData:getCurrentPhotoPath success"+path);
-            try {
-                MediaStore.Images.Media.insertImage(this.getContentResolver(), path, new File(path).getName(), null);
-                this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                MediaStore.Images.Media.insertImage(this.getContentResolver(), path, new File(path).getName(), null);
+//                this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri));
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
             image = new Image();
             image.isFromNet = false;
             image.name = new File(path).getName();

@@ -8,7 +8,6 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +40,7 @@ import com.pilipa.fapiaobao.ui.UnusedPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.AnimationConfig;
+import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -50,7 +50,6 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -299,14 +298,15 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         if (requestCode == REQUEST_CODE_CAPTURE&&resultCode == RESULT_OK) {
             Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
             String path = mediaStoreCompat.getCurrentPhotoPath();
-            try {
-                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
-                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,contentUri));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
+//                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,contentUri));
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
             Image image = new Image();
             image.isFromNet = false;
+            image.path = path;
             image.name = new File(path).getName();
             image.isCapture = false;
             image.position = mPreviousPosition;
@@ -326,7 +326,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
             UploadLocalReceipt uploadLocalReceipt = new UploadLocalReceipt();
             uploadLocalReceipt.setToken(loginWithInfoBean.getData().getToken());
             List<String> imageList = new ArrayList<>();
-            imageList.add(upLoadReceipt(image.uri));
+            imageList.add(upLoadReceipt(image));
             uploadLocalReceipt.setPictureList(imageList);
             Gson gson = new Gson();
             Api.uploadLocalReceipt(gson.toJson(uploadLocalReceipt), new Api.BaseViewCallbackWithOnStart<NormalBean>() {
@@ -368,14 +368,17 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
             List<Uri> uris = Matisse.obtainResult(data);
             List<String> imageList = new ArrayList<>();
             for (Uri uri : uris) {
+                String path = BitmapUtils.getRealFilePath(getActivity(),uri);
+
                 Image image = new Image();
                 image.isCapture = false;
                 image.position = mPreviousPosition;
                 mPreviousPosition++;
                 image.uri = uri;
+                image.path = path;
                 image.isFromNet = false;
                 images.add(image);
-                imageList.add(upLoadReceipt(uri));
+                imageList.add(upLoadReceipt(image));
                 UnusedReceiptAdapter unusedReceiptAdapter = (UnusedReceiptAdapter) recyclerview.getAdapter();
                 unusedReceiptAdapter.notifyItemInserted(mPreviousPosition);
             }

@@ -97,6 +97,7 @@ import static com.pilipa.fapiaobao.net.Constant.ORDER_LIST;
 import static com.pilipa.fapiaobao.net.Constant.PUBLISH;
 import static com.pilipa.fapiaobao.net.Constant.REJECT_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.RELOAD;
+import static com.pilipa.fapiaobao.net.Constant.SHARE_SCORE_ADD;
 import static com.pilipa.fapiaobao.net.Constant.SHAT_DOWN_EARLY;
 import static com.pilipa.fapiaobao.net.Constant.SHORT_MESSAGE_VERIFY;
 import static com.pilipa.fapiaobao.net.Constant.SHOW_ORDER_DETAIL;
@@ -509,7 +510,18 @@ public class Api {
             }
         });
     }
-
+    /**
+     * 分享加积分
+     * @param token
+     */
+    public static void shareScoreAdd(String token,final BaseViewCallback baseViewCallback) {
+        OkGo.<NormalBean>get(String.format(SHARE_SCORE_ADD,token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+            @Override
+            public void onSuccess(Response<NormalBean> response) {
+                baseViewCallback.setData(response.body());
+            }
+        });
+    }
     public static void wxPay(String total_fee, final BaseViewCallback baseViewCallback) {
         OkGo.<String>post(Constants.PREPAY_URL).upString(PayCommonUtil.getRequestXml(PayCommonUtil.wxPrePay(total_fee))).execute(new StringCallback() {
             @Override

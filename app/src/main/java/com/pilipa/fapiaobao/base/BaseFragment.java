@@ -4,9 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -20,17 +18,19 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.mylibrary.utils.ImageLoader;
-import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.ui.LoginActivity;
+import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
-import com.pilipa.fapiaobao.utils.TDevice;
 
 import java.io.IOException;
 import java.io.Serializable;
 
 import butterknife.ButterKnife;
+
+import static com.pilipa.fapiaobao.utils.BitmapUtils.readPictureDegree;
+import static com.pilipa.fapiaobao.utils.BitmapUtils.rotaingImageView;
 
 /**
  * Created by lyt on 2017/10/13.
@@ -124,16 +124,18 @@ public abstract class BaseFragment extends Fragment {
 
 
 
-    public String upLoadReceipt(Uri uri) {
+    public String upLoadReceipt(Image image) {
         ContentResolver cr = mContext.getContentResolver();
-        Bitmap bmp = null;
+        Bitmap bm = null;
+        Bitmap newbitmap = null;
         try {
-            bmp = MediaStore.Images.Media.getBitmap(cr,uri);
+            int degree = readPictureDegree(image.path);
+            bm = BitmapUtils.getBitmapFormUri(getActivity(), image.uri);
+            newbitmap = rotaingImageView(degree, bm);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Bitmap bitmap = ImageUtils.compressByQuality(bmp, 20, true);
-        String bmpStr = BitmapUtils.bitmapToBase64(bitmap);
+        String bmpStr = BitmapUtils.bitmapToBase64(newbitmap);
         return bmpStr;
     }
 

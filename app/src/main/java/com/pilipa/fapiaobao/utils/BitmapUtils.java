@@ -598,4 +598,6 @@ public class BitmapUtils {
         }
         return null;
     }
+
+
 }
