@@ -10,9 +10,12 @@ import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.WXAccessModel;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -51,6 +54,15 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onResp(BaseResp baseResp) {
         TLog.log("wxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwx");
+        int ShareSuccess = 2;
+        if(baseResp.getType() == ShareSuccess && baseResp.errCode == BaseResp.ErrCode.ERR_OK){
+            Api.shareScoreAdd(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                @Override
+                public void setData(NormalBean normalBean) {
+                    Log.d(TAG, "updateData:shareScoreAdd success");
+                }
+            });
+        }
         if (baseResp instanceof SendAuth.Resp) {
             SendAuth.Resp newResp = (SendAuth.Resp) baseResp;
             //获取微信传回的code

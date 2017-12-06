@@ -3,17 +3,20 @@ package com.pilipa.fapiaobao.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mylibrary.utils.ImageUtils;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -36,6 +39,8 @@ import butterknife.OnClick;
  */
 
 public class PubSuccessActivity extends BaseActivity {
+    private static final String TAG = "PubSuccessActivity";
+
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.publish_success_back)
@@ -64,6 +69,12 @@ public class PubSuccessActivity extends BaseActivity {
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
+            Api.shareScoreAdd(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                @Override
+                public void setData(NormalBean normalBean) {
+                    Log.d(TAG, "updateData:shareScoreAdd success");
+                }
+            });
         }
 
         @Override

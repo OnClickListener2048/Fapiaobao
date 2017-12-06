@@ -3,29 +3,28 @@ package com.pilipa.fapiaobao.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.wxapi.Constants;
-import com.tencent.mm.opensdk.modelbase.BaseReq;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -43,6 +42,7 @@ import butterknife.OnClick;
  */
 
 public class UploadSuccessActivity extends BaseActivity {
+    private static final String TAG = "UploadSuccessActivity";
 
     @Bind(R.id.title)
     TextView title;
@@ -73,6 +73,12 @@ public class UploadSuccessActivity extends BaseActivity {
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
+            Api.shareScoreAdd(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                @Override
+                public void setData(NormalBean normalBean) {
+                    Log.d(TAG, "updateData:shareScoreAdd success");
+                }
+            });
         }
 
         @Override

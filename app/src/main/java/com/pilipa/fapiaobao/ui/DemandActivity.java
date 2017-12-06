@@ -189,6 +189,12 @@ public class DemandActivity extends BaseActivity{
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
+            Api.shareScoreAdd(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                @Override
+                public void setData(NormalBean normalBean) {
+                    Log.d(TAG, "updateData:shareScoreAdd success");
+                }
+            });
         }
 
         @Override

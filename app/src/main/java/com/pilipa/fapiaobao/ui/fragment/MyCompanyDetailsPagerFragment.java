@@ -22,18 +22,18 @@ import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyCompanyDetailsAdapter;
-import com.pilipa.fapiaobao.adapter.TabAdapterActive;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.FavCompanyDetailsActivity;
-import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -48,7 +48,6 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -81,6 +80,12 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
+            Api.shareScoreAdd(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                @Override
+                public void setData(NormalBean normalBean) {
+                    Log.d(TAG, "updateData:shareScoreAdd success");
+                }
+            });
         }
 
         @Override
