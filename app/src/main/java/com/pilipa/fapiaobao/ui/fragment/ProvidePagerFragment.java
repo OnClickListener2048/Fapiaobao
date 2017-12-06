@@ -17,7 +17,6 @@ import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyReceiptAdapter;
-import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
@@ -165,34 +164,28 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
         startActivity(intent);
     }
     private void orderList(int pageNo,int pageSize){
-        if (AccountHelper.getToken() != null && "".equals(AccountHelper.getToken())) {
-            Api.orderList(AccountHelper.getToken(), pageNo + "", pageSize + "", ProvidePagerFragment.this, new Api.BaseViewCallback<OrderListBean>() {
-                    @Override
-                    public void setData(OrderListBean orderListBean) {
-                        if (orderListBean.getStatus() == Constant.REQUEST_SUCCESS) {
+        Api.orderList(AccountHelper.getToken(), pageNo + "", pageSize + "", ProvidePagerFragment.this, new Api.BaseViewCallback<OrderListBean>() {
+            @Override
+            public void setData(OrderListBean orderListBean) {
+                if (orderListBean.getStatus() == Constant.REQUEST_SUCCESS) {
 
-                        List<OrderListBean.DataBean> list =  orderListBean.getData();
-                        mDataList = list;
-                        mAdapter.initData(mDataList);
-                        listView.setAdapter(mAdapter);
-                            Log.d(TAG, "updateData:orderList success");
-                        }
+                    List<OrderListBean.DataBean> list =  orderListBean.getData();
+                    mDataList = list;
+                    mAdapter.initData(mDataList);
+                    listView.setAdapter(mAdapter);
+                    Log.d(TAG, "updateData:orderList success");
+                }
 
-                        if (orderListBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
-                            if (listView != null) {
-                                listView.setAdapter(null);
-                            }
-                            if (mAdapter!= null) {
-                                mAdapter.clearData();
-                            }
-                        }
+                if (orderListBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
+                    if (listView != null) {
+                        listView.setAdapter(null);
                     }
-                });
-        }else{
-            BaseApplication.showToast("登录超期");
-        }
-
-
+                    if (mAdapter!= null) {
+                        mAdapter.clearData();
+                    }
+                }
+            }
+        });
     }
 
 

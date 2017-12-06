@@ -6,9 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ActionBarOverlayLayout;
@@ -783,27 +781,31 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
                     TLog.log("content" + content);
                     String[] split = content.split("\\?");
-                    String[] split1 = split[1].split("=");
-                    Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
+                    String[] split1 = null;
+                    try{
+                       split1 = split[1].split("=");
+                       Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
 
-                        private CompanyDetailsBean.DataBean data;
+                            private CompanyDetailsBean.DataBean data;
 
-                        @Override
-                        public void setData(CompanyDetailsBean companyDetailsBean) {
-                            MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
-                            data = companyDetailsBean.getData();
-                            companyBean.setAccount(data.getAccount());
-                            companyBean.setAddress(data.getAddress());
-                            companyBean.setDepositBank(data.getDepositBank());
-                            companyBean.setId(data.getId());
-                            companyBean.setIsNewRecord(data.isIsNewRecord());
-                            companyBean.setName(data.getName());
-                            companyBean.setPhone(data.getPhone());
-                            companyBean.setTaxno(data.getTaxno());
-                            updateCompanyInfo(companyBean);
-                        }
-                    });
-//
+                            @Override
+                            public void setData(CompanyDetailsBean companyDetailsBean) {
+                                MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+                                data = companyDetailsBean.getData();
+                                companyBean.setAccount(data.getAccount());
+                                companyBean.setAddress(data.getAddress());
+                                companyBean.setDepositBank(data.getDepositBank());
+                                companyBean.setId(data.getId());
+                                companyBean.setIsNewRecord(data.isIsNewRecord());
+                                companyBean.setName(data.getName());
+                                companyBean.setPhone(data.getPhone());
+                                companyBean.setTaxno(data.getTaxno());
+                                updateCompanyInfo(companyBean);
+                            }
+                        });
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
         }
     }

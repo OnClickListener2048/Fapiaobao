@@ -65,6 +65,8 @@ public class MeFragment extends BaseFragment{
     ImageView imgLevelIcon;
     @Bind(R.id.red_new_dot)
     ImageView red_new_dot;
+    @Bind(R.id.version)
+    TextView version;
     int[] LevelIcon=new int[]{R.mipmap.star0,R.mipmap.star1,R.mipmap.star2,R.mipmap.star3,R.mipmap.star4,R.mipmap.star5
                               ,R.mipmap.star6,R.mipmap.star7,R.mipmap.star8,R.mipmap.star9,R.mipmap.star10};
 
@@ -255,6 +257,7 @@ public class MeFragment extends BaseFragment{
     @Override
     public void onResume() {
 //        messageList();
+        version.setText("v"+TDevice.getVersionName());
          requestManager = Glide.with(mContext);
         red_new_dot.setVisibility(BaseApplication.get(BaseApplication.PUSH_RECEIVE, false) ? View.VISIBLE : View.GONE);
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {

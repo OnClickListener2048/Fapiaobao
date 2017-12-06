@@ -71,6 +71,8 @@ import static com.pilipa.fapiaobao.base.BaseApplication.PUSH_RECEIVE;
 import static com.pilipa.fapiaobao.base.BaseApplication.set;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_PLATFORM_WX;
 import static com.pilipa.fapiaobao.ui.LoginActivity.WX_LOGIN_ACTION;
+import static com.pilipa.fapiaobao.utils.BitmapUtils.readPictureDegree;
+import static com.pilipa.fapiaobao.utils.BitmapUtils.rotaingImageView;
 
 
 /**
@@ -249,8 +251,13 @@ public class UserInfoActivity extends BaseActivity {
                 });
             } else if (intent.getAction().equals(com.pilipa.fapiaobao.ui.constants.Constant.BIND_PHONE_ACTION)) {
                 boolean isbind = intent.getBooleanExtra("isbind", false);
+                String phone = intent.getStringExtra("phone");
                 if (isbind) {
-                    updateUserInfo(AccountHelper.getUserCustormer());
+//                    updateUserInfo(AccountHelper.getUserCustormer());
+                    edtPhone.setText(phone);
+                    edtPhone.setVisibility(View.VISIBLE);
+                    bindPhone.setVisibility(View.GONE);
+
                 }
             }
 
@@ -322,8 +329,10 @@ public class UserInfoActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CAPTURE && resultCode == RESULT_OK) {
+
             Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
             String path = mediaStoreCompat.getCurrentPhotoPath();
+            Log.d(TAG, "updateData:getCurrentPhotoPath success"+path);
             try {
                 MediaStore.Images.Media.insertImage(this.getContentResolver(), path, new File(path).getName(), null);
                 this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri));
@@ -336,6 +345,7 @@ public class UserInfoActivity extends BaseActivity {
             image.isCapture = false;
             image.position = mPreviousPosition;
             image.uri = contentUri;
+            image.path = path;
             requestManager
                     .load(contentUri)
                     .asBitmap()
@@ -348,11 +358,14 @@ public class UserInfoActivity extends BaseActivity {
         } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<Uri> uris = Matisse.obtainResult(data);
             for (Uri uri : uris) {
+                String path = BitmapUtils.getRealFilePath(UserInfoActivity.this,uri);
+                Log.d(TAG, "updateData:getPhotoUri success"+      path);
                 image = new Image();
                 image.isCapture = false;
                 image.position = mPreviousPosition;
                 mPreviousPosition++;
                 image.uri = uri;
+                image.path = path;
                 image.isFromNet = false;
                 requestManager
                         .load(uri)
@@ -365,14 +378,17 @@ public class UserInfoActivity extends BaseActivity {
         //上传头像
         if (image != null) {
             Bitmap bm = null;
+            Bitmap newbitmap = null;
             try {
+                int degree = readPictureDegree(image.path);
                 bm = BitmapUtils.getBitmapFormUri(this, image.uri);
+                newbitmap = rotaingImageView(degree, bm);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             customerBean = new LoginWithInfoBean.DataBean.CustomerBean();
 
-            String bmpStr = BitmapUtils.bitmapToBase64(bm);
+            String bmpStr = BitmapUtils.bitmapToBase64(newbitmap);
             customerBean.setHeadimg(bmpStr);
 
             Api.updateCustomer(AccountHelper.getToken(), customerBean, new Api.BaseViewCallbackWithOnStart<UpdateCustomerBean>() {

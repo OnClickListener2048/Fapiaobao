@@ -93,7 +93,7 @@ public class BindPhoneActivity extends BaseActivity {
 
         }
     }
-    private void bind(String phone) {
+    private void bind(final String phone) {
         Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_MSG ,phone, new Api.BaseViewCallback<NormalBean>() {
             @Override
             public void setData(NormalBean normalBean) {
@@ -101,6 +101,7 @@ public class BindPhoneActivity extends BaseActivity {
                     BaseApplication.showToast(normalBean.getData());
                     Intent intent = new Intent();
                     intent.setAction(Constant.BIND_PHONE_ACTION);
+                    intent.putExtra("phone", phone);
                     intent.putExtra("isbind", true);
                     sendBroadcast(intent);
                     finish();
