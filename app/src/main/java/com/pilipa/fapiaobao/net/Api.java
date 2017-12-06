@@ -972,7 +972,7 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void suggestion(String id, String suggestions, String token, final BaseViewCallback baseViewCallback) {
+    public static void suggestion(String id, String suggestions, String token, final BaseViewCallbackWithOnStart baseViewCallback) {
         OkGo.<FeedBackBean>post(SUGGESTION)
                 .upJson(JsonCreator.suggestions(id, suggestions, token))
                 .execute(new JsonCallBack<FeedBackBean>(FeedBackBean.class) {
@@ -980,7 +980,27 @@ public class Api {
             public void onSuccess(Response<FeedBackBean> response) {
                     baseViewCallback.setData(response.body());
             }
-        });
+
+                    @Override
+                    public void onStart(Request<FeedBackBean, ? extends Request> request) {
+                        super.onStart(request);
+                        baseViewCallback.onStart();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        baseViewCallback.onFinish();
+                    }
+
+                    @Override
+                    public void onError(Response<FeedBackBean> response) {
+                        super.onError(response);
+                        baseViewCallback.onError();
+                    }
+                });
+
+
     }
 
     public static void uploadInvoice(String token, String pic, final BaseViewCallback baseViewCallback) {

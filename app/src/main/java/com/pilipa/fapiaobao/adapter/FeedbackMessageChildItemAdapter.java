@@ -2,6 +2,10 @@ package com.pilipa.fapiaobao.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,13 +32,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FeedbackMessageChildItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "FeedbackMessageChildItemAdapter";
+    private final boolean isSHownResponseButtonAndSupplementButton;
     Context mContext;
     private List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data;
     private boolean hasAnswer;
     private OnItemResponseListener onItemResponseListener;
     private boolean isShownResponseButton = true;
-    public FeedbackMessageChildItemAdapter(boolean isShownResponseButton) {
+    private String highlightString;
+
+    public FeedbackMessageChildItemAdapter(boolean isShownResponseButton, boolean isSHownResponseButtonAndSupplementButton) {
         this.isShownResponseButton = isShownResponseButton;
+        this.isSHownResponseButtonAndSupplementButton = isSHownResponseButtonAndSupplementButton;
     }
 
     @Override
@@ -50,7 +58,6 @@ public class FeedbackMessageChildItemAdapter extends RecyclerView.Adapter<Recycl
         TLog.d(TAG," public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {");
         final FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean = data.get(position);
         ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.tvContent.setText(suggestionBean.getMessage());
         viewHolder.tvQuestionerData.setText(suggestionBean.getCreateTime());
         if (Constant.TYPE_ANSWER.equals(suggestionBean.getType())) {
             hasAnswer = true;
@@ -80,13 +87,18 @@ public class FeedbackMessageChildItemAdapter extends RecyclerView.Adapter<Recycl
         }
 
         if (isShownResponseButton) {
-            if (position == data.size() - 1) {
-                if (hasAnswer) {
-                    viewHolder.feedbackResponse.setVisibility(View.VISIBLE);
-                    viewHolder.feedbackSupplement.setVisibility(View.GONE);
+            if (isSHownResponseButtonAndSupplementButton) {
+                if (position == data.size() - 1) {
+                    if (hasAnswer) {
+                        viewHolder.feedbackResponse.setVisibility(View.VISIBLE);
+                        viewHolder.feedbackSupplement.setVisibility(View.GONE);
+                    } else {
+                        viewHolder.feedbackResponse.setVisibility(View.GONE);
+                        viewHolder.feedbackSupplement.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     viewHolder.feedbackResponse.setVisibility(View.GONE);
-                    viewHolder.feedbackSupplement.setVisibility(View.VISIBLE);
+                    viewHolder.feedbackSupplement.setVisibility(View.GONE);
                 }
             } else {
                 viewHolder.feedbackResponse.setVisibility(View.GONE);
@@ -97,24 +109,58 @@ public class FeedbackMessageChildItemAdapter extends RecyclerView.Adapter<Recycl
             viewHolder.feedbackSupplement.setVisibility(View.GONE);
         }
 
-
+        String message = suggestionBean.getMessage();
+        TLog.d(TAG, "message" + message);
+        if (highlightString != null && !TextUtils.isEmpty(highlightString)) {
+            if (message.contains(highlightString)) {
+                int messageLength = message.length();
+                TLog.d(TAG, "int messageLength = message.length();" + messageLength);
+                int highlightStringLength = highlightString.length();
+                TLog.d(TAG, "int highlightStringLength = highlightString.length();" + highlightStringLength);
+                int recyclerCount = messageLength / highlightStringLength;
+                TLog.d(TAG, " int recyclerCount = messageLength / highlightStringLength;" + recyclerCount);
+                int result = -1;
+                SpannableString spannableString = new SpannableString(message);  //获取按钮上的文字
+                for (int i = 0; i < recyclerCount; i++) {
+                    result = message.indexOf(highlightString, result + 1);
+                    TLog.d(TAG, " result = message.indexOf(highlightString, result);" + result);
+                    if (result != -1) {
+                        ForegroundColorSpan span = new ForegroundColorSpan(mContext.getResources().getColor(R.color.main_style));
+                        spannableString.setSpan(span, result, result + highlightStringLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                    }
+                }
+                viewHolder.tvContent.setText(spannableString);
+            } else {
+                viewHolder.tvContent.setText(message);
+            }
+        } else {
+            viewHolder.tvContent.setText(message);
+        }
         viewHolder.feedbackSupplement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onItemResponseListener.onItemResponse(data,suggestionBean,FeedbackMessageChildItemAdapter.this);
+                onItemResponseListener.onItemResponse(data, suggestionBean, FeedbackMessageChildItemAdapter.this, false);
             }
         });
 
         viewHolder.feedbackResponse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onItemResponseListener.onItemResponse(data,suggestionBean,FeedbackMessageChildItemAdapter.this);
+                onItemResponseListener.onItemResponse(data, suggestionBean, FeedbackMessageChildItemAdapter.this, true);
             }
         });
     }
 
+    public void initData(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> suggestionList, String highlightString) {
+        TLog.d(TAG, "public void initData(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> suggestionList, String highlightString) {");
+        TLog.d(TAG, " if (data!= null) {");
+        this.data = suggestionList;
+        this.highlightString = highlightString;
+        notifyDataSetChanged();
+    }
+
     interface OnItemResponseListener {
-        void onItemResponse(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data, FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean,RecyclerView.Adapter adapter);
+        void onItemResponse(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data, FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean, RecyclerView.Adapter adapter, boolean isResponse);
     }
 
     public void setOnItemResponseListener(OnItemResponseListener onItemResponseListener) {
@@ -131,10 +177,9 @@ public class FeedbackMessageChildItemAdapter extends RecyclerView.Adapter<Recycl
     }
 
     public void initData(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data) {
-        if (data!= null) {
+        TLog.d(TAG, "public void initData(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data) {");
             TLog.d(TAG," if (data!= null) {");
             this.data = data;
-        }
         notifyDataSetChanged();
     }
 

@@ -120,7 +120,10 @@
         <activity android:name=".ui.CompanyManagerActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.ReceiptFolderActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.MyWalletActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.FeedbackActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:windowSoftInputMode="adjustResize"
+            android:name=".ui.FeedbackActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.AddCompanyInfoActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.CompanyDetailsActivity_old" android:screenOrientation="portrait"/>
         <activity android:name=".ui.ProvidedActivity" android:screenOrientation="portrait"/>
@@ -164,6 +167,7 @@
 
         <activity android:name=".ui.SearchActivity" android:screenOrientation="portrait"/>
         <activity
+            android:windowSoftInputMode="adjustResize"
             android:name=".ui.MyQuestionsActivity"
             android:screenOrientation="portrait" />
 

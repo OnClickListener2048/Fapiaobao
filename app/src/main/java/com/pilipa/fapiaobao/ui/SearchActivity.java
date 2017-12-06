@@ -24,6 +24,8 @@ import com.pilipa.fapiaobao.ui.widget.EmptyRecyclerView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.rengwuxian.materialedittext.validation.METValidator;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,7 +46,7 @@ public class SearchActivity extends BaseActivity {
     ImageView search;
     @Bind(R.id.recyclerView)
     EmptyRecyclerView recyclerView;
-    private int pageSize = 10;
+    private int pageSize = 20;
     private int pageNo = 1;
     private FeedbackMessagesAdapter feedbackMessagesAdapter;
     private FeedbackAdapterWrapper normalAdapterWrapper;
@@ -54,6 +56,7 @@ public class SearchActivity extends BaseActivity {
     private boolean isLoadingMore;
     private View footerView;
     private View headerView;
+    private View emptyView;
 
     @Override
     protected int getLayoutId() {
@@ -78,6 +81,8 @@ public class SearchActivity extends BaseActivity {
                     getSuggestion(pageNo, pageSize, "", metFeedback.getText().toString(), "", new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
                         @Override
                         public void onStart() {
+                            emptyView.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
                             pageNo = 1;
                             headerView.setVisibility(View.VISIBLE);
                             footerView.setVisibility(View.VISIBLE);
@@ -87,7 +92,13 @@ public class SearchActivity extends BaseActivity {
 
                         @Override
                         public void onFinish() {
-
+                            LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                            int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                            TLog.log("lastVisibleItemPosition"+lastVisibleItemPosition);
+                            TLog.log("normalAdapterWrapper.getItemCount()"+normalAdapterWrapper.getItemCount());
+                            if (lastVisibleItemPosition+2 == normalAdapterWrapper.getItemCount()) {
+                                footerView.setVisibility(View.GONE);
+                            }
                         }
 
                         @Override
@@ -98,23 +109,31 @@ public class SearchActivity extends BaseActivity {
                         @Override
                         public void setData(FeedbackMessageBean feedbackMessageBean) {
                             if (feedbackMessageBean.getStatus() == 200) {
+                                recyclerView.setVisibility(View.VISIBLE);
+                                emptyView.setVisibility(View.GONE);
                                 normalAdapterWrapper.addFooterView(footerView);
                                 normalAdapterWrapper.addHeaderView(headerView);
-                                feedbackMessagesAdapter.clearAndInitData(feedbackMessageBean.getData().getList());
+                                List<FeedbackMessageBean.DataBean.ListBean> list = feedbackMessageBean.getData().getList();
+                                for (FeedbackMessageBean.DataBean.ListBean listBean : list) {
+                                    listBean.setHighlightString(metFeedback.getText().toString().trim());
+                                }
+                                feedbackMessagesAdapter.clearAndInitData(list);
                                 normalAdapterWrapper.notifyDataSetChanged();
                                 totalPageNo = feedbackMessageBean.getData().getTotalPage();
                                 pageNo++;
                                 if (feedbackMessageBean.getData().getList().size()<pageSize) {
                                     progressBar.setVisibility(View.GONE);
-                                    textView_loading.setText(getString(R.string.no_more));
+                                    textView_loading.setText(getString(R.string.already_reach_the_bottom));
                                 }
                             } else if (feedbackMessageBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
 //                                normalAdapterWrapper.removeFooterView();
 //                                normalAdapterWrapper.removeHeaderView();
+                                recyclerView.setVisibility(View.GONE);
+                                emptyView.setVisibility(View.VISIBLE);
                                 feedbackMessagesAdapter.clearData();
                                 normalAdapterWrapper.notifyDataSetChanged();
                                 progressBar.setVisibility(View.INVISIBLE);
-                                textView_loading.setText(getString(R.string.no_more));
+                                textView_loading.setText(getString(R.string.already_reach_the_bottom));
                             }
                         }
                     });
@@ -138,7 +157,7 @@ public class SearchActivity extends BaseActivity {
                         if (!isLoadingMore) {
                             if (pageNo > totalPageNo) {
                                 progressBar.setVisibility(View.INVISIBLE);
-                                textView_loading.setText(getString(R.string.no_more));
+                                textView_loading.setText(getString(R.string.already_reach_the_bottom));
                                 return;
                             }
                             getSuggestion(pageNo, pageSize, "", metFeedback.getText().toString().trim(), "", new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
@@ -162,7 +181,11 @@ public class SearchActivity extends BaseActivity {
                                 @Override
                                 public void setData(FeedbackMessageBean feedbackMessageBean) {
                                     if (feedbackMessageBean.getStatus() == 200) {
-                                        feedbackMessagesAdapter.addData(feedbackMessageBean.getData().getList());
+                                        List<FeedbackMessageBean.DataBean.ListBean> list = feedbackMessageBean.getData().getList();
+                                        for (FeedbackMessageBean.DataBean.ListBean listBean : list) {
+                                            listBean.setHighlightString(metFeedback.getText().toString().trim());
+                                        }
+                                        feedbackMessagesAdapter.addData(list);
                                         feedbackMessagesAdapter.notifyDataSetChanged();
                                         normalAdapterWrapper.notifyDataSetChanged();
                                         pageNo++;
@@ -210,10 +233,9 @@ public class SearchActivity extends BaseActivity {
         normalAdapterWrapper.addFooterView(footerView);
         headerView = LayoutInflater.from(this).inflate(R.layout.header_feedback, null);
         normalAdapterWrapper.addHeaderView(headerView);
-        View emptyView = View.inflate(this, R.layout.layout_details_empty_view, null);
-        emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         recyclerView.setAdapter(normalAdapterWrapper);
-        recyclerView.setEmptyView(emptyView);
+        emptyView = findViewById(R.id.empty_view);
+        emptyView.setVisibility(View.GONE);
         progressBar = (ProgressBar) footerView.findViewById(R.id.loading_progress);
         textView_loading = (TextView) footerView.findViewById(R.id.loading);
 

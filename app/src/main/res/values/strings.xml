@@ -408,10 +408,12 @@
     <string name="wrapping">打包发票…</string>
     <string name="please_choose_one_of_types">请至少选择一种发票种类哦~</string>
     <string name="cant_choose_last_day">不能选择发布日期之前的时间哦~</string>
-    <string name="no_more">没有更多了…</string>
+    <string name="no_more">已经到顶了…</string>
     <string name="loading">正在加载中…</string>
     <string name="server_error">服务器异常…改天再来吧…</string>
     <string name="myfeedback">我的意见反馈</string>
+    <string name="already_reach_the_top">已经到顶了...</string>
+    <string name="already_reach_the_bottom">已经到底了...</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

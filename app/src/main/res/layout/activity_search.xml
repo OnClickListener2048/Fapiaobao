@@ -89,8 +89,17 @@
             android:src="@mipmap/search_icon" />
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <com.pilipa.fapiaobao.ui.widget.EmptyRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+        <include
+            android:id="@+id/empty_view"
+            layout="@layout/layout_details_empty_view"
+            android:visibility="gone" />
+    </FrameLayout>
+
 </LinearLayout>

@@ -8,11 +8,6 @@ import java.util.List;
 
 public class FeedbackMessageBean {
 
-    /**
-     * status : 200
-     * msg : OK
-     * data : {"pageNo":1,"pageSize":1,"count":0,"totalPage":3,"list":[{"suggestionList":[{"suggestionId":"540f240eafb54be4b607e0ee54bc4dd1","type":"1","nickname":"P_13114917491","avatar":"https://www.youpiao8.cn/fapiaobao/upload/355d1bbab2f34aa3bbe95ea2be75b059/3a26940d36af43dfaed6dda610cd445f.jpg","message":"你好","createTime":"2017-12-01 16:20"},{"suggestionId":"540f240eafb54be4b607e0ee54bc4dd1","type":"1","nickname":"P_13114917491","avatar":"https://www.youpiao8.cn/fapiaobao/upload/355d1bbab2f34aa3bbe95ea2be75b059/3a26940d36af43dfaed6dda610cd445f.jpg","message":"赶紧回复","createTime":"2017-12-04 10:06"},{"suggestionId":"540f240eafb54be4b607e0ee54bc4dd1","type":"1","nickname":"P_13114917491","avatar":"https://www.youpiao8.cn/fapiaobao/upload/355d1bbab2f34aa3bbe95ea2be75b059/3a26940d36af43dfaed6dda610cd445f.jpg","message":"再次提问","createTime":"2017-12-04 10:09"},{"suggestionId":"540f240eafb54be4b607e0ee54bc4dd1","type":"0","message":"你是谁？","createTime":"2017-12-04 10:11"}]}],"firstResult":0,"maxResults":1,"html":"<ul>\n<li class=\"disabled\"><a href=\"javascript:\">« 上一页<\/a><\/li>\n<li class=\"active\"><a href=\"javascript:\">1<\/a><\/li>\n<li class=\"disabled\"><a href=\"javascript:\">下一页 »<\/a><\/li>\n<li class=\"disabled controls\"><a href=\"javascript:\">当前 <input type=\"text\" value=\"1\" onkeypress=\"var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,1,'');\" onclick=\"this.select();\"/> / <input type=\"text\" value=\"1\" onkeypress=\"var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,'');\" onclick=\"this.select();\"/> 条，共 0 条<\/a><\/li>\n<\/ul>\n<div style=\"clear:both;\"><\/div>"}
-     */
 
     private int status;
     private String msg;
@@ -43,30 +38,15 @@ public class FeedbackMessageBean {
     }
 
     public static class DataBean {
-        /**
-         * pageNo : 1
-         * pageSize : 1
-         * count : 0
-         * totalPage : 3
-         * list : [{"suggestionList":[{"suggestionId":"540f240eafb54be4b607e0ee54bc4dd1","type":"1","nickname":"P_13114917491","avatar":"https://www.youpiao8.cn/fapiaobao/upload/355d1bbab2f34aa3bbe95ea2be75b059/3a26940d36af43dfaed6dda610cd445f.jpg","message":"你好","createTime":"2017-12-01 16:20"},{"suggestionId":"540f240eafb54be4b607e0ee54bc4dd1","type":"1","nickname":"P_13114917491","avatar":"https://www.youpiao8.cn/fapiaobao/upload/355d1bbab2f34aa3bbe95ea2be75b059/3a26940d36af43dfaed6dda610cd445f.jpg","message":"赶紧回复","createTime":"2017-12-04 10:06"},{"suggestionId":"540f240eafb54be4b607e0ee54bc4dd1","type":"1","nickname":"P_13114917491","avatar":"https://www.youpiao8.cn/fapiaobao/upload/355d1bbab2f34aa3bbe95ea2be75b059/3a26940d36af43dfaed6dda610cd445f.jpg","message":"再次提问","createTime":"2017-12-04 10:09"},{"suggestionId":"540f240eafb54be4b607e0ee54bc4dd1","type":"0","message":"你是谁？","createTime":"2017-12-04 10:11"}]}]
-         * firstResult : 0
-         * maxResults : 1
-         * html : <ul>
-         <li class="disabled"><a href="javascript:">« 上一页</a></li>
-         <li class="active"><a href="javascript:">1</a></li>
-         <li class="disabled"><a href="javascript:">下一页 »</a></li>
-         <li class="disabled controls"><a href="javascript:">当前 <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(this.value,1,'');" onclick="this.select();"/> / <input type="text" value="1" onkeypress="var e=window.event||event;var c=e.keyCode||e.which;if(c==13)page(1,this.value,'');" onclick="this.select();"/> 条，共 0 条</a></li>
-         </ul>
-         <div style="clear:both;"></div>
-         */
+
 
         private int pageNo;
         private int pageSize;
         private int count;
         private int totalPage;
+        private String html;
         private int firstResult;
         private int maxResults;
-        private String html;
         private List<ListBean> list;
 
         public int getPageNo() {
@@ -101,6 +81,14 @@ public class FeedbackMessageBean {
             this.totalPage = totalPage;
         }
 
+        public String getHtml() {
+            return html;
+        }
+
+        public void setHtml(String html) {
+            this.html = html;
+        }
+
         public int getFirstResult() {
             return firstResult;
         }
@@ -117,14 +105,6 @@ public class FeedbackMessageBean {
             this.maxResults = maxResults;
         }
 
-        public String getHtml() {
-            return html;
-        }
-
-        public void setHtml(String html) {
-            this.html = html;
-        }
-
         public List<ListBean> getList() {
             return list;
         }
@@ -134,7 +114,29 @@ public class FeedbackMessageBean {
         }
 
         public static class ListBean {
+            public String getHighlightString() {
+                return highlightString;
+            }
+
+            public void setHighlightString(String highlightString) {
+                this.highlightString = highlightString;
+            }
+
+            /**
+             * customerId : 155a7388d25e45ee8a414a9382f3b196
+             * suggestionList : [{"suggestionId":"f7d4b41075a745e5b0bce1ddfbe896e0","type":"1","nickname":"","avatar":"https://www.youpiao8.cn/fapiaobao/upload/155a7388d25e45ee8a414a9382f3b196/head.jpg","message":"你真是个天才","createTime":"2017-12-06 12:51"}]
+             */
+            private String highlightString;
+            private String customerId;
             private List<SuggestionListBean> suggestionList;
+
+            public String getCustomerId() {
+                return customerId;
+            }
+
+            public void setCustomerId(String customerId) {
+                this.customerId = customerId;
+            }
 
             public List<SuggestionListBean> getSuggestionList() {
                 return suggestionList;
@@ -146,12 +148,12 @@ public class FeedbackMessageBean {
 
             public static class SuggestionListBean {
                 /**
-                 * suggestionId : 540f240eafb54be4b607e0ee54bc4dd1
+                 * suggestionId : f7d4b41075a745e5b0bce1ddfbe896e0
                  * type : 1
-                 * nickname : P_13114917491
-                 * avatar : https://www.youpiao8.cn/fapiaobao/upload/355d1bbab2f34aa3bbe95ea2be75b059/3a26940d36af43dfaed6dda610cd445f.jpg
-                 * message : 你好
-                 * createTime : 2017-12-01 16:20
+                 * nickname :
+                 * avatar : https://www.youpiao8.cn/fapiaobao/upload/155a7388d25e45ee8a414a9382f3b196/head.jpg
+                 * message : 你真是个天才
+                 * createTime : 2017-12-06 12:51
                  */
 
                 private String suggestionId;

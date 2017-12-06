@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.ui;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,10 +40,15 @@ import com.pilipa.fapiaobao.ui.widget.EmptyRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by lyt on 2017/10/17.
@@ -61,7 +68,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
     ImageView myquestions;
     private Dialog mDialog;
     private FeedbackMessagesAdapter feedbackMessagesAdapter;
-    private int pageSize = 10;
+    private int pageSize = 20;
     private int pageNo = 1;
     private boolean isLoadingMore;
     private FeedbackAdapterWrapper normalAdapterWrapper;
@@ -72,6 +79,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
     private List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data;
     private FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean;
     private RecyclerView.Adapter adapter;
+    private View emptyView;
 
     @Override
     protected int getLayoutId() {
@@ -102,12 +110,19 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
                 }
             }
         };
+
         linearLayoutManager.setSmoothScrollbarEnabled(true);
         linearLayoutManager.setAutoMeasureEnabled(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                super.onDraw(c, parent, state);
+            }
+        });
     }
 
     @Override
@@ -115,13 +130,12 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
         feedbackMessagesAdapter = new FeedbackMessagesAdapter();
         feedbackMessagesAdapter.setOnItemResponseListener(this);
         normalAdapterWrapper = new FeedbackAdapterWrapper(feedbackMessagesAdapter);
-        View footerView = LayoutInflater.from(this).inflate(R.layout.footer_refreshing_feedback, null);
+        final View footerView = LayoutInflater.from(this).inflate(R.layout.footer_refreshing_feedback, null);
         normalAdapterWrapper.addFooterView(footerView);
         View headerView = LayoutInflater.from(this).inflate(R.layout.header_feedback, null);
         normalAdapterWrapper.addHeaderView(headerView);
-        View emptyView = View.inflate(this, R.layout.layout_details_empty_view, null);
-        emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        recyclerView.setEmptyView(emptyView);
+        emptyView = findViewById(R.id.empty_view);
+        emptyView.setVisibility(View.GONE);
         recyclerView.setAdapter(normalAdapterWrapper);
         progressBar = (ProgressBar) footerView.findViewById(R.id.loading_progress);
         textView_loading = (TextView) footerView.findViewById(R.id.loading);
@@ -181,6 +195,25 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
 
             @Override
             public void onFinish() {
+                Observable
+                        .timer(100, TimeUnit.MILLISECONDS)
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Long>() {
+                            @Override
+                            public void accept(@NonNull Long aLong) throws Exception {
+                                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                                int lastVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                                int lastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                                int firstCompletelyVisibleItemPosition = layoutManager.findFirstCompletelyVisibleItemPosition();
+                                TLog.log("firstCompletelyVisibleItemPosition"+firstCompletelyVisibleItemPosition);
+                                TLog.log("lastCompletelyVisibleItemPosition"+lastCompletelyVisibleItemPosition);
+                                TLog.log("lastVisibleItemPosition"+lastVisibleItemPosition);
+                                TLog.log("normalAdapterWrapper.getItemCount()"+normalAdapterWrapper.getItemCount());
+                                if (lastVisibleItemPosition+2 == normalAdapterWrapper.getItemCount()) {
+                                    footerView.setVisibility(View.GONE);
+                                }
+                            }
+                        });
 
             }
 
@@ -192,17 +225,22 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
             @Override
             public void setData(FeedbackMessageBean feedbackMessageBean) {
                 if (feedbackMessageBean.getStatus() == 200) {
+                    emptyView.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
                     feedbackMessagesAdapter.initData(feedbackMessageBean.getData().getList());
                     normalAdapterWrapper.notifyDataSetChanged();
                     totalPageNo = feedbackMessageBean.getData().getTotalPage();
                     pageNo++;
                     if (feedbackMessageBean.getData().getList().size() < pageSize) {
                         progressBar.setVisibility(View.GONE);
-                        textView_loading.setText(getString(R.string.no_more));
+                        textView_loading.setText(getString(R.string.already_reach_the_top));
+                    }
+                    if (feedbackMessageBean.getData().getList().size()<5) {
+                        footerView.setVisibility(View.GONE);
                     }
                 } else if (feedbackMessageBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
-                    progressBar.setVisibility(View.GONE);
-                    textView_loading.setText(getString(R.string.no_more));
+                    emptyView.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                 }
             }
         });
@@ -254,11 +292,27 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
     }
 
     private void suggestion(final String str) {
-        Api.suggestion("", str, AccountHelper.getToken(), new Api.BaseViewCallback<FeedBackBean>() {
+        Api.suggestion("", str, AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<FeedBackBean>() {
+            @Override
+            public void onStart() {
+                feedbackSend.setEnabled(false);
+            }
+
+            @Override
+            public void onFinish() {
+                feedbackSend.setEnabled(true);
+            }
+
+            @Override
+            public void onError() {
+                feedbackSend.setEnabled(true);
+            }
+
             @Override
             public void setData(FeedBackBean feedBackBean) {
                 if (feedBackBean.getStatus() == 200) {
-
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
                     feedback(feedBackBean.getData());
                     etFeedback.setText(null);
 //                                setDialog();
@@ -282,13 +336,19 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
         suggestionBean.setSuggestionId(id);
         list.add(suggestionBean);
         listBean.setSuggestionList(list);
+        listBean.setCustomerId(AccountHelper.getUser().getData().getCustomer().getId());
         List<FeedbackMessageBean.DataBean.ListBean> listBeanList = new ArrayList<>();
         listBeanList.add(listBean);
         dataBean.setList(listBeanList);
 
         feedbackMessagesAdapter.insertData(listBeanList);
         normalAdapterWrapper.notifyDataSetChanged();
-        recyclerView.scrollToPosition(0);
+        recyclerView.smoothScrollBy(0, 1000, new Interpolator() {
+            @Override
+            public float getInterpolation(float input) {
+                return 20;
+            }
+        });
     }
 
     @OnClick(R.id.feedback_send)
@@ -302,23 +362,41 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
         } else {
             suggestion(etFeedback.getText().toString());
         }
-
     }
 
 
     @Override
-    public void onItemResponse(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data, FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean, RecyclerView.Adapter adapter) {
+    public void onItemResponse(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data, FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean, RecyclerView.Adapter adapter,boolean isResponse) {
         responding = true;
         this.data = data;
         this.suggestionBean = suggestionBean;
         this.adapter = adapter;
         KeyboardUtils.showSoftInput(this);
-        etFeedback.setHint("to " + suggestionBean.getNickname());
+        if (isResponse) {
+            etFeedback.setHint("回复票宝：");
+        } else {
+            etFeedback.setHint("回复" + suggestionBean.getNickname()+"：");
+        }
         etFeedback.requestFocus();
     }
 
     private void response(final List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data, final FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean, final RecyclerView.Adapter adapter) {
-        Api.suggestion(suggestionBean.getSuggestionId(), etFeedback.getText().toString(), AccountHelper.getToken(), new Api.BaseViewCallback<FeedBackBean>() {
+        Api.suggestion(suggestionBean.getSuggestionId(), etFeedback.getText().toString(), AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<FeedBackBean>() {
+            @Override
+            public void onStart() {
+                feedbackSend.setEnabled(false);
+            }
+
+            @Override
+            public void onFinish() {
+                feedbackSend.setEnabled(true);
+            }
+
+            @Override
+            public void onError() {
+                feedbackSend.setEnabled(true);
+            }
+
             @Override
             public void setData(FeedBackBean feedBackBean) {
                 if (feedBackBean.getStatus() == 200) {
@@ -335,7 +413,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
         FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBeanOrigin = new FeedbackMessageBean.DataBean.ListBean.SuggestionListBean();
         suggestionBeanOrigin.setAvatar(AccountHelper.getUser().getData().getCustomer().getHeadimg());
         suggestionBeanOrigin.setCreateTime(TimeUtils.getNowString(TimeUtils.DEFAULT_FORMAT));
-        suggestionBeanOrigin.setMessage(etFeedback.getText().toString().trim());
+        suggestionBeanOrigin.setMessage(etFeedback.getHint()+etFeedback.getText().toString().trim());
         suggestionBeanOrigin.setNickname(AccountHelper.getUser().getData().getCustomer().getNickname());
         suggestionBeanOrigin.setType("1");
         suggestionBeanOrigin.setSuggestionId(suggestionBean.getSuggestionId());

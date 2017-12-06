@@ -71,12 +71,24 @@
             android:src="@mipmap/feedback_send" />
     </LinearLayout>
 
-    <com.pilipa.fapiaobao.ui.widget.EmptyRecyclerView
-        android:id="@+id/recyclerView"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/ll_type_area"
-        android:layout_below="@id/rl_title"
+        android:layout_below="@id/rl_title">
+
+        <com.pilipa.fapiaobao.ui.widget.EmptyRecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_height="wrap_content"
         android:animateLayoutChanges="false"
         android:layout_width="match_parent"
         android:overScrollMode="never" />
+
+        <include
+            android:id="@+id/empty_view"
+            layout="@layout/layout_details_empty_view"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
 </RelativeLayout>

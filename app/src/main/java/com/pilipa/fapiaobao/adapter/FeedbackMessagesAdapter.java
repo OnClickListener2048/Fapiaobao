@@ -4,12 +4,14 @@ import android.content.Context;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.ui.deco.DividerItemDeco;
 
@@ -37,6 +39,7 @@ public class FeedbackMessagesAdapter extends RecyclerView.Adapter<RecyclerView.V
         isShownResponseButton = b;
     }
 
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         TLog.d(TAG, "RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {");
@@ -49,6 +52,7 @@ public class FeedbackMessagesAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         TLog.d(TAG, "public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {");
         Holder itemHolder = (Holder) holder;
+        if (this.data != null) {
         FeedbackMessageBean.DataBean.ListBean dataBean = data.get(position);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setSmoothScrollbarEnabled(true);
@@ -56,13 +60,18 @@ public class FeedbackMessagesAdapter extends RecyclerView.Adapter<RecyclerView.V
         itemHolder.recyclerView.setLayoutManager(linearLayoutManager);
         itemHolder.recyclerView.setNestedScrollingEnabled(false);
         itemHolder.recyclerView.setHasFixedSize(true);
-        FeedbackMessageChildItemAdapter feedbackMessageChildItemAdapter = new FeedbackMessageChildItemAdapter(isShownResponseButton);
+        FeedbackMessageChildItemAdapter feedbackMessageChildItemAdapter = new FeedbackMessageChildItemAdapter(isShownResponseButton,TextUtils.equals(dataBean.getCustomerId(), AccountHelper.getUser().getData().getCustomer().getId()));
         feedbackMessageChildItemAdapter.setOnItemResponseListener(this);
         itemHolder.recyclerView.setAdapter(feedbackMessageChildItemAdapter);
         itemHolder.recyclerView.addItemDecoration(new DividerItemDeco(mContext, DividerItemDecoration.VERTICAL));
-        if (this.data != null) {
             TLog.d(TAG, "feedbackMessageChildItemAdapter.initData(dataBean.getSuggestionList());");
-            feedbackMessageChildItemAdapter.initData(dataBean.getSuggestionList());
+            if (dataBean.getHighlightString() != null && !TextUtils.isEmpty(dataBean.getHighlightString())) {
+                feedbackMessageChildItemAdapter.initData(dataBean.getSuggestionList(), dataBean.getHighlightString());
+                TLog.d(TAG,"feedbackMessageChildItemAdapter.initData(dataBean.getSuggestionList(), dataBean.getHighlightString());");
+            } else {
+                TLog.d(TAG,"feedbackMessageChildItemAdapter.initData(dataBean.getSuggestionList());");
+                feedbackMessageChildItemAdapter.initData(dataBean.getSuggestionList());
+            }
         }
     }
 
@@ -119,14 +128,14 @@ public class FeedbackMessagesAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     @Override
-    public void onItemResponse(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data, FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean, RecyclerView.Adapter adapter) {
-        onItemResponseListener.onItemResponse(data,suggestionBean,adapter);
+    public void onItemResponse(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data, FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean, RecyclerView.Adapter adapter, boolean b) {
+        onItemResponseListener.onItemResponse(data, suggestionBean, adapter, b);
     }
 
 
 
     public interface OnItemResponseListener {
-        void onItemResponse(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data, FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean,RecyclerView.Adapter adapter);
+        void onItemResponse(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> data, FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean, RecyclerView.Adapter adapter, boolean b);
     }
 
     public void setOnItemResponseListener(OnItemResponseListener onItemResponseListener) {
