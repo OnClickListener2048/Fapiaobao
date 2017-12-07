@@ -54,6 +54,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.base.BaseApplication.SHARE_SOCORE;
+import static com.pilipa.fapiaobao.base.BaseApplication.set;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 import static com.pilipa.fapiaobao.ui.fragment.model.Constant.START_ACTIVITY_FROM_DETAILS;
 
@@ -280,6 +282,8 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
                     req.scene = SendMessageToWX.Req.WXSceneSession;
                     api.sendReq(req);
                     mCameraDialog.dismiss();
+                    //记录用户分享状态
+                    set(SHARE_SOCORE, true);
                 } else {
                     BaseApplication.showToast("请安装微信客户端");
                 }

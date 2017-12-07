@@ -1,10 +1,12 @@
 package com.pilipa.fapiaobao.base;
 
+import android.app.Activity;
 import android.app.Application;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.SharedPreferencesCompat;
@@ -13,7 +15,6 @@ import android.view.Gravity;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.AppUtils;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.Utils;
@@ -23,6 +24,8 @@ import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.pilipa.fapiaobao.Constants.Bugly;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.pilipa.fapiaobao.ui.DemandActivity;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
@@ -46,7 +49,6 @@ import com.umeng.socialize.UMShareAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -74,7 +76,8 @@ public class BaseApplication extends Application {
     public static ArrayList<BaseActivity> activities = new ArrayList<>();
     private PushAgent mPushAgent;
     public static final String PUSH_RECEIVE = "push_receive";
-
+    public static final String SHARE_SOCORE = "share_socore";
+    private int mFinalCount;
     public void initOkGo(Application app) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("FAPIAOLOG");
@@ -135,6 +138,65 @@ public class BaseApplication extends Application {
         builder.detectFileUriExposure();
         notificationClick();
         UmengCustom();
+
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+                mFinalCount++;
+                //如果mFinalCount ==1，说明是从后台到前台
+                Log.e("onActivityStarted", mFinalCount +"");
+                if (mFinalCount == 1){
+                    //说明从后台回到了前台
+                    TLog.d("BaseApplication","后台回到了前台");
+                    //记录用户分享状态
+                    boolean b = get(SHARE_SOCORE,false);
+                    if(b){
+                        set(SHARE_SOCORE, false);
+                        Api.shareScoreAdd(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                            @Override
+                            public void setData(NormalBean normalBean) {
+                                Log.d("BaseApplication", "updateData:shareScoreAdd success");
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+                mFinalCount--;
+                //如果mFinalCount ==0，说明是前台到后台
+                Log.i("onActivityStopped", mFinalCount +"");
+                if (mFinalCount == 0){
+                    //说明从前台回到了后台
+                }
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+
+            }
+        });
 
     }
 

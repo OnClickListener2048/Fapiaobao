@@ -4,9 +4,18 @@
     android:layout_width="match_parent"
     android:id="@+id/layout_unqualified_item"
     android:layout_height="220dp">
+    <TextView
+        android:id="@+id/reject_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d10"
+        android:layout_marginLeft="@dimen/d13"
+        android:layout_marginRight="@dimen/d13"
+        android:text="发票金额：0元"/>
     <RelativeLayout
-        android:layout_marginLeft="@dimen/d5"
-        android:layout_marginRight="@dimen/d5"
+        android:layout_marginLeft="@dimen/d13"
+        android:layout_marginRight="@dimen/d13"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -14,18 +23,13 @@
             android:layout_height="wrap_content"
             android:text="驳回原因："/>
 
-        <TextView
-            android:id="@+id/reject_amount"
-            android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="发票金额：0元"/>
+
     </RelativeLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="80dp"
         android:layout_margin="@dimen/d10"
         android:background="@drawable/edittext_bg"
         android:orientation="horizontal"
@@ -35,6 +39,8 @@
             android:id="@+id/tv_reject_reason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/title"
+            android:textSize="@dimen/s12"
             android:text="" />
     </LinearLayout>
 
@@ -91,17 +97,18 @@
 
             <TextView
                 android:id="@+id/confirm_back"
-                android:layout_width="120dp"
+                android:layout_width="147dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/d30"
+                android:layout_marginRight="@dimen/d13"
                 android:background="@drawable/shape_qualified"
                 android:paddingBottom="@dimen/d10"
                 android:paddingTop="@dimen/d10"
-                android:layout_marginBottom="@dimen/d5"
                 android:text="@string/confirm"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                 />
         </RelativeLayout>
     </FrameLayout>
 </LinearLayout>

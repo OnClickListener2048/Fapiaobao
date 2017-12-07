@@ -34,6 +34,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.base.BaseApplication.SHARE_SOCORE;
+import static com.pilipa.fapiaobao.base.BaseApplication.set;
+
 /**
  * Created by edz on 2017/10/26.
  */
@@ -150,21 +153,26 @@ public class PubSuccessActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.WeChat:
-                WXWebpageObject wxWebpageObject = new WXWebpageObject();
-                wxWebpageObject.webpageUrl = Constant.MATCH;
+                if (api.isWXAppInstalled()) {
+                    WXWebpageObject wxWebpageObject = new WXWebpageObject();
+                    wxWebpageObject.webpageUrl = Constant.MATCH;
 
-                WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
-                wxMediaMessage.description = getString(R.string.share_pub_description);
-                wxMediaMessage.title = getString(R.string.share_pub_title);
-                wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.share_redbag), Bitmap.CompressFormat.JPEG);
+                    WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
+                    wxMediaMessage.description = getString(R.string.share_pub_description);
+                    wxMediaMessage.title = getString(R.string.share_pub_title);
+                    wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.share_redbag), Bitmap.CompressFormat.JPEG);
 
-                SendMessageToWX.Req req = new SendMessageToWX.Req();
-                req.transaction = String.valueOf(System.currentTimeMillis());
-                req.message = wxMediaMessage;
+                    SendMessageToWX.Req req = new SendMessageToWX.Req();
+                    req.transaction = String.valueOf(System.currentTimeMillis());
+                    req.message = wxMediaMessage;
 
-                req.scene = SendMessageToWX.Req.WXSceneSession;
-                api.sendReq(req);
-
+                    req.scene = SendMessageToWX.Req.WXSceneSession;
+                    api.sendReq(req);
+                    //记录用户分享状态
+                    set(SHARE_SOCORE, true);
+                } else {
+                    BaseApplication.showToast("请安装微信客户端");
+                }
                 break;
             case R.id.moments:
                 if (umShareAPI.isInstall(this, SHARE_MEDIA.WEIXIN_CIRCLE)) {

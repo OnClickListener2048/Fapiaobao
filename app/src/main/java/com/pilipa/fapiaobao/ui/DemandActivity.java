@@ -56,6 +56,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.R.id.btn_shut_down_early;
+import static com.pilipa.fapiaobao.base.BaseApplication.SHARE_SOCORE;
+import static com.pilipa.fapiaobao.base.BaseApplication.set;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 import static com.pilipa.fapiaobao.net.Constant.STATE_COMPETENT;
 import static com.pilipa.fapiaobao.net.Constant.STATE_CONFIRMING;
@@ -525,21 +527,27 @@ public class DemandActivity extends BaseActivity{
         root.findViewById(R.id.weixin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WXWebpageObject wxWebpageObject = new WXWebpageObject();
-                wxWebpageObject.webpageUrl = Constant.MATCH;
+                if (api.isWXAppInstalled()) {
+                    WXWebpageObject wxWebpageObject = new WXWebpageObject();
+                    wxWebpageObject.webpageUrl = Constant.MATCH;
 
-                WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
-                wxMediaMessage.title= getString(R.string.share_pub_title);
-                wxMediaMessage.description = getString(R.string.share_pub_description);
-                wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.share_redbag), Bitmap.CompressFormat.JPEG);
+                    WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
+                    wxMediaMessage.title= getString(R.string.share_pub_title);
+                    wxMediaMessage.description = getString(R.string.share_pub_description);
+                    wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.share_redbag), Bitmap.CompressFormat.JPEG);
 
-                SendMessageToWX.Req req = new SendMessageToWX.Req();
-                req.transaction = String.valueOf(System.currentTimeMillis());
-                req.message = wxMediaMessage;
+                    SendMessageToWX.Req req = new SendMessageToWX.Req();
+                    req.transaction = String.valueOf(System.currentTimeMillis());
+                    req.message = wxMediaMessage;
 
-                req.scene = SendMessageToWX.Req.WXSceneSession;
-                api.sendReq(req);
-                mCameraDialog.dismiss();
+                    req.scene = SendMessageToWX.Req.WXSceneSession;
+                    api.sendReq(req);
+                    mCameraDialog.dismiss();
+                    //记录用户分享状态
+                    set(SHARE_SOCORE, true);
+                } else {
+                    BaseApplication.showToast("请安装微信客户端");
+                }
             }
         });
         root.findViewById(R.id.weibo).setOnClickListener(new View.OnClickListener() {

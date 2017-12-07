@@ -37,6 +37,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.base.BaseApplication.SHARE_SOCORE;
+import static com.pilipa.fapiaobao.base.BaseApplication.set;
+
 /**
  * Created by edz on 2017/10/26.
  */
@@ -208,6 +211,8 @@ public class UploadSuccessActivity extends BaseActivity {
 
                     req.scene = SendMessageToWX.Req.WXSceneSession;
                     api.sendReq(req);
+                    //记录用户分享状态
+                    set(SHARE_SOCORE, true);
                 } else {
                     BaseApplication.showToast("请安装微信客户端");
                 }

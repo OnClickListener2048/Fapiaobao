@@ -25,6 +25,9 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import static com.pilipa.fapiaobao.base.BaseApplication.SHARE_SOCORE;
+import static com.pilipa.fapiaobao.base.BaseApplication.set;
+
 
 /**
  * Created by edz on 2017/10/26.
@@ -52,8 +55,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     @Override
     public void onResp(BaseResp baseResp) {
         TLog.log("wxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwxwx");
+
+
         int ShareSuccess = 2;
         if(baseResp.getType() == ShareSuccess && baseResp.errCode == BaseResp.ErrCode.ERR_OK){
+            //记录用户分享状态
+            set(SHARE_SOCORE, false);
             Api.shareScoreAdd(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
                 @Override
                 public void setData(NormalBean normalBean) {
