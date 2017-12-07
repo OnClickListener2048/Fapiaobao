@@ -979,7 +979,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                     BaseApplication.showToast("收件人手机号不能为空");
                     return false;
                 } else if (!RegexUtils.isTel(etReceptionNumber.getText().toString().trim())&&!RegexUtils.isMobileExact(etReceptionNumber.getText().toString().trim())) {
-                    BaseApplication.showToast("请填写区号+座机或手机号码");
+                    BaseApplication.showToast("收票信息-联系电话应为区号+座机号或手机号码~");
                     return false;
                 }
             }

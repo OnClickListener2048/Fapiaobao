@@ -19,6 +19,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.UploadReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -189,6 +190,8 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         Intent intent = new Intent(mContext, PreviewActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(EXTRA_ALL_DATA, allItemList);
+        TLog.log("position" + position);
+        TLog.log("image.position" + image.position);
         bundle.putInt(EXTRA_CURRENT_POSITION, image.position);
         intent.putExtra(EXTRA_BUNDLE, bundle);
         startActivityForResult(intent, REQUEST_CODE_IMAGE_CLICK);
@@ -318,11 +321,13 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         } else if (requestCode ==REQUEST_CODE_FROM_ELEC && resultCode == RESULT_OK) {
             Bundle bundleExtra = data.getBundleExtra(ReceiptActivityToken.EXTRA_DATA_FROM_TOKEN);
             ArrayList<Image> parcelableArrayList = bundleExtra.getParcelableArrayList(ReceiptActivityToken.RESULT_RECEIPT_FOLDER);
-            if (parcelableArrayList.size() == 0 || parcelableArrayList == null) {
+
+            if (parcelableArrayList != null && parcelableArrayList.size() == 0) {
                 return;
             }
             ArrayList<Image> arrayList = new ArrayList<>();
             for (Image image : parcelableArrayList) {
+                image.position = mPreviousPosition;
                 arrayList.add(image);
                 mPreviousPosition++;
 //                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();

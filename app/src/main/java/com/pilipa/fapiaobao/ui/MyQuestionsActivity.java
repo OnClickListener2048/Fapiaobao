@@ -340,7 +340,7 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
         if (isResponse) {
             etFeedback.setHint("回复票宝：");
         } else {
-            etFeedback.setHint("回复" + suggestionBean.getNickname() + "：");
+//            etFeedback.setHint("回复" + suggestionBean.getNickname() + "：");
         }
         etFeedback.requestFocus();
     }

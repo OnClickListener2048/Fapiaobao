@@ -25,6 +25,13 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by edz on 2017/12/4.
@@ -65,8 +72,9 @@ public class FeedbackMessageChildItemAdapter extends RecyclerView.Adapter<Recycl
             viewHolder.civAvatar.setVisibility(View.INVISIBLE);
             viewHolder.tvAnswerName.setVisibility(View.VISIBLE);
             viewHolder.tvQuestionerName.setVisibility(View.GONE);
-
+            viewHolder.view_line.setVisibility(View.VISIBLE);
         } else if (Constant.TYPE_QUESTIONER.equals(suggestionBean.getType())) {
+            viewHolder.view_line.setVisibility(View.GONE);
             viewHolder.civAvatar.setVisibility(View.VISIBLE);
             viewHolder.tvAnswerName.setVisibility(View.GONE);
             viewHolder.tvQuestionerName.setVisibility(View.VISIBLE);
@@ -79,63 +87,14 @@ public class FeedbackMessageChildItemAdapter extends RecyclerView.Adapter<Recycl
                     .placeholder(R.mipmap.loading_small)
                     .into(viewHolder.civAvatar);
         }
+        viewHolder.llAvatar.setVisibility(position == 0 ? View.VISIBLE : View.INVISIBLE);
+        setButtonStatus(viewHolder, position);
+        highLights(suggestionBean, viewHolder);
+        Listeners(viewHolder, suggestionBean);
 
-        if (position == 0) {
-            viewHolder.llAvatar.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.llAvatar.setVisibility(View.INVISIBLE);
-        }
+    }
 
-        if (isShownResponseButton) {
-            if (isSHownResponseButtonAndSupplementButton) {
-                if (position == data.size() - 1) {
-                    if (hasAnswer) {
-                        viewHolder.feedbackResponse.setVisibility(View.VISIBLE);
-                        viewHolder.feedbackSupplement.setVisibility(View.GONE);
-                    } else {
-                        viewHolder.feedbackResponse.setVisibility(View.GONE);
-                        viewHolder.feedbackSupplement.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    viewHolder.feedbackResponse.setVisibility(View.GONE);
-                    viewHolder.feedbackSupplement.setVisibility(View.GONE);
-                }
-            } else {
-                viewHolder.feedbackResponse.setVisibility(View.GONE);
-                viewHolder.feedbackSupplement.setVisibility(View.GONE);
-            }
-        } else {
-            viewHolder.feedbackResponse.setVisibility(View.GONE);
-            viewHolder.feedbackSupplement.setVisibility(View.GONE);
-        }
-
-        String message = suggestionBean.getMessage();
-        TLog.d(TAG, "message" + message);
-        if (highlightString != null && !TextUtils.isEmpty(highlightString)) {
-            if (message.contains(highlightString)) {
-                int messageLength = message.length();
-                TLog.d(TAG, "int messageLength = message.length();" + messageLength);
-                int highlightStringLength = highlightString.length();
-                TLog.d(TAG, "int highlightStringLength = highlightString.length();" + highlightStringLength);
-                int recyclerCount = messageLength / highlightStringLength;
-                TLog.d(TAG, " int recyclerCount = messageLength / highlightStringLength;" + recyclerCount);
-                int result = -1;
-                SpannableString spannableString = new SpannableString(message);  //获取按钮上的文字
-                for (int i = 0; i < recyclerCount; i++) {
-                    result = message.indexOf(highlightString, result + 1);
-                    TLog.d(TAG, " result = message.indexOf(highlightString, result);" + result);
-                    if (result != -1) {
-                        ForegroundColorSpan span = new ForegroundColorSpan(mContext.getResources().getColor(R.color.main_style));
-                        spannableString.setSpan(span, result, result + highlightStringLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                    }
-                }
-                viewHolder.tvContent.setText(spannableString);
-            } else {
-                viewHolder.tvContent.setText(message);
-            }
-        } else {
-            viewHolder.tvContent.setText(message);
-        }
+    private void Listeners(ViewHolder viewHolder, final FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean) {
         viewHolder.feedbackSupplement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,6 +108,50 @@ public class FeedbackMessageChildItemAdapter extends RecyclerView.Adapter<Recycl
                 onItemResponseListener.onItemResponse(data, suggestionBean, FeedbackMessageChildItemAdapter.this, true);
             }
         });
+    }
+
+    private void highLights(FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean, final ViewHolder viewHolder) {
+        final String message = suggestionBean.getMessage();
+        if (highlightString != null && !TextUtils.isEmpty(highlightString) && message.contains(highlightString)) {
+
+            Observable.create(new ObservableOnSubscribe<SpannableString>() {
+                @Override
+                public void subscribe(@NonNull ObservableEmitter<SpannableString> e) throws Exception {
+                    int messageLength = message.length();
+                    int highlightStringLength = highlightString.length();
+                    int recyclerCount = messageLength / highlightStringLength;
+                    int result = -1;
+                    SpannableString spannableString = new SpannableString(message);
+                    for (int i = 0; i < recyclerCount; i++) {
+                        result = message.indexOf(highlightString, result + 1);
+                        if (result != -1) {
+                            ForegroundColorSpan span = new ForegroundColorSpan(mContext.getResources().getColor(R.color.main_style));
+                            spannableString.setSpan(span, result, result + highlightStringLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                        }
+                    }
+                    e.onNext(spannableString);
+                    e.onComplete();
+                }
+            }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<SpannableString>() {
+                        @Override
+                        public void accept(@NonNull SpannableString spannableString) throws Exception {
+                            viewHolder.tvContent.setText(spannableString);
+                        }
+                    });
+        } else {
+            viewHolder.tvContent.setText(message);
+        }
+    }
+
+    private void setButtonStatus(ViewHolder viewHolder, int position) {
+        if (isShownResponseButton && isSHownResponseButtonAndSupplementButton && position == data.size() - 1) {
+            viewHolder.feedbackResponse.setVisibility(hasAnswer ? View.VISIBLE : View.GONE);
+            viewHolder.feedbackSupplement.setVisibility(hasAnswer ? View.GONE : View.VISIBLE);
+        } else {
+            viewHolder.feedbackSupplement.setVisibility(View.GONE);
+            viewHolder.feedbackResponse.setVisibility(View.GONE);
+        }
     }
 
     public void initData(List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> suggestionList, String highlightString) {
@@ -211,6 +214,8 @@ public class FeedbackMessageChildItemAdapter extends RecyclerView.Adapter<Recycl
         LinearLayout llQuestioner;
         @Bind(R.id.ll_avatar)
         LinearLayout llAvatar;
+        @Bind(R.id.view_line)
+        View view_line;
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);

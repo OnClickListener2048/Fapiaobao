@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.example.mylibrary.utils.KeyboardUtils;
 import com.example.mylibrary.utils.TLog;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.PreviewFillupAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -27,6 +29,9 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by edz on 2017/11/5.
@@ -46,8 +51,6 @@ public class FillUpActivity extends BaseActivity implements ViewPager.OnPageChan
     @Bind(R.id.et_fillup)
     EditText etFillup;
     private ArrayList<Image> images;
-    private ArrayList<PreviewFillupFragment> FragmentList;
-    private PreviewFillupAdapter previewPagerAdapter;
     protected int mPreviousPos = 0;
 
     @Override
@@ -64,14 +67,14 @@ public class FillUpActivity extends BaseActivity implements ViewPager.OnPageChan
     public void initView() {
         images = getIntent().getParcelableArrayListExtra("images");
 
-        FragmentList = new ArrayList<>();
+        ArrayList<PreviewFillupFragment> fragmentList = new ArrayList<>();
         for (Image image : images) {
             if (!image.isCapture) {
-                FragmentList.add(PreviewFillupFragment.newInstance(image));
+                fragmentList.add(PreviewFillupFragment.newInstance(image));
             }
         }
 
-        previewPagerAdapter = new PreviewFillupAdapter(getSupportFragmentManager(), FragmentList);
+        PreviewFillupAdapter previewPagerAdapter = new PreviewFillupAdapter(getSupportFragmentManager(), fragmentList);
         previewViewpager.setAdapter(previewPagerAdapter);
         previewViewpager.setOnPageChangeListener(this);
         previewViewpager.setCurrentItem(0);
@@ -79,27 +82,21 @@ public class FillUpActivity extends BaseActivity implements ViewPager.OnPageChan
         previewViewpager.setHorizontalScrollBarEnabled(false);
         sumPiecePer.setText("1");
         sumPiece.setText(String.valueOf(images.size()));
-        etFillup.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String temp = s.toString();
-                int posDot = temp.indexOf(".");
-                if (posDot <= 0) return;
-                if (temp.length() - posDot - 1 > 2) {
-                    s.delete(posDot + 3, posDot + 4);
-                }
-            }
-        });
+        RxTextView.afterTextChangeEvents(etFillup)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<TextViewAfterTextChangeEvent>() {
+                    @Override
+                    public void accept(@NonNull TextViewAfterTextChangeEvent textViewAfterTextChangeEvent) throws Exception {
+                        Editable s = textViewAfterTextChangeEvent.editable();
+                        String temp = s.toString();
+                        int posDot = temp.indexOf(".");
+                        if (posDot <= 0) return;
+                        if (temp.length() - posDot - 1 > 2) {
+                            s.delete(posDot + 3, posDot + 4);
+                        }
+                    }
+                });
     }
 
     @Override
@@ -110,7 +107,6 @@ public class FillUpActivity extends BaseActivity implements ViewPager.OnPageChan
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
 

@@ -7,6 +7,6 @@
         android:radius="@dimen/d4"
         android:topLeftRadius="@dimen/d4"
         android:topRightRadius="@dimen/d4" />
-    <stroke android:color="@color/gray_hint" android:width="@dimen/d1" />
+    <stroke android:color="#bfbfbf" android:width="@dimen/d1" />
 
 </shape>

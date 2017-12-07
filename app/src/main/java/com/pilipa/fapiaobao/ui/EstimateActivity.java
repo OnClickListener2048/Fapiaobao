@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,10 @@ import android.widget.TextView;
 import com.blog.www.guideview.Guide;
 import com.blog.www.guideview.GuideBuilder;
 import com.example.mylibrary.utils.TLog;
+import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.view.ViewAttachEvent;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent;
 import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
 import com.lljjcoder.bean.DistrictBean;
@@ -50,6 +56,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * @author edz
@@ -179,6 +188,22 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         tolast.setEnabled(false);
         initCityPicker();
         initInvoiceTypes();
+
+        RxTextView
+                .afterTextChangeEvents(etEstimate)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<TextViewAfterTextChangeEvent>() {
+                    @Override
+                    public void accept(@NonNull TextViewAfterTextChangeEvent textViewAfterTextChangeEvent) throws Exception {
+                        Editable s = textViewAfterTextChangeEvent.editable();
+                        String temp = s.toString();
+                        int posDot = temp.indexOf(".");
+                        if (posDot <= 0) return;
+                        if (temp.length() - posDot - 1 > 2) {
+                            s.delete(posDot + 3, posDot + 4);
+                        }
+                    }
+                });
     }
 
     private void initInvoiceTypes() {

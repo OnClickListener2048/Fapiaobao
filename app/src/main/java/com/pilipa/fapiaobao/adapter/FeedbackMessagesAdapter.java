@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,8 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.ui.deco.DividerItemDeco;
+import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
+import com.pilipa.fapiaobao.utils.TDevice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +66,6 @@ public class FeedbackMessagesAdapter extends RecyclerView.Adapter<RecyclerView.V
         FeedbackMessageChildItemAdapter feedbackMessageChildItemAdapter = new FeedbackMessageChildItemAdapter(isShownResponseButton,TextUtils.equals(dataBean.getCustomerId(), AccountHelper.getUser().getData().getCustomer().getId()));
         feedbackMessageChildItemAdapter.setOnItemResponseListener(this);
         itemHolder.recyclerView.setAdapter(feedbackMessageChildItemAdapter);
-        itemHolder.recyclerView.addItemDecoration(new DividerItemDeco(mContext, DividerItemDecoration.VERTICAL));
             TLog.d(TAG, "feedbackMessageChildItemAdapter.initData(dataBean.getSuggestionList());");
             if (dataBean.getHighlightString() != null && !TextUtils.isEmpty(dataBean.getHighlightString())) {
                 feedbackMessageChildItemAdapter.initData(dataBean.getSuggestionList(), dataBean.getHighlightString());

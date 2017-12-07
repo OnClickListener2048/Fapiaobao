@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -18,7 +20,6 @@ import android.view.WindowManager;
 import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.FeedBackBean;
 import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
+import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.widget.EmptyRecyclerView;
 
 import java.util.ArrayList;
@@ -117,12 +119,6 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                super.onDraw(c, parent, state);
-            }
-        });
     }
 
     @Override
@@ -375,7 +371,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
         if (isResponse) {
             etFeedback.setHint("回复票宝：");
         } else {
-            etFeedback.setHint("回复" + suggestionBean.getNickname()+"：");
+//            etFeedback.setHint("回复" + suggestionBean.getNickname()+"：");
         }
         etFeedback.requestFocus();
     }
