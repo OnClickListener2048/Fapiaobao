@@ -9,13 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.example.mylibrary.utils.TLog;
-import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.Constants.Config;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
@@ -102,8 +102,8 @@ public class LaunchActivity extends AppCompatActivity {
 
         mContentView = findViewById(R.id.fullscreen_content);
         frameLayout = (FrameLayout) findViewById(R.id.bg);
-
-
+        TextView version = (TextView) findViewById(R.id.version);
+        version.setText("v"+TDevice.getVersionName());
         initAMap();
     }
 

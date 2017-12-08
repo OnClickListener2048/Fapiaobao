@@ -269,13 +269,5 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-    <TextView
-        android:id="@+id/version"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/d15"
-        android:textColor="@color/text_normal"
-        android:text="v1.1.1"/>
+
 </RelativeLayout>
