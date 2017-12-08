@@ -95,37 +95,44 @@ public class AddCompanyInfoActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CODE_SCAN:
+
                 if (resultCode == RESULT_OK) {
-                    String codedContent = data.getStringExtra(DECODED_CONTENT_KEY);
-                    String[] split = codedContent.split("\\?");
-                    String[] split1 = split[1].split("=");
-                    Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
+                    try{
+                        String codedContent = data.getStringExtra(DECODED_CONTENT_KEY);
+                        String[] split = codedContent.split("\\?");
+                        String[] split1 = split[1].split("=");
+                        Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
 
-                        private CompanyDetailsBean.DataBean data;
+                            private CompanyDetailsBean.DataBean data;
 
-                        @Override
-                        public void setData(CompanyDetailsBean companyDetailsBean) {
-                            MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
-                            data = companyDetailsBean.getData();
-                            if (data != null) {
-                                companyBean.setAccount(data.getAccount());
-                                companyBean.setAddress(data.getAddress());
-                                companyBean.setDepositBank(data.getDepositBank());
-                                companyBean.setId(data.getId());
-                                companyBean.setIsNewRecord(data.isIsNewRecord());
-                                companyBean.setName(data.getName());
-                                companyBean.setPhone(data.getPhone());
-                                companyBean.setTaxno(data.getTaxno());
+                            @Override
+                            public void setData(CompanyDetailsBean companyDetailsBean) {
+                                MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+                                data = companyDetailsBean.getData();
+                                if (data != null) {
+                                    companyBean.setAccount(data.getAccount());
+                                    companyBean.setAddress(data.getAddress());
+                                    companyBean.setDepositBank(data.getDepositBank());
+                                    companyBean.setId(data.getId());
+                                    companyBean.setIsNewRecord(data.isIsNewRecord());
+                                    companyBean.setName(data.getName());
+                                    companyBean.setPhone(data.getPhone());
+                                    companyBean.setTaxno(data.getTaxno());
+                                }
+                                try{
+                                    updateCompanyinfo(companyBean);
+                                }catch (Exception e){
+                                    BaseApplication.showToast("目前仅支持购物小票二维码、发票宝生成的单位信息二维码的扫描");
+
+                                }
                             }
-                            try {
-                                updateCompanyinfo(companyBean);
-                            } catch (Exception e) {
-                                BaseApplication.showToast("加载公司失败");
-                            }
+                        });
+                    }catch (ArrayIndexOutOfBoundsException e){
+                        e.printStackTrace();
+                        // TODO: 2017/12/8 添加提示
+                        BaseApplication.showToast("目前仅支持购物小票二维码、发票宝生成的单位信息二维码的扫描");
 
-                        }
-                    });
-
+                    }
                 }
                 break;
         }

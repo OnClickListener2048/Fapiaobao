@@ -790,21 +790,29 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
                             @Override
                             public void setData(CompanyDetailsBean companyDetailsBean) {
-                                MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
-                                data = companyDetailsBean.getData();
-                                companyBean.setAccount(data.getAccount());
-                                companyBean.setAddress(data.getAddress());
-                                companyBean.setDepositBank(data.getDepositBank());
-                                companyBean.setId(data.getId());
-                                companyBean.setIsNewRecord(data.isIsNewRecord());
-                                companyBean.setName(data.getName());
-                                companyBean.setPhone(data.getPhone());
-                                companyBean.setTaxno(data.getTaxno());
-                                updateCompanyInfo(companyBean);
+
+                                try{
+                                    MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+                                    data = companyDetailsBean.getData();
+                                    companyBean.setAccount(data.getAccount());
+                                    companyBean.setAddress(data.getAddress());
+                                    companyBean.setDepositBank(data.getDepositBank());
+                                    companyBean.setId(data.getId());
+                                    companyBean.setIsNewRecord(data.isIsNewRecord());
+                                    companyBean.setName(data.getName());
+                                    companyBean.setPhone(data.getPhone());
+                                    companyBean.setTaxno(data.getTaxno());
+                                    updateCompanyInfo(companyBean);
+                                }catch (Exception e){
+                                    BaseApplication.showToast("目前仅支持购物小票二维码、发票宝生成的单位信息二维码的扫描");
+
+                                }
                             }
                         });
                     }catch (Exception e){
                         e.printStackTrace();
+                        // TODO: 2017/12/8 添加提示
+                        BaseApplication.showToast("目前仅支持购物小票二维码、发票宝生成的单位信息二维码的扫描");
                     }
                 }
         }

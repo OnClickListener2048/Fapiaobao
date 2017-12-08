@@ -132,7 +132,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                 if(Double.parseDouble(bonus)>0.0){
                     setReloadDialog();
                 }else{
-                    BaseApplication.showToast("账户余额不足");
+                    BaseApplication.showToast("红包余额不足");
                 }
             }
             break;

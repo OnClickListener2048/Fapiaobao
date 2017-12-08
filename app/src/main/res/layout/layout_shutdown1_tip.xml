@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/title_small"
                 android:textSize="13sp"
-                android:text="发票正在收集中，确定关闭吗？"/>
+                android:text="发票正在收集中，提前关闭将会扣除相应积分，确定关闭吗？"/>
 
         </LinearLayout>
 

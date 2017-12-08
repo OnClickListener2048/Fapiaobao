@@ -359,7 +359,7 @@
     <string name="integral">积分 : %1$d</string>
     <string name="collected_amount">已收集%1$d张发票</string>
     <string name="left_bouns">剩余%1$f元红包待领取</string>
-    <string name="shut_down_early">提前关闭</string>
+    <string name="shut_down_early">提前关闭需求</string>
     <string name="no_negetive">无负面记录，请继续保持哦~</string>
     <string name="no_receipt">暂时还没收到票哦，请耐心等待~</string>
     <string name="no_message">暂时还没有信息哦~</string>

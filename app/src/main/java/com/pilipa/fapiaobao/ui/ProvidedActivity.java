@@ -288,7 +288,6 @@ public class ProvidedActivity extends BaseActivity {
                mSpinner.setAdapter(spinnerAdapter);
             }
         });
-
     }
 
     private void setTipDialog() {
@@ -463,6 +462,7 @@ public class ProvidedActivity extends BaseActivity {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_SCAN) {
             String codedContent = data.getStringExtra("codedContent");
             edtOddNumber.setText(codedContent);
+            // TODO: 2017/12/8 添加提示 物流单号
         }
     }
 

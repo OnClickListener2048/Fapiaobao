@@ -158,6 +158,8 @@ public class DemandActivity extends BaseActivity{
     TextView paperSpecialReceipt;
     @Bind(R.id.paper_elec_receipt)
     TextView paperElecReceipt;
+    @Bind(R.id.tv_qualified_list)
+    TextView tvQualifiedList;
 
 
     List<DemandDetails.DataBean.OrderInvoiceListBean> mDataList = new ArrayList<>();
@@ -242,7 +244,7 @@ public class DemandActivity extends BaseActivity{
                     intent.putParcelableArrayListExtra("images_qualified",images_qualified);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(DemandActivity.this, "暂无确认合格发票", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DemandActivity.this, "您还没有确认过任何发票", Toast.LENGTH_SHORT).show();
                 }
             }
             break;
@@ -252,7 +254,6 @@ public class DemandActivity extends BaseActivity{
             break;
             case btn_shut_down_early: {
                 setShutDialog(isCanShutDown);
-
             }
             break;
             case R.id.fl_change: {
@@ -370,6 +371,12 @@ public class DemandActivity extends BaseActivity{
             if(images1.size()==0&&images2.size()==0&&images3.size()==0){
                 ll_no_record.setVisibility(View.VISIBLE);
                 ll_receiptlist.setVisibility(View.GONE);
+            }
+            Log.d(TAG, "initData: images_qualified" + images_qualified.size());
+            if(images_qualified.size() == 0){
+                tvQualifiedList.setVisibility(View.GONE);
+            }else{
+                tvQualifiedList.setVisibility(View.VISIBLE);
             }
         }
     }

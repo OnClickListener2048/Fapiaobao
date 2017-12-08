@@ -98,7 +98,7 @@ public class RechargeActivity extends BaseActivity  {
     }
 
     private void recharge(){
-        Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallback<PrepayBean>() {
+        Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), amount, new Api.BaseViewCallback<PrepayBean>() {
             @Override
             public void setData(PrepayBean prepayBean) {
 
