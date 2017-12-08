@@ -77,7 +77,7 @@ public class Constant {
      */
 
     /*绑定第三方平台用户*/
-    public static final String BIND = BASE_URL + "customer/bind/%s/%s/%s";
+    public static final String BIND = BASE_URL + "customer/bind/%s/%s/%s/%s";
     /*获取用户信用历史记录*/
     public static final String FIND_CREDIT_HISTORY = BASE_URL + "customer/findCreditHistory/%s/%s/%s";
     /*获取用户信用信息 */

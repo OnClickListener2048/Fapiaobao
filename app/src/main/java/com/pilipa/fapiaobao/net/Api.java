@@ -123,8 +123,8 @@ public class Api {
 
     static String TAG = "api";
 
-    public static void bindWX(String customerId,String platform,String code, final BaseViewCallback baseViewCallback) {
-        OkGo.<NormalBean>get(String.format(BIND, customerId,platform,code)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+    public static void bindWX(String customerId,String platform,String code,String authCode, final BaseViewCallback baseViewCallback) {
+        OkGo.<NormalBean>get(String.format(BIND, customerId,platform,code,authCode)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
                     baseViewCallback.setData(response.body());

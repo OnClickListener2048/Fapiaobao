@@ -11,6 +11,7 @@
         android:orientation="vertical">
         <LinearLayout
             android:layout_marginLeft="@dimen/d30"
+            android:layout_marginRight="@dimen/d30"
             android:layout_marginTop="@dimen/d50"
             android:layout_below="@+id/thanks"
             android:layout_width="wrap_content"

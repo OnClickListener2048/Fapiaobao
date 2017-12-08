@@ -235,7 +235,7 @@ public class UserInfoActivity extends BaseActivity {
                 String deviceToken = BaseApplication.get("deviceToken", "");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 WXmodel wx_info = bundle.getParcelable("wx_info");
-                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), new Api.BaseViewCallback<NormalBean>() {
+                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(),"0", new Api.BaseViewCallback<NormalBean>() {
                     @Override
                     public void setData(NormalBean normalBean) {
                         if (normalBean.getStatus() == 200) {
@@ -577,6 +577,7 @@ public class UserInfoActivity extends BaseActivity {
                     AccountHelper.logout();
                     UserInfoActivity.this.finish();
                     set(PUSH_RECEIVE, false);
+
                     Log.d(TAG, "updateData:logoutByToken success");
                 } else if (normalBean.getStatus() == 400) {
                     BaseApplication.showToast("没有找到业务数据");

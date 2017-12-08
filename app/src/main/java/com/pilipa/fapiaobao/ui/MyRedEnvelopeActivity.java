@@ -37,6 +37,7 @@ import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.ACCOUNT_TYPE_RED;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_PLATFORM_WX;
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 import static com.pilipa.fapiaobao.ui.LoginActivity.WX_LOGIN_ACTION;
 
 /**
@@ -77,7 +78,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     };
 
     private void bind(final String openID){
-        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , openID, new Api.BaseViewCallback<NormalBean>() {
+        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , openID,"0", new Api.BaseViewCallback<NormalBean>() {
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == 200) {
@@ -160,7 +161,9 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
-                AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
+                if(loginWithInfoBean.getStatus() == REQUEST_SUCCESS){
+                    AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
+                }
             }
         });
     }

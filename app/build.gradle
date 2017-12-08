@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'key0'
             keyPassword '111111'
-            storeFile file('C:/Users/edz/StudioProjects/Fapiaobao/keystore_release.jks')
+            storeFile file('C:/Users/edz/AndroidStudioProjects/Fapiaobao/keystore_release.jks')
             storePassword '111111'
         }
     }
@@ -16,8 +16,8 @@ android {
         applicationId "com.pilipa.fapiaobao"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 127
-        versionName "1.2.7"
+        versionCode 129
+        versionName "1.2.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         defaultConfig {
             multiDexEnabled true

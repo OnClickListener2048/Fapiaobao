@@ -747,6 +747,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                     BaseApplication.showToast("余额不足");
                 } else if (RESULT_OK == resultCode) {
                 }
+                break;
             case REQUEST_CODE_FOR_MORE_TYPE:
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
@@ -759,6 +760,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                         labelsReceiptKind.setLabels(arrayReceipt);
                     }
                 }
+                break;
             case REQUEST_ADD_COMPANY_INFO:
                 if (resultCode == RESULT_OK) {
                     requestForCompanies();
@@ -815,6 +817,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                         BaseApplication.showToast("目前仅支持购物小票二维码、发票宝生成的单位信息二维码的扫描");
                     }
                 }
+                break;
         }
     }
 

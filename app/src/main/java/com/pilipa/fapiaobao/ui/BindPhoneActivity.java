@@ -94,7 +94,7 @@ public class BindPhoneActivity extends BaseActivity {
         }
     }
     private void bind(final String phone) {
-        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_MSG ,phone, new Api.BaseViewCallback<NormalBean>() {
+        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_MSG ,phone,etPassword.getText().toString().trim(), new Api.BaseViewCallback<NormalBean>() {
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == 200) {
@@ -106,6 +106,8 @@ public class BindPhoneActivity extends BaseActivity {
                     sendBroadcast(intent);
                     finish();
                 }else if(normalBean.getStatus() == 708){
+                    BaseApplication.showToast(normalBean.getMsg());
+                }else if(normalBean.getStatus() == 704){
                     BaseApplication.showToast(normalBean.getMsg());
                 }
             }

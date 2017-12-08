@@ -82,7 +82,7 @@ public class Withdraw2WXActivity extends BaseActivity {
         }
     };
     private void bind(final String openID){
-        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , openID, new Api.BaseViewCallback<NormalBean>() {
+        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , openID,"0", new Api.BaseViewCallback<NormalBean>() {
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == 200) {
