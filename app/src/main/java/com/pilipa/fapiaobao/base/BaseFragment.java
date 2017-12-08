@@ -115,18 +115,13 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
-
     public void login() {
         BaseApplication.showToast("请先登录");
         startActivity(new Intent(mContext, LoginActivity.class));
     }
 
-
-
-
     public String upLoadReceipt(Image image) {
-        ContentResolver cr = mContext.getContentResolver();
-        Bitmap bm = null;
+        Bitmap bm;
         Bitmap newbitmap = null;
         try {
             int degree = readPictureDegree(image.path);
@@ -135,8 +130,7 @@ public abstract class BaseFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String bmpStr = BitmapUtils.bitmapToBase64(newbitmap);
-        return bmpStr;
+        return BitmapUtils.bitmapToBase64(newbitmap);
     }
 
     protected <T extends View> T findView(int viewId) {

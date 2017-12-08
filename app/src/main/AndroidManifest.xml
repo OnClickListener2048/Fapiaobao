@@ -121,7 +121,7 @@
         <activity android:name=".ui.ReceiptFolderActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.MyWalletActivity" android:screenOrientation="portrait"/>
         <activity
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:name=".ui.FeedbackActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.AddCompanyInfoActivity" android:screenOrientation="portrait"/>

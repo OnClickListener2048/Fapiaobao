@@ -58,14 +58,12 @@ public class LaunchActivity extends AppCompatActivity {
         public void run() {
             if (BaseApplication.get(Config.IS_FIRST_COMING, true)) {
                 startActivity(new Intent(LaunchActivity.this, LeadActivity.class));
-
                 finish();
             } else {
                 redirectTo();
             }
         }
     };
-    private FrameLayout frameLayout;
 
     public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
@@ -101,7 +99,6 @@ public class LaunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_launch);
 
         mContentView = findViewById(R.id.fullscreen_content);
-        frameLayout = (FrameLayout) findViewById(R.id.bg);
         TextView version = (TextView) findViewById(R.id.version);
         version.setText("v"+TDevice.getVersionName());
         initAMap();

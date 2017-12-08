@@ -1,14 +1,19 @@
 package com.pilipa.fapiaobao.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.Constants.Config;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
@@ -42,7 +47,7 @@ public class UltraPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(final ViewGroup container, int position) {
+    public Object instantiateItem(final ViewGroup container, final int position) {
         RelativeLayout relativeLayout = new RelativeLayout(container.getContext());
         ImageView mImageView = new ImageView(container.getContext());
         mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -67,6 +72,8 @@ public class UltraPagerAdapter extends PagerAdapter {
         container.addView(relativeLayout);
         return relativeLayout;
     }
+
+
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {

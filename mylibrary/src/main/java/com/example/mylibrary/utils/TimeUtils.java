@@ -181,6 +181,7 @@ public final class TimeUtils {
 
     public static final DateFormat DEFAULT_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
     public static final DateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    public static final DateFormat  YYYY_MM_DD_HH_MM = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
     private TimeUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");

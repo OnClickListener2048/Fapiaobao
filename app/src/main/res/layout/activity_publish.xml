@@ -5,12 +5,13 @@
     android:orientation="vertical">
 
     <ImageView
+        android:layout_width="@dimen/d40"
         android:id="@+id/quit"
         android:layout_marginTop="@dimen/d10"
-        android:layout_marginRight="@dimen/d10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|top"
+        android:layout_height="@dimen/d40"
+        android:layout_gravity="end|top"
+        android:layout_marginEnd="@dimen/d10"
+        android:scaleType="center"
         android:src="@mipmap/demands_details_preview_quit" />
 
     <ImageView
@@ -36,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/d30" />
         <LinearLayout
-
+            android:baselineAligned="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

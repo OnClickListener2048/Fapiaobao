@@ -300,7 +300,6 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                     return;
                 }
                 String path = BitmapUtils.getRealFilePath(getActivity(),uri);
-
                 Image image = new Image();
                 image.isCapture = false;
                 image.position = mPreviousPosition;
@@ -309,8 +308,6 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                 image.path = path;
                 image.isFromNet = false;
                 arrayList.add(image);
-//                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
-//                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
             }
 
             Intent intent = new Intent();

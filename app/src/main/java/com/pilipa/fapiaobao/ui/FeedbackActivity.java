@@ -24,6 +24,8 @@ import android.widget.TextView;
 import com.example.mylibrary.utils.KeyboardUtils;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.TimeUtils;
+import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewScrollEvent;
+import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.FeedbackAdapterWrapper;
@@ -44,8 +46,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -78,6 +82,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
     private FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean;
     private RecyclerView.Adapter adapter;
     private View emptyView;
+    private View footerView;
 
     @Override
     protected int getLayoutId() {
@@ -122,7 +127,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
         feedbackMessagesAdapter = new FeedbackMessagesAdapter();
         feedbackMessagesAdapter.setOnItemResponseListener(this);
         normalAdapterWrapper = new FeedbackAdapterWrapper(feedbackMessagesAdapter);
-        final View footerView = LayoutInflater.from(this).inflate(R.layout.footer_refreshing_feedback, null);
+        footerView = LayoutInflater.from(this).inflate(R.layout.footer_refreshing_feedback, null);
         normalAdapterWrapper.addFooterView(footerView);
         View headerView = LayoutInflater.from(this).inflate(R.layout.header_feedback, null);
         normalAdapterWrapper.addHeaderView(headerView);
@@ -131,6 +136,16 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
         recyclerView.setAdapter(normalAdapterWrapper);
         progressBar = (ProgressBar) footerView.findViewById(R.id.loading_progress);
         textView_loading = (TextView) footerView.findViewById(R.id.loading);
+
+        RxRecyclerView.scrollStateChanges(recyclerView)
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(@NonNull Integer integer) throws Exception {
+
+                    }
+                });
+
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -179,6 +194,19 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
                 }
             }
         });
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getSuggestion(pageNo, pageSize, "", "", "", new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
             @Override
             public void onStart() {
@@ -237,14 +265,6 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
             }
         });
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
 
     public void getSuggestion(int pageNo, int pageSize, String id, String suggestion, String token, Api.BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
         Api.getSuggestions(pageNo, pageSize, id, suggestion, token, this, baseViewCallbackWithOnStart);
@@ -320,7 +340,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
         List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> list = new ArrayList<>();
         FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean = new FeedbackMessageBean.DataBean.ListBean.SuggestionListBean();
         suggestionBean.setAvatar(AccountHelper.getUser().getData().getCustomer().getHeadimg());
-        suggestionBean.setCreateTime(TimeUtils.getNowString(TimeUtils.DEFAULT_FORMAT));
+        suggestionBean.setCreateTime(TimeUtils.getNowString(TimeUtils.YYYY_MM_DD_HH_MM));
         TLog.log(" suggestionBean.setMessage(etFeedback.getText().toString().trim());" + etFeedback.getText().toString().trim());
         suggestionBean.setMessage(etFeedback.getText().toString().trim());
         suggestionBean.setNickname(AccountHelper.getUser().getData().getCustomer().getNickname());
@@ -367,7 +387,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
         if (isResponse) {
             etFeedback.setHint("回复票宝：");
         } else {
-//            etFeedback.setHint("回复" + suggestionBean.getNickname()+"：");
+            etFeedback.setHint("补充：");
         }
         etFeedback.requestFocus();
     }
@@ -404,7 +424,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
 
         FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBeanOrigin = new FeedbackMessageBean.DataBean.ListBean.SuggestionListBean();
         suggestionBeanOrigin.setAvatar(AccountHelper.getUser().getData().getCustomer().getHeadimg());
-        suggestionBeanOrigin.setCreateTime(TimeUtils.getNowString(TimeUtils.DEFAULT_FORMAT));
+        suggestionBeanOrigin.setCreateTime(TimeUtils.getNowString(TimeUtils.YYYY_MM_DD_HH_MM));
         suggestionBeanOrigin.setMessage(etFeedback.getHint()+etFeedback.getText().toString().trim());
         suggestionBeanOrigin.setNickname(AccountHelper.getUser().getData().getCustomer().getNickname());
         suggestionBeanOrigin.setType("1");

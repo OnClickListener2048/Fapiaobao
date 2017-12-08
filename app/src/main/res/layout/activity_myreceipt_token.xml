@@ -37,14 +37,13 @@
     </RelativeLayout>
 
     <FrameLayout
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/ll_elec_receipt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <android.support.v4.widget.Space
@@ -52,8 +51,9 @@
                 android:layout_height="@dimen/d10" />
 
             <FrameLayout
+                android:layout_height="0dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:layout_weight="1">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"
@@ -61,6 +61,21 @@
                     android:layout_height="wrap_content" />
             </FrameLayout>
 
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d10" />
+
+            <Button
+
+                android:id="@+id/confirm"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d40"
+                android:layout_marginBottom="@dimen/d11"
+                android:layout_marginLeft="@dimen/d13"
+                android:layout_marginRight="@dimen/d13"
+                android:background="@drawable/shape_extimate_go"
+                android:text="@string/confirm"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -98,15 +113,6 @@
                 android:textSize="@dimen/s12" />
         </RelativeLayout>
     </FrameLayout>
-    <Button
-        android:id="@+id/confirm"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/d40"
-        android:layout_marginRight="@dimen/d13"
-        android:layout_marginLeft="@dimen/d13"
-        android:layout_marginBottom="@dimen/d11"
-        android:background="@drawable/shape_extimate_go"
-        android:text="@string/confirm"
-        android:textColor="@color/white" />
+
 
 </LinearLayout>

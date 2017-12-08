@@ -5,7 +5,7 @@
         android:color="#bfbfbf"
         android:dashGap="@dimen/d4"
         android:dashWidth="@dimen/d10"
-        android:width="@dimen/d2" />
+        android:width="@dimen/d1" />
     <corners
         android:bottomLeftRadius="@dimen/d2"
         android:bottomRightRadius="@dimen/d2"

@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,7 +22,9 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
+import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.UnusedReceiptAdapter;
@@ -55,8 +58,17 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -105,15 +117,11 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         super.initWidget(root);
         arrayList = new ArrayList<>();
         mediaStoreCompat = new MediaStoreCompat(getActivity(),this);
-        GridLayoutManager grid = new GridLayoutManager(getActivity(), 3){
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        };
+        GridLayoutManager grid = new GridLayoutManager(getActivity(), 3);
         recyclerview.setLayoutManager(grid);
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
         recyclerview.addItemDecoration(new GridInset(3, spacing, true));
+        recyclerview.setItemAnimator(new DefaultItemAnimator());
         Image image = new Image();
         image.isFromNet = false;
         image.isCapture = true;
@@ -208,7 +216,6 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
     }
 
     private int getImageResize(Context context) {
-
         if (mImageResize == 0 && recyclerview !=null) {
             RecyclerView.LayoutManager lm = recyclerview.getLayoutManager();
             int spanCount = ((GridLayoutManager) lm).getSpanCount();
@@ -271,6 +278,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         //初始化视图
         root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
         root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
+        root.findViewById(R.id.btn_open_camera).setVisibility(View.GONE);
         root.findViewById(R.id.btn_cancel).setOnClickListener(this);
         mCameraDialog.setContentView(root);
         Window dialogWindow = mCameraDialog.getWindow();
@@ -279,7 +287,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
         lp.x = 0; // 新位置X坐标
         lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
         root.measure(0, 0);
         lp.height = root.getMeasuredHeight();
 
@@ -366,51 +374,162 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
             }
         } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<Uri> uris = Matisse.obtainResult(data);
-            List<String> imageList = new ArrayList<>();
-            for (Uri uri : uris) {
-                String path = BitmapUtils.getRealFilePath(getActivity(),uri);
+            final int count = uris.size();
+            final List<String> imageList = new ArrayList<>();
+//            for (Uri uri : uris) {
+//                String path = BitmapUtils.getRealFilePath(getActivity(),uri);
+//                Image image = new Image();
+//                image.isCapture = false;
+//                image.position = mPreviousPosition;
+//                mPreviousPosition++;
+//                image.uri = uri;
+//                image.path = path;
+//                image.isFromNet = false;
+//                images.add(image);
+//                imageList.add(upLoadReceipt(image));
+//                UnusedReceiptAdapter unusedReceiptAdapter = (UnusedReceiptAdapter) recyclerview.getAdapter();
+//                unusedReceiptAdapter.notifyItemInserted(mPreviousPosition);
+//            }
 
-                Image image = new Image();
-                image.isCapture = false;
-                image.position = mPreviousPosition;
-                mPreviousPosition++;
-                image.uri = uri;
-                image.path = path;
-                image.isFromNet = false;
-                images.add(image);
-                imageList.add(upLoadReceipt(image));
-                UnusedReceiptAdapter unusedReceiptAdapter = (UnusedReceiptAdapter) recyclerview.getAdapter();
-                unusedReceiptAdapter.notifyItemInserted(mPreviousPosition);
-            }
+
+            Observable.fromIterable(uris)
+                    .flatMap(new Function<Uri, ObservableSource<String>>() {
+                        @Override
+                        public ObservableSource<String> apply(@NonNull Uri uri) throws Exception {
+                            TLog.log("public ObservableSource<String> apply(@NonNull Uri uri) throws Exception {");
+                            String path = BitmapUtils.getRealFilePath(getActivity(), uri);
+                            final Image image = new Image();
+                            image.isCapture = false;
+                            image.position = mPreviousPosition;
+                            mPreviousPosition++;
+                            image.uri = uri;
+                            image.path = path;
+                            image.isFromNet = false;
+                            images.add(image);
+                            return Observable.create(new ObservableOnSubscribe<String>() {
+                                @Override
+                                public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
+                                    ((BaseActivity) getActivity()).showProgressDialog(getString(R.string.analysing));
+                                    TLog.log("public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {");
+//                                    ((BaseActivity) getActivity()).updateDialog(String.valueOf(imageList.size() + "/" + count));
+                                    e.onNext(upLoadReceipt(image));
+                                    e.onComplete();
+                                }
+                            }).subscribeOn(Schedulers.computation())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .doOnSubscribe(new Consumer<Disposable>() {
+                                @Override
+                                public void accept(@NonNull Disposable disposable) throws Exception {
+                                    TLog.log("public void accept(@NonNull Disposable disposable) throws Exception {");
+                                    ((BaseActivity) getActivity()).showProgressDialog(getString(R.string.analysing));
+                                }
+                            }).doOnError(new Consumer<Throwable>() {
+                                @Override
+                                public void accept(@NonNull Throwable throwable) throws Exception {
+                                    TLog.error("public void accept(@NonNull Throwable throwable) throws Exception {"+throwable.getMessage());
+                                }
+                            });
+                        }
+                    }).subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<String>() {
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+                            TLog.log("((BaseActivity) getActivity()).showProgressDialog(getString(R.string.analysing));");
+                            ((BaseActivity) getActivity()).showProgressDialog(getString(R.string.analysing));
+                        }
+
+                        @Override
+                        public void onNext(@NonNull String s) {
+                            TLog.log("  public void onNext(@NonNull String s) {");
+                            imageList.add(s);
+                            UnusedReceiptAdapter unusedReceiptAdapter = (UnusedReceiptAdapter) recyclerview.getAdapter();
+                            unusedReceiptAdapter.notifyItemInserted(mPreviousPosition);
+                            ((BaseActivity) getActivity()).updateDialog(String.valueOf(imageList.size() + "/" + count));
+                        }
+
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+                            TLog.error("public void onError(@NonNull Throwable e) {"+e.getMessage());
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            Observable.create(new ObservableOnSubscribe<String>() {
+                                @Override
+                                public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
+                                    LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
+                                    UploadLocalReceipt uploadLocalReceipt = new UploadLocalReceipt();
+                                    uploadLocalReceipt.setToken(loginWithInfoBean.getData().getToken());
+                                    uploadLocalReceipt.setPictureList(imageList);
+                                    Gson gson = new Gson();
+                                    String s = gson.toJson(uploadLocalReceipt);
+                                    e.onNext(s);
+                                    e.onComplete();
+                                }
+                            }).subscribeOn(Schedulers.from(AppOperator.getExecutor()))
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .doOnSubscribe(new Consumer<Disposable>() {
+                                        @Override
+                                        public void accept(@NonNull Disposable disposable) throws Exception {
+                                            ((BaseActivity) getActivity()).updateDialogWithDescription(getString(R.string.wrapping));
+                                        }
+                                    }).subscribe(new Consumer<String>() {
+                                @Override
+                                public void accept(@NonNull String s) throws Exception {
+                                    Api.uploadLocalReceipt(s, new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+                                        @Override
+                                        public void onStart() {
+                                            ((BaseActivity) getActivity()).updateDialogWithDescription(getString(R.string.uploading));
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            ((BaseActivity) getActivity()).hideProgressDialog();
+                                        }
+
+                                        @Override
+                                        public void onError() {
+                                            ((BaseActivity) getActivity()).hideProgressDialog();
+                                        }
+
+                                        @Override
+                                        public void setData(NormalBean response) {
+                                            BaseApplication.showToast("上传成功");
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
 
 
-            LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
-            UploadLocalReceipt uploadLocalReceipt = new UploadLocalReceipt();
-            uploadLocalReceipt.setToken(loginWithInfoBean.getData().getToken());
-
-            uploadLocalReceipt.setPictureList(imageList);
-            Gson gson = new Gson();
-            Api.uploadLocalReceipt(gson.toJson(uploadLocalReceipt), new Api.BaseViewCallbackWithOnStart<NormalBean>() {
-                @Override
-                public void onStart() {
-                    ((BaseActivity)getActivity()).showProgressDialog();
-                }
-
-                @Override
-                public void onFinish() {
-                    ((BaseActivity)getActivity()).hideProgressDialog();
-                }
-
-                @Override
-                public void onError() {
-                    ((BaseActivity)getActivity()).hideProgressDialog();
-                }
-                @Override
-                public void setData(NormalBean response) {
-//                    TLog.log(response.body());
-                    BaseApplication.showToast("上传成功");
-                }
-            });
+//            LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
+//            UploadLocalReceipt uploadLocalReceipt = new UploadLocalReceipt();
+//            uploadLocalReceipt.setToken(loginWithInfoBean.getData().getToken());
+//            uploadLocalReceipt.setPictureList(imageList);
+//            Gson gson = new Gson();
+//            Api.uploadLocalReceipt(gson.toJson(uploadLocalReceipt), new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+//                @Override
+//                public void onStart() {
+//                    ((BaseActivity)getActivity()).showProgressDialog();
+//                }
+//
+//                @Override
+//                public void onFinish() {
+//                    ((BaseActivity)getActivity()).hideProgressDialog();
+//                }
+//
+//                @Override
+//                public void onError() {
+//                    ((BaseActivity)getActivity()).hideProgressDialog();
+//                }
+//                @Override
+//                public void setData(NormalBean response) {
+////                    TLog.log(response.body());
+//                    BaseApplication.showToast("上传成功");
+//                }
+//            });
         }
     }
 
@@ -493,7 +612,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
         lp.x = 0; // 新位置X坐标
         lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
         root.measure(0, 0);
         lp.height = root.getMeasuredHeight();
 

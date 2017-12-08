@@ -68,6 +68,7 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
     private FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean;
     private RecyclerView.Adapter adapter;
     private View emptyView;
+    private View footerView;
 
     @Override
     protected int getLayoutId() {
@@ -111,7 +112,7 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
         feedbackMessagesAdapter = new FeedbackMessagesAdapter();
         feedbackMessagesAdapter.setOnItemResponseListener(this);
         normalAdapterWrapper = new FeedbackAdapterWrapper(feedbackMessagesAdapter);
-        final View footerView = LayoutInflater.from(this).inflate(R.layout.footer_refreshing_feedback, null);
+        footerView = LayoutInflater.from(this).inflate(R.layout.footer_refreshing_feedback, null);
         normalAdapterWrapper.addFooterView(footerView);
         View headerView = LayoutInflater.from(this).inflate(R.layout.header_feedback, null);
         normalAdapterWrapper.addHeaderView(headerView);
@@ -168,6 +169,12 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
                 }
             }
         });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getSuggestion(pageNo, pageSize, "", "", AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
             @Override
             public void onStart() {
@@ -298,7 +305,7 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
         List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> list = new ArrayList<>();
         FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBean = new FeedbackMessageBean.DataBean.ListBean.SuggestionListBean();
         suggestionBean.setAvatar(AccountHelper.getUser().getData().getCustomer().getHeadimg());
-        suggestionBean.setCreateTime(TimeUtils.getNowString(TimeUtils.DEFAULT_FORMAT));
+        suggestionBean.setCreateTime(TimeUtils.getNowString(TimeUtils.YYYY_MM_DD_HH_MM));
         TLog.log(" suggestionBean.setMessage(etFeedback.getText().toString().trim());" + etFeedback.getText().toString().trim());
         suggestionBean.setMessage(etFeedback.getText().toString().trim());
         suggestionBean.setNickname(AccountHelper.getUser().getData().getCustomer().getNickname());
@@ -340,7 +347,7 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
         if (isResponse) {
             etFeedback.setHint("回复票宝：");
         } else {
-//            etFeedback.setHint("回复" + suggestionBean.getNickname() + "：");
+            etFeedback.setHint("补充：");
         }
         etFeedback.requestFocus();
     }
@@ -377,7 +384,7 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
 
         FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBeanOrigin = new FeedbackMessageBean.DataBean.ListBean.SuggestionListBean();
         suggestionBeanOrigin.setAvatar(AccountHelper.getUser().getData().getCustomer().getHeadimg());
-        suggestionBeanOrigin.setCreateTime(TimeUtils.getNowString(TimeUtils.DEFAULT_FORMAT));
+        suggestionBeanOrigin.setCreateTime(TimeUtils.getNowString(TimeUtils.YYYY_MM_DD_HH_MM));
         suggestionBeanOrigin.setMessage(etFeedback.getHint() + etFeedback.getText().toString().trim());
         suggestionBeanOrigin.setNickname(AccountHelper.getUser().getData().getCustomer().getNickname());
         suggestionBeanOrigin.setType("1");
