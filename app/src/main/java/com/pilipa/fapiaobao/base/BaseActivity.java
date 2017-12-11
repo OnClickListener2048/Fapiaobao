@@ -75,7 +75,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                             + aMapLocation.getErrorCode() + ", errInfo:"
                             + aMapLocation.getErrorInfo());
                     if (!TDevice.hasInternet()) {
-                        BaseApplication.showToast("网络异常");
+                        BaseApplication.showToast("网络异常，定位失败");
                     }
                 }
             }

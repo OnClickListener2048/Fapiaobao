@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'key0'
             keyPassword '111111'
-            storeFile file('C:/Users/edz/AndroidStudioProjects/Fapiaobao/keystore_release.jks')
+            storeFile file('C:/Users/edz/StudioProjects/Fapiaobao/keystore_release.jks')
             storePassword '111111'
         }
     }
@@ -23,6 +23,9 @@ android {
             multiDexEnabled true
         }
         signingConfig signingConfigs.config
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+        }
     }
     buildTypes {
         release {
@@ -34,6 +37,7 @@ android {
             signingConfig signingConfigs.config
         }
     }
+
     productFlavors {
     }
 }
@@ -57,4 +61,5 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile project(path: ':guideview')
+    compile files('libs/tbs_sdk_thirdapp_v3.2.0.1104_43200_sharewithdownload_withfilereader_withoutGame_obfs_20170609_115346.jar')
 }

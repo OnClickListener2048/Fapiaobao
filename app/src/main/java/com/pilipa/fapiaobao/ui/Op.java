@@ -2,24 +2,28 @@ package com.pilipa.fapiaobao.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.webkit.DownloadListener;
-import android.webkit.JsResult;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mylibrary.utils.TLog;
-import com.just.library.AgentWeb;
-import com.just.library.ChromeClientCallbackManager;
-import com.just.library.DownLoadResultListener;
+
+import com.just.agentwebX5.AgentWeb;
+import com.just.agentwebX5.ChromeClientCallbackManager;
+import com.just.agentwebX5.DownLoadResultListener;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.utils.WebViewUtils;
+import com.tencent.smtt.export.external.interfaces.JsResult;
+import com.tencent.smtt.sdk.DownloadListener;
+import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.ValueCallback;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -184,7 +188,15 @@ public class Op extends AppCompatActivity implements
      */
     @Override
     public void success(String path) {
+        TLog.log("public void success(String path) {");
         TLog.log(path);
+
+        QbSdk.openFileReader(this, path, null, new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String s) {
+                Log.d("op.class", "onReceiveValue: "+s);
+            }
+        });
     }
 
     /**

@@ -85,7 +85,7 @@ public class LaunchActivity extends AppCompatActivity {
                             + aMapLocation.getErrorCode() + ", errInfo:"
                             + aMapLocation.getErrorInfo());
                     if (!TDevice.hasInternet()) {
-                        BaseApplication.showToast("网络异常");
+                        BaseApplication.showToast("网络异常，定位失败");
                     }
                 }
             }

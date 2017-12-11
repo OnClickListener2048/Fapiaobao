@@ -162,7 +162,6 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
         } else {
             BaseApplication.showToast(getString(R.string.please_install_WX));
         }
-
     }
 
     private void login(String platform,String credenceName,String credenceCode){
@@ -243,7 +242,6 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
 
                 @Override
                 public void setData(ShortMessageBean shortMessageBean) {
-                        BaseApplication.showToast(shortMessageBean.getData());
                 }
             });
         }

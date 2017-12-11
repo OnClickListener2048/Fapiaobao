@@ -1,14 +1,24 @@
 package com.pilipa.fapiaobao.net.callback;
 
+import android.net.ParseException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.lzy.okgo.callback.AbsCallback;
+import com.lzy.okgo.exception.HttpException;
 import com.lzy.okgo.request.base.Request;
+import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.utils.TDevice;
 
+import org.json.JSONException;
+
+import java.io.InterruptedIOException;
 import java.lang.reflect.Type;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -21,13 +31,12 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
     private Type type;
     private Class<T> clazz;
 
-    public JsonCallBack(Type type) {
+    protected JsonCallBack(Type type) {
         this.type = type;
     }
 
-    public JsonCallBack(Class<T> clazz) {
+    protected JsonCallBack(Class<T> clazz) {
         this.clazz = clazz;
-
     }
 
     @Override
@@ -63,14 +72,64 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
     @Override
     public void onError(com.lzy.okgo.model.Response<T> response) {
         super.onError(response);
-        if (TDevice.hasInternet()) {
-            if (!response.isSuccessful()) {
-                BaseApplication.showToast("网络异常");
-            }
-        } else {
-            BaseApplication.showToast("请检查网络~");
-            return;
-        }
+        Throwable e = response.getException();
+//        if (TDevice.hasInternet()) {
+//            if (!response.isSuccessful()) {
+//                BaseApplication.showToast("网络异常");
+//            }
+//        } else {
+//            BaseApplication.showToast("请检查网络~");
+//        }
 
+
+        if (e instanceof HttpException) {     //   HTTP错误
+            onException(ExceptionReason.BAD_NETWORK);
+        } else if (e instanceof ConnectException
+                || e instanceof UnknownHostException) {   //   连接错误
+            onException(ExceptionReason.CONNECT_ERROR);
+        } else if (e instanceof InterruptedIOException) {   //  连接超时
+            onException(ExceptionReason.CONNECT_TIMEOUT);
+        } else if (e instanceof JsonParseException
+                || e instanceof JSONException
+                || e instanceof ParseException) {   //  解析错误
+            onException(ExceptionReason.PARSE_ERROR);
+        } else {
+            onException(ExceptionReason.UNKNOWN_ERROR);
+        }
+    }
+
+    private enum  ExceptionReason {
+        BAD_NETWORK,
+        CONNECT_ERROR,
+        CONNECT_TIMEOUT,
+        PARSE_ERROR,
+        UNKNOWN_ERROR,
+    }
+
+
+
+    private void onException(ExceptionReason reason) {
+        switch (reason) {
+            case CONNECT_ERROR:
+                BaseApplication.showToast(R.string.connect_error);
+                break;
+
+            case CONNECT_TIMEOUT:
+                BaseApplication.showToast(R.string.connect_timeout);
+                break;
+
+            case BAD_NETWORK:
+                BaseApplication.showToast(R.string.bad_network);
+                break;
+
+            case PARSE_ERROR:
+                BaseApplication.showToast(R.string.parse_error);
+                break;
+
+            case UNKNOWN_ERROR:
+            default:
+                BaseApplication.showToast(R.string.unknown_error);
+                break;
+        }
     }
 }
