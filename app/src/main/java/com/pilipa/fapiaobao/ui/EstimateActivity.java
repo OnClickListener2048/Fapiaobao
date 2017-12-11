@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -42,6 +43,7 @@ import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.fragment.EstimatePagerFragment;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
+import com.pilipa.fapiaobao.ui.widget.CashierInputFilter;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.tmall.ultraviewpager.UltraViewPager;
@@ -185,6 +187,9 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         tolast.setEnabled(false);
         initCityPicker();
         initInvoiceTypes();
+
+        InputFilter[] cashierInputFilter ={new CashierInputFilter()};
+        etEstimate.setFilters(cashierInputFilter);
 
         RxTextView
                 .afterTextChangeEvents(etEstimate)

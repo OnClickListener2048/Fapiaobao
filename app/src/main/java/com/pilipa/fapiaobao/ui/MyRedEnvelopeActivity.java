@@ -198,12 +198,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(AccountHelper.getUser().getData().getCustomer().getOpenid() != null){
-                    withdaw(AccountHelper.getUser().getData().getCustomer().getOpenid() );
-                }else{
-                    weChatLogin();
-                }
+                weChatLogin();
                 mDialog.dismiss();
             }
         });

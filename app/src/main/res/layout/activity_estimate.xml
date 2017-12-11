@@ -153,7 +153,7 @@
                                 android:drawableLeft="@mipmap/caution"
                                 android:drawablePadding="@dimen/d5"
                                 android:text="请如实填写,与票面合计金额保持一致,否则将被拒收"
-                                android:textColor="#ad9d7e"
+                                android:textColor="@color/olive"
                                 android:textSize="@dimen/s13" />
                         </LinearLayout>
 

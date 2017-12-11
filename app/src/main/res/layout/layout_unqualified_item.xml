@@ -11,7 +11,7 @@
         android:layout_marginTop="@dimen/d10"
         android:layout_marginLeft="@dimen/d13"
         android:layout_marginRight="@dimen/d13"
-        android:text="发票金额：0元"/>
+        android:text="提供金额：0元"/>
     <RelativeLayout
         android:layout_marginLeft="@dimen/d13"
         android:layout_marginRight="@dimen/d13"
@@ -29,7 +29,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="90dp"
         android:layout_margin="@dimen/d10"
         android:background="@drawable/edittext_bg"
         android:orientation="horizontal"
@@ -92,12 +92,13 @@
             android:id="@+id/ll_save_to_media"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/d10"
             android:orientation="horizontal">
 
 
             <TextView
                 android:id="@+id/confirm_back"
-                android:layout_width="147dp"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginRight="@dimen/d13"
@@ -106,7 +107,6 @@
                 android:paddingTop="@dimen/d10"
                 android:text="@string/confirm"
                 android:textColor="@color/white"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                  />
         </RelativeLayout>

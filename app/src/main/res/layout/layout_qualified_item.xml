@@ -3,7 +3,16 @@
     android:orientation="vertical"
     android:id="@+id/layout_qualified_item"
     android:layout_width="match_parent"
-    android:layout_height="220dp">
+    android:layout_height="240dp">
+
+    <TextView
+        android:id="@+id/privide_amount_qalified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/d13"
+        android:layout_marginRight="@dimen/d13"
+        android:layout_marginTop="@dimen/d30"
+        android:text="提供金额：0元" />
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
@@ -16,60 +25,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/ll_select_qualified"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <android.support.v4.widget.Space
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/qualified"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_qualified"
-                android:paddingBottom="@dimen/d10"
-                android:paddingLeft="@dimen/d50"
-                android:paddingRight="@dimen/d50"
-                android:paddingTop="@dimen/d10"
-                android:text="@string/qualified"
-                android:textColor="@color/white" />
-
-            <android.support.v4.widget.Space
-                android:layout_width="@dimen/d20"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:id="@+id/unqualified"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/unqualified"
-                android:textColor="@color/main_style" />
-
-            <android.support.v4.widget.Space
-                android:layout_width="@dimen/d10"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-
         <RelativeLayout
             android:id="@+id/ll_save_to_media"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-
             <TextView
                 android:id="@+id/save_to_media"
-                android:layout_width="120dp"
+                android:layout_width="147dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/d30"
+                android:layout_marginRight="@dimen/d13"
                 android:background="@drawable/shape_qualified"
                 android:paddingBottom="@dimen/d10"
                 android:paddingTop="@dimen/d10"

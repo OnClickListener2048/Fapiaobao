@@ -40,7 +40,7 @@
     <com.pilipa.fapiaobao.ui.widget.PreviewViewpager
         android:id="@+id/preview_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="280dp"
+        android:layout_height="260dp"
         >
     </com.pilipa.fapiaobao.ui.widget.PreviewViewpager>
     <LinearLayout
@@ -77,7 +77,7 @@
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
-        android:layout_height="@dimen/d15" />
+        android:layout_height="@dimen/d10" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"

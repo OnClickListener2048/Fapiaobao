@@ -4,7 +4,15 @@
     android:id="@+id/layout_reject_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <TextView
+        android:id="@+id/privide_amount_reject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/d13"
+        android:layout_marginRight="@dimen/d13"
+        android:layout_marginBottom="@dimen/d10"
+        android:layout_marginTop="@dimen/d10"
+        android:text="提供金额：0元" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_marginRight="@dimen/d15"
@@ -16,6 +24,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <TextView
@@ -37,9 +46,9 @@
                     android:id="@+id/edt_amount_reject"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:hint="请输入该张发票票面金额"
                     android:inputType="numberDecimal"
                     android:maxLength="9"
+                    android:focusable="false"
                     android:textColor="#808080"
                     android:background="@null"
                     android:textSize="@dimen/s14" />
@@ -63,7 +72,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/d5"
+                android:layout_marginTop="@dimen/d10"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -86,9 +95,9 @@
             <EditText
                 android:layout_marginTop="@dimen/d5"
                 android:id="@+id/edt_reason_reject"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:padding="@dimen/d3"
                 android:hint="@string/hint_reject"
                 android:textSize="@dimen/d12"
@@ -111,7 +120,7 @@
 
         <TextView
             android:id="@+id/cancel_reject"
-            android:layout_width="60dp"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/shape_qualified"
@@ -120,6 +129,7 @@
             android:paddingLeft="@dimen/d50"
             android:paddingRight="@dimen/d50"
             android:paddingTop="@dimen/d10"
+            android:layout_marginRight="@dimen/d10"
             android:text="@string/cancel"
             android:textColor="@color/white" />
 
@@ -127,13 +137,15 @@
            android:id="@+id/tv_Unqualified_reject"
            android:layout_weight="1"
            android:gravity="center"
-           android:layout_width="60dp"
+           android:layout_width="140dp"
             android:paddingBottom="@dimen/d10"
             android:paddingLeft="@dimen/d10"
             android:paddingRight="@dimen/d10"
             android:paddingTop="@dimen/d10"
-           android:layout_height="wrap_content"
-           android:textColor="@color/main_style"
+            android:layout_marginRight="@dimen/d13"
+            android:background="@drawable/shape_qualified"
+            android:layout_height="wrap_content"
+           android:textColor="@color/white"
            android:text="@string/confirm"/>
     </LinearLayout>
 </LinearLayout>

@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +22,7 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.ui.fragment.PreviewFillupFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.ui.widget.CashierInputFilter;
 import com.pilipa.fapiaobao.ui.widget.NoScrollViewpager;
 
 import java.util.ArrayList;
@@ -65,6 +66,10 @@ public class FillUpActivity extends BaseActivity implements ViewPager.OnPageChan
 
     @Override
     public void initView() {
+
+        InputFilter[] cashierInputFilter ={new CashierInputFilter()};
+        etFillup.setFilters(cashierInputFilter);
+
         images = getIntent().getParcelableArrayListExtra("images");
 
         ArrayList<PreviewFillupFragment> fragmentList = new ArrayList<>();

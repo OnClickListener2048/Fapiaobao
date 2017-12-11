@@ -315,7 +315,7 @@ public class DemandActivity extends BaseActivity{
                 image.isCapture = false;
                 image.isFromNet = true;
                 image.state = result.getState();
-                image.amount = String.valueOf(result.getAmount());
+                image.amount = String.format("%.2f",result.getAmount());
                 image.logisticsTradeno = result.getLogisticsTradeno();
                 image.logisticsCompany = result.getLogisticsCompany();
                 image.variety = result.getVariety();

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
+import com.pilipa.fapiaobao.ui.widget.CashierInputFilter;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -134,6 +136,8 @@ public class Withdraw2WXActivity extends BaseActivity {
             case R.id.btn_withdraw: {
                 if(Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ?"0":tv_amount.getText().toString().trim())<1.0){
                     BaseApplication.showToast("提现金额不能少于1元");
+                }else if(Double.parseDouble(withdraw_max.getText().toString()) <= (double)0){
+                    BaseApplication.showToast("账户余额不足");
                 }else{
                     setDialog();
                 }
@@ -152,8 +156,11 @@ public class Withdraw2WXActivity extends BaseActivity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(LoginActivity.WX_LOGIN_ACTION);
-
         registerReceiver(mBroadcastReceiver, filter);
+
+        InputFilter[] cashierInputFilter ={new CashierInputFilter()};
+        tv_amount.setFilters(cashierInputFilter);
+
     }
 
     @Override

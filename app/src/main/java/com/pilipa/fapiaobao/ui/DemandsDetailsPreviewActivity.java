@@ -126,6 +126,14 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     TextView tv_reject_reason;
     @Bind(R.id.reject_amount)//不合格理由
     TextView rejectAmount;
+    @Bind(R.id.privide_amount_qalified)
+    TextView privideAmountQalified;
+    @Bind(R.id.privide_amount_reject)
+    TextView privideAmountReject;
+    @Bind(R.id.privide_amount_willcheck)
+    TextView privideAmountWillcheck;
+    @Bind(R.id.privide_amount_privoide)
+    TextView privideAmountPrivoide;
     private MyRejectTypeAdapter mSpinnerAdapter;
 
 
@@ -194,6 +202,10 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         tv_tip.setText("");
         llExpressInfo.setVisibility(View.GONE);
         llNoInfo.setVisibility(View.GONE);
+        privideAmountReject.setText("提供金额：" + image.amount + "元");
+        privideAmountWillcheck.setText("提供金额：" + image.amount + "元");
+        privideAmountQalified.setText("提供金额：" + image.amount + "元");
+        privideAmountPrivoide.setText("提供金额：" + image.amount + "元");
         switch (image.state) {
             case STATE_CONFIRMING://
                 layout_qualified_item.setVisibility(View.GONE);
@@ -228,7 +240,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                 layout_unqualified_item.setVisibility(View.VISIBLE);
                 layout_qualified_privoide_item.setVisibility(View.GONE);
                 tv_reject_reason.setText(image.reason);
-                rejectAmount.setText("发票金额：" + image.amount + "元");
+                rejectAmount.setText("提供金额：" + image.amount + "元");
                 tv_state.setText("不合格");
 
                 break;
@@ -412,6 +424,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         } else {
             layout_reject_item.setVisibility(View.VISIBLE);
             layout_willchecked_item.setVisibility(View.GONE);
+
             findAllRejectType();
         }
     }
@@ -557,7 +570,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     private String reason;
 
     private void rejectInvoice() {
-        if (!edt_amount_reject.getText().toString().isEmpty()) {
             final RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
             if ("8".equals(data.getValue())) {
                 reason = edt_reason_reject.getText().toString().trim();
@@ -574,7 +586,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                             edt_reason_reject.getText().toString().trim();
                             Api.rejectInvoice(AccountHelper.getToken()
                                     , currentImage.name
-                                    , edt_amount_reject.getText().toString().trim()
+                                    , "0"
                                     , data.getValue()
                                     , reason
                                     , new Api.BaseViewCallback<RejectInvoiceBean>() {
@@ -601,10 +613,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                     }
                 });
             }
-        } else {
-            BaseApplication.showToast("请认真填写驳回金额");
-        }
-
     }
 
     private Dialog mDialog;

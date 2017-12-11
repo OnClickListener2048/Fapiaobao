@@ -14,6 +14,7 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.method.ReplacementTransformationMethod;
 import android.util.Log;
@@ -67,6 +68,7 @@ import com.pilipa.fapiaobao.receiver.WXPayReceiver;
 import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
+import com.pilipa.fapiaobao.ui.widget.CashierInputFilter;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
@@ -247,6 +249,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
     @Override
     public void initView() {
+        InputFilter[] cashierInputFilter ={new CashierInputFilter()};
+        etAmount.setFilters(cashierInputFilter);
+        etAmountRedbag.setFilters(cashierInputFilter);
+        etExpressAmountMinimum.setFilters(cashierInputFilter);
 
         Intent intent = getIntent();
         changeCompanyinfo.setVisibility(View.GONE);
@@ -958,13 +964,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             BaseApplication.showToast("单次需求总额不得超过50000元");
             return false;
         }
-        if (!etExpressAmountMinimum.getText().toString().isEmpty()
-                && Double.valueOf(etExpressAmountMinimum.getText().toString().trim())
-                > Double.valueOf(etAmount.getText().toString().trim())) {
-            BaseApplication.showToast("最少寄送限额必须小于等于需求总额");
-            return false;
-        }
-
         if (Switch.isChecked()) {
             if (!checkIfIsEmpty(etAmountRedbag)) {
                 BaseApplication.showToast("悬赏红包不能为空");
@@ -977,7 +976,12 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                 return false;
             }
         }
-
+        if (!etExpressAmountMinimum.getText().toString().isEmpty()
+                && Double.valueOf(etExpressAmountMinimum.getText().toString().trim())
+                > Double.valueOf(etAmount.getText().toString().trim())) {
+            BaseApplication.showToast("最少寄送限额必须小于等于需求总额");
+            return false;
+        }
 
         if (!checkIfIsEmpty(etPublishCompanyName)) {
             BaseApplication.showToast("单位名称不能为空");
