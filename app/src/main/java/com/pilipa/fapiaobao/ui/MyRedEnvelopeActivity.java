@@ -103,7 +103,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                             BaseApplication.showToast("提现成功");
                             finish();
                         }else if(normalBean.getStatus() ==888){
-                            BaseApplication.showToast("账户余额不足");
+                            BaseApplication.showToast("红包余额不足");
                         }
                     }
                 });
@@ -125,7 +125,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                         setDialog();
                     }
                 }else{
-                    BaseApplication.showToast("账户余额不足");
+                    BaseApplication.showToast("红包余额不足");
                 }
             }
             break;

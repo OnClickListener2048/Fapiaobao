@@ -83,7 +83,7 @@ public class ReceiptFolderActivity extends BaseActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
                     TLog.log(content);
-                    if (RegexUtils.isURL(content)) {
+                    if (RegexUtils.isURL(content)||content.contains("http")) {
                         Intent intent = new Intent();
                         intent.setClass(this, Op.class);
                         intent.putExtra("url", content);

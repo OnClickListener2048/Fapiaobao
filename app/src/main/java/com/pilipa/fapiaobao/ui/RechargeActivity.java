@@ -70,7 +70,7 @@ public class RechargeActivity extends BaseActivity  {
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 final WXmodel wx_info = bundle.getParcelable("wx_info");
-                if(AccountHelper.getUser().getData().getCustomer().getOpenid()==null){
+                if(AccountHelper.getUser().getData().getCustomer().getOpenid().isEmpty()){
                     bind(wx_info.getOpenid());
                 }else{
                     if(wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())){

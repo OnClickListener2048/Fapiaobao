@@ -46,7 +46,8 @@ public final class RegexConstants {
     /**
      * 正则：URL
      */
-    public static final String REGEX_URL           = "[a-zA-z]+://[^\\s]*";
+    public static final String REGEX_URL           ="^([hH][tT]{2}[pP]:/*|[hH][tT]{2}[pP][sS]:/*|[fF][tT][pP]:/*)(([A-Za-z0-9-~]+).)+([A-Za-z0-9-~\\/])+(\\?{0,1}(([A-Za-z0-9-~]+\\={0,1})([A-Za-z0-9-~]*)\\&{0,1})*)$";
+
     /**
      * 正则：汉字
      */

@@ -444,15 +444,19 @@ public class UserInfoActivity extends BaseActivity {
         edtPhone.setText(customer.getTelephone());
         edt_email.setText(customer.getEmail());
 
-
-        if (customer.getOpenid() == null) {
+        if (customer.getOpenid()==null) {
             tv_wx.setText("去绑定");
             tv_wx.setOnClickListener(this);
         } else {
             tv_wx.setText("已绑定");
-            tv_wx.setOnClickListener(null);
+            tv_wx.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setUBindDialog();
+                }
+            });
         }
-        if (customer.getTelephone() == null) {
+        if (customer.getTelephone()==null) {
             bindPhone.setVisibility(View.VISIBLE);
             bindPhone.setText("去绑定");
             edtPhone.setVisibility(View.GONE);
@@ -504,7 +508,39 @@ public class UserInfoActivity extends BaseActivity {
         dialogWindow.setAttributes(lp);
         mCameraDialog.show();
     }
+    private void setUBindDialog() {
+        mDialog = new Dialog(this, R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+                R.layout.layout_ubind_tip, null);
+        //初始化视图
+        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uBindWX();
+                mDialog.dismiss();
+            }
+        });
+        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
+        mDialog.setContentView(root);
+        Window dialogWindow = mDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
 
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        mDialog.show();
+    }
     private void setLogoutDialog() {
         mDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
@@ -596,7 +632,24 @@ public class UserInfoActivity extends BaseActivity {
             finish();
         }
     }
-
+    private void uBindWX() {
+        Api.uBindWX(AccountHelper.getUser().getData().getCustomer().getId()
+                 ,LOGIN_PLATFORM_WX
+                 ,AccountHelper.getUser().getData().getCustomer().getOpenid()
+                 , new Api.BaseViewCallback<NormalBean>() {
+            @Override
+            public void setData(NormalBean normalBean) {
+                if (normalBean.getStatus() == 200) {
+                    tv_wx.setText("去绑定");
+                    tv_wx.setOnClickListener(UserInfoActivity.this);
+                    AccountHelper.clearCustomerOpenId();
+                    BaseApplication.showToast("微信解绑成功");
+                } else if (normalBean.getStatus() == 707) {
+                    BaseApplication.showToast(normalBean.getMsg());
+                }
+            }
+        });
+    }
     private IWXAPI api;
 
     private void regexToWX() {

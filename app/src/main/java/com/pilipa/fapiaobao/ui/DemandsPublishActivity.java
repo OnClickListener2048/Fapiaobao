@@ -312,7 +312,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         registerReceiver(wxPayReceiver, intentFilter);
         String location = BaseApplication.get("location", "定位失败，点击选择地区");
         tvAreaLimited.setText(location);
-
+        if("定位异常，请点击重新定位".equals(location)){
+            BaseApplication.showToast("定位异常，请开启定位功能或手动选择");
+        }
+        
         etPublishTexNumber.setTransformationMethod(new ReplacementTransformationMethod() {
             @Override
             protected char[] getOriginal() {

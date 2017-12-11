@@ -45,12 +45,7 @@ public class MyWalletActivity extends BaseActivity {
             case R.id.tv_recharge_details:{
                 startActivity(new Intent(this,RechargeDetailsActivity.class));
             }break;
-            case R.id.my_red_envelope:{
-                Intent intent = new Intent();
-                intent.putExtra("bonus", tv_bouns.getText().toString().trim());
-                intent.setClass(this, MyRedEnvelopeActivity.class);
-                startActivity(intent);
-            }break;
+
             default:
                 if(!"notoken".equals(AccountHelper.getToken())){
                     switch (v.getId()){
@@ -61,9 +56,15 @@ public class MyWalletActivity extends BaseActivity {
                             Intent intent = new Intent(MyWalletActivity.this,Withdraw2WXActivity.class);
                             startActivity(intent);
                         }break;
+                        case R.id.my_red_envelope:{
+                            Intent intent = new Intent();
+                            intent.putExtra("bonus", tv_bouns.getText().toString().trim());
+                            intent.setClass(this, MyRedEnvelopeActivity.class);
+                            startActivity(intent);
+                        }break;
                     }
                 }else {
-                    startActivity(new Intent(MyWalletActivity.this, LoginActivity.class));
+                    login();
                 }
                 break;
         }

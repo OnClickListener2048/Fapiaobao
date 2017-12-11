@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.mylibrary.utils.TLog;
-import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
@@ -43,10 +42,12 @@ public class AccountHelper {
         SharedPreferencesHelper.remove(instances.application,LoginWithInfoBean.class);
 //        BaseApplication.finishAllActivites();
 //        ActivityUtils.finishAllActivities();
+        getToken();
         Log.d(TAG, "logout: success");
     }
     public static String getToken() {
         if (getUser() == null || getUser().getData() == null) {
+            Log.d(TAG, "getToken: notoken");
             return "notoken";
         }
         String token = getUser().getData().getToken();
@@ -85,6 +86,14 @@ public class AccountHelper {
                 instances.user.getData().getCustomer().setOpenid(customer.getOpenid());
             }
             SharedPreferencesHelper.save(instances.application,instances.user);
+        }
+    }
+    public static void clearCustomerOpenId(){
+        instances.user = SharedPreferencesHelper.loadFormSource(instances.application, LoginWithInfoBean.class);
+        if (getUser() != null || getUser().getData() != null) {
+            instances.user.getData().getCustomer().setOpenid(null);
+            SharedPreferencesHelper.save(instances.application,instances.user);
+            TLog.d(TAG,"clearCustomerOpenId success");
         }
     }
 }

@@ -14,7 +14,6 @@ import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.entity.Company;
-import com.pilipa.fapiaobao.net.bean.LoginBean;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
@@ -194,11 +193,10 @@ public class Api {
         OkGo.<LoginWithInfoBean>get(String.format(USER_LOGIN, platform, credenceName, credenceCode, deviceToken)).execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
             @Override
             public void onSuccess(Response<LoginWithInfoBean> response) {
-                if ("OK".equals(response.body().getMsg()) && 200 == response.body().getStatus()) {
+                if (200 == response.body().getStatus()) {
                     baseViewCallback.setData(response.body());
                 }
-
-                if ("短信验证码错误".equals(response.body().getMsg()) && 704 == response.body().getStatus()) {
+                if (704 == response.body().getStatus()) {
                     BaseApplication.showToast("验证码错误");
                 }
             }
@@ -262,10 +260,10 @@ public class Api {
         });
     }
 
-    public static void uBindWX(String token, final BaseViewCallback baseViewCallback) {
-        OkGo.<LoginBean>get(String.format(UBIND, token)).execute(new JsonCallBack<LoginBean>(LoginBean.class) {
+    public static void uBindWX(String customerId,String platform,String code, final BaseViewCallback baseViewCallback) {
+        OkGo.<NormalBean>get(String.format(UBIND, customerId,platform,code)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
-            public void onSuccess(Response<LoginBean> response) {
+            public void onSuccess(Response<NormalBean> response) {
                     baseViewCallback.setData(response.body());
             }
         });

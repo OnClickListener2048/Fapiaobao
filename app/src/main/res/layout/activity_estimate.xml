@@ -253,11 +253,11 @@
                                 app:labelTextPaddingLeft="10dp"
                                 app:labelTextPaddingRight="10dp"
                                 app:labelTextPaddingTop="5dp"
-                                app:labelTextSize="12sp"
+                                app:labelTextSize="13sp"
                                 app:lineMargin="10dp"
                                 app:maxSelect="0"
                                 app:selectType="SINGLE"
-                                app:wordMargin="10dp"
+                                app:wordMargin="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content">
 

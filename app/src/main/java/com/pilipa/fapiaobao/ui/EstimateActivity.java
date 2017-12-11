@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +21,6 @@ import android.widget.TextView;
 import com.blog.www.guideview.Guide;
 import com.blog.www.guideview.GuideBuilder;
 import com.example.mylibrary.utils.TLog;
-import com.jakewharton.rxbinding2.view.RxView;
-import com.jakewharton.rxbinding2.view.ViewAttachEvent;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent;
 import com.lljjcoder.Interface.OnCityItemClickListener;
@@ -357,6 +354,10 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 locating.setText("定位中...");
                 String location = BaseApplication.get("location", "定位异常，请点击重新定位");
                 locating.setText(location);
+                if("定位异常，请点击重新定位".equals(location)){
+                    BaseApplication.showToast("定位异常，请开启定位功能或手动选择");
+                }
+
                 break;
         }
     }
