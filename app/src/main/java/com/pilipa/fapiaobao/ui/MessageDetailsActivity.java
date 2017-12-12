@@ -13,9 +13,7 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MessageDetailsAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageDetailsBean;
-import com.pilipa.fapiaobao.utils.TDevice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,6 +143,7 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
                 intent = new Intent(MessageDetailsActivity.this,MyRedEnvelopeActivity.class);
                 intent.putExtra("bonus",bonus);
                 break;
+
             case MSG_TYPE_INCOMPETENT_INVOICE:
                 intent = new Intent(MessageDetailsActivity.this,ProvidedActivity.class);
                 intent.putExtra("OrderId",bean.getMessage().getOrderId());

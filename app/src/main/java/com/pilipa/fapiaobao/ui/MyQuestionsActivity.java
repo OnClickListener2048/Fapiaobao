@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -203,6 +202,8 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
                     emptyView.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                     feedbackMessagesAdapter.initData(feedbackMessageBean.getData().getList());
+
+                    recyclerView.scrollToPosition(3);
                     normalAdapterWrapper.notifyDataSetChanged();
                     totalPageNo = feedbackMessageBean.getData().getTotalPage();
                     pageNo++;

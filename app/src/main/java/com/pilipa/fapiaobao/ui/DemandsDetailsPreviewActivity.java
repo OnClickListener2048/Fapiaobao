@@ -32,7 +32,6 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
 import com.pilipa.fapiaobao.net.bean.me.RejectInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.publish.ConfirmInvoiceBean;
@@ -43,6 +42,7 @@ import com.pilipa.fapiaobao.ui.fragment.UploadPreviewReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.PreviewViewpager;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
+import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.utils.StreamUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -305,56 +305,61 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             }
             break;
             case R.id.tv_qualified: {
+                if (!ButtonUtils.isFastDoubleClick(R.id.tv_qualified)) {
+                    Api.confirmInvoice(AccountHelper.getToken(), currentImage.name, new Api.BaseRawResponse<ConfirmInvoiceBean>() {
+                        @Override
+                        public void onStart() {
+                            tvQualified.setEnabled(false);
+                        }
 
-                            Api.confirmInvoice(AccountHelper.getToken(), currentImage.name, new Api.BaseRawResponse<ConfirmInvoiceBean>() {
-                                @Override
-                                public void onStart() {
+                        @Override
+                        public void onFinish() {
+                            tvQualified.setEnabled(true);
+                        }
 
-                                }
+                        @Override
+                        public void onError() {
+                            tvQualified.setEnabled(true);
+                        }
 
-                                @Override
-                                public void onFinish() {
+                        @Override
+                        public void onTokenInvalid() {
+                            login();
+                            finish();
+                            tvQualified.setEnabled(true);
 
-                                }
+                        }
 
-                                @Override
-                                public void onError() {
-
-                                }
-
-                                @Override
-                                public void onTokenInvalid() {
-                                    login();
-                                    finish();
-                                }
-
-                                @Override
-                                public void setData(ConfirmInvoiceBean confirmInvoiceBean) {
-                                    if (confirmInvoiceBean.getStatus() == 200) {
-                                        if (currentImage.variety.equals(Constant.VARIETY_GENERAL_ELECTRON)) {
-                                            currentImage.state = Constant.STATE_COMPETENT;
-                                        } else {
-                                            if (currentImage.state.equals(Constant.STATE_CONFIRMING)) {
-                                                currentImage.state = Constant.STATE_MAILING;
-                                            } else if (currentImage.state.equals(Constant.STATE_MAILING)) {
-                                                currentImage.state = Constant.STATE_COMPETENT;
-                                            }
-                                        }
-                                        BaseApplication.showToast("确认成功");
-                                        Intent intent = new Intent();
-                                        Bundle bundle = new Bundle();
-                                        bundle.putParcelableArrayList(DemandsDetailsReceiptFragment.EXTRA_ALL_DATA, allList);
-                                        intent.putExtra(DemandsDetailsReceiptFragment.EXTRA_BUNDLE, bundle);
-                                        setResult(DemandsDetailsReceiptFragment.RESULT_CODE_BACK, intent);
-                                        DemandsDetailsPreviewActivity.this.finish();
+                        @Override
+                        public void setData(ConfirmInvoiceBean confirmInvoiceBean) {
+                            tvQualified.setEnabled(true);
+                            if (confirmInvoiceBean.getStatus() == 200) {
+                                if (currentImage.variety.equals(Constant.VARIETY_GENERAL_ELECTRON)) {
+                                    currentImage.state = Constant.STATE_COMPETENT;
+                                } else {
+                                    if (currentImage.state.equals(Constant.STATE_CONFIRMING)) {
+                                        currentImage.state = Constant.STATE_MAILING;
+                                    } else if (currentImage.state.equals(Constant.STATE_MAILING)) {
+                                        currentImage.state = Constant.STATE_COMPETENT;
                                     }
                                 }
-                            });
-
+                                BaseApplication.showToast("确认成功");
+                                Intent intent = new Intent();
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelableArrayList(DemandsDetailsReceiptFragment.EXTRA_ALL_DATA, allList);
+                                intent.putExtra(DemandsDetailsReceiptFragment.EXTRA_BUNDLE, bundle);
+                                setResult(DemandsDetailsReceiptFragment.RESULT_CODE_BACK, intent);
+                                DemandsDetailsPreviewActivity.this.finish();
+                            }
+                        }
+                    });
+                }
             }
             break;
             case R.id.tv_Unqualified_reject: {
-                rejectInvoice();
+                if (!ButtonUtils.isFastDoubleClick(R.id.tv_Unqualified_reject)) {
+                    rejectInvoice();
+                }
             }
             break;
             case R.id.delete:
@@ -470,6 +475,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     }
 
     private void saveToFile() {
+        Log.d("saveToFile  next >>>>>>", "saveToFile");
+
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             Toast.makeText(this, R.string.gallery_save_file_not_have_external_storage, Toast.LENGTH_SHORT).show();
             return;

@@ -134,9 +134,9 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 if (resultCode == Activity.RESULT_OK) {
                     TLog.log("if (resultCode == Activity.RESULT_OK) {");
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
-                    TLog.log("content"+content);
-//                    TLog.log("RegexUtils.isURL(content)" + RegexUtils.isURL(content));
-                    if (RegexUtils.isURL(content)) {
+                    TLog.log(content);
+                    TLog.log("RegexUtils.isURL(content)" + RegexUtils.isURL(content));
+                    if (RegexUtils.isURL(content)||content.contains("http")) {
                         Intent intent = new Intent();
                         intent.setClass(mContext, Op.class);
                         intent.putExtra("url", content);

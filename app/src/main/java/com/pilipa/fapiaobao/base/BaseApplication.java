@@ -30,6 +30,7 @@ import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.pilipa.fapiaobao.ui.DemandActivity;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
+import com.pilipa.fapiaobao.ui.MyQuestionsActivity;
 import com.pilipa.fapiaobao.ui.MyRedEnvelopeActivity;
 import com.pilipa.fapiaobao.ui.ProvidedActivity;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
@@ -59,6 +60,8 @@ import okhttp3.OkHttpClient;
 
 import static com.pilipa.fapiaobao.net.Constant.GOT_BONUS;
 import static com.pilipa.fapiaobao.net.Constant.INCOMPETENT_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.INVOICE_BABY_RESPONSE;
+import static com.pilipa.fapiaobao.net.Constant.INVOICE_POST;
 import static com.pilipa.fapiaobao.net.Constant.NEWCOME_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.NEW_DEMAND;
 import static com.pilipa.fapiaobao.net.Constant.SERVICE_NOTIFICATION;
@@ -281,6 +284,13 @@ public class BaseApplication extends Application {
                             startActivity(intent4);
                             TLog.log("startActivity(intent4);");
                             break;
+                        case INVOICE_BABY_RESPONSE:
+                            Intent intent5 = new Intent();
+                            intent5.putExtra("s", "");
+                            intent5.setClass(getApplicationContext(), MyQuestionsActivity.class);
+                            intent5.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent5);
+                            break;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -294,6 +304,7 @@ public class BaseApplication extends Application {
         UmengMessageHandler messageHandler = new UmengMessageHandler() {
             @Override
             public Notification getNotification(Context context, UMessage msg) {
+
                 switch (msg.builder_id) {
                     case 1:
                         Notification.Builder builder = new Notification.Builder(context);
@@ -312,11 +323,22 @@ public class BaseApplication extends Application {
 
                         return builder.getNotification();
                     default:
-                        //默认为0，若填写的builder_id并不存在，也使用默认。
-                        Intent intent = new Intent();
-                        intent.setAction(PUSH_RECEIVE);
-                        sendBroadcast(intent);
-                        set(PUSH_RECEIVE, true);
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(msg.custom);
+                            String type = (String) jsonObject.get("type");
+                            TLog.d("BaseApplication UmengCustom custom type ",type);
+                            if(!INVOICE_POST.equals(type)){//邮寄信息不做处理
+                                //默认为0，若填写的builder_id并不存在，也使用默认。
+                                Intent intent = new Intent();
+                                intent.setAction(PUSH_RECEIVE);
+                                sendBroadcast(intent);
+                                set(PUSH_RECEIVE, true);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         return super.getNotification(context, msg);
                 }
             }

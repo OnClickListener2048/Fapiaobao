@@ -79,6 +79,9 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
             delete.setVisibility(View.INVISIBLE);
             click.setVisibility(View.INVISIBLE);
         }
+        // click 选择按钮没有用，暂不显示
+        click.setVisibility(View.GONE);
+
         allList = bundleExtra.getParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA);
         currentPosition = bundleExtra.getInt(UploadNormalReceiptFragment.EXTRA_CURRENT_POSITION);
         Log.d(TAG, "initView: currentPosition" + currentPosition);

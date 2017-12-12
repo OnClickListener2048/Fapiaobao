@@ -71,7 +71,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/d10"
                 android:gravity="center_vertical"
-                android:hint="您的意见反馈"
+                android:hint="请输入关键字查询"
                 android:maxLines="5"
                 android:textSize="@dimen/s14"
                 app:met_baseColor="@color/main_style"

@@ -124,7 +124,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="必填"
-                        android:textColor="@color/main_style" />
+                        android:layout_marginRight="@dimen/d10"
+                        android:textColor="@color/olive" />
 
                 </LinearLayout>
 
@@ -173,7 +174,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="必填"
-                        android:textColor="@color/main_style" />
+                        android:layout_marginRight="@dimen/d10"
+                        android:textColor="@color/olive" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -220,7 +222,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="必填"
-                        android:textColor="@color/main_style" />
+                        android:layout_marginRight="@dimen/d10"
+                        android:textColor="@color/olive" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -269,7 +272,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="必填"
-                        android:textColor="@color/main_style" />
+                        android:layout_marginRight="@dimen/d10"
+                        android:textColor="@color/olive" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -317,7 +321,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="必填"
-                        android:textColor="@color/main_style" />
+                        android:layout_marginRight="@dimen/d10"
+                        android:textColor="@color/olive" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -361,12 +366,13 @@
                     </LinearLayout>
 
                     <TextView
-                        android:textSize="@dimen/s11"
                         android:id="@+id/tv_mustfill_bank_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="必填"
-                        android:textColor="@color/main_style" />
+                        android:layout_marginRight="@dimen/d10"
+                        android:textColor="@color/olive"
+                        android:textSize="@dimen/s11" />
                 </LinearLayout>
 
                 <android.support.v4.widget.Space
