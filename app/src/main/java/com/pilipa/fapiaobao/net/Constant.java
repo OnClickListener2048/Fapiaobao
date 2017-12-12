@@ -14,6 +14,7 @@ public class Constant {
 //    public static final String BASE_URL = "http://p.pilipa.cn/fapiaobao_test/rest/";
     public static final int REQUEST_SUCCESS = 200;
     public static final int REQUEST_NO_CONTENT = 400;
+    public static final int TOKEN_INVALIDE = 701;
     /*登陆类型*/
     public static final String LOGIN_PLATFORM_MSG = "0";
     public static final String LOGIN_PLATFORM_WX= "1";
@@ -245,4 +246,9 @@ public class Constant {
      * 版本更新接口
      */
     public static final String URL_UPDATE = BASE_URL+"version/info";
+
+    /**
+     * 记录log
+     */
+    public static final String LOG_RECORD = BASE_URL+"log/android";
 }

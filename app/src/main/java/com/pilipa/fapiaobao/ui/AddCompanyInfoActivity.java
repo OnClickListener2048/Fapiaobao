@@ -238,12 +238,14 @@ public class AddCompanyInfoActivity extends BaseActivity {
     }
 
     private void createCompany(final Company company) {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus() == 200) {
 
-                    Api.companyCreate(company, AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+
+                    Api.companyCreate(company, AccountHelper.getToken(), new Api.BaseRawResponse<NormalBean>() {
+                        @Override
+                        public void onTokenInvalid() {
+
+                        }
+
                         @Override
                         public void onStart() {
                             btnSave.setEnabled(false);
@@ -270,9 +272,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
                         }
                     });
                 }
-            }
-        });
-    }
+
 
 
 }

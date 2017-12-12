@@ -258,16 +258,8 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
     @Override
     public void capture() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus() == 200) {
                     setDialog();
-                } else {
-                    startActivity(new Intent(mContext, LoginActivity.class));
-                }
-            }
-        });
+
 
     }
 
@@ -556,11 +548,27 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
 
     private void myInvoiceList(){
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus() == 200) {
-                    Api.myInvoiceList(AccountHelper.getToken() ,this, new Api.BaseViewCallback<MyInvoiceListBean>() {
+                    Api.myInvoiceList(AccountHelper.getToken() ,this, new Api.BaseRawResponse<MyInvoiceListBean>() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+
+                        @Override
+                        public void onTokenInvalid() {
+                            login();
+                        }
+
                         @Override
                         public void setData(MyInvoiceListBean myInvoiceListBean) {
                             List<MyInvoiceListBean.DataBean> list = new ArrayList<>();
@@ -573,11 +581,6 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                             Log.d(TAG, "updateData:myInvoiceList success");
                         }
                     });
-                }else {
-                    startActivity(new Intent(mContext, LoginActivity.class));
-                }
-            }
-        });
     }
 
     @Override
@@ -621,12 +624,14 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         mDelDialog.show();
     }
     private void deleteMyInvoice(final String invoiceId,final int pos) {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
+
                  final ReceiptFolderActivity activity = (ReceiptFolderActivity) getActivity();
-                if (loginWithInfoBean.getStatus() == 200) {
-                    Api.deleteMyInvoice(AccountHelper.getToken(),invoiceId, new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+                    Api.deleteMyInvoice(AccountHelper.getToken(),invoiceId, new Api.BaseRawResponse<NormalBean>() {
+                        @Override
+                        public void onTokenInvalid() {
+                            login();
+                        }
+
                         @Override
                         public void onStart() {
                             activity.showProgressDialog();
@@ -653,10 +658,6 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                             Log.d("", "initData:deleteMyInvoice success");
                         }
                     });
-                }else {
-                    startActivity(new Intent(mContext, LoginActivity.class));
-                }
-            }
-        });
+
     }
 }

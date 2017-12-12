@@ -159,13 +159,29 @@ public class ConfirmActivity extends BaseActivity {
                 break;
             case R.id.collect:
                 if (!ButtonUtils.isFastDoubleClick(R.id.collect)) {
-                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
 
-                        @Override
-                        public void setData(LoginWithInfoBean normalBean) {
-                            if (normalBean.getStatus() == 200) {
                                 if (isCollected) {
-                                    Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseViewCallback<FavBean>() {
+                                    Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseRawResponse<FavBean>() {
+                                        @Override
+                                        public void onStart() {
+
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+
+                                        }
+
+                                        @Override
+                                        public void onError() {
+
+                                        }
+
+                                        @Override
+                                        public void onTokenInvalid() {
+                                            login();
+                                        }
+
                                         @Override
                                         public void setData(FavBean normalBean) {
                                             if (normalBean.getStatus() == 200) {
@@ -179,7 +195,7 @@ public class ConfirmActivity extends BaseActivity {
                                     CompanyCollectBean.CompanyBean companyBean = new CompanyCollectBean.CompanyBean();
                                     companyBean.setId(company_info.getId());
                                     companyCollectBean.setCompany(companyBean);
-                                    companyCollectBean.setToken(normalBean.getData().getToken());
+                                    companyCollectBean.setToken(AccountHelper.getToken());
 
                                     Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<FavBean>() {
                                         @Override
@@ -193,11 +209,6 @@ public class ConfirmActivity extends BaseActivity {
                                         }
                                     });
                                 }
-                            } else {
-                                startActivity(new Intent(ConfirmActivity.this, LoginActivity.class));
-                            }
-                        }
-                    });
                 }
                 break;
             case R.id.qr:

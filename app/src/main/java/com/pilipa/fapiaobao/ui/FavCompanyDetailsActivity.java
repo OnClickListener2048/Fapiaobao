@@ -113,7 +113,27 @@ public class FavCompanyDetailsActivity extends BaseActivity implements MyCompany
         setDialog(deleteId);
     }
     public void deleteFavCompany(String id){
-        Api.deleteFavoriteCompany(id, AccountHelper.getToken(),new Api.BaseViewCallback<FavBean>() {
+        Api.deleteFavoriteCompany(id, AccountHelper.getToken(),new Api.BaseRawResponse<FavBean>() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void onTokenInvalid() {
+
+            }
+
             @Override
             public void setData(FavBean normalBean) {
                 if(normalBean.getStatus() == REQUEST_SUCCESS){

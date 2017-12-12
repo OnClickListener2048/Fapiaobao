@@ -110,8 +110,27 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
         setDialog(deleteId);
     }
     public void deleteCompany(String id) {
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.deleteCompany(id, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+            Api.deleteCompany(id, AccountHelper.getToken(), new Api.BaseRawResponse<NormalBean>() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+
+                @Override
+                public void onError() {
+
+                }
+
+                @Override
+                public void onTokenInvalid() {
+
+                }
+
                 @Override
                 public void setData(NormalBean normalBean) {
                     if (normalBean.getStatus() == REQUEST_SUCCESS) {
@@ -121,7 +140,6 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
                     }
                 }
             });
-        }
     }
     @Override
     public void onNextClick() {

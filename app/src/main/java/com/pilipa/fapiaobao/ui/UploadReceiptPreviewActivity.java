@@ -208,10 +208,13 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                 TLog.log(" bigDecimal.setScale(2, RoundingMode.UP);"+bigDecimal1);
                 receiptMoney.setText(String.valueOf(bigDecimal1));
 
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                    @Override
-                    public void setData(LoginWithInfoBean loginWithInfoBean) {
-                        Api.estimateRedBag(loginWithInfoBean.getData().getToken(), demandsId, sum, new Api.BaseViewCallbackWithOnStart<RedBagBean>() {
+
+                        Api.estimateRedBag(AccountHelper.getToken(), demandsId, sum, new Api.BaseRawResponse<RedBagBean>() {
+                            @Override
+                            public void onTokenInvalid() {
+
+                            }
+
                             @Override
                             public void onStart() {
                                 TLog.log(" Api.estimateRedBag(l");
@@ -241,8 +244,6 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         });
                     }
                 });
-            }
-        });
     }
 
     @Override
@@ -286,22 +287,15 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     }
 
     private void upload() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus() == 200) {
-                    makeUpParams(loginWithInfoBean);
-                }
-            }
-        });
+                    makeUpParams();
     }
 
-    private void makeUpParams(LoginWithInfoBean loginWithInfoBean) {
+    private void makeUpParams() {
         TLog.log("private void makeUpParams(LoginWithInfoBean loginWithInfoBean) {");
         final UploadInvoiceToken uploadInvoiceToken = new UploadInvoiceToken();
         uploadInvoiceToken.setDemandId(demandsId);
         uploadInvoiceToken.setInvoiceType(label);
-        uploadInvoiceToken.setToken(loginWithInfoBean.getData().getToken());
+        uploadInvoiceToken.setToken(AccountHelper.getToken());
         uploadInvoiceToken.setTotalAmount(sum);
 
         final ArrayList<UploadInvoiceToken.InvoiceListBean> invoiceListBeanArrayList = new ArrayList<>();

@@ -233,13 +233,30 @@ public class ProvidedActivity extends BaseActivity {
             }
             break;
             case R.id.collect:
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
 
-                    @Override
-                    public void setData(LoginWithInfoBean normalBean) {
-                        if (normalBean.getStatus() == 200) {
                             if (isCollected) {
-                                Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseViewCallback<FavBean>() {
+                                Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseRawResponse<FavBean>() {
+                                    @Override
+                                    public void onStart() {
+
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+
+                                    }
+
+                                    @Override
+                                    public void onError() {
+
+                                    }
+
+                                    @Override
+                                    public void onTokenInvalid() {
+                                        login();
+                                        finish();
+                                    }
+
                                     @Override
                                     public void setData(FavBean normalBean) {
                                         if (normalBean.getStatus() == 200) {
@@ -253,7 +270,7 @@ public class ProvidedActivity extends BaseActivity {
                                 CompanyCollectBean.CompanyBean companyBean = new CompanyCollectBean.CompanyBean();
                                 companyBean.setId(CompanyId);
                                 companyCollectBean.setCompany(companyBean);
-                                companyCollectBean.setToken(normalBean.getData().getToken());
+                                companyCollectBean.setToken(AccountHelper.getToken());
 
                                 Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<FavBean>() {
                                     @Override
@@ -267,12 +284,7 @@ public class ProvidedActivity extends BaseActivity {
                                     }
                                 });
                             }
-                        } else {
-                            startActivity(new Intent(ProvidedActivity.this, LoginActivity.class));
-                            finish();
-                        }
-                    }
-                });
+
 
 
                 break;
@@ -480,17 +492,34 @@ public class ProvidedActivity extends BaseActivity {
     }
 
     public void mailInvoice() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus() == 200) {
+
                     ExpressCompanyBean.DataBean bean = (ExpressCompanyBean.DataBean) mSpinner.getSelectedItem();
                     Api.mailInvoice(AccountHelper.getToken(), orderId, bean.getLabel()
-                            , edtOddNumber.getText().toString(), new Api.BaseViewCallback<NormalBean>() {
+                            , edtOddNumber.getText().toString(), new Api.BaseRawResponse<NormalBean>() {
+                                @Override
+                                public void onStart() {
+
+                                }
+
+                                @Override
+                                public void onFinish() {
+
+                                }
+
+                                @Override
+                                public void onError() {
+
+                                }
+
+                                @Override
+                                public void onTokenInvalid() {
+                                    login();
+                                    finish();
+                                }
+
                                 @Override
                                 public void setData(NormalBean normalBean) {
                                     if(normalBean.getStatus() == 200){
-
                                         showOrderDetail(orderId,false);
                                         BaseApplication.showToast(normalBean.getData());
                                     }
@@ -499,17 +528,15 @@ public class ProvidedActivity extends BaseActivity {
                                     }
                                 }
                             });
-                } else {
-                    startActivity(new Intent(ProvidedActivity.this, LoginActivity.class));
-                    finish();
-                }
-            }
-        });
     }
 
     public void showOrderDetail(String orderID,final boolean canMail) {
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.showOrderDetail(AccountHelper.getToken(), orderID, new Api.BaseViewCallbackWithOnStart<OrderDetailsBean>() {
+            Api.showOrderDetail(AccountHelper.getToken(), orderID, new Api.BaseRawResponse<OrderDetailsBean>() {
+                @Override
+                public void onTokenInvalid() {
+
+                }
+
                 @Override
                 public void onStart() {
                     showProgressDialog();
@@ -607,6 +634,7 @@ public class ProvidedActivity extends BaseActivity {
                                 e.printStackTrace();
                             }
                         }
+
                         if (bean.getInvoiceList() != null) {
                             for (OrderDetailsBean.DataBean.InvoiceListBean data : bean.getInvoiceList()) {
                                 if (!VARIETY_GENERAL_ELECTRON.equals(data.getVariety())) {
@@ -622,7 +650,6 @@ public class ProvidedActivity extends BaseActivity {
                     }
                 }
             });
-        }
     }
 
     private void callPhone(final String phone) {

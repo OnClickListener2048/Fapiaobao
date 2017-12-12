@@ -63,11 +63,28 @@ public class CompanySelectActivity extends BaseActivity implements CompanyListAd
 
     @Override
     public void initData() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus() ==200) {
-                    Api.companiesList(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<CompaniesBean>() {
+
+                    Api.companiesList(AccountHelper.getToken(), new Api.BaseRawResponse<CompaniesBean>() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+
+                        @Override
+                        public void onTokenInvalid() {
+
+                        }
+
                         @Override
                         public void setData(CompaniesBean companiesBean) {
                             if (companiesBean.getStatus() == 200 && companiesBean.getData() != null) {
@@ -75,9 +92,8 @@ public class CompanySelectActivity extends BaseActivity implements CompanyListAd
                             }
                         }
                     });
-                }
-            }
-        });
+
+
     }
 
     @Override

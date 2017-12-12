@@ -53,6 +53,7 @@ import com.pilipa.fapiaobao.adapter.CompanyListAdapter;
 import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.base.LocationBaseActivity;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
@@ -85,7 +86,7 @@ import butterknife.OnClick;
  * Created by edz on 2017/10/26.
  */
 
-public class DemandsPublishActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener, CompanyListAdapter.OnCompanyClickListener {
+public class DemandsPublishActivity extends LocationBaseActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener, CompanyListAdapter.OnCompanyClickListener {
 
     private static final String TAG = "DemandsPublishActivity";
 
@@ -421,7 +422,39 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
     private void setUsusallyReceiptkind() {
         LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginBean != null) {
-            Api.<DefaultInvoiceBean>findUserInvoiceType(loginBean.getData().getToken(), new Api.BaseViewCallbackWithOnStart<DefaultInvoiceBean>() {
+            Api.<DefaultInvoiceBean>findUserInvoiceType(loginBean.getData().getToken(), new Api.BaseRawResponse<DefaultInvoiceBean>() {
+                @Override
+                public void onTokenInvalid() {
+                    Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseViewCallbackWithOnStart<DefaultInvoiceBean>() {
+                        @Override
+                        public void onStart() {
+                            showProgressDialog();
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onError() {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void setData(DefaultInvoiceBean allInvoiceType) {
+                            if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
+                                bean = allInvoiceType.getData();
+                                ArrayList<String> arrayReceipt = new ArrayList<>();
+                                for (DefaultInvoiceBean.DataBean dataBean : bean) {
+                                    arrayReceipt.add(dataBean.getName());
+                                }
+                                labelsReceiptKind.setLabels(arrayReceipt);
+                            }
+                        }
+                    });
+                }
+
                 @Override
                 public void onStart() {
                     showProgressDialog();
@@ -635,11 +668,13 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         if (checkParams()) {
             if (makeParams() != null) {
                 final Gson gson = new GsonBuilder().serializeNulls().create();
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                    @Override
-                    public void setData(LoginWithInfoBean loginWithInfoBean) {
-                        if (loginWithInfoBean.getStatus() == 200) {
-                            Api.publish(gson.toJson(makeParams()), new Api.BaseViewCallbackWithOnStart<BalanceBean>() {
+
+                            Api.publish(gson.toJson(makeParams()), new Api.BaseRawResponse<BalanceBean>() {
+                                @Override
+                                public void onTokenInvalid() {
+                                    login();
+                                }
+
                                 @Override
                                 public void onStart() {
                                     btnPublishNow.setEnabled(false);
@@ -680,16 +715,9 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                                     }
                                 }
                             });
-                        } else if (loginWithInfoBean.getStatus() == 701) {
-                            BaseApplication.showToast("登录超时");
-                            login();
-                        } else {
-                            BaseApplication.showToast("服务器超时");
                         }
                     }
-                });
-            }
-        }
+
     }
 
     private void addCompanyInfo() {
@@ -704,11 +732,13 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
 
     private void createCompany(final Company company) {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus() == 200) {
-                    Api.companyCreate(company, AccountHelper.getToken(),new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+
+                    Api.companyCreate(company, AccountHelper.getToken(),new Api.BaseRawResponse<NormalBean>() {
+                        @Override
+                        public void onTokenInvalid() {
+
+                        }
+
                         @Override
                         public void onStart() {
 
@@ -733,9 +763,6 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                             }
                         }
                     });
-                }
-            }
-        });
     }
 
     private void requestForMoreTypes() {
@@ -876,6 +903,10 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
         DemandsPublishBean bean = new DemandsPublishBean();
 
         if (SwitchArea.isChecked()) {
+            if ("定位失败，点击选择地区".equals(tvAreaLimited.getText().toString())) {
+                BaseApplication.showToast("限制开票区域定位异常，请开启定位功能或手动选择开票地区");
+                return null;
+            }
             bean.setAreaRestrict("1");
             bean.setCity(tvAreaLimited.getText().toString());
         } else {
@@ -971,8 +1002,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             }
 
             if ((Double.valueOf(etAmountRedbag.getText().toString().trim())
-                    > Double.valueOf(etAmount.getText().toString().trim()) * 0.05)) {
-                BaseApplication.showToast("悬赏红包不能超过需求总额的5%");
+                    > Double.valueOf(etAmount.getText().toString().trim()) * 0.1)) {
+                BaseApplication.showToast("悬赏红包不能超过需求总额的10%");
                 return false;
             }
         }
@@ -1084,11 +1115,29 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
 
 
     private void requestForCompanies() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                Api.companiesList(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<CompaniesBean>() {
 
+                Api.companiesList(AccountHelper.getToken(), new Api.BaseRawResponse<CompaniesBean>() {
+
+
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+
+                    @Override
+                    public void onTokenInvalid() {
+
+                    }
 
                     @Override
                     public void setData(CompaniesBean companiesBean) {
@@ -1118,8 +1167,7 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
                         }
                     }
                 });
-            }
-        });
+
     }
 
     private void setDialog(final List<CompaniesBean.DataBean> data) {

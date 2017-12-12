@@ -13,6 +13,7 @@ import com.example.mylibrary.utils.TLog;
 import com.just.agentwebX5.AgentWeb;
 import com.just.agentwebX5.ChromeClientCallbackManager;
 import com.just.agentwebX5.DownLoadResultListener;
+import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
@@ -35,7 +36,7 @@ import butterknife.OnClick;
 
 public class Op extends AppCompatActivity implements
         DownloadListener
-        , ChromeClientCallbackManager.ReceivedTitleCallback, DownLoadResultListener {
+        , ChromeClientCallbackManager.ReceivedTitleCallback, DownLoadResultListener , com.tencent.smtt.export.external.interfaces.DownloadListener{
 
     @Bind(R.id.title)
     TextView title;
@@ -43,6 +44,7 @@ public class Op extends AppCompatActivity implements
     ImageView webViewBack;
     @Bind(R.id.ll)
     LinearLayout ll;
+    String TAG = Op.class.getSimpleName();
     private  MacherBeanToken.DataBean.CompanyBean company_info;
     WebViewClient webViewClient = new WebViewClient() {
         @Override
@@ -137,7 +139,6 @@ public class Op extends AppCompatActivity implements
             return super.onJsAlert(view, url, message, result);
         }
     };
-    private AgentWeb.PreAgentWeb preAgentWeb;
     private AgentWeb go;
 
 
@@ -148,10 +149,18 @@ public class Op extends AppCompatActivity implements
         ButterKnife.bind(this);
         company_info = getIntent().getParcelableExtra("company_info");
         TLog.log(" company_info = getIntent().getParcelableExtra(\"company_info\");");
-        preAgentWeb = WebViewUtils.init(this, ll, this, webViewClient, webChromeClient, this);
+        AgentWeb.PreAgentWeb preAgentWeb = WebViewUtils.init(this, ll, this, webViewClient, webChromeClient, null);
         String url = getIntent().getStringExtra("url");
         go = preAgentWeb.go(url);
 
+        WebView webView = go.getWebCreator().get();
+        webView.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String s2, String s3, long l) {
+                TLog.d(TAG,"onDownloadStartonDownloadStartonDownloadStart");
+                
+            }
+        });
     }
 
 
@@ -166,7 +175,18 @@ public class Op extends AppCompatActivity implements
      */
     @Override
     public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+        TLog.d(TAG,"agentWeb onDownloadStart");
         Toast.makeText(this, "start download", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDownloadStart(String s, String s1, byte[] bytes, String s2, String s3, String s4, long l, String s5, String s6) {
+        TLog.d(TAG,"tencent ondownloadstart");
+    }
+
+    @Override
+    public void onDownloadVideo(String s, long l, int i) {
+        TLog.d(TAG,"tencent ondownloadstart");
     }
 
     /**
@@ -177,6 +197,7 @@ public class Op extends AppCompatActivity implements
      */
     @Override
     public void onReceivedTitle(WebView view, String title) {
+        TLog.d(TAG,"onReceivedTitle");
         this.title.setText(title);
         TLog.log(title);
     }
@@ -188,8 +209,9 @@ public class Op extends AppCompatActivity implements
      */
     @Override
     public void success(String path) {
-        TLog.log("public void success(String path) {");
-        TLog.log(path);
+        TLog.d(TAG,"success"+path);
+        TLog.d(TAG,"public void success(String path) {");
+        TLog.d(TAG,path);
 
         QbSdk.openFileReader(this, path, null, new ValueCallback<String>() {
             @Override
@@ -209,10 +231,10 @@ public class Op extends AppCompatActivity implements
      */
     @Override
     public void error(String path, String resUrl, String cause, Throwable e) {
-        TLog.log(path);
-        TLog.log(resUrl);
-        TLog.log(cause);
-
+        TLog.d(TAG,"path"+path);
+        TLog.d(TAG,"resUrl"+resUrl);
+        TLog.d(TAG,"cause"+cause);
+        TLog.d(TAG,"Throwable e"+e.getMessage());
     }
 
     @OnClick(R.id.webView_back)

@@ -50,6 +50,7 @@ import com.umeng.socialize.media.UMWeb;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -403,9 +404,14 @@ public class DemandActivity extends BaseActivity{
         super.onPause();
     }
     public void demandDetails(String demandId, final boolean isSetList) {
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+        if (AccountHelper.getToken() != null && !Objects.equals(AccountHelper.getToken(), "")) {
             String token = AccountHelper.getToken();
-            Api.demandDetails(token, demandId, new Api.BaseViewCallbackWithOnStart<DemandDetails>() {
+            Api.demandDetails(token, demandId, new Api.BaseRawResponse<DemandDetails>() {
+                @Override
+                public void onTokenInvalid() {
+
+                }
+
                 @Override
                 public void onStart() {
                     showProgressDialog();
@@ -504,11 +510,29 @@ public class DemandActivity extends BaseActivity{
     }
 
     private void shatDownEarly(final String id) {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean normalBean) {
-                if (normalBean.getStatus() == 200) {
-                    Api.shatDownEarly(AccountHelper.getToken(), id, new Api.BaseViewCallback<NormalBean>() {
+
+                    Api.shatDownEarly(AccountHelper.getToken(), id, new Api.BaseRawResponse<NormalBean>() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+
+                        @Override
+                        public void onTokenInvalid() {
+                            login();
+                            finish();
+                        }
+
                         @Override
                         public void setData(NormalBean normalBean) {
                             Toast.makeText(DemandActivity.this, "需求已关闭", Toast.LENGTH_SHORT).show();
@@ -517,12 +541,7 @@ public class DemandActivity extends BaseActivity{
                             Log.d(TAG, "updateData:shatDownEarly success");
                         }
                     });
-                } else {
-                    startActivity(new Intent(DemandActivity.this, LoginActivity.class));
-                    finish();
-                }
-            }
-        });
+
     }
 
 

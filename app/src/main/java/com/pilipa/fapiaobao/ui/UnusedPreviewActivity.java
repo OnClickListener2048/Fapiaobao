@@ -204,11 +204,13 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
         mDelDialog.show();
     }
     private void deleteMyInvoice(final String invoiceId) {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus() == 200) {
-                    Api.deleteMyInvoice(AccountHelper.getToken(), invoiceId, new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+
+                    Api.deleteMyInvoice(AccountHelper.getToken(), invoiceId, new Api.BaseRawResponse<NormalBean>() {
+                        @Override
+                        public void onTokenInvalid() {
+                            login();
+                        }
+
                         @Override
                         public void onStart() {
                             showProgressDialog();
@@ -236,11 +238,7 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
 
                         }
                     });
-                }else {
-                    startActivity(new Intent(UnusedPreviewActivity.this, LoginActivity.class));
-                }
-            }
-        });
+
     }
     private void deleteLoc(){
         Log.d(TAG, "before allList.remove(mPreviousPos+1);allList.size()" + allList.size());

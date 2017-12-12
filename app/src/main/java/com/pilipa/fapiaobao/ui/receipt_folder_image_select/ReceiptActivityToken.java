@@ -84,8 +84,27 @@ public class ReceiptActivityToken extends BaseActivity implements NormalAdpater.
     }
 
     private void myInvoiceList() {
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.myInvoiceList(AccountHelper.getToken(), this, new Api.BaseViewCallback<MyInvoiceListBean>() {
+            Api.myInvoiceList(AccountHelper.getToken(), this, new Api.BaseRawResponse<MyInvoiceListBean>() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+
+                @Override
+                public void onError() {
+
+                }
+
+                @Override
+                public void onTokenInvalid() {
+                    login();
+                }
+
                 @Override
                 public void setData(MyInvoiceListBean myInvoiceListBean) {
                     if (myInvoiceListBean.getStatus() == 200) {
@@ -100,16 +119,8 @@ public class ReceiptActivityToken extends BaseActivity implements NormalAdpater.
                         llElecReceipt.setVisibility(View.GONE);
                         rlNoElecReceipt.setVisibility(View.VISIBLE);
                     }
-
-
                 }
             });
-        } else {
-            BaseApplication.showToast("登录超时");
-            Intent intent = new Intent();
-            intent.setClass(this, LoginActivity.class);
-            startActivity(intent);
-        }
     }
 
     private int getImageResize(Context context) {

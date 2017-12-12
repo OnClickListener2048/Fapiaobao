@@ -305,11 +305,29 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             }
             break;
             case R.id.tv_qualified: {
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                    @Override
-                    public void setData(LoginWithInfoBean loginWithInfoBean) {
-                        if (loginWithInfoBean.getStatus() == 200) {
-                            Api.confirmInvoice(AccountHelper.getToken(), currentImage.name, new Api.BaseViewCallback<ConfirmInvoiceBean>() {
+
+                            Api.confirmInvoice(AccountHelper.getToken(), currentImage.name, new Api.BaseRawResponse<ConfirmInvoiceBean>() {
+                                @Override
+                                public void onStart() {
+
+                                }
+
+                                @Override
+                                public void onFinish() {
+
+                                }
+
+                                @Override
+                                public void onError() {
+
+                                }
+
+                                @Override
+                                public void onTokenInvalid() {
+                                    login();
+                                    finish();
+                                }
+
                                 @Override
                                 public void setData(ConfirmInvoiceBean confirmInvoiceBean) {
                                     if (confirmInvoiceBean.getStatus() == 200) {
@@ -332,12 +350,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                                     }
                                 }
                             });
-                        } else {
-                            startActivity(new Intent(DemandsDetailsPreviewActivity.this, LoginActivity.class));
-                            finish();
-                        }
-                    }
-                });
+
             }
             break;
             case R.id.tv_Unqualified_reject: {
@@ -579,17 +592,35 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             if ("8".equals(data.getValue()) && edt_reason_reject.getText().toString().isEmpty()) {
                 BaseApplication.showToast("请认真填写驳回理由");
             } else {
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                    @Override
-                    public void setData(LoginWithInfoBean normalBean) {
-                        if (normalBean.getStatus() == 200) {
+
                             edt_reason_reject.getText().toString().trim();
                             Api.rejectInvoice(AccountHelper.getToken()
                                     , currentImage.name
                                     , "0"
                                     , data.getValue()
                                     , reason
-                                    , new Api.BaseViewCallback<RejectInvoiceBean>() {
+                                    , new Api.BaseRawResponse<RejectInvoiceBean>() {
+                                        @Override
+                                        public void onStart() {
+
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+
+                                        }
+
+                                        @Override
+                                        public void onError() {
+
+                                        }
+
+                                        @Override
+                                        public void onTokenInvalid() {
+                                            login();
+                                            finish();
+                                        }
+
                                         @Override
                                         public void setData(RejectInvoiceBean normalBean) {
                                             if (normalBean.getStatus() == 200) {
@@ -606,12 +637,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                                             }
                                         }
                                     });
-                        } else {
-                            startActivity(new Intent(DemandsDetailsPreviewActivity.this, LoginActivity.class));
-                            finish();
-                        }
-                    }
-                });
+
             }
     }
 

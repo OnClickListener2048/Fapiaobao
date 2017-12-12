@@ -178,11 +178,9 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
             Api.login(platform,credenceName,credenceCode,deviceToken,new Api.BaseViewCallback<LoginWithInfoBean>() {
                         @Override
                         public void setData(LoginWithInfoBean loginWithInfoBean) {
-                            Log.d(TAG, "setData: SharedPreferencesHelper.save(LoginActivity.this,loginBean);success");
                             loginWithInfoBean.getData().setCustomer(loginWithInfoBean.getData().getCustomer());
                             SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean.getData().getCustomer());
-                            boolean save = SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
-                            Log.d(TAG, "setData:save "+save);
+                            SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean);
                             if (Constant.LOGIN_TO_PUBLISH.equals(getIntent().getAction())) {
                                 startActivity(new Intent(LoginActivity.this,PubActivity.class));
                             }
@@ -242,7 +240,6 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
 
                 @Override
                 public void setData(ShortMessageBean shortMessageBean) {
-                    BaseApplication.showToast(shortMessageBean.getData());
                 }
             });
         }

@@ -130,6 +130,9 @@ class JsonCreator {
     }
 
 
-
-
+    public static JSONObject log(String log) {
+        HashMap<String,String> map = new HashMap();
+        map.put("logs", log);
+        return new JSONObject(map);
+    }
 }

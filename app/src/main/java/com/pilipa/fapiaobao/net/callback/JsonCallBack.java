@@ -1,7 +1,9 @@
 package com.pilipa.fapiaobao.net.callback;
 
+import android.content.Intent;
 import android.net.ParseException;
 
+import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
@@ -11,6 +13,8 @@ import com.lzy.okgo.exception.HttpException;
 import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.TDevice;
 
 import org.json.JSONException;
@@ -19,6 +23,7 @@ import java.io.InterruptedIOException;
 import java.lang.reflect.Type;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -28,6 +33,7 @@ import okhttp3.ResponseBody;
  */
 
 public abstract class JsonCallBack<T> extends AbsCallback<T> {
+    String TAG = JsonCallBack.class.getSimpleName();
     private Type type;
     private Class<T> clazz;
 
@@ -81,21 +87,32 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
 //            BaseApplication.showToast("请检查网络~");
 //        }
 
-
+        Intent intent = new Intent();
         if (e instanceof HttpException) {     //   HTTP错误
             onException(ExceptionReason.BAD_NETWORK);
+            intent.setAction(Constant.BAD_NETWORK);
         } else if (e instanceof ConnectException
                 || e instanceof UnknownHostException) {   //   连接错误
             onException(ExceptionReason.CONNECT_ERROR);
+            intent.setAction(Constant.CONNECT_ERROR);
         } else if (e instanceof InterruptedIOException) {   //  连接超时
             onException(ExceptionReason.CONNECT_TIMEOUT);
+            intent.setAction(Constant.CONNECT_TIMEOUT);
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException) {   //  解析错误
             onException(ExceptionReason.PARSE_ERROR);
+            intent.setAction(Constant.PARSE_ERROR);
         } else {
             onException(ExceptionReason.UNKNOWN_ERROR);
+            intent.setAction(Constant.UNKNOWN_ERROR);
         }
+        TLog.d(TAG, Arrays.toString(e.getStackTrace()));
+        TLog.d(TAG,e.getMessage());
+        if (TDevice.hasInternet()) {
+            Api.RECORD_LOG(e.toString());
+        }
+        BaseApplication.context().sendBroadcast(intent);
     }
 
     private enum  ExceptionReason {
@@ -113,23 +130,22 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
             case CONNECT_ERROR:
                 BaseApplication.showToast(R.string.connect_error);
                 break;
-
             case CONNECT_TIMEOUT:
                 BaseApplication.showToast(R.string.connect_timeout);
                 break;
-
             case BAD_NETWORK:
                 BaseApplication.showToast(R.string.bad_network);
                 break;
-
             case PARSE_ERROR:
                 BaseApplication.showToast(R.string.parse_error);
                 break;
-
             case UNKNOWN_ERROR:
-            default:
                 BaseApplication.showToast(R.string.unknown_error);
                 break;
+            default:
+                break;
         }
+
+
     }
 }

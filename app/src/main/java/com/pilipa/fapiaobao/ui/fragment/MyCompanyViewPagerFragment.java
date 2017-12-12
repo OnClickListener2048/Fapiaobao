@@ -182,7 +182,27 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
 
     public void getCompanyList(){
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.companiesList(AccountHelper.getToken(),new Api.BaseViewCallback<CompaniesBean>() {
+            Api.companiesList(AccountHelper.getToken(),new Api.BaseRawResponse<CompaniesBean>() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+
+                @Override
+                public void onError() {
+
+                }
+
+                @Override
+                public void onTokenInvalid() {
+
+                }
+
                 @Override
                 public void setData(CompaniesBean companiesBean) {
                     if(companiesBean.getStatus() == REQUEST_SUCCESS){

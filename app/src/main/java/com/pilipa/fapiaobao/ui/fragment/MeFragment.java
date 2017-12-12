@@ -224,7 +224,27 @@ public class MeFragment extends BaseFragment{
                 @Override
                 public void setData(LoginWithInfoBean loginWithInfoBean) {
                     if (loginWithInfoBean.getStatus() == 200) {
-                        Api.messageList(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<MessageListBean>() {
+                        Api.messageList(loginWithInfoBean.getData().getToken(), new Api.BaseRawResponse<MessageListBean>() {
+                            @Override
+                            public void onStart() {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+
+                            @Override
+                            public void onTokenInvalid() {
+
+                            }
+
                             @Override
                             public void setData(MessageListBean messageListBean) {
                                 boolean hasNewMsg = false;
@@ -270,17 +290,10 @@ public class MeFragment extends BaseFragment{
                             tvCreditRating.setText("积分："+customer.getCreditScore());
                             tvBouns.setText(String.format("%.2f", customer.getAmount()));//钱包金额
                             Log.d("IMAGE_HEAD",customer.getHeadimg());
-                            String headimg = customer.getHeadimg();
-                            //https://www.youpiao8.cn/fapiaobao/upload/90b0e3ec470c48b586a8935faabacda2/426a2127057b42499a575d886230c9b6.jpg
-                            //https://www.youpiao8.cn/fapiaobao/upload/thumbnail/669d29b8804e46f4b789e54528515d6e.jpg
-                            if(!headimg.contains("app-default-big")){
-                                headimg = "https://www.youpiao8.cn/fapiaobao/upload/thumbnail/"+
-                                        headimg.substring(headimg.length()-36).toString();
-                                TLog.d("MeFragment"," thumbnail path " +headimg);
-                            }
+                            String thumbnail = customer.getHeadimg().replace("invoice","thumbnail");
 
                             requestManager
-                                    .load(headimg)
+                                    .load(thumbnail)
                                     .asBitmap()
                                     .placeholder(R.mipmap.ic_head_circle_default_small_)
                                     .thumbnail(0.1f)

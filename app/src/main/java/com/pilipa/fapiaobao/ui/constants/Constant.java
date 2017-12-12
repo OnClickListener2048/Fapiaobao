@@ -12,6 +12,10 @@ public class Constant {
     public static final String BIND_PHONE_ACTION = "bind_phone_action";
     public static final String TYPE_QUESTIONER  = "1";
     public static final String TYPE_ANSWER  = "0";
-
+    public static final String BAD_NETWORK = "bad_network";
+    public static final String CONNECT_ERROR = "connect_error";
+    public static final String CONNECT_TIMEOUT= "connect_timeout";
+    public static final String PARSE_ERROR="parse_error";
+    public static final String UNKNOWN_ERROR="unknown_error";
 
 }

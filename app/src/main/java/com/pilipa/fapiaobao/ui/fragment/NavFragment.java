@@ -207,20 +207,28 @@ public class NavFragment extends BaseFragment{
             NavigationButton nav = (NavigationButton) view;
             doSelect(nav);
         } else {
-            navItemPublish.setEnabled(false);
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                    @Override
-                    public void setData(LoginWithInfoBean loginWithInfoBean) {
-                        navItemPublish.setEnabled(true);
-                        if (loginWithInfoBean.getStatus()==200) {
-                            PubActivity.show(mContext);
-                        } else if (loginWithInfoBean.getStatus()==701) {
-                            Intent intent = new Intent(mContext, LoginActivity.class);
-                            intent.setAction(Constant.LOGIN_TO_PUBLISH);
-                            startActivity(intent);
-                        }
-                    }
-                });
+//            navItemPublish.setEnabled(false);
+//                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+//                    @Override
+//                    public void setData(LoginWithInfoBean loginWithInfoBean) {
+//                        navItemPublish.setEnabled(true);
+//                        if (loginWithInfoBean.getStatus()==200) {
+//                            PubActivity.show(mContext);
+//                        } else if (loginWithInfoBean.getStatus()==701) {
+//                            Intent intent = new Intent(mContext, LoginActivity.class);
+//                            intent.setAction(Constant.LOGIN_TO_PUBLISH);
+//                            startActivity(intent);
+//                        }
+//                    }
+//                });
+
+            if ("notoken".equals(AccountHelper.getToken())) {
+                Intent intent = new Intent(mContext, LoginActivity.class);
+                intent.setAction(Constant.LOGIN_TO_PUBLISH);
+                startActivity(intent);
+            } else {
+                PubActivity.show(mContext);
+            }
         }
     }
 

@@ -2,6 +2,8 @@ package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -36,6 +38,7 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.base.LocationBaseActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
@@ -64,7 +67,7 @@ import io.reactivex.functions.Consumer;
  * @date 2017/10/23
  */
 
-public class EstimateActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class EstimateActivity extends LocationBaseActivity implements ViewPager.OnPageChangeListener {
     String TAG = "EstimateActivity";
 
     @Bind(R.id.title)
@@ -158,7 +161,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
 
     @Override
     public void initView() {
-        String location = BaseApplication.get("location", "定位异常，请点击重新定位");
+        String location = BaseApplication.get("location", "定位失败，点击选择地区");
         locating.setText(location);
         locate = location;
         go.setVisibility(View.GONE);
@@ -292,7 +295,27 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 break;
             case R.id.go:
                 go.setEnabled(false);
-                Api.confirmDemand(AccountHelper.getToken(),demandId, new Api.BaseViewCallback<NormalBean>() {
+                Api.confirmDemand(AccountHelper.getToken(),demandId, new Api.BaseRawResponse<NormalBean>() {
+                    @Override
+                    public void onStart() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+
+                    @Override
+                    public void onTokenInvalid() {
+                        login();
+                    }
+
                     @Override
                     public void setData(NormalBean normalBean) {
                         go.setEnabled(true);
@@ -313,8 +336,6 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                             startActivity(intent);
                         } else if (normalBean.getStatus() == 401) {
                             BaseApplication.showToast(normalBean.getMsg());
-                        } else if (normalBean.getStatus() == 701) {
-                            login();
                         }
                     }
                 });
@@ -348,6 +369,7 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                         e.printStackTrace();
                     }
                 }
+
                 break;
             case R.id.reset_filter:
             case R.id.reset_filter_top:
@@ -355,19 +377,24 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
                 startActivityForResult(intent, REQUEST_CODE_ESTIMATE);
                 break;
             case R.id.locating:
-                mLocationClient.startLocation();
-                locating.setText("定位中...");
-                String location = BaseApplication.get("location", "定位异常，请点击重新定位");
-                locating.setText(location);
-                if("定位异常，请点击重新定位".equals(location)){
-                    BaseApplication.showToast("定位异常，请开启定位功能或手动选择");
+                if (cityPicker.isShow()) cityPicker.hide();
+                else {
+                    try {
+                        cityPicker.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-
                 break;
         }
     }
 
     private void estimate() {
+        if ("定位失败，点击选择地区".equals(locating.getText().toString())) {
+            BaseApplication.showToast("定位异常，请开启定位功能或手动选择");
+            return;
+        }
+
         if (type == 0) {
             BaseApplication.showToast("请选择发票类型");
             return;
@@ -386,7 +413,6 @@ public class EstimateActivity extends BaseActivity implements ViewPager.OnPageCh
         TLog.log("amount"+amount);
         if (!(amount > 0) && amount == 0) {
             BaseApplication.showToast("请输入正确的发票金额");
-            return;
         } else {
             TLog.log(" Api.doMatchDemand(label, amount"+amount);
 

@@ -22,7 +22,7 @@ public class CompaniesBean implements Parcelable{
     private String msg;
     private List<DataBean> data;
 
-    protected CompaniesBean(Parcel in) {
+    private CompaniesBean(Parcel in) {
         status = in.readInt();
         msg = in.readString();
     }

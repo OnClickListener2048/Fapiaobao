@@ -106,6 +106,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
             }
         }
     };
+
     private MainActivity activity;
 
     @Override
@@ -118,23 +119,24 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
-
         messageList();
-
         return rootView;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        TLog.log("onActivityResultonActivityResultonActivityResult");
+        TLog.log("requestCode"+requestCode);
+        TLog.log("resultCode"+resultCode);
+        TLog.log("data"+data);
         switch (requestCode) {
             case REQUEST_CODE_SCAN:
                 if (resultCode == Activity.RESULT_OK) {
+                    TLog.log("if (resultCode == Activity.RESULT_OK) {");
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
-                    TLog.log(content);
-                    TLog.log("RegexUtils.isURL(content)" + RegexUtils.isURL(content));
-                    if (RegexUtils.isURL(content)||content.contains("http")) {
+                    TLog.log("content"+content);
+//                    TLog.log("RegexUtils.isURL(content)" + RegexUtils.isURL(content));
+                    if (RegexUtils.isURL(content)) {
                         Intent intent = new Intent();
                         intent.setClass(mContext, Op.class);
                         intent.putExtra("url", content);
@@ -144,8 +146,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 break;
         }
     }
-
-
 
     @Override
     public void onDestroyView() {
@@ -163,9 +163,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         recyclerviewMoreKind.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         recyclerviewMoreKind.setNestedScrollingEnabled(false);
         recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext, LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(), 23), R.color.white));
-
         initBroadcast();
-
     }
 
     private void initBroadcast() {
@@ -193,7 +191,13 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
 
     private void findUserInvoiceType(String token, final AllInvoiceType allInvoiceType) {
-        Api.<DefaultInvoiceBean>findUserInvoiceType(token, new Api.BaseViewCallbackWithOnStart<DefaultInvoiceBean>() {
+        Api.<DefaultInvoiceBean>findUserInvoiceType(token, new Api.BaseRawResponse<DefaultInvoiceBean>() {
+            @Override
+            public void onTokenInvalid() {
+                TLog.log("onTokenInvalide");
+                findDefaultInvoiceType(allInvoiceType);
+            }
+
             @Override
             public void onStart() {
                 activity.showProgressDialog();
@@ -216,8 +220,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                     financeAdapter.setOnLabelClickListener(FinanceFragment.this);
                     recyclerview.setAdapter(financeAdapter);
                     updateInvoiceHighlight(defaultInvoiceBean, allInvoiceType);
-                } else if (defaultInvoiceBean.getStatus() == 701) {
-                    findDefaultInvoiceType(allInvoiceType);
                 }
             }
         });
@@ -258,6 +260,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                     @Override
                     public void onComplete() {
                         adapter.notifyDataSetChanged();
+                        activity.showGuideViewFromChildFragment();
                     }
                 });
     }
@@ -352,7 +355,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
             case R.id.rl_pull_to_find_more:
                 srollview.setSmoothScrollingEnabled(true);
                 pullToFindMore.measure(0, 0);
-
                 srollview.smoothScrollTo(0,  rlPullToFindMore.getTop());
                 break;
         }
@@ -369,6 +371,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
             @Override
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
+                    TLog.log("REQUEST_CODE_SCAN"+REQUEST_CODE_SCAN);
                     startActivityForResult(new Intent(mContext, CaptureActivity.class), REQUEST_CODE_SCAN);
                 }
             }
@@ -390,6 +393,11 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
     @Override
     public void onLabelNameClick(String label, String name) {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_DATA_LABEL, label);
+        intent.putExtra(EXTRA_DATA_LABEL_NAME, name);
+        intent.setClass(mContext, EstimateActivity.class);
+        startActivity(intent);
         LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
         if (loginBean != null) {
             Api.updateInvoiceType(loginBean.getData().getToken(), label, new Api.BaseViewCallback<String>() {
@@ -399,11 +407,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 }
             });
         }
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_DATA_LABEL, label);
-        intent.putExtra(EXTRA_DATA_LABEL_NAME, name);
-        intent.setClass(mContext, EstimateActivity.class);
-        startActivity(intent);
+
     }
 
     @Override
@@ -413,12 +417,28 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     }
 
     private void messageList() {
-        if (TDevice.hasInternet()) {
-            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                @Override
-                public void setData(LoginWithInfoBean loginWithInfoBean) {
-                    if (loginWithInfoBean.getStatus() == 200) {
-                        Api.messageList(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<MessageListBean>() {
+
+                        Api.messageList(AccountHelper.getToken(), new Api.BaseRawResponse<MessageListBean>() {
+                            @Override
+                            public void onStart() {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+
+                            @Override
+                            public void onTokenInvalid() {
+
+                            }
+
                             @Override
                             public void setData(MessageListBean messageListBean) {
                                 boolean hasNewMsg = false;
@@ -442,9 +462,4 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                             }
                         });
                     }
-                }
-            });
-        }
-    }
-
 }

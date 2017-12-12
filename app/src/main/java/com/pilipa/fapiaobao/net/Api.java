@@ -3,7 +3,6 @@ package com.pilipa.fapiaobao.net;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.FileCallback;
@@ -17,6 +16,7 @@ import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
+import com.pilipa.fapiaobao.net.bean.base.BaseResponseBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
@@ -86,6 +86,7 @@ import static com.pilipa.fapiaobao.net.Constant.FIND_DEFAULT_FREQUENTLY_INVOICE_
 import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
 import static com.pilipa.fapiaobao.net.Constant.LOGOUT_BY_TOKEN;
+import static com.pilipa.fapiaobao.net.Constant.LOG_RECORD;
 import static com.pilipa.fapiaobao.net.Constant.MAIL_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.MESSAGE_DETAILS;
 import static com.pilipa.fapiaobao.net.Constant.MESSAGE_MESSAGES;
@@ -120,7 +121,7 @@ import static com.pilipa.fapiaobao.net.Constant.WX_RECHARGE;
 
 public class Api {
 
-    static String TAG = "api";
+    private static String TAG = "api";
 
     public static void bindWX(String customerId,String platform,String code,String authCode, final BaseViewCallback baseViewCallback) {
         OkGo.<NormalBean>get(String.format(BIND, customerId,platform,code,authCode)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
@@ -301,8 +302,6 @@ public class Api {
 
                     }
                 });
-
-
     }
 
     /**
@@ -312,11 +311,15 @@ public class Api {
      * @param baseViewCallback
      */
 
-    public static void companiesList(String token, final BaseViewCallback baseViewCallback) {
+    public static void companiesList(String token, final BaseRawResponse baseViewCallback) {
         OkGo.<CompaniesBean>get(String.format(COMPANIES_LIST, token)).tag("companiesList").execute(new JsonCallBack<CompaniesBean>(CompaniesBean.class) {
             @Override
             public void onSuccess(Response<CompaniesBean> response) {
+                if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
                     baseViewCallback.setData(response.body());
+                }
             }
         });
     }
@@ -343,14 +346,18 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void companyCreate(Company company, String token, final BaseViewCallbackWithOnStart baseViewCallback) {
+    public static void companyCreate(Company company, String token, final BaseRawResponse baseViewCallback) {
         JSONObject map = JsonCreator.setCompanyData(company, token);
         OkGo.<NormalBean>post(CREATE_COMPANY)
                 .upJson(map)
                 .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
                     @Override
                     public void onSuccess(Response<NormalBean> response) {
+                        if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                            baseViewCallback.onTokenInvalid();
+                        } else {
                             baseViewCallback.setData(response.body());
+                        }
                     }
 
                     @Override
@@ -380,11 +387,15 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void deleteCompany(String id, String token, final BaseViewCallback baseViewCallback) {
+    public static void deleteCompany(String id, String token, final BaseRawResponse baseViewCallback) {
         OkGo.<NormalBean>delete(String.format(DELETE_COMPANY, id, token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
+                if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
                     baseViewCallback.setData(response.body());
+                }
             }
         });
     }
@@ -395,11 +406,15 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void favoriteCompanyList(String token, final BaseViewCallback baseViewCallback) {
+    public static void favoriteCompanyList(String token, final BaseRawResponse baseViewCallback) {
         OkGo.<FavoriteCompanyBean>get(String.format(FAVORITE_COMPANY_LIST, token)).execute(new JsonCallBack<FavoriteCompanyBean>(FavoriteCompanyBean.class) {
             @Override
             public void onSuccess(Response<FavoriteCompanyBean> response) {
+                if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
                     baseViewCallback.setData(response.body());
+                }
             }
         });
     }
@@ -429,13 +444,17 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void deleteFavoriteCompany(String id, String token, final BaseViewCallback baseViewCallback) {
+    public static void deleteFavoriteCompany(String id, String token, final BaseRawResponse baseViewCallback) {
 
         OkGo.<FavBean>delete(String.format(FAVORITE_COMPANY_REMOVE, id, token))
                 .execute(new JsonCallBack<FavBean>(FavBean.class) {
                     @Override
                     public void onSuccess(Response<FavBean> response) {
+                        if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                            baseViewCallback.onTokenInvalid();
+                        } else {
                             baseViewCallback.setData(response.body());
+                        }
                     }
                 });
     }
@@ -446,13 +465,15 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void demandsList(String token, String state, BaseFragment baseFragment, final BaseViewCallback baseViewCallback) {
+    public static void demandsList(String token, String state, BaseFragment baseFragment, final BaseRawResponse baseViewCallback) {
         OkGo.<DemandsListBean>get(String.format(USER_ISSUED_LIST,state,token)).tag(baseFragment).execute(new JsonCallBack<DemandsListBean>(DemandsListBean.class) {
             @Override
             public void onSuccess(Response<DemandsListBean> response) {
-                    int status = response.body().getStatus();
-                        TLog.log("status == REQUEST_SUCCESS");
-                        baseViewCallback.setData(response.body());
+                if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
+                    baseViewCallback.setData(response.body());
+                }
             }
         });
     }
@@ -464,31 +485,35 @@ public class Api {
      * @param demandId
      */
 
-    public static void demandDetails(String token, String demandId, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart ){
+    public static void demandDetails(String token, String demandId, final BaseRawResponse baseViewCallback) {
         OkGo.<DemandDetails>get(String.format(USER_ISSUED_DETAILS, demandId, token))
                 .tag("demandDetails")
                 .execute(new JsonCallBack<DemandDetails>(DemandDetails.class) {
             @Override
             public void onSuccess(Response<DemandDetails> response) {
-                 baseViewCallbackWithOnStart.setData(response.body());
+                if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
+                    baseViewCallback.setData(response.body());
+                }
             }
 
             @Override
             public void onFinish() {
                 super.onFinish();
-                baseViewCallbackWithOnStart.onFinish();
+                baseViewCallback.onFinish();
             }
 
             @Override
             public void onStart(Request<DemandDetails, ? extends Request> request) {
                 super.onStart(request);
-                baseViewCallbackWithOnStart.onStart();
+                baseViewCallback.onStart();
             }
 
             @Override
             public void onError(Response<DemandDetails> response) {
                 super.onError(response);
-                baseViewCallbackWithOnStart.onError();
+                baseViewCallback.onError();
 
             }
         });
@@ -500,11 +525,15 @@ public class Api {
      * @param demandId
      * @param baseViewCallback
      */
-    public static void shatDownEarly(String token, String demandId, final BaseViewCallback baseViewCallback) {
+    public static void shatDownEarly(String token, String demandId, final BaseRawResponse baseViewCallback) {
         OkGo.<NormalBean>get(String.format(SHAT_DOWN_EARLY,demandId,token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
+                if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
                     baseViewCallback.setData(response.body());
+                }
             }
         });
     }
@@ -571,26 +600,29 @@ public class Api {
         }
 
     }
-    public static void confirmDemand(String token,String demandId,final BaseViewCallback baseViewCallback) {
-        if (TDevice.hasInternet()) {
-            OkGo.<NormalBean>get(String.format(CONFIRM_DEMAND,token,demandId)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
 
+    public static void confirmDemand(String token, String demandId, final BaseRawResponse baseViewCallback) {
+            OkGo.<NormalBean>get(String.format(CONFIRM_DEMAND,token,demandId)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
                 @Override
                 public void onSuccess(Response<NormalBean> response) {
-                    baseViewCallback.setData(response.body());
+                    if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                        baseViewCallback.onTokenInvalid();
+                    } else {
+                        baseViewCallback.setData(response.body());
+
+                    }
                 }
             });
-        } else {
-            BaseApplication.showToast("请检查您的网络~");
-        }
-
     }
-    public static void estimateRedBag(String token, String demandId, double amount, final BaseViewCallbackWithOnStart baseViewCallback) {
+
+    public static void estimateRedBag(String token, String demandId, double amount, final BaseRawResponse baseViewCallback) {
         String url = String.format(ESTIMATE, token, demandId, amount);
         OkGo.<RedBagBean>get(url).execute(new JsonCallBack<RedBagBean>(RedBagBean.class) {
             @Override
             public void onSuccess(Response<RedBagBean> response) {
-                if (response.isSuccessful()) {
+                if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
                     baseViewCallback.setData(response.body());
                 }
             }
@@ -651,20 +683,18 @@ public class Api {
     /**
      *
      * @param baseViewCallback
-     * @param <T>
      */
-    public static <T> void findDefaultInvoiceType(final BaseViewCallbackWithOnStart baseViewCallback) {
-        if (TDevice.hasInternet()) {
-            OkGo.<T>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE).execute(new JsonCallBack<T>(DefaultInvoiceBean.class) {
+    public static void findDefaultInvoiceType(final BaseViewCallbackWithOnStart baseViewCallback) {
+        OkGo.<DefaultInvoiceBean>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE).execute(new JsonCallBack<DefaultInvoiceBean>(DefaultInvoiceBean.class) {
                 @Override
-                public void onSuccess(Response<T> response) {
+                public void onSuccess(Response<DefaultInvoiceBean> response) {
                     if (response.isSuccessful()) {
                         baseViewCallback.setData(response.body());
                     }
                 }
 
                 @Override
-                public void onStart(Request<T, ? extends Request> request) {
+                public void onStart(Request<DefaultInvoiceBean, ? extends Request> request) {
                     super.onStart(request);
                     baseViewCallback.onStart();
                 }
@@ -676,37 +706,35 @@ public class Api {
                 }
 
                 @Override
-                public void onError(Response<T> response) {
+                public void onError(Response<DefaultInvoiceBean> response) {
                     super.onError(response);
                     baseViewCallback.onError();
                 }
             });
-        } else {
-            BaseApplication.showToast("请检查您的网络~");
-        }
-
     }
 
     /**
      *
      * @param token
      * @param baseViewCallback
-     * @param <T>
      */
-    public static <T> void findUserInvoiceType(String token, final BaseViewCallbackWithOnStart baseViewCallback) {
-        if (TDevice.hasInternet()) {
+    public static void findUserInvoiceType(String token, final BaseRawResponse baseViewCallback) {
 
             String url = String.format(FIND_FREQUENTLY_INVOICE_TYPE, token);
-            OkGo.<T>get(url).tag("findUserInvoiceType").execute(new JsonCallBack<T>(DefaultInvoiceBean.class) {
+        OkGo.<DefaultInvoiceBean>get(url).tag("findUserInvoiceType").execute(new JsonCallBack<DefaultInvoiceBean>(DefaultInvoiceBean.class) {
                 @Override
-                public void onSuccess(Response<T> response) {
-                    if (response.isSuccessful()) {
-                        baseViewCallback.setData(response.body());
+                public void onSuccess(Response<DefaultInvoiceBean> response) {
+                    DefaultInvoiceBean body = response.body();
+
+                    if (response.isSuccessful() && body.getStatus() == Constant.REQUEST_SUCCESS) {
+                        baseViewCallback.setData(body);
+                    } else if (body.getStatus() == Constant.TOKEN_INVALIDE) {
+                        baseViewCallback.onTokenInvalid();
                     }
                 }
 
                 @Override
-                public void onError(Response<T> response) {
+                public void onError(Response<DefaultInvoiceBean> response) {
                     super.onError(response);
                     baseViewCallback.onError();
                 }
@@ -718,14 +746,11 @@ public class Api {
                 }
 
                 @Override
-                public void onStart(Request<T, ? extends Request> request) {
+                public void onStart(Request<DefaultInvoiceBean, ? extends Request> request) {
                     super.onStart(request);
                     baseViewCallback.onStart();
                 }
             });
-        } else {
-            BaseApplication.showToast("请检查您的网络~");
-        }
     }
 
     /**
@@ -770,10 +795,6 @@ public class Api {
                     }
 
                 });
-
-
-
-
     }
 
 
@@ -782,11 +803,16 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void myInvoiceList(String token, Object baseActivity, final BaseViewCallback baseViewCallback) {
+    public static void myInvoiceList(String token, Object baseActivity, final BaseRawResponse baseViewCallback) {
         OkGo.<MyInvoiceListBean>get(String.format(MY_INVOICE_LIST, token)).tag(baseActivity).execute(new JsonCallBack<MyInvoiceListBean>(MyInvoiceListBean.class) {
             @Override
             public void onSuccess(Response<MyInvoiceListBean> response) {
-                    baseViewCallback.setData(response.body());
+                MyInvoiceListBean body = response.body();
+                if (body.getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
+                    baseViewCallback.setData(body);
+                }
             }
         });
     }
@@ -795,14 +821,21 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void mailInvoice(String token,String orderId,String logisticsCompany,String trackingNumber, final BaseViewCallback baseViewCallback) {
+    public static void mailInvoice(String token, String orderId, String logisticsCompany, String trackingNumber, final BaseRawResponse baseViewCallback) {
         OkGo.<NormalBean>get(String.format(MAIL_INVOICE, token,orderId,logisticsCompany,trackingNumber)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
-                    baseViewCallback.setData(response.body());
+                NormalBean body = response.body();
+                int status = body.getStatus();
+                if (status == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
+                    baseViewCallback.setData(body);
+                }
             }
         });
     }
+
 
     /**
      * 我的发票夹
@@ -811,11 +844,17 @@ public class Api {
      * @param pageSize
      * @param baseViewCallback
      */
-    public static void orderList(String token, String pageNo, String pageSize, Object o, final BaseViewCallback baseViewCallback) {
+    public static void orderList(String token, String pageNo, String pageSize, Object o, final BaseRawResponse baseViewCallback) {
         OkGo.<OrderListBean>get(String.format(ORDER_LIST, token, pageNo, pageSize)).tag(o).execute(new JsonCallBack<OrderListBean>(OrderListBean.class) {
             @Override
             public void onSuccess(Response<OrderListBean> response) {
-                    baseViewCallback.setData(response.body());
+                OrderListBean body = response.body();
+                int status = body.getStatus();
+                if (status == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
+                    baseViewCallback.setData(body);
+                }
             }
         });
     }
@@ -826,11 +865,15 @@ public class Api {
      * @param orderInvoiceId
      * @param baseViewCallback
      */
-    public static void confirmInvoice(String token,String orderInvoiceId, final BaseViewCallback baseViewCallback) {
+    public static void confirmInvoice(String token, String orderInvoiceId, final BaseRawResponse baseViewCallback) {
         OkGo.<ConfirmInvoiceBean>get(String.format(CONFIRM_INVOICE,token,orderInvoiceId)).execute(new JsonCallBack<ConfirmInvoiceBean>(ConfirmInvoiceBean.class) {
             @Override
             public void onSuccess(Response<ConfirmInvoiceBean> response) {
+                if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
                     baseViewCallback.setData(response.body());
+                }
             }
         });
     }
@@ -844,13 +887,17 @@ public class Api {
      * @param reason
      * @param baseViewCallback
      */
-    public static void rejectInvoice(String token,String orderInvoiceId,String amount,String rejectType,String reason, final BaseViewCallback baseViewCallback) {
+    public static void rejectInvoice(String token, String orderInvoiceId, String amount, String rejectType, String reason, final BaseRawResponse baseViewCallback) {
         OkGo.<RejectInvoiceBean>post(String.format(REJECT_INVOICE,token,orderInvoiceId,Double.parseDouble(amount),rejectType))
                 .upJson(JsonCreator.setReject(reason))
                 .execute(new JsonCallBack<RejectInvoiceBean>(RejectInvoiceBean.class) {
             @Override
             public void onSuccess(Response<RejectInvoiceBean> response) {
+                if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
                     baseViewCallback.setData(response.body());
+                }
             }
         });
     }
@@ -861,13 +908,21 @@ public class Api {
      * @param orderID
      * @param baseViewCallback
      */
-    public static void showOrderDetail(String token,String orderID,final BaseViewCallbackWithOnStart baseViewCallback) {
+    public static void showOrderDetail(String token, String orderID, final BaseRawResponse baseViewCallback) {
 
         OkGo.<OrderDetailsBean>get(String.format(SHOW_ORDER_DETAIL, token,orderID))
                 .tag("showOrderDetail").execute(new JsonCallBack<OrderDetailsBean>(OrderDetailsBean.class) {
             @Override
             public void onSuccess(Response<OrderDetailsBean> response) {
-                    baseViewCallback.setData(response.body());
+                OrderDetailsBean body = response.body();
+                int status = body.getStatus();
+
+
+                if (status == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
+                    baseViewCallback.setData(body);
+                }
             }
 
             @Override
@@ -895,24 +950,42 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void messageList(String token, final BaseViewCallback baseViewCallback) {
+    public static void messageList(String token, final BaseRawResponse baseViewCallback) {
         OkGo.<MessageListBean>get(String.format(MESSAGE_MESSAGES, token)).execute(new JsonCallBack<MessageListBean>(MessageListBean.class) {
             @Override
             public void onSuccess(Response<MessageListBean> response) {
-                    baseViewCallback.setData(response.body());
+                MessageListBean body = response.body();
+                int status = body.getStatus();
+
+
+                if (status == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
+                    baseViewCallback.setData(body);
+                }
 
             }
         });
-    } /**
+
+    }
+
+    /**
      * 消息中心详情
      * @param token
      * @param baseViewCallback
      */
-    public static void messageDetails(String type ,String token, final BaseViewCallback baseViewCallback) {
+    public static void messageDetails(String type, String token, final BaseRawResponse baseViewCallback) {
         OkGo.<MessageDetailsBean>get(String.format(MESSAGE_DETAILS,type, token)).execute(new JsonCallBack<MessageDetailsBean>(MessageDetailsBean.class) {
             @Override
             public void onSuccess(Response<MessageDetailsBean> response) {
-                    baseViewCallback.setData(response.body());
+                MessageDetailsBean body = response.body();
+                int status = body.getStatus();
+
+                if (status == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
+                    baseViewCallback.setData(body);
+                }
 
             }
         });
@@ -951,11 +1024,17 @@ public class Api {
      * @param invoiceId
      * @param baseViewCallback
      */
-    public static void deleteMyInvoice(String token,String invoiceId, final BaseViewCallbackWithOnStart baseViewCallback) {
+    public static void deleteMyInvoice(String token, String invoiceId, final BaseRawResponse baseViewCallback) {
         OkGo.<NormalBean>delete(String.format(DELETE_MY_INVOICE,token,invoiceId)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
+
+
+                if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
                     baseViewCallback.setData(response.body());
+                }
             }
 
             @Override
@@ -1009,8 +1088,6 @@ public class Api {
                         baseViewCallback.onError();
                     }
                 });
-
-
     }
 
     public static void uploadInvoice(String token, String pic, final BaseViewCallback baseViewCallback) {
@@ -1179,10 +1256,13 @@ public class Api {
                 }
             }
         });
-
     }
 
-    public static void publish(String json, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
+    /**
+     * @param json
+     * @param baseViewCallbackWithOnStart
+     */
+    public static void publish(String json, final BaseRawResponse baseViewCallbackWithOnStart) {
         OkGo.<BalanceBean>post(PUBLISH).upJson(json).execute(new JsonCallBack<BalanceBean>(BalanceBean.class) {
 
             @Override
@@ -1199,7 +1279,11 @@ public class Api {
 
             @Override
             public void onSuccess(Response<BalanceBean> response) {
-                if (response.isSuccessful()) {
+
+
+                if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallbackWithOnStart.onTokenInvalid();
+                } else {
                     baseViewCallbackWithOnStart.setData(response.body());
                 }
             }
@@ -1284,6 +1368,14 @@ public class Api {
                 });
     }
 
+    public static void RECORD_LOG(String log) {
+        OkGo.<NormalBean>post(LOG_RECORD).upJson(JsonCreator.log(log)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+            @Override
+            public void onSuccess(Response<NormalBean> response) {
+            }
+        });
+    }
+
     public static void getSuggestions(int pageNo
             , int pageSize
             , String id
@@ -1328,12 +1420,10 @@ public class Api {
         void setData(T t);
     }
 
-    public interface BaseViewCallbackPromote<T>{
-        void setData(T t);
 
-        void noData(T t);
+    public interface BaseRawResponse<T> extends BaseViewCallbackWithOnStart<T> {
+        void onTokenInvalid();
     }
-
 
 
     public interface BaseViewCallbackWithOnStart<T> extends BaseViewCallback<T> {

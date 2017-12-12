@@ -85,12 +85,29 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
     }
 
     private void messageList() {
-        if (TDevice.hasInternet()) {
-            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                @Override
-                public void setData(LoginWithInfoBean loginWithInfoBean) {
-                    if (loginWithInfoBean.getStatus() == 200) {
-                        Api.messageList(loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<MessageListBean>() {
+
+                        Api.messageList(AccountHelper.getToken(), new Api.BaseRawResponse<MessageListBean>() {
+                            @Override
+                            public void onStart() {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+
+                            @Override
+                            public void onTokenInvalid() {
+                                noContent.setVisibility(View.VISIBLE);
+                                tips.setText("登陆后才能查看到红包通知哦");
+                            }
+
                             @Override
                             public void setData(MessageListBean messageListBean) {
                                 if (messageListBean.getStatus() == 200) {
@@ -101,37 +118,21 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
                                 } else if (messageListBean.getStatus() == 400) {
                                     noContent.setVisibility(View.VISIBLE);
                                     tips.setText("暂时还没有消息哦");
-                                } else {
-                                    noContent.setVisibility(View.VISIBLE);
-                                    tips.setText("登陆后才能查看到红包通知哦");
                                 }
                             }
                         });
-                    }
-                }
-            });
-        } else {
-            noContent.setVisibility(View.VISIBLE);
-            tips.setText("当前没有网络哦~");
-        }
-
     }
     private void messageRead(final String type) {
         if (TDevice.hasInternet()) {
-            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                @Override
-                public void setData(LoginWithInfoBean loginWithInfoBean) {
-                    if (loginWithInfoBean.getStatus() == 200) {
-                        Api.messageRead(loginWithInfoBean.getData().getToken(),type, new Api.BaseViewCallback<NormalBean>() {
+
+                        Api.messageRead(AccountHelper.getToken(),type, new Api.BaseViewCallback<NormalBean>() {
                             @Override
                             public void setData(NormalBean normalBean) {
                                 if (normalBean.getStatus() == 200) {
                                 }
                             }
                         });
-                    }
-                }
-            });
+
         } else {
             noContent.setVisibility(View.VISIBLE);
             tips.setText("当前没有网络哦~");

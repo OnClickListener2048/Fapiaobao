@@ -2,9 +2,11 @@ package com.pilipa.fapiaobao.base;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.interf.BaseView;
 import com.pilipa.fapiaobao.ui.LoginActivity;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.TDevice;
@@ -55,39 +58,29 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     private Fragment mFragment;
     private ActionBar mActionBar;
     private ProgressDialog progressDialog;
-    public AMapLocationClient mLocationClient = null;
-    public AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
-    public AMapLocationListener mLocationListener = new AMapLocationListener() {
 
+    private Bitmap compressedImageBitmap;
 
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
-        public void onLocationChanged(AMapLocation aMapLocation) {
-            if (aMapLocation != null) {
-                if (aMapLocation.getErrorCode() == 0) {
-                    //可在其中解析amapLocation获取相应内容。
-                    TLog.log(aMapLocation.toString());
-                    TLog.log(aMapLocation.getCity());
-                    TLog.log(aMapLocation.getProvince());
-                    BaseApplication.set("location", aMapLocation.getCity());
-                } else {
-                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
-                    Log.e("AmapError", "location Error, ErrCode:"
-                            + aMapLocation.getErrorCode() + ", errInfo:"
-                            + aMapLocation.getErrorInfo());
-                    if (!TDevice.hasInternet()) {
-                        BaseApplication.showToast("网络异常，定位失败");
-                    }
-                }
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case Constant.CONNECT_TIMEOUT:
+                case Constant.BAD_NETWORK:
+                case Constant.CONNECT_ERROR:
+                case Constant.UNKNOWN_ERROR:
+                case Constant.PARSE_ERROR:
+                    hideProgressDialog();
+
             }
         }
     };
-    private Bitmap compressedImageBitmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initWindow();
-        initAMap();
+
         onBeforeSetContentLayout();
         if (getLayoutId() != 0) {
             setContentView(getLayoutId());
@@ -102,6 +95,13 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         initData();
         initProgressDialog();
         PushAgent.getInstance(this).onAppStart();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constant.BAD_NETWORK);
+        intentFilter.addAction(Constant.CONNECT_ERROR);
+        intentFilter.addAction(Constant.CONNECT_TIMEOUT);
+        intentFilter.addAction(Constant.UNKNOWN_ERROR);
+        intentFilter.addAction(Constant.PARSE_ERROR);
+        registerReceiver(mBroadcastReceiver, intentFilter);
     }
 
     private void initProgressDialog() {
@@ -169,6 +169,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.onDestroy();
         progressDialog.dismiss();
         progressDialog=null;
+        try {
+            unregisterReceiver(mBroadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void login() {
@@ -303,9 +308,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 //                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
 //                            | View.SYSTEM_UI_FLAG_IMMERSIVE
 //            );
-
         }
-
     }
 
 
@@ -340,54 +343,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    private void initAMap() {
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION).subscribe(new Observer<Boolean>() {
-            @Override
-            public void onSubscribe(Disposable d) {
 
-            }
-
-            @Override
-            public void onNext(Boolean aBoolean) {
-                if (aBoolean) {
-                    //初始化定位
-                    mLocationClient = new AMapLocationClient(BaseApplication.context());
-                    //设置定位回调监听
-                    mLocationClient.setLocationListener(mLocationListener);
-                    //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
-                    mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-                    //获取一次定位结果：
-                    //该方法默认为false。
-                    mLocationOption.setOnceLocation(true);
-                    //获取最近3s内精度最高的一次定位结果：
-                    //设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
-                    mLocationOption.setOnceLocationLatest(true);
-                    //设置是否返回地址信息（默认返回地址信息）
-                    mLocationOption.setNeedAddress(true);
-                    //单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
-                    mLocationOption.setHttpTimeOut(20000);
-                    //关闭缓存机制
-                    mLocationOption.setLocationCacheEnable(false);
-                    //给定位客户端对象设置定位参数
-                    mLocationClient.setLocationOption(mLocationOption);
-                    //启动定位
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
-
-
-    }
 
     @Override
     public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {

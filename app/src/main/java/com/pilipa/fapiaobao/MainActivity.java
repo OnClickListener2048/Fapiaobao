@@ -30,6 +30,7 @@ import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.base.LocationBaseActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.update.VersionMode;
@@ -56,7 +57,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
     @Bind(R.id.bg)
     FrameLayout bg;
-    private NavFragment mNavBar;
+    public NavFragment mNavBar;
     private static final int UPDATE = 924;
 
 
@@ -96,9 +97,10 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
         mNavBar = ((NavFragment) manager.findFragmentById(R.id.fag_nav));
         mNavBar.setup(this, manager, R.id.main_container, this);
         PackageInstallReceiver.registerReceiver(this);
-
         mHandler.sendEmptyMessageDelayed(UPDATE, 3000);
+    }
 
+    public void showGuideViewFromChildFragment() {
         if (BaseApplication.get(IS_FIRST_IN_MAIN, true)) {
             mNavBar.navItemPublish.post(new Runnable() {
                 @Override
@@ -107,28 +109,11 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
                 }
             });
         }
-
-
-
     }
-
-
 
     @Override
     public void initData() {
-
-        bg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        if (mLocationClient != null) {
-
-        mLocationClient.startLocation();
-        }
     }
-
 
     public void showGuideView() {
         GuideBuilder builder = new GuideBuilder();
@@ -385,9 +370,6 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
             }
         });
     }
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

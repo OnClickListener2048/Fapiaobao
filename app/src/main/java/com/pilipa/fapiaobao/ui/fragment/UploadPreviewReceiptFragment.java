@@ -377,13 +377,11 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
     }
 
     public void uploadReceipt() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-            @Override
-            public void setData(LoginWithInfoBean normalBean) {
+
                 OrderBean orderBean = SharedPreferencesHelper.loadFormSource(mContext, OrderBean.class);
                 final UploadInvoice uploadInvoice = new UploadInvoice();
                 uploadInvoice.setOrderId(orderBean.getData().getOrderId());
-                uploadInvoice.setToken(normalBean.getData().getToken());
+                uploadInvoice.setToken(AccountHelper.getToken());
                 uploadInvoice.setVariety(invoice_variety);
                 List<UploadInvoice.InvoiceImageListBean> listBeen = new ArrayList<UploadInvoice.InvoiceImageListBean>();
                 for (Image image : images) {
@@ -434,7 +432,5 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
                     }
                 });
             }
-        });
-    }
 
 }

@@ -1,17 +1,13 @@
 package com.pilipa.fapiaobao.net.bean.invoice;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by edz on 2017/10/29.
  */
 
-public class DefaultInvoiceBean implements Serializable{
+public class DefaultInvoiceBean  implements Serializable{
 
 
 

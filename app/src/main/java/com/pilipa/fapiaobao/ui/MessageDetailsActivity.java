@@ -90,13 +90,29 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
         ButterKnife.bind(this);
     }
     private void messageDetails(final String type) {
-        if (TDevice.hasInternet()) {
-            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                @Override
-                public void setData(LoginWithInfoBean loginWithInfoBean) {
-                    bonus = String.valueOf(loginWithInfoBean.getData().getCustomer().getBonus());
-                    if (loginWithInfoBean.getStatus() == 200) {
-                        Api.messageDetails(type,loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<MessageDetailsBean>() {
+
+                    bonus = String.valueOf(AccountHelper.getUser().getData().getCustomer().getBonus());
+                        Api.messageDetails(type,AccountHelper.getToken(), new Api.BaseRawResponse<MessageDetailsBean>() {
+                            @Override
+                            public void onStart() {
+
+                            }
+
+                            @Override
+                            public void onFinish() {
+
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+
+                            @Override
+                            public void onTokenInvalid() {
+
+                            }
+
                             @Override
                             public void setData(MessageDetailsBean messageDetailsBean) {
 
@@ -113,13 +129,7 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
                                 }
                             }
                         });
-                    }
-                }
-            });
-        } else {
-//            noContent.setVisibility(View.VISIBLE);
-//            tips.setText("当前没有网络哦~");
-        }
+
     }
 
     @Override

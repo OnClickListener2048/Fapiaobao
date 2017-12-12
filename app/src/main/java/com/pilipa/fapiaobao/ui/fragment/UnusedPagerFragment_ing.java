@@ -26,6 +26,7 @@ import com.pilipa.fapiaobao.ui.DemandActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -180,9 +181,29 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
     }
 
     public void demandsList(String state){
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.demandsList(AccountHelper.getToken(),state,this,new Api.BaseViewCallback<DemandsListBean>() {
+        if (AccountHelper.getToken() != null && !Objects.equals(AccountHelper.getToken(), "")) {
+            Api.demandsList(AccountHelper.getToken(),state,this,new Api.BaseRawResponse<DemandsListBean>() {
 
+
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+
+                @Override
+                public void onError() {
+
+                }
+
+                @Override
+                public void onTokenInvalid() {
+
+                }
 
                 @Override
                 public void setData(DemandsListBean demandsListBean) {

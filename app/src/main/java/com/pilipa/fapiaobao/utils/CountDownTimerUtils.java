@@ -32,7 +32,8 @@ public class CountDownTimerUtils extends CountDownTimer {
     @Override
     public void onTick(long millisUntilFinished) {
         mTextView.setClickable(false); //设置不可点击
-        mTextView.setText(millisUntilFinished / 1000 + "秒");  //设置倒计时时间
+        mTextView.setText(millisUntilFinished / 1000 + "s");  //设置倒计时时间
+        mTextView.setTextColor(Color.parseColor("#fd8e8e"));
 //        mTextView.setBackgroundResource(R.drawable.bg_identify_code_press); //设置按钮为灰色，这时是不能点击的
 
         /**
@@ -47,7 +48,7 @@ public class CountDownTimerUtils extends CountDownTimer {
          * http://blog.csdn.net/ah200614435/article/details/7914459
          */
         SpannableString spannableString = new SpannableString(mTextView.getText().toString());  //获取按钮上的文字
-        ForegroundColorSpan span = new ForegroundColorSpan(Color.RED);
+        ForegroundColorSpan span = new ForegroundColorSpan(Color.parseColor("#fd8e8e"));
         /**
          * public void setSpan(Object what, int start, int end, int flags) {
          * 主要是start跟end，start是起始位置,无论中英文，都算一个。

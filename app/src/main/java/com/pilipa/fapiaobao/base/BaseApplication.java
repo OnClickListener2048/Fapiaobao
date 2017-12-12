@@ -50,6 +50,7 @@ import com.umeng.socialize.UMShareAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -256,9 +257,10 @@ public class BaseApplication extends Application {
                             startActivity(intent2);
                             break;
                         case GOT_BONUS:
-                            double  bonus = (double) jsonObject.get("bonus");
+                            String  bonus = (String) jsonObject.get("bonus");
+                            BigDecimal bigDecimal = new BigDecimal(bonus);
                             Intent intent3 = new Intent();
-                            intent3.putExtra("bonus", String.valueOf(bonus));
+                            intent3.putExtra("bonus", String.valueOf(bigDecimal));
                             intent3.setClass(getApplicationContext(), MyRedEnvelopeActivity.class);
                             intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent3);

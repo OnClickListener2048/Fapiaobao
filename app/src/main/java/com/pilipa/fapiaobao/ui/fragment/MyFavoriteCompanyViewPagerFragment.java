@@ -187,9 +187,28 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
     }
 
     public void getFavCompanyList(){
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
 
-            Api.favoriteCompanyList(AccountHelper.getToken(),new Api.BaseViewCallback<FavoriteCompanyBean>() {
+            Api.favoriteCompanyList(AccountHelper.getToken(),new Api.BaseRawResponse<FavoriteCompanyBean>() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+
+                @Override
+                public void onError() {
+
+                }
+
+                @Override
+                public void onTokenInvalid() {
+
+                }
+
                 @Override
                 public void setData(FavoriteCompanyBean favoriteCompanyBean) {
                     if (favoriteCompanyBean.getStatus() == REQUEST_SUCCESS) {
@@ -212,8 +231,6 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
                     }
                 }
             });
-        }
-
     }
 
     public void favCompanyCreate(CompanyCollectBean favCompany){

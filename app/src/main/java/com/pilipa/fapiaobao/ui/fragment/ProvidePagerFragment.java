@@ -147,7 +147,6 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
         @Override
         public void onRefreshCanceled() {
             super.onRefreshCanceled();
-
         }
 
         @Override
@@ -164,7 +163,27 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
         startActivity(intent);
     }
     private void orderList(int pageNo,int pageSize){
-        Api.orderList(AccountHelper.getToken(), pageNo + "", pageSize + "", ProvidePagerFragment.this, new Api.BaseViewCallback<OrderListBean>() {
+        Api.orderList(AccountHelper.getToken(), pageNo + "", pageSize + "", ProvidePagerFragment.this, new Api.BaseRawResponse<OrderListBean>() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void onTokenInvalid() {
+
+            }
+
             @Override
             public void setData(OrderListBean orderListBean) {
                 if (orderListBean.getStatus() == Constant.REQUEST_SUCCESS) {

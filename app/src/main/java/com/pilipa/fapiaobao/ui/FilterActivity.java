@@ -17,6 +17,7 @@ import com.lljjcoder.citywheel.CityPickerView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.base.LocationBaseActivity;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 
@@ -30,7 +31,7 @@ import butterknife.OnClick;
  * Created by edz on 2017/11/5.
  */
 
-public class FilterActivity extends BaseActivity {
+public class FilterActivity extends LocationBaseActivity {
 
     @Bind(R.id.title)
     TextView title;
@@ -51,9 +52,8 @@ public class FilterActivity extends BaseActivity {
     private CityPickerView cityPicker;
 
     private void setUpAddress() {
-        tvArea.setText(BaseApplication.get("location", "定位异常"));
-        locate = BaseApplication.get("location", "定位异常");
-        TLog.log("BaseApplication.get(\"location\",\"定位异常\")" + BaseApplication.get("location", "定位异常"));
+        tvArea.setText(BaseApplication.get("location", "定位失败，点击选择地区"));
+        locate = BaseApplication.get("location", "定位失败，点击选择地区");
     }
 
     @Override
@@ -110,6 +110,10 @@ public class FilterActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.confirm:
+                if ("定位失败，点击选择地区".equals(tvArea.getText().toString())) {
+                    BaseApplication.showToast("限制开票区域定位异常，请开启定位功能或手动选择开票地区");
+                    return;
+                }
                 intent.putExtra("locate", locate);
                 if (type == 0) {
                     BaseApplication.showToast("请选择发票种类" +
