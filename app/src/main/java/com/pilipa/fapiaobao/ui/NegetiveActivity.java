@@ -132,11 +132,18 @@ public class NegetiveActivity extends BaseActivity {
             }else{
                 viewHolder.tvAmountOffered.setText(bean.getScore()+"");
             }
-            if("1".equals(bean.getType())){
-                viewHolder.title.setText("交易成功");
-            }else if("0".equals(bean.getType())){
-                viewHolder.title.setText("不实交易");
+            switch (bean.getType()){
+                case "ERROR_MAIL_INVOICE":
+                    viewHolder.title.setText("不实寄送");
+                    break;
+                case "ERROR_REJECT":
+                    viewHolder.title.setText("不实驳回");
+                    break;
+                case "INVALID_DEMAND":
+                    viewHolder.title.setText("无效需求");
+                    break;
             }
+
             viewHolder.createDate.setText(bean.getCreateDate());
             viewHolder.subTitle.setText("信用积分");
 
