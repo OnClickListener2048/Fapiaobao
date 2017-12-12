@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.ui.model.Image;
 
@@ -64,11 +65,13 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
         setStateVisibility(imageHolder,image);
         image.position = position;
         String thumbnail = image.path.replace("invoice","thumbnail");
+        TLog.d(TAG," thumbnail path " +thumbnail);
+
         requestManager
                     .load(thumbnail)
                     .asBitmap()
                     .placeholder(R.mipmap.loading_small)
-                .error(R.mipmap.error_small)
+                    .error(R.mipmap.error_small)
                     .override(imageResize, imageResize*3/4)
                     .thumbnail(0.1f)
                     .into(imageHolder.iv_image_item);

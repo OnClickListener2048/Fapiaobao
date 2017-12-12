@@ -240,7 +240,12 @@ public class UserInfoActivity extends BaseActivity {
                     public void setData(NormalBean normalBean) {
                         if (normalBean.getStatus() == 200) {
                             tv_wx.setText("已绑定");
-                            tv_wx.setOnClickListener(null);
+                            tv_wx.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    setUBindDialog();
+                                }
+                            });
                             BaseApplication.showToast("微信绑定成功");
                         } else if (normalBean.getStatus() == 707) {
                             BaseApplication.showToast(normalBean.getMsg());
@@ -426,9 +431,15 @@ public class UserInfoActivity extends BaseActivity {
     @Override
     public void initData() {
         if (AccountHelper.getUser().getData().getCustomer().getHeadimg() != null) {
-            String thumbnail = AccountHelper.getUser().getData().getCustomer().getHeadimg().replace("invoice", "thumbnail");
+            String headimg = AccountHelper.getUser().getData().getCustomer().getHeadimg();
+            if(!headimg.contains("app-default-big")){
+                headimg = "https://www.youpiao8.cn/fapiaobao/upload/thumbnail/"+
+                        headimg.substring(headimg.length()-36).toString();
+                TLog.d(TAG," thumbnail path " +headimg);
+            }
+
             requestManager
-                    .load(thumbnail)
+                    .load(headimg)
                     .asBitmap()
                     .placeholder(R.mipmap.ic_head_circle_default_small)
                     .error(R.mipmap.ic_head_circle_default_small)

@@ -242,6 +242,7 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
 
                 @Override
                 public void setData(ShortMessageBean shortMessageBean) {
+                    BaseApplication.showToast(shortMessageBean.getData());
                 }
             });
         }

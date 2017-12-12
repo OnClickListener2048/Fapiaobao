@@ -270,10 +270,17 @@ public class MeFragment extends BaseFragment{
                             tvCreditRating.setText("积分："+customer.getCreditScore());
                             tvBouns.setText(String.format("%.2f", customer.getAmount()));//钱包金额
                             Log.d("IMAGE_HEAD",customer.getHeadimg());
-                            String thumbnail = customer.getHeadimg().replace("invoice","thumbnail");
+                            String headimg = customer.getHeadimg();
+                            //https://www.youpiao8.cn/fapiaobao/upload/90b0e3ec470c48b586a8935faabacda2/426a2127057b42499a575d886230c9b6.jpg
+                            //https://www.youpiao8.cn/fapiaobao/upload/thumbnail/669d29b8804e46f4b789e54528515d6e.jpg
+                            if(!headimg.contains("app-default-big")){
+                                headimg = "https://www.youpiao8.cn/fapiaobao/upload/thumbnail/"+
+                                        headimg.substring(headimg.length()-36).toString();
+                                TLog.d("MeFragment"," thumbnail path " +headimg);
+                            }
 
                             requestManager
-                                    .load(thumbnail)
+                                    .load(headimg)
                                     .asBitmap()
                                     .placeholder(R.mipmap.ic_head_circle_default_small_)
                                     .thumbnail(0.1f)

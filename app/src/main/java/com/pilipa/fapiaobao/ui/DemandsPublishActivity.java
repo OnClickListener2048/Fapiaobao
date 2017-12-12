@@ -971,8 +971,8 @@ public class DemandsPublishActivity extends BaseActivity implements CompoundButt
             }
 
             if ((Double.valueOf(etAmountRedbag.getText().toString().trim())
-                    > Double.valueOf(etAmount.getText().toString().trim()) * 0.1)) {
-                BaseApplication.showToast("悬赏红包不能超过需求总额的10%");
+                    > Double.valueOf(etAmount.getText().toString().trim()) * 0.05)) {
+                BaseApplication.showToast("悬赏红包不能超过需求总额的5%");
                 return false;
             }
         }
