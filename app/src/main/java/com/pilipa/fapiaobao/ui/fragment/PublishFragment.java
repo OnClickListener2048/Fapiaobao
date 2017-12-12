@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
-import com.pilipa.fapiaobao.ui.HistoryActivity;
 import com.pilipa.fapiaobao.ui.HistoryActivity2;
 
 import butterknife.Bind;

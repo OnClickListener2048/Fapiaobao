@@ -109,8 +109,6 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoDisplay" />
-        <activity
-            android:name=".ui.HistoryActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.DemandActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.SupplyActivity" />
         <activity android:name=".ui.SupplyDetailsActivity" android:screenOrientation="portrait"/>
@@ -125,7 +123,6 @@
             android:name=".ui.FeedbackActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.AddCompanyInfoActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.CompanyDetailsActivity_old" android:screenOrientation="portrait"/>
         <activity android:name=".ui.ProvidedActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.PubActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.ConfirmActivity" android:screenOrientation="portrait"/>
