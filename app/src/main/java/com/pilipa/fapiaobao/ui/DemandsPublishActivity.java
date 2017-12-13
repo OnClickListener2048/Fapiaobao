@@ -51,7 +51,6 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.CompanyListAdapter;
 import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
-import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.LocationBaseActivity;
 import com.pilipa.fapiaobao.entity.Company;
@@ -349,7 +348,6 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
         builder.setCancelable(false);
         builder.setMessage(getString(R.string.demand_publish_quit));
         builder.setTitle(getString(R.string.demand_publish_title));
-
 
         builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
             @Override
