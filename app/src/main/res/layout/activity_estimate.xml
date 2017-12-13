@@ -453,6 +453,7 @@
                         android:id="@+id/confirm_caution"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/d10"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -460,8 +461,8 @@
                             android:translationZ="@dimen/d5"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/d200"
-                            android:layout_marginLeft="@dimen/d15"
-                            android:layout_marginRight="@dimen/d15"
+                            android:layout_marginLeft="@dimen/d13"
+                            android:layout_marginRight="@dimen/d13"
                             android:background="@drawable/selector_estimate_receipt_kind_bg"
                             android:orientation="vertical">
 
@@ -475,8 +476,9 @@
                                     android:layout_width="@dimen/d20"
                                     android:layout_height="match_parent" />
                                 <TextView
-                                    android:textColor="@color/main_style"
+                                    android:textColor="@color/olive"
                                     android:id="@+id/tv_label"
+                                    android:textSize="15sp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />
                                 <View

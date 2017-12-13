@@ -66,7 +66,7 @@ public class EstimatePagerFragment extends BaseFragment {
         TLog.log("dataBean==null"+dataBean);
         if (dataBean != null) {
             date.setText(TimeUtils.millis2String(dataBean.getDeadline(), TimeUtils.FORMAT));
-            publishCautions.setText(dataBean.getAttentions().isEmpty() ? "无" : dataBean.getAttentions());
+            publishCautions.setText(dataBean.getAttentions().isEmpty() ? "无" : dataBean.getAttentions().trim());
             List<MacherBeanToken.DataBean.InvoiceTypesBean> invoiceVarieties = dataBean.getInvoiceTypes();
             ArrayList<String> labelList = new ArrayList<>();
             if (invoiceVarieties != null && invoiceVarieties.size() > 0) {
@@ -148,7 +148,7 @@ public class EstimatePagerFragment extends BaseFragment {
         TLog.log("dataBean==null"+dataBean);
         if (dataBean != null) {
             date.setText(TimeUtils.millis2String(dataBean.getDeadline(), TimeUtils.FORMAT));
-            publishCautions.setText(dataBean.getAttentions());
+            publishCautions.setText(dataBean.getAttentions().trim());
             List<MacherBeanToken.DataBean.InvoiceTypesBean> invoiceVarieties = dataBean.getInvoiceTypes();
             ArrayList<String> labelList = new ArrayList<>();
             if (invoiceVarieties != null && invoiceVarieties.size() > 0) {
