@@ -1,17 +1,38 @@
 package com.pilipa.fapiaobao.net.bean.me;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by edz on 2017/12/4.
  */
 
-public class FeedbackMessageBean {
+public class FeedbackMessageBean implements Parcelable {
 
 
     private int status;
     private String msg;
     private DataBean data;
+    public FeedbackMessageBean(){}
+
+    protected FeedbackMessageBean(Parcel in) {
+        status = in.readInt();
+        msg = in.readString();
+    }
+
+    public static final Creator<FeedbackMessageBean> CREATOR = new Creator<FeedbackMessageBean>() {
+        @Override
+        public FeedbackMessageBean createFromParcel(Parcel in) {
+            return new FeedbackMessageBean(in);
+        }
+
+        @Override
+        public FeedbackMessageBean[] newArray(int size) {
+            return new FeedbackMessageBean[size];
+        }
+    };
 
     public int getStatus() {
         return status;
@@ -37,7 +58,18 @@ public class FeedbackMessageBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(status);
+        dest.writeString(msg);
+    }
+
+    public static class DataBean implements Parcelable{
 
 
         private int pageNo;
@@ -48,6 +80,29 @@ public class FeedbackMessageBean {
         private int firstResult;
         private int maxResults;
         private List<ListBean> list;
+        public DataBean(){}
+
+        protected DataBean(Parcel in) {
+            pageNo = in.readInt();
+            pageSize = in.readInt();
+            count = in.readInt();
+            totalPage = in.readInt();
+            html = in.readString();
+            firstResult = in.readInt();
+            maxResults = in.readInt();
+        }
+
+        public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel in) {
+                return new DataBean(in);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
 
         public int getPageNo() {
             return pageNo;
@@ -113,6 +168,22 @@ public class FeedbackMessageBean {
             this.list = list;
         }
 
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(pageNo);
+            dest.writeInt(pageSize);
+            dest.writeInt(count);
+            dest.writeInt(totalPage);
+            dest.writeString(html);
+            dest.writeInt(firstResult);
+            dest.writeInt(maxResults);
+        }
+
         public static class ListBean {
             public String getHighlightString() {
                 return highlightString;
@@ -146,7 +217,7 @@ public class FeedbackMessageBean {
                 this.suggestionList = suggestionList;
             }
 
-            public static class SuggestionListBean {
+            public static class SuggestionListBean implements Parcelable{
                 /**
                  * suggestionId : f7d4b41075a745e5b0bce1ddfbe896e0
                  * type : 1
@@ -162,6 +233,27 @@ public class FeedbackMessageBean {
                 private String avatar;
                 private String message;
                 private String createTime;
+                public SuggestionListBean(){}
+                protected SuggestionListBean(Parcel in) {
+                    suggestionId = in.readString();
+                    type = in.readString();
+                    nickname = in.readString();
+                    avatar = in.readString();
+                    message = in.readString();
+                    createTime = in.readString();
+                }
+
+                public static final Creator<SuggestionListBean> CREATOR = new Creator<SuggestionListBean>() {
+                    @Override
+                    public SuggestionListBean createFromParcel(Parcel in) {
+                        return new SuggestionListBean(in);
+                    }
+
+                    @Override
+                    public SuggestionListBean[] newArray(int size) {
+                        return new SuggestionListBean[size];
+                    }
+                };
 
                 public String getSuggestionId() {
                     return suggestionId;
@@ -209,6 +301,21 @@ public class FeedbackMessageBean {
 
                 public void setCreateTime(String createTime) {
                     this.createTime = createTime;
+                }
+
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel dest, int flags) {
+                    dest.writeString(suggestionId);
+                    dest.writeString(type);
+                    dest.writeString(nickname);
+                    dest.writeString(avatar);
+                    dest.writeString(message);
+                    dest.writeString(createTime);
                 }
             }
         }

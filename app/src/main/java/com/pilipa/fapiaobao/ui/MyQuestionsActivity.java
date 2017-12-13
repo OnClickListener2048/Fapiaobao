@@ -104,6 +104,8 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
+
+
     }
 
     @Override
@@ -120,108 +122,131 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
         recyclerView.setAdapter(normalAdapterWrapper);
         progressBar = (ProgressBar) footerView.findViewById(R.id.loading_progress);
         textView_loading = (TextView) footerView.findViewById(R.id.loading);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                    int lastVisiblePosition = manager.findLastVisibleItemPosition();
-                    if (lastVisiblePosition >= manager.getItemCount() - 1) {
-                        //TODO loading more
-                        if (!isLoadingMore) {
-                            if (pageNo > totalPageNo) {
-                                progressBar.setVisibility(View.GONE);
-                                textView_loading.setText(getString(R.string.already_reach_the_bottom));
-                                return;
-                            }
-                            getSuggestion(pageNo, pageSize, "", "", AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
-                                @Override
-                                public void onStart() {
-                                    isLoadingMore = true;
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    textView_loading.setText(getString(R.string.loading));
-                                }
 
-                                @Override
-                                public void onFinish() {
-                                    isLoadingMore = false;
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    super.onScrollStateChanged(recyclerView, newState);
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                        int lastVisiblePosition = manager.findLastVisibleItemPosition();
+                        if (lastVisiblePosition >= manager.getItemCount() - 1) {
+                            //TODO loading more
+                            if (!isLoadingMore) {
+                                if (pageNo > totalPageNo) {
+                                    progressBar.setVisibility(View.GONE);
+                                    textView_loading.setText(getString(R.string.already_reach_the_bottom));
+                                    return;
                                 }
-
-                                @Override
-                                public void onError() {
-                                    isLoadingMore = false;
-                                }
-
-                                @Override
-                                public void setData(FeedbackMessageBean feedbackMessageBean) {
-                                    if (feedbackMessageBean.getStatus() == 200) {
-                                        feedbackMessagesAdapter.addData(feedbackMessageBean.getData().getList());
+                                getSuggestion(pageNo, pageSize, "", "", AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
+                                    @Override
+                                    public void onStart() {
+                                        isLoadingMore = true;
+                                        progressBar.setVisibility(View.VISIBLE);
+                                        textView_loading.setText(getString(R.string.loading));
                                     }
-                                    feedbackMessagesAdapter.notifyDataSetChanged();
-                                    normalAdapterWrapper.notifyDataSetChanged();
-                                    pageNo++;
-                                }
-                            });
+
+                                    @Override
+                                    public void onFinish() {
+                                        isLoadingMore = false;
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        isLoadingMore = false;
+                                    }
+
+                                    @Override
+                                    public void setData(FeedbackMessageBean feedbackMessageBean) {
+                                        if (feedbackMessageBean.getStatus() == 200) {
+                                            feedbackMessagesAdapter.addData(feedbackMessageBean.getData().getList());
+                                        }
+                                        feedbackMessagesAdapter.notifyDataSetChanged();
+                                        normalAdapterWrapper.notifyDataSetChanged();
+                                        pageNo++;
+                                    }
+                                });
+                            }
                         }
                     }
                 }
+            });
+
+
+            //来自推送跳转
+            FeedbackMessageBean.DataBean dataBean = new FeedbackMessageBean.DataBean();
+            FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestion = getIntent().getParcelableExtra("suggestion");
+            FeedbackMessageBean.DataBean.ListBean listBean = new FeedbackMessageBean.DataBean.ListBean();
+            List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> list = new ArrayList<>();
+            if(suggestion != null){
+                list.add(suggestion);
+                listBean.setSuggestionList(list);
+                listBean.setCustomerId(AccountHelper.getUser().getData().getCustomer().getId());
+                List<FeedbackMessageBean.DataBean.ListBean> listBeanList = new ArrayList<>();
+                listBeanList.add(listBean);
+                dataBean.setList(listBeanList);
+
+                feedbackMessagesAdapter.insertData(listBeanList);
+                footerView.setVisibility(View.GONE);
+
             }
-        });
+        normalAdapterWrapper.notifyDataSetChanged();
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getSuggestion(pageNo, pageSize, "", "", AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
-            @Override
-            public void onStart() {
-                emptyView.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onFinish() {
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-                if (lastVisibleItemPosition+2 == normalAdapterWrapper.getItemCount()) {
-                    footerView.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onError() {
-                progressBar.setVisibility(View.GONE);
-                textView_loading.setText(getString(R.string.server_error));
-            }
-
-            @Override
-            public void setData(FeedbackMessageBean feedbackMessageBean) {
-                if (feedbackMessageBean.getStatus() == 200) {
+        boolean flag = getIntent().getBooleanExtra("flag",false);//是否来自推送 false
+        if(!flag){
+            getSuggestion(pageNo, pageSize, "", "", AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
+                @Override
+                public void onStart() {
                     emptyView.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
-                    feedbackMessagesAdapter.initData(feedbackMessageBean.getData().getList());
+                }
 
-                    recyclerView.scrollToPosition(3);
-                    normalAdapterWrapper.notifyDataSetChanged();
-                    totalPageNo = feedbackMessageBean.getData().getTotalPage();
-                    pageNo++;
-                    if (feedbackMessageBean.getData().getList().size()<pageSize) {
+                @Override
+                public void onFinish() {
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                    if (lastVisibleItemPosition+2 == normalAdapterWrapper.getItemCount()) {
+                        footerView.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onError() {
+                    progressBar.setVisibility(View.GONE);
+                    textView_loading.setText(getString(R.string.server_error));
+                }
+
+                @Override
+                public void setData(FeedbackMessageBean feedbackMessageBean) {
+                    if (feedbackMessageBean.getStatus() == 200) {
+                        emptyView.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        feedbackMessagesAdapter.initData(feedbackMessageBean.getData().getList());
+                        normalAdapterWrapper.notifyDataSetChanged();
+                        totalPageNo = feedbackMessageBean.getData().getTotalPage();
+                        pageNo++;
+                        if (feedbackMessageBean.getData().getList().size()<pageSize) {
+                            progressBar.setVisibility(View.GONE);
+                            textView_loading.setText(getString(R.string.already_reach_the_bottom));
+                        }
+                        if (feedbackMessageBean.getData().getList().size()<5) {
+                            footerView.setVisibility(View.GONE);
+                        }
+                    } else if (feedbackMessageBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
+                        emptyView.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
                         textView_loading.setText(getString(R.string.already_reach_the_bottom));
                     }
-                    if (feedbackMessageBean.getData().getList().size()<5) {
-                        footerView.setVisibility(View.GONE);
-                    }
-                } else if (feedbackMessageBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
-                    emptyView.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
-                    textView_loading.setText(getString(R.string.already_reach_the_bottom));
                 }
-            }
-        });
+            });
+        }
+
     }
 
     @Override

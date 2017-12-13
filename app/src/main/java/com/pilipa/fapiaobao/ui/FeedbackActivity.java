@@ -24,7 +24,6 @@ import android.widget.TextView;
 import com.example.mylibrary.utils.KeyboardUtils;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.TimeUtils;
-import com.jakewharton.rxbinding2.support.v7.widget.RecyclerViewScrollEvent;
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -46,10 +45,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -207,6 +204,8 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
     @Override
     protected void onResume() {
         super.onResume();
+        pageNo = 1;
+        TLog.d("onResume get suggestion pageNo" ,pageNo+"");
         getSuggestion(pageNo, pageSize, "", "", "", new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
             @Override
             public void onStart() {

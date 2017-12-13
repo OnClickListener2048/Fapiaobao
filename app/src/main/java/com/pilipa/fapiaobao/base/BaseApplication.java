@@ -25,6 +25,7 @@ import com.pilipa.fapiaobao.Constants.Bugly;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.pilipa.fapiaobao.ui.DemandActivity;
@@ -285,11 +286,21 @@ public class BaseApplication extends Application {
                             TLog.log("startActivity(intent4);");
                             break;
                         case INVOICE_BABY_RESPONSE:
+//                            String  str  = (String) jsonObject.get("suggestion");
+//                            FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestion
+//                                    = new Gson().fromJson(str, FeedbackMessageBean.DataBean.ListBean.SuggestionListBean.class) ;
+                            FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestion =new FeedbackMessageBean.DataBean.ListBean.SuggestionListBean();
+                            suggestion.setAvatar("sadsa");
+                            suggestion.setCreateTime("dsasd");
+                            suggestion.setMessage("dsaad");
+                            suggestion.setNickname("da");
                             Intent intent5 = new Intent();
-                            intent5.putExtra("s", "");
+                            intent5.putExtra("suggestion", suggestion);
+                            intent5.putExtra("flag", true);
                             intent5.setClass(getApplicationContext(), MyQuestionsActivity.class);
                             intent5.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent5);
+                            TLog.log("startActivity(intent5);");
                             break;
                     }
                 } catch (JSONException e) {
