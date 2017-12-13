@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,6 +39,7 @@ import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.Op;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
@@ -96,6 +98,8 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     public static final String DECODED_BITMAP_KEY = "codedBitmap";
     public static final int REQUEST_CODE_SCAN = 0x0234;
     private AllInvoiceAdapter adapter;
+    private MainActivity activity;
+    private boolean delayIntentRefresh;
     private BroadcastReceiver mBoradcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -103,11 +107,13 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 if (newNotification != null) {
                     newNotification.setVisibility(View.VISIBLE);
                 }
+            } else if (Constant.UPLOAD_SUCCESS.equals(intent.getAction())) {
+                delayIntentRefresh = true;
             }
         }
     };
 
-    private MainActivity activity;
+
 
     @Override
     protected int getLayoutId() {
@@ -122,6 +128,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         messageList();
         return rootView;
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -159,6 +166,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         srollview.setSmoothScrollingEnabled(true);
         GridLayoutManager manager = new GridLayoutManager(mContext, 2, LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(manager);
+        TLog.d(TAG,"recyclerview.addItemDecoration");
         recyclerview.addItemDecoration(new GridInsetFinance(2,0, true));
         recyclerviewMoreKind.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         recyclerviewMoreKind.setNestedScrollingEnabled(false);
@@ -169,6 +177,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     private void initBroadcast() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BaseApplication.PUSH_RECEIVE);
+        intentFilter.addAction(Constant.UPLOAD_SUCCESS);
         mContext.registerReceiver(mBoradcastReceiver, intentFilter);
     }
 
@@ -188,6 +197,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         activity = (MainActivity) getActivity();
         findAllInvoiceTypes("");
     }
+
 
 
     private void findUserInvoiceType(String token, final AllInvoiceType allInvoiceType) {
@@ -261,6 +271,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                     public void onComplete() {
                         adapter.notifyDataSetChanged();
                         activity.showGuideViewFromChildFragment();
+                        delayIntentRefresh = false;
                     }
                 });
     }
@@ -407,13 +418,17 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 }
             });
         }
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
         newNotification.setVisibility(BaseApplication.get(BaseApplication.PUSH_RECEIVE, false) ? View.VISIBLE : View.GONE);
+        if (delayIntentRefresh) {
+            financeAdapter.removeAllItems();
+            findAllInvoiceTypes("");
+        }
+
     }
 
     private void messageList() {
