@@ -4,12 +4,10 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center"
-    android:layout_height="wrap_content">
-
-
+    android:layout_height="65dp">
         <com.dd.ShadowLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/d65"
             android:layout_gravity="center"
             app:sl_cornerRadius="@dimen/d10"
             app:sl_dx="@dimen/d5"
