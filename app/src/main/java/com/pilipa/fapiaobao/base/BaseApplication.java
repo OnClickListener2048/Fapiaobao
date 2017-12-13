@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.SharedPreferencesCompat;
@@ -20,6 +21,7 @@ import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.Utils;
 import com.example.mylibrary.widget.SimplexToast;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.pilipa.fapiaobao.Constants.Bugly;
@@ -50,11 +52,13 @@ import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -287,12 +291,12 @@ public class BaseApplication extends Application {
                             TLog.log("startActivity(intent4);");
                             break;
                         case INVOICE_BABY_RESPONSE:
-                            String  str  = (String) jsonObject.get("suggestion");
-                            FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestion
-                                    = new Gson().fromJson(str, FeedbackMessageBean.DataBean.ListBean.SuggestionListBean.class) ;
+                            JSONArray suggestionList = jsonObject.getJSONArray("suggestionList");
+                            List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> retList = new Gson().fromJson(suggestionList.toString(),
+                                    new TypeToken<List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean>>() {}.getType());
 
                             Intent intent5 = new Intent();
-                            intent5.putExtra("suggestion", suggestion);
+                            intent5.putParcelableArrayListExtra("suggestionList", (ArrayList<? extends Parcelable>) retList);
                             intent5.putExtra("flag", true);
                             intent5.setClass(getApplicationContext(), MyQuestionsActivity.class);
                             intent5.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

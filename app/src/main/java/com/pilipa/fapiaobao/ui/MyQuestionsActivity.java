@@ -175,12 +175,10 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
 
             //来自推送跳转
             FeedbackMessageBean.DataBean dataBean = new FeedbackMessageBean.DataBean();
-            FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestion = getIntent().getParcelableExtra("suggestion");
+            ArrayList<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> suggestionList = getIntent().getParcelableArrayListExtra("suggestionList");
             FeedbackMessageBean.DataBean.ListBean listBean = new FeedbackMessageBean.DataBean.ListBean();
-            List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> list = new ArrayList<>();
-            if(suggestion != null){
-                list.add(suggestion);
-                listBean.setSuggestionList(list);
+            if(suggestionList != null){
+                listBean.setSuggestionList(suggestionList);
                 listBean.setCustomerId(AccountHelper.getUser().getData().getCustomer().getId());
                 List<FeedbackMessageBean.DataBean.ListBean> listBeanList = new ArrayList<>();
                 listBeanList.add(listBean);

@@ -449,12 +449,7 @@ public class UserInfoActivity extends BaseActivity {
             tv_wx.setOnClickListener(this);
         } else {
             tv_wx.setText("已绑定");
-            tv_wx.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setUBindDialog();
-                }
-            });
+            tv_wx.setOnClickListener(null);
         }
         if (customer.getTelephone()==null) {
             bindPhone.setVisibility(View.VISIBLE);
