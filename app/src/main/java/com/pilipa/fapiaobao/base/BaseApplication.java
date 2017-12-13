@@ -30,6 +30,7 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.service.X5CorePreLoadService;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.pilipa.fapiaobao.ui.DemandActivity;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
@@ -209,24 +210,43 @@ public class BaseApplication extends Application {
             }
         });
 
+//        QbSdk.preInit(this, new QbSdk.PreInitCallback() {
+//            @Override
+//            public void onCoreInitFinished() {
+//                Log.d("preInit", " onCoreInitFinished  ");
+//            }
+//
+//            @Override
+//            public void onViewInitFinished(boolean b) {
+//                Log.d("preInit", " onViewInitFinished is " + b);
+//            }
+//        });
+//
+//        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
+//
+//            @Override
+//            public void onViewInitFinished(boolean arg0) {
+//                // TODO Auto-generated method stub
+//                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
+//                Log.d("initX5Environment", " onViewInitFinished is " + arg0);
+//            }
+//
+//            @Override
+//            public void onCoreInitFinished() {
+//                // TODO Auto-generated method stub
+//                Log.d("initX5Environment", " onCoreInitFinished  ");
+//            }
+//        };
+//        //x5内核初始化接口
+//        QbSdk.initX5Environment(getApplicationContext(),  cb);
+//        QbSdk.setDownloadWithoutWifi(true);
+        preInitX5Core();
+    }
 
-
-        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
-
-            @Override
-            public void onViewInitFinished(boolean arg0) {
-                // TODO Auto-generated method stub
-                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
-                Log.d("app", " onViewInitFinished is " + arg0);
-            }
-
-            @Override
-            public void onCoreInitFinished() {
-                // TODO Auto-generated method stub
-            }
-        };
-        //x5内核初始化接口
-        QbSdk.initX5Environment(getApplicationContext(),  cb);
+    private void preInitX5Core() {
+        //预加载x5内核
+        Intent intent = new Intent(this, X5CorePreLoadService.class);
+        startService(intent);
     }
 
     private void notificationClick() {

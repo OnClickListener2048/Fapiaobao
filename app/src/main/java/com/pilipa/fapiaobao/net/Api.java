@@ -311,8 +311,8 @@ public class Api {
      * @param baseViewCallback
      */
 
-    public static void companiesList(String token, final BaseRawResponse baseViewCallback) {
-        OkGo.<CompaniesBean>get(String.format(COMPANIES_LIST, token)).tag("companiesList").execute(new JsonCallBack<CompaniesBean>(CompaniesBean.class) {
+    public static void companiesList(String token,Object tag,final BaseRawResponse baseViewCallback) {
+        OkGo.<CompaniesBean>get(String.format(COMPANIES_LIST, token)).tag(tag).execute(new JsonCallBack<CompaniesBean>(CompaniesBean.class) {
             @Override
             public void onSuccess(Response<CompaniesBean> response) {
                 if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
@@ -406,8 +406,8 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void favoriteCompanyList(String token, final BaseRawResponse baseViewCallback) {
-        OkGo.<FavoriteCompanyBean>get(String.format(FAVORITE_COMPANY_LIST, token)).execute(new JsonCallBack<FavoriteCompanyBean>(FavoriteCompanyBean.class) {
+    public static void favoriteCompanyList(String token,Object tag, final BaseRawResponse baseViewCallback) {
+        OkGo.<FavoriteCompanyBean>get(String.format(FAVORITE_COMPANY_LIST, token)).tag(tag).execute(new JsonCallBack<FavoriteCompanyBean>(FavoriteCompanyBean.class) {
             @Override
             public void onSuccess(Response<FavoriteCompanyBean> response) {
                 if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
@@ -1348,6 +1348,12 @@ public class Api {
                     super.onFinish();
                     baseViewCallback.onFinish();
                 }
+
+                @Override
+                public void onError(Response<File> response) {
+                    super.onError(response);
+                    baseViewCallback.onError();
+                }
             });
         }
 
@@ -1442,6 +1448,8 @@ public class Api {
         void onStart(Request<File, ? extends Request> request);
 
         void onFinish();
+
+        void onError();
 
     }
 

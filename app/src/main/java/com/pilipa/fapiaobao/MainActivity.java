@@ -98,6 +98,13 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
         mNavBar.setup(this, manager, R.id.main_container, this);
         PackageInstallReceiver.registerReceiver(this);
         mHandler.sendEmptyMessageDelayed(UPDATE, 3000);
+
+        bg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void showGuideViewFromChildFragment() {
@@ -324,8 +331,13 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
                                         @Override
                                         public void onFinish() {
-
                                             bg.setVisibility(View.GONE);
+                                        }
+
+                                        @Override
+                                        public void onError() {
+                                            popUpProgress.dismiss();
+                                            BaseApplication.showToast("下载失败");
                                         }
 
                                         @Override
@@ -333,6 +345,8 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
                                             TDevice.openFile(MainActivity.this,file);
                                             popUpProgress.dismiss();
                                         }
+
+
                                     });
                                 }
                             }
@@ -360,7 +374,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
             @Override
             public void onClick(View v) {
                 bg.setVisibility(View.INVISIBLE);
-                if (dataBean.getForced().equals(FORCE_UPDATE)) {
+                if (FORCE_UPDATE.equals(dataBean.getForced())) {
                     MainActivity.this.finish();
                     System.exit(0);
                 } else {

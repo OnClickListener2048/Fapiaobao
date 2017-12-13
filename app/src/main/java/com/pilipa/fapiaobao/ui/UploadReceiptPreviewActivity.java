@@ -27,6 +27,7 @@ import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
 import com.pilipa.fapiaobao.net.bean.invoice.RedBagBean;
 import com.pilipa.fapiaobao.net.bean.invoice.UploadInvoiceToken;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.fragment.UploadPreviewReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
@@ -418,6 +419,9 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                                                     intent.putExtra("order_id", orderBean.getData().getOrderId());
                                                     intent.putExtra("company_id", company_id);
                                                     intent.putExtra("bonus", aDouble);
+                                                    Intent intent1 = new Intent();
+                                                    intent1.setAction(Constant.UPLOAD_SUCCESS);
+                                                    sendBroadcast(intent1);
                                                     startActivity(intent);
                                                     ActivityUtils.finishToActivity(EstimateActivity.class, true);
                                                 } else if (orderBean.getStatus() == 886) {

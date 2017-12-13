@@ -10,12 +10,18 @@ import android.widget.Toast;
 
 import com.example.mylibrary.utils.TLog;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.just.agentwebX5.AgentWeb;
 import com.just.agentwebX5.ChromeClientCallbackManager;
 import com.just.agentwebX5.DownLoadResultListener;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.FileCallback;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.utils.WebViewUtils;
 import com.tencent.smtt.export.external.interfaces.JsResult;
@@ -26,6 +32,13 @@ import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.HashMap;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,7 +47,7 @@ import butterknife.OnClick;
  * Created by lyt on 2017/10/13.
  */
 
-public class Op extends AppCompatActivity implements
+public class Op extends BaseActivity implements
         DownloadListener
         , ChromeClientCallbackManager.ReceivedTitleCallback, DownLoadResultListener , com.tencent.smtt.export.external.interfaces.DownloadListener{
 
@@ -140,12 +153,38 @@ public class Op extends AppCompatActivity implements
         }
     };
     private AgentWeb go;
+    private HashMap<String, String> params;
 
+//    public static final Stringjsondata = "{ pkgName:\"com.example.thirdfile\", "
+//            +"className:\"com.example.thirdfile.IntentActivity\","
+//
+//            +"thirdCtx: {pp:123},"
+//
+//            +"menuItems:"
+//
+//            +"["
+//
+//            +"{id:0,iconResId:"+ R.drawable.ic_launcher +",text:\"menu0\"},
+//
+//    {id:1,iconResId:" + R.drawable.bookmark_edit_icon + ",text:\"menu1\"},
+//
+//        {id:2,iconResId:"+ R.drawable.bookmark_folder_icon +",text:\"菜单 2\"}"
+//
+//                + "]"
+//
+//                + " }";
+
+
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_web;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web);
+
         ButterKnife.bind(this);
         company_info = getIntent().getParcelableExtra("company_info");
         TLog.log(" company_info = getIntent().getParcelableExtra(\"company_info\");");
@@ -153,12 +192,74 @@ public class Op extends AppCompatActivity implements
         String url = getIntent().getStringExtra("url");
         go = preAgentWeb.go(url);
 
+
+            JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("pkgName", "com.pilipa.fapiaobao.ui");
+            jsonObject.put("className", "com.pilipa.fapiaobao.ui.UploadReceiptActivity");
+            JSONObject jsonObjectThirdCtx = new JSONObject();
+            jsonObject.put("thirdCtx", jsonObjectThirdCtx);
+            JSONArray jsonArray = new JSONArray();
+            JSONObject jsonObjectMenu = new JSONObject();
+            jsonObjectMenu.put("id", 1);
+            jsonObjectMenu.put("iconResId", R.mipmap.add_company);
+            jsonObjectMenu.put("text", "菜单1");
+            jsonArray.put(jsonObjectMenu);
+            jsonObject.put("menuItems", jsonArray);
+            Gson gson = new Gson();
+            String jsondata = gson.toJson(jsonObject);
+            params = new HashMap<>();
+            params.put("style", "1");
+            params.put("local", "true");
+            params.put("menuData", jsondata);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         WebView webView = go.getWebCreator().get();
+
         webView.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String s2, String s3, long l) {
                 TLog.d(TAG,"onDownloadStartonDownloadStartonDownloadStart");
-                
+                OkGo.<File>get(url).execute(new FileCallback() {
+                    @Override
+                    public void onSuccess(Response<File> response) {
+                        int i = QbSdk.openFileReader(Op.this, response.body().getAbsolutePath(), params, new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String s) {
+                                Log.d("op.class", "onReceiveValue: " + s);
+                            }
+                        });
+                        switch (i) {
+                            case 1:
+                                TLog.d(TAG,"用qq浏览器打开");
+                                break;
+                            case 2:
+                                TLog.d(TAG,"用MiniQb打开");
+                                break;
+                            case 3:
+                                TLog.d(TAG,"调起阅读器弹窗");
+                                break;
+                            case -1:
+                                TLog.d(TAG,"打开失败");
+                                break;
+                        }
+
+                    }
+
+                    @Override
+                    public void onStart(Request<File, ? extends Request> request) {
+                        super.onStart(request);
+                        showProgressDialog();
+                    }
+
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        hideProgressDialog();
+                    }
+                });
             }
         });
     }
@@ -213,12 +314,7 @@ public class Op extends AppCompatActivity implements
         TLog.d(TAG,"public void success(String path) {");
         TLog.d(TAG,path);
 
-        QbSdk.openFileReader(this, path, null, new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String s) {
-                Log.d("op.class", "onReceiveValue: "+s);
-            }
-        });
+
     }
 
     /**

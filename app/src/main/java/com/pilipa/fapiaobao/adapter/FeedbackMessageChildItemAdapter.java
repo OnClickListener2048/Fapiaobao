@@ -120,14 +120,14 @@ public class FeedbackMessageChildItemAdapter extends RecyclerView.Adapter<Recycl
                     int messageLength = message.length();
                     int highlightStringLength = highlightString.length();
                     int recyclerCount = messageLength / highlightStringLength;
-                    int result = -1;
+                    int result = 0;
                     SpannableString spannableString = new SpannableString(message);
                     for (int i = 0; i < recyclerCount; i++) {
-                        result = message.indexOf(highlightString, result + 1);
                         if (result != -1) {
                             ForegroundColorSpan span = new ForegroundColorSpan(mContext.getResources().getColor(R.color.main_style));
                             spannableString.setSpan(span, result, result + highlightStringLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                         }
+                        result = message.indexOf(highlightString, result);
                     }
                     e.onNext(spannableString);
                     e.onComplete();

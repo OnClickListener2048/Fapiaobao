@@ -710,6 +710,8 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
                                         startActivityForResult(intent, REQUEST_CODE);
                                     } else if (balanceBean.getStatus() == 400) {
                                         BaseApplication.showToast("截止日期不能小于当前时间");
+                                    } else if (balanceBean.getStatus() == 406) {
+                                        BaseApplication.showToast("红包不能超过需求总金额的5%");
                                     }
                                 }
                             });
@@ -1000,8 +1002,8 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
             }
 
             if ((Double.valueOf(etAmountRedbag.getText().toString().trim())
-                    > Double.valueOf(etAmount.getText().toString().trim()) * 0.1)) {
-                BaseApplication.showToast("悬赏红包不能超过需求总额的10%");
+                    > Double.valueOf(etAmount.getText().toString().trim()) * 0.05)) {
+                BaseApplication.showToast("悬赏红包不能超过需求总额的5%");
                 return false;
             }
         }
@@ -1114,7 +1116,7 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
 
     private void requestForCompanies() {
 
-                Api.companiesList(AccountHelper.getToken(), new Api.BaseRawResponse<CompaniesBean>() {
+        Api.companiesList(AccountHelper.getToken(), this, new Api.BaseRawResponse<CompaniesBean>() {
 
 
                     @Override

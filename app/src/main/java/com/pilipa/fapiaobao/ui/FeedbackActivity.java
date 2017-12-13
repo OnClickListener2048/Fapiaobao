@@ -191,7 +191,6 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
                 }
             }
         });
-
     }
 
     @Override

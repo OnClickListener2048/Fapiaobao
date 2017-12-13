@@ -169,7 +169,6 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
         @Override
         public void onRefreshCanceled() {
             super.onRefreshCanceled();
-
         }
 
         @Override
@@ -188,7 +187,7 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
 
     public void getFavCompanyList(){
 
-            Api.favoriteCompanyList(AccountHelper.getToken(),new Api.BaseRawResponse<FavoriteCompanyBean>() {
+            Api.favoriteCompanyList(AccountHelper.getToken(),this,new Api.BaseRawResponse<FavoriteCompanyBean>() {
                 @Override
                 public void onStart() {
 

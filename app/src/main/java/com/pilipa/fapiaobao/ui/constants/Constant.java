@@ -17,5 +17,6 @@ public class Constant {
     public static final String CONNECT_TIMEOUT= "connect_timeout";
     public static final String PARSE_ERROR="parse_error";
     public static final String UNKNOWN_ERROR="unknown_error";
+    public static final String UPLOAD_SUCCESS="upload_success";
 
 }

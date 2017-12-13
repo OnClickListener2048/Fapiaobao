@@ -4,18 +4,23 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.mylibrary.utils.ImageLoader;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.ui.widget.AdjustTextView;
 import com.pilipa.fapiaobao.utils.TDevice;
+
+import java.util.ArrayList;
 
 
 /**
@@ -24,11 +29,10 @@ import com.pilipa.fapiaobao.utils.TDevice;
 
 public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "FinanceAdapter";
-    private Context mContext;
-    DefaultInvoiceBean allInvoiceType;
+    private DefaultInvoiceBean allInvoiceType;
     private RequestManager with;
-    private DefaultInvoiceBean.DataBean dataBean;
     private OnLabelClickListener onLabelClickListener;
+    private ArrayList<DefaultInvoiceBean.DataBean> data;
 
     public FinanceAdapter(DefaultInvoiceBean allInvoiceType) {
         this.allInvoiceType = allInvoiceType;
@@ -38,36 +42,45 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        mContext = parent.getContext();
+        Context mContext = parent.getContext();
         with = Glide.with(parent.getContext());
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_finance, parent, false);
         return new Financeholder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder != null) {
             Financeholder financeholder  = (Financeholder) holder;
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.gravity = Gravity.CENTER;
+            financeholder.itemView.setLayoutParams(layoutParams);
             if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
-
-
-                dataBean = allInvoiceType.getData().get(position);
-
-
-
-                ImageLoader.loadImage(with,financeholder.iv_finance, dataBean.getMiddleSize(),R.mipmap.receipt_012);
+                data = allInvoiceType.getData();
+                DefaultInvoiceBean.DataBean dataBean = data.get(position);
+//                ImageLoader.loadImage(with,financeholder.iv_finance, dataBean.getMiddleSize(),R.mipmap.receipt_012);
+                with.load(dataBean.getMiddleSize())
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .placeholder(R.mipmap.receipt_012)
+                        .into(financeholder.iv_finance);
                 financeholder.tv_finance.setText(dataBean.getName());
-
             }
-
             financeholder.iv_finance.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onLabelClickListener.onLabelClick(allInvoiceType.getData().get(position).getId());
-                    onLabelClickListener.onLabelNameClick(allInvoiceType.getData().get(position).getId(),allInvoiceType.getData().get(position).getName());
+                    onLabelClickListener.onLabelClick(allInvoiceType.getData().get(holder.getAdapterPosition()).getId());
+                    onLabelClickListener.onLabelNameClick(allInvoiceType.getData().get(holder.getAdapterPosition()).getId(),allInvoiceType.getData().get(holder.getAdapterPosition()).getName());
                 }
             });
         }
+    }
+
+    public void removeAllItems() {
+        if (data!= null) {
+        data.clear();
+        }
+        notifyDataSetChanged();
     }
 
     public void setOnLabelClickListener(OnLabelClickListener onLabelClickListener) {
@@ -88,7 +101,7 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return allInvoiceType.getData().size();
     }
 
-    static class Financeholder extends RecyclerView.ViewHolder {
+    private static class Financeholder extends RecyclerView.ViewHolder {
 
         private final AdjustTextView tv_finance;
         private final ImageView iv_finance;
@@ -99,6 +112,7 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 itemView.setTranslationZ(TDevice.dp2px(5));
                 itemView.setElevation(TDevice.dp2px(5));
             }
+
             tv_finance = (AdjustTextView) itemView.findViewById(R.id.tv_finance_kind);
             iv_finance = (ImageView) itemView.findViewById(R.id.iv_finance_kind);
         }

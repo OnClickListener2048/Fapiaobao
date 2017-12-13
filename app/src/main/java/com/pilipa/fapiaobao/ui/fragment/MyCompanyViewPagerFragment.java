@@ -26,6 +26,7 @@ import com.pilipa.fapiaobao.ui.CompanyDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -181,8 +182,8 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
     }
 
     public void getCompanyList(){
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.companiesList(AccountHelper.getToken(),new Api.BaseRawResponse<CompaniesBean>() {
+        if (AccountHelper.getToken() != null && !Objects.equals(AccountHelper.getToken(), "")) {
+            Api.companiesList(AccountHelper.getToken(),this,new Api.BaseRawResponse<CompaniesBean>() {
                 @Override
                 public void onStart() {
 

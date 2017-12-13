@@ -64,7 +64,7 @@ public class CompanySelectActivity extends BaseActivity implements CompanyListAd
     @Override
     public void initData() {
 
-                    Api.companiesList(AccountHelper.getToken(), new Api.BaseRawResponse<CompaniesBean>() {
+                    Api.companiesList(AccountHelper.getToken(),this ,new Api.BaseRawResponse<CompaniesBean>() {
                         @Override
                         public void onStart() {
 
