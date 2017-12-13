@@ -56,6 +56,8 @@ public class Withdraw2WXActivity extends BaseActivity {
     TextView withdraw_current;
     @Bind(R.id.withdraw_max)
     TextView withdraw_max;
+    @Bind(R.id.btn_withdraw)
+    TextView btnWithdraw;
     private Dialog mDialog;
     private Dialog mTipDialog;
     private BigDecimal yue;
@@ -76,6 +78,7 @@ public class Withdraw2WXActivity extends BaseActivity {
                     if(wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())){
                         withdaw(wx_info.getOpenid());
                     }else{
+                        btnWithdraw.setEnabled(true);
                         BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
                     }
                 }
@@ -106,6 +109,7 @@ public class Withdraw2WXActivity extends BaseActivity {
                 , new Api.BaseViewCallback<PrepayBean>() {
                     @Override
                     public void setData(PrepayBean normalBean) {
+                        btnWithdraw.setEnabled(true);
                         if (normalBean.getStatus() ==200) {
                             BaseApplication.showToast("提现成功");
                             finish();
@@ -136,6 +140,8 @@ public class Withdraw2WXActivity extends BaseActivity {
             case R.id.btn_withdraw: {
                 if(Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ?"0":tv_amount.getText().toString().trim())<1.0){
                     BaseApplication.showToast("提现金额不能少于1元");
+                }else if(Double.parseDouble(withdraw_max.getText().toString()) < Double.parseDouble(tv_amount.getText().toString())){
+                    BaseApplication.showToast("账户余额不足");
                 }else if(Double.parseDouble(withdraw_max.getText().toString()) <= (double)0){
                     BaseApplication.showToast("账户余额不足");
                 }else{
@@ -270,7 +276,9 @@ public class Withdraw2WXActivity extends BaseActivity {
         api.registerApp(Constants.APP_ID);
     }
     private void weChatLogin() {
+
         if (api.isWXAppInstalled()) {
+            btnWithdraw.setEnabled(false);
             SendAuth.Req req = new SendAuth.Req();
             req.scope = "snsapi_userinfo";
             req.state = "wechat_sdk_demo_test";

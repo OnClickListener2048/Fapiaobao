@@ -49,6 +49,8 @@ public class MyRedEnvelopeActivity extends BaseActivity {
 
     @Bind(R.id.bonus)
     RiseNumberTextView tv_bonus;
+    @Bind(R.id.btn_withdraw)
+    TextView btnWithdraw;
     private Dialog mDialog;
     private String bonus;
     @Override
@@ -70,6 +72,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                     if(wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())){
                         withdaw(wx_info.getOpenid());
                     }else{
+                        btnWithdraw.setEnabled(true);
                         BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
                     }
                 }
@@ -99,6 +102,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                 , new Api.BaseViewCallback<PrepayBean>() {
                     @Override
                     public void setData(PrepayBean normalBean) {
+                        btnWithdraw.setEnabled(true);
                         if (normalBean.getStatus() ==200) {
                             BaseApplication.showToast("提现成功");
                             finish();
@@ -274,6 +278,8 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         api.registerApp(Constants.APP_ID);
     }
     private void weChatLogin() {
+        btnWithdraw.setEnabled(false);
+
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo_test";
