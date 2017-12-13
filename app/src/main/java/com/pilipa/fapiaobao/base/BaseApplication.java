@@ -19,6 +19,7 @@ import com.example.mylibrary.utils.AppUtils;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.Utils;
 import com.example.mylibrary.widget.SimplexToast;
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.pilipa.fapiaobao.Constants.Bugly;
@@ -286,14 +287,10 @@ public class BaseApplication extends Application {
                             TLog.log("startActivity(intent4);");
                             break;
                         case INVOICE_BABY_RESPONSE:
-//                            String  str  = (String) jsonObject.get("suggestion");
-//                            FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestion
-//                                    = new Gson().fromJson(str, FeedbackMessageBean.DataBean.ListBean.SuggestionListBean.class) ;
-                            FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestion =new FeedbackMessageBean.DataBean.ListBean.SuggestionListBean();
-                            suggestion.setAvatar("sadsa");
-                            suggestion.setCreateTime("dsasd");
-                            suggestion.setMessage("dsaad");
-                            suggestion.setNickname("da");
+                            String  str  = (String) jsonObject.get("suggestion");
+                            FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestion
+                                    = new Gson().fromJson(str, FeedbackMessageBean.DataBean.ListBean.SuggestionListBean.class) ;
+
                             Intent intent5 = new Intent();
                             intent5.putExtra("suggestion", suggestion);
                             intent5.putExtra("flag", true);
