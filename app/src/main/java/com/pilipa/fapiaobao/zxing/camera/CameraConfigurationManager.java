@@ -40,7 +40,8 @@ final class CameraConfigurationManager {
 	private final Context context;
 	private Point screenResolution;
 	private Point cameraResolution;
-
+	private int previewFormat;
+	private String previewFormatString;
 	CameraConfigurationManager(Context context) {
 		this.context = context;
 	}
@@ -51,12 +52,15 @@ final class CameraConfigurationManager {
 	@SuppressLint("NewApi")
 	void initFromCameraParameters(Camera camera) {
 		Camera.Parameters parameters = camera.getParameters();
+		previewFormat = parameters.getPreviewFormat();
+		previewFormatString = parameters.get("preview-format");
 		WindowManager manager = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
 		Display display = manager.getDefaultDisplay();
 		Point theScreenResolution = new Point(display.getWidth(),
 				display.getHeight());
 		screenResolution = theScreenResolution;
+
 		Log.i(TAG, "Screen resolution: " + screenResolution);
 
 		/************** 竖屏更改4 ******************/
@@ -119,6 +123,13 @@ final class CameraConfigurationManager {
 			cameraResolution.x = afterSize.width;
 			cameraResolution.y = afterSize.height;
 		}
+	}
+	int getPreviewFormat() {
+		return previewFormat;
+	}
+
+	String getPreviewFormatString() {
+		return previewFormatString;
 	}
 
 	void setDisplayOrientation(Camera camera, int angle) {

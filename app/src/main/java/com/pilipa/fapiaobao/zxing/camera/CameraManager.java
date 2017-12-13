@@ -17,6 +17,7 @@
 package com.pilipa.fapiaobao.zxing.camera;
 
 import android.content.Context;
+import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
@@ -207,36 +208,21 @@ public final class CameraManager {
 	 * 
 	 * @return The rectangle to draw on screen in window coordinates.
 	 */
-	public synchronized Rect getFramingRect() {
+	public Rect getFramingRect() {
+		Point screenResolution = configManager.getScreenResolution();
 		if (framingRect == null) {
 			if (camera == null) {
 				return null;
 			}
-			Point screenResolution = configManager.getScreenResolution();
-			if (screenResolution == null) {
-				// Called early, before init even finished
-				return null;
-			}
 
-			int width = findDesiredDimensionInRange(screenResolution.x,
-					MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
-			int height = findDesiredDimensionInRange(screenResolution.y,
-					MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
-//
-//			int width = findDesiredDimensionInRange(screenResolution.x,
-//					MIN_FRAME_WIDTH, MAX_FRAME_WIDTH)*4/5;
-//			int height = findDesiredDimensionInRange(screenResolution.y,
-//					MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT)*4/5;
-//			DisplayMetrics dm = context.getResources().getDisplayMetrics();
-//			int width = (int)(dm.widthPixels * 0.6);
-//			int height = (int)(width * 0.9);
 
+			DisplayMetrics dm = context.getResources().getDisplayMetrics();
+			int width = (int)(dm.widthPixels * 0.6);
+			int height = (int)(width * 0.9);
 
 			int leftOffset = (screenResolution.x - width) / 2;
 			int topOffset = (screenResolution.y - height) / 2;
-			framingRect = new Rect(leftOffset, topOffset, leftOffset + width,
-					topOffset + height);
-			Log.d(TAG, "Calculated framing rect: " + framingRect);
+			framingRect = new Rect(leftOffset, topOffset-width/4, leftOffset + width, topOffset + height-width/4);
 		}
 		return framingRect;
 	}
@@ -260,25 +246,17 @@ public final class CameraManager {
 	 * @return {@link Rect} expressing barcode scan area in terms of the preview
 	 *         size
 	 */
-	public synchronized Rect getFramingRectInPreview() {
+	public Rect getFramingRectInPreview() {
 		if (framingRectInPreview == null) {
-			Rect framingRect = getFramingRect();
-			if (framingRect == null) {
-				return null;
-			}
-			Rect rect = new Rect(framingRect);
+			Rect rect = new Rect(getFramingRect());
 			Point cameraResolution = configManager.getCameraResolution();
 			Point screenResolution = configManager.getScreenResolution();
-			if (cameraResolution == null || screenResolution == null) {
-				// Called early, before init even finished
-				return null;
-			}
-
-			/******************** 竖屏更改1(cameraResolution.x/y互换) ************************/
 			rect.left = rect.left * cameraResolution.y / screenResolution.x;
 			rect.right = rect.right * cameraResolution.y / screenResolution.x;
 			rect.top = rect.top * cameraResolution.x / screenResolution.y;
 			rect.bottom = rect.bottom * cameraResolution.x / screenResolution.y;
+
+			Log.e("tag","getFRIP "+rect.left +"  "+rect.right+" "+rect.top+ "  "+rect.bottom);
 			framingRectInPreview = rect;
 		}
 		return framingRectInPreview;
@@ -338,15 +316,30 @@ public final class CameraManager {
 	 *            The height of the image.
 	 * @return A PlanarYUVLuminanceSource instance.
 	 */
-	public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data,
-                                                         int width, int height) {
+	public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data, int width, int height) {
 		Rect rect = getFramingRectInPreview();
-		if (rect == null) {
-			return null;
+		int previewFormat = configManager.getPreviewFormat();
+		String previewFormatString = configManager.getPreviewFormatString();
+		switch (previewFormat) {
+			// This is the standard Android format which all devices are REQUIRED to support.
+			// In theory, it's the only one we should ever care about.
+			case PixelFormat.YCbCr_420_SP:
+				// This format has never been seen in the wild, but is compatible as we only care
+				// about the Y channel, so allow it.
+			case PixelFormat.YCbCr_422_SP:
+//	       Log.e("tag", width +" "+ height +" "+  rect.left +" "+ rect.top +" "+ rect.width() +" "+ rect.height());
+				return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top,
+						rect.width(), rect.height(),false);
+			default:
+				// The Samsung Moment incorrectly uses this variant instead of the 'sp' version.
+				// Fortunately, it too has all the Y data up front, so we can read it.
+				if ("yuv420p".equals(previewFormatString)) {
+					return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top,
+							rect.width(), rect.height(),false);
+				}
 		}
-		// Go ahead and assume it's YUV rather than die.
-		return new PlanarYUVLuminanceSource(data, width, height, rect.left,
-				rect.top, rect.width(), rect.height(), false);
+		throw new IllegalArgumentException("Unsupported picture format: " +
+				previewFormat + '/' + previewFormatString);
 	}
 
 }
