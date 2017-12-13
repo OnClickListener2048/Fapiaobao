@@ -17,7 +17,6 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
@@ -122,7 +121,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
                                 try{
                                     updateCompanyinfo(companyBean);
                                 }catch (Exception e){
-                                    BaseApplication.showToast("目前仅支持购物小票二维码、发票宝生成的单位信息二维码的扫描");
+                                    BaseApplication.showToast("目前仅支持发票宝生成的单位信息二维码的扫描");
 
                                 }
                             }
@@ -130,7 +129,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
                     }catch (ArrayIndexOutOfBoundsException e){
                         e.printStackTrace();
                         // TODO: 2017/12/8 添加提示
-                        BaseApplication.showToast("目前仅支持购物小票二维码、发票宝生成的单位信息二维码的扫描");
+                        BaseApplication.showToast("目前仅支持发票宝生成的单位信息二维码的扫描");
 
                     }
                 }
