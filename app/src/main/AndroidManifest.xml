@@ -184,7 +184,9 @@
         </provider>
 
         <service android:name="com.amap.api.location.APSService" />
-
+        <service
+            android:name=".service.X5CorePreLoadService"
+            android:enabled="true"/>
     </application>
 
 </manifest>
