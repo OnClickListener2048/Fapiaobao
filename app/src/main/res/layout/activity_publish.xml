@@ -5,12 +5,11 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="@dimen/d40"
+        android:background="@drawable/selector_pub_quit"
+        android:layout_width="@dimen/d48"
         android:id="@+id/quit"
-        android:layout_marginTop="@dimen/d10"
-        android:layout_height="@dimen/d40"
+        android:layout_height="@dimen/d48"
         android:layout_gravity="end|top"
-        android:layout_marginEnd="@dimen/d10"
         android:scaleType="center"
         android:src="@mipmap/demands_details_preview_quit" />
 
@@ -43,12 +42,13 @@
             android:orientation="horizontal">
 
             <FrameLayout
+                android:foreground="@drawable/selector_transparent_to_gray"
+                android:id="@+id/receipt_elec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center">
-
                 <LinearLayout
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
@@ -56,7 +56,6 @@
                     android:orientation="vertical">
 
                     <FrameLayout
-                        android:id="@+id/receipt_elec"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center">
@@ -86,6 +85,8 @@
             </FrameLayout>
 
             <FrameLayout
+                android:foreground="@drawable/selector_transparent_to_gray"
+                android:id="@+id/receipt_paper_normal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -98,7 +99,7 @@
                     android:orientation="vertical">
 
                     <FrameLayout
-                        android:id="@+id/receipt_paper_normal"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center">
@@ -128,6 +129,8 @@
             </FrameLayout>
 
             <FrameLayout
+                android:foreground="@drawable/selector_transparent_to_gray"
+                android:id="@+id/receipt_paper_special"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -140,7 +143,6 @@
                     android:orientation="vertical">
 
                     <FrameLayout
-                        android:id="@+id/receipt_paper_special"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center">
@@ -174,13 +176,14 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/d50" />
+            android:layout_height="@dimen/d20" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
+                android:padding="@dimen/d15"
                 android:id="@+id/confirm"
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/s20"
@@ -189,12 +192,9 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/next_step"
-                android:textColor="@color/main_style" />
+                android:textColor="@drawable/selector_union_main_style_text" />
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d20" />
     </LinearLayout>
 
     </LinearLayout>

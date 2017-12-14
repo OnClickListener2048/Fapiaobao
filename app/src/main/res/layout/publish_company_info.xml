@@ -31,10 +31,10 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="请选择开票单位" />
+                android:text="@string/please_choose_a_company" />
 
             <View
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/d20"
                 android:layout_weight="1" />
 
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/changeCompanyinfo"
-                android:textColor="@color/main_style" />
+                android:textColor="@drawable/selector_union_main_style_text" />
 
             <android.support.v4.widget.Space
                 android:layout_width="@dimen/d10"
@@ -52,19 +52,22 @@
 
             <TextView
                 android:visibility="gone"
+                android:padding="@dimen/d5"
                 android:id="@+id/more_company"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/d5"
-                android:drawableRight="@mipmap/more_company"
+                android:drawableEnd="@mipmap/more_company"
                 android:text="@string/more"
-                android:textColor="@color/main_style" />
+                android:textColor="@drawable/selector_union_main_style_text" />
 
             <android.support.v4.widget.Space
                 android:layout_width="@dimen/d20"
                 android:layout_height="match_parent" />
 
             <ImageView
+                android:background="@drawable/drawable_scan"
+                android:padding="@dimen/d5"
                 android:id="@+id/iv_dots_more_company"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -384,7 +387,7 @@
                         android:layout_height="match_parent" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1">
@@ -427,7 +430,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                    android:layout_height="wrap_content" />
 
                 <View
                     android:layout_width="match_parent"
@@ -449,7 +452,7 @@
         android:layout_height="@dimen/d40"
         android:layout_marginLeft="@dimen/d20"
         android:layout_marginRight="@dimen/d20"
-        android:background="@mipmap/bg_btn_normal"
+        android:background="@drawable/selector_mainstyle_to_transparent"
         android:gravity="center"
         android:orientation="horizontal">
 

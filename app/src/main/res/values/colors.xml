@@ -54,6 +54,8 @@
     <color name="shadow_finance_item">#11d4d4d4</color>
     <color name="gray_estimate_company_invoice_types">#434343</color>
     <color name="feedback_item">#3be0d6</color>
-    <color name="foreground_gray">#44AEAEAE</color>
+    <color name="foreground_gray">#aaAEAEAE</color>
     <color name="main_style_transparent">#99e6af7a</color>
+    <color name="red_estimate_transparent">#aaff9076</color>
+    <color name="foreground_grayXX">#eeAEAEAE</color>
 </resources>

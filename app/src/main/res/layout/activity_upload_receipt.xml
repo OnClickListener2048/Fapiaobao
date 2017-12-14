@@ -8,7 +8,7 @@
         android:layout_height="48dp">
 
         <TextView
-            android:text="上传发票"
+            android:text="@string/upload_receipt"
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -16,22 +16,20 @@
             android:textSize="@dimen/s16" />
 
         <ImageView
+            android:background="@drawable/drawable_scan"
             android:id="@+id/upload_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/d10"
-            android:src="@mipmap/upload_back" />
+            android:layout_width="@dimen/d48"
+            android:layout_height="@dimen/d48"
+            android:src="@mipmap/estimate_back_brawn" />
 
         <ImageView
             android:visibility="gone"
             android:id="@+id/upload_scan"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/d10"
+            android:layout_marginEnd="@dimen/d10"
             android:src="@mipmap/upload_scan"
             android:text="@string/filter"
             android:textColor="@color/main_style" />
@@ -72,7 +70,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/d10"
+                    android:layout_marginStart="@dimen/d10"
                     android:text="@string/paper_normal_receipt"
                     android:textColor="@color/main_style" />
 
@@ -83,7 +81,7 @@
                 <FrameLayout
                     android:id="@+id/container_paper_normal_receipt"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></FrameLayout>
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
 
@@ -100,7 +98,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/d10"
+                    android:layout_marginStart="@dimen/d10"
                     android:text="@string/paper_special_receipt"
                     android:textColor="@color/main_style" />
 
@@ -130,7 +128,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/d10"
+                    android:layout_marginStart="@dimen/d10"
                     android:text="@string/paper_elec_receipt"
                     android:textColor="@color/main_style" />
 
@@ -161,9 +159,11 @@
             <Button
                 android:id="@+id/upload_receipt"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/d40"
-                android:layout_margin="@dimen/d20"
-                android:background="@drawable/shape_extimate_go"
+                android:layout_height="@dimen/d45"
+                android:layout_marginEnd="@dimen/d20"
+                android:layout_marginStart="@dimen/d20"
+                android:layout_marginBottom="@dimen/d13"
+                android:background="@drawable/selector_mainstyle_to_transparent"
                 android:text="@string/confirm"
                 android:textColor="@color/white" />
         </LinearLayout>

@@ -34,7 +34,7 @@
         android:id="@+id/btn_publish_now"
         android:layout_height="@dimen/d45"
         android:layout_margin="@dimen/d10"
-        android:background="@drawable/shape_estimate_publish"
+        android:background="@drawable/selector_mainstyle_to_transparent"
         android:text="@string/publish"
         android:layout_width="match_parent"
         android:textColor="@color/white" />

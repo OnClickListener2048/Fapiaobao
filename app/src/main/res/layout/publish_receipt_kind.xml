@@ -20,9 +20,9 @@
             android:id="@+id/tv_more_kind_receipt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:text="@string/more_kind_receipt"
-            android:textColor="@color/main_style" />
+            android:textColor="@drawable/selector_union_main_style_text" />
     </RelativeLayout>
 
 

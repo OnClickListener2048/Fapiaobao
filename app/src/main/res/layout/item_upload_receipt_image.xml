@@ -2,6 +2,10 @@
 <com.pilipa.fapiaobao.ui.widget.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<FrameLayout
+    android:background="@drawable/drawable_scan"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_height="match_parent"
@@ -21,7 +25,7 @@
             android:id="@+id/rb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top|right"
+            android:layout_gravity="top|end"
             android:layout_margin="10dp"
             android:visibility="gone" />
 
@@ -50,8 +54,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-
     </LinearLayout>
+</FrameLayout>
+
 
 
 </com.pilipa.fapiaobao.ui.widget.SquareFrameLayout>

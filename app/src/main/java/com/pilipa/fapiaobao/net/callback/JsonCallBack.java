@@ -114,11 +114,7 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
         if (TDevice.hasInternet()) {
             Api.RECORD_LOG("Date="+TimeUtils.millis2String(System.currentTimeMillis())+"\n"+
                     "Throwable.toString"+e.toString()+"\n"+
-            "Throwable.getMessage"+e.getMessage()+"\n"+
-                    "body.toString"+body.toString()
-
-
-
+            "Throwable.getMessage"+e.getMessage()+"\n"
             );
         }
         BaseApplication.context().sendBroadcast(intent);

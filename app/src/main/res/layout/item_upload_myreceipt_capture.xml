@@ -3,15 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <ImageView
-        android:scaleType="fitXY"
-        android:src="@mipmap/upload_add"
-        android:id="@+id/capture"
-        android:layout_gravity="center"
+    <FrameLayout
+        android:foreground="@drawable/drawable_scan"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="拍照"
-        android:textSize="24sp" />
+        android:layout_height="match_parent">
+        <ImageView
+            android:scaleType="fitXY"
+            android:src="@mipmap/upload_add"
+            android:id="@+id/capture"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/capture"
+            android:textSize="24sp" />
+    </FrameLayout>
 
 </com.pilipa.fapiaobao.ui.widget.SquareFrameLayout>

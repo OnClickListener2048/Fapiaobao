@@ -414,7 +414,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                                             @Override
                                             public void setData(OrderBean orderBean) {
                                                 if (orderBean.getStatus() == 200) {
-                                                    BaseApplication.showToast(getString(R.string.upload_success));
+                                                    BaseApplication.showToast(getString(R.string.upload_invoice_success));
                                                     Intent intent = new Intent(UploadReceiptPreviewActivity.this, UploadSuccessActivity.class);
                                                     intent.putExtra("order_id", orderBean.getData().getOrderId());
                                                     intent.putExtra("company_id", company_id);

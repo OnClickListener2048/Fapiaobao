@@ -106,4 +106,5 @@
     <dimen name="d37">37dp</dimen>
     <dimen name="d70">70dp</dimen>
     <dimen name="d65">65dp</dimen>
+    <dimen name="d52">52dp</dimen>
 </resources>

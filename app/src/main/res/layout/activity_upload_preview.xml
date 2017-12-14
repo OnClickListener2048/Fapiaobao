@@ -15,24 +15,22 @@
             android:layout_centerInParent="true"
             android:textSize="@dimen/d18"
             android:textColor="@color/title"
-            android:text="上传发票" />
+            android:text="@string/upload_receipt" />
 
         <ImageView
+            android:background="@drawable/drawable_scan"
             android:id="@+id/upload_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/d10"
-            android:src="@mipmap/upload_back" />
+            android:layout_width="@dimen/d48"
+            android:layout_height="@dimen/d48"
+            android:src="@mipmap/estimate_back_brawn" />
 
         <ImageView
             android:id="@+id/upload_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/d10"
+            android:layout_marginEnd="@dimen/d10"
             android:src="@mipmap/upload_scan"
             android:text="@string/filter"
             android:textColor="@color/main_style"
@@ -48,7 +46,7 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -124,7 +122,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/d10"
+                        android:layout_marginStart="@dimen/d10"
                         android:text="@string/paper_elec_receipt"
                         android:textColor="@color/main_style" />
 
@@ -165,7 +163,7 @@
                         android:textColor="#959595"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/d10"
+                        android:layout_marginStart="@dimen/d10"
                         android:text="@string/my_provide" />
 
                     <View
@@ -180,12 +178,12 @@
 
 
                         <LinearLayout
-                            android:layout_marginLeft="@dimen/d10"
+                            android:layout_marginStart="@dimen/d10"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_weight="1"
-                            android:gravity="left"
+                            android:gravity="start"
                             android:orientation="horizontal">
 
                             <TextView
@@ -197,7 +195,7 @@
                                 android:id="@+id/receipt_money"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textColor="@color/main_style"
                                 android:textSize="@dimen/s20" />
 
@@ -228,11 +226,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_weight="1"
-                                android:gravity="left"
+                                android:gravity="start"
                                 android:orientation="horizontal">
 
                                 <TextView
-                                    android:layout_marginLeft="@dimen/d10"
+                                    android:layout_marginStart="@dimen/d10"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/receipt_number" />
@@ -241,7 +239,7 @@
                                     android:id="@+id/receipt_number"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="0"
+                                    android:text="@string/zero"
                                     android:textColor="@color/main_style"
                                     android:textSize="@dimen/s20" />
 
@@ -258,11 +256,11 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_weight="1"
-                            android:gravity="left"
+                            android:gravity="start"
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_marginLeft="@dimen/d10"
+                                android:layout_marginStart="@dimen/d10"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/estimate_money" />
@@ -271,7 +269,7 @@
                                 android:id="@+id/estimate_money"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textColor="@color/main_style"
                                 android:textSize="@dimen/s20" />
 
@@ -294,13 +292,12 @@
                         android:gravity="center_horizontal"
                         android:orientation="horizontal">
 
-
+                        <!--请务必保证与票面合计金额一致，否则发票可能会作废-->
 
                         <TextView
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="请务必保证与票面合计金额一致，否则发票可能会作废"
+                            android:text="@string/please_ensure_the_invoice_value_is_true"
                             android:textColor="#ad9d7e"
                             android:textSize="@dimen/s10" />
                     </LinearLayout>
@@ -314,17 +311,18 @@
                         android:gravity="center_horizontal"
                         android:orientation="horizontal">
                         <TextView
+                            android:paddingTop="@dimen/d10"
+                            android:paddingBottom="@dimen/d10"
+                            android:paddingStart="@dimen/d15"
+                            android:paddingEnd="@dimen/d15"
                             android:id="@+id/continue_to_upload"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/upload_receipt"
-                            android:textColor="#f7c494"
+                            android:textColor="@drawable/selector_union_main_style_text"
                             android:textSize="@dimen/s11" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/d23" />
                 </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
@@ -341,7 +339,7 @@
                 android:layout_height="@dimen/d40"
                 android:layout_marginRight="@dimen/d20"
                 android:layout_marginTop="@dimen/d5"
-                android:background="@drawable/shape_extimate_go"
+                android:background="@drawable/selector_mainstyle_to_transparent"
                 android:text="@string/confirm"
                 android:textColor="@color/white" />
         </LinearLayout>

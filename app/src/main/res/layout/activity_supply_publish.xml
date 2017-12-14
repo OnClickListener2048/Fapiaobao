@@ -18,13 +18,11 @@
             android:text="@string/demand_publish" />
 
         <ImageView
+            android:background="@drawable/drawable_scan"
             android:id="@+id/upload_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/d10"
-            android:src="@mipmap/upload_back" />
+            android:layout_width="@dimen/d48"
+            android:layout_height="@dimen/d52"
+            android:src="@mipmap/estimate_back_brawn" />
 
         <ImageView
             android:id="@+id/upload_scan"
@@ -75,8 +73,8 @@
             android:text="@string/paper_normal_receipt"
             android:textColor="@color/main_style"
             android:visibility="gone" />
-
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/d2"

@@ -19,30 +19,24 @@
 
         <ImageView
             android:id="@+id/publish_success_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/d10"
-            android:src="@mipmap/upload_back" />
+            android:layout_width="@dimen/d48"
+            android:layout_height="@dimen/d48"
+            android:src="@mipmap/estimate_back_brawn" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/d10"
+            android:layout_marginEnd="@dimen/d10"
             android:src="@mipmap/upload_scan"
             android:text="@string/filter"
             android:textColor="@color/main_style"
             android:visibility="gone" />
-
     </RelativeLayout>
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
         android:layout_height="@dimen/d20" />
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +45,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="上传成功"
+            android:text="@string/upload_success"
             android:textColor="@color/main_style"
             android:textSize="@dimen/s20" />
     </LinearLayout>
@@ -61,7 +55,6 @@
         android:layout_height="210dp"
         android:layout_gravity="center"
         android:gravity="center">
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,7 +75,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/d45"
             android:layout_weight="1"
-            android:background="@drawable/shape_continue_to_supply_btn"
+            android:background="@drawable/selector_continue_to_supply"
             android:text="@string/continuous_to_upload"
             android:textColor="@color/white" />
 
@@ -95,8 +88,8 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/d45"
             android:layout_weight="1"
-            android:background="@drawable/shape_watch_btn"
-            android:text="查看本次提供"
+            android:background="@drawable/selector_checkout_publish"
+            android:text="@string/checkout_publish"
             android:textColor="@color/white" />
 
         <View
@@ -117,6 +110,7 @@
 
         <TextView
             android:id="@+id/WeChat"
+            android:background="@drawable/selector_transparent_to_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -132,6 +126,7 @@
             android:id="@+id/moments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/selector_transparent_to_gray"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:drawableTop="@mipmap/moments"
@@ -145,6 +140,7 @@
             android:id="@+id/qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/selector_transparent_to_gray"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:drawableTop="@mipmap/qqfriend"
@@ -158,6 +154,7 @@
             android:id="@+id/qzone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/selector_transparent_to_gray"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:drawableTop="@mipmap/qzone"
@@ -171,6 +168,7 @@
             android:id="@+id/weibo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/selector_transparent_to_gray"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:drawableTop="@mipmap/weibo"

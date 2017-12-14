@@ -24,7 +24,7 @@
                 android:layout_centerInParent="true"
                 android:textSize="@dimen/d18"
                 android:textColor="@color/title"
-                android:text="测测红包" />
+                android:text="@string/test_red_bag" />
             <ImageView
                 android:id="@+id/estimate_back"
                 android:layout_width="@dimen/d48"
@@ -191,7 +191,7 @@
                                 android:id="@+id/reset_filter_top"
                                 android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
-                                android:text="重新筛选"
+                                android:text="@string/refilter"
                                 android:textColor="@drawable/selector_union_main_style_text" />
                         </LinearLayout>
 
@@ -426,7 +426,7 @@
                                     android:id="@+id/test_redbag"
                                     android:layout_width="@dimen/d240"
                                     android:layout_height="@dimen/d40"
-                                    android:background="@drawable/estimate_test_redbag"
+                                    android:background="@drawable/selector_redbag_red_to_transparent"
                                     android:text="@string/test_red_bag"
                                     android:textColor="@color/white" />
                             </RelativeLayout>
@@ -506,7 +506,7 @@
                             <com.tmall.ultraviewpager.UltraViewPager
                                 android:id="@+id/ultra_viewpager"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"></com.tmall.ultraviewpager.UltraViewPager>
+                                android:layout_height="wrap_content" />
 
                         </LinearLayout>
 
@@ -524,8 +524,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -546,8 +545,8 @@
                                 android:layout_width="@dimen/d150"
                                 android:layout_height="@dimen/d35"
                                 android:layout_weight="1"
-                                android:background="@mipmap/otherdemand"
-                                android:text="回首页"
+                                android:background="@drawable/selector_mainstyle_to_transparent"
+                                android:text="@string/back_to_financefragment"
                                 android:textColor="@color/white" />
 
                             <android.support.v4.widget.Space
@@ -559,8 +558,8 @@
                                 android:layout_width="@dimen/d150"
                                 android:layout_height="@dimen/d35"
                                 android:layout_weight="1"
-                                android:background="@mipmap/otherdemand"
-                                android:text="重新设置筛选条件"
+                                android:background="@drawable/selector_mainstyle_to_transparent"
+                                android:text="@string/reset_filter_event"
                                 android:textColor="@color/white" />
                         </LinearLayout>
 
@@ -616,7 +615,7 @@
                 android:layout_height="@dimen/d41"
                 android:layout_marginLeft="@dimen/d15"
                 android:layout_marginRight="@dimen/d15"
-                android:background="@drawable/shape_extimate_go"
+                android:background="@drawable/selector_mainstyle_to_transparent"
                 android:text="@string/confirm_receipt"
                 android:textColor="@color/white" />
 

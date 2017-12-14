@@ -146,8 +146,6 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
     EditText etReceptionNumber;
     @Bind(R.id.tv_area)
     TextView tvArea;
-    @Bind(R.id.iv_select_area)
-    ImageView ivSelectArea;
     @Bind(R.id.et_area_details)
     EditText etAreaDetails;
     @Bind(R.id.et_publish_cautions)
@@ -527,7 +525,7 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
             , R.id.tv_more_kind_receipt, R.id.labels_receipt_kind
             , R.id.iv_select_date, R.id.et_amount, R.id.Switch
             , R.id.ll_amount, R.id.rb_cod
-            , R.id.tv_area, R.id.iv_select_area
+//            , R.id.tv_area, R.id.iv_select_area
             , R.id.btn_publish_now
             , R.id.changeCompanyinfo
             , R.id.more_company

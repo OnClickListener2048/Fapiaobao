@@ -270,7 +270,7 @@
     <string name="number">电话号码</string>
     <string name="bank_account">银行账户</string>
     <string name="confirm_upload">将开好的发票保存至手机，就可以上传啦~</string>
-    <string name="upload_receipt">继续上传发票</string>
+    <string name="upload_receipt">上传发票</string>
     <string name="hurry_up">快来上传您的发票吧~</string>
     <string name="my_provide">我提供的</string>
     <string name="receipt_number">发票张数：</string>
@@ -337,7 +337,6 @@
     <string name="logout_tip">确定要退出登录么？</string>
     <string name="express_mail">快递已邮寄</string>
     <string name="waitting_mail">等待签收中</string>
-
     <string name="credit_history">信用历史</string>
     <string name="credit_life">信用生活 点滴积累</string>
     <string name="credit_bfb">您的信用值超过了 %.0f%% 的票友</string>
@@ -403,7 +402,8 @@
     <string name="click_twice_to_exit">再按一次退出发票宝</string>
     <string name="upload_receipt_dialog">正在解析图片%s\u3000</string>
     <string name="uploading">正在上传发票…</string>
-    <string name="upload_success">发票上传成功</string>
+    <string name="upload_success">上传成功</string>
+    <string name="upload_invoice_success">发票上传成功</string>
     <string name="analysing">正在解析发票…</string>
     <string name="wrapping">打包发票…</string>
     <string name="please_choose_one_of_types">请至少选择一种发票种类哦~</string>
@@ -420,6 +420,19 @@
     <string name="parse_error">解析服务器响应数据失败</string>
     <string name="unknown_error">未知错误</string>
     <string name="response_return_error">服务器返回数据失败</string>
+    <string name="back_to_financefragment">回首页</string>
+    <string name="reset_filter_event">重新设置筛选条件</string>
+    <string name="dumb_company_info">爱康鼎天津科技有限公司</string>
+    <string name="tips_remember_paper_invoice_should_capture_and_upload">纸质发票要拍照上传哦~</string>
+    <string name="refilter">重新筛选</string>
+    <string name="capture">拍照</string>
+    <string name="zero">0</string>
+    <string name="please_ensure_the_invoice_value_is_true">请务必保证与票面合计金额一致，否则发票可能会作废</string>
+    <string name="checkout_publish">查看本次发布</string>
+    <string name="please_choose_a_company">请选择开票单位</string>
+    <string name="c2017">2017</string>
+    <string name="open_redbag_then_invoice_can_find_you_faster">开启悬赏红包,发票可以更快找到您哦</string>
+    <string name="is_there_any_problem_with_invoice">财务小伙伴是否对开票信息有要求</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

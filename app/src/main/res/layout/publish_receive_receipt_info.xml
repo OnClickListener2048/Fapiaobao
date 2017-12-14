@@ -184,9 +184,11 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/d20" />
+            android:layout_height="@dimen/d10" />
 
         <LinearLayout
+            android:paddingTop="@dimen/d10"
+            android:background="@drawable/selector_transparent_to_gray"
             android:id="@+id/ll_select_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -203,7 +205,7 @@
                 android:layout_height="match_parent" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1">
