@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -206,6 +207,16 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
                         }
                     }
                 });
+        updateInvoiceType();
+    }
+
+    private void updateInvoiceType() {
+        Api.updateInvoiceType(AccountHelper.getToken(), label, new Api.BaseViewCallback<String>() {
+            @Override
+            public void setData(String s) {
+                Log.d(TAG, "setData: s" + s);
+            }
+        });
     }
 
     private void initInvoiceTypes() {

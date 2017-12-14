@@ -20,22 +20,29 @@
             android:textSize="@dimen/d18"
             android:textColor="@color/title"
             android:text="@string/app_name" />
-
-        <ImageView
-            android:layout_marginLeft="@dimen/d10"
-            android:id="@+id/scan"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/scan" />
         <FrameLayout
+            android:id="@+id/fl_scan"
+            android:layout_centerVertical="true"
+            android:foreground="@drawable/drawable_scan"
+            android:layout_width="@dimen/d48"
+            android:layout_height="match_parent">
+            <ImageView
+                android:clickable="false"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/d20"
+                android:layout_height="@dimen/d20"
+                android:src="@mipmap/scan" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_notification"
+            android:foreground="@drawable/drawable_scan"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="@dimen/d48"
+            android:layout_height="@dimen/d48">
             <ImageView
-                android:id="@+id/notification"
+                android:layout_gravity="center"
                 android:layout_width="@dimen/d20"
                 android:layout_height="@dimen/d20"
                 android:layout_margin="@dimen/d10"
@@ -43,12 +50,11 @@
 
             <ImageView
                 android:src="@mipmap/dot_notification"
-                android:visibility="gone"
                 android:id="@+id/new_notification"
                 android:layout_width="@dimen/d10"
                 android:layout_height="@dimen/d10"
                 android:layout_gravity="top|right"
-                android:layout_margin="@dimen/d10"
+                android:layout_margin="@dimen/d15"
                 />
         </FrameLayout>
 

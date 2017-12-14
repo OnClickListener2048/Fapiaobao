@@ -27,11 +27,9 @@
                 android:text="测测红包" />
             <ImageView
                 android:id="@+id/estimate_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/d10"
+                android:layout_width="@dimen/d48"
+                android:background="@drawable/drawable_scan"
+                android:layout_height="@dimen/d48"
                 android:src="@mipmap/estimate_back_brawn" />
 
             <TextView
@@ -104,7 +102,7 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -177,7 +175,6 @@
                                 android:layout_height="match_parent" />
 
                             <TextView
-
                                 android:id="@+id/filter_condition_top"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -190,11 +187,12 @@
                                 android:layout_height="match_parent" />
 
                             <TextView
+                                android:padding="@dimen/d5"
                                 android:id="@+id/reset_filter_top"
                                 android:layout_height="wrap_content"
                                 android:layout_width="wrap_content"
                                 android:text="重新筛选"
-                                android:textColor="@color/main_style" />
+                                android:textColor="@drawable/selector_union_main_style_text" />
                         </LinearLayout>
 
 
@@ -299,11 +297,12 @@
                                 android:layout_weight="1" />
 
                             <TextView
+                                android:padding="@dimen/d5"
                                 android:id="@+id/select_other_area"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="选择其他省市"
-                                android:textColor="@color/main_style"
+                                android:textColor="@drawable/selector_union_main_style_text"
                                 android:textSize="@dimen/s12" />
                         </LinearLayout>
                     </LinearLayout>

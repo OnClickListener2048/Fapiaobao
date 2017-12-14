@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.ParseException;
 
 import com.example.mylibrary.utils.TLog;
+import com.example.mylibrary.utils.TimeUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
@@ -79,6 +80,7 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
     public void onError(com.lzy.okgo.model.Response<T> response) {
         super.onError(response);
         Throwable e = response.getException();
+        T body = response.body();
 //        if (TDevice.hasInternet()) {
 //            if (!response.isSuccessful()) {
 //                BaseApplication.showToast("网络异常");
@@ -110,7 +112,14 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
         TLog.d(TAG, Arrays.toString(e.getStackTrace()));
         TLog.d(TAG,e.getMessage());
         if (TDevice.hasInternet()) {
-            Api.RECORD_LOG(e.toString());
+            Api.RECORD_LOG("Date="+TimeUtils.millis2String(System.currentTimeMillis())+"\n"+
+                    "Throwable.toString"+e.toString()+"\n"+
+            "Throwable.getMessage"+e.getMessage()+"\n"+
+                    "body.toString"+body.toString()
+
+
+
+            );
         }
         BaseApplication.context().sendBroadcast(intent);
     }

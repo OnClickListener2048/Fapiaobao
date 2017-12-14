@@ -52,9 +52,6 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder != null) {
             Financeholder financeholder  = (Financeholder) holder;
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.gravity = Gravity.CENTER;
-            financeholder.itemView.setLayoutParams(layoutParams);
             if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
                 data = allInvoiceType.getData();
                 DefaultInvoiceBean.DataBean dataBean = data.get(position);
@@ -66,7 +63,7 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         .into(financeholder.iv_finance);
                 financeholder.tv_finance.setText(dataBean.getName());
             }
-            financeholder.iv_finance.setOnClickListener(new View.OnClickListener() {
+            financeholder.fl_container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onLabelClickListener.onLabelClick(allInvoiceType.getData().get(holder.getAdapterPosition()).getId());
@@ -105,6 +102,7 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private final AdjustTextView tv_finance;
         private final ImageView iv_finance;
+        private final FrameLayout fl_container;
 
         public Financeholder(View itemView) {
             super(itemView);
@@ -112,7 +110,7 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 itemView.setTranslationZ(TDevice.dp2px(5));
                 itemView.setElevation(TDevice.dp2px(5));
             }
-
+            fl_container = (FrameLayout) itemView.findViewById(R.id.fl_container);
             tv_finance = (AdjustTextView) itemView.findViewById(R.id.tv_finance_kind);
             iv_finance = (ImageView) itemView.findViewById(R.id.iv_finance_kind);
         }

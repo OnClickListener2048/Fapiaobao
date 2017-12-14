@@ -7,16 +7,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -70,10 +69,10 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.OnLabelClickListener, FinanceAdapter.OnLabelClickListener {
     String TAG = "FinanceFragment";
-    @Bind(R.id.scan)
-    ImageView scan;
-    @Bind(R.id.notification)
-    ImageView notification;
+//    @Bind(R.id.scan)
+//    ImageView scan;
+//    @Bind(R.id.notification)
+//    ImageView notification;
     @Bind(R.id.recyclerview)
     public RecyclerView recyclerview;
     @Bind(R.id.recyclerview_more_kind)
@@ -92,6 +91,8 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     TextView title;
     @Bind(R.id.select_your_receipt_kind)
     TextView selectYourReceiptKind;
+    @Bind(R.id.fl_notification)
+    FrameLayout flNotification;
     private LoginWithInfoBean loginBean;
     FinanceAdapter financeAdapter;
     public static final String DECODED_CONTENT_KEY = "codedContent";
@@ -114,7 +115,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     };
 
 
-
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_finance;
@@ -133,9 +133,9 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        TLog.log("requestCode"+requestCode);
-        TLog.log("resultCode"+resultCode);
-        TLog.log("data"+data);
+        TLog.log("requestCode" + requestCode);
+        TLog.log("resultCode" + resultCode);
+        TLog.log("data" + data);
         switch (requestCode) {
             case REQUEST_CODE_SCAN:
                 if (resultCode == Activity.RESULT_OK) {
@@ -143,7 +143,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
                     TLog.log(content);
                     TLog.log("RegexUtils.isURL(content)" + RegexUtils.isURL(content));
-                    if (RegexUtils.isURL(content)||content.contains("http")) {
+                    if (RegexUtils.isURL(content) || content.contains("http")) {
                         Intent intent = new Intent();
                         intent.setClass(mContext, Op.class);
                         intent.putExtra("url", content);
@@ -166,8 +166,8 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         srollview.setSmoothScrollingEnabled(true);
         GridLayoutManager manager = new GridLayoutManager(mContext, 2, LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(manager);
-        TLog.d(TAG,"recyclerview.addItemDecoration");
-        recyclerview.addItemDecoration(new GridInsetFinance(2,0, true));
+        TLog.d(TAG, "recyclerview.addItemDecoration");
+        recyclerview.addItemDecoration(new GridInsetFinance(2, 0, true));
         recyclerviewMoreKind.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         recyclerviewMoreKind.setNestedScrollingEnabled(false);
         recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext, LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(), 23), R.color.white));
@@ -197,7 +197,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         activity = (MainActivity) getActivity();
         findAllInvoiceTypes("");
     }
-
 
 
     private void findUserInvoiceType(String token, final AllInvoiceType allInvoiceType) {
@@ -335,20 +334,19 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                     } else {
                         findDefaultInvoiceType(allInvoiceType);
                     }
-
                 }
             }
         });
     }
 
 
-    @OnClick({R.id.scan, R.id.notification,R.id.pull_to_find_more, R.id.rl_pull_to_find_more})
+    @OnClick({ R.id.pull_to_find_more, R.id.rl_pull_to_find_more, R.id.fl_notification, R.id.title,R.id.fl_scan})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.scan:
+            case R.id.fl_scan:
                 quickResponse();
                 break;
-            case R.id.notification:
+            case R.id.fl_notification:
                 AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
                     @Override
                     public void setData(LoginWithInfoBean normalBean) {
@@ -366,7 +364,10 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
             case R.id.rl_pull_to_find_more:
                 srollview.setSmoothScrollingEnabled(true);
                 pullToFindMore.measure(0, 0);
-                srollview.smoothScrollTo(0,  rlPullToFindMore.getTop());
+                srollview.smoothScrollTo(0, rlPullToFindMore.getTop());
+                break;
+            case R.id.title:
+                srollview.smoothScrollTo(0, 0);
                 break;
         }
     }
@@ -382,7 +383,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
             @Override
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
-                    TLog.log("REQUEST_CODE_SCAN"+REQUEST_CODE_SCAN);
+                    TLog.log("REQUEST_CODE_SCAN" + REQUEST_CODE_SCAN);
                     startActivityForResult(new Intent(mContext, CaptureActivity.class), REQUEST_CODE_SCAN);
                 }
             }
@@ -409,15 +410,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         intent.putExtra(EXTRA_DATA_LABEL_NAME, name);
         intent.setClass(mContext, EstimateActivity.class);
         startActivity(intent);
-        LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
-        if (loginBean != null) {
-            Api.updateInvoiceType(loginBean.getData().getToken(), label, new Api.BaseViewCallback<String>() {
-                @Override
-                public void setData(String s) {
-                    Log.d(TAG, "setData: s" + s);
-                }
-            });
-        }
     }
 
     @Override
@@ -433,48 +425,48 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
     private void messageList() {
 
-                        Api.messageList(AccountHelper.getToken(), new Api.BaseRawResponse<MessageListBean>() {
-                            @Override
-                            public void onStart() {
+        Api.messageList(AccountHelper.getToken(), new Api.BaseRawResponse<MessageListBean>() {
+            @Override
+            public void onStart() {
 
-                            }
+            }
 
-                            @Override
-                            public void onFinish() {
+            @Override
+            public void onFinish() {
 
-                            }
+            }
 
-                            @Override
-                            public void onError() {
+            @Override
+            public void onError() {
 
-                            }
+            }
 
-                            @Override
-                            public void onTokenInvalid() {
+            @Override
+            public void onTokenInvalid() {
 
-                            }
+            }
 
-                            @Override
-                            public void setData(MessageListBean messageListBean) {
-                                boolean hasNewMsg = false;
-                                if(messageListBean.getStatus() == REQUEST_SUCCESS){
-                                    List<MessageListBean.DataBean> data = messageListBean.getData();
-                                    for (int i = 0; i <data.size() ; i++) {
-                                        if(data.get(i).getUnreadMessages() > 0 ){
-                                            hasNewMsg =true;
-                                            TLog.d("MainActivity","message center had new message");
-                                            break;
-                                        }else{
-                                            TLog.d("MainActivity","message center no message1");
-                                        }
-                                    }
-                                    if(hasNewMsg){
-                                        set(PUSH_RECEIVE, true);
-                                    }else{
-                                        set(PUSH_RECEIVE, false);
-                                    }
-                                }
-                            }
-                        });
+            @Override
+            public void setData(MessageListBean messageListBean) {
+                boolean hasNewMsg = false;
+                if (messageListBean.getStatus() == REQUEST_SUCCESS) {
+                    List<MessageListBean.DataBean> data = messageListBean.getData();
+                    for (int i = 0; i < data.size(); i++) {
+                        if (data.get(i).getUnreadMessages() > 0) {
+                            hasNewMsg = true;
+                            TLog.d("MainActivity", "message center had new message");
+                            break;
+                        } else {
+                            TLog.d("MainActivity", "message center no message1");
+                        }
                     }
+                    if (hasNewMsg) {
+                        set(PUSH_RECEIVE, true);
+                    } else {
+                        set(PUSH_RECEIVE, false);
+                    }
+                }
+            }
+        });
+    }
 }
