@@ -14,8 +14,10 @@
             android:layout_width="match_parent"
             android:layout_height="48dp">
             <FrameLayout
+                android:id="@+id/fl_notification"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:foreground="@drawable/drawable_scan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <ImageView
@@ -48,6 +50,7 @@
                 android:id="@+id/img_head_me"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:background="@drawable/drawable_scan"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="32dp"
@@ -61,10 +64,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/img_head_me"
-                android:paddingLeft="@dimen/d18"
+                android:layout_marginLeft="@dimen/d10"
+                android:paddingLeft="@dimen/d8"
+                android:paddingRight="@dimen/d8"
                 android:paddingTop="@dimen/d5"
                 android:paddingBottom="@dimen/d5"
                 android:text="用户名"
+                android:background="@drawable/drawable_scan"
                 android:textSize="15sp"
                 android:textColor="@color/white" />
 
@@ -90,7 +96,10 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/d10"
                     android:drawableRight="@mipmap/enter_small"
-                    android:paddingLeft="@dimen/d18"
+                    android:background="@drawable/drawable_scan"
+                    android:layout_marginLeft="@dimen/d10"
+                    android:paddingLeft="@dimen/d8"
+                    android:paddingRight="@dimen/d8"
                     android:paddingTop="@dimen/d5"
                     android:paddingBottom="@dimen/d5"
                     android:textSize="12sp"
@@ -117,11 +126,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@null"
             android:drawablePadding="@dimen/d9"
             android:drawableTop="@mipmap/my_publish"
             android:textColor="@color/title_small"
             android:textSize="12sp"
+            android:background="@drawable/drawable_scan"
+
             android:text="@string/my_published" />
 
         <Button
@@ -129,11 +139,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@null"
             android:drawablePadding="@dimen/d9"
             android:drawableTop="@mipmap/receipt_folder"
             android:textColor="@color/title_small"
             android:textSize="12sp"
+            android:background="@drawable/drawable_scan"
+
             android:text="@string/receipt_folder" />
 
 
@@ -141,7 +152,7 @@
                 android:id="@+id/btn_manager"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
+                android:background="@drawable/drawable_scan"
                 android:drawablePadding="@dimen/d9"
                 android:drawableTop="@mipmap/company_manager"
                 android:textColor="@color/title_small"
@@ -170,13 +181,16 @@
                     android:id="@+id/my_wallet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/d18"
+                    android:padding="@dimen/d18"
+                    android:background="@drawable/drawable_scan"
                     android:drawableLeft="@mipmap/my_wallet"
                     android:drawablePadding="@dimen/d15"
                     android:drawableRight="@mipmap/enter_gray"
                     android:gravity="center_vertical"
                     android:textSize="13sp"
-                    android:text="@string/my_wallet" />
+                    android:text="@string/my_wallet"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
 
 
                 <LinearLayout
@@ -213,7 +227,8 @@
                 android:id="@+id/tv_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/d18"
+                android:padding="@dimen/d18"
+                android:background="@drawable/drawable_scan"
                 android:drawableLeft="@mipmap/feedback"
                 android:drawablePadding="@dimen/d15"
                 android:drawableRight="@mipmap/enter_gray"
@@ -232,12 +247,13 @@
                 android:id="@+id/encyclopedia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/d18"
                 android:drawableLeft="@mipmap/encyclopedia"
                 android:drawablePadding="@dimen/d15"
                 android:drawableRight="@mipmap/enter_gray"
                 android:gravity="center_vertical"
                 android:textSize="13sp"
+                android:padding="@dimen/d18"
+                android:background="@drawable/drawable_scan"
                 android:text="@string/encyclopedia" />
 
             <View
@@ -251,11 +267,12 @@
                 android:id="@+id/helpCenter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/d18"
+                android:padding="@dimen/d18"
                 android:drawableLeft="@mipmap/help_center"
                 android:drawablePadding="@dimen/d15"
                 android:drawableRight="@mipmap/enter_gray"
                 android:gravity="center_vertical"
+                android:background="@drawable/drawable_scan"
                 android:textSize="13sp"
                 android:text="@string/help_center" />
             <View

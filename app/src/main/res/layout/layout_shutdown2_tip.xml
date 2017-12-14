@@ -45,7 +45,7 @@
             <Button
                 android:id="@+id/btn_confirm"
                 android:background="@null"
-                android:textColor="@color/main_style"
+                android:textColor="@drawable/selector_union_main_style_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="知道了"/>

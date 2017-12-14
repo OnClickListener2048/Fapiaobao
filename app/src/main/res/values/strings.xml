@@ -433,6 +433,8 @@
     <string name="c2017">2017</string>
     <string name="open_redbag_then_invoice_can_find_you_faster">开启悬赏红包,发票可以更快找到您哦</string>
     <string name="is_there_any_problem_with_invoice">财务小伙伴是否对开票信息有要求</string>
+    <string name="response_piaobao">票宝给您回复消息了哦~</string>
+
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

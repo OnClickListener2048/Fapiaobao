@@ -185,7 +185,7 @@
             <TextView
                 android:padding="@dimen/d15"
                 android:id="@+id/confirm"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:textSize="@dimen/s20"
                 android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"

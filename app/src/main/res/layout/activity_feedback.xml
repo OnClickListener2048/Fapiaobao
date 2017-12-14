@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/d10"
+            android:background="@drawable/drawable_scan"
             android:src="@mipmap/estimate_back_brawn" />
 
         <ImageView
@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/d5"
+            android:background="@drawable/drawable_scan"
             android:layout_toLeftOf="@+id/myquestions"
             android:src="@mipmap/search_icon" />
 
@@ -47,6 +48,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/d8"
+            android:background="@drawable/drawable_scan"
             android:src="@mipmap/feedback_myquestion" />
 
 
@@ -91,6 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_margin="@dimen/d10"
+            android:background="@drawable/drawable_scan"
             android:src="@mipmap/feedback_send" />
     </LinearLayout>
     <com.pilipa.fapiaobao.ui.widget.EmptyRecyclerView

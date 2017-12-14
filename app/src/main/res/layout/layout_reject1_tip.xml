@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:text="知道了"
-                android:textColor="@color/main_style" />
+                android:textColor="@drawable/selector_union_main_style_text" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

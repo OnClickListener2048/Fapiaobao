@@ -26,15 +26,16 @@
 
             <ImageView
                 android:id="@+id/userinfo_back"
+                android:background="@drawable/drawable_scan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/d10"
                 android:src="@mipmap/estimate_back_brawn" />
             <ImageView
                 android:id="@+id/img_logout"
-                android:layout_marginRight="@dimen/d10"
+                android:padding="@dimen/d12"
+                android:background="@drawable/drawable_scan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -238,7 +239,7 @@
                     android:visibility="gone"
                     android:layout_gravity="end"
                     android:textSize="13sp"
-                    android:textColor="@color/main_style"
+                    android:textColor="@drawable/selector_union_main_style_text"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -265,11 +266,11 @@
             <TextView
                 android:id="@+id/tv_wx"
                 android:textSize="13sp"
-                android:textColor="@color/main_style"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/d5"
+                android:textColor="@drawable/selector_union_main_style_text"
                 android:text="去绑定"/>
         </RelativeLayout>
         <View

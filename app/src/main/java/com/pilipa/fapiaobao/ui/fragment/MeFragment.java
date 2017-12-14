@@ -140,7 +140,7 @@ public class MeFragment extends BaseFragment{
             ,R.id.tv_feedback
             ,R.id.encyclopedia
             ,R.id.helpCenter
-            ,R.id.notification})
+            ,R.id.fl_notification})
     public void onViewClicked(final View view) {
         switch (view.getId()){
             case R.id.encyclopedia:
@@ -176,8 +176,8 @@ public class MeFragment extends BaseFragment{
                         case R.id.tv_feedback:
                             startActivity(new Intent(getContext(), FeedbackActivity.class));
                             break;
-                        case R.id.notification:
-                            if (!ButtonUtils.isFastDoubleClick(R.id.notification)) {
+                        case R.id.fl_notification:
+                            if (!ButtonUtils.isFastDoubleClick(R.id.fl_notification)) {
                                 red_new_dot.setVisibility(View.GONE);
                                 BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
                                 startActivity(new Intent(getContext(), MessageCenterActivity.class));

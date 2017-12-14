@@ -26,7 +26,8 @@
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/d15"
+            android:padding="@dimen/d12"
+            android:background="@drawable/drawable_scan"
             android:src="@mipmap/demands_details_preview_quit" />
     </LinearLayout>
 
@@ -54,6 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/d15"
+            android:background="@drawable/drawable_scan"
             android:alpha="0.5"
             android:src="@mipmap/demands_details_preview_left" />
 
@@ -66,6 +68,7 @@
             android:id="@+id/tonext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/drawable_scan"
             android:layout_marginRight="@dimen/d15"
             android:alpha="0.5"
             android:src="@mipmap/demands_details_preview_right" />

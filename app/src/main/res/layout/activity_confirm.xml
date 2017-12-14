@@ -30,6 +30,7 @@
                 android:textColor="@color/title"
                 android:text="@string/receipt_info" />
 
+
             <ImageView
                 android:id="@+id/confirm_back"
                 android:layout_width="@dimen/d48"

@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:background="@mipmap/dotted_line"></View>
+        android:background="@mipmap/dotted_line" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,7 +15,7 @@
         android:paddingRight="@dimen/d5"
         android:paddingTop="@dimen/d10"
         android:paddingBottom="@dimen/d10"
-        android:background="@color/white"
+        android:background="@drawable/item_white_selector"
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/point"
@@ -25,7 +26,8 @@
             android:layout_marginBottom="@dimen/d20"
             android:layout_marginLeft="@dimen/d15"
             android:layout_marginRight="@dimen/d5"
-            android:src="@mipmap/point"/>
+            android:src="@mipmap/point"
+            />
         <RelativeLayout
             android:layout_weight="1"
             android:layout_gravity="center"

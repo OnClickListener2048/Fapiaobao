@@ -2,18 +2,26 @@ package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MessageDetailsAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageDetailsBean;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +30,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.net.Constant.INVOICE_BABY_RESPONSE;
 import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_GOT_BONUS;
 import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_INCOMPETENT_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_NEWCOME_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_SERVICE_NOTIFICATION;
 
 /**
  * Created by wjn on 2017/10/23.
@@ -133,23 +143,41 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MessageDetailsBean.DataBean bean  = list.get(position);
-        Intent intent = null;
         switch (type){
             case MSG_TYPE_NEWCOME_INVOICE:
-                intent = new Intent(MessageDetailsActivity.this,DemandActivity.class);
-                intent.putExtra("demandId",bean.getMessage().getDemand().getId());
+                Intent intent1 = new Intent(MessageDetailsActivity.this,DemandActivity.class);
+                intent1.putExtra("demandId",bean.getMessage().getDemand().getId());
+                startActivity(intent1);
                 break;
             case MSG_TYPE_GOT_BONUS:
-                intent = new Intent(MessageDetailsActivity.this,MyRedEnvelopeActivity.class);
-                intent.putExtra("bonus",bonus);
+                Intent intent2 = new Intent(MessageDetailsActivity.this,MyRedEnvelopeActivity.class);
+                intent2.putExtra("bonus",bonus);
+                startActivity(intent2);
                 break;
-
             case MSG_TYPE_INCOMPETENT_INVOICE:
-                intent = new Intent(MessageDetailsActivity.this,ProvidedActivity.class);
-                intent.putExtra("OrderId",bean.getMessage().getOrderId());
-                intent.putExtra("CompanyId",bean.getMessage().getCompanyId());
+                Intent  intent3 = new Intent(MessageDetailsActivity.this,ProvidedActivity.class);
+                intent3.putExtra("OrderId",bean.getMessage().getOrderId());
+                intent3.putExtra("CompanyId",bean.getMessage().getCompanyId());
+                startActivity(intent3);
+                break;
+            case MSG_TYPE_SERVICE_NOTIFICATION:
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(bean.getMessage().getContent());
+                        String  type = jsonObject.getString("type");
+                        if(INVOICE_BABY_RESPONSE.equals(type)) {
+                            JSONArray suggestionList = jsonObject.getJSONArray("suggestionList");
+                            List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> retList = new Gson().fromJson(suggestionList.toString(),
+                                    new TypeToken<List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean>>() {}.getType());
+                            Intent intent4 = new Intent(MessageDetailsActivity.this,MyQuestionsActivity.class);
+                            intent4.putParcelableArrayListExtra("suggestionList", (ArrayList<? extends Parcelable>) retList);
+                            intent4.putExtra("flag", true);
+                            startActivity(intent4);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 break;
         }
-        startActivity(intent);
     }
 }

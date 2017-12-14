@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_SERVICE_NOTIFICATION;
+
 /**
  * Created by lyt on 2017/10/23.
  */
@@ -62,7 +64,11 @@ public class MessageDetailsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         MessageDetailsBean.DataBean bean = list.get(position);
-        viewHolder.tv_title.setText(bean.getMessage().getContent());
+        if(MSG_TYPE_SERVICE_NOTIFICATION.equals(bean.getMessage().getType())){
+            viewHolder.tv_title.setText(mContext.getResources().getString(R.string.response_piaobao));
+        }else{
+            viewHolder.tv_title.setText(bean.getMessage().getContent());
+        }
         SimpleDateFormat dft1=new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat dft2=new SimpleDateFormat("HH:mm");
         Date date = TimeUtils.string2Date(bean.getCreateDate());

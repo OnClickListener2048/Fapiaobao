@@ -14,9 +14,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:text="@string/bind_phone"
             android:textColor="@color/title"
-            android:text="@string/bind_phone" />
+            android:textSize="@dimen/d18" />
 
         <ImageView
             android:id="@+id/_back"
@@ -24,10 +24,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/d10"
+            android:background="@drawable/drawable_scan"
             android:src="@mipmap/estimate_back_brawn" />
-          </RelativeLayout>
-          <LinearLayout
+    </RelativeLayout>
+
+    <LinearLayout
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/d12"
         android:layout_marginRight="@dimen/d12"
