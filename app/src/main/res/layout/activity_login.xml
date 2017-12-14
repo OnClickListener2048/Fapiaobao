@@ -47,7 +47,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="手机号码"
+                android:text="@string/phone_number"
                 android:textSize="@dimen/s12" />
 
             <android.support.v4.widget.Space
@@ -58,7 +58,7 @@
                 android:id="@+id/tv_warnning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="请输入正确的手机号码"
+                android:text="@string/please_enter_the_right_phone_number"
                 android:textColor="@color/red_estimate"
                 android:visibility="gone" />
         </LinearLayout>
@@ -117,7 +117,7 @@
 
             <EditText
                 android:id="@+id/et_password"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@null"
@@ -135,7 +135,7 @@
                 android:paddingLeft="@dimen/d30"
                 android:paddingRight="@dimen/d30"
                 android:paddingTop="@dimen/d10"
-                android:text="获取验证码"
+                android:text="@string/acquire_short_message"
                 android:textColor="@color/main_style" />
 
         </LinearLayout>
@@ -201,6 +201,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:background="@drawable/selector_transparent_to_gray"
                 android:id="@+id/WeChat_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

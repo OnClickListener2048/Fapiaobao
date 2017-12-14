@@ -13,9 +13,9 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MessageCenterAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.TDevice;
 
 import java.util.ArrayList;
@@ -85,51 +85,55 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
     }
 
     private void messageList() {
+        if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {
+            Api.messageList(AccountHelper.getToken(), new Api.BaseRawResponse<MessageListBean>() {
+                @Override
+                public void onStart() {
 
-                        Api.messageList(AccountHelper.getToken(), new Api.BaseRawResponse<MessageListBean>() {
-                            @Override
-                            public void onStart() {
+                }
 
-                            }
+                @Override
+                public void onFinish() {
 
-                            @Override
-                            public void onFinish() {
+                }
 
-                            }
+                @Override
+                public void onError() {
 
-                            @Override
-                            public void onError() {
+                }
 
-                            }
+                @Override
+                public void onTokenInvalid() {
+                    noContent.setVisibility(View.VISIBLE);
+                    tips.setText("登陆后才能查看到通知哦");
+                }
 
-                            @Override
-                            public void onTokenInvalid() {
-                                noContent.setVisibility(View.VISIBLE);
-                                tips.setText("登陆后才能查看到红包通知哦");
-                            }
+                @Override
+                public void setData(MessageListBean messageListBean) {
+                    if (messageListBean.getStatus() == 200) {
+                        noContent.setVisibility(View.GONE);
+                        list = messageListBean.getData();
+                        messageCenterAdapter.initData(list);
 
-                            @Override
-                            public void setData(MessageListBean messageListBean) {
-                                if (messageListBean.getStatus() == 200) {
-                                    noContent.setVisibility(View.GONE);
-                                    list =messageListBean.getData();
-                                    messageCenterAdapter.initData(list);
-
-                                } else if (messageListBean.getStatus() == 400) {
-                                    noContent.setVisibility(View.VISIBLE);
-                                    tips.setText("暂时还没有消息哦");
-                                }
-                            }
-                        });
+                    } else if (messageListBean.getStatus() == 400) {
+                        noContent.setVisibility(View.VISIBLE);
+                        tips.setText("暂时还没有消息哦");
+                    }
+                }
+            });
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            tips.setText("登陆后才能查看到通知哦");
+        }
     }
+
     private void messageRead(final String type) {
         if (TDevice.hasInternet()) {
 
                         Api.messageRead(AccountHelper.getToken(),type, new Api.BaseViewCallback<NormalBean>() {
                             @Override
                             public void setData(NormalBean normalBean) {
-                                if (normalBean.getStatus() == 200) {
-                                }
+
                             }
                         });
 

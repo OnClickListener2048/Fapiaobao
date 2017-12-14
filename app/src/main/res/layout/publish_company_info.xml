@@ -69,8 +69,8 @@
                 android:background="@drawable/drawable_scan"
                 android:padding="@dimen/d5"
                 android:id="@+id/iv_dots_more_company"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="@dimen/d25"
+                android:layout_height="@dimen/d25"
                 android:src="@mipmap/scan" />
 
 

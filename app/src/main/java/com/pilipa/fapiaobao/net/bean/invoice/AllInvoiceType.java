@@ -1,12 +1,13 @@
 package com.pilipa.fapiaobao.net.bean.invoice;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by edz on 2017/10/29.
  */
 
-public class AllInvoiceType {
+public class AllInvoiceType implements Serializable {
 
 
 
@@ -38,7 +39,7 @@ public class AllInvoiceType {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
 
         private InvoiceCategoryBean invoiceCategory;
         private List<InvoiceTypeListBean> invoiceTypeList;
@@ -59,7 +60,7 @@ public class AllInvoiceType {
             this.invoiceTypeList = invoiceTypeList;
         }
 
-        public static class InvoiceCategoryBean {
+        public static class InvoiceCategoryBean implements Serializable{
             /**
              * id : e54654c7a5c2431080bbef2ccec8abae
              * isNewRecord : false
@@ -175,7 +176,7 @@ public class AllInvoiceType {
             }
         }
 
-        public static class InvoiceTypeListBean {
+        public static class InvoiceTypeListBean implements Serializable{
             /**
              * id : 83ff72c08d6b4aac8f83df71b8283df9
              * isNewRecord : false

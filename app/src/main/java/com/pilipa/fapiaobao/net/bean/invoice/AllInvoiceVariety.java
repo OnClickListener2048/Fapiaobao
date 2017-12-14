@@ -1,12 +1,13 @@
 package com.pilipa.fapiaobao.net.bean.invoice;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by edz on 2017/10/31.
  */
 
-public class AllInvoiceVariety {
+public class AllInvoiceVariety implements Serializable{
 
     /**
      * status : 200
@@ -42,7 +43,7 @@ public class AllInvoiceVariety {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * id : 34a7fa6314904a8bac27c949c17a4088
          * isNewRecord : false

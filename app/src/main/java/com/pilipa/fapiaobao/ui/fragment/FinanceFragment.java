@@ -41,7 +41,6 @@ import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
-import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
@@ -126,7 +125,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
-        messageList();
         return rootView;
     }
 
@@ -348,20 +346,9 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 quickResponse();
                 break;
             case R.id.fl_notification:
-                if (!ButtonUtils.isFastDoubleClick(R.id.fl_notification)) {
-                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                        @Override
-                        public void setData(LoginWithInfoBean normalBean) {
-                            if (normalBean.getStatus() == 200) {
-                                newNotification.setVisibility(View.GONE);
-                                BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
-                                startActivity(new Intent(mContext, MessageCenterActivity.class));
-                            } else {
-                                login();
-                            }
-                        }
-                    });
-                }
+                            newNotification.setVisibility(View.GONE);
+                            BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
+                            startActivity(new Intent(mContext, MessageCenterActivity.class));
                 break;
             case R.id.pull_to_find_more:
             case R.id.rl_pull_to_find_more:
@@ -418,58 +405,60 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     @Override
     public void onResume() {
         super.onResume();
+        messageList();
         newNotification.setVisibility(BaseApplication.get(BaseApplication.PUSH_RECEIVE, false) ? View.VISIBLE : View.GONE);
         if (delayIntentRefresh) {
             financeAdapter.removeAllItems();
             findAllInvoiceTypes("");
         }
-
     }
 
     private void messageList() {
+        if (!"notoken".equals(AccountHelper.getToken())) {
+            Api.messageList(AccountHelper.getToken(), new Api.BaseRawResponse<MessageListBean>() {
+                @Override
+                public void onStart() {
 
-        Api.messageList(AccountHelper.getToken(), new Api.BaseRawResponse<MessageListBean>() {
-            @Override
-            public void onStart() {
+                }
 
-            }
+                @Override
+                public void onFinish() {
 
-            @Override
-            public void onFinish() {
+                }
 
-            }
+                @Override
+                public void onError() {
 
-            @Override
-            public void onError() {
+                }
 
-            }
+                @Override
+                public void onTokenInvalid() {
 
-            @Override
-            public void onTokenInvalid() {
+                }
 
-            }
-
-            @Override
-            public void setData(MessageListBean messageListBean) {
-                boolean hasNewMsg = false;
-                if (messageListBean.getStatus() == REQUEST_SUCCESS) {
-                    List<MessageListBean.DataBean> data = messageListBean.getData();
-                    for (int i = 0; i < data.size(); i++) {
-                        if (data.get(i).getUnreadMessages() > 0) {
-                            hasNewMsg = true;
-                            TLog.d("MainActivity", "message center had new message");
-                            break;
+                @Override
+                public void setData(MessageListBean messageListBean) {
+                    boolean hasNewMsg = false;
+                    if (messageListBean.getStatus() == REQUEST_SUCCESS) {
+                        List<MessageListBean.DataBean> data = messageListBean.getData();
+                        for (int i = 0; i < data.size(); i++) {
+                            if (data.get(i).getUnreadMessages() > 0) {
+                                hasNewMsg = true;
+                                TLog.d("MainActivity", "message center had new message");
+                                break;
+                            } else {
+                                TLog.d("MainActivity", "message center no message1");
+                            }
+                        }
+                        if (hasNewMsg) {
+                            set(PUSH_RECEIVE, true);
                         } else {
-                            TLog.d("MainActivity", "message center no message1");
+                            set(PUSH_RECEIVE, false);
                         }
                     }
-                    if (hasNewMsg) {
-                        set(PUSH_RECEIVE, true);
-                    } else {
-                        set(PUSH_RECEIVE, false);
-                    }
                 }
-            }
-        });
+            });
+        }
+
     }
 }

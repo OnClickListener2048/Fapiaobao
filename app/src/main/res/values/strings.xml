@@ -480,7 +480,8 @@
     <string name="receipt_information">我的收票信息</string>
     <string name="withdraw_amount">提现金额</string>
     <string name="flag">¥</string>
-
+    <string name="acquire_short_message">获取验证码</string>
+    <string name="please_enter_the_right_phone_number">请输入正确的手机号码</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

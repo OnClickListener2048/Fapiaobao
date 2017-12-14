@@ -19,10 +19,8 @@
 
         <ImageView
             android:id="@+id/_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
+            android:layout_width="@dimen/d48"
+            android:layout_height="@dimen/d48"
             android:background="@drawable/drawable_scan"
             android:src="@mipmap/estimate_back_brawn" />
     </RelativeLayout>

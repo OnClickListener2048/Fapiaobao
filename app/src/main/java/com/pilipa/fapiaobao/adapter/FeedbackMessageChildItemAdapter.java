@@ -117,22 +117,24 @@ public class FeedbackMessageChildItemAdapter extends RecyclerView.Adapter<Recycl
             Observable.create(new ObservableOnSubscribe<SpannableString>() {
                 @Override
                 public void subscribe(@NonNull ObservableEmitter<SpannableString> e) throws Exception {
-                    int messageLength = message.length();
-                    int highlightStringLength = highlightString.length();
-                    int recyclerCount = messageLength / highlightStringLength;
-                    int result = 0;
+                    int messageLength = message.length();  //信息长度
+                    int highlightStringLength = highlightString.length();  //高亮部分长度
+                    int recyclerCount = messageLength / highlightStringLength;  //循环次数
+                    int result = -1;
                     SpannableString spannableString = new SpannableString(message);
                     for (int i = 0; i < recyclerCount; i++) {
+                        result = message.indexOf(highlightString, result+1);
                         if (result != -1) {
                             ForegroundColorSpan span = new ForegroundColorSpan(mContext.getResources().getColor(R.color.main_style));
                             spannableString.setSpan(span, result, result + highlightStringLength, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                            result = result + highlightStringLength-1;
                         }
-                        result = message.indexOf(highlightString, result);
                     }
                     e.onNext(spannableString);
                     e.onComplete();
                 }
-            }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+            }).subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<SpannableString>() {
                         @Override
                         public void accept(@NonNull SpannableString spannableString) throws Exception {

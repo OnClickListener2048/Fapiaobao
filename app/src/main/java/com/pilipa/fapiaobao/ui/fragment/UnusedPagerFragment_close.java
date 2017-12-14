@@ -166,7 +166,6 @@ public class UnusedPagerFragment_close extends BaseFragment implements AdapterVi
         @Override
         public void onRefreshCanceled() {
             super.onRefreshCanceled();
-
         }
 
         @Override
@@ -181,6 +180,8 @@ public class UnusedPagerFragment_close extends BaseFragment implements AdapterVi
         intent.putExtra("demandId",dataBeanList.get(position).getId());
         startActivity(intent);
     }
+
+
 
     public void demandsList(String state){
         if (AccountHelper.getToken() != null && !Objects.equals(AccountHelper.getToken(), "")) {

@@ -104,8 +104,6 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
-
-
     }
 
     @Override

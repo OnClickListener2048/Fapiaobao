@@ -53,7 +53,9 @@ public class LocationBaseActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initAMap();
+        if ("".equals(BaseApplication.get("location", ""))) {
+            initAMap();
+        }
     }
 
 

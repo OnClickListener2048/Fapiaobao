@@ -78,7 +78,7 @@ public class SearchActivity extends BaseActivity {
                 break;
             case R.id.search:
                 if (metFeedback.validate()) {
-                    getSuggestion(pageNo, pageSize, "", metFeedback.getText().toString(), "", new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
+                    getSuggestion(pageNo, pageSize, "", metFeedback.getText().toString().trim(), "", new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
                         @Override
                         public void onStart() {
                             emptyView.setVisibility(View.GONE);

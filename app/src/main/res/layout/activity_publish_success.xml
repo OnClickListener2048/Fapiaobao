@@ -18,13 +18,11 @@
             android:text="@string/publish_share" />
 
         <ImageView
+            android:background="@drawable/drawable_scan"
             android:id="@+id/publish_success_back"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/d10"
-            android:src="@mipmap/upload_back" />
+            android:layout_width="@dimen/d48"
+            android:layout_height="@dimen/d48"
+            android:src="@mipmap/estimate_back_brawn" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -82,11 +80,12 @@
             android:layout_height="match_parent" />
 
         <Button
+
             android:id="@+id/btn_continue_to_supply"
             android:layout_width="0dp"
             android:layout_height="@dimen/d45"
             android:layout_weight="1"
-            android:background="@drawable/shape_continue_to_supply_btn"
+            android:background="@drawable/selector_continue_to_supply"
             android:text="@string/continuous_to_supply"
             android:textColor="@color/white" />
 
@@ -99,7 +98,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/d45"
             android:layout_weight="1"
-            android:background="@drawable/shape_watch_btn"
+            android:background="@drawable/selector_checkout_publish"
             android:text="@string/watch"
             android:textColor="@color/white" />
 
@@ -120,6 +119,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:background="@drawable/selector_transparent_to_gray"
             android:id="@+id/WeChat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -133,6 +133,7 @@
 
 
         <TextView
+            android:background="@drawable/selector_transparent_to_gray"
             android:id="@+id/moments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -146,6 +147,7 @@
 
 
         <TextView
+            android:background="@drawable/selector_transparent_to_gray"
             android:id="@+id/qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -159,6 +161,7 @@
 
 
         <TextView
+            android:background="@drawable/selector_transparent_to_gray"
             android:id="@+id/qzone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -172,6 +175,7 @@
 
 
         <TextView
+            android:background="@drawable/selector_transparent_to_gray"
             android:id="@+id/weibo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

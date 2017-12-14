@@ -31,6 +31,7 @@ import com.lljjcoder.bean.DistrictBean;
 import com.lljjcoder.bean.ProvinceBean;
 import com.lljjcoder.citywheel.CityConfig;
 import com.lljjcoder.citywheel.CityPickerView;
+import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.Constants.Config;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -52,13 +53,18 @@ import com.tmall.ultraviewpager.UltraViewPager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author edz
@@ -186,7 +192,8 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
         ultraViewpager.setOnPageChangeListener(this);
         tonext.setEnabled(true);
         tolast.setEnabled(false);
-        initCityPicker();
+        delayInitCityPicker();
+
         initInvoiceTypes();
 
         InputFilter[] cashierInputFilter ={new CashierInputFilter()};
@@ -207,10 +214,37 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
                         }
                     }
                 });
+
+
         updateInvoiceType();
     }
 
+    private void delayInitCityPicker() {
+
+        Observable.create(new ObservableOnSubscribe<Object>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Object> e) throws Exception {
+                initCityPicker();
+                e.onComplete();
+            }
+        }).subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
     private void updateInvoiceType() {
+
+        Observable.timer(500, TimeUnit.MILLISECONDS)
+                .take(1)
+                .subscribeOn(Schedulers.from(AppOperator.getExecutor()))
+                .observeOn(Schedulers.from(AppOperator.getExecutor()))
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(@NonNull Long aLong) throws Exception {
+
+                    }
+                });
+
         Api.updateInvoiceType(AccountHelper.getToken(), label, new Api.BaseViewCallback<String>() {
             @Override
             public void setData(String s) {

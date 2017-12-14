@@ -240,15 +240,7 @@ public class BaseApplication extends Application {
 //        //x5内核初始化接口
 //        QbSdk.initX5Environment(getApplicationContext(),  cb);
 //        QbSdk.setDownloadWithoutWifi(true);
-        preInitX5Core();
     }
-
-    private void preInitX5Core() {
-        //预加载x5内核
-        Intent intent = new Intent(this, X5CorePreLoadService.class);
-        startService(intent);
-    }
-
     private void notificationClick() {
         UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
             @Override

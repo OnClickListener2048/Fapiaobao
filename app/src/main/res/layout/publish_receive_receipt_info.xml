@@ -188,12 +188,15 @@
 
         <LinearLayout
             android:paddingTop="@dimen/d10"
-            android:background="@drawable/selector_transparent_to_gray"
+            android:background="@drawable/selector_transparent_to_gray_without_radius"
             android:id="@+id/ll_select_area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <android.support.v4.widget.Space
+                android:layout_width="@dimen/d5"
+                android:layout_height="match_parent" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -227,6 +230,9 @@
                 android:src="@mipmap/estimate_others_province"
                 android:text="@string/must_fill"
                 android:textColor="@color/main_style" />
+            <android.support.v4.widget.Space
+                android:layout_width="@dimen/d5"
+                android:layout_height="match_parent" />
         </LinearLayout>
 
 

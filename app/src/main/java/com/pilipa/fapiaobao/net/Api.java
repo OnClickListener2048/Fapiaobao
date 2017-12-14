@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Progress;
@@ -16,7 +17,6 @@ import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
-import com.pilipa.fapiaobao.net.bean.base.BaseResponseBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
@@ -562,21 +562,27 @@ public class Api {
      * @param baseViewCallback
      */
     public static void findAllInvoice(String token,final BaseViewCallbackWithOnStart baseViewCallback) {
-        if (TDevice.hasInternet()) {
 
             OkGo.<AllInvoiceType>post(FIND_ALL_INVIICE_TYPE)
                     .upJson(JsonCreator.allInvoice(token))
+                    .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
                     .execute(new JsonCallBack<AllInvoiceType>(AllInvoiceType.class) {
                 @Override
                 public void onSuccess(Response<AllInvoiceType> response) {
                     if (response.isSuccessful() && response.body().getMsg().equals("OK")) {
                         baseViewCallback.setData(response.body());
                     }
-
-
                 }
 
-                @Override
+                        @Override
+                        public void onCacheSuccess(Response<AllInvoiceType> response) {
+                            super.onCacheSuccess(response);
+                            if (response.isSuccessful() && response.body().getMsg().equals("OK")) {
+                                baseViewCallback.setData(response.body());
+                            }
+                        }
+
+                        @Override
                 public void onError(Response<AllInvoiceType> response) {
                     super.onError(response);
                     baseViewCallback.onError();
@@ -595,10 +601,6 @@ public class Api {
 
                 }
             });
-        } else {
-            BaseApplication.showToast("请检查您的网络~");
-        }
-
     }
 
     public static void confirmDemand(String token, String demandId, final BaseRawResponse baseViewCallback) {
@@ -1154,7 +1156,6 @@ public class Api {
 
     public static void createOrder(String json,Object o ,final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
         OkGo.<OrderBean>post(CREATE_ORDER).tag(o).upJson(json).execute(new JsonCallBack<OrderBean>(OrderBean.class) {
-
             @Override
             public void onSuccess(Response<OrderBean> response) {
                 if (response.isSuccessful()) {
@@ -1187,9 +1188,19 @@ public class Api {
      * 获取所有发票种类
      */
     public static void findAllInvoiceVariety(final BaseViewCallback baseViewCallback) {
-        OkGo.<AllInvoiceVariety>get(FIND_ALL_INVOICE_VARIETY).execute(new JsonCallBack<AllInvoiceVariety>(AllInvoiceVariety.class) {
+        OkGo.<AllInvoiceVariety>get(FIND_ALL_INVOICE_VARIETY).cacheMode(CacheMode.IF_NONE_CACHE_REQUEST).execute(new JsonCallBack<AllInvoiceVariety>(AllInvoiceVariety.class) {
             @Override
             public void onSuccess(Response<AllInvoiceVariety> response) {
+                if (response.isSuccessful()&&response.body().getStatus()==200) {
+                    if (response.body().getData()!= null&& response.body().getData().size()>0) {
+                        baseViewCallback.setData(response.body());
+                    }
+                }
+            }
+
+            @Override
+            public void onCacheSuccess(Response<AllInvoiceVariety> response) {
+                super.onCacheSuccess(response);
                 if (response.isSuccessful()&&response.body().getStatus()==200) {
                     if (response.body().getData()!= null&& response.body().getData().size()>0) {
                         baseViewCallback.setData(response.body());
@@ -1438,6 +1449,16 @@ public class Api {
         void onFinish();
 
         void onError();
+    }
+
+    public interface BaseViewCallbackWithOnStartCache<T> extends BaseViewCallback<T> {
+        void onStart();
+
+        void onFinish();
+
+        void onError();
+
+        void onCacheSuccess(T t);
     }
 
 

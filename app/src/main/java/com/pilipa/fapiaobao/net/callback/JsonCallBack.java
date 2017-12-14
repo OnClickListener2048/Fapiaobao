@@ -79,16 +79,8 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
     @Override
     public void onError(com.lzy.okgo.model.Response<T> response) {
         super.onError(response);
+        TLog.log("response.isFromCache()"+response.isFromCache());
         Throwable e = response.getException();
-        T body = response.body();
-//        if (TDevice.hasInternet()) {
-//            if (!response.isSuccessful()) {
-//                BaseApplication.showToast("网络异常");
-//            }
-//        } else {
-//            BaseApplication.showToast("请检查网络~");
-//        }
-
         Intent intent = new Intent();
         if (e instanceof HttpException) {     //   HTTP错误
             onException(ExceptionReason.BAD_NETWORK);
@@ -112,9 +104,9 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
         TLog.d(TAG, Arrays.toString(e.getStackTrace()));
         TLog.d(TAG,e.getMessage());
         if (TDevice.hasInternet()) {
-            Api.RECORD_LOG("Date="+TimeUtils.millis2String(System.currentTimeMillis())+"\n"+
-                    "Throwable.toString"+e.toString()+"\n"+
-            "Throwable.getMessage"+e.getMessage()+"\n"
+            Api.RECORD_LOG("Date========"+TimeUtils.millis2String(System.currentTimeMillis())+"\\n"+
+                    "Throwable.toString========"+e.toString()+"\\n"+
+            "Throwable.getMessage========"+e.getMessage()+"\\n"
             );
         }
         BaseApplication.context().sendBroadcast(intent);
@@ -128,7 +120,11 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
         UNKNOWN_ERROR,
     }
 
-
+    @Override
+    public void onCacheSuccess(com.lzy.okgo.model.Response<T> response) {
+        super.onCacheSuccess(response);
+        TLog.log("onCacheSuccess"+response.message());
+    }
 
     private void onException(ExceptionReason reason) {
         switch (reason) {

@@ -1,6 +1,9 @@
 package com.pilipa.fapiaobao.ui.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
@@ -51,8 +54,18 @@ public class NavigationButton extends FrameLayout {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         inflater.inflate(R.layout.layout_navi_item, this, true);
 
+        int pressed = android.R.attr.state_pressed;
+        int window_focused = android.R.attr.state_window_focused;
+        int focused = android.R.attr.state_focused;
+        int selected = android.R.attr.state_selected;
+
+
         mIconView = (ImageView) findViewById(R.id.nav_iv_icon);
         mTitleView = (TextView) findViewById(R.id.nav_tv_title);
+        mTitleView.setTextColor(createColorStateList(getResources().getColor(R.color.main_style)
+                ,getResources().getColor(R.color.main_style)
+                ,getResources().getColor(R.color.text_normal)
+        ,getResources().getColor(R.color.text_normal)));
         mDot = (TextView) findViewById(R.id.nav_tv_dot);
     }
 
@@ -90,6 +103,44 @@ public class NavigationButton extends FrameLayout {
     @Override
     public String getTag() {
         return mTag;
+    }
+
+    /**
+     * 对TextView设置不同状态时其文字颜色。
+     */
+    private ColorStateList createColorStateList(int pressed, int normal, int selected, int unselected) {
+        int[] colors = new int[]{pressed, normal, selected, unselected};
+        int[][] states = new int[4][];
+        states[0] = new int[]{android.R.attr.state_pressed};
+        states[1] = new int[]{android.R.attr.state_selected};
+        states[2] = new int[]{-android.R.attr.state_pressed};
+        states[3] = new int[]{-android.R.attr.state_selected};
+        return new ColorStateList(states, colors);
+    }
+
+    /**
+     * 设置Selector。
+     */
+    public static StateListDrawable newSelector(Context context, int idNormal, int idPressed, int idFocused,
+                                                int idUnable) {
+        StateListDrawable bg = new StateListDrawable();
+        Drawable normal = idNormal == -1 ? null : context.getResources().getDrawable(idNormal);
+        Drawable pressed = idPressed == -1 ? null : context.getResources().getDrawable(idPressed);
+        Drawable focused = idFocused == -1 ? null : context.getResources().getDrawable(idFocused);
+        Drawable unable = idUnable == -1 ? null : context.getResources().getDrawable(idUnable);
+        // View.PRESSED_ENABLED_STATE_SET
+        bg.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, pressed);
+        // View.ENABLED_FOCUSED_STATE_SET
+        bg.addState(new int[]{android.R.attr.state_enabled, android.R.attr.state_focused}, focused);
+        // View.ENABLED_STATE_SET
+        bg.addState(new int[]{android.R.attr.state_enabled}, normal);
+        // View.FOCUSED_STATE_SET
+        bg.addState(new int[]{android.R.attr.state_focused}, focused);
+        // View.WINDOW_FOCUSED_STATE_SET
+        bg.addState(new int[]{android.R.attr.state_window_focused}, unable);
+        // View.EMPTY_STATE_SET
+        bg.addState(new int[]{}, normal);
+        return bg;
     }
 
 }
