@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
+import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
@@ -65,6 +66,13 @@ public class UnusedPagerFragment_close extends BaseFragment implements AdapterVi
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
+    @Override
+    public void onPause() {
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
+        super.onPause();
+    }
+
     @Override
     protected void initWidget(View root) {
 

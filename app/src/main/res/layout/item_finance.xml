@@ -30,10 +30,10 @@
                             android:textColor="#787878"
                             android:gravity="center"
                             android:id="@+id/tv_finance_kind"
-                            android:layout_marginLeft="@dimen/d20"
+                            android:layout_marginStart="@dimen/d20"
                             android:textSize="@dimen/s14"
                             android:layout_gravity="center"
-                            android:text="汽车票"
+                            android:text=""
                             android:layout_width="@dimen/d90"
                             android:layout_height="wrap_content" />
                 </com.dd.ShadowLayout>

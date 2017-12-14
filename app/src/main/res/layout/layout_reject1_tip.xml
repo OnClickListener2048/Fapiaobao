@@ -33,7 +33,7 @@
             android:text="@string/tip_reject_start"/>
 
         <LinearLayout
-            android:gravity="right|bottom"
+            android:gravity="end|bottom"
             android:layout_below="@+id/tv_tip"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:text="知道了"
+                android:text="@string/know"
                 android:textColor="@drawable/selector_union_main_style_text" />
         </LinearLayout>
     </RelativeLayout>

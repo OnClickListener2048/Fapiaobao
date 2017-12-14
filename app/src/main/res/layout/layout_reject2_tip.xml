@@ -14,16 +14,16 @@
         <TextView
             android:id="@+id/tv_tip"
             android:layout_marginTop="@dimen/d50"
-            android:layout_marginLeft="@dimen/d30"
+            android:layout_marginStart="@dimen/d30"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="13sp"
             android:textColor="@color/title_small"
             android:text="@string/tip_reject_finish"/>
         <LinearLayout
-            android:gravity="right"
-            android:layout_marginRight="@dimen/d30"
-            android:layout_marginLeft="@dimen/d50"
+            android:gravity="end"
+            android:layout_marginEnd="@dimen/d30"
+            android:layout_marginStart="@dimen/d50"
             android:layout_marginTop="@dimen/d10"
             android:layout_marginBottom="@dimen/d20"
             android:layout_width="match_parent"

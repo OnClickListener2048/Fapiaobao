@@ -6,8 +6,8 @@
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/title"
-        android:layout_marginLeft="@dimen/d15"
-        android:text="交通费"
+        android:layout_marginStart="@dimen/d15"
+        android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

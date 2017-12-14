@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/d15"
-        android:layout_marginLeft="@dimen/d20"
+        android:layout_marginStart="@dimen/d20"
         android:layout_marginTop="@dimen/d15"
-        android:text="天津外国语大学" />
+        android:text="" />
 </LinearLayout>

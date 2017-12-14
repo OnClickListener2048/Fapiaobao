@@ -19,7 +19,7 @@
         android:layout_marginLeft="@dimen/d13"
         android:layout_marginRight="@dimen/d13"
         android:layout_marginBottom="@dimen/d10"
-        android:text="提供金额：0元" />
+        android:text="@string/privide_amount" />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/d120">
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:textColor="@color/main_style"
-                android:text="正在等待对方邮寄发票" />
+                android:text="@string/wait_mail" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_express_info"
@@ -85,7 +85,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/d12"
+                        android:textSize="@dimen/s12"
                         android:gravity="center_horizontal"
                         android:text="@string/express_company" />
 
@@ -98,7 +98,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:textSize="@dimen/d12"
+                        android:textSize="@dimen/s12"
                          />
                 </LinearLayout>
 
@@ -119,7 +119,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:textSize="@dimen/d12"
+                        android:textSize="@dimen/s12"
                         android:text="@string/express_no" />
 
                     <android.support.v4.widget.Space
@@ -128,7 +128,7 @@
 
                     <TextView
                         android:id="@+id/express_no"
-                        android:textSize="@dimen/d12"
+                        android:textSize="@dimen/s12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
@@ -152,8 +152,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="请在确认收到发票并检查后，确定是否合格"
-                        android:textSize="@dimen/d12" />
+                        android:text="@string/receive_confirm"
+                        android:textSize="@dimen/s12" />
 
                     <android.support.v4.widget.Space
                         android:layout_width="@dimen/d15"
@@ -192,8 +192,8 @@
             android:paddingLeft="@dimen/d10"
             android:paddingRight="@dimen/d10"
             android:paddingTop="@dimen/d10"
-            android:layout_marginRight="@dimen/d10"
-            android:background="@drawable/shape_qualified"
+            android:layout_marginEnd="@dimen/d10"
+            android:background="@drawable/selector_mainstyle_to_transparent"
             android:text="@string/checked_qualified"
             android:textColor="@color/white" />
 
@@ -207,8 +207,8 @@
             android:paddingLeft="@dimen/d10"
             android:paddingRight="@dimen/d10"
             android:paddingTop="@dimen/d10"
-            android:layout_marginRight="@dimen/d13"
-            android:background="@drawable/shape_qualified"
+            android:layout_marginEnd="@dimen/d13"
+            android:background="@drawable/selector_mainstyle_to_transparent"
             android:textColor="@color/white"
             android:text="@string/unqualified"
             />

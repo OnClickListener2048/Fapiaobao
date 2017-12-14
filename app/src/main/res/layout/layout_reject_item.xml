@@ -12,7 +12,7 @@
         android:layout_marginRight="@dimen/d13"
         android:layout_marginBottom="@dimen/d10"
         android:layout_marginTop="@dimen/d10"
-        android:text="提供金额：0元" />
+        android:text="@string/privide_amount" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_marginRight="@dimen/d15"
@@ -31,16 +31,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="发票金额" />
+                android:text="@string/demand_amount" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
-                android:gravity="left|center_vertical"
+                android:gravity="start|center_vertical"
                 android:background="@drawable/bg_express"
-                android:paddingLeft="@dimen/d15"
-                android:layout_marginLeft="@dimen/d15"
-                android:orientation="horizontal">
+                android:paddingStart="@dimen/d15"
+                android:paddingEnd="@dimen/d15"
+                android:layout_marginStart="@dimen/d15"
+                >
 
                 <EditText
                     android:id="@+id/edt_amount_reject"
@@ -54,10 +55,10 @@
                     android:textSize="@dimen/s14" />
 
                 <TextView
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/d14"
+                    android:layout_marginEnd="@dimen/d14"
                     android:text="@string/yuan" />
             </RelativeLayout>
 
@@ -79,17 +80,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="驳回原因" />
+                    android:text="@string/reason" />
 
                 <Spinner
                     android:id="@+id/mSpinner"
                     style="@style/spinner_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/d17"
+                    android:layout_marginStart="@dimen/d17"
                     android:animationCache="true"
                     android:drawSelectorOnTop="true"
-                    android:entries="@array/reasons"></Spinner>
+                    android:entries="@array/reasons" />
             </LinearLayout>
 
             <EditText
@@ -100,7 +101,7 @@
                 android:visibility="gone"
                 android:padding="@dimen/d3"
                 android:hint="@string/hint_reject"
-                android:textSize="@dimen/d12"
+                android:textSize="@dimen/s12"
                 android:background="@drawable/bg_express"
                 android:lines="3" />
         </LinearLayout>
@@ -123,13 +124,13 @@
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/shape_qualified"
+            android:background="@drawable/selector_mainstyle_to_transparent"
             android:gravity="center"
             android:paddingBottom="@dimen/d10"
             android:paddingLeft="@dimen/d50"
             android:paddingRight="@dimen/d50"
             android:paddingTop="@dimen/d10"
-            android:layout_marginRight="@dimen/d10"
+            android:layout_marginEnd="@dimen/d10"
             android:text="@string/cancel"
             android:textColor="@color/white" />
 
@@ -142,8 +143,8 @@
             android:paddingLeft="@dimen/d10"
             android:paddingRight="@dimen/d10"
             android:paddingTop="@dimen/d10"
-            android:layout_marginRight="@dimen/d13"
-            android:background="@drawable/shape_qualified"
+            android:layout_marginEnd="@dimen/d13"
+            android:background="@drawable/selector_mainstyle_to_transparent"
             android:layout_height="wrap_content"
            android:textColor="@color/white"
            android:text="@string/confirm"/>

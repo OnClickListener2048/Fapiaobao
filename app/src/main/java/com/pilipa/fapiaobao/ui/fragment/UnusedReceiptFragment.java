@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -37,7 +38,6 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.UploadLocalReceipt;
-import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.ReceiptFolderActivity;
 import com.pilipa.fapiaobao.ui.UnusedPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
@@ -105,7 +105,11 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         unusedReceiptFragment.setArguments(bundle);
         return unusedReceiptFragment;
     }
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_unused;

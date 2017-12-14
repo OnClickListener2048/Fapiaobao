@@ -24,8 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/d20"
             android:layout_marginBottom="@dimen/d20"
-            android:layout_marginLeft="@dimen/d15"
-            android:layout_marginRight="@dimen/d5"
+            android:layout_marginStart="@dimen/d15"
+            android:layout_marginEnd="@dimen/d5"
             android:src="@mipmap/point"
             />
         <RelativeLayout
@@ -39,11 +39,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/bouns_1"
-                android:textSize="17dp"
-                android:layout_marginRight="@dimen/d5"
-                android:text="1800"/>
+                android:textSize="@dimen/s18"
+                android:layout_marginEnd="@dimen/d5"
+                android:text=""/>
             <TextView
-                android:layout_toRightOf="@+id/tv_amount"
+                android:layout_toEndOf="@+id/tv_amount"
                 android:layout_alignBottom="@+id/tv_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_normal_item"
-                android:textSize="@dimen/d10"
+                android:textSize="@dimen/s10"
                 android:text="@string/total"/>
         </RelativeLayout>
         <LinearLayout
@@ -71,8 +71,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_normal_item"
-                    android:textSize="12dp"
-                    android:text="已收集" />
+                    android:textSize="@dimen/s12"
+                    android:text="@string/collected" />
 
                 <TextView
                     android:id="@+id/tv_alreadyCollected"
@@ -80,22 +80,22 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/d5"
                     android:paddingRight="@dimen/d5"
-                    android:textSize="12dp"
-                    android:text="125.15"
+                    android:textSize="@dimen/s12"
+                    android:text=""
                     android:textColor="@color/bouns_1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_normal_item"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/s12"
                     android:text="@string/yuan" />
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d5"
-                android:textSize="@dimen/d10"
+                android:textSize="@dimen/s10"
                 android:visibility="invisible"
                 android:text=""/>
         </LinearLayout>
@@ -109,14 +109,14 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_normal_item"
-                    android:textSize="12dp"
-                    android:text="待收集" />
+                    android:textSize="@dimen/s12"
+                    android:text="@string/wait_collect" />
 
                 <TextView
                     android:id="@+id/tv_to_collected_price"
@@ -124,20 +124,20 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/d5"
                     android:paddingRight="@dimen/d5"
-                    android:textSize="12dp"
-                    android:text="125.5"
+                    android:textSize="@dimen/s12"
+                    android:text=""
                     android:textColor="@color/bouns_1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_normal_item"
-                    android:textSize="12dp"
+                    android:textSize="@dimen/s12"
                     android:text="@string/yuan" />
             </LinearLayout>
             <TextView
-                android:textSize="@dimen/d10"
-                android:gravity="right"
+                android:textSize="@dimen/s10"
+                android:gravity="end"
                 android:layout_marginTop="@dimen/d5"
                 android:id="@+id/tv_end_of_distance"
                 android:layout_width="wrap_content"

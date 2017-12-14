@@ -7,6 +7,6 @@
     android:paddingRight="@dimen/d10"
     android:paddingTop="@dimen/d5"
     android:paddingBottom="@dimen/d5"
-    android:layout_marginLeft="@dimen/d5"
+    android:layout_marginStart="@dimen/d5"
     android:background="@drawable/shape_receipt_type" >
 </TextView>

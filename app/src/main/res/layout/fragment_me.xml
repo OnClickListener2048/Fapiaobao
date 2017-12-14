@@ -13,19 +13,21 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp">
+
             <FrameLayout
                 android:id="@+id/fl_notification"
+                android:foreground="@drawable/drawable_scan"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:foreground="@drawable/drawable_scan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="@dimen/d48"
+                android:layout_height="@dimen/d48">
                 <ImageView
-                    android:id="@+id/notification"
+                    android:layout_gravity="center"
                     android:layout_width="@dimen/d20"
                     android:layout_height="@dimen/d20"
                     android:layout_margin="@dimen/d10"
                     android:src="@mipmap/notification_w" />
+
                 <ImageView
                     android:visibility="gone"
                     android:src="@mipmap/dot_notification"
@@ -33,10 +35,9 @@
                     android:layout_width="@dimen/d10"
                     android:layout_height="@dimen/d10"
                     android:layout_gravity="top|right"
-                    android:layout_margin="@dimen/d10"
+                    android:layout_margin="@dimen/d15"
                     />
             </FrameLayout>
-
         </RelativeLayout>
 
 
@@ -78,8 +79,7 @@
                 android:id="@+id/LevelIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/tv_userName"
-                android:layout_weight="1"
+                android:layout_toEndOf="@id/tv_userName"
                 android:layout_marginLeft="@dimen/d5"
                 android:src="@mipmap/star0" />
 
@@ -103,7 +103,7 @@
                     android:paddingTop="@dimen/d5"
                     android:paddingBottom="@dimen/d5"
                     android:textSize="12sp"
-                    android:text="积分：0"
+                    android:text="@string/score_0"
                     android:textColor="@color/white" />
             </LinearLayout>
         </RelativeLayout>
@@ -120,45 +120,74 @@
         android:paddingTop="@dimen/d25"
         android:paddingBottom="@dimen/d40"
         >
-
-        <Button
-            android:id="@+id/btn_mPublish"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_weight="1"
-            android:drawablePadding="@dimen/d9"
-            android:drawableTop="@mipmap/my_publish"
-            android:textColor="@color/title_small"
-            android:textSize="12sp"
-            android:background="@drawable/drawable_scan"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/btn_mPublish"
+                android:layout_width="wrap_content"
+                android:paddingEnd="@dimen/d10"
+                android:paddingStart="@dimen/d10"
+                android:paddingTop="@dimen/d2"
+                android:paddingBottom="@dimen/d2"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/d9"
+                android:drawableTop="@mipmap/my_publish"
+                android:textColor="@color/title_small"
+                android:textSize="12sp"
+                android:background="@drawable/drawable_scan_raidius"
+                android:text="@string/my_published" />
+        </LinearLayout>
 
-            android:text="@string/my_published" />
 
-        <Button
-            android:id="@+id/btn_receipt_folder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_weight="1"
-            android:drawablePadding="@dimen/d9"
-            android:drawableTop="@mipmap/receipt_folder"
-            android:textColor="@color/title_small"
-            android:textSize="12sp"
-            android:background="@drawable/drawable_scan"
-
-            android:text="@string/receipt_folder" />
-
-
-            <Button
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/btn_receipt_folder"
+                android:layout_width="wrap_content"
+                android:paddingEnd="@dimen/d10"
+                android:paddingStart="@dimen/d10"
+                android:paddingTop="@dimen/d2"
+                android:paddingBottom="@dimen/d2"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/d9"
+                android:drawableTop="@mipmap/receipt_folder"
+                android:textColor="@color/title_small"
+                android:textSize="12sp"
+                android:background="@drawable/drawable_scan_raidius"
+                android:text="@string/receipt_folder" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
                 android:id="@+id/btn_manager"
+                android:paddingEnd="@dimen/d10"
+                android:paddingStart="@dimen/d10"
+                android:paddingTop="@dimen/d2"
+                android:paddingBottom="@dimen/d2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/drawable_scan"
+                android:background="@drawable/drawable_scan_raidius"
                 android:drawablePadding="@dimen/d9"
                 android:drawableTop="@mipmap/company_manager"
                 android:textColor="@color/title_small"
                 android:textSize="12sp"
-                android:layout_weight="1"
                 android:text="@string/company_manager" />
+        </LinearLayout>
+
+
+
+
+
+
     </LinearLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -204,7 +233,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
-                        android:text="0"
+                        android:text="@string/zero"
                         android:textColor="#fd8e8e" />
                     <TextView
                         android:layout_width="wrap_content"

@@ -25,7 +25,7 @@
             <ImageView
                 android:id="@+id/company_manager_back"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/drawable_scan"
@@ -36,7 +36,7 @@
                 android:padding="@dimen/d12"
                 android:background="@drawable/drawable_scan"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/add_company"

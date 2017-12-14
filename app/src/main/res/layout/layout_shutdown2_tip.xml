@@ -13,7 +13,6 @@
             android:layout_marginLeft="@dimen/d30"
             android:layout_marginRight="@dimen/d30"
             android:layout_marginTop="@dimen/d50"
-            android:layout_below="@+id/thanks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
@@ -21,14 +20,14 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/title_small"
                 android:textSize="13sp"
-                android:text="您还有未确认的发票，请全部确认后，在关闭本次发布"/>
+                android:text="@string/confirm_close_tip"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:gravity="right"
-            android:layout_marginRight="@dimen/d30"
-            android:layout_marginLeft="@dimen/d50"
+            android:gravity="end"
+            android:layout_marginEnd="@dimen/d30"
+            android:layout_marginStart="@dimen/d50"
             android:layout_marginTop="@dimen/d10"
             android:layout_marginBottom="@dimen/d20"
             android:layout_width="match_parent"
@@ -41,14 +40,14 @@
                 android:background="@null"
                 android:visibility="gone"
                 android:textColor="@color/main_style"
-                android:text="不关了"/>
+                android:text="@string/not_close"/>
             <Button
                 android:id="@+id/btn_confirm"
                 android:background="@null"
                 android:textColor="@drawable/selector_union_main_style_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="知道了"/>
+                android:text="@string/know"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

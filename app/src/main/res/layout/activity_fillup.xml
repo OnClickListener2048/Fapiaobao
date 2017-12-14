@@ -165,7 +165,7 @@
                 android:id="@+id/btn_confirm"
                 android:layout_width="@dimen/d140"
                 android:layout_height="@dimen/d40"
-                android:background="@color/main_style"
+                android:background="@drawable/selector_mainstyle_to_transparent"
                 android:text="@string/confirm"
                 android:textColor="@color/white" />
         </LinearLayout>

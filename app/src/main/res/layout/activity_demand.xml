@@ -15,15 +15,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:textSize="@dimen/s18"
             android:textColor="@color/title"
             android:text="@string/demand_details" />
 
         <ImageView
             android:id="@+id/demand_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_height="48dp"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:background="@drawable/drawable_scan"
             android:src="@mipmap/estimate_back_brawn" />
@@ -31,8 +31,8 @@
         <ImageView
             android:id="@+id/iv_demand_share"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:padding="@dimen/d13"
             android:background="@drawable/drawable_scan"
@@ -69,44 +69,48 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/d10"
-                    android:paddingLeft="@dimen/d10"
+                    android:paddingStart="@dimen/d10"
+                    android:paddingEnd="@dimen/d1"
                     android:paddingTop="@dimen/d10"
                     android:text="@string/need"
                     android:textColor="@color/text_normal"
-                    android:textSize="@dimen/d12" />
+                    android:textSize="@dimen/s12" />
                 <TextView
                     android:id="@+id/paper_normal_receipt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/d10"
-                    android:paddingLeft="@dimen/d10"
+                    android:paddingStart="@dimen/d10"
+                    android:paddingEnd="@dimen/d1"
                     android:paddingTop="@dimen/d10"
                     android:visibility="gone"
                     android:text="@string/paper_normal_receipt"
                     android:textColor="@color/title"
-                    android:textSize="@dimen/d12" />
+                    android:textSize="@dimen/s12" />
                 <TextView
                     android:id="@+id/paper_special_receipt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/d10"
-                    android:paddingLeft="@dimen/d10"
+                    android:paddingStart="@dimen/d10"
+                    android:paddingEnd="@dimen/d1"
                     android:paddingTop="@dimen/d10"
                     android:visibility="gone"
                     android:text="@string/paper_special_receipt"
                     android:textColor="@color/title"
-                    android:textSize="@dimen/d12" />
+                    android:textSize="@dimen/s12" />
                 <TextView
                     android:id="@+id/paper_elec_receipt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/d10"
-                    android:paddingLeft="@dimen/d10"
+                    android:paddingStart="@dimen/d10"
+                    android:paddingEnd="@dimen/d1"
                     android:paddingTop="@dimen/d10"
                     android:visibility="gone"
                     android:text="@string/paper_elec_receipt"
                     android:textColor="@color/title"
-                    android:textSize="@dimen/d12" />
+                    android:textSize="@dimen/s12" />
             </LinearLayout>
             <!--票据列表-->
             <RelativeLayout
@@ -117,30 +121,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/d10"
-                    android:paddingLeft="@dimen/d10"
+                    android:paddingStart="@dimen/d10"
+                    android:paddingEnd="@dimen/d10"
                     android:paddingTop="@dimen/d10"
                     android:text="@string/collected_recript"
                     android:textColor="@color/text_normal"
-                    android:textSize="@dimen/d12" />
+                    android:textSize="@dimen/s12" />
                 <TextView
                     android:id="@+id/tv_qualified_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/d10"
                     android:paddingTop="@dimen/d10"
-                    android:layout_marginRight="@dimen/d10"
+                    android:layout_marginEnd="@dimen/d10"
                     android:visibility="gone"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:text="@string/qualified_list"
                     android:textColor="@color/main_style"
-                    android:textSize="@dimen/d12" />
+                    android:textSize="@dimen/s12" />
             </RelativeLayout>
 
 
             <include
                 layout="@layout/layout_receipt_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></include>
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -151,7 +156,7 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/dotted_line"></View>
+                    android:background="@mipmap/dotted_line" />
                 <!--红包信息1-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -161,9 +166,10 @@
                     <LinearLayout
                         android:layout_width="110dp"
                         android:layout_height="match_parent"
-                        android:gravity="left|center_vertical"
+                        android:gravity="start|center_vertical"
                         android:orientation="vertical"
-                        android:paddingLeft="@dimen/d15">
+                        android:paddingEnd="@dimen/d15"
+                        android:paddingStart="@dimen/d15">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -173,9 +179,9 @@
                                 android:id="@+id/tv_bounsAmount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textColor="@color/bouns_1"
-                                android:textSize="@dimen/d15" />
+                                android:textSize="@dimen/s15" />
 
                             <TextView
                                 android:id="@+id/textView3"
@@ -183,7 +189,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/yuan"
                                 android:textColor="@color/text_normal_item"
-                                android:textSize="@dimen/d12" />
+                                android:textSize="@dimen/s12" />
                         </LinearLayout>
 
 
@@ -191,9 +197,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/d5"
-                            android:text="红包总额"
+                            android:text="@string/envelopes_amount"
                             android:textColor="@color/text_normal_item"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
                     </LinearLayout>
 
 
@@ -201,7 +207,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="left|center_vertical"
+                        android:gravity="start|center_vertical"
                         android:orientation="vertical">
                         <LinearLayout
                             android:orientation="horizontal"
@@ -210,31 +216,31 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="剩余"
+                                android:text="@string/rest"
                                 android:textColor="@color/text_normal_item"
-                                android:textSize="12dp"/>
+                                android:textSize="12sp"/>
                             <TextView
                                 android:id="@+id/tv_leftAmount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textColor="@color/bouns_1"
-                                android:textSize="15dp"/>
+                                android:textSize="@dimen/s15"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="元红包待领取"
+                                android:text="@string/envelopes_unclaimed"
                                 android:textColor="@color/text_normal_item"
-                                android:textSize="12dp"/>
+                                android:textSize="12sp"/>
                         </LinearLayout>
                         <TextView
                             android:id="@+id/tv_deadline"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/d5"
-                            android:text="截止时间："
+                            android:text="@string/end_time_"
                             android:textColor="@color/text_normal_item"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
                     </LinearLayout>
 
                     <ImageView
@@ -250,7 +256,7 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/dotted_line"></View>
+                    android:background="@mipmap/dotted_line" />
                 <!--红包信息2-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -260,9 +266,10 @@
                     <LinearLayout
                         android:layout_width="110dp"
                         android:layout_height="match_parent"
-                        android:gravity="left|center_vertical"
+                        android:gravity="start|center_vertical"
                         android:orientation="vertical"
-                        android:paddingLeft="@dimen/d15">
+                        android:paddingEnd="@dimen/d15"
+                        android:paddingStart="@dimen/d15">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
@@ -270,23 +277,23 @@
                                 android:id="@+id/tv_amount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textColor="@color/bouns_1"
-                                android:textSize="@dimen/d15" />
+                                android:textSize="@dimen/s15" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/yuan"
                                 android:textColor="@color/text_normal_item"
-                                android:textSize="@dimen/d12" />
+                                android:textSize="@dimen/s12" />
                         </LinearLayout>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/d5"
-                            android:text="需求总额"
+                            android:text="@string/amount_demand"
                             android:textColor="@color/text_normal_item"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
                     </LinearLayout>
 
 
@@ -294,7 +301,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="left|center_vertical"
+                        android:gravity="start|center_vertical"
                         android:orientation="vertical">
                         <LinearLayout
                             android:orientation="horizontal"
@@ -303,22 +310,22 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="已收集"
+                                android:text="@string/collected"
                                 android:textColor="@color/text_normal_item"
-                                android:textSize="@dimen/d12" />
+                                android:textSize="@dimen/s12" />
                             <TextView
                                 android:id="@+id/tv_AlreadyCollected"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0"
+                                android:text="@string/zero"
                                 android:textColor="@color/bouns_1"
-                                android:textSize="@dimen/d15" />
+                                android:textSize="@dimen/s15" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="张发票"
+                                android:text="@string/sheets"
                                 android:textColor="@color/text_normal_item"
-                                android:textSize="@dimen/d12" />
+                                android:textSize="@dimen/s12" />
                         </LinearLayout>
 
 
@@ -327,9 +334,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/d5"
-                            android:text="发布时间："
+                            android:text="@string/publish_time_"
                             android:textColor="@color/text_normal_item"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -342,30 +349,30 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="已收到"
+                            android:text="@string/received"
                             android:textColor="@color/text_normal_item"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
 
                         <TextView
                             android:id="@+id/tv_receive"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0"
+                            android:text="@string/zero"
                             android:textColor="@color/bouns_1"
-                            android:textSize="15dp" />
+                            android:textSize="15sp" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/yuan"
                             android:textColor="@color/text_normal_item"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/dotted_line"></View>
+                    android:background="@mipmap/dotted_line" />
             </LinearLayout>
 
             <LinearLayout
@@ -379,9 +386,9 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/d10"
                     android:paddingTop="@dimen/d10"
-                    android:text="开票注意事项"
+                    android:text="@string/attention"
                     android:textColor="@color/text_normal_item"
-                    android:textSize="@dimen/d12" />
+                    android:textSize="@dimen/s12" />
 
                 <TextView
                     android:id="@+id/tv_attentions"
@@ -390,7 +397,7 @@
                     android:padding="@dimen/d2"
                     android:text=""
                     android:textColor="@color/title_small"
-                    android:textSize="@dimen/d12" />
+                    android:textSize="@dimen/s12" />
 
             </LinearLayout>
             <!--售票信息-->
@@ -407,9 +414,9 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/d10"
                     android:paddingTop="@dimen/d10"
-                    android:text="我的收票信息"
+                    android:text="@string/receipt_information"
                     android:textColor="@color/text_normal_item"
-                    android:textSize="@dimen/d12" />
+                    android:textSize="@dimen/s12" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -425,7 +432,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12"
+                            android:textSize="@dimen/s12"
                             android:layout_gravity="center"
                             android:text="@string/low_limit" />
 
@@ -433,17 +440,17 @@
                             android:id="@+id/tv_low_limit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/d20"
+                            android:layout_marginStart="@dimen/d20"
                             android:textColor="@color/main_style"
                             android:layout_gravity="center"
-                            android:textSize="@dimen/d12"
-                            android:text="元" />
+                            android:textSize="@dimen/s12"
+                            android:text="@string/yuan" />
                         <ImageView
                             android:id="@+id/question"
                             android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/d10"
+                            android:layout_marginStart="@dimen/d10"
                             android:src="@mipmap/question"/>
                     </LinearLayout>
                     <LinearLayout
@@ -457,16 +464,16 @@
                             android:layout_height="wrap_content"
                             android:text="@string/consignee"
                             android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
 
                         <TextView
                             android:id="@+id/tv_receiver"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/d20"
+                            android:layout_marginStart="@dimen/d20"
                             android:text=""
                             android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -480,21 +487,21 @@
                             android:layout_height="wrap_content"
                             android:text="@string/contact"
                             android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
 
                         <TextView
                             android:id="@+id/tv_telephone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/d20"
+                            android:layout_marginStart="@dimen/d20"
                             android:text=""
                             android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
                         <ImageView
                             android:id="@+id/link_to_telephone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/d10"
+                            android:layout_marginStart="@dimen/d10"
                             android:visibility="gone"
                             android:src="@mipmap/link_to_me"/>
                     </LinearLayout>
@@ -511,21 +518,21 @@
                             android:layout_height="wrap_content"
                             android:text="@string/fixed_line"
                             android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
 
                         <TextView
                             android:id="@+id/tv_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/d20"
+                            android:layout_marginStart="@dimen/d20"
                             android:text=""
                             android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
                         <ImageView
                             android:id="@+id/link_to_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/d10"
+                            android:layout_marginStart="@dimen/d10"
                             android:visibility="gone"
                             android:src="@mipmap/link_to_me"/>
                     </LinearLayout>
@@ -541,16 +548,16 @@
                             android:layout_height="wrap_content"
                             android:text="@string/address_details"
                             android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
 
                         <TextView
                             android:id="@+id/tv_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/d20"
+                            android:layout_marginStart="@dimen/d20"
                             android:text=""
                             android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12" />
+                            android:textSize="@dimen/s12" />
                     </LinearLayout>
 
 
@@ -582,7 +589,7 @@
                         android:id="@+id/collect"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/d20"
+                        android:layout_marginEnd="@dimen/d20"
                         android:src="@mipmap/collect"
                         android:visibility="invisible" />
                 </LinearLayout>
@@ -635,7 +642,7 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
                             android:text="@string/look_directly"
-                            android:textColor="@color/main_style" />
+                            android:textColor="@drawable/selector_union_main_style_text" />
 
                     </LinearLayout>
 
@@ -686,7 +693,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
-                                android:text="爱康鼎天津科技有限公司"
+                                android:text=""
                                 android:textIsSelectable="true"
                                 android:textColor="@color/title_small" />
                         </LinearLayout>
@@ -709,7 +716,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d20"
                                 android:textIsSelectable="true"
-                                android:text="爱康鼎天津科技有限公司"
+                                android:text=""
                                 android:textColor="@color/title_small" />
                         </LinearLayout>
 
@@ -729,9 +736,9 @@
                                 android:id="@+id/number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/d20"
+                                android:layout_marginStart="@dimen/d20"
                                 android:textIsSelectable="true"
-                                android:text="爱康鼎天津科技有限公司"
+                                android:text=""
                                 android:textColor="@color/title_small" />
                         </LinearLayout>
 
@@ -751,9 +758,9 @@
                                 android:id="@+id/bank"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/d20"
+                                android:layout_marginStart="@dimen/d20"
                                 android:textIsSelectable="true"
-                                android:text="爱康鼎天津科技有限公司"
+                                android:text=""
                                 android:textColor="@color/title_small" />
                         </LinearLayout>
 
@@ -773,9 +780,9 @@
                                 android:id="@+id/bank_account"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/d20"
+                                android:layout_marginStart="@dimen/d20"
                                 android:textIsSelectable="true"
-                                android:text="爱康鼎天津科技有限公司"
+                                android:text=""
                                 android:textColor="@color/title_small" />
                         </LinearLayout>
 
@@ -787,12 +794,11 @@
                 android:id="@+id/btn_shut_down_early"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="@dimen/d15"
-                android:layout_marginRight="@dimen/d15"
+                android:layout_marginStart="@dimen/d15"
+                android:layout_marginEnd="@dimen/d15"
                 android:layout_marginBottom="@dimen/d6"
                 android:layout_marginTop="@dimen/d6"
-                android:background="@mipmap/bg_btn_normal"
+                android:background="@drawable/selector_mainstyle_to_transparent"
                 android:text="@string/shut_down_early"
                 android:textColor="@color/white" />
 

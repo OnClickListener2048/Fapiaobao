@@ -11,7 +11,7 @@
         android:layout_marginTop="@dimen/d10"
         android:layout_marginLeft="@dimen/d13"
         android:layout_marginRight="@dimen/d13"
-        android:text="提供金额：0元"/>
+        android:text="@string/privide_amount"/>
     <RelativeLayout
         android:layout_marginLeft="@dimen/d13"
         android:layout_marginRight="@dimen/d13"
@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="驳回原因："/>
+            android:text="@string/reason"/>
 
 
     </RelativeLayout>
@@ -101,8 +101,8 @@
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginRight="@dimen/d13"
-                android:background="@drawable/shape_qualified"
+                android:layout_marginEnd="@dimen/d13"
+                android:background="@drawable/selector_mainstyle_to_transparent"
                 android:paddingBottom="@dimen/d10"
                 android:paddingTop="@dimen/d10"
                 android:text="@string/confirm"

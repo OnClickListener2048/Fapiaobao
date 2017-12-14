@@ -12,8 +12,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/d10"
-        android:text="分享至" />
+        android:layout_marginStart="@dimen/d10"
+        android:text="@string/share_to" />
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
@@ -84,7 +84,7 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="取消" />
+            android:text="@string/cancel" />
     </LinearLayout>
 
 

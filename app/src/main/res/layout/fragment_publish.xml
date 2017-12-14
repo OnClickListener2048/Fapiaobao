@@ -127,7 +127,7 @@
             <FrameLayout
                 android:id="@+id/fl_publish_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></FrameLayout>
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

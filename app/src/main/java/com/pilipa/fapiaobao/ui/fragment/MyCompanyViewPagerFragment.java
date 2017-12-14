@@ -103,7 +103,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
     @Override
     public void onPause() {
         super.onPause();
-        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"companiesList");
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override

@@ -11,9 +11,8 @@
         android:layout_gravity="center"
         android:orientation="vertical">
         <LinearLayout
-            android:layout_marginLeft="@dimen/d20"
+            android:layout_marginStart="@dimen/d20"
             android:layout_marginTop="@dimen/d30"
-            android:layout_below="@+id/thanks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
@@ -27,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/main_style"
-                android:text="20"/>
+                android:text=""/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,16 +35,16 @@
                 android:text="@string/withdraw_tip2"/>
         </LinearLayout>
         <TextView
-            android:layout_marginLeft="@dimen/d20"
+            android:layout_marginStart="@dimen/d20"
             android:textColor="@color/title_small"
             android:textSize="13sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/withdraw_tip3"/>
         <LinearLayout
-            android:gravity="right"
-            android:layout_marginRight="@dimen/d30"
-            android:layout_marginLeft="@dimen/d50"
+            android:gravity="end"
+            android:layout_marginEnd="@dimen/d30"
+            android:layout_marginStart="@dimen/d50"
             android:layout_marginBottom="@dimen/d20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

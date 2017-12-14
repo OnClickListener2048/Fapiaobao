@@ -59,15 +59,15 @@
                     android:paddingRight="@dimen/d10"
                     android:paddingTop="@dimen/d5"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/d12"
+                    android:textSize="@dimen/s12"
                     />
                 <TextView
                     android:layout_weight="1"
                     android:id="@+id/tv_arrival_state"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="left|center"
-                    android:layout_marginLeft="@dimen/d20"
+                    android:layout_marginStart="@dimen/d20"
                     android:textStyle="bold"
                     android:textColor="@color/red"
                      />
@@ -78,20 +78,20 @@
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/layout_receipt_list"></include>
+                layout="@layout/layout_receipt_list" />
             <!--邮寄信息-->
 
             <include
                 layout="@layout/layout_mailing_information"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></include>
+                android:layout_height="wrap_content" />
 
             <!--我提供的-->
 
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/layout_provide"></include>
+                layout="@layout/layout_provide" />
 
             <!--公司详情-->
             <android.support.v7.widget.CardView
@@ -123,7 +123,8 @@
                             android:id="@+id/collect"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/d20"
+                            android:layout_marginEnd="@dimen/d20"
+                            android:background="@drawable/drawable_scan"
                             android:src="@mipmap/collect" />
                     </LinearLayout>
 
@@ -169,7 +170,7 @@
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
                             android:text="@string/look_directly"
-                            android:textColor="@color/main_style" />
+                            android:textColor="@drawable/selector_union_main_style_text"/>
 
                     </LinearLayout>
 
@@ -197,7 +198,7 @@
                                 android:id="@+id/company_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/d20"
+                                android:layout_marginStart="@dimen/d20"
                                 android:textColor="@color/title_small"
                                 android:textIsSelectable="true"
                                 android:text="" />
@@ -221,7 +222,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/title_small"
                                 android:textIsSelectable="true"
-                                android:layout_marginLeft="@dimen/d20"
+                                android:layout_marginStart="@dimen/d20"
                                 android:text="" />
                         </LinearLayout>
 
@@ -241,7 +242,7 @@
                                 android:id="@+id/company_address"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/d20"
+                                android:layout_marginStart="@dimen/d20"
                                 android:textColor="@color/title_small"
                                 android:textIsSelectable="true"
                                 android:text="" />
@@ -263,7 +264,7 @@
                                 android:id="@+id/number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/d20"
+                                android:layout_marginStart="@dimen/d20"
                                 android:textColor="@color/title_small"
                                 android:textIsSelectable="true"
                                 android:text="" />
@@ -285,7 +286,7 @@
                                 android:id="@+id/bank"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/d20"
+                                android:layout_marginStart="@dimen/d20"
                                 android:textColor="@color/title_small"
                                 android:textIsSelectable="true"
                                 android:text="" />
@@ -307,7 +308,7 @@
                                 android:id="@+id/bank_account"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/d20"
+                                android:layout_marginStart="@dimen/d20"
                                 android:textIsSelectable="true"
                                 android:textColor="@color/title_small"
                                 android:text="" />

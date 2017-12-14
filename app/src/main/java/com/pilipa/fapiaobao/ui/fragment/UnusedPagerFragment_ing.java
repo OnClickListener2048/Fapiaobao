@@ -177,9 +177,9 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
 
     @Override
     public void onPause() {
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
         super.onPause();
     }
-
     public void demandsList(String state){
         if (AccountHelper.getToken() != null && !Objects.equals(AccountHelper.getToken(), "")) {
             Api.demandsList(AccountHelper.getToken(),state,this,new Api.BaseRawResponse<DemandsListBean>() {

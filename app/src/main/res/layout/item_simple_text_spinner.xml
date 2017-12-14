@@ -10,7 +10,7 @@
         android:layout_height="@dimen/d10" />
 
     <TextView
-        android:text="快递"
+        android:text=""
         android:id="@+id/spinner_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:textColor="#434343"
-        android:textSize="18dp" />
+        android:textSize="@dimen/s18" />
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"

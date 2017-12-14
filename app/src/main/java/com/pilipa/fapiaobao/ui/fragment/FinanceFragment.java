@@ -41,6 +41,7 @@ import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
+import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
@@ -347,18 +348,20 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 quickResponse();
                 break;
             case R.id.fl_notification:
-                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                    @Override
-                    public void setData(LoginWithInfoBean normalBean) {
-                        if (normalBean.getStatus() == 200) {
-                            newNotification.setVisibility(View.GONE);
-                            BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
-                            startActivity(new Intent(mContext, MessageCenterActivity.class));
-                        } else {
-                            login();
+                if (!ButtonUtils.isFastDoubleClick(R.id.fl_notification)) {
+                    AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+                        @Override
+                        public void setData(LoginWithInfoBean normalBean) {
+                            if (normalBean.getStatus() == 200) {
+                                newNotification.setVisibility(View.GONE);
+                                BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
+                                startActivity(new Intent(mContext, MessageCenterActivity.class));
+                            } else {
+                                login();
+                            }
                         }
-                    }
-                });
+                    });
+                }
                 break;
             case R.id.pull_to_find_more:
             case R.id.rl_pull_to_find_more:

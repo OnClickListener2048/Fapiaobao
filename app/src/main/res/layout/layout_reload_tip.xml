@@ -10,9 +10,8 @@
         android:layout_gravity="center"
         android:orientation="vertical">
         <LinearLayout
-            android:layout_marginLeft="@dimen/d30"
+            android:layout_marginStart="@dimen/d30"
             android:layout_marginTop="@dimen/d50"
-            android:layout_below="@+id/thanks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
@@ -20,14 +19,14 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/title_small"
                 android:textSize="13sp"
-                android:text="确认将红包余额全部充入发票宝吗？"/>
+                android:text="@string/withdraw_to_amount"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:gravity="right"
-            android:layout_marginRight="@dimen/d30"
-            android:layout_marginLeft="@dimen/d50"
+            android:gravity="end"
+            android:layout_marginEnd="@dimen/d30"
+            android:layout_marginStart="@dimen/d50"
             android:layout_marginTop="@dimen/d10"
             android:layout_marginBottom="@dimen/d20"
             android:layout_width="match_parent"

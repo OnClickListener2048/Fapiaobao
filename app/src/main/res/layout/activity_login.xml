@@ -181,7 +181,7 @@
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/main_style"
+                android:background="@drawable/selector_mainstyle_to_transparent"
                 android:text="@string/login"
                 android:textColor="@color/white"
                 android:textSize="@dimen/s16" />

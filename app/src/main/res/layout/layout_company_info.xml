@@ -17,7 +17,7 @@
             <TextView
                 android:layout_width="@dimen/d60"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:textColor="@color/text_normal_item"
                 android:text="@string/company_name" />
 
@@ -25,10 +25,10 @@
                 android:id="@+id/tv_companyName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/d10"
+                android:layout_marginStart="@dimen/d10"
                 android:textIsSelectable="true"
                 android:textColor="@color/title"
-                android:text="北京康达科技有限公司" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -42,17 +42,17 @@
                 android:textColor="@color/text_normal_item"
                 android:layout_width="@dimen/d60"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="@string/receipt_code" />
 
             <TextView
                 android:id="@+id/tv_receptCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/d10"
+                android:layout_marginStart="@dimen/d10"
                 android:textColor="@color/title"
                 android:textIsSelectable="true"
-                android:text="XXXXXXXXXXXXXXXXXXX" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,7 +64,7 @@
             <TextView
                 android:layout_width="@dimen/d60"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:textColor="@color/text_normal_item"
                 android:text="@string/address" />
 
@@ -73,9 +73,9 @@
                 android:textColor="@color/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/d10"
+                android:layout_marginStart="@dimen/d10"
                 android:textIsSelectable="true"
-                android:text="天津市 南开产业园" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -87,7 +87,7 @@
             <TextView
                 android:layout_width="@dimen/d60"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:textColor="@color/text_normal_item"
 
                 android:text="@string/phone_number" />
@@ -98,8 +98,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/title"
                 android:textIsSelectable="true"
-                android:layout_marginLeft="@dimen/d10"
-                android:text="022-24864886" />
+                android:layout_marginStart="@dimen/d10"
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -111,7 +111,7 @@
             <TextView
                 android:layout_width="@dimen/d60"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:textColor="@color/text_normal_item"
 
                 android:text="@string/bank_name" />
@@ -120,10 +120,10 @@
                 android:id="@+id/tv_bankName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/d10"
+                android:layout_marginStart="@dimen/d10"
                 android:textColor="@color/title"
                 android:textIsSelectable="true"
-                android:text="中国建设银行" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -135,7 +135,7 @@
             <TextView
                 android:layout_width="@dimen/d60"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="end"
                 android:textColor="@color/text_normal_item"
 
                 android:text="@string/account" />
@@ -144,10 +144,10 @@
                 android:id="@+id/tv_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/d10"
+                android:layout_marginStart="@dimen/d10"
                 android:textColor="@color/title"
                 android:textIsSelectable="true"
-                android:text="XXXXXXXXXXXXXXXXXXXXXXXX" />
+                android:text="" />
         </LinearLayout>
     </LinearLayout>
     <ImageView

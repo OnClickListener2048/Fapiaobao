@@ -37,7 +37,7 @@
                 android:padding="@dimen/d12"
                 android:background="@drawable/drawable_scan"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/logout"
@@ -290,7 +290,7 @@
         android:layout_marginRight="@dimen/d15"
         android:layout_marginBottom="@dimen/d6"
         android:layout_marginTop="@dimen/d6"
-        android:background="@mipmap/bg_btn_normal"
+        android:background="@drawable/selector_mainstyle_to_transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

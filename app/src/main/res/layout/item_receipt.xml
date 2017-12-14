@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_receipt_selector"
-    android:paddingLeft="@dimen/d5"
+    android:paddingStart="@dimen/d5"
+    android:paddingEnd="@dimen/d5"
     android:paddingBottom="@dimen/d5"
     android:orientation="horizontal">
 
@@ -20,11 +21,11 @@
             android:layout_gravity="center"
             android:background="@mipmap/bg_receipt_type"
             android:gravity="center"
-            android:textSize="@dimen/d12"
+            android:textSize="@dimen/s12"
             android:paddingLeft="@dimen/d15"
             android:paddingRight="@dimen/d15"
             android:textColor="@color/white"
-            android:text="出租车票" />
+            android:text="" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -37,9 +38,9 @@
                 android:id="@+id/bouns_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/d12"
+                android:textSize="@dimen/s12"
                 android:textColor="@color/text_normal_item"
-                android:text="收到红包" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/tv_receive_bouns"
@@ -47,14 +48,14 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/d5"
                 android:paddingRight="@dimen/d5"
-                android:text="125.15"
+                android:text=""
                 android:textColor="@color/amount_red"
-                android:textSize="@dimen/d12" />
+                android:textSize="@dimen/s12" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/d12"
+                android:textSize="@dimen/s12"
                 android:textColor="@color/text_normal_item"
                 android:text="@string/yuan" />
         </LinearLayout>
@@ -80,17 +81,17 @@
                 android:layout_height="wrap_content"
                 android:text="@string/offered"
                 android:textColor="@color/text_normal_item"
-                android:textSize="@dimen/d10" />
+                android:textSize="@dimen/s10" />
 
             <TextView
                 android:id="@+id/tv_amount_offered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="17dp"
+                android:textSize="@dimen/s18"
                 android:textColor="@color/amount_red"
                 android:paddingLeft="@dimen/d5"
                 android:paddingRight="@dimen/d5"
-                android:text="125.15" />
+                android:text="" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -110,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_receive"
-                android:textSize="@dimen/d10"
+                android:textSize="@dimen/s10"
                 android:gravity="center"
                 android:textColor="@color/text_normal_item"
                 android:text="@string/offered_time" />
@@ -120,11 +121,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_receive"
-                android:layout_toRightOf="@+id/textView1"
-                android:textSize="@dimen/d10"
+                android:layout_toEndOf="@+id/textView1"
+                android:textSize="@dimen/s10"
                 android:gravity="left"
                 android:textColor="@color/text_normal_item"
-                android:text="1997-01-01" />
+                android:text="" />
         </LinearLayout>
 
     </LinearLayout>

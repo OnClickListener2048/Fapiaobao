@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/image"
+            android:layout_toEndOf="@+id/image"
             android:textColor="@color/title_small"
             android:text="" />
 
@@ -32,15 +32,15 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:background="@drawable/ic_red_dot"
-            android:layout_marginRight="@dimen/d40"
+            android:layout_marginEnd="@dimen/d40"
             android:gravity="center"
-            android:layout_alignParentRight="true"
-            android:text="4"
+            android:layout_alignParentEnd="true"
+            android:text=""
             android:visibility="gone"
             android:textColor="@android:color/white"
-            android:textSize="10dp" />
+            android:textSize="@dimen/s10"/>
         <ImageView
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_width="20dp"
             android:layout_height="20dp"

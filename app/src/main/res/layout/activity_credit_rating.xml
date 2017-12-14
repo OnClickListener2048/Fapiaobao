@@ -23,7 +23,7 @@
                 android:id="@+id/details_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/drawable_scan"
                 android:src="@mipmap/estimate_back_brawn" />
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/d10"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:text="@string/credit_history"
                 android:layout_centerVertical="true"
                 android:textColor="@drawable/selector_union_main_style_text"
@@ -83,8 +83,8 @@
                 android:layout_height="wrap_content"
                 android:src="@mipmap/dstar0"/>
             <TextView
-                android:layout_toRightOf="@+id/star"
-                android:layout_marginLeft="@dimen/d10"
+                android:layout_toEndOf="@+id/star"
+                android:layout_marginStart="@dimen/d10"
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,9 +95,9 @@
                 android:layout_width="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:textSize="15sp"
-                android:text="0"/>
+                android:text="@string/zero"/>
 
         </RelativeLayout>
 
@@ -123,8 +123,8 @@
             android:padding="@dimen/d10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_login_resend"
-            android:textColor="@color/main_style"
+            android:background="@drawable/selector_mainstyle_shape_to_transparent"
+            android:textColor="@drawable/selector_union_main_style_text"
             android:text="@string/rules"/>
         <TextView
             android:id="@+id/tv_negative"
@@ -135,8 +135,8 @@
             android:padding="@dimen/d10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_login_resend"
-            android:textColor="@color/main_style"
+            android:background="@drawable/selector_mainstyle_shape_to_transparent"
+            android:textColor="@drawable/selector_union_main_style_text"
             android:text="@string/negative"/>
     </LinearLayout>
 </RelativeLayout>

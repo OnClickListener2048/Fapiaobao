@@ -11,7 +11,7 @@
         android:padding="@dimen/d5"
         android:textSize="@dimen/s10"
         android:textColor="@color/text_normal_item"
-        android:text="2017-05-12"/>
+        android:text=""/>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/d15"
-        android:drawableRight="@mipmap/enter_gray"
+        android:drawableEnd="@mipmap/enter_gray"
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
                 android:gravity="center_vertical"
                 android:textColor="@color/title_small"
                 android:textSize="@dimen/s12"
-                android:layout_toLeftOf="@+id/tv_time"
+                android:layout_toStartOf="@+id/tv_time"
                 android:text=""
                 />
             <TextView
@@ -45,9 +45,9 @@
                 android:textSize="@dimen/s10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:text="sdasd" />
+                android:text="" />
         </RelativeLayout>
     </LinearLayout>
 

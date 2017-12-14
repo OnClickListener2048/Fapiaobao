@@ -63,13 +63,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_gravity="right"
+                    android:layout_gravity="end"
                     android:padding="@dimen/d5">
                     <ImageView
                         android:id="@+id/img_scan"
-                        android:layout_marginRight="@dimen/d15"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:background="@drawable/drawable_scan"
+                        android:gravity="center"
+                        android:padding="@dimen/d12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:src="@mipmap/scan"/>
 
                 </LinearLayout>
@@ -391,7 +393,7 @@
         android:layout_marginTop="@dimen/d6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/bg_btn_normal"
+        android:background="@drawable/selector_mainstyle_to_transparent"
         android:text="@string/save"
         android:textColor="@color/white" />
 

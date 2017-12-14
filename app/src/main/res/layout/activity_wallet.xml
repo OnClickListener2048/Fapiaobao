@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:textSize="@dimen/s18"
             android:textColor="@color/title"
             android:text="@string/my_wallet" />
 
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/drawable_scan"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:src="@mipmap/estimate_back_brawn"/>
         <TextView
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@drawable/selector_union_main_style_text"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:padding="@dimen/d10"
             android:text="@string/details"/>
@@ -51,27 +51,31 @@
             <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/d6"
             android:text="@string/balance"/>
             <TextView
                 android:id="@+id/tv_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"/>
+                android:layout_marginStart="@dimen/d6"
+                android:text="@string/zero"/>
         </LinearLayout>
         <Button
             android:id="@+id/btn_recharge"
             android:layout_weight="1"
             android:layout_width="@dimen/d50"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/d10"
-            android:background="@mipmap/btn_wallet"
+            android:layout_marginEnd="@dimen/d10"
+            android:background="@drawable/selector_grey_shape_to_transparent"
+            android:textColor="@drawable/selector_union_grey_text"
             android:text="@string/recharge"/>
         <Button
             android:id="@+id/btn_withdraw"
             android:layout_weight="1"
             android:layout_width="@dimen/d50"
             android:layout_height="wrap_content"
-            android:background="@mipmap/btn_wallet"
+            android:background="@drawable/selector_grey_shape_to_transparent"
+            android:textColor="@drawable/selector_union_grey_text"
             android:text="@string/withdraw"/>
     </LinearLayout>
     <View
@@ -90,18 +94,18 @@
             android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@mipmap/enter_wallet"
+            android:drawableEnd="@mipmap/enter_wallet"
             android:text="@string/red_envelope"/>
         <TextView
             android:id="@+id/tv_bouns"
             android:drawablePadding="@dimen/d20"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/d50"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/d50"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/main_style"
-            android:text="0"/>
+            android:text="@string/zero"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
