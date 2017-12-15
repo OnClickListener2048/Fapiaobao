@@ -1119,6 +1119,8 @@ public class Api {
             public void onSuccess(Response<PrepayBean> response) {
                 if (response.isSuccessful() && response.body().getStatus() == 200) {
                     b.setData(response.body());
+                }else{
+                    BaseApplication.showToast("充值失败，请稍后重试");
                 }
             }
         });

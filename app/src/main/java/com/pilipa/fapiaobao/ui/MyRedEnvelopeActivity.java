@@ -108,6 +108,8 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                             finish();
                         }else if(normalBean.getStatus() ==888){
                             BaseApplication.showToast("红包余额不足");
+                        }else{
+                            BaseApplication.showToast(normalBean.getMsg());
                         }
                     }
                 });
