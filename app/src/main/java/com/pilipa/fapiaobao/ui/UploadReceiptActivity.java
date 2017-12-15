@@ -1,10 +1,15 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -71,6 +76,8 @@ public class UploadReceiptActivity extends BaseActivity {
     private String label;
     private String company_id;
     private int type;
+    private Dialog scanDialog;
+
     private  MacherBeanToken.DataBean.CompanyBean company_info;
 
 
@@ -168,6 +175,8 @@ public class UploadReceiptActivity extends BaseActivity {
                         intent.setClass(this, Op.class);
                         intent.putExtra("url", content);
                         startActivity(intent);
+                    }else{
+                        setScanDialog();
                     }
                 }
                 break;
@@ -209,5 +218,31 @@ public class UploadReceiptActivity extends BaseActivity {
         intent.putExtra(TAG, bundle);
         intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
         startActivity(intent);
+    }
+    public void setScanDialog() {
+        scanDialog = new Dialog(this, R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+                R.layout.layout_scan_tip, null);
+        //初始化视图
+        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scanDialog.dismiss();
+            }
+        });
+        scanDialog.setContentView(root);
+        Window dialogWindow = scanDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        scanDialog.show();
     }
 }

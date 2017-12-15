@@ -2,6 +2,7 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +13,15 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -100,6 +105,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     public static final int REQUEST_CODE_SCAN = 0x0234;
     private AllInvoiceAdapter adapter;
     private MainActivity activity;
+    private Dialog scanDialog;
     private boolean delayIntentRefresh;
     private BroadcastReceiver mBoradcastReceiver = new BroadcastReceiver() {
         @Override
@@ -147,6 +153,8 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                         intent.setClass(mContext, Op.class);
                         intent.putExtra("url", content);
                         startActivity(intent);
+                    }else{
+                        setScanDialog();
                     }
                 }
                 break;
@@ -460,5 +468,31 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
             });
         }
 
+    }
+    public void setScanDialog() {
+        scanDialog = new Dialog(getActivity(), R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
+                R.layout.layout_scan_tip, null);
+        //初始化视图
+        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scanDialog.dismiss();
+            }
+        });
+        scanDialog.setContentView(root);
+        Window dialogWindow = scanDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
+
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        scanDialog.show();
     }
 }

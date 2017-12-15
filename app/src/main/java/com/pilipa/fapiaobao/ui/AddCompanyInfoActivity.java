@@ -1,16 +1,24 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.ReplacementTransformationMethod;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mylibrary.utils.RegexUtils;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -62,6 +70,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
     TextView tvMustfillBankNumber;
     @Bind(R.id.btn_save)
     Button btnSave;
+    private Dialog scanDialog;
 
     @Override
     protected int getLayoutId() {
@@ -76,7 +85,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_scan: {
-                startActivityForResult(new Intent(this, CaptureActivity.class), REQUEST_CODE_SCAN);
+                startActivityForResult(new Intent(this,CaptureActivity.class), REQUEST_CODE_SCAN);
             }
             break;
             case R.id.add_back: {
@@ -103,37 +112,37 @@ public class AddCompanyInfoActivity extends BaseActivity {
                         String codedContent = data.getStringExtra(DECODED_CONTENT_KEY);
                         String[] split = codedContent.split("\\?");
                         String[] split1 = split[1].split("=");
-                        Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
+                        TLog.d("REQUEST_CODE_SCAN",split[1]);
 
-                            private CompanyDetailsBean.DataBean data;
+                            Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
 
-                            @Override
-                            public void setData(CompanyDetailsBean companyDetailsBean) {
-                                MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
-                                data = companyDetailsBean.getData();
-                                if (data != null) {
-                                    companyBean.setAccount(data.getAccount());
-                                    companyBean.setAddress(data.getAddress());
-                                    companyBean.setDepositBank(data.getDepositBank());
-                                    companyBean.setId(data.getId());
-                                    companyBean.setIsNewRecord(data.isIsNewRecord());
-                                    companyBean.setName(data.getName());
-                                    companyBean.setPhone(data.getPhone());
-                                    companyBean.setTaxno(data.getTaxno());
+                                private CompanyDetailsBean.DataBean data;
+
+                                @Override
+                                public void setData(CompanyDetailsBean companyDetailsBean) {
+                                    MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+                                    data = companyDetailsBean.getData();
+                                    if (data != null) {
+                                        companyBean.setAccount(data.getAccount());
+                                        companyBean.setAddress(data.getAddress());
+                                        companyBean.setDepositBank(data.getDepositBank());
+                                        companyBean.setId(data.getId());
+                                        companyBean.setIsNewRecord(data.isIsNewRecord());
+                                        companyBean.setName(data.getName());
+                                        companyBean.setPhone(data.getPhone());
+                                        companyBean.setTaxno(data.getTaxno());
+                                    }
+                                    try{
+                                        updateCompanyinfo(companyBean);
+                                    }catch (Exception e){
+                                        setScanDialog();
+                                    }
                                 }
-                                try{
-                                    updateCompanyinfo(companyBean);
-                                }catch (Exception e){
-                                    BaseApplication.showToast("目前仅支持发票宝生成的单位信息二维码的扫描");
+                            });
 
-                                }
-                            }
-                        });
                     }catch (ArrayIndexOutOfBoundsException e){
                         e.printStackTrace();
-                        // TODO: 2017/12/8 添加提示
-                        BaseApplication.showToast("目前仅支持发票宝生成的单位信息二维码的扫描");
-
+                        setScanDialog();
                     }
                 }
                 break;
@@ -238,7 +247,34 @@ public class AddCompanyInfoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+    public void setScanDialog() {
+        scanDialog = new Dialog(this, R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+                R.layout.layout_scan_tip, null);
+        TextView tv = (TextView)root.findViewById(R.id.scan_tip);
+        tv.setText("添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描");
+        //初始化视图
+        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scanDialog.dismiss();
+            }
+        });
+        scanDialog.setContentView(root);
+        Window dialogWindow = scanDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
 
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        scanDialog.show();
+    }
     private void createCompany(final Company company) {
 
 

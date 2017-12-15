@@ -2,6 +2,7 @@ package com.pilipa.fapiaobao.base;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Dialog;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +31,6 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
-import com.pilipa.fapiaobao.service.X5CorePreLoadService;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.pilipa.fapiaobao.ui.DemandActivity;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
@@ -42,7 +42,6 @@ import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
@@ -105,7 +104,6 @@ public class BaseApplication extends Application {
         //全局的连接超时时间
         builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS);
     }
-
     @Override
     public void onCreate() {
         super.onCreate();

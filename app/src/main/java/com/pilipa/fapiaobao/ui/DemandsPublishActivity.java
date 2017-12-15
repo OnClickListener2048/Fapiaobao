@@ -216,6 +216,7 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
     public static final String RECEIPTPAPERNORMAL_DATA = "receiptPaperNormal";
     public static final String RECEIPTPAPERSPECIAL_DATA = "receiptPaperSpecial";
     private Dialog mTipDialog;
+    private Dialog scanDialog;
 
     private static final double MAX_AMOUNT = 50000;
 
@@ -815,40 +816,39 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
             case REQUEST_CODE_SCAN:
                 if (resultCode == RESULT_OK) {
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
-                    TLog.log("content" + content);
+                    TLog.d("content" , content);
                     String[] split = content.split("\\?");
                     String[] split1 = null;
                     try{
                        split1 = split[1].split("=");
-                       Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
+                        TLog.d("REQUEST_CODE_SCAN",split[1]);
+                            Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
 
-                            private CompanyDetailsBean.DataBean data;
+                                private CompanyDetailsBean.DataBean data;
 
-                            @Override
-                            public void setData(CompanyDetailsBean companyDetailsBean) {
+                                @Override
+                                public void setData(CompanyDetailsBean companyDetailsBean) {
 
-                                try{
-                                    MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
-                                    data = companyDetailsBean.getData();
-                                    companyBean.setAccount(data.getAccount());
-                                    companyBean.setAddress(data.getAddress());
-                                    companyBean.setDepositBank(data.getDepositBank());
-                                    companyBean.setId(data.getId());
-                                    companyBean.setIsNewRecord(data.isIsNewRecord());
-                                    companyBean.setName(data.getName());
-                                    companyBean.setPhone(data.getPhone());
-                                    companyBean.setTaxno(data.getTaxno());
-                                    updateCompanyInfo(companyBean);
-                                }catch (Exception e){
-                                    BaseApplication.showToast("目前仅支持发票宝生成的单位信息二维码的扫描");
-
+                                    try{
+                                        MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+                                        data = companyDetailsBean.getData();
+                                        companyBean.setAccount(data.getAccount());
+                                        companyBean.setAddress(data.getAddress());
+                                        companyBean.setDepositBank(data.getDepositBank());
+                                        companyBean.setId(data.getId());
+                                        companyBean.setIsNewRecord(data.isIsNewRecord());
+                                        companyBean.setName(data.getName());
+                                        companyBean.setPhone(data.getPhone());
+                                        companyBean.setTaxno(data.getTaxno());
+                                        updateCompanyInfo(companyBean);
+                                    }catch (Exception e){
+                                        setScanDialog();
+                                    }
                                 }
-                            }
-                        });
+                            });
                     }catch (Exception e){
                         e.printStackTrace();
-                        // TODO: 2017/12/8 添加提示
-                        BaseApplication.showToast("目前仅支持发票宝生成的单位信息二维码的扫描");
+                        setScanDialog();
                     }
                 }
                 break;
@@ -1455,7 +1455,34 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
         guide.setShouldCheckLocInWindow(false);
         guide.show(DemandsPublishActivity.this);
     }
+    public void setScanDialog() {
+        scanDialog = new Dialog(this, R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+                R.layout.layout_scan_tip, null);
+        TextView tv = (TextView)root.findViewById(R.id.scan_tip);
+        tv.setText("添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描");
+        //初始化视图
+        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scanDialog.dismiss();
+            }
+        });
+        scanDialog.setContentView(root);
+        Window dialogWindow = scanDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
 
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        scanDialog.show();
+    }
     @Override
     public void onBackPressed() {
         if (!alertDialog.isShowing()) {

@@ -482,6 +482,7 @@
     <string name="flag">¥</string>
     <string name="acquire_short_message">获取验证码</string>
     <string name="please_enter_the_right_phone_number">请输入正确的手机号码</string>
+    <string name="scan_tip">目前仅支持购物小票二维码、发票宝生成的单位信息二维码的扫描</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>
