@@ -68,6 +68,9 @@ public class AddCompanyInfoActivity extends BaseActivity {
         return R.layout.activity_company_info_add;
     }
 
+
+
+
     @OnClick({R.id.add_back, R.id.btn_save, R.id.img_scan})
     @Override
     public void onClick(View v) {

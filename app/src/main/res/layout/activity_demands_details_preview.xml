@@ -4,9 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/d10" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,14 +23,14 @@
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/d12"
+            android:padding="@dimen/d10"
             android:background="@drawable/drawable_scan"
             android:src="@mipmap/demands_details_preview_quit" />
     </LinearLayout>
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
-        android:layout_height="@dimen/d10" />
+        android:layout_height="@dimen/d5" />
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -80,7 +77,7 @@
 
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
-        android:layout_height="@dimen/d10" />
+        android:layout_height="@dimen/d5" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
