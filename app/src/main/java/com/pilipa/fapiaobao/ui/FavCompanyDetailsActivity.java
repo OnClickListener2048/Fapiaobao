@@ -15,6 +15,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.CompanyDetailsAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.FavBean;
@@ -139,6 +140,7 @@ public class FavCompanyDetailsActivity extends BaseActivity implements MyCompany
                 if(normalBean.getStatus() == REQUEST_SUCCESS){
                     companyDetailsAdapter.remove(mPreviousPos);
                     mDialog.dismiss();
+                    BaseApplication.showToast("删除成功");
                 }
             }
         });

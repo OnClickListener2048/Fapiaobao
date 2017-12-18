@@ -95,7 +95,6 @@ public final class RegexUtils {
     public static boolean isURL(final CharSequence input) {
         return isMatch(RegexConstants.REGEX_URL, input);
     }
-
     /**
      * 验证是否是web链接
      *

@@ -101,7 +101,7 @@ public class Withdraw2WXActivity extends BaseActivity {
     }
 
     private void withdaw(String openID){
-        Api.withdaw(AccountHelper.getToken()
+            Api.withdaw(AccountHelper.getToken()
                 ,ACCOUNT_TYPE_WALLET
                 ,NetworkUtils.getIPAddress(true)
                 ,Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ?"0":tv_amount.getText().toString().trim())
@@ -115,6 +115,8 @@ public class Withdraw2WXActivity extends BaseActivity {
                             finish();
                         }else if(normalBean.getStatus() ==888){
                             BaseApplication.showToast("账户余额不足");
+                        }else {
+                            BaseApplication.showToast(normalBean.getMsg());
                         }
                     }
                 });

@@ -113,13 +113,13 @@
 
     <LinearLayout
         android:id="@+id/ll_business"
-        android:layout_below="@+id/topView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="@dimen/d25"
         android:paddingBottom="@dimen/d40"
-        >
+        android:layout_below="@+id/topView"
+        android:layout_alignParentStart="true">
         <LinearLayout
             android:layout_weight="1"
             android:layout_width="0dp"

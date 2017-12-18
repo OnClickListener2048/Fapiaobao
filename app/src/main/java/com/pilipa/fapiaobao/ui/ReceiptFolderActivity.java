@@ -1,12 +1,18 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
@@ -41,6 +47,7 @@ public class ReceiptFolderActivity extends BaseActivity {
     private static final int REQUEST_CODE_SCAN = 0x0067;
     private static final String DECODED_CONTENT_KEY = "codedContent";
     private static final String DECODED_BITMAP_KEY = "codedBitmap";
+    private Dialog scanDialog;
 
     @Override
     protected int getLayoutId() {
@@ -88,12 +95,39 @@ public class ReceiptFolderActivity extends BaseActivity {
                         intent.setClass(this, Op.class);
                         intent.putExtra("url", content);
                         startActivity(intent);
+                    }else{
+                        setScanDialog();
                     }
                 }
                 break;
         }
     }
+    public void setScanDialog() {
+        scanDialog = new Dialog(this, R.style.BottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+                R.layout.layout_scan_tip, null);
+        //初始化视图
+        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scanDialog.dismiss();
+            }
+        });
+        scanDialog.setContentView(root);
+        Window dialogWindow = scanDialog.getWindow();
+        dialogWindow.setGravity(Gravity.CENTER);
+//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+        lp.x = 0; // 新位置X坐标
+        lp.y = 0; // 新位置Y坐标
+        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+        root.measure(0, 0);
+        lp.height = root.getMeasuredHeight();
 
+        lp.alpha = 9f; // 透明度
+        dialogWindow.setAttributes(lp);
+        scanDialog.show();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

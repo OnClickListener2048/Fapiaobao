@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -222,6 +223,13 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
                     if (feedbackMessageBean.getStatus() == 200) {
                         emptyView.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
+                        recyclerView.smoothScrollBy(0, 1000, new Interpolator() {
+                            @Override
+                            public float getInterpolation(float input) {
+                                return 20;
+                            }
+                        });
+
                         feedbackMessagesAdapter.initData(feedbackMessageBean.getData().getList());
                         normalAdapterWrapper.notifyDataSetChanged();
                         totalPageNo = feedbackMessageBean.getData().getTotalPage();
