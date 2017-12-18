@@ -194,7 +194,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
         };
         rvUploadReceipt.setLayoutManager(grid);
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
-        rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, false));
+        rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, true));
 //        Image image = new Image();
 //        image.isFromNet = false;
 //        image.isCapture = true;
@@ -302,9 +302,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
                 UploadReceiptPreviewAdapter uploadReceiptAdapter = (UploadReceiptPreviewAdapter) rvUploadReceipt.getAdapter();
                 uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
             }
-
         }
-
     }
 
     private void setDialog() {

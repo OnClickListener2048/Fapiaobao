@@ -179,6 +179,10 @@ public class Constant {
     public static final String ESTIMATE= BASE_URL + "order/estimate/%s/%s/%s";
     /*确认开票*/
     public static final String CONFIRM_DEMAND= BASE_URL + "order/confirmDemand/%s/%s";
+    /*pdf转换*/
+    public static final String TRANSFORM_PDF= BASE_URL + "order/changePdfToJpg";
+    /*上传pdf转化的图片至我的发票*/
+    public static final String UPLOAD_PDF= BASE_URL + "order/uploadPdfToMyInvoice";
     /**
      * system-rest-controller : 系统管理
      */

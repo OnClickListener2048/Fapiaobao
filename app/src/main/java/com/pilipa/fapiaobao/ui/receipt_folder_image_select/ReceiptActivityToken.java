@@ -69,7 +69,6 @@ public class ReceiptActivityToken extends BaseActivity implements NormalAdpater.
 
     private int mImageResize;
     private ArrayList<Image> arrayList;
-    private NormalAdpater normal;
     private ArrayList<Image> images;
 
     @Override
@@ -124,7 +123,6 @@ public class ReceiptActivityToken extends BaseActivity implements NormalAdpater.
     }
 
     private int getImageResize(Context context) {
-
         if (mImageResize == 0) {
             RecyclerView.LayoutManager lm = recyclerview.getLayoutManager();
             int spanCount = ((GridLayoutManager) lm).getSpanCount();
@@ -154,7 +152,7 @@ public class ReceiptActivityToken extends BaseActivity implements NormalAdpater.
             images.add(image);
         }
         Log.d(TAG, "setUpData: images.size" + images.size());
-        normal = new NormalAdpater(images, getImageResize(this));
+        NormalAdpater normal = new NormalAdpater(images, getImageResize(this));
         Log.d(TAG, "setUpData:  normal = new NormalAdpater(images, getImageResize(this));");
         normal.setOnImageSelectListener(this);
         normal.setOnImageClickListener(this);

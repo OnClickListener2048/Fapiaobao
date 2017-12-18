@@ -38,10 +38,8 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
     @Bind(R.id.click)
     TextView click;
     private ArrayList<Image> allList;
-    private int currentPosition;
     protected int mPreviousPos = -1;
     private PreviewPagerAdapter previewPagerAdapter;
-    private ArrayList<PreviewImageFragment> FragmentList;
 
     @Override
     protected int getLayoutId() {
@@ -65,21 +63,21 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
             click.setVisibility(View.INVISIBLE);
         }
         allList = bundleExtra.getParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA);
-        currentPosition = bundleExtra.getInt(UploadNormalReceiptFragment.EXTRA_CURRENT_POSITION);
+        int currentPosition = bundleExtra.getInt(UploadNormalReceiptFragment.EXTRA_CURRENT_POSITION);
         Log.d(TAG, "initView: allList size"+allList.size());
-        Log.d(TAG, "initView: currentPosition"+currentPosition);
+        Log.d(TAG, "initView: currentPosition"+ currentPosition);
         boolean isFromDemands = bundleExtra.getBoolean(DemandsDetailsReceiptFragment.IS_FROM_DEMANDS, false);
         mPreviousPos = isFromDemands ? currentPosition : currentPosition - 1;
 
 
-        FragmentList  = new ArrayList<>();
+        ArrayList<PreviewImageFragment> fragmentList = new ArrayList<>();
         for (Image image : allList) {
             if (!image.isCapture) {
-                FragmentList.add(PreviewImageFragment.newInstance(image));
+                fragmentList.add(PreviewImageFragment.newInstance(image));
             }
         }
 
-        previewPagerAdapter = new PreviewPagerAdapter(getSupportFragmentManager(), FragmentList);
+        previewPagerAdapter = new PreviewPagerAdapter(getSupportFragmentManager(), fragmentList);
         previewViewpager.setAdapter(previewPagerAdapter);
         previewViewpager.setCurrentItem(mPreviousPos);
         previewViewpager.setOnPageChangeListener(this);

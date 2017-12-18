@@ -30,7 +30,6 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
-import com.pilipa.fapiaobao.service.X5CorePreLoadService;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.pilipa.fapiaobao.ui.DemandActivity;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
@@ -107,9 +106,14 @@ public class BaseApplication extends Application {
     }
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
-        MultiDex.install(this);
         _context = getApplicationContext();
         //LeakCanary.install(this);
         //OkGoClient.init();
@@ -143,8 +147,6 @@ public class BaseApplication extends Application {
         PlatformConfig.setSinaWeibo("3639386105", "63143b3cc202fed0c17baf57030a88a0", "http://sns.whalecloud.com");
         PlatformConfig.setWeixin(Constants.APP_ID, "7df3fe092b8d88ebc28a94b84b5388c3");
         UMShareAPI.get(this);
-
-
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
@@ -210,36 +212,34 @@ public class BaseApplication extends Application {
             }
         });
 
-//        QbSdk.preInit(this, new QbSdk.PreInitCallback() {
-//            @Override
-//            public void onCoreInitFinished() {
-//                Log.d("preInit", " onCoreInitFinished  ");
-//            }
+        QbSdk.preInit(this, new QbSdk.PreInitCallback() {
+            @Override
+            public void onCoreInitFinished() {
+                Log.d("preInit", " onCoreInitFinished  ");
+            }
+
+            @Override
+            public void onViewInitFinished(boolean b) {
+                Log.d("preInit", " onViewInitFinished is " + b);
+            }
+        });
 //
-//            @Override
-//            public void onViewInitFinished(boolean b) {
-//                Log.d("preInit", " onViewInitFinished is " + b);
-//            }
-//        });
-//
-//        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
-//
-//            @Override
-//            public void onViewInitFinished(boolean arg0) {
-//                // TODO Auto-generated method stub
-//                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
-//                Log.d("initX5Environment", " onViewInitFinished is " + arg0);
-//            }
-//
-//            @Override
-//            public void onCoreInitFinished() {
-//                // TODO Auto-generated method stub
-//                Log.d("initX5Environment", " onCoreInitFinished  ");
-//            }
-//        };
-//        //x5内核初始化接口
-//        QbSdk.initX5Environment(getApplicationContext(),  cb);
-//        QbSdk.setDownloadWithoutWifi(true);
+        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
+
+            @Override
+            public void onViewInitFinished(boolean arg0) {
+                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
+                Log.d("initX5Environment", " onViewInitFinished is " + arg0);
+            }
+
+            @Override
+            public void onCoreInitFinished() {
+                Log.d("initX5Environment", " onCoreInitFinished  ");
+            }
+        };
+        //x5内核初始化接口
+        QbSdk.initX5Environment(getApplicationContext(),  cb);
+        QbSdk.setDownloadWithoutWifi(true);
     }
     private void notificationClick() {
         UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
@@ -291,12 +291,14 @@ public class BaseApplication extends Application {
                             String  companyId = (String) jsonObject.get("companyId");
                             String  invoiceTypeId = (String) jsonObject.get("invoiceTypeId");
                             String  invoiceVarieties = (String) jsonObject.get("invoiceVarieties");
+                            String  invoiceTypeName = (String) jsonObject.get("invoiceTypeName");
                             String  city = (String) jsonObject.get("city");
                             Intent intent4 = new Intent();
                             intent4.putExtra(FinanceFragment.EXTRA_DATA_LABEL, invoiceTypeId);
                             intent4.putExtra("companyId", companyId);
                             intent4.putExtra("city", city);
                             intent4.putExtra("invoiceVarieties", invoiceVarieties);
+                            intent4.putExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME, invoiceTypeName);
                             intent4.setClass(getApplicationContext(), EstimateActivity.class);
                             intent4.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent4);

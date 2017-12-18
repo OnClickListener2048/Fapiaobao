@@ -482,6 +482,7 @@
     <string name="flag">¥</string>
     <string name="acquire_short_message">获取验证码</string>
     <string name="please_enter_the_right_phone_number">请输入正确的手机号码</string>
+    <string name="save_to_invoice_clip">保存到发票夹</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

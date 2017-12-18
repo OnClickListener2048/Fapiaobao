@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
+import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyCompanyDetailsAdapter;
@@ -53,6 +54,13 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.pilipa.fapiaobao.base.BaseApplication.SHARE_SOCORE;
 import static com.pilipa.fapiaobao.base.BaseApplication.set;
@@ -127,7 +135,6 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
-
     }
 
     public static MyCompanyDetailsPagerFragment newInstance(Bundle bundle) {
@@ -147,8 +154,8 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
         tv_account = (TextView) view.findViewById(R.id.tv_account);
         LinearLayout ll_we_need = (LinearLayout) view.findViewById(R.id.ll_we_need);
         TextView tv_newNeed = (TextView) view.findViewById(R.id.tv_newNeed);
-        ImageView img_qr_code1 = (ImageView) view.findViewById(R.id.img_qr_code1);
-        ImageView img_qr_code2 = (ImageView) view.findViewById(R.id.img_qr_code2);
+        final ImageView img_qr_code1 = (ImageView) view.findViewById(R.id.img_qr_code1);
+        final ImageView img_qr_code2 = (ImageView) view.findViewById(R.id.img_qr_code2);
         LinearLayout ll_qr_code2 = (LinearLayout) view.findViewById(R.id.ll_qr_code2);
         viewRecycler.setLayoutManager(new GridLayoutManager(mContext, 3));
         Bundle arguments = getArguments();
@@ -191,17 +198,41 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
         //删除的ID
         deleteId = company.getId();
         Log.d(TAG, "deleteId" + deleteId);
-
-        try {
-            String content = new String(company.getQrcode().getBytes("UTF-8"), "ISO-8859-1");
-            TLog.log("content-----------" + content);
-            Bitmap qrCode = CodeCreator.createQRCode(mContext, content);
-            img_qr_code1.setImageBitmap(qrCode);
-            img_qr_code2.setImageBitmap(qrCode);
-        } catch (Exception e) {
-            BaseApplication.showToast("二维码生成失败");
-            e.printStackTrace();
-        }
+        Observable.create(new ObservableOnSubscribe<Bitmap>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Bitmap> e) throws Exception {
+                String content = new String(company.getQrcode().getBytes("UTF-8"), "ISO-8859-1");
+                TLog.log("content-----------" + content);
+                Bitmap qrCode = CodeCreator.createQRCode(mContext, content);
+                e.onNext(qrCode);
+                e.onComplete();
+            }
+        }).subscribeOn(Schedulers.from(AppOperator.getExecutor()))
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        BaseApplication.showToast("二维码生成失败");
+                        throwable.printStackTrace();
+                    }
+                })
+                .subscribe(new Consumer<Bitmap>() {
+                    @Override
+                    public void accept(@NonNull Bitmap bitmap) throws Exception {
+                        img_qr_code1.setImageBitmap(bitmap);
+                        img_qr_code2.setImageBitmap(bitmap);
+                    }
+                });
+//        try {
+//            String content = new String(company.getQrcode().getBytes("UTF-8"), "ISO-8859-1");
+//            TLog.log("content-----------" + content);
+//            Bitmap qrCode = CodeCreator.createQRCode(mContext, content);
+//            img_qr_code1.setImageBitmap(qrCode);
+//            img_qr_code2.setImageBitmap(qrCode);
+//        } catch (Exception e) {
+//            BaseApplication.showToast("二维码生成失败");
+//            e.printStackTrace();
+//        }
     }
 
     private void initChildViews(List<FavoriteCompanyBean.DataBean.InvoiceTypeListBean> list) {

@@ -1,7 +1,9 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
@@ -17,16 +19,22 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.fragment.UploadNormalReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by edz on 2017/10/20.
@@ -99,6 +107,18 @@ public class UploadReceiptActivity extends BaseActivity {
         bundle.putBoolean(IS_ELEC_RECEIPT_DATA, true);
         paperElecReceiptFragment = UploadNormalReceiptFragment.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+
+
+        resetLayout();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        paperElecReceiptFragment.resultFromElec(intent);
+    }
+
+    private void resetLayout() {
         if (type != 0) {
             if (type == 1) {
                 llContainerPaperNormalReceipt.setVisibility(View.VISIBLE);
@@ -145,8 +165,41 @@ public class UploadReceiptActivity extends BaseActivity {
     }
 
     public void scan() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            RxPermissions rxPermissions = new RxPermissions(this);
+            rxPermissions.request(Manifest.permission.READ_PHONE_STATE
+            ,Manifest.permission.ACCESS_NETWORK_STATE
+            ,Manifest.permission.ACCESS_WIFI_STATE
+            ,Manifest.permission.INTERNET)
+                    .subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(@NonNull Boolean aBoolean) {
+                            if (aBoolean) {
+                                Intent intent = new Intent(UploadReceiptActivity.this, CaptureActivity.class);
+                                startActivityForResult(intent, REQUEST_CODE_SCAN);
+                            }
+                        }
+
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } else {
+
         Intent intent = new Intent(this, CaptureActivity.class);
         startActivityForResult(intent, REQUEST_CODE_SCAN);
+        }
     }
 
     @Override
@@ -165,6 +218,7 @@ public class UploadReceiptActivity extends BaseActivity {
                     if (RegexUtils.isURL(content)||content.contains("http")) {
                         Intent intent = new Intent();
                         intent.putExtra("company_info", company_info);
+                        intent.putExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, true);
                         intent.setClass(this, Op.class);
                         intent.putExtra("url", content);
                         startActivity(intent);

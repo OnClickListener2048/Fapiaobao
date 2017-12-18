@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.mylibrary.utils.TLog;
 import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
 import com.lljjcoder.bean.DistrictBean;
@@ -15,7 +14,6 @@ import com.lljjcoder.bean.ProvinceBean;
 import com.lljjcoder.citywheel.CityConfig;
 import com.lljjcoder.citywheel.CityPickerView;
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.LocationBaseActivity;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
@@ -81,12 +79,19 @@ public class FilterActivity extends LocationBaseActivity {
                 }
             }
         });
+
+        type = getIntent().getIntExtra("type", -1);
+        locate = getIntent().getStringExtra("location");
+        if (type != -1) {
+            labelsReceiptKind.setSelects(type - 1);
+        }
+
+        tvArea.setText(locate);
     }
 
     private void initLabels() {
         arrayListReceiptKind.addAll(StaticDataCreator.initReceiptKindData(this));
         labelsReceiptKind.setLabels(arrayListReceiptKind);
-
     }
 
     @Override

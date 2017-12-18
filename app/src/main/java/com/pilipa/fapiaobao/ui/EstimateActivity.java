@@ -64,6 +64,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -147,7 +148,7 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
 
     private CityPickerView cityPicker;
     private ArrayList<String> arrayListSelectedReceiptKind;
-    private String name;
+    private String name = "";
     private String companyId;
     private String demandId;
     public ExtimatePagerAdapter adapter;
@@ -201,6 +202,12 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
 
         RxTextView
                 .afterTextChangeEvents(etEstimate)
+                .filter(new Predicate<TextViewAfterTextChangeEvent>() {
+                    @Override
+                    public boolean test(@NonNull TextViewAfterTextChangeEvent textViewAfterTextChangeEvent) throws Exception {
+                        return TextUtils.isEmpty(textViewAfterTextChangeEvent.editable());
+                    }
+                })
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<TextViewAfterTextChangeEvent>() {
                     @Override
@@ -214,8 +221,6 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
                         }
                     }
                 });
-
-
         updateInvoiceType();
     }
 
@@ -336,25 +341,30 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
                 estimate();
                 break;
             case R.id.go:
-                go.setEnabled(false);
+
                 Api.confirmDemand(AccountHelper.getToken(),demandId, new Api.BaseRawResponse<NormalBean>() {
                     @Override
                     public void onStart() {
-
+                        go.setEnabled(false);
+                        showProgressDialog();
                     }
 
                     @Override
                     public void onFinish() {
-
+                        go.setEnabled(true);
+                        hideProgressDialog();
                     }
 
                     @Override
                     public void onError() {
-
+                        go.setEnabled(true);
+                        hideProgressDialog();
                     }
 
                     @Override
                     public void onTokenInvalid() {
+                        go.setEnabled(true);
+                        hideProgressDialog();
                         login();
                     }
 
@@ -415,6 +425,8 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
                 break;
             case R.id.reset_filter:
             case R.id.reset_filter_top:
+                intent.putExtra("location", locate);
+                intent.putExtra("type", type);
                 intent.setClass(this, FilterActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_ESTIMATE);
                 break;
@@ -442,7 +454,11 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
             return;
         }
         filterConditionTop.setText(locate + "\u3000" + arrayListSelectedReceiptKind.get(type - 1));
-        filterConditionBottom.setText(locate + "\u3000" + arrayListSelectedReceiptKind.get(type - 1)+"\u3000"+name);
+        if (name == null) {
+            filterConditionBottom.setText(locate + "\u3000" + arrayListSelectedReceiptKind.get(type - 1) + "\u3000");
+        } else {
+            filterConditionBottom.setText(locate + "\u3000" + arrayListSelectedReceiptKind.get(type - 1) + "\u3000"+name);
+        }
 
 
         if (TextUtils.isEmpty(etEstimate.getText())) {

@@ -208,17 +208,14 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
             @Override
             public void onStart() {
-                activity.showProgressDialog();
             }
 
             @Override
             public void onFinish() {
-                activity.hideProgressDialog();
             }
 
             @Override
             public void onError() {
-                activity.hideProgressDialog();
             }
 
             @Override
@@ -247,7 +244,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 .subscribe(new Observer<AllInvoiceType.DataBean.InvoiceTypeListBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        activity.showProgressDialog();
                     }
 
                     @Override
@@ -380,10 +376,12 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
             @Override
             public void onError(Throwable e) {
+                TLog.d(TAG,"Throwable e"+e.getMessage());
             }
 
             @Override
             public void onComplete() {
+                TLog.d(TAG," rxPermissions.request  onComplete");
             }
         });
     }
@@ -408,7 +406,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         messageList();
         newNotification.setVisibility(BaseApplication.get(BaseApplication.PUSH_RECEIVE, false) ? View.VISIBLE : View.GONE);
         if (delayIntentRefresh) {
-            financeAdapter.removeAllItems();
             findAllInvoiceTypes("");
         }
     }

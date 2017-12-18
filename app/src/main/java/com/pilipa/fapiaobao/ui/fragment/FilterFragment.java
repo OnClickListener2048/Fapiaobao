@@ -1,6 +1,5 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -16,17 +15,9 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.example.mylibrary.utils.TLog;
-
-import com.lljjcoder.Interface.OnCityItemClickListener;
-import com.lljjcoder.bean.CityBean;
-import com.lljjcoder.bean.DistrictBean;
-import com.lljjcoder.bean.ProvinceBean;
-import com.lljjcoder.citywheel.CityConfig;
-import com.lljjcoder.citywheel.CityPickerView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
-import com.pilipa.fapiaobao.ui.DemandsPublishActivity;
 import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
@@ -55,7 +46,6 @@ public class FilterFragment extends BaseFragment {
     LabelsView labelsArea;
     @Bind(R.id.others_province)
     RelativeLayout othersProvince;
-    private CityPickerView cityPicker;
     private EstimateActivity estimateActivity;
     private ArrayList<String> arrayListSelectedReceiptKind;
     private String area;
@@ -200,51 +190,6 @@ public class FilterFragment extends BaseFragment {
     }
 
     private void initCityPicker() {
-        CityConfig cityConfig = new CityConfig.Builder(getActivity())
-                .title("选择地区")
-                .titleBackgroundColor("#E9E9E9")
-                .textSize(15)
-                .titleTextColor("#585858")
-                .textColor("0xFF585858")
-                .confirTextColor("#0000FF")
-                .cancelTextColor("#000000")
-                .province("直辖市")
-                .city("天津")
-                .district("红桥区")
-                .visibleItemsCount(5)
-                .provinceCyclic(false)
-                .cityCyclic(false)
-                .districtCyclic(false)
-                .itemPadding(5)
-                .setCityInfoType(CityConfig.CityInfoType.BASE)
-                .setCityWheelType(CityConfig.WheelType.PRO_CITY_DIS)
-                .build();
-
-        cityPicker = new CityPickerView(cityConfig);
-
-        cityPicker.setOnCityItemClickListener(new OnCityItemClickListener() {
-            @Override
-            public void onSelected(ProvinceBean province, CityBean city, DistrictBean district) {
-                super.onSelected(province, city, district);
-                //返回结果
-                //ProvinceBean 省份信息
-                //CityBean     城市信息
-                //DistrictBean 区县信息
-                if (!arrayListReceiptArea.contains(city.getName())) {
-                    arrayListReceiptArea.add(city.getName());
-                }
-
-                labelsArea.setLabels(arrayListReceiptArea);
-                cityPicker.hide();
-            }
-
-            @Override
-            public void onCancel() {
-                super.onCancel();
-                cityPicker.hide();
-            }
-        });
-
 
 
 
@@ -271,6 +216,5 @@ public class FilterFragment extends BaseFragment {
 
     @OnClick(R.id.others_province)
     public void onViewClicked() {
-        cityPicker.show();
     }
 }

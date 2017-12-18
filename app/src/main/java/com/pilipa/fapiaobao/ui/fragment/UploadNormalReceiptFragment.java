@@ -316,24 +316,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             startActivityForResult(intent,REQUEST_CODE_AMOUNT);
 
         } else if (requestCode ==REQUEST_CODE_FROM_ELEC && resultCode == RESULT_OK) {
-            Bundle bundleExtra = data.getBundleExtra(ReceiptActivityToken.EXTRA_DATA_FROM_TOKEN);
-            ArrayList<Image> parcelableArrayList = bundleExtra.getParcelableArrayList(ReceiptActivityToken.RESULT_RECEIPT_FOLDER);
-
-            if (parcelableArrayList != null && parcelableArrayList.size() == 0) {
-                return;
-            }
-            ArrayList<Image> arrayList = new ArrayList<>();
-            for (Image image : parcelableArrayList) {
-                image.position = mPreviousPosition;
-                arrayList.add(image);
-                mPreviousPosition++;
-//                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
-//                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
-            }
-            Intent intent = new Intent();
-            intent.setClass(mContext, FillUpActivity.class);
-            intent.putParcelableArrayListExtra("images", arrayList);
-            startActivityForResult(intent,REQUEST_CODE_AMOUNT);
+            resultFromElec(data);
         } else if (requestCode == REQUEST_CODE_AMOUNT) {
             if (resultCode == RESULT_OK) {
                 ArrayList<Image> arrayList = data.getParcelableArrayListExtra("images");
@@ -344,6 +327,27 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
 
             }
         }
+    }
+
+    public void resultFromElec(Intent data) {
+        Bundle bundleExtra = data.getBundleExtra(ReceiptActivityToken.EXTRA_DATA_FROM_TOKEN);
+        ArrayList<Image> parcelableArrayList = bundleExtra.getParcelableArrayList(ReceiptActivityToken.RESULT_RECEIPT_FOLDER);
+
+        if (parcelableArrayList != null && parcelableArrayList.size() == 0) {
+            return;
+        }
+        ArrayList<Image> arrayList = new ArrayList<>();
+        for (Image image : parcelableArrayList) {
+            image.position = mPreviousPosition;
+            arrayList.add(image);
+            mPreviousPosition++;
+//                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
+//                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
+        }
+        Intent intent = new Intent();
+        intent.setClass(mContext, FillUpActivity.class);
+        intent.putParcelableArrayListExtra("images", arrayList);
+        startActivityForResult(intent, REQUEST_CODE_AMOUNT);
     }
 
     private void setDialog() {
@@ -411,7 +415,6 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
 
                         }
                     });
-
                 }
                 mCameraDialog.dismiss();
                 break;

@@ -194,9 +194,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <android.support.v4.widget.Space
-                android:layout_width="@dimen/d5"
-                android:layout_height="match_parent" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

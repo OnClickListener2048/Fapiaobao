@@ -84,7 +84,7 @@
                         android:layout_marginLeft="@dimen/d10"
                         android:background="@null"
                         android:gravity="center_horizontal"
-                        android:hint="0"
+                        android:hint="@string/zero"
                         android:inputType="numberDecimal"
                         android:textColor="@color/red_estimate"
                         android:textSize="@dimen/s25"
@@ -94,7 +94,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|right"
+                    android:layout_gravity="center|end"
                     android:text="@string/yuan" />
             </LinearLayout>
         </RelativeLayout>

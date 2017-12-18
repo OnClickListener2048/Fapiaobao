@@ -20,4 +20,6 @@ public class Constant {
     public static final String UPLOAD_SUCCESS="upload_success";
 
     public static final String NOTOKEN = "notoken";
+    public static final String PDF_EXTRA = "pdf_url";
+    public static final String IS_FROM_UPLOADRECEIPT_ACTIVITY = "isFromUploadReceiptActivity";
 }

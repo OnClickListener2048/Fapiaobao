@@ -102,11 +102,13 @@ import static com.pilipa.fapiaobao.net.Constant.SHAT_DOWN_EARLY;
 import static com.pilipa.fapiaobao.net.Constant.SHORT_MESSAGE_VERIFY;
 import static com.pilipa.fapiaobao.net.Constant.SHOW_ORDER_DETAIL;
 import static com.pilipa.fapiaobao.net.Constant.SUGGESTION;
+import static com.pilipa.fapiaobao.net.Constant.TRANSFORM_PDF;
 import static com.pilipa.fapiaobao.net.Constant.UBIND;
 import static com.pilipa.fapiaobao.net.Constant.UPDATE_CUSTOMER;
 import static com.pilipa.fapiaobao.net.Constant.UPDATE_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.UPLOAD_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.UPLOAD_MY_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.UPLOAD_PDF;
 import static com.pilipa.fapiaobao.net.Constant.URL_UPDATE;
 import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_DETAILS;
 import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_LIST;
@@ -537,6 +539,7 @@ public class Api {
             }
         });
     }
+
     /**
      * 分享加积分
      * @param token
@@ -549,6 +552,7 @@ public class Api {
             }
         });
     }
+
     public static void wxPay(String total_fee, final BaseViewCallback baseViewCallback) {
         OkGo.<String>post(Constants.PREPAY_URL).upString(PayCommonUtil.getRequestXml(PayCommonUtil.wxPrePay(total_fee))).execute(new StringCallback() {
             @Override
@@ -611,7 +615,6 @@ public class Api {
                         baseViewCallback.onTokenInvalid();
                     } else {
                         baseViewCallback.setData(response.body());
-
                     }
                 }
             });
@@ -687,7 +690,9 @@ public class Api {
      * @param baseViewCallback
      */
     public static void findDefaultInvoiceType(final BaseViewCallbackWithOnStart baseViewCallback) {
-        OkGo.<DefaultInvoiceBean>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE).execute(new JsonCallBack<DefaultInvoiceBean>(DefaultInvoiceBean.class) {
+        OkGo.<DefaultInvoiceBean>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE)
+                .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
+                .execute(new JsonCallBack<DefaultInvoiceBean>(DefaultInvoiceBean.class) {
                 @Override
                 public void onSuccess(Response<DefaultInvoiceBean> response) {
                     if (response.isSuccessful()) {
@@ -695,7 +700,15 @@ public class Api {
                     }
                 }
 
-                @Override
+                    @Override
+                    public void onCacheSuccess(Response<DefaultInvoiceBean> response) {
+                        super.onCacheSuccess(response);
+                        if (response.isSuccessful()) {
+                            baseViewCallback.setData(response.body());
+                        }
+                    }
+
+                    @Override
                 public void onStart(Request<DefaultInvoiceBean, ? extends Request> request) {
                     super.onStart(request);
                     baseViewCallback.onStart();
@@ -723,7 +736,9 @@ public class Api {
     public static void findUserInvoiceType(String token, final BaseRawResponse baseViewCallback) {
 
             String url = String.format(FIND_FREQUENTLY_INVOICE_TYPE, token);
-        OkGo.<DefaultInvoiceBean>get(url).tag("findUserInvoiceType").execute(new JsonCallBack<DefaultInvoiceBean>(DefaultInvoiceBean.class) {
+        OkGo.<DefaultInvoiceBean>get(url).tag("findUserInvoiceType")
+                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
+                .execute(new JsonCallBack<DefaultInvoiceBean>(DefaultInvoiceBean.class) {
                 @Override
                 public void onSuccess(Response<DefaultInvoiceBean> response) {
                     DefaultInvoiceBean body = response.body();
@@ -735,7 +750,19 @@ public class Api {
                     }
                 }
 
-                @Override
+                    @Override
+                    public void onCacheSuccess(Response<DefaultInvoiceBean> response) {
+                        super.onCacheSuccess(response);
+                        DefaultInvoiceBean body = response.body();
+
+                        if (response.isSuccessful() && body.getStatus() == Constant.REQUEST_SUCCESS) {
+                            baseViewCallback.setData(body);
+                        } else if (body.getStatus() == Constant.TOKEN_INVALIDE) {
+                            baseViewCallback.onTokenInvalid();
+                        }
+                    }
+
+                    @Override
                 public void onError(Response<DefaultInvoiceBean> response) {
                     super.onError(response);
                     baseViewCallback.onError();
@@ -1367,7 +1394,6 @@ public class Api {
                 }
             });
         }
-
     }
 
     public static void getUpdateInfo(final BaseViewCallback baseViewCallback) {
@@ -1391,6 +1417,70 @@ public class Api {
             public void onSuccess(Response<NormalBean> response) {
             }
         });
+    }
+
+    public static void upload_pdf(String url, String token, final BaseRawResponse baseViewCallbackWithOnStart) {
+        OkGo.<NormalBean>post(UPLOAD_PDF)
+                .upJson(JsonCreator.upload_pdf(url, token))
+                .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+                    @Override
+                    public void onSuccess(Response<NormalBean> response) {
+                        if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                            baseViewCallbackWithOnStart.onTokenInvalid();
+                        } else {
+                            baseViewCallbackWithOnStart.setData(response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<NormalBean> response) {
+                        super.onError(response);
+                        baseViewCallbackWithOnStart.onError();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        baseViewCallbackWithOnStart.onFinish();
+                    }
+
+                    @Override
+                    public void onStart(Request<NormalBean, ? extends Request> request) {
+                        super.onStart(request);
+                        baseViewCallbackWithOnStart.onStart();
+                    }
+                });
+    }
+
+
+    public static void transform_pdf(String pdfUrl, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
+        OkGo.<NormalBean>post(TRANSFORM_PDF)
+                .upJson(JsonCreator.pdf(pdfUrl))
+                .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+                    @Override
+                    public void onSuccess(Response<NormalBean> response) {
+                        baseViewCallbackWithOnStart.setData(response.body());
+                    }
+
+                    @Override
+                    public void onStart(Request<NormalBean, ? extends Request> request) {
+                        super.onStart(request);
+                        baseViewCallbackWithOnStart.onStart();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        baseViewCallbackWithOnStart.onFinish();
+                    }
+
+                    @Override
+                    public void onError(Response<NormalBean> response) {
+                        super.onError(response);
+                        baseViewCallbackWithOnStart.onError();
+                    }
+                });
+
     }
 
     public static void getSuggestions(int pageNo

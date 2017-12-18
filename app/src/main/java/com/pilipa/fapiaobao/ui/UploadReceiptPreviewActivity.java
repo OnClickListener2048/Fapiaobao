@@ -22,7 +22,6 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
 import com.pilipa.fapiaobao.net.bean.invoice.RedBagBean;
@@ -342,7 +341,11 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                         invoiceListBean.setAmount(Double.valueOf(image.amount));
                         invoiceListBean.setVariety("3");
                         if (image.isFromNet) {
-                            invoiceListBean.setId(image.id);
+                            if (image.isPdf) {
+                                invoiceListBean.setUrl(subStringUrl(image.path));
+                            } else {
+                                invoiceListBean.setId(image.id);
+                            }
                         } else {
                             invoiceListBean.setPicture(upLoadReceipt(image));
                         }
@@ -460,6 +463,10 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
         super.onDestroy();
         TLog.log(" OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);");
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
+    }
+
+    private String subStringUrl(String originUrl) {
+        return originUrl.substring(originUrl.indexOf("/invoice"));
     }
 
     public void onPubSuccess() {

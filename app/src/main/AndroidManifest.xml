@@ -154,11 +154,11 @@
         <activity android:name=".ui.CompanyDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.FavCompanyDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BindPhoneActivity" android:screenOrientation="portrait"/>
-
+        <activity android:name=".ui.PdfPreviewActivity" />
         <activity android:name=".ui.EstimateActivity" android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".ui.UploadReceiptActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.UploadReceiptActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
 
         </activity>
 

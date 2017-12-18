@@ -131,8 +131,21 @@ class JsonCreator {
 
 
     public static JSONObject log(String log) {
-        HashMap<String,String> map = new HashMap();
+        HashMap<String,String> map = new HashMap<>();
         map.put("logs", log);
+        return new JSONObject(map);
+    }
+
+    public static JSONObject pdf(String pdf) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("url", pdf);
+        return new JSONObject(map);
+    }
+
+    public static JSONObject upload_pdf(String url, String token) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("token", token);
+        map.put("url", url);
         return new JSONObject(map);
     }
 }

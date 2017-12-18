@@ -1,33 +1,33 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.os.Message;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mylibrary.utils.TLog;
-
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.just.agentwebX5.AgentWeb;
 import com.just.agentwebX5.ChromeClientCallbackManager;
 import com.just.agentwebX5.DownLoadResultListener;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.FileCallback;
-import com.lzy.okgo.model.Response;
-import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.WebViewUtils;
+import com.tencent.smtt.export.external.interfaces.ConsoleMessage;
 import com.tencent.smtt.export.external.interfaces.JsResult;
+import com.tencent.smtt.export.external.interfaces.WebResourceError;
+import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
+import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.DownloadListener;
-import com.tencent.smtt.sdk.QbSdk;
-import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
@@ -36,7 +36,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.HashMap;
 
 import butterknife.Bind;
@@ -59,15 +58,51 @@ public class Op extends BaseActivity implements
     LinearLayout ll;
     String TAG = Op.class.getSimpleName();
     private  MacherBeanToken.DataBean.CompanyBean company_info;
+
+
+
+
     WebViewClient webViewClient = new WebViewClient() {
         @Override
         public void onLoadResource(WebView view, String url) {
             super.onLoadResource(view, url);
+            TLog.d(TAG,"onLoadResource");
+        }
+
+        @Override
+        public void onPageStarted(WebView webView, String s, Bitmap bitmap) {
+            super.onPageStarted(webView, s, bitmap);
+            TLog.d(TAG,"onPageStarted");
+        }
+
+        @Override
+        public void onReceivedHttpError(WebView webView, WebResourceRequest webResourceRequest, WebResourceResponse webResourceResponse) {
+            super.onReceivedHttpError(webView, webResourceRequest, webResourceResponse);
+            TLog.d(TAG,"onReceivedHttpError");
+        }
+
+        @Override
+        public void onReceivedError(WebView webView, int i, String s, String s1) {
+            super.onReceivedError(webView, i, s, s1);
+            TLog.d(TAG,"onReceivedError");
+    }
+
+        @Override
+        public void onReceivedError(WebView webView, WebResourceRequest webResourceRequest, WebResourceError webResourceError) {
+            super.onReceivedError(webView, webResourceRequest, webResourceError);
+            TLog.d(TAG,"onReceivedError(webView, webResourceRequest, webResourceError);");
+        }
+
+        @Override
+        public void onTooManyRedirects(WebView webView, Message message, Message message1) {
+            super.onTooManyRedirects(webView, message, message1);
+            TLog.d(TAG,"onTooManyRedirects");
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            TLog.d(TAG,"onPageFinished");
             TLog.log("company_info"+company_info);
             if (company_info != null) {
                 if (url.contains("yumchina")) {
@@ -151,9 +186,15 @@ public class Op extends BaseActivity implements
         public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
             return super.onJsAlert(view, url, message, result);
         }
+
+        @Override
+        public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+            TLog.d(TAG,consoleMessage.message());
+            return super.onConsoleMessage(consoleMessage);
+        }
     };
     private AgentWeb go;
-    private HashMap<String, String> params;
+    private boolean isFromUploadReceiptActivity;
 
 //    public static final Stringjsondata = "{ pkgName:\"com.example.thirdfile\", "
 //            +"className:\"com.example.thirdfile.IntentActivity\","
@@ -187,6 +228,7 @@ public class Op extends BaseActivity implements
 
         ButterKnife.bind(this);
         company_info = getIntent().getParcelableExtra("company_info");
+        isFromUploadReceiptActivity = getIntent().getBooleanExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, false);
         TLog.log(" company_info = getIntent().getParcelableExtra(\"company_info\");");
         AgentWeb.PreAgentWeb preAgentWeb = WebViewUtils.init(this, ll, this, webViewClient, webChromeClient, null);
         String url = getIntent().getStringExtra("url");
@@ -208,7 +250,7 @@ public class Op extends BaseActivity implements
             jsonObject.put("menuItems", jsonArray);
             Gson gson = new Gson();
             String jsondata = gson.toJson(jsonObject);
-            params = new HashMap<>();
+            HashMap<String, String> params = new HashMap<>();
             params.put("style", "1");
             params.put("local", "true");
             params.put("menuData", jsondata);
@@ -221,43 +263,31 @@ public class Op extends BaseActivity implements
             @Override
             public void onDownloadStart(String url, String userAgent, String s2, String s3, long l) {
                 TLog.d(TAG,"onDownloadStartonDownloadStartonDownloadStart");
-                OkGo.<File>get(url).execute(new FileCallback() {
+                Api.transform_pdf(url, new Api.BaseViewCallbackWithOnStart<NormalBean>() {
                     @Override
-                    public void onSuccess(Response<File> response) {
-                        int i = QbSdk.openFileReader(Op.this, response.body().getAbsolutePath(), params, new ValueCallback<String>() {
-                            @Override
-                            public void onReceiveValue(String s) {
-                                Log.d("op.class", "onReceiveValue: " + s);
-                            }
-                        });
-                        switch (i) {
-                            case 1:
-                                TLog.d(TAG,"用qq浏览器打开");
-                                break;
-                            case 2:
-                                TLog.d(TAG,"用MiniQb打开");
-                                break;
-                            case 3:
-                                TLog.d(TAG,"调起阅读器弹窗");
-                                break;
-                            case -1:
-                                TLog.d(TAG,"打开失败");
-                                break;
-                        }
-
-                    }
-
-                    @Override
-                    public void onStart(Request<File, ? extends Request> request) {
-                        super.onStart(request);
+                    public void onStart() {
                         showProgressDialog();
                     }
 
-
                     @Override
                     public void onFinish() {
-                        super.onFinish();
                         hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onError() {
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void setData(NormalBean normalBean) {
+                        TLog.d(TAG,normalBean.getData());
+                        Intent intent = new Intent();
+                        intent.putExtra(Constant.PDF_EXTRA, normalBean.getData());
+                        intent.putExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, isFromUploadReceiptActivity);
+                        intent.setClass(Op.this, PdfPreviewActivity.class);
+                        startActivity(intent);
+
                     }
                 });
             }

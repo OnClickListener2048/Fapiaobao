@@ -1,25 +1,19 @@
 package com.pilipa.fapiaobao.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.Constants.Config;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.ui.LeadActivity;
-import com.pilipa.fapiaobao.ui.LoginActivity;
 
 /**
  * Created by lyt on 2017/10/12.

@@ -150,7 +150,10 @@ public class Withdraw2WXActivity extends BaseActivity {
             }
             break;
             case R.id.withdraw_all: {
-                tv_amount.setText(yue.setScale(2,BigDecimal.ROUND_HALF_UP)+"");
+                if (yue != null) {
+
+                tv_amount.setText(String.valueOf(yue.setScale(2,BigDecimal.ROUND_HALF_UP)));
+                }
             }
             break;
         }
