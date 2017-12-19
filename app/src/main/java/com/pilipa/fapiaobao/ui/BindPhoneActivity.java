@@ -84,8 +84,6 @@ public class BindPhoneActivity extends BaseActivity {
 
                         @Override
                         public void setData(ShortMessageBean shortMessageBean) {
-
-                            BaseApplication.showToast(shortMessageBean.getData());
                         }
                     });
                 }

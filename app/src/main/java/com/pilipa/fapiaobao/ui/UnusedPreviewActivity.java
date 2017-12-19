@@ -21,7 +21,6 @@ import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.PreviewImageFragment;
@@ -121,7 +120,7 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.delete:
-                setDelDialog(mImage);
+                setDelDialog(allList.get(mPreviousPos+1));
                 break;
             case R.id.back:
                 Intent intent = new Intent();

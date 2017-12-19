@@ -137,16 +137,19 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
     @Override
     protected void initData() {
         myInvoiceList();
-
         super.initData();
     }
 
     @Override
     public void onResume() {
+
         super.onResume();
     }
 
     private void setUpData(List<MyInvoiceListBean.DataBean> results) {
+        TLog.d("setUpData(List<MyInvoiceListBean.DataBean> results) {",results.size()+"");
+        
+
         for (MyInvoiceListBean.DataBean result : results) {
             Image image = new Image();
             image.isFromNet = true;
@@ -262,9 +265,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
     @Override
     public void capture() {
-                    setDialog();
-
-
+        setDialog();
     }
 
     private void setDialog() {
@@ -352,6 +353,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                 public void setData(NormalBean response) {
 //                    TLog.log(response.body());
                     BaseApplication.showToast("上传成功");
+                    myInvoiceList();
                 }
             });
         } else if (REQUEST_CODE_IMAGE_CLICK == requestCode) {
@@ -492,6 +494,8 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                                         @Override
                                         public void setData(NormalBean response) {
                                             BaseApplication.showToast("上传成功");
+                                            myInvoiceList();
+
                                         }
                                     });
                                 }
@@ -551,40 +555,41 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
     }
 
 
+
     private void myInvoiceList(){
-                    Api.myInvoiceList(AccountHelper.getToken() ,this, new Api.BaseRawResponse<MyInvoiceListBean>() {
-                        @Override
-                        public void onStart() {
+        Api.myInvoiceList(AccountHelper.getToken() ,this, new Api.BaseRawResponse<MyInvoiceListBean>() {
+            @Override
+            public void onStart() {
 
-                        }
+            }
 
-                        @Override
-                        public void onFinish() {
+            @Override
+            public void onFinish() {
 
-                        }
+            }
 
-                        @Override
-                        public void onError() {
+            @Override
+            public void onError() {
 
-                        }
+            }
 
-                        @Override
-                        public void onTokenInvalid() {
-                            login();
-                        }
+            @Override
+            public void onTokenInvalid() {
+                login();
+            }
 
-                        @Override
-                        public void setData(MyInvoiceListBean myInvoiceListBean) {
-                            List<MyInvoiceListBean.DataBean> list = new ArrayList<>();
-                            if(myInvoiceListBean.getStatus() == 200){
-                                list=myInvoiceListBean.getData();
-                                setUpData(list);
-                            }else{
-                                setUpData(list);
-                            }
-                            Log.d(TAG, "updateData:myInvoiceList success");
-                        }
-                    });
+            @Override
+            public void setData(MyInvoiceListBean myInvoiceListBean) {
+                List<MyInvoiceListBean.DataBean> list = new ArrayList<>();
+                if(myInvoiceListBean.getStatus() == 200){
+                    list=myInvoiceListBean.getData();
+                    setUpData(list);
+                }else{
+                    setUpData(list);
+                }
+                Log.d(TAG, "updateData:myInvoiceList success");
+            }
+        });
     }
 
     @Override
