@@ -46,6 +46,7 @@ public class PdfPreviewActivity extends BaseActivity {
     ImageView Back;
     @Bind(R.id.relativeLayout)
     RelativeLayout relativeLayout;
+    private String tag;
 
     @Override
     protected int getLayoutId() {
@@ -64,6 +65,7 @@ public class PdfPreviewActivity extends BaseActivity {
         super.initView();
         String pdfUrl = getIntent().getStringExtra(Constant.PDF_EXTRA);
         boolean isFromUploadReceiptActivity = getIntent().getBooleanExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, false);
+        tag = getIntent().getStringExtra(Constant.TAG);
         saveToInvoiceClip.setText(isFromUploadReceiptActivity?getString(R.string.upload_receipt):getString(R.string.save_to_invoice_clip));
         loadPdfImage(pdfUrl);
 
@@ -170,6 +172,7 @@ public class PdfPreviewActivity extends BaseActivity {
             public void setData(NormalBean normalBean) {
                 BaseApplication.showToast(normalBean.getData());
                 if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
+                    
                     ActivityUtils.finishActivity(Op.class);
                     finish();
                 }

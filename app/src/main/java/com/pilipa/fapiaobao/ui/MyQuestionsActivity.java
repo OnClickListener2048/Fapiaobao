@@ -415,7 +415,7 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
         FeedbackMessageBean.DataBean.ListBean.SuggestionListBean suggestionBeanOrigin = new FeedbackMessageBean.DataBean.ListBean.SuggestionListBean();
         suggestionBeanOrigin.setAvatar(AccountHelper.getUser().getData().getCustomer().getHeadimg());
         suggestionBeanOrigin.setCreateTime(TimeUtils.getNowString(TimeUtils.YYYY_MM_DD_HH_MM));
-        suggestionBeanOrigin.setMessage(etFeedback.getHint() + etFeedback.getText().toString().trim());
+        suggestionBeanOrigin.setMessage(etFeedback.getText().toString().trim());
         suggestionBeanOrigin.setNickname(AccountHelper.getUser().getData().getCustomer().getNickname());
         suggestionBeanOrigin.setType("1");
         suggestionBeanOrigin.setSuggestionId(suggestionBean.getSuggestionId());

@@ -179,6 +179,13 @@ public class LoginWithInfoBean {
             }
 
             public String getTelephone() {
+                if ("".equals(telephone)) {
+                    return null;
+                }
+
+                if (telephone == null) {
+                    return "";
+                }
                 return telephone;
             }
 

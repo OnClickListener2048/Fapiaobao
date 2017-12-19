@@ -66,8 +66,10 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
@@ -142,14 +144,10 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
     @Override
     public void onResume() {
-
         super.onResume();
     }
 
     private void setUpData(List<MyInvoiceListBean.DataBean> results) {
-        TLog.d("setUpData(List<MyInvoiceListBean.DataBean> results) {",results.size()+"");
-
-
         for (MyInvoiceListBean.DataBean result : results) {
             Image image = new Image();
             image.isFromNet = true;
@@ -265,7 +263,9 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
     @Override
     public void capture() {
-        setDialog();
+                    setDialog();
+
+
     }
 
     private void setDialog() {
@@ -296,19 +296,11 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode != RESULT_OK) {
-//            return;
-//        }
 
         if (requestCode == REQUEST_CODE_CAPTURE&&resultCode == RESULT_OK) {
             Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
             String path = mediaStoreCompat.getCurrentPhotoPath();
-//            try {
-//                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
-//                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,contentUri));
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
+
             Image image = new Image();
             image.isFromNet = false;
             image.path = path;
@@ -351,7 +343,6 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                 }
                 @Override
                 public void setData(NormalBean response) {
-//                    TLog.log(response.body());
                     BaseApplication.showToast("上传成功");
                 }
             });
@@ -493,68 +484,17 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                                         @Override
                                         public void setData(NormalBean response) {
                                             BaseApplication.showToast("上传成功");
-
+                                            retrieveIDsOfAddedPhotos();
                                         }
                                     });
                                 }
                             });
                         }
                     });
-
-
-//            LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
-//            UploadLocalReceipt uploadLocalReceipt = new UploadLocalReceipt();
-//            uploadLocalReceipt.setToken(loginWithInfoBean.getData().getToken());
-//            uploadLocalReceipt.setPictureList(imageList);
-//            Gson gson = new Gson();
-//            Api.uploadLocalReceipt(gson.toJson(uploadLocalReceipt), new Api.BaseViewCallbackWithOnStart<NormalBean>() {
-//                @Override
-//                public void onStart() {
-//                    ((BaseActivity)getActivity()).showProgressDialog();
-//                }
-//
-//                @Override
-//                public void onFinish() {
-//                    ((BaseActivity)getActivity()).hideProgressDialog();
-//                }
-//
-//                @Override
-//                public void onError() {
-//                    ((BaseActivity)getActivity()).hideProgressDialog();
-//                }
-//                @Override
-//                public void setData(NormalBean response) {
-////                    TLog.log(response.body());
-//                    BaseApplication.showToast("上传成功");
-//                }
-//            });
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_choose_img:
-                openMedia();
-                mCameraDialog.dismiss();
-                break;
-            case R.id.btn_open_camera:
-                if (MediaStoreCompat.hasCameraFeature(getActivity())) {
-                    mediaStoreCompat.dispatchCaptureIntent(getActivity(), REQUEST_CODE_CAPTURE);
-                }
-                mCameraDialog.dismiss();
-                break;
-            case R.id.btn_cancel:
-                mCameraDialog.dismiss();
-                break;
-
-            default:
-        }
-    }
-
-
-
-    private void myInvoiceList(){
+    private void retrieveIDsOfAddedPhotos() {
         Api.myInvoiceList(AccountHelper.getToken() ,this, new Api.BaseRawResponse<MyInvoiceListBean>() {
             @Override
             public void onStart() {
@@ -581,20 +521,101 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                 List<MyInvoiceListBean.DataBean> list = new ArrayList<>();
                 if(myInvoiceListBean.getStatus() == 200){
                     list=myInvoiceListBean.getData();
-                    setUpData(list);
+                    setUpDataIDs(list);
                 }else{
-                    setUpData(list);
+                    setUpDataIDs(list);
                 }
                 Log.d(TAG, "updateData:myInvoiceList success");
             }
         });
     }
 
+    private void setUpDataIDs(List<MyInvoiceListBean.DataBean> list) {
+        TLog.d(TAG,"list.size"+list.size());
+        TLog.d(TAG,"images.size"+images.size());
+        Observable.zip(Observable.fromIterable(list)
+                , Observable.fromIterable(images)
+                        .filter(new Predicate<Image>() {
+                            @Override
+                            public boolean test(@NonNull Image image) throws Exception {
+                                return !image.isCapture;
+                            }
+                        }), new BiFunction<MyInvoiceListBean.DataBean, Image, Image>() {
+                    @Override
+                    public Image apply(@NonNull MyInvoiceListBean.DataBean dataBean, @NonNull Image image) throws Exception {
+                        TLog.d(TAG,"dataBean"+dataBean.getId());
+                        image.name = dataBean.getId();
+                        TLog.d(TAG,"image"+image.getName());
+                        TLog.d(TAG,"image.position"+image.position);
+                        return image;
+                    }
+                }).subscribe();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_choose_img:
+                openMedia();
+                mCameraDialog.dismiss();
+                break;
+            case R.id.btn_open_camera:
+                if (MediaStoreCompat.hasCameraFeature(getActivity())) {
+                    mediaStoreCompat.dispatchCaptureIntent(getActivity(), REQUEST_CODE_CAPTURE);
+                }
+                mCameraDialog.dismiss();
+                break;
+            case R.id.btn_cancel:
+                mCameraDialog.dismiss();
+                break;
+
+            default:
+        }
+    }
+
+
+    private void myInvoiceList(){
+                    Api.myInvoiceList(AccountHelper.getToken() ,this, new Api.BaseRawResponse<MyInvoiceListBean>() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+
+                        @Override
+                        public void onTokenInvalid() {
+                            login();
+                        }
+
+                        @Override
+                        public void setData(MyInvoiceListBean myInvoiceListBean) {
+                            List<MyInvoiceListBean.DataBean> list = new ArrayList<>();
+                            if(myInvoiceListBean.getStatus() == 200){
+                                list=myInvoiceListBean.getData();
+                                setUpData(list);
+                            }else{
+                                setUpData(list);
+                            }
+                            Log.d(TAG, "updateData:myInvoiceList success");
+                        }
+                    });
+    }
+
     @Override
     public void onImageLongClick(View view,Image image,int pos) {
+        TLog.d("onImageLongClick","position----------"+pos);
         AnimationConfig.shake(mContext,view);
         setDelDialog(image,pos);
-        Log.d(TAG, "updateData:onImageLongClick "+image.name);
+        Log.d(TAG, "updateData:onImageLongClick image.name----------"+image.name);
     }
     private void setDelDialog(final Image image,final int pos) {
         mDelDialog = new Dialog(getActivity(), R.style.BottomDialog);
@@ -630,8 +651,10 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         dialogWindow.setAttributes(lp);
         mDelDialog.show();
     }
-    private void deleteMyInvoice(final String invoiceId,final int pos) {
 
+    private void deleteMyInvoice(final String invoiceId,final int pos) {
+        TLog.d("deleteMyInvoice","position======="+pos);
+        TLog.d("invoiceId","invoiceId======="+invoiceId);
                  final ReceiptFolderActivity activity = (ReceiptFolderActivity) getActivity();
                     Api.deleteMyInvoice(AccountHelper.getToken(),invoiceId, new Api.BaseRawResponse<NormalBean>() {
                         @Override

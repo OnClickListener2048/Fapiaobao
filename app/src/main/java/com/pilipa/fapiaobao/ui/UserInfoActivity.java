@@ -252,6 +252,8 @@ public class UserInfoActivity extends BaseActivity {
                 String phone = intent.getStringExtra("phone");
                 if (isbind) {
 //                    updateUserInfo(AccountHelper.getUserCustormer());
+                    AccountHelper.getUserCustormer().setTelephone(phone);
+                    AccountHelper.getUser().getData().getCustomer().setTelephone(phone);
                     edtPhone.setText(phone);
                     edtPhone.setVisibility(View.VISIBLE);
                     bindPhone.setVisibility(View.GONE);
@@ -451,7 +453,7 @@ public class UserInfoActivity extends BaseActivity {
             tv_wx.setText("已绑定");
             tv_wx.setOnClickListener(null);
         }
-        if (customer.getTelephone()==null) {
+        if ("".equals(customer.getTelephone())) {
             bindPhone.setVisibility(View.VISIBLE);
             bindPhone.setText("去绑定");
             edtPhone.setVisibility(View.GONE);

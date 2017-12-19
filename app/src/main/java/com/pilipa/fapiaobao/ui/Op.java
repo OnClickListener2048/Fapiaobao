@@ -19,10 +19,12 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.WebViewUtils;
 import com.tencent.smtt.export.external.interfaces.ConsoleMessage;
+import com.tencent.smtt.export.external.interfaces.JsPromptResult;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.export.external.interfaces.WebResourceError;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
@@ -85,7 +87,7 @@ public class Op extends BaseActivity implements
         public void onReceivedError(WebView webView, int i, String s, String s1) {
             super.onReceivedError(webView, i, s, s1);
             TLog.d(TAG,"onReceivedError");
-    }
+        }
 
         @Override
         public void onReceivedError(WebView webView, WebResourceRequest webResourceRequest, WebResourceError webResourceError) {
@@ -100,7 +102,7 @@ public class Op extends BaseActivity implements
         }
 
         @Override
-        public void onPageFinished(WebView view, String url) {
+        public void onPageFinished(final WebView view, final String url) {
             super.onPageFinished(view, url);
             TLog.d(TAG,"onPageFinished");
             TLog.log("company_info"+company_info);
@@ -136,7 +138,7 @@ public class Op extends BaseActivity implements
                             "            {selector:'#invAddrPhone', value:'" + company_info.getAddress() + company_info.getPhone() + "'},\n" +
                             "            {selector:'#invBank',value:'" + company_info.getDepositBank() + company_info.getAccount() + "'},\n" +
                             "            {selector:'#hxEmail',value:'" + AccountHelper.getUser().getData().getCustomer().getEmail() + "'},\n" +
-                            "            {selector:'#mobile',value:'" + AccountHelper.getUserCustormer().getTelephone() + "'}\n" +
+                            "            {selector:'#mobile',value:'" + AccountHelper.getUser().getData().getCustomer().getTelephone() + "'}\n" +
                             "        ]);");
                 } else if (url.contains("starbucks")) {
                     view.loadUrl("javascript:;(function(currentRules){\n" +
@@ -171,20 +173,172 @@ public class Op extends BaseActivity implements
                             "            {selector:'#depositBank',value:'" + company_info.getDepositBank() + "'},\n" +
                             "            {selector:'#bankAccount',value:'" + company_info.getAccount() + "'},\n" +
                             "            {selector:'#mailAccount',value:'" + AccountHelper.getUser().getData().getCustomer().getEmail() + "'},\n" +
-                            "            {selector:'#cellPhoneNumber',value:'" + AccountHelper.getUserCustormer().getTelephone() + "'}\n" +
+                            "            {selector:'#cellPhoneNumber',value:'" + AccountHelper.getUser().getData().getCustomer().getTelephone() + "'}\n" +
                             "        ]);");
                 } else if (true) {
 
                 }
 
+            } else {
+                TLog.d(TAG," if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {");
+                if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {
+                    Api.companiesList(AccountHelper.getToken(), this, new Api.BaseRawResponse<CompaniesBean>() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+
+                        @Override
+                        public void onTokenInvalid() {
+
+                        }
+
+                        @Override
+                        public void setData(CompaniesBean companiesBean) {
+                            if (companiesBean.getData()!= null && companiesBean.getData().size() == 1) {
+                                TLog.d(TAG,"companiesBean.getData().size() "+companiesBean.getData().size());
+                                fillInWithSingleCompany(makeCompany(companiesBean),view,url);
+                            }
+                        }
+                    });
+                }
             }
         }
     };
+    private String tag;
+
+    private  MacherBeanToken.DataBean.CompanyBean makeCompany(CompaniesBean companiesBean) {
+        CompaniesBean.DataBean data = companiesBean.getData().get(0);
+        MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+        companyBean.setAccount(data.getAccount());
+        companyBean.setAddress(data.getAddress());
+        companyBean.setDepositBank(data.getDepositBank());
+        companyBean.setId(data.getId());
+        companyBean.setIsNewRecord(data.isIsNewRecord());
+        companyBean.setName(data.getName());
+        companyBean.setPhone(data.getPhone());
+        companyBean.setTaxno(data.getTaxno());
+        return companyBean;
+    }
+
+    private void fillInWithSingleCompany(MacherBeanToken.DataBean.CompanyBean companyBean, WebView view, String url) {
+        if (url.contains("yumchina")) {
+            view.loadUrl("javascript:;(function(currentRules){\n" +
+                    "            var jQueryUrl = 'https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js';\n" +
+                    "            function writeValue(conf) {\n" +
+                    "                if(conf===undefined) {return;}\n" +
+                    "                $(conf.selector).val(conf.value);\n" +
+                    "            }\n" +
+                    "            function injectScript(url, cb) {\n" +
+                    "                url = url || jQueryUrl;\n" +
+                    "                cb = cb || function(){};\n" +
+                    "                var script = document.createElement('script');\n" +
+                    "                script.src = url;\n" +
+                    "                document.head.appendChild(script);\n" +
+                    "                script.onload = function(){cb()}\n" +
+                    "            }\n" +
+                    "            function setFormVals() {\n" +
+                    "                $.each(currentRules, function (index, item) {\n" +
+                    "                    writeValue(item);\n" +
+                    "                })\n" +
+                    "            }\n" +
+                    "            if(!window.$ && !window.jQuery) {\n" +
+                    "                injectScript(jQueryUrl, setFormVals);\n" +
+                    "            } else {\n" +
+                    "                setFormVals();\n" +
+                    "            }\n" +
+                    "        })([\n" +
+                    "            {selector:'#invTitle', value:'" + companyBean.getName() + "'},\n" +
+                    "            {selector:'#invTaxNo', value:'" + companyBean.getTaxno() + "'},\n" +
+                    "            {selector:'#invAddrPhone', value:'" + companyBean.getAddress() + companyBean.getPhone() + "'},\n" +
+                    "            {selector:'#invBank',value:'" + companyBean.getDepositBank() + companyBean.getAccount() + "'},\n" +
+                    "            {selector:'#hxEmail',value:'" + AccountHelper.getUser().getData().getCustomer().getEmail() + "'},\n" +
+                    "            {selector:'#mobile',value:'" + AccountHelper.getUser().getData().getCustomer().getTelephone() + "'}\n" +
+                    "        ]);");
+        } else if (url.contains("starbucks")) {
+            view.loadUrl("javascript:;(function(currentRules){\n" +
+                    "            var jQueryUrl = 'https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js';\n" +
+                    "            function writeValue(conf) {\n" +
+                    "                if(conf===undefined) {return;}\n" +
+                    "                $(conf.selector).val(conf.value);\n" +
+                    "            }\n" +
+                    "            function injectScript(url, cb) {\n" +
+                    "                url = url || jQueryUrl;\n" +
+                    "                cb = cb || function(){};\n" +
+                    "                var script = document.createElement('script');\n" +
+                    "                script.src = url;\n" +
+                    "                document.head.appendChild(script);\n" +
+                    "                script.onload = function(){cb()}\n" +
+                    "            }\n" +
+                    "            function setFormVals() {\n" +
+                    "                $.each(currentRules, function (index, item) {\n" +
+                    "                    writeValue(item);\n" +
+                    "                })\n" +
+                    "            }\n" +
+                    "            if(!window.$ && !window.jQuery) {\n" +
+                    "                injectScript(jQueryUrl, setFormVals);\n" +
+                    "            } else {\n" +
+                    "                setFormVals();\n" +
+                    "            }\n" +
+                    "        })([\n" +
+                    "            {selector:'#invoiceTitle', value:'" + companyBean.getName() + "'},\n" +
+                    "            {selector:'#taxpayerNumber', value:'" + companyBean.getTaxno() + "'},\n" +
+                    "            {selector:'#telephoneNumber', value:'" + companyBean.getPhone() + "'},\n" +
+                    "            {selector:'#address', value:'" + companyBean.getAddress() + "'},\n" +
+                    "            {selector:'#depositBank',value:'" + companyBean.getDepositBank() + "'},\n" +
+                    "            {selector:'#bankAccount',value:'" + companyBean.getAccount() + "'},\n" +
+                    "            {selector:'#mailAccount',value:'" + AccountHelper.getUser().getData().getCustomer().getEmail() + "'},\n" +
+                    "            {selector:'#cellPhoneNumber',value:'" + AccountHelper.getUser().getData().getCustomer().getTelephone() + "'}\n" +
+                    "        ]);");
+        } else if (true) {
+
+        }
+    }
 
     WebChromeClient webChromeClient = new WebChromeClient() {
         @Override
         public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
             return super.onJsAlert(view, url, message, result);
+        }
+
+        @Override
+        public boolean onJsConfirm(WebView webView, String s, String s1, JsResult jsResult) {
+            TLog.d(TAG,s);
+            TLog.d(TAG,s1);
+            TLog.d(TAG,"JsResult"+jsResult.toString());
+            return super.onJsConfirm(webView, s, s1, jsResult);
+        }
+
+        @Override
+        public boolean onJsBeforeUnload(WebView webView, String s, String s1, JsResult jsResult) {
+            TLog.d(TAG,s);
+            TLog.d(TAG,s1);
+            TLog.d(TAG,"JsResult"+jsResult.toString());
+            return super.onJsBeforeUnload(webView, s, s1, jsResult);
+        }
+
+        @Override
+        public boolean onJsPrompt(WebView webView, String s, String s1, String s2, JsPromptResult jsPromptResult) {
+            TLog.d(TAG,s);
+            TLog.d(TAG,s1);
+            TLog.d(TAG,s2);
+            TLog.d(TAG,"JsResult"+jsPromptResult.toString());
+            return super.onJsPrompt(webView, s, s1, s2, jsPromptResult);
+        }
+
+        @Override
+        public boolean onJsTimeout() {
+            return super.onJsTimeout();
         }
 
         @Override
@@ -229,6 +383,7 @@ public class Op extends BaseActivity implements
         ButterKnife.bind(this);
         company_info = getIntent().getParcelableExtra("company_info");
         isFromUploadReceiptActivity = getIntent().getBooleanExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, false);
+        tag = getIntent().getStringExtra("tag");
         TLog.log(" company_info = getIntent().getParcelableExtra(\"company_info\");");
         AgentWeb.PreAgentWeb preAgentWeb = WebViewUtils.init(this, ll, this, webViewClient, webChromeClient, null);
         String url = getIntent().getStringExtra("url");
@@ -284,6 +439,7 @@ public class Op extends BaseActivity implements
                         TLog.d(TAG,normalBean.getData());
                         Intent intent = new Intent();
                         intent.putExtra(Constant.PDF_EXTRA, normalBean.getData());
+                        intent.putExtra(Constant.TAG, tag);
                         intent.putExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, isFromUploadReceiptActivity);
                         intent.setClass(Op.this, PdfPreviewActivity.class);
                         startActivity(intent);

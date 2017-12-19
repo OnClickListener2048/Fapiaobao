@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="C:\Users\edz\AndroidStudioProjects\Fapiaobao\guideview\src\main\shaders"/></dataSet><dataSet config="debug"><source path="C:\Users\edz\AndroidStudioProjects\Fapiaobao\guideview\src\debug\shaders"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="C:\Users\edz\StudioProjects\Fapiaobao\guideview\src\main\shaders"/></dataSet><dataSet config="debug"><source path="C:\Users\edz\StudioProjects\Fapiaobao\guideview\src\debug\shaders"/></dataSet></merger>

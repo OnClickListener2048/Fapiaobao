@@ -22,4 +22,5 @@ public class Constant {
     public static final String NOTOKEN = "notoken";
     public static final String PDF_EXTRA = "pdf_url";
     public static final String IS_FROM_UPLOADRECEIPT_ACTIVITY = "isFromUploadReceiptActivity";
+    public static final String TAG = "tag";
 }
