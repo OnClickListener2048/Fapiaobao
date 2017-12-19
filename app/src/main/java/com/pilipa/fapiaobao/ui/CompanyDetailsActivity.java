@@ -1,7 +1,10 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
@@ -59,7 +62,14 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
             }break;
         }
     }
-
+    public BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("remove")) {
+                finish();
+            }
+        }
+    };
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
@@ -90,14 +100,24 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
             fragment1.setOnNextClickListener(this);
             FragmentList.add(fragment1);
         }
-        companyDetailsAdapter = new CompanyDetailsAdapter(getSupportFragmentManager(), FragmentList);
+        companyDetailsAdapter = new CompanyDetailsAdapter(this,getSupportFragmentManager(), FragmentList);
         mViewPager.setAdapter(companyDetailsAdapter);
         mViewPager.setCurrentItem(mPreviousPos);
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("remove");
+
+        registerReceiver(mBroadcastReceiver, intentFilter);
     }
     @Override
     public void initData() {
     }
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mBroadcastReceiver);
 
+        super.onDestroy();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,6 +158,8 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
                         mDialog.dismiss();
                         companyDetailsAdapter.remove(mPreviousPos);
                         BaseApplication.showToast("删除成功");
+
+
                     }
                 }
             });

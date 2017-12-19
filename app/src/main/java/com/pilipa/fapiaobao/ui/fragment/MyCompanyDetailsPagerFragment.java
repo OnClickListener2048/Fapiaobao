@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -37,6 +38,7 @@ import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.ui.FavCompanyDetailsActivity;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
@@ -57,8 +59,10 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
@@ -356,16 +360,41 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
         root.findViewById(R.id.qq).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (umShareAPI.isInstall(getActivity(), SHARE_MEDIA.QQ)) {
-                    new ShareAction(getActivity())
-                            .setPlatform(SHARE_MEDIA.QQ)//传入平台
-                            .withMedia(web)
-                            .setCallback(umShareListener)//回调监听器
-                            .share();
-                    mCameraDialog.dismiss();
-                } else {
-                    BaseApplication.showToast("请安装QQ客户端");
-                }
+                RxPermissions rxPermissions = new RxPermissions(getActivity());
+                rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        if (aBoolean) {
+                            if (umShareAPI.isInstall(getActivity(), SHARE_MEDIA.QQ)) {
+                                TLog.d(" if (umShareAPI.isInstall(getActivity(), SHARE_MEDIA.QQ)) {","");
+                                new ShareAction(getActivity())
+                                        .setPlatform(SHARE_MEDIA.QQ)//传入平台
+                                        .withMedia(web)
+                                        .setCallback(umShareListener)//回调监听器
+                                        .share();
+                                mCameraDialog.dismiss();
+                            } else {
+                                BaseApplication.showToast("请安装QQ客户端");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
 
             }
         });

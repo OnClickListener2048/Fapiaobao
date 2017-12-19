@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.wxapi.Constants;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
@@ -33,6 +35,8 @@ import com.umeng.socialize.media.UMWeb;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 import static com.pilipa.fapiaobao.base.BaseApplication.SHARE_SOCORE;
 import static com.pilipa.fapiaobao.base.BaseApplication.set;
@@ -187,15 +191,40 @@ public class PubSuccessActivity extends BaseActivity {
 
                 break;
             case R.id.qq:
-                if (umShareAPI.isInstall(this, SHARE_MEDIA.QQ)) {
-                    new ShareAction(this)
-                            .setPlatform(SHARE_MEDIA.QQ)//传入平台
-                            .withMedia(web)
-                            .setCallback(umShareListener)//回调监听器
-                            .share();
-                } else {
-                    BaseApplication.showToast("请安装QQ客户端");
-                }
+                RxPermissions rxPermissions = new RxPermissions(PubSuccessActivity.this);
+                rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        if (aBoolean) {
+                            if (umShareAPI.isInstall(PubSuccessActivity.this, SHARE_MEDIA.QQ)) {
+                                new ShareAction(PubSuccessActivity.this)
+                                        .setPlatform(SHARE_MEDIA.QQ)//传入平台
+                                        .withMedia(web)
+                                        .setCallback(umShareListener)//回调监听器
+                                        .share();
+                            } else {
+                                BaseApplication.showToast("请安装QQ客户端");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
 
                 break;
             case R.id.qzone:

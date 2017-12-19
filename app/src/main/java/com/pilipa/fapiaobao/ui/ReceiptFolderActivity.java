@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.mylibrary.utils.RegexUtils;
@@ -36,13 +37,15 @@ import butterknife.OnClick;
  * Created by wjn on 2017/10/23.
  */
 
-public class ReceiptFolderActivity extends BaseActivity {
-    private static final String TAG = "ReceiptFolderActivity";
+public class ReceiptFolderActivity extends BaseActivity implements TabLayout.OnTabSelectedListener {
 
     @Bind(R.id.tl_tabLayout)
     TabLayout tlTabLayout;
     @Bind(R.id.vp_verpager)
     ViewPager vpVerpager;
+    @Bind(R.id.img_scan)
+    ImageView imgScan;
+    String TAG = ReceiptFolderActivity.class.getSimpleName();
     private List<Fragment> fragmentList;
     private static final int REQUEST_CODE_SCAN = 0x0067;
     private static final String DECODED_CONTENT_KEY = "codedContent";
@@ -75,6 +78,8 @@ public class ReceiptFolderActivity extends BaseActivity {
         fragmentList.add(UnusedReceiptFragment.newInstance(new Bundle()));
         vpVerpager.setAdapter(new TabPageIndicatorAdapter(getSupportFragmentManager(),list,fragmentList));
         tlTabLayout.setupWithViewPager(vpVerpager);
+        tlTabLayout.setOnTabSelectedListener(this);
+
     }
 
     @Override
@@ -94,6 +99,7 @@ public class ReceiptFolderActivity extends BaseActivity {
                         Intent intent = new Intent();
                         intent.setClass(this, Op.class);
                         intent.putExtra("url", content);
+                        intent.putExtra("tag", TAG);
                         startActivity(intent);
                     }else{
                         setScanDialog();
@@ -136,4 +142,23 @@ public class ReceiptFolderActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        if(tlTabLayout.getSelectedTabPosition() == 0){
+            imgScan.setVisibility(View.GONE);
+        }else{
+            imgScan.setVisibility(View.VISIBLE);
+        }
+        vpVerpager.setCurrentItem(tlTabLayout.getSelectedTabPosition());
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
 }

@@ -1,5 +1,7 @@
 package com.pilipa.fapiaobao.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -17,8 +19,10 @@ import java.util.ArrayList;
 public class CompanyDetailsAdapter extends FragmentPagerAdapter {
     private static final String TAG = "PreviewPagerAdapter";
     public ArrayList<MyCompanyDetailsPagerFragment> arrayList;
-    public CompanyDetailsAdapter(FragmentManager fm, ArrayList<MyCompanyDetailsPagerFragment> fragmentList) {
+    private Context context;
+    public CompanyDetailsAdapter(Context context,FragmentManager fm, ArrayList<MyCompanyDetailsPagerFragment> fragmentList) {
         super(fm);
+        this.context = context;
         this.arrayList = fragmentList;
     }
 
@@ -52,6 +56,12 @@ public class CompanyDetailsAdapter extends FragmentPagerAdapter {
             arrayList.remove(arrayList.get(mPreviousPos));
             Log.d(TAG, "remove: mPreviousPos"+mPreviousPos);
             notifyDataSetChanged();
+
+            if(arrayList.size() == 0){
+                Intent intent = new Intent();
+                intent.setAction("remove");
+                context.sendBroadcast(intent);
+            }
         }
     }
 }

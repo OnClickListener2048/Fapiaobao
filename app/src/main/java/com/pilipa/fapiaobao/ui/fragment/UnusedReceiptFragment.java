@@ -148,7 +148,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
     private void setUpData(List<MyInvoiceListBean.DataBean> results) {
         TLog.d("setUpData(List<MyInvoiceListBean.DataBean> results) {",results.size()+"");
-        
+
 
         for (MyInvoiceListBean.DataBean result : results) {
             Image image = new Image();
@@ -353,7 +353,6 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                 public void setData(NormalBean response) {
 //                    TLog.log(response.body());
                     BaseApplication.showToast("上传成功");
-                    myInvoiceList();
                 }
             });
         } else if (REQUEST_CODE_IMAGE_CLICK == requestCode) {
@@ -494,7 +493,6 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                                         @Override
                                         public void setData(NormalBean response) {
                                             BaseApplication.showToast("上传成功");
-                                            myInvoiceList();
 
                                         }
                                     });

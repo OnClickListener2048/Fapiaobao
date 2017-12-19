@@ -30,7 +30,6 @@ import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.base.LocationBaseActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.update.VersionMode;

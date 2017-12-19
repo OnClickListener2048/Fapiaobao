@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,7 +27,6 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
@@ -36,6 +36,7 @@ import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.HorizontalListView;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
@@ -55,6 +56,8 @@ import java.util.Objects;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 import static com.pilipa.fapiaobao.R.id.btn_shut_down_early;
 import static com.pilipa.fapiaobao.base.BaseApplication.SHARE_SOCORE;
@@ -183,6 +186,7 @@ public class DemandActivity extends BaseActivity{
     private Dialog mTipDialog;
     private Dialog mDialog;
     private boolean isCanShutDown = false;//能否提前关闭
+    private UMShareAPI umShareAPI;
 
     private IWXAPI api;
 
@@ -220,7 +224,8 @@ public class DemandActivity extends BaseActivity{
         TLog.log(TAG+"onActivityResult1");
         TLog.log(TAG+"requestCode"+requestCode);
         TLog.log(TAG+"resultCode"+resultCode);
-        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+        umShareAPI = UMShareAPI.get(this);
+        umShareAPI.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
             case DemandsDetailsReceiptFragment.RESULT_CODE_BACK:
                 TLog.log(TAG+"onActivityResult3");
@@ -601,12 +606,41 @@ public class DemandActivity extends BaseActivity{
         root.findViewById(R.id.qq).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ShareAction(DemandActivity.this)
-                        .setPlatform(SHARE_MEDIA.QQ)//传入平台
-                        .withMedia(web)
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
-                mCameraDialog.dismiss();
+                RxPermissions rxPermissions = new RxPermissions(DemandActivity.this);
+                rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        if (aBoolean) {
+                            if (umShareAPI.isInstall(DemandActivity.this, SHARE_MEDIA.QQ)) {
+                                TLog.d(" if (umShareAPI.isInstall(getActivity(), SHARE_MEDIA.QQ)) {","");
+                                new ShareAction(DemandActivity.this)
+                                        .setPlatform(SHARE_MEDIA.QQ)//传入平台
+                                        .withMedia(web)
+                                        .setCallback(umShareListener)//回调监听器
+                                        .share();
+                                mCameraDialog.dismiss();
+                            } else {
+                                BaseApplication.showToast("请安装QQ客户端");
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
             }
         });
         root.findViewById(R.id.qzone).setOnClickListener(new View.OnClickListener() {

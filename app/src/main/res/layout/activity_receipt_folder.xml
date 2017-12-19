@@ -33,6 +33,7 @@
             <ImageView
                 android:id="@+id/img_scan"
                 android:padding="@dimen/d12"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_alignParentEnd="true"
