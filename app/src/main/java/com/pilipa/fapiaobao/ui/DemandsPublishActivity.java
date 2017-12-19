@@ -816,12 +816,15 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
             case REQUEST_CODE_SCAN:
                 if (resultCode == RESULT_OK) {
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
-                    TLog.d("content" , content);
-                    String[] split = content.split("\\?");
-                    String[] split1 = null;
-                    try{
-                       split1 = split[1].split("=");
-                        TLog.d("REQUEST_CODE_SCAN",split[1]);
+                    TLog.log("getStringExtra(DECODED_CONTENT_KEY) codedContent " + content);
+
+                    if(content.contains("fapiaobao")) {
+                        TLog.d("content" , content);
+                        try{
+                            String[] split = content.split("\\?");
+                            String[] split1 = null;
+                            split1 = split[1].split("=");
+                            TLog.d("REQUEST_CODE_SCAN",split[1]);
                             Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
 
                                 private CompanyDetailsBean.DataBean data;
@@ -846,9 +849,13 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
                                     }
                                 }
                             });
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        setScanDialog();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            setScanDialog();
+                        }
+
+                    }else{
+                      setScanDialog();
                     }
                 }
                 break;

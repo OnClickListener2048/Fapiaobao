@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -108,42 +107,49 @@ public class AddCompanyInfoActivity extends BaseActivity {
             case REQUEST_CODE_SCAN:
 
                 if (resultCode == RESULT_OK) {
-                    try{
-                        String codedContent = data.getStringExtra(DECODED_CONTENT_KEY);
-                        String[] split = codedContent.split("\\?");
-                        String[] split1 = split[1].split("=");
-                        TLog.d("REQUEST_CODE_SCAN",split[1]);
 
-                            Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
+                    String codedContent = data.getStringExtra(DECODED_CONTENT_KEY);
 
-                                private CompanyDetailsBean.DataBean data;
+                    TLog.log("getStringExtra(DECODED_CONTENT_KEY) codedContent " + codedContent);
+                    if(codedContent.contains("fapiaobao")){
+                            try{
+                                String[] split = codedContent.split("\\?");
+                                String[] split1 = split[1].split("=");
+                                TLog.d("REQUEST_CODE_SCAN",split[1]);
 
-                                @Override
-                                public void setData(CompanyDetailsBean companyDetailsBean) {
-                                    MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
-                                    data = companyDetailsBean.getData();
-                                    if (data != null) {
-                                        companyBean.setAccount(data.getAccount());
-                                        companyBean.setAddress(data.getAddress());
-                                        companyBean.setDepositBank(data.getDepositBank());
-                                        companyBean.setId(data.getId());
-                                        companyBean.setIsNewRecord(data.isIsNewRecord());
-                                        companyBean.setName(data.getName());
-                                        companyBean.setPhone(data.getPhone());
-                                        companyBean.setTaxno(data.getTaxno());
+                                Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
+
+                                    private CompanyDetailsBean.DataBean data;
+
+                                    @Override
+                                    public void setData(CompanyDetailsBean companyDetailsBean) {
+                                        MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+                                        data = companyDetailsBean.getData();
+                                        if (data != null) {
+                                            companyBean.setAccount(data.getAccount());
+                                            companyBean.setAddress(data.getAddress());
+                                            companyBean.setDepositBank(data.getDepositBank());
+                                            companyBean.setId(data.getId());
+                                            companyBean.setIsNewRecord(data.isIsNewRecord());
+                                            companyBean.setName(data.getName());
+                                            companyBean.setPhone(data.getPhone());
+                                            companyBean.setTaxno(data.getTaxno());
+                                        }
+                                        try{
+                                            updateCompanyinfo(companyBean);
+                                        }catch (Exception e){
+                                            setScanDialog();
+                                        }
                                     }
-                                    try{
-                                        updateCompanyinfo(companyBean);
-                                    }catch (Exception e){
-                                        setScanDialog();
-                                    }
-                                }
-                            });
-
-                    }catch (ArrayIndexOutOfBoundsException e){
-                        e.printStackTrace();
+                                });
+                            }catch (Exception e){
+                                e.printStackTrace();
+                                setScanDialog();
+                            }
+                    }else{
                         setScanDialog();
                     }
+
                 }
                 break;
         }
