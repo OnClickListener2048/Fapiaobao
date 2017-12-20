@@ -49,6 +49,7 @@ public class HistoryActivity2 extends BaseActivity {
             }break;
         }
     }
+
     @Override
     public void initView() {
         List list = StaticDataCreator.initMyPublishTabData(BaseApplication.context());

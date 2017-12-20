@@ -383,7 +383,7 @@ public class Op extends BaseActivity implements
         ButterKnife.bind(this);
         company_info = getIntent().getParcelableExtra("company_info");
         isFromUploadReceiptActivity = getIntent().getBooleanExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, false);
-        tag = getIntent().getStringExtra("tag");
+        tag = getIntent().getStringExtra(Constant.TAG);
         TLog.log(" company_info = getIntent().getParcelableExtra(\"company_info\");");
         AgentWeb.PreAgentWeb preAgentWeb = WebViewUtils.init(this, ll, this, webViewClient, webChromeClient, null);
         String url = getIntent().getStringExtra("url");

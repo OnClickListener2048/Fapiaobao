@@ -19,6 +19,7 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.constants.Constant;
+import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.receipt_folder_image_select.ReceiptActivityToken;
 
@@ -189,6 +190,12 @@ public class PdfPreviewActivity extends BaseActivity {
                         bundle.putParcelable("pdf",pdf);
                         intent.putExtra("bundle",bundle);
                         sendBroadcast(intent);
+                    }
+                    if (FinanceFragment.TAG.equals(tag)) {
+                        Intent intent = new Intent();
+                        intent.setClass(PdfPreviewActivity.this, ReceiptFolderActivity.class);
+                        intent.putExtra(Constant.CHOOSE_RECEIPT_FOLDER,true);
+                        startActivity(intent);
                     }
                     ActivityUtils.finishActivity(Op.class);
                     finish();

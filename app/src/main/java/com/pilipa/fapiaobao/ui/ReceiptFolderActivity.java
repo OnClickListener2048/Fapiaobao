@@ -21,6 +21,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.fragment.ProvidePagerFragment;
 import com.pilipa.fapiaobao.ui.fragment.UnusedReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
@@ -80,6 +81,11 @@ public class ReceiptFolderActivity extends BaseActivity implements TabLayout.OnT
         tlTabLayout.setupWithViewPager(vpVerpager);
         tlTabLayout.setOnTabSelectedListener(this);
 
+
+        boolean booleanExtra = getIntent().getBooleanExtra(Constant.CHOOSE_RECEIPT_FOLDER, false);
+        if (booleanExtra) {
+            vpVerpager.setCurrentItem(1);
+        }
     }
 
     @Override

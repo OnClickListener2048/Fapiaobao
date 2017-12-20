@@ -405,7 +405,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
 
             Observable.fromIterable(uris)
-                    .flatMap(new Function<Uri, ObservableSource<String>>() {
+                    .concatMap(new Function<Uri, ObservableSource<String>>() {
                         @Override
                         public ObservableSource<String> apply(@NonNull Uri uri) throws Exception {
                             TLog.log("public ObservableSource<String> apply(@NonNull Uri uri) throws Exception {");
@@ -422,17 +422,14 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                                 @Override
                                 public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
                                     ((BaseActivity) getActivity()).showProgressDialog(getString(R.string.analysing));
-                                    TLog.log("public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {");
-//                                    ((BaseActivity) getActivity()).updateDialog(String.valueOf(imageList.size() + "/" + count));
                                     e.onNext(upLoadReceipt(image));
                                     e.onComplete();
                                 }
-                            }).subscribeOn(Schedulers.computation())
+                            }).subscribeOn(Schedulers.from(AppOperator.getExecutor()))
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .doOnSubscribe(new Consumer<Disposable>() {
                                 @Override
                                 public void accept(@NonNull Disposable disposable) throws Exception {
-                                    TLog.log("public void accept(@NonNull Disposable disposable) throws Exception {");
                                     ((BaseActivity) getActivity()).showProgressDialog(getString(R.string.analysing));
                                 }
                             }).doOnError(new Consumer<Throwable>() {
@@ -442,18 +439,16 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                                 }
                             });
                         }
-                    }).subscribeOn(Schedulers.computation())
+                    }).subscribeOn(Schedulers.from(AppOperator.getExecutor()))
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<String>() {
                         @Override
                         public void onSubscribe(@NonNull Disposable d) {
-                            TLog.log("((BaseActivity) getActivity()).showProgressDialog(getString(R.string.analysing));");
                             ((BaseActivity) getActivity()).showProgressDialog(getString(R.string.analysing));
                         }
 
                         @Override
                         public void onNext(@NonNull String s) {
-                            TLog.log("  public void onNext(@NonNull String s) {");
                             imageList.add(s);
                             UnusedReceiptAdapter unusedReceiptAdapter = (UnusedReceiptAdapter) recyclerview.getAdapter();
                             unusedReceiptAdapter.notifyItemInserted(mPreviousPosition);
@@ -479,7 +474,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                                     e.onNext(s);
                                     e.onComplete();
                                 }
-                            }).subscribeOn(Schedulers.from(AppOperator.getExecutor()))
+                            }).subscribeOn(Schedulers.newThread())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .doOnSubscribe(new Consumer<Disposable>() {
                                         @Override

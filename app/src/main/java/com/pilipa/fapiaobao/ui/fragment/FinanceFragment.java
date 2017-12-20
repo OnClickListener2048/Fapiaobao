@@ -73,7 +73,7 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  */
 
 public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.OnLabelClickListener, FinanceAdapter.OnLabelClickListener {
-    String TAG = "FinanceFragment";
+   public static String TAG = "FinanceFragment";
 //    @Bind(R.id.scan)
 //    ImageView scan;
 //    @Bind(R.id.notification)
@@ -152,6 +152,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                         Intent intent = new Intent();
                         intent.setClass(mContext, Op.class);
                         intent.putExtra("url", content);
+                        intent.putExtra(Constant.TAG, TAG);
                         startActivity(intent);
                     }else{
                         setScanDialog();
