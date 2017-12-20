@@ -47,6 +47,7 @@ public class PdfPreviewActivity extends BaseActivity {
     @Bind(R.id.relativeLayout)
     RelativeLayout relativeLayout;
     private String tag;
+    private String pdfUrl;
 
     @Override
     protected int getLayoutId() {
@@ -63,7 +64,7 @@ public class PdfPreviewActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-        String pdfUrl = getIntent().getStringExtra(Constant.PDF_EXTRA);
+        pdfUrl = getIntent().getStringExtra(Constant.PDF_EXTRA);
         boolean isFromUploadReceiptActivity = getIntent().getBooleanExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, false);
         tag = getIntent().getStringExtra(Constant.TAG);
         saveToInvoiceClip.setText(isFromUploadReceiptActivity?getString(R.string.upload_receipt):getString(R.string.save_to_invoice_clip));
@@ -146,7 +147,7 @@ public class PdfPreviewActivity extends BaseActivity {
         }
     }
 
-    private void upload_pdf(String pdfUrl) {
+    private void upload_pdf(final String pdfUrl) {
         Api.upload_pdf(pdfUrl, AccountHelper.getToken(), new Api.BaseRawResponse<NormalBean>() {
             @Override
             public void onStart() {
@@ -172,7 +173,23 @@ public class PdfPreviewActivity extends BaseActivity {
             public void setData(NormalBean normalBean) {
                 BaseApplication.showToast(normalBean.getData());
                 if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
-                    
+                    if(ReceiptFolderActivity.class.getSimpleName().equals(tag)){
+                        Intent intent = new Intent();
+                        Image pdf = new Image();
+                        pdf.isFromNet = true;
+                        pdf.isSelected = false;
+                        pdf.isCapture = false;
+                        pdf.name = String.valueOf(System.currentTimeMillis());
+                        pdf.path = pdfUrl;
+                        pdf.position = -1;
+                        pdf.setPdf(true);
+                        pdf.id = String.valueOf(System.currentTimeMillis());
+                        intent.setAction("UPLOAD_PDF_SUCCESS");
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("pdf",pdf);
+                        intent.putExtra("bundle",bundle);
+                        sendBroadcast(intent);
+                    }
                     ActivityUtils.finishActivity(Op.class);
                     finish();
                 }

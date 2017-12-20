@@ -2,8 +2,10 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
@@ -101,7 +103,20 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
     private ArrayList<Image> arrayList;
-
+    public BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("UPLOAD_PDF_SUCCESS")) {
+                Bundle bundle = intent.getBundleExtra("bundle");
+                Image image =  bundle.getParcelable("pdf");
+                images.add(image);
+                UnusedReceiptAdapter unusedReceiptAdapter = (UnusedReceiptAdapter) recyclerview.getAdapter();
+                unusedReceiptAdapter.refresh(images);
+                retrieveIDsOfAddedPhotos();
+                TLog.d("public void onReceive(Context context, Intent intent) {","UPLOAD_PDF_SUCCESS");
+            }
+        }
+    };
     public static UnusedReceiptFragment newInstance(Bundle bundle) {
         UnusedReceiptFragment unusedReceiptFragment = new UnusedReceiptFragment();
         unusedReceiptFragment.setArguments(bundle);
@@ -134,6 +149,11 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         images = new ArrayList<>();
         images.add(image);
         mPreviousPosition = images.size();
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("UPLOAD_PDF_SUCCESS");
+
+        getActivity().registerReceiver(mBroadcastReceiver, intentFilter);
     }
 
     @Override
@@ -148,6 +168,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
     }
 
     private void setUpData(List<MyInvoiceListBean.DataBean> results) {
+
         for (MyInvoiceListBean.DataBean result : results) {
             Image image = new Image();
             image.isFromNet = true;
@@ -157,6 +178,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
             image.name = result.getId();
             images.add(image);
         }
+        TLog.d("images size",images.size()+"");
         mPreviousPosition = images.size();
         unusedReceiptAdapter = new UnusedReceiptAdapter(images, getImageResize(getActivity()));
         unusedReceiptAdapter.setOnImageClickListener(this);
@@ -180,6 +202,8 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        getActivity().unregisterReceiver(mBroadcastReceiver);
+
     }
 
     private void openMedia() {
@@ -263,9 +287,9 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
     @Override
     public void capture() {
-                    setDialog();
 
 
+         setDialog();
     }
 
     private void setDialog() {

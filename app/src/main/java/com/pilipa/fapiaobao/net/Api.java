@@ -59,62 +59,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-import static com.pilipa.fapiaobao.net.Constant.AMOUNT_HISTORY;
-import static com.pilipa.fapiaobao.net.Constant.BIND;
-import static com.pilipa.fapiaobao.net.Constant.COMPANIES_LIST;
-import static com.pilipa.fapiaobao.net.Constant.COMPANY_INFO;
-import static com.pilipa.fapiaobao.net.Constant.CONFIRM_DEMAND;
-import static com.pilipa.fapiaobao.net.Constant.CONFIRM_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.CREATE_COMPANY;
-import static com.pilipa.fapiaobao.net.Constant.CREATE_ORDER;
-import static com.pilipa.fapiaobao.net.Constant.DELETE_COMPANY;
-import static com.pilipa.fapiaobao.net.Constant.DELETE_MY_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.DO_MATCH_DEMAND;
-import static com.pilipa.fapiaobao.net.Constant.ESTIMATE;
-import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY;
-import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_CREATE;
-import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_LIST;
-import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_REMOVE;
-import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_EXPRESS_COMPANY;
-import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_INVIICE_TYPE;
-import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_INVOICE_VARIETY;
-import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_REJECT_TYPE;
-import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_HISTORY;
-import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_INFO;
-import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_NEGATIVE_HISTORY;
-import static com.pilipa.fapiaobao.net.Constant.FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE;
-import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
-import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
-import static com.pilipa.fapiaobao.net.Constant.LOGOUT_BY_TOKEN;
-import static com.pilipa.fapiaobao.net.Constant.LOG_RECORD;
-import static com.pilipa.fapiaobao.net.Constant.MAIL_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.MESSAGE_DETAILS;
-import static com.pilipa.fapiaobao.net.Constant.MESSAGE_MESSAGES;
-import static com.pilipa.fapiaobao.net.Constant.MESSAGE_READ;
-import static com.pilipa.fapiaobao.net.Constant.MESSAGE_REMOVE;
-import static com.pilipa.fapiaobao.net.Constant.MY_INVOICE_LIST;
-import static com.pilipa.fapiaobao.net.Constant.ORDER_LIST;
-import static com.pilipa.fapiaobao.net.Constant.PUBLISH;
-import static com.pilipa.fapiaobao.net.Constant.REJECT_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.RELOAD;
-import static com.pilipa.fapiaobao.net.Constant.SHARE_SCORE_ADD;
-import static com.pilipa.fapiaobao.net.Constant.SHAT_DOWN_EARLY;
-import static com.pilipa.fapiaobao.net.Constant.SHORT_MESSAGE_VERIFY;
-import static com.pilipa.fapiaobao.net.Constant.SHOW_ORDER_DETAIL;
-import static com.pilipa.fapiaobao.net.Constant.SUGGESTION;
-import static com.pilipa.fapiaobao.net.Constant.TRANSFORM_PDF;
-import static com.pilipa.fapiaobao.net.Constant.UBIND;
-import static com.pilipa.fapiaobao.net.Constant.UPDATE_CUSTOMER;
-import static com.pilipa.fapiaobao.net.Constant.UPDATE_INVOICE_TYPE;
-import static com.pilipa.fapiaobao.net.Constant.UPLOAD_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.UPLOAD_MY_INVOICE;
-import static com.pilipa.fapiaobao.net.Constant.UPLOAD_PDF;
-import static com.pilipa.fapiaobao.net.Constant.URL_UPDATE;
-import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_DETAILS;
-import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_LIST;
-import static com.pilipa.fapiaobao.net.Constant.USER_LOGIN;
-import static com.pilipa.fapiaobao.net.Constant.WITHDRAW;
-import static com.pilipa.fapiaobao.net.Constant.WX_RECHARGE;
+import static com.pilipa.fapiaobao.net.Constant.*;
+
 
 
 /**
@@ -1423,6 +1369,7 @@ public class Api {
 
     public static void upload_pdf(String url, String token, final BaseRawResponse baseViewCallbackWithOnStart) {
         OkGo.<NormalBean>post(UPLOAD_PDF)
+
                 .upJson(JsonCreator.upload_pdf(url, token))
                 .execute(new JsonCallBack<NormalBean>(NormalBean.class) {
                     @Override
