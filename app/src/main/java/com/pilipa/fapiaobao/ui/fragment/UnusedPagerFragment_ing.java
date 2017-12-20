@@ -47,8 +47,8 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
     TwinklingRefreshLayout trl;
     private MyPublishAdapter mAdapter;
     private List<DemandsListBean.DataBean> dataBeanList = new ArrayList<>();
-    private View emptyView;
-
+    private boolean mIsInited;
+    private boolean mIsPrepared;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_viewpager_item;
@@ -66,6 +66,12 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
     }
 
     @Override
@@ -94,7 +100,7 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
         mAdapter = new MyPublishAdapter(mContext);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
-        emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
+        View emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
         emptyView.setVisibility(View.GONE);
         emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         ((ViewGroup) listView.getParent()).addView(emptyView);

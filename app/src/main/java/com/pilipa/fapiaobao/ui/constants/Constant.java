@@ -23,4 +23,5 @@ public class Constant {
     public static final String PDF_EXTRA = "pdf_url";
     public static final String IS_FROM_UPLOADRECEIPT_ACTIVITY = "isFromUploadReceiptActivity";
     public static final String TAG = "tag";
+    public static final String CHOOSE_RECEIPT_FOLDER = "choose_receipt_folder";
 }
