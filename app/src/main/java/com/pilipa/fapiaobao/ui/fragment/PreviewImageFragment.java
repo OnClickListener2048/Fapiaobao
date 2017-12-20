@@ -61,7 +61,7 @@ public class PreviewImageFragment extends BaseFragment {
         Image imageItem = getArguments().getParcelable(FRAG_IMAGE);
 
 
-        ImageViewTouch image = (ImageViewTouch) view.findViewById(R.id.image_view);
+       final ImageViewTouch image = (ImageViewTouch) view.findViewById(R.id.image_view);
         image.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
         Log.d(TAG, "onViewCreated: imageItem.isFromNet ?---"
                 + imageItem.isFromNet + "imageItem.path----" +
@@ -72,6 +72,7 @@ public class PreviewImageFragment extends BaseFragment {
                 .error(R.mipmap.error_big)
                 .placeholder(R.mipmap.loading_big)
                 .into(image);
+
     }
 
     @Override

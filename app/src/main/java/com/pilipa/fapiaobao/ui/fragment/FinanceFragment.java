@@ -383,7 +383,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
             @Override
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
-                    TLog.log("REQUEST_CODE_SCAN" + REQUEST_CODE_SCAN);
+                    TLog.log("REQUEST_CODE_SCAN" + aBoolean);
                     startActivityForResult(new Intent(mContext, CaptureActivity.class), REQUEST_CODE_SCAN);
                 }
             }

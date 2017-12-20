@@ -247,17 +247,21 @@ public final class CameraManager {
 	 *         size
 	 */
 	public Rect getFramingRectInPreview() {
-		if (framingRectInPreview == null) {
-			Rect rect = new Rect(getFramingRect());
-			Point cameraResolution = configManager.getCameraResolution();
-			Point screenResolution = configManager.getScreenResolution();
-			rect.left = rect.left * cameraResolution.y / screenResolution.x;
-			rect.right = rect.right * cameraResolution.y / screenResolution.x;
-			rect.top = rect.top * cameraResolution.x / screenResolution.y;
-			rect.bottom = rect.bottom * cameraResolution.x / screenResolution.y;
+		try {
+			if (framingRectInPreview == null) {
+				Rect rect = new Rect(getFramingRect());
+				Point cameraResolution = configManager.getCameraResolution();
+				Point screenResolution = configManager.getScreenResolution();
+				rect.left = rect.left * cameraResolution.y / screenResolution.x;
+				rect.right = rect.right * cameraResolution.y / screenResolution.x;
+				rect.top = rect.top * cameraResolution.x / screenResolution.y;
+				rect.bottom = rect.bottom * cameraResolution.x / screenResolution.y;
 
-			Log.e("tag","getFRIP "+rect.left +"  "+rect.right+" "+rect.top+ "  "+rect.bottom);
-			framingRectInPreview = rect;
+				Log.e("tag","getFRIP "+rect.left +"  "+rect.right+" "+rect.top+ "  "+rect.bottom);
+				framingRectInPreview = rect;
+			}
+		}catch (Exception e){
+			e.printStackTrace();
 		}
 		return framingRectInPreview;
 	}
