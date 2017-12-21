@@ -102,9 +102,9 @@ public class ProvidedActivity extends BaseActivity {
     @Bind(R.id.receipt_money)
     TextView receiptMoney;
     @Bind(R.id.estimate_money)//预计红包数
-    TextView estimateMoney;
+            TextView estimateMoney;
     @Bind(R.id.received_bonus)//收到红包
-    TextView receivedBonus;
+            TextView receivedBonus;
     @Bind(R.id.continue_to_upload)
     TextView continueToUpload;
 
@@ -180,6 +180,7 @@ public class ProvidedActivity extends BaseActivity {
     private String favoriteId;
     private List<RejectTypeBean.DataBean> list = new ArrayList<>();
     PublishSpinnerAdapter spinnerAdapter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_provided;
@@ -233,58 +234,56 @@ public class ProvidedActivity extends BaseActivity {
             }
             break;
             case R.id.collect:
+                if (isCollected) {
+                    Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseRawResponse<FavBean>() {
+                        @Override
+                        public void onStart() {
 
-                            if (isCollected) {
-                                Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseRawResponse<FavBean>() {
-                                    @Override
-                                    public void onStart() {
+                        }
 
-                                    }
+                        @Override
+                        public void onFinish() {
 
-                                    @Override
-                                    public void onFinish() {
+                        }
 
-                                    }
+                        @Override
+                        public void onError() {
 
-                                    @Override
-                                    public void onError() {
+                        }
 
-                                    }
+                        @Override
+                        public void onTokenInvalid() {
+                            login();
+                            finish();
+                        }
 
-                                    @Override
-                                    public void onTokenInvalid() {
-                                        login();
-                                        finish();
-                                    }
-
-                                    @Override
-                                    public void setData(FavBean normalBean) {
-                                        if (normalBean.getStatus() == 200) {
-                                            isCollected = false;
-                                            collect.setImageResource(R.mipmap.collect);
-                                        }
-                                    }
-                                });
-                            } else {
-                                CompanyCollectBean companyCollectBean = new CompanyCollectBean();
-                                CompanyCollectBean.CompanyBean companyBean = new CompanyCollectBean.CompanyBean();
-                                companyBean.setId(CompanyId);
-                                companyCollectBean.setCompany(companyBean);
-                                companyCollectBean.setToken(AccountHelper.getToken());
-
-                                Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<FavBean>() {
-                                    @Override
-                                    public void setData(FavBean normalBean) {
-                                        if (normalBean.getStatus() == 200) {
-                                            BaseApplication.showToast("收藏成功");
-                                            isCollected = true;
-                                            favoriteId = normalBean.getFavoriteId();
-                                            collect.setImageResource(R.mipmap.collected);
-                                        }
-                                    }
-                                });
+                        @Override
+                        public void setData(FavBean normalBean) {
+                            if (normalBean.getStatus() == 200) {
+                                isCollected = false;
+                                collect.setImageResource(R.mipmap.collect);
                             }
+                        }
+                    });
+                } else {
+                    CompanyCollectBean companyCollectBean = new CompanyCollectBean();
+                    CompanyCollectBean.CompanyBean companyBean = new CompanyCollectBean.CompanyBean();
+                    companyBean.setId(CompanyId);
+                    companyCollectBean.setCompany(companyBean);
+                    companyCollectBean.setToken(AccountHelper.getToken());
 
+                    Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<FavBean>() {
+                        @Override
+                        public void setData(FavBean normalBean) {
+                            if (normalBean.getStatus() == 200) {
+                                BaseApplication.showToast("收藏成功");
+                                isCollected = true;
+                                favoriteId = normalBean.getFavoriteId();
+                                collect.setImageResource(R.mipmap.collected);
+                            }
+                        }
+                    });
+                }
 
 
                 break;
@@ -296,8 +295,8 @@ public class ProvidedActivity extends BaseActivity {
         Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
             @Override
             public void setData(ExpressCompanyBean expressCompanyBean) {
-               spinnerAdapter =  new PublishSpinnerAdapter(expressCompanyBean);
-               mSpinner.setAdapter(spinnerAdapter);
+                spinnerAdapter = new PublishSpinnerAdapter(expressCompanyBean);
+                mSpinner.setAdapter(spinnerAdapter);
             }
         });
     }
@@ -342,11 +341,11 @@ public class ProvidedActivity extends BaseActivity {
             image.position = -1;
             image.isCapture = false;
             image.isFromNet = true;
-            image.amount = String.format("%.2f",result.getAmount());
+            image.amount = String.format("%.2f", result.getAmount());
             image.logisticsTradeno = result.getLogisticsTradeno();
             image.logisticsCompany = result.getLogisticsCompany();
             image.state = result.getState();
-            image.bonus = String.format("%.2f",result.getBonus());
+            image.bonus = String.format("%.2f", result.getBonus());
             image.variety = result.getVariety();
 
             //判断是否需要显示物流信息 view
@@ -361,12 +360,12 @@ public class ProvidedActivity extends BaseActivity {
                 if ("8".equals(result.getInvoiceReject().getType())) {
                     image.reason = result.getInvoiceReject().getReason();
                 } else {
-                    try{
-                        if(list!=null&&result.getInvoiceReject().getType()!= null){
-                            RejectTypeBean.DataBean bean = list.get(Integer.parseInt(result.getInvoiceReject().getType())-1);
+                    try {
+                        if (list != null && result.getInvoiceReject().getType() != null) {
+                            RejectTypeBean.DataBean bean = list.get(Integer.parseInt(result.getInvoiceReject().getType()) - 1);
                             image.reason = bean.getLabel();
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -377,18 +376,18 @@ public class ProvidedActivity extends BaseActivity {
         }
 
         //判断是否需要显示物流信息 view
-
         if (isLogisticShow) {
-            if(isCanMail){
+            if (isCanMail) {
                 ll_logisticsInfo.setVisibility(View.VISIBLE);
                 ll_gray.setVisibility(View.GONE);
-            }else{
+            } else {
                 ll_logisticsInfo.setVisibility(View.VISIBLE);
                 ll_gray.setVisibility(View.VISIBLE);
             }
         } else {
             ll_logisticsInfo.setVisibility(View.GONE);
         }
+        //拆分
         ArrayList<Image> images1 = new ArrayList<>();
         ArrayList<Image> images2 = new ArrayList<>();
         ArrayList<Image> images3 = new ArrayList<>();
@@ -411,13 +410,13 @@ public class ProvidedActivity extends BaseActivity {
         bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
         paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
-        if(images1.size()==0){
+        if (images1.size() == 0) {
             container_paper_normal_receipt.setVisibility(View.GONE);
         }
-        if(images2.size()==0){
+        if (images2.size() == 0) {
             container_paper_special_receipt.setVisibility(View.GONE);
         }
-        if(images3.size()==0){
+        if (images3.size() == 0) {
             container_paper_elec_receipt.setVisibility(View.GONE);
         }
 
@@ -444,8 +443,9 @@ public class ProvidedActivity extends BaseActivity {
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
         findAllRejectType();
         checkFav(CompanyId);
-        showOrderDetail(orderId,true);
+        showOrderDetail(orderId, true);
     }
+
     public void checkFav(final String companyId) {
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginWithInfoBean != null) {
@@ -493,163 +493,164 @@ public class ProvidedActivity extends BaseActivity {
 
     public void mailInvoice() {
 
-                    ExpressCompanyBean.DataBean bean = (ExpressCompanyBean.DataBean) mSpinner.getSelectedItem();
-                    Api.mailInvoice(AccountHelper.getToken(), orderId, bean.getLabel()
-                            , edtOddNumber.getText().toString(), new Api.BaseRawResponse<NormalBean>() {
-                                @Override
-                                public void onStart() {
+        ExpressCompanyBean.DataBean bean = (ExpressCompanyBean.DataBean) mSpinner.getSelectedItem();
+        Api.mailInvoice(AccountHelper.getToken(), orderId, bean.getLabel()
+                , edtOddNumber.getText().toString(), new Api.BaseRawResponse<NormalBean>() {
+                    @Override
+                    public void onStart() {
 
-                                }
+                    }
 
-                                @Override
-                                public void onFinish() {
+                    @Override
+                    public void onFinish() {
 
-                                }
+                    }
 
-                                @Override
-                                public void onError() {
+                    @Override
+                    public void onError() {
 
-                                }
+                    }
 
-                                @Override
-                                public void onTokenInvalid() {
-                                    login();
-                                    finish();
-                                }
+                    @Override
+                    public void onTokenInvalid() {
+                        login();
+                        finish();
+                    }
 
-                                @Override
-                                public void setData(NormalBean normalBean) {
-                                    if(normalBean.getStatus() == 200){
-                                        showOrderDetail(orderId,false);
-                                        BaseApplication.showToast(normalBean.getData());
-                                    }
-                                    if(normalBean.getStatus() == 886){
-                                        BaseApplication.showToast(normalBean.getMsg());
-                                    }
-                                }
-                            });
+                    @Override
+                    public void setData(NormalBean normalBean) {
+                        if (normalBean.getStatus() == 200) {
+                            showOrderDetail(orderId, false);
+                            BaseApplication.showToast(normalBean.getData());
+                        }
+                        if (normalBean.getStatus() == 886) {
+                            BaseApplication.showToast(normalBean.getMsg());
+                        }
+                    }
+                });
     }
 
-    public void showOrderDetail(String orderID,final boolean canMail) {
-            Api.showOrderDetail(AccountHelper.getToken(), orderID, new Api.BaseRawResponse<OrderDetailsBean>() {
-                @Override
-                public void onTokenInvalid() {
+    public void showOrderDetail(String orderID, final boolean canMail) {
+        Api.showOrderDetail(AccountHelper.getToken(), orderID, new Api.BaseRawResponse<OrderDetailsBean>() {
+            @Override
+            public void onTokenInvalid() {
 
-                }
+            }
 
-                @Override
-                public void onStart() {
-                    showProgressDialog();
-                }
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
 
-                @Override
-                public void onFinish() {
-                    hideProgressDialog();
-                }
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
 
-                @Override
-                public void onError() {
-                    hideProgressDialog();
-                }
+            @Override
+            public void onError() {
+                hideProgressDialog();
+            }
 
-                @Override
-                public void setData(OrderDetailsBean orderDetailsBean) {
-                    if (orderDetailsBean.getStatus() == REQUEST_SUCCESS) {
-                        OrderDetailsBean.DataBean bean = orderDetailsBean.getData();
-                        tvInvoiceType.setText(bean.getInvoiceType().getName());
-                        favoriteId = bean.getFavoriteId();//收藏ID
-                        //是否需要邮寄
-                        if(canMail){
-                            isCanMail = bean.isNeedMail();
-                        }
-                        Log.d(TAG, "setData:isNeedMail" + bean.isNeedMail());
-                        Log.d(TAG, "setData:canMail" + canMail);
-                        if(bean.isNeedMail()){
-                            btnMailing.setTextColor(getResources().getColor(R.color.main_style));
-                            btnMailing.setEnabled(true);
-                            btnMailing.setText(getResources().getString(R.string.express_mail));
-                            btnMailing.setBackgroundResource(R.drawable.shape_receipt_type);
-                            edtOddNumber.setEnabled(true);
-                            mSpinner.setEnabled(true);
-                            btnScan.setEnabled(true);
-                        }else{
-                            btnMailing.setTextColor(getResources().getColor(R.color.gray_hint));
-                            btnMailing.setEnabled(false);
-                            btnMailing.setText(getResources().getString(R.string.waitting_mail));
-                            btnMailing.setBackgroundResource(R.drawable.shape_receipt_type_false);
-                            edtOddNumber.setEnabled(false);
-                            mSpinner.setEnabled(false);
-                            btnScan.setEnabled(false);
-                        }
-                        if (STATE_FLYING.equals(bean.getOrderState())) {
-                            tvArrivalState.setText("红包飞来中");
-                            tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_2));
-                        } else if (STATE_GOT_ALL.equals(bean.getOrderState())) {
-                            tvArrivalState.setText("红包到帐");
-                            tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_1));
-                        } else if (STATE_GOT_PARTIALITY.equals(bean.getOrderState())) {
-                            tvArrivalState.setText("部分到帐");
-                            tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_1));
-                        } else if (STATE_GONE.equals(bean.getOrderState())) {
-                            tvArrivalState.setText("红包飞走了");
-                            tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_3));
-                        }
-
-                        if (bean.getPostage() != null) {
-                            tvReceiver.setText(bean.getPostage().getReceiver());
-                            tvTelephone.setText(bean.getPostage().getTelephone());
-                            tvPhone.setText(bean.getPostage().getPhone());
-                            String district = null;
-                            if(bean.getPostage().getDistrict()!=null && !bean.getPostage().getDistrict().isEmpty()){
-                                district = bean.getPostage().getDistrict()+ " ";
-                            }
-                            String city = null;
-                            if(bean.getPostage().getCity()!=null && !bean.getPostage().getCity().isEmpty()){
-                                city = bean.getPostage().getCity()+" ";
-                            }
-                            tvPublishAddress.setText(city+ district + bean.getPostage().getAddress());
-                            tv_low_limit.setText(new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
-                            tv_minMail.setText(new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP)+"");
-                            tv_current_amount.setText(new BigDecimal(bean.getNeedMailAmount()).setScale(2, BigDecimal.ROUND_HALF_UP)+"");
-                        }
-                        receivedBonus.setText(String.format("%.2f", bean.getReceivedBonus()));
-                        estimateMoney.setText(String.format("%.2f", bean.getBonus()));
-                        receiptNumber.setText(String.valueOf(bean.getInvoiceCount()));
-                        receiptMoney.setText(String.format("%.2f", bean.getAmount()));
-                        if (bean.getCompany() != null) {
-                            companyName.setText(bean.getCompany().getName());
-                            number.setText(bean.getCompany().getPhone());
-                            companyAddress.setText(bean.getCompany().getAddress());
-                            bankAccount.setText(bean.getCompany().getAccount());
-                            bank.setText(bean.getCompany().getDepositBank());
-                            texNumber.setText(bean.getCompany().getTaxno());
-
-                            try {
-                                String content = new String(bean.getCompany().getQrcode().getBytes("UTF-8"), "ISO-8859-1");
-                                TLog.log("content-----------"+content);
-                                Bitmap qrCode = CodeCreator.createQRCode(ProvidedActivity.this,content);
-                                qr.setImageBitmap(qrCode);
-                            } catch (Exception e) {
-                                BaseApplication.showToast("二维码生成失败");
-                                e.printStackTrace();
-                            }
-                        }
-
-                        if (bean.getInvoiceList() != null) {
-                            for (OrderDetailsBean.DataBean.InvoiceListBean data : bean.getInvoiceList()) {
-                                if (!VARIETY_GENERAL_ELECTRON.equals(data.getVariety())) {
-                                    layout_mailing_information.setVisibility(View.VISIBLE);
-                                    break;
-                                }
-                            }
-                            mDataList.clear();
-                            mDataList.addAll(orderDetailsBean.getData().getInvoiceList());
-                            setUpData(mDataList);
-                        }
-                        Log.d(TAG, "showOrderDetail success");
+            @Override
+            public void setData(OrderDetailsBean orderDetailsBean) {
+                if (orderDetailsBean.getStatus() == REQUEST_SUCCESS) {
+                    OrderDetailsBean.DataBean bean = orderDetailsBean.getData();
+                    tvInvoiceType.setText(bean.getInvoiceType().getName());
+                    favoriteId = bean.getFavoriteId();//收藏ID
+                    //是否需要邮寄
+                    if (canMail) {
+                        isCanMail = bean.isNeedMail();
                     }
+                    Log.d(TAG, "setData:isNeedMail" + bean.isNeedMail());
+                    Log.d(TAG, "setData:canMail" + canMail);
+                    if (bean.isNeedMail()) {
+                        btnMailing.setTextColor(getResources().getColor(R.color.main_style));
+                        btnMailing.setEnabled(true);
+                        btnMailing.setText(getResources().getString(R.string.express_mail));
+                        btnMailing.setBackgroundResource(R.drawable.shape_receipt_type);
+                        edtOddNumber.setEnabled(true);
+                        mSpinner.setEnabled(true);
+                        btnScan.setEnabled(true);
+                    } else {
+                        btnMailing.setTextColor(getResources().getColor(R.color.gray_hint));
+                        btnMailing.setEnabled(false);
+                        btnMailing.setText(getResources().getString(R.string.waitting_mail));
+                        btnMailing.setBackgroundResource(R.drawable.shape_receipt_type_false);
+                        edtOddNumber.setEnabled(false);
+                        mSpinner.setEnabled(false);
+                        btnScan.setEnabled(false);
+                    }
+
+                    if (STATE_FLYING.equals(bean.getOrderState())) {
+                        tvArrivalState.setText("红包飞来中");
+                        tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_2));
+                    } else if (STATE_GOT_ALL.equals(bean.getOrderState())) {
+                        tvArrivalState.setText("红包到帐");
+                        tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_1));
+                    } else if (STATE_GOT_PARTIALITY.equals(bean.getOrderState())) {
+                        tvArrivalState.setText("部分到帐");
+                        tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_1));
+                    } else if (STATE_GONE.equals(bean.getOrderState())) {
+                        tvArrivalState.setText("红包飞走了");
+                        tvArrivalState.setTextColor(getResources().getColor(R.color.bouns_3));
+                    }
+
+                    if (bean.getPostage() != null) {
+                        tvReceiver.setText(bean.getPostage().getReceiver());
+                        tvTelephone.setText(bean.getPostage().getTelephone());
+                        tvPhone.setText(bean.getPostage().getPhone());
+                        String district = null;
+                        if (bean.getPostage().getDistrict() != null && !bean.getPostage().getDistrict().isEmpty()) {
+                            district = bean.getPostage().getDistrict() + " ";
+                        }
+                        String city = null;
+                        if (bean.getPostage().getCity() != null && !bean.getPostage().getCity().isEmpty()) {
+                            city = bean.getPostage().getCity() + " ";
+                        }
+                        tvPublishAddress.setText(city + district + bean.getPostage().getAddress());
+                        tv_low_limit.setText(new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
+                        tv_minMail.setText(new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP) + "");
+                        tv_current_amount.setText(new BigDecimal(bean.getNeedMailAmount()).setScale(2, BigDecimal.ROUND_HALF_UP) + "");
+                    }
+                    receivedBonus.setText(String.format("%.2f", bean.getReceivedBonus()));
+                    estimateMoney.setText(String.format("%.2f", bean.getBonus()));
+                    receiptNumber.setText(String.valueOf(bean.getInvoiceCount()));
+                    receiptMoney.setText(String.format("%.2f", bean.getAmount()));
+                    if (bean.getCompany() != null) {
+                        companyName.setText(bean.getCompany().getName());
+                        number.setText(bean.getCompany().getPhone());
+                        companyAddress.setText(bean.getCompany().getAddress());
+                        bankAccount.setText(bean.getCompany().getAccount());
+                        bank.setText(bean.getCompany().getDepositBank());
+                        texNumber.setText(bean.getCompany().getTaxno());
+
+                        try {
+                            String content = new String(bean.getCompany().getQrcode().getBytes("UTF-8"), "ISO-8859-1");
+                            TLog.log("content-----------" + content);
+                            Bitmap qrCode = CodeCreator.createQRCode(ProvidedActivity.this, content);
+                            qr.setImageBitmap(qrCode);
+                        } catch (Exception e) {
+                            BaseApplication.showToast("二维码生成失败");
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (bean.getInvoiceList() != null) {
+                        for (OrderDetailsBean.DataBean.InvoiceListBean data : bean.getInvoiceList()) {
+                            if (!VARIETY_GENERAL_ELECTRON.equals(data.getVariety())) {
+                                layout_mailing_information.setVisibility(View.VISIBLE);
+                                break;
+                            }
+                        }
+                        mDataList.clear();
+                        mDataList.addAll(orderDetailsBean.getData().getInvoiceList());
+                        setUpData(mDataList);
+                    }
+                    Log.d(TAG, "showOrderDetail success");
                 }
-            });
+            }
+        });
     }
 
     private void callPhone(final String phone) {

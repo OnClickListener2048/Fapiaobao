@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
@@ -25,7 +24,6 @@ import com.pilipa.fapiaobao.entity.Customer;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
-import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
 import com.pilipa.fapiaobao.ui.CreditRatingActivity;
 import com.pilipa.fapiaobao.ui.FeedbackActivity;
@@ -37,16 +35,12 @@ import com.pilipa.fapiaobao.ui.ReceiptFolderActivity;
 import com.pilipa.fapiaobao.ui.UserInfoActivity;
 import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
-import com.pilipa.fapiaobao.utils.TDevice;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.pilipa.fapiaobao.net.Constant.INSTRUCTION;
-import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
 
 /**
  * Created by lyt on 2017/10/13.
@@ -218,107 +212,126 @@ public class MeFragment extends BaseFragment{
         super.onPause();
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"loginByToken");
     }
-    private void messageList() {
-        if (TDevice.hasInternet()) {
-            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-                @Override
-                public void setData(LoginWithInfoBean loginWithInfoBean) {
-                    if (loginWithInfoBean.getStatus() == 200) {
-                        Api.messageList(loginWithInfoBean.getData().getToken(), new Api.BaseRawResponse<MessageListBean>() {
-                            @Override
-                            public void onStart() {
-
-                            }
-
-                            @Override
-                            public void onFinish() {
-
-                            }
-
-                            @Override
-                            public void onError() {
-
-                            }
-
-                            @Override
-                            public void onTokenInvalid() {
-
-                            }
-
-                            @Override
-                            public void setData(MessageListBean messageListBean) {
-                                boolean hasNewMsg = false;
-                                if(messageListBean.getStatus() == REQUEST_SUCCESS){
-                                    List<MessageListBean.DataBean> data = messageListBean.getData();
-                                    for (int i = 0; i <data.size() ; i++) {
-                                        if(data.get(i).getUnreadMessages() > 0 ){
-                                            hasNewMsg =true;
-                                            TLog.d("MainActivity","message center had new message");
-                                            break;
-                                        }else{
-                                            TLog.d("MainActivity","message center no message1");
-                                        }
-                                    }
-                                    if(red_new_dot!=null)
-                                    if(hasNewMsg){
-                                        red_new_dot.setVisibility(View.VISIBLE);
-                                    }else{
-                                        red_new_dot.setVisibility(View.GONE);
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        }
-    }
+//    private void messageList() {
+//        if (TDevice.hasInternet()) {
+//            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+//                @Override
+//                public void setData(LoginWithInfoBean loginWithInfoBean) {
+//                    if (loginWithInfoBean.getStatus() == 200) {
+//                        Api.messageList(loginWithInfoBean.getData().getToken(), new Api.BaseRawResponse<MessageListBean>() {
+//                            @Override
+//                            public void onStart() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onFinish() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onError() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onTokenInvalid() {
+//
+//                            }
+//
+//                            @Override
+//                            public void setData(MessageListBean messageListBean) {
+//                                boolean hasNewMsg = false;
+//                                if(messageListBean.getStatus() == REQUEST_SUCCESS){
+//                                    List<MessageListBean.DataBean> data = messageListBean.getData();
+//                                    for (int i = 0; i <data.size() ; i++) {
+//                                        if(data.get(i).getUnreadMessages() > 0 ){
+//                                            hasNewMsg =true;
+//                                            TLog.d("MainActivity","message center had new message");
+//                                            break;
+//                                        }else{
+//                                            TLog.d("MainActivity","message center no message1");
+//                                        }
+//                                    }
+//                                    if(red_new_dot!=null)
+//                                    if(hasNewMsg){
+//                                        red_new_dot.setVisibility(View.VISIBLE);
+//                                    }else{
+//                                        red_new_dot.setVisibility(View.GONE);
+//                                    }
+//                                }
+//                            }
+//                        });
+//                    }
+//                }
+//            });
+//        }
+//    }
     @Override
     public void onResume() {
 //        messageList();
          requestManager = Glide.with(mContext);
         red_new_dot.setVisibility(BaseApplication.get(BaseApplication.PUSH_RECEIVE, false) ? View.VISIBLE : View.GONE);
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+
+        AccountHelper.isTokenValid(new Api.BaseRawResponse<LoginWithInfoBean>() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void onTokenInvalid() {
+                SharedPreferencesHelper.remove(mContext, LoginWithInfoBean.class);
+                if(tvUserName == null) {
+                    return;
+                }
+                tvUserName.setText("");
+                tvCreditRating.setText("积分："+"");
+                tvBouns.setText("0 ");//钱包金额
+                imgLevelIcon.setImageResource(LevelIcon[0]);
+                requestManager
+                        .load("")
+                        .asBitmap()
+                        .placeholder(R.mipmap.ic_head_circle_default_small_)
+                        .thumbnail(0.1f)
+                        .into(imageHead);
+                SharedPreferencesHelper.save(mContext, new Customer());
+            }
 
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == 200) {
                     SharedPreferencesHelper.save(mContext, loginWithInfoBean);
-                        LoginWithInfoBean.DataBean.CustomerBean customer = loginWithInfoBean.getData().getCustomer();
-                        if(tvUserName != null){
-                            tvUserName.setText(customer.getNickname());
-                            tvCreditRating.setText("积分："+customer.getCreditScore());
-                            tvBouns.setText(String.format("%.2f", customer.getAmount()));//钱包金额
-                            Log.d("IMAGE_HEAD",customer.getHeadimg());
-                            String thumbnail = customer.getHeadimg().replace("invoice","thumbnail");
+                    LoginWithInfoBean.DataBean.CustomerBean customer = loginWithInfoBean.getData().getCustomer();
+                    if(tvUserName != null){
+                        tvUserName.setText(customer.getNickname());
+                        tvCreditRating.setText("积分："+customer.getCreditScore());
+                        tvBouns.setText(String.format("%.2f", customer.getAmount()));//钱包金额
+                        Log.d("IMAGE_HEAD",customer.getHeadimg());
+                        String thumbnail = customer.getHeadimg().replace("invoice","thumbnail");
 
-                            requestManager
-                                    .load(thumbnail)
-                                    .asBitmap()
-                                    .placeholder(R.mipmap.ic_head_circle_default_small_)
-                                    .thumbnail(0.1f)
-                                    .into(imageHead);
-                            imgLevelIcon.setImageResource(LevelIcon[customer.getCreditLevel()]);
-                        }
-                }else if(loginWithInfoBean.getStatus() == 701){
-                    SharedPreferencesHelper.remove(mContext, LoginWithInfoBean.class);
-                    if(tvUserName == null) {
-                        return;
+                        requestManager
+                                .load(thumbnail)
+                                .asBitmap()
+                                .placeholder(R.mipmap.ic_head_circle_default_small_)
+                                .thumbnail(0.1f)
+                                .into(imageHead);
+                        imgLevelIcon.setImageResource(LevelIcon[customer.getCreditLevel()]);
                     }
-                    tvUserName.setText("");
-                    tvCreditRating.setText("积分："+"");
-                    tvBouns.setText("0 ");//钱包金额
-                    imgLevelIcon.setImageResource(LevelIcon[0]);
-                    requestManager
-                            .load("")
-                            .asBitmap()
-                            .placeholder(R.mipmap.ic_head_circle_default_small_)
-                            .thumbnail(0.1f)
-                            .into(imageHead);
-                    SharedPreferencesHelper.save(mContext, new Customer());
                 }
             }
         });
+
         super.onResume();
     }
 }

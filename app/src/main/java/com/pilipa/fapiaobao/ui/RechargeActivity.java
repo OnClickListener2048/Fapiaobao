@@ -220,6 +220,8 @@ public class RechargeActivity extends BaseActivity  {
 //                weChatLogin();
 //            }
 //        });
+
+        /* 充值 直接调用 后台充值接口 不需要绑定*/
         recharge();
     }
 

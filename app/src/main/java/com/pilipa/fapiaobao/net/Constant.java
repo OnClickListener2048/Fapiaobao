@@ -58,6 +58,7 @@ public class Constant {
     public static final String NEW_DEMAND = "5";
     public static final String INVOICE_POST = "6";
     public static final String INVOICE_BABY_RESPONSE = "7";
+    public static final String WELCOME_NOTIFICATION = "8";
 
 
 

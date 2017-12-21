@@ -67,17 +67,17 @@ public class Withdraw2WXActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(WX_LOGIN_ACTION)) {
-                TLog.d(TAG,WX_LOGIN_ACTION +" success");
-                String deviceToken = BaseApplication.get("deviceToken","");
+                TLog.d(TAG, WX_LOGIN_ACTION + " success");
+                String deviceToken = BaseApplication.get("deviceToken", "");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 wx_info = bundle.getParcelable("wx_info");
 
-                if(AccountHelper.getUser().getData().getCustomer().getOpenid()==null){
+                if (AccountHelper.getUser().getData().getCustomer().getOpenid() == null) {
                     bind(wx_info.getOpenid());
-                }else{
-                    if(wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())){
+                } else {
+                    if (wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())) {
                         withdaw(wx_info.getOpenid());
-                    }else{
+                    } else {
                         btnWithdraw.setEnabled(true);
                         BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
                     }
@@ -86,36 +86,37 @@ public class Withdraw2WXActivity extends BaseActivity {
             }
         }
     };
-    private void bind(final String openID){
-        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , openID,"0", new Api.BaseViewCallback<NormalBean>() {
+
+    private void bind(final String openID) {
+        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, openID, "0", new Api.BaseViewCallback<NormalBean>() {
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == 200) {
                     BaseApplication.showToast("微信绑定成功");
                     withdaw(openID);
-                }else if(normalBean.getStatus() == 707){
+                } else if (normalBean.getStatus() == 707) {
                     BaseApplication.showToast(normalBean.getMsg());
                 }
             }
         });
     }
 
-    private void withdaw(String openID){
-            Api.withdaw(AccountHelper.getToken()
-                ,ACCOUNT_TYPE_WALLET
-                ,NetworkUtils.getIPAddress(true)
-                ,Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ?"0":tv_amount.getText().toString().trim())
-                ,openID
+    private void withdaw(String openID) {
+        Api.withdaw(AccountHelper.getToken()
+                , ACCOUNT_TYPE_WALLET
+                , NetworkUtils.getIPAddress(true)
+                , Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ? "0" : tv_amount.getText().toString().trim())
+                , openID
                 , new Api.BaseViewCallback<PrepayBean>() {
                     @Override
                     public void setData(PrepayBean normalBean) {
                         btnWithdraw.setEnabled(true);
-                        if (normalBean.getStatus() ==200) {
+                        if (normalBean.getStatus() == 200) {
                             BaseApplication.showToast("提现成功");
                             finish();
-                        }else if(normalBean.getStatus() ==888){
+                        } else if (normalBean.getStatus() == 888) {
                             BaseApplication.showToast("账户余额不足");
-                        }else {
+                        } else {
                             BaseApplication.showToast(normalBean.getMsg());
                         }
                     }
@@ -127,7 +128,7 @@ public class Withdraw2WXActivity extends BaseActivity {
         return R.layout.activity_withdraw_to_wx;
     }
 
-    @OnClick({R.id._back, R.id.btn_withdraw, R.id.withdraw_all,R.id.question})
+    @OnClick({R.id._back, R.id.btn_withdraw, R.id.withdraw_all, R.id.question})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -140,21 +141,20 @@ public class Withdraw2WXActivity extends BaseActivity {
             }
             break;
             case R.id.btn_withdraw: {
-                if(Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ?"0":tv_amount.getText().toString().trim())<1.0){
+                if (Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ? "0" : tv_amount.getText().toString().trim()) < 1.0) {
                     BaseApplication.showToast("提现金额不能少于1元");
-                }else if(Double.parseDouble(withdraw_max.getText().toString()) < Double.parseDouble(tv_amount.getText().toString())){
+                } else if (Double.parseDouble(withdraw_max.getText().toString()) < Double.parseDouble(tv_amount.getText().toString())) {
                     BaseApplication.showToast("账户余额不足");
-                }else if(Double.parseDouble(withdraw_max.getText().toString()) <= (double)0){
+                } else if (Double.parseDouble(withdraw_max.getText().toString()) <= (double) 0) {
                     BaseApplication.showToast("账户余额不足");
-                }else{
+                } else {
                     setDialog();
                 }
             }
             break;
             case R.id.withdraw_all: {
                 if (yue != null) {
-
-                tv_amount.setText(String.valueOf(yue.setScale(2,BigDecimal.ROUND_HALF_UP)));
+                    tv_amount.setText(String.valueOf(yue.setScale(2, BigDecimal.ROUND_HALF_UP)));
                 }
             }
             break;
@@ -169,7 +169,7 @@ public class Withdraw2WXActivity extends BaseActivity {
         filter.addAction(LoginActivity.WX_LOGIN_ACTION);
         registerReceiver(mBroadcastReceiver, filter);
 
-        InputFilter[] cashierInputFilter ={new CashierInputFilter()};
+        InputFilter[] cashierInputFilter = {new CashierInputFilter()};
         tv_amount.setFilters(cashierInputFilter);
 
     }
@@ -182,18 +182,38 @@ public class Withdraw2WXActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+        AccountHelper.isTokenValid(new Api.BaseRawResponse<LoginWithInfoBean>() {
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onTokenInvalid() {
+
+            }
+
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == 200) {
                     AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
                     if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
                         double d = loginWithInfoBean.getData().getCustomer().getAmount()
-                                -loginWithInfoBean.getData().getCustomer().getFrozen();
+                                - loginWithInfoBean.getData().getCustomer().getFrozen();
                         BigDecimal amount = new BigDecimal(loginWithInfoBean.getData().getCustomer().getAmount());
                         yue = new BigDecimal(d);
-                        withdraw_max.setText(String.valueOf(yue.setScale(2,BigDecimal.ROUND_HALF_UP)));
-                        withdraw_current.setText(String.valueOf(amount.setScale(2,BigDecimal.ROUND_HALF_UP)));
+                        withdraw_max.setText(String.valueOf(yue.setScale(2, BigDecimal.ROUND_HALF_UP)));
+                        withdraw_current.setText(String.valueOf(amount.setScale(2, BigDecimal.ROUND_HALF_UP)));
                     }
                 }
             }
@@ -237,14 +257,16 @@ public class Withdraw2WXActivity extends BaseActivity {
         mDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.layout_withdraw_tip, null);
-       TextView tv_bouns = (TextView)root.findViewById(R.id.tv_bouns);
-        double amount  = Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ?"0":tv_amount.getText().toString().trim());
-        if(amount > (double)0){
+        TextView tv_bouns = (TextView) root.findViewById(R.id.tv_bouns);
+        double amount = Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ? "0" : tv_amount.getText().toString().trim());
+        if (amount > (double) 0) {
             tv_bouns.setText(String.valueOf(amount));
             //初始化视图
             root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                   /*提现流程： weChatLogin  openid--Y--> withdraw
+                   *                              --N-->  bind  ----> withdraw*/
                     weChatLogin();
                     mDialog.dismiss();
                 }
@@ -269,17 +291,19 @@ public class Withdraw2WXActivity extends BaseActivity {
             lp.alpha = 9f; // 透明度
             dialogWindow.setAttributes(lp);
             mDialog.show();
-        }else{
-            Toast.makeText(this,"提现金额不正确",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "提现金额不正确", Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private IWXAPI api;
+
     private void regexToWX() {
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         api.registerApp(Constants.APP_ID);
     }
+
     private void weChatLogin() {
 
         if (api.isWXAppInstalled()) {

@@ -160,18 +160,35 @@ public class Api {
             }
         });
     }
-    public static void loginByToken(String token, final BaseViewCallback baseViewCallback) {
+
+
+    public static void loginByToken(String token,final BaseRawResponse baseViewCallback) {
         OkGo.<LoginWithInfoBean>get(String.format(LOGIN_BY_TOKEN, token)).tag("loginByToken").execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
             @Override
             public void onSuccess(Response<LoginWithInfoBean> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().getStatus() == 400) {
-                        BaseApplication.showToast("没有找到业务数据");
-                    } else {
-                        baseViewCallback.setData(response.body());
-                    }
+                if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                    baseViewCallback.onTokenInvalid();
+                } else {
+                    baseViewCallback.setData(response.body());
                 }
+            }
 
+            @Override
+            public void onError(Response<LoginWithInfoBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onStart(Request<LoginWithInfoBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
             }
         });
     }

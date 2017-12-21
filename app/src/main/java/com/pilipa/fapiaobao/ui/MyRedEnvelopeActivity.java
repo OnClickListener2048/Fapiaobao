@@ -164,7 +164,27 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     public void initData() {
         bonus = getIntent().getStringExtra("bonus");
         setupViews(bonus);
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+        AccountHelper.isTokenValid(new Api.BaseRawResponse<LoginWithInfoBean>() {
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onTokenInvalid() {
+
+            }
+
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if(loginWithInfoBean.getStatus() == REQUEST_SUCCESS){
@@ -172,6 +192,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                 }
             }
         });
+
     }
 
     @Override

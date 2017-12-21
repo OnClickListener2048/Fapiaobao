@@ -562,10 +562,30 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void updateUserInfo(final LoginWithInfoBean.DataBean.CustomerBean customer) {
-        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
+        AccountHelper.isTokenValid(new Api.BaseRawResponse<LoginWithInfoBean>() {
             @Override
-            public void setData(LoginWithInfoBean normalBean) {
-                if (normalBean.getStatus() == 200) {
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onTokenInvalid() {
+                startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));
+                finish();
+            }
+
+            @Override
+            public void setData(LoginWithInfoBean loginWithInfoBean) {
                     Api.updateCustomer(AccountHelper.getToken(), customer, new Api.BaseViewCallbackWithOnStart<UpdateCustomerBean>() {
                         @Override
                         public void setData(UpdateCustomerBean updateCustomerBean) {
@@ -592,12 +612,9 @@ public class UserInfoActivity extends BaseActivity {
                         }
 
                     });
-                } else {
-                    startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));
-                    finish();
-                }
             }
         });
+
     }
 
     private void logoutByToken() {

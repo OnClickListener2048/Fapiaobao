@@ -64,6 +64,7 @@ import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
 
 /**
  * Created by edz on 2017/10/20.
+ * 查看发票大图
  */
 
 public class DemandsDetailsPreviewActivity extends BaseActivity implements
@@ -96,7 +97,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     @Bind(R.id.tv_state)
     TextView tv_state;
 
-    TextView saveToMedia;
     @Bind(R.id.layout_qualified_item)
     LinearLayout layout_qualified_item;
     @Bind(R.id.layout_unqualified_item)
@@ -124,7 +124,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     TextView tv_msg;
     @Bind(R.id.tv_reject_reason)//不合格理由
     TextView tv_reject_reason;
-    @Bind(R.id.reject_amount)//不合格理由
+    @Bind(R.id.reject_amount)//不合格金额
     TextView rejectAmount;
     @Bind(R.id.privide_amount_qalified)
     TextView privideAmountQalified;
@@ -146,7 +146,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
 
     private int REJECT_START = 0;
     private int REJECT_FINISH = 1;
-    public static int REJECT_CODE = 1000;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_demands_details_preview;
@@ -206,6 +205,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         privideAmountWillcheck.setText("提供金额：" + image.amount + "元");
         privideAmountQalified.setText("提供金额：" + image.amount + "元");
         privideAmountPrivoide.setText("提供金额：" + image.amount + "元");
+        //发票操作项 判断 （待邮寄/待查验 用是否有邮寄信息区分）
         switch (image.state) {
             case STATE_CONFIRMING://
                 layout_qualified_item.setVisibility(View.GONE);
@@ -266,7 +266,13 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                 }
                 break;
         }
-        if ("provided".equals(image.from)) {
+
+
+        /**
+         *    需求详情/提供详情公用 此处用来区分 是否是来自提供详情页
+         *     if ("provided".equals(image.from)) {
+         */
+            if ("provided".equals(image.from)) {
             //提供详情点击预览界面
             layout_qualified_item.setVisibility(View.GONE);
             layout_reject_item.setVisibility(View.GONE);
@@ -570,8 +576,12 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     public void onPageScrollStateChanged(int state) {
 
     }
-    private void checkPagePos(int postion){
 
+    /**
+     * 发票上一页/下一页
+     * @param postion
+     */
+    private void checkPagePos(int postion){
 
         if(postion == - 1 ){
             tolast.setVisibility(View.INVISIBLE);

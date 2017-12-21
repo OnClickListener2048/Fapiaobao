@@ -11,12 +11,17 @@ import com.example.mylibrary.utils.TimeUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.net.bean.me.MessageDetailsBean;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.pilipa.fapiaobao.net.Constant.INVOICE_BABY_RESPONSE;
 import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_SERVICE_NOTIFICATION;
+import static com.pilipa.fapiaobao.net.Constant.WELCOME_NOTIFICATION;
 
 /**
  * Created by lyt on 2017/10/23.
@@ -65,7 +70,22 @@ public class MessageDetailsAdapter extends BaseAdapter {
         }
         MessageDetailsBean.DataBean bean = list.get(position);
         if(MSG_TYPE_SERVICE_NOTIFICATION.equals(bean.getMessage().getType())){
-            viewHolder.tv_title.setText(mContext.getResources().getString(R.string.response_piaobao));
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(bean.getMessage().getContent());
+                String  type = jsonObject.getString("type");
+                switch (type){
+                    case INVOICE_BABY_RESPONSE:
+                        viewHolder.tv_title.setText(mContext.getResources().getString(R.string.response_piaobao));
+                        break;
+                    case WELCOME_NOTIFICATION:
+                        viewHolder.tv_title.setText(jsonObject.getString("4"));
+                        break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }else{
             viewHolder.tv_title.setText(bean.getMessage().getContent());
         }

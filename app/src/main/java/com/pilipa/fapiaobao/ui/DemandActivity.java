@@ -295,21 +295,15 @@ public class DemandActivity extends BaseActivity{
     private void setUpData(List<DemandDetails.DataBean.OrderInvoiceListBean> results, boolean isSetList) {
         Log.d(TAG, "setUpData:   private void setUpData(ArrayList<model.ResultsBean> body) {");
         isCanShutDown = true;
+        //是否收到发票  未收到则显示默认图
         if (results.size() == 0) {
             isCanShutDown = true;
             ll_no_record.setVisibility(View.VISIBLE);
             ll_receiptlist.setVisibility(View.GONE);
         } else {
-
             ll_no_record.setVisibility(View.GONE);
             ll_receiptlist.setVisibility(View.VISIBLE);
-            for (DemandDetails.DataBean.OrderInvoiceListBean result : results) {
-                if(STATE_CONFIRMING.equals(result.getState())
-                        ||STATE_MAILING.equals(result.getState())){//收到票 有未完成发票
-                    isCanShutDown = false;
-                }
-            }
-            Log.d(TAG, "all receipt is checked  isCanShutDown  "+isCanShutDown);
+
             images = new ArrayList<>();
             for (DemandDetails.DataBean.OrderInvoiceListBean result : results) {
                 Log.d(TAG, "setUpData:  for (model.ResultsBean result : body) {");
@@ -327,15 +321,22 @@ public class DemandActivity extends BaseActivity{
                 image.variety = result.getVariety();
                 image.reason = result.getReason();
                 images.add(image);
+                //是否有未确认的发票 当前是否可关闭
+                if(STATE_CONFIRMING.equals(result.getState())
+                        ||STATE_MAILING.equals(result.getState())){//收到票 有未完成发票
+                    isCanShutDown = false;
+                }
             }
+            Log.d(TAG, "all receipt is checked  isCanShutDown  "+isCanShutDown);
 
             ArrayList<Image> images1 = new ArrayList<>();
             ArrayList<Image> images2 = new ArrayList<>();
             ArrayList<Image> images3 = new ArrayList<>();
             images_qualified= new ArrayList<>();
+            //拆分发票集合
             for (int i = 0; i < images.size(); i++) {
                 if (STATE_COMPETENT.equals(images.get(i).state)) {
-                    images_qualified.add(images.get(i));//合格发票
+                    images_qualified.add(images.get(i));//合格发票集合
                 }
                 if(!STATE_INCOMPETENT .equals(images.get(i).state)){
                     if (VARIETY_GENERAL_PAPER.equals(images.get(i).variety)) {
@@ -351,7 +352,7 @@ public class DemandActivity extends BaseActivity{
             tv_num_1.setText(String.format(getResources().getString(R.string.paper_normal_receipt_num), images1.size()));
             tv_num_2.setText(String.format(getResources().getString(R.string.paper_special_receipt_num), images2.size()));
             tv_num_3.setText(String.format(getResources().getString(R.string.paper_elec_receipt_num), images3.size()));
-            if (isSetList) {
+            if (isSetList) {//是否需要刷新
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
                 paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
@@ -363,7 +364,7 @@ public class DemandActivity extends BaseActivity{
                 paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
                 addCaptureFragment2(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
             }
-
+            //隐藏空发票的类型
             if(images1.size()==0){
                 container_paper_normal_receipt.setVisibility(View.GONE);
             }
@@ -378,6 +379,7 @@ public class DemandActivity extends BaseActivity{
                 ll_no_record.setVisibility(View.VISIBLE);
                 ll_receiptlist.setVisibility(View.GONE);
             }
+
             Log.d(TAG, "initData: images_qualified" + images_qualified.size());
             if(images_qualified.size() == 0){
                 tvQualifiedList.setVisibility(View.GONE);
@@ -447,6 +449,7 @@ public class DemandActivity extends BaseActivity{
                         tv_receive.setText(String.format("%.2f", bean.getReceivedAmount()));
                         tvAlreadyCollected.setText(String.valueOf(bean.getReceivedNum()));
                         tv_low_limit.setText(String.format("%.2f",bean.getDemand().getMailMinimum())+ "元");
+                        //地址信息判断
                         String district = null;
                         if(bean.getDemand().getDemandPostage().getDistrict()!=null){
                             district = bean.getDemand().getDemandPostage().getDistrict()+ " ";
@@ -459,7 +462,6 @@ public class DemandActivity extends BaseActivity{
 
                         if (!VARIETY_GENERAL_ELECTRON.equals(bean.getDemand().getInvoiceVarieties())) {
                             ll_receive.setVisibility(View.VISIBLE);
-
                             tvPhone.setText(bean.getDemand().getDemandPostage().getPhone());
                             tvTelephone.setText(bean.getDemand().getDemandPostage().getTelephone());
                             tvReceiver.setText(bean.getDemand().getDemandPostage().getReceiver());

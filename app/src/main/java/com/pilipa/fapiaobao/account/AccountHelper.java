@@ -68,7 +68,7 @@ public class AccountHelper {
         return instances.user;
     }
 
-    public static void isTokenValid(Api.BaseViewCallback baseViewCallback) {
+    public static void isTokenValid(Api.BaseRawResponse baseViewCallback) {
         Api.loginByToken(getToken(), baseViewCallback);
     }
 

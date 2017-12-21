@@ -42,7 +42,7 @@ public class PackageInstallReceiver extends BroadcastReceiver {
             TLog.log("有应用被删除");
         } else if (Intent.ACTION_PACKAGE_REPLACED.equals(action)) {
 //            Toast.makeText(context, "有应用被替换", Toast.LENGTH_LONG).show();
-            TLog.log("有应用被替换");
+            TLog.log("被替换");
             String packageName = intent.getData().getSchemeSpecificPart();
             TLog.log(packageName);
             TLog.log(TDevice.getRunningActivityName(BaseApplication.context()));

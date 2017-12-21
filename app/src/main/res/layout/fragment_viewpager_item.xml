@@ -10,6 +10,7 @@
         <ListView
             android:overScrollMode="never"
             android:divider="@color/white"
+            android:dividerHeight="@dimen/d8"
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

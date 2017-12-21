@@ -37,7 +37,7 @@
                 android:textColor="@color/title_small"
                 android:textSize="@dimen/s12"
                 android:layout_toStartOf="@+id/tv_time"
-                android:text=""
+                android:layout_marginEnd="@dimen/d5"
                 />
             <TextView
                 android:id="@+id/tv_time"

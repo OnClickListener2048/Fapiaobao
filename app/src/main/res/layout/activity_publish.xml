@@ -23,179 +23,183 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/d30" />
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
         <LinearLayout
-            android:baselineAligned="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <FrameLayout
-                android:foreground="@drawable/selector_transparent_to_gray"
-                android:id="@+id/receipt_elec"
-                android:layout_width="wrap_content"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d30" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center">
-                <LinearLayout
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="vertical">
+                android:baselineAligned="false"
+                android:orientation="horizontal">
 
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/receipt_elec" />
-
-                        <ImageView
-                            android:id="@+id/select_receipt_elec"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:src="@mipmap/select"
-                            android:visibility="invisible" />
-                    </FrameLayout>
-
-                    <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/paper_elec_receipt" />
-                </LinearLayout>
-
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:foreground="@drawable/selector_transparent_to_gray"
-                android:id="@+id/receipt_paper_normal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/receipt_paper_normal" />
-
-                        <ImageView
-                            android:id="@+id/select_receipt_paper_normal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:src="@mipmap/select"
-                            android:visibility="invisible" />
-                    </FrameLayout>
-
-                    <TextView
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/paper_normal_receipt" />
-                </LinearLayout>
-
-
-            </FrameLayout>
-
-            <FrameLayout
-                android:foreground="@drawable/selector_transparent_to_gray"
-                android:id="@+id/receipt_paper_special"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1">
-
-                <LinearLayout
+                <FrameLayout
+                    android:id="@+id/receipt_elec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:foreground="@drawable/selector_transparent_to_gray"
+                    android:gravity="center">
 
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@mipmap/receipt_paper_special" />
-
-                        <ImageView
-                            android:id="@+id/select_receipt_paper_special"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:src="@mipmap/select"
-                            android:visibility="invisible" />
-                    </FrameLayout>
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="@string/paper_special_receipt" />
-                </LinearLayout>
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/receipt_elec" />
+
+                            <ImageView
+                                android:id="@+id/select_receipt_elec"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:src="@mipmap/select"
+                                android:visibility="invisible" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@string/paper_elec_receipt" />
+                    </LinearLayout>
 
 
-            </FrameLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/receipt_paper_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:foreground="@drawable/selector_transparent_to_gray">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/receipt_paper_normal" />
+
+                            <ImageView
+                                android:id="@+id/select_receipt_paper_normal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:src="@mipmap/select"
+                                android:visibility="invisible" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@string/paper_normal_receipt" />
+                    </LinearLayout>
+
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/receipt_paper_special"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:foreground="@drawable/selector_transparent_to_gray">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@mipmap/receipt_paper_special" />
+
+                            <ImageView
+                                android:id="@+id/select_receipt_paper_special"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:src="@mipmap/select"
+                                android:visibility="invisible" />
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@string/paper_special_receipt" />
+                    </LinearLayout>
+
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/d20" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="@dimen/d15"
+                    android:text="@string/next_step"
+                    android:textColor="@drawable/selector_union_main_style_text"
+                    android:textSize="@dimen/s20" />
+            </RelativeLayout>
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d20" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:padding="@dimen/d15"
-                android:id="@+id/confirm"
-                android:layout_width="match_parent"
-                android:textSize="@dimen/s20"
-                android:layout_centerHorizontal="true"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/next_step"
-                android:textColor="@drawable/selector_union_main_style_text" />
-        </RelativeLayout>
-
-    </LinearLayout>
 
     </LinearLayout>
 

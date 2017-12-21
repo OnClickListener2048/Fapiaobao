@@ -73,8 +73,8 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  */
 
 public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.OnLabelClickListener, FinanceAdapter.OnLabelClickListener {
-   public static String TAG = "FinanceFragment";
-//    @Bind(R.id.scan)
+    public static String TAG = "FinanceFragment";
+    //    @Bind(R.id.scan)
 //    ImageView scan;
 //    @Bind(R.id.notification)
 //    ImageView notification;
@@ -154,7 +154,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                         intent.putExtra("url", content);
                         intent.putExtra(Constant.TAG, TAG);
                         startActivity(intent);
-                    }else{
+                    } else {
                         setScanDialog();
                     }
                 }
@@ -229,14 +229,14 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
             @Override
             public void setData(DefaultInvoiceBean defaultInvoiceBean) {
-                try{
+                try {
                     if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
                         financeAdapter = new FinanceAdapter(defaultInvoiceBean);
                         financeAdapter.setOnLabelClickListener(FinanceFragment.this);
                         recyclerview.setAdapter(financeAdapter);
                         updateInvoiceHighlight(defaultInvoiceBean, allInvoiceType);
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -349,16 +349,16 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     }
 
 
-    @OnClick({ R.id.pull_to_find_more, R.id.rl_pull_to_find_more, R.id.fl_notification, R.id.title,R.id.fl_scan})
+    @OnClick({R.id.pull_to_find_more, R.id.rl_pull_to_find_more, R.id.fl_notification, R.id.title, R.id.fl_scan})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fl_scan:
                 quickResponse();
                 break;
             case R.id.fl_notification:
-                            newNotification.setVisibility(View.GONE);
-                            BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
-                            startActivity(new Intent(mContext, MessageCenterActivity.class));
+                newNotification.setVisibility(View.GONE);
+                BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
+                startActivity(new Intent(mContext, MessageCenterActivity.class));
                 break;
             case R.id.pull_to_find_more:
             case R.id.rl_pull_to_find_more:
@@ -390,12 +390,12 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
             @Override
             public void onError(Throwable e) {
-                TLog.d(TAG,"Throwable e"+e.getMessage());
+                TLog.d(TAG, "Throwable e" + e.getMessage());
             }
 
             @Override
             public void onComplete() {
-                TLog.d(TAG," rxPermissions.request  onComplete");
+                TLog.d(TAG, " rxPermissions.request  onComplete");
             }
         });
     }
@@ -472,6 +472,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         }
 
     }
+
     public void setScanDialog() {
         scanDialog = new Dialog(getActivity(), R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(

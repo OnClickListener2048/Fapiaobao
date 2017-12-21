@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -27,7 +26,6 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.FeedbackAdapterWrapper;
 import com.pilipa.fapiaobao.adapter.FeedbackMessagesAdapter;
-import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
@@ -224,12 +222,6 @@ public class MyQuestionsActivity extends BaseNoNetworkActivity implements Feedba
                     if (feedbackMessageBean.getStatus() == 200) {
                         emptyView.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
-                        recyclerView.smoothScrollBy(0, 1000, new Interpolator() {
-                            @Override
-                            public float getInterpolation(float input) {
-                                return 20;
-                            }
-                        });
 
                         feedbackMessagesAdapter.initData(feedbackMessageBean.getData().getList());
                         normalAdapterWrapper.notifyDataSetChanged();
