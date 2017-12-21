@@ -185,7 +185,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
                 int count2 = 0;
                 if (listPE.size() > 1) {
-                    llContainerPaperElecReceipt.setVisibility(View.VISIBLE);
+                        llContainerPaperElecReceipt.setVisibility(View.VISIBLE);
                     Bundle bundle = new Bundle();
                     bundle.putString("invoice_variety", allInvoiceVariety.getData().get(2).getValue());
                     bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, listPE);
