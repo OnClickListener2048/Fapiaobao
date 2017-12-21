@@ -381,6 +381,24 @@ public class Api {
                     baseViewCallback.setData(response.body());
                 }
             }
+
+            @Override
+            public void onStart(Request<FavoriteCompanyBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onError(Response<FavoriteCompanyBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
         });
     }
 
@@ -389,7 +407,7 @@ public class Api {
      * @param favCompany
      * @param baseViewCallback
      */
-    public static void favCompanyCreate(CompanyCollectBean favCompany, final BaseViewCallback baseViewCallback) {
+    public static void favCompanyCreate(CompanyCollectBean favCompany, final BaseViewCallbackWithOnStart baseViewCallback) {
         Gson gson = new Gson();
         String jsonFavCompany = gson.toJson(favCompany);
         OkGo.<FavBean>post(FAVORITE_COMPANY_CREATE)
@@ -398,6 +416,24 @@ public class Api {
                     @Override
                     public void onSuccess(Response<FavBean> response) {
                             baseViewCallback.setData(response.body());
+                    }
+
+                    @Override
+                    public void onError(Response<FavBean> response) {
+                        super.onError(response);
+                        baseViewCallback.onError();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        baseViewCallback.onFinish();
+                    }
+
+                    @Override
+                    public void onStart(Request<FavBean, ? extends Request> request) {
+                        super.onStart(request);
+                        baseViewCallback.onStart();
                     }
                 });
     }
@@ -499,6 +535,24 @@ public class Api {
                 } else {
                     baseViewCallback.setData(response.body());
                 }
+            }
+
+            @Override
+            public void onError(Response<NormalBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onStart(Request<NormalBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
             }
         });
     }
@@ -656,7 +710,8 @@ public class Api {
      * @param baseViewCallback
      */
     public static void findAllLogisticsCompany(final BaseViewCallback baseViewCallback) {
-        OkGo.<ExpressCompanyBean>get(FIND_ALL_EXPRESS_COMPANY).execute(new JsonCallBack<ExpressCompanyBean>(ExpressCompanyBean.class) {
+        OkGo.<ExpressCompanyBean>get(FIND_ALL_EXPRESS_COMPANY).cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
+                .execute(new JsonCallBack<ExpressCompanyBean>(ExpressCompanyBean.class) {
             @Override
             public void onSuccess(Response<ExpressCompanyBean> response) {
                 if (response.isSuccessful()) {
@@ -860,6 +915,25 @@ public class Api {
                 } else {
                     baseViewCallback.setData(body);
                 }
+            }
+
+            @Override
+            public void onStart(Request<NormalBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onError(Response<NormalBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
             }
         });
     }

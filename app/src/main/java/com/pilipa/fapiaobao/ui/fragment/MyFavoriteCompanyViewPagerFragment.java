@@ -19,6 +19,7 @@ import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyCompanyAdapter;
+import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
@@ -191,12 +192,13 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
             Api.favoriteCompanyList(AccountHelper.getToken(),this,new Api.BaseRawResponse<FavoriteCompanyBean>() {
                 @Override
                 public void onStart() {
+                    ((BaseActivity) getActivity()).showProgressDialog();
 
                 }
 
                 @Override
                 public void onFinish() {
-
+                    ((BaseActivity) getActivity()).hideProgressDialog();
                 }
 
                 @Override
@@ -237,14 +239,14 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
         super.onPause();
     }
-    public void favCompanyCreate(CompanyCollectBean favCompany){
-        Api.favCompanyCreate(favCompany,new Api.BaseViewCallback<FavBean>() {
-            @Override
-            public void setData(FavBean normalBean) {
-                if(normalBean.getStatus() == REQUEST_SUCCESS){
-                    Log.d(TAG, "favCompanyCreate success");
-                }
-            }
-        });
-    }
+//    public void favCompanyCreate(CompanyCollectBean favCompany){
+//        Api.favCompanyCreate(favCompany,new Api.BaseViewCallback<FavBean>() {
+//            @Override
+//            public void setData(FavBean normalBean) {
+//                if(normalBean.getStatus() == REQUEST_SUCCESS){
+//                    Log.d(TAG, "favCompanyCreate success");
+//                }
+//            }
+//        });
+//    }
 }
