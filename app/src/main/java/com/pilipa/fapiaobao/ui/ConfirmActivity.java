@@ -9,9 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.mylibrary.utils.EncodeUtils;
 import com.example.mylibrary.utils.TLog;
-import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
@@ -197,7 +195,22 @@ public class ConfirmActivity extends BaseActivity {
                                     companyCollectBean.setCompany(companyBean);
                                     companyCollectBean.setToken(AccountHelper.getToken());
 
-                                    Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<FavBean>() {
+                                    Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallbackWithOnStart<FavBean>() {
+                                        @Override
+                                        public void onStart() {
+                                            showProgressDialog();
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            hideProgressDialog();
+                                        }
+
+                                        @Override
+                                        public void onError() {
+
+                                        }
+
                                         @Override
                                         public void setData(FavBean normalBean) {
                                             if (normalBean.getStatus() == 200) {

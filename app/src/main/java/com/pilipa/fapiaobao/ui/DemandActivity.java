@@ -23,8 +23,8 @@ import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyInvoiceNameAdapter;
-import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
@@ -78,7 +78,7 @@ import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
  * Created by lyt on 2017/10/16.
  */
 
-public class DemandActivity extends BaseActivity{
+public class DemandActivity extends BaseNoNetworkActivity {
     private static final String TAG = "DemandActivity";
     @Bind(R.id.container_paper_normal_receipt)
     FrameLayout containerPaperNormalReceipt;
@@ -403,6 +403,12 @@ public class DemandActivity extends BaseActivity{
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
+    @Override
+    public void onNoNetworkLayoutClicks(View view) {
+        initData();
+    }
+
     @Override
     protected void onPause() {
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"demandDetails");
@@ -414,7 +420,7 @@ public class DemandActivity extends BaseActivity{
             Api.demandDetails(token, demandId, new Api.BaseRawResponse<DemandDetails>() {
                 @Override
                 public void onTokenInvalid() {
-
+                    hideNetWorkErrorLayout();
                 }
 
                 @Override
@@ -427,10 +433,11 @@ public class DemandActivity extends BaseActivity{
                 }
                 @Override
                 public void onError() {
-                    hideProgressDialog();
+                    showNetWorkErrorLayout();
                 }
                 @Override
                 public void setData(DemandDetails demandDetails) {
+                    hideNetWorkErrorLayout();
                     if (demandDetails.getStatus() == REQUEST_SUCCESS) {
                         Log.d(TAG, "demandDetails success");
                         DemandDetails.DataBean bean = demandDetails.getData();
@@ -519,27 +526,29 @@ public class DemandActivity extends BaseActivity{
                     Api.shatDownEarly(AccountHelper.getToken(), id, new Api.BaseRawResponse<NormalBean>() {
                         @Override
                         public void onStart() {
-
+                            showProgressDialog();
                         }
 
                         @Override
                         public void onFinish() {
-
+                            hideProgressDialog();
                         }
 
                         @Override
                         public void onError() {
-
+                            showNetWorkErrorLayout();
                         }
 
                         @Override
                         public void onTokenInvalid() {
+                            hideNetWorkErrorLayout();
                             login();
                             finish();
                         }
 
                         @Override
                         public void setData(NormalBean normalBean) {
+                            hideNetWorkErrorLayout();
                             Toast.makeText(DemandActivity.this, "需求已关闭", Toast.LENGTH_SHORT).show();
                             demandDetails(id,false);
                             DemandActivity.this.finish();
@@ -675,6 +684,8 @@ public class DemandActivity extends BaseActivity{
         dialogWindow.setAttributes(lp);
         mCameraDialog.show();
     }
+
+
     private void setShutDialog(boolean isCanShutDown) {
         mDialog = new Dialog(DemandActivity.this, R.style.BottomDialog);
         LinearLayout root;
@@ -719,5 +730,10 @@ public class DemandActivity extends BaseActivity{
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
         mDialog.show();
+    }
+
+    @Override
+    public void initDataInResume() {
+
     }
 }

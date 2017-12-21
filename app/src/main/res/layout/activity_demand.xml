@@ -39,11 +39,17 @@
             android:src="@mipmap/share" />
     </RelativeLayout>
 
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rl_title">
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rl_title"
-        android:layout_alignParentStart="true">
+
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -627,8 +633,7 @@
                                 android:id="@+id/qr"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                 />
+                                android:layout_centerInParent="true" />
                         </RelativeLayout>
 
                         <View
@@ -805,6 +810,7 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+    </FrameLayout>
 
 
 </RelativeLayout>

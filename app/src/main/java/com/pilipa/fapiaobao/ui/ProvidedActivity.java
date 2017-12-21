@@ -28,8 +28,8 @@ import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
-import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
@@ -72,7 +72,7 @@ import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
  * Created by wjn on 2017/10/24.
  */
 
-public class ProvidedActivity extends BaseActivity {
+public class ProvidedActivity extends BaseNoNetworkActivity {
     private static final String TAG = "ProvidedActivity";
 
     @Bind(R.id.container_paper_normal_receipt)
@@ -272,9 +272,25 @@ public class ProvidedActivity extends BaseActivity {
                                 companyCollectBean.setCompany(companyBean);
                                 companyCollectBean.setToken(AccountHelper.getToken());
 
-                                Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallback<FavBean>() {
+                                Api.favCompanyCreate(companyCollectBean, new Api.BaseViewCallbackWithOnStart<FavBean>() {
+                                    @Override
+                                    public void onStart() {
+                                        showProgressDialog();
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        hideProgressDialog();
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        showNetWorkErrorLayout();
+                                    }
+
                                     @Override
                                     public void setData(FavBean normalBean) {
+                                        hideNetWorkErrorLayout();
                                         if (normalBean.getStatus() == 200) {
                                             BaseApplication.showToast("收藏成功");
                                             isCollected = true;
@@ -284,22 +300,13 @@ public class ProvidedActivity extends BaseActivity {
                                     }
                                 });
                             }
-
-
-
                 break;
         }
     }
 
     @Override
     public void initView() {
-        Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
-            @Override
-            public void setData(ExpressCompanyBean expressCompanyBean) {
-               spinnerAdapter =  new PublishSpinnerAdapter(expressCompanyBean);
-               mSpinner.setAdapter(spinnerAdapter);
-            }
-        });
+
     }
 
     private void setTipDialog() {
@@ -420,7 +427,6 @@ public class ProvidedActivity extends BaseActivity {
         if(images3.size()==0){
             container_paper_elec_receipt.setVisibility(View.GONE);
         }
-
     }
 
     public void findAllRejectType() {
@@ -442,10 +448,24 @@ public class ProvidedActivity extends BaseActivity {
         orderId = getIntent().getStringExtra("OrderId");
         CompanyId = getIntent().getStringExtra("CompanyId");
         Log.d(TAG, "initData:showOrderDetail orderID" + orderId);
+
+        findAllLogisticsCompany();
         findAllRejectType();
         checkFav(CompanyId);
         showOrderDetail(orderId,true);
     }
+
+    private void findAllLogisticsCompany() {
+        Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
+            @Override
+            public void setData(ExpressCompanyBean expressCompanyBean) {
+                spinnerAdapter = new PublishSpinnerAdapter(expressCompanyBean);
+                mSpinner.setAdapter(spinnerAdapter);
+            }
+        });
+    }
+
+
     public void checkFav(final String companyId) {
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginWithInfoBean != null) {
@@ -457,8 +477,7 @@ public class ProvidedActivity extends BaseActivity {
                         isCollected = false;
                         collect.setImageResource(R.mipmap.collect);
                     } else if (s.getStatus() == 701 && s.getMsg().equals("token验证失败")) {
-                        startActivity(new Intent(ProvidedActivity.this, LoginActivity.class));
-                        finish();
+                        login();
                     } else if (s.getStatus() == 400) {
                         collect.setImageResource(R.mipmap.collected);
                         isCollected = true;
@@ -491,6 +510,11 @@ public class ProvidedActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
+    @Override
+    public void onNoNetworkLayoutClicks(View view) {
+        initData();
+    }
+
     public void mailInvoice() {
 
                     ExpressCompanyBean.DataBean bean = (ExpressCompanyBean.DataBean) mSpinner.getSelectedItem();
@@ -498,27 +522,29 @@ public class ProvidedActivity extends BaseActivity {
                             , edtOddNumber.getText().toString(), new Api.BaseRawResponse<NormalBean>() {
                                 @Override
                                 public void onStart() {
-
+                                    showProgressDialog();
                                 }
 
                                 @Override
                                 public void onFinish() {
-
+                                    hideProgressDialog();
                                 }
 
                                 @Override
                                 public void onError() {
-
+                                    showNetWorkErrorLayout();
                                 }
 
                                 @Override
                                 public void onTokenInvalid() {
+                                    hideNetWorkErrorLayout();
                                     login();
                                     finish();
                                 }
 
                                 @Override
                                 public void setData(NormalBean normalBean) {
+                                    hideNetWorkErrorLayout();
                                     if(normalBean.getStatus() == 200){
                                         showOrderDetail(orderId,false);
                                         BaseApplication.showToast(normalBean.getData());
@@ -534,7 +560,7 @@ public class ProvidedActivity extends BaseActivity {
             Api.showOrderDetail(AccountHelper.getToken(), orderID, new Api.BaseRawResponse<OrderDetailsBean>() {
                 @Override
                 public void onTokenInvalid() {
-
+                    hideNetWorkErrorLayout();
                 }
 
                 @Override
@@ -549,11 +575,12 @@ public class ProvidedActivity extends BaseActivity {
 
                 @Override
                 public void onError() {
-                    hideProgressDialog();
+                    showNetWorkErrorLayout();
                 }
 
                 @Override
                 public void setData(OrderDetailsBean orderDetailsBean) {
+                    hideNetWorkErrorLayout();
                     if (orderDetailsBean.getStatus() == REQUEST_SUCCESS) {
                         OrderDetailsBean.DataBean bean = orderDetailsBean.getData();
                         tvInvoiceType.setText(bean.getInvoiceType().getName());
@@ -694,4 +721,8 @@ public class ProvidedActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void initDataInResume() {
+
+    }
 }
