@@ -12,6 +12,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MessageCenterAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
@@ -28,7 +29,7 @@ import butterknife.OnClick;
  * Created by wjn on 2017/10/23.
  */
 
-public class MessageCenterActivity extends BaseActivity implements AdapterView.OnItemClickListener{
+public class MessageCenterActivity extends BaseNoNetworkActivity implements AdapterView.OnItemClickListener{
     private static final String TAG = "MessageCenterActivity";
 
     @Bind(R.id.no_content)
@@ -41,7 +42,6 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
     TextView tips;
     private MessageCenterAdapter messageCenterAdapter;
     private List<MessageListBean.DataBean> list = new ArrayList();
-    private MessageListBean.DataBean receiceData;
 
 
     @Override
@@ -65,18 +65,21 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
         messageCenterAdapter = new MessageCenterAdapter(this);
         lvContent.setAdapter(messageCenterAdapter);
         lvContent.setOnItemClickListener(this);
-
     }
 
     @Override
     public void initData() {
-
+        messageList();
     }
 
     @Override
     protected void onResume() {
-        messageList();
         super.onResume();
+    }
+
+    @Override
+    public void onNoNetworkLayoutClicks(View view) {
+        messageList();
     }
 
     @Override
@@ -89,27 +92,29 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
             Api.messageList(AccountHelper.getToken(), new Api.BaseRawResponse<MessageListBean>() {
                 @Override
                 public void onStart() {
-
+                    showProgressDialog();
                 }
 
                 @Override
                 public void onFinish() {
-
+                    hideProgressDialog();
                 }
 
                 @Override
                 public void onError() {
-
+showNetWorkErrorLayout();
                 }
 
                 @Override
                 public void onTokenInvalid() {
+                    hideNetWorkErrorLayout();
                     noContent.setVisibility(View.VISIBLE);
                     tips.setText("登陆后才能查看到通知哦");
                 }
 
                 @Override
                 public void setData(MessageListBean messageListBean) {
+                    hideNetWorkErrorLayout();
                     if (messageListBean.getStatus() == 200) {
                         noContent.setVisibility(View.GONE);
                         list = messageListBean.getData();
@@ -152,5 +157,10 @@ public class MessageCenterActivity extends BaseActivity implements AdapterView.O
         intent.putExtra("type",list.get(position).getMessageType());
         startActivity(intent);
         messageRead(list.get(position).getMessageType());
+    }
+
+    @Override
+    public void initDataInResume() {
+        initData();
     }
 }

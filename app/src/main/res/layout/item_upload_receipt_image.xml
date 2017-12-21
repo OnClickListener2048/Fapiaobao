@@ -19,7 +19,7 @@
             android:layout_height="0dp"
             android:background="@drawable/shape_item_receipt"
             android:scaleType="centerCrop"
-            android:src="@mipmap/timg" />
+            android:src="@mipmap/loading_small" />
 
         <TextView
             android:id="@+id/rb"

@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.ui.receipt_folder_image_select;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,14 +15,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
-import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
-import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
+import com.pilipa.fapiaobao.ui.fragment.ProgressDialogFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.receipt_folder_image_select.adapter.NormalAdpater;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
@@ -38,7 +41,7 @@ import butterknife.OnClick;
  * @date 2017/10/17
  */
 
-public class ReceiptActivityToken extends BaseActivity implements NormalAdpater.OnImageSelectListener, NormalAdpater.OnImageClickListener {
+public class ReceiptActivityToken extends BaseNoNetworkActivity implements NormalAdpater.OnImageSelectListener, NormalAdpater.OnImageClickListener {
     private static final String TAG = "ReceiptActivityToken";
 
     public static final int REQUEST_CODE = 1000;
@@ -64,62 +67,73 @@ public class ReceiptActivityToken extends BaseActivity implements NormalAdpater.
     TextView tvLine1;
     @Bind(R.id.rl_no_elec_receipt)
     RelativeLayout rlNoElecReceipt;
+    @Bind(R.id.animation_view)
+    LottieAnimationView animationView;
+    @Bind(R.id.rl_loading)
+    RelativeLayout rlLoading;
 //    public static final int RESULT_CODE_DELETE = 2000;
 
 
     private int mImageResize;
     private ArrayList<Image> arrayList;
     private ArrayList<Image> images;
+    private ProgressDialogFragment progressDialogFragment;
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_myreceipt_token;
     }
 
-    @Override
-    protected void onCreate( Bundle savedInstanceState) {
+      @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
     }
 
+    @Override
+    public void onNoNetworkLayoutClicks(View view) {
+        myInvoiceList();
+    }
+
     private void myInvoiceList() {
-            Api.myInvoiceList(AccountHelper.getToken(), this, new Api.BaseRawResponse<MyInvoiceListBean>() {
-                @Override
-                public void onStart() {
+        Api.myInvoiceList(AccountHelper.getToken(), this, new Api.BaseRawResponse<MyInvoiceListBean>() {
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
 
-                }
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
 
-                @Override
-                public void onFinish() {
+            @Override
+            public void onError() {
+                showNetWorkErrorLayout();
+            }
 
-                }
+            @Override
+            public void onTokenInvalid() {
+                login();
+            }
 
-                @Override
-                public void onError() {
-
-                }
-
-                @Override
-                public void onTokenInvalid() {
-                    login();
-                }
-
-                @Override
-                public void setData(MyInvoiceListBean myInvoiceListBean) {
-                    if (myInvoiceListBean.getStatus() == 200) {
-                        llElecReceipt.setVisibility(View.VISIBLE);
-                        rlNoElecReceipt.setVisibility(View.GONE);
-                        List<MyInvoiceListBean.DataBean> list = myInvoiceListBean.getData();
-                        if (list != null && list.size() > 0) {
-                            setUpData(list);
-                            Log.d(TAG, "updateData:myInvoiceList success");
-                        }
-                    } else if (myInvoiceListBean.getStatus() == 400) {
-                        llElecReceipt.setVisibility(View.GONE);
-                        rlNoElecReceipt.setVisibility(View.VISIBLE);
+            @Override
+            public void setData(MyInvoiceListBean myInvoiceListBean) {
+                hideNetWorkErrorLayout();
+                if (myInvoiceListBean.getStatus() == 200) {
+                    llElecReceipt.setVisibility(View.VISIBLE);
+                    rlNoElecReceipt.setVisibility(View.GONE);
+                    List<MyInvoiceListBean.DataBean> list = myInvoiceListBean.getData();
+                    if (list != null && list.size() > 0) {
+                        setUpData(list);
+                        Log.d(TAG, "updateData:myInvoiceList success");
                     }
+                } else if (myInvoiceListBean.getStatus() == 400) {
+                    llElecReceipt.setVisibility(View.GONE);
+                    rlNoElecReceipt.setVisibility(View.VISIBLE);
                 }
-            });
+            }
+        });
     }
 
     private int getImageResize(Context context) {
@@ -206,11 +220,11 @@ public class ReceiptActivityToken extends BaseActivity implements NormalAdpater.
         if (requestCode == REQUEST_CODE) {
             switch (resultCode) {
                 case RESULT_CODE_BACK:
-                    Log.d(TAG, "onActivityResult: previewactivity back to myreceiptactivity");
+                    TLog.d(TAG, "onActivityResult: previewactivity back to myreceiptactivity");
                     Bundle bundleExtra = data.getBundleExtra(NormalAdpater.EXTRA_BUNDLE);
                     ArrayList<Image> images = bundleExtra.getParcelableArrayList(NormalAdpater.EXTRA_ALL_DATA);
-                    Log.d(TAG, "onActivityResult:images.get(0).position; " + images.get(0).position);
-                    Log.d(TAG, "onActivityResult:images.get(0).isselected; " + images.get(0).isSelected);
+                    TLog.d(TAG, "onActivityResult:images.get(0).position; " + images.get(0).position);
+                    TLog.d(TAG, "onActivityResult:images.get(0).isselected; " + images.get(0).isSelected);
                     NormalAdpater normalAdpater = (NormalAdpater) recyclerview.getAdapter();
                     normalAdpater.refresh(images);
                     DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
@@ -246,12 +260,17 @@ public class ReceiptActivityToken extends BaseActivity implements NormalAdpater.
         recyclerview.setLayoutManager(grid);
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
         recyclerview.addItemDecoration(new GridInset(3, spacing, false));
-        llElecReceipt.setVisibility(View.VISIBLE);
+        llElecReceipt.setVisibility(View.GONE);
         rlNoElecReceipt.setVisibility(View.GONE);
     }
 
     @Override
     public void initData() {
         myInvoiceList();
+    }
+
+    @Override
+    public void initDataInResume() {
+
     }
 }

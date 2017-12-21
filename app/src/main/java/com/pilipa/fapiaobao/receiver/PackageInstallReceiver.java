@@ -9,6 +9,8 @@ import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.utils.TDevice;
 
+import java.util.Objects;
+
 /**
  * Created by edz on 2017/11/10.
  */
@@ -44,7 +46,7 @@ public class PackageInstallReceiver extends BroadcastReceiver {
             String packageName = intent.getData().getSchemeSpecificPart();
             TLog.log(packageName);
             TLog.log(TDevice.getRunningActivityName(BaseApplication.context()));
-            if (packageName == TDevice.getRunningActivityName(BaseApplication.context())) {
+            if (Objects.equals(packageName, TDevice.getRunningActivityName(BaseApplication.context()))) {
                 TDevice.IS_UPDATE = true;
             }
         }

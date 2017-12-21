@@ -299,7 +299,6 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
             @Override
             public void onError() {
-                activity.hideProgressDialog();
             }
 
             @Override

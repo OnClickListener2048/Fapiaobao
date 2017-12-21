@@ -442,7 +442,7 @@
     <string name="confirm_delete_company">确定删除公司信息吗？</string>
     <string name="think_more">再想想</string>
     <string name="confirm_delete">确定删除</string>
-    <string name="end_time_txt_tip">对于电子发票，此时间点为最终确认合格的截止时间点；对于邮寄的纸质发票，此时间点为收到纸质发票的截止时间点（通常邮寄时间为3-5天）。</string>
+    <string name="end_time_txt_tip">对于电子发票，此时间点为最终确认合格的截止时间点；对于邮寄的纸质发票，此时间点为收到纸质发票的截止时间点（通常邮寄时间为3–5天）。</string>
     <string name="iknow">我知道了</string>
     <string name="low_limit_txt_tip">在邮资到付情况下，为避免您多次收票承担不必要的快递费用，建议您合理设定每次快递的最低发票总金额。</string>
     <string name="logout">退出登录</string>
@@ -484,6 +484,7 @@
     <string name="please_enter_the_right_phone_number">请输入正确的手机号码</string>
     <string name="scan_tip">目前仅支持购物小票二维码、发票宝生成的单位信息二维码的扫描</string>
     <string name="save_to_invoice_clip">保存到发票夹</string>
+    <string name="no_network_phase">网络连接超时，看到了外太空\n点击刷新试试</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

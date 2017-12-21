@@ -358,13 +358,12 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
                     @Override
                     public void onError() {
                         go.setEnabled(true);
-                        hideProgressDialog();
+
                     }
 
                     @Override
                     public void onTokenInvalid() {
                         go.setEnabled(true);
-                        hideProgressDialog();
                         login();
                     }
 
@@ -488,7 +487,6 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
 
                 @Override
                 public void onError() {
-                    hideProgressDialog();
                 }
 
                 @Override

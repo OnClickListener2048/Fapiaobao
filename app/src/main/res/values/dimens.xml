@@ -108,4 +108,5 @@
     <dimen name="d65">65dp</dimen>
     <dimen name="d52">52dp</dimen>
     <dimen name="d147">147dp</dimen>
+    <dimen name="d250">250dp</dimen>
 </resources>

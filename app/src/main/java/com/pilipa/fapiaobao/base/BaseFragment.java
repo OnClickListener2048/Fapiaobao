@@ -1,6 +1,5 @@
 package com.pilipa.fapiaobao.base;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,6 +19,7 @@ import com.bumptech.glide.RequestManager;
 import com.example.mylibrary.utils.ImageLoader;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
+import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.BitmapUtils;

@@ -174,10 +174,9 @@ public class UploadReceiptActivity extends BaseActivity {
     public void scan() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             RxPermissions rxPermissions = new RxPermissions(this);
-            rxPermissions.request(Manifest.permission.READ_PHONE_STATE
-            ,Manifest.permission.ACCESS_NETWORK_STATE
-            ,Manifest.permission.ACCESS_WIFI_STATE
-            ,Manifest.permission.INTERNET)
+            rxPermissions.request(Manifest.permission.CAMERA
+                    ,Manifest.permission.WRITE_EXTERNAL_STORAGE
+   )
                     .subscribe(new Observer<Boolean>() {
                         @Override
                         public void onSubscribe(@NonNull Disposable d) {

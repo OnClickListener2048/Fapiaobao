@@ -29,6 +29,7 @@ import com.pilipa.fapiaobao.adapter.FeedbackAdapterWrapper;
 import com.pilipa.fapiaobao.adapter.FeedbackMessagesAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.FeedBackBean;
@@ -46,7 +47,7 @@ import butterknife.OnClick;
  * Created by edz on 2017/12/5.
  */
 
-public class MyQuestionsActivity extends BaseActivity implements FeedbackMessagesAdapter.OnItemResponseListener{
+public class MyQuestionsActivity extends BaseNoNetworkActivity implements FeedbackMessagesAdapter.OnItemResponseListener{
     private static final String TAG = "MyQuestionsActivity";
     @Bind(R.id.recyclerView)
     EmptyRecyclerView recyclerView;
@@ -69,6 +70,7 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
     private RecyclerView.Adapter adapter;
     private View emptyView;
     private View footerView;
+    private boolean flag;
 
     @Override
     protected int getLayoutId() {
@@ -105,10 +107,7 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
-    }
 
-    @Override
-    public void initData() {
         feedbackMessagesAdapter = new FeedbackMessagesAdapter();
         feedbackMessagesAdapter.setOnItemResponseListener(this);
         normalAdapterWrapper = new FeedbackAdapterWrapper(feedbackMessagesAdapter);
@@ -122,79 +121,81 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
         progressBar = (ProgressBar) footerView.findViewById(R.id.loading_progress);
         textView_loading = (TextView) footerView.findViewById(R.id.loading);
 
-            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                    super.onScrollStateChanged(recyclerView, newState);
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                        int lastVisiblePosition = manager.findLastVisibleItemPosition();
-                        if (lastVisiblePosition >= manager.getItemCount() - 1) {
-                            //TODO loading more
-                            if (!isLoadingMore) {
-                                if (pageNo > totalPageNo) {
-                                    progressBar.setVisibility(View.GONE);
-                                    textView_loading.setText(getString(R.string.already_reach_the_bottom));
-                                    return;
-                                }
-                                getSuggestion(pageNo, pageSize, "", "", AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
-                                    @Override
-                                    public void onStart() {
-                                        isLoadingMore = true;
-                                        progressBar.setVisibility(View.VISIBLE);
-                                        textView_loading.setText(getString(R.string.loading));
-                                    }
-
-                                    @Override
-                                    public void onFinish() {
-                                        isLoadingMore = false;
-                                    }
-
-                                    @Override
-                                    public void onError() {
-                                        isLoadingMore = false;
-                                    }
-
-                                    @Override
-                                    public void setData(FeedbackMessageBean feedbackMessageBean) {
-                                        if (feedbackMessageBean.getStatus() == 200) {
-                                            feedbackMessagesAdapter.addData(feedbackMessageBean.getData().getList());
-                                        }
-                                        feedbackMessagesAdapter.notifyDataSetChanged();
-                                        normalAdapterWrapper.notifyDataSetChanged();
-                                        pageNo++;
-                                    }
-                                });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    int lastVisiblePosition = manager.findLastVisibleItemPosition();
+                    if (lastVisiblePosition >= manager.getItemCount() - 1) {
+                        //TODO loading more
+                        if (!isLoadingMore) {
+                            if (pageNo > totalPageNo) {
+                                progressBar.setVisibility(View.GONE);
+                                textView_loading.setText(getString(R.string.already_reach_the_bottom));
+                                return;
                             }
+                            getSuggestion(pageNo, pageSize, "", "", AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
+                                @Override
+                                public void onStart() {
+                                    isLoadingMore = true;
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    textView_loading.setText(getString(R.string.loading));
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    isLoadingMore = false;
+                                }
+
+                                @Override
+                                public void onError() {
+                                    showNetWorkErrorLayout();
+                                    isLoadingMore = false;
+
+                                }
+
+                                @Override
+                                public void setData(FeedbackMessageBean feedbackMessageBean) {
+                                    hideNetWorkErrorLayout();
+                                    if (feedbackMessageBean.getStatus() == 200) {
+                                        feedbackMessagesAdapter.addData(feedbackMessageBean.getData().getList());
+                                    }
+                                    feedbackMessagesAdapter.notifyDataSetChanged();
+                                    normalAdapterWrapper.notifyDataSetChanged();
+                                    pageNo++;
+                                }
+                            });
                         }
                     }
                 }
-            });
-
-
-            //来自推送跳转
-            FeedbackMessageBean.DataBean dataBean = new FeedbackMessageBean.DataBean();
-            ArrayList<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> suggestionList = getIntent().getParcelableArrayListExtra("suggestionList");
-            FeedbackMessageBean.DataBean.ListBean listBean = new FeedbackMessageBean.DataBean.ListBean();
-            if(suggestionList != null){
-                listBean.setSuggestionList(suggestionList);
-                listBean.setCustomerId(AccountHelper.getUser().getData().getCustomer().getId());
-                List<FeedbackMessageBean.DataBean.ListBean> listBeanList = new ArrayList<>();
-                listBeanList.add(listBean);
-                dataBean.setList(listBeanList);
-
-                feedbackMessagesAdapter.insertData(listBeanList);
-                footerView.setVisibility(View.GONE);
-
             }
-        normalAdapterWrapper.notifyDataSetChanged();
+        });
 
+
+        //来自推送跳转
+        FeedbackMessageBean.DataBean dataBean = new FeedbackMessageBean.DataBean();
+        ArrayList<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> suggestionList = getIntent().getParcelableArrayListExtra("suggestionList");
+        FeedbackMessageBean.DataBean.ListBean listBean = new FeedbackMessageBean.DataBean.ListBean();
+        if(suggestionList != null){
+            listBean.setSuggestionList(suggestionList);
+            listBean.setCustomerId(AccountHelper.getUser().getData().getCustomer().getId());
+            List<FeedbackMessageBean.DataBean.ListBean> listBeanList = new ArrayList<>();
+            listBeanList.add(listBean);
+            dataBean.setList(listBeanList);
+
+            feedbackMessagesAdapter.insertData(listBeanList);
+            footerView.setVisibility(View.GONE);
+
+        }
+        normalAdapterWrapper.notifyDataSetChanged();
+        //是否来自推送 false
+        flag = getIntent().getBooleanExtra("flag",false);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        boolean flag = getIntent().getBooleanExtra("flag",false);//是否来自推送 false
+    public void initData() {
         if(!flag){
             getSuggestion(pageNo, pageSize, "", "", AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
                 @Override
@@ -250,7 +251,16 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
                 }
             });
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onNoNetworkLayoutClicks(View view) {
+        initData();
     }
 
     @Override
@@ -313,10 +323,12 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
             @Override
             public void onError() {
                 feedbackSend.setEnabled(true);
+                showNetWorkErrorLayout();
             }
 
             @Override
             public void setData(FeedBackBean feedBackBean) {
+                hideNetWorkErrorLayout();
                 if (feedBackBean.getStatus() == 200) {
                     recyclerView.setVisibility(View.VISIBLE);
                     emptyView.setVisibility(View.GONE);
@@ -396,11 +408,13 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
 
             @Override
             public void onError() {
+                showNetWorkErrorLayout();
                 feedbackSend.setEnabled(true);
             }
 
             @Override
             public void setData(FeedBackBean feedBackBean) {
+                hideNetWorkErrorLayout();
                 if (feedBackBean.getStatus() == 200) {
                     responseBack(data, suggestionBean, adapter, feedBackBean);
                     etFeedback.setText(null);
@@ -425,4 +439,8 @@ public class MyQuestionsActivity extends BaseActivity implements FeedbackMessage
         etFeedback.setHint("");
     }
 
+    @Override
+    public void initDataInResume() {
+        initData();
+    }
 }

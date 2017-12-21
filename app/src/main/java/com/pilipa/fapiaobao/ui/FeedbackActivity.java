@@ -31,6 +31,7 @@ import com.pilipa.fapiaobao.adapter.FeedbackAdapterWrapper;
 import com.pilipa.fapiaobao.adapter.FeedbackMessagesAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.FeedBackBean;
@@ -53,7 +54,7 @@ import io.reactivex.functions.Consumer;
  * Created by lyt on 2017/10/17.
  */
 
-public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAdapter.OnItemResponseListener {
+public class FeedbackActivity extends BaseNoNetworkActivity implements FeedbackMessagesAdapter.OnItemResponseListener {
     private static final String TAG = "FeedbackActivity";
     @Bind(R.id.recyclerView)
     EmptyRecyclerView recyclerView;
@@ -117,10 +118,6 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
-    }
-
-    @Override
-    public void initData() {
         feedbackMessagesAdapter = new FeedbackMessagesAdapter();
         feedbackMessagesAdapter.setOnItemResponseListener(this);
         normalAdapterWrapper = new FeedbackAdapterWrapper(feedbackMessagesAdapter);
@@ -174,10 +171,12 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
                                 @Override
                                 public void onError() {
                                     isLoadingMore = false;
+                                    showNetWorkErrorLayout();
                                 }
 
                                 @Override
                                 public void setData(FeedbackMessageBean feedbackMessageBean) {
+                                    hideNetWorkErrorLayout();
                                     if (feedbackMessageBean.getStatus() == 200) {
                                         feedbackMessagesAdapter.addData(feedbackMessageBean.getData().getList());
                                     }
@@ -194,17 +193,9 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+    public void initData() {
         pageNo = 1;
-        TLog.d("onResume get suggestion pageNo" ,pageNo+"");
+        TLog.d("onResume get suggestion pageNo", pageNo + "");
         getSuggestion(pageNo, pageSize, "", "", "", new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
             @Override
             public void onStart() {
@@ -223,16 +214,15 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
                                 int lastVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
                                 int lastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
                                 int firstCompletelyVisibleItemPosition = layoutManager.findFirstCompletelyVisibleItemPosition();
-                                TLog.log("firstCompletelyVisibleItemPosition"+firstCompletelyVisibleItemPosition);
-                                TLog.log("lastCompletelyVisibleItemPosition"+lastCompletelyVisibleItemPosition);
-                                TLog.log("lastVisibleItemPosition"+lastVisibleItemPosition);
-                                TLog.log("normalAdapterWrapper.getItemCount()"+normalAdapterWrapper.getItemCount());
-                                if (lastVisibleItemPosition+2 == normalAdapterWrapper.getItemCount()) {
+                                TLog.log("firstCompletelyVisibleItemPosition" + firstCompletelyVisibleItemPosition);
+                                TLog.log("lastCompletelyVisibleItemPosition" + lastCompletelyVisibleItemPosition);
+                                TLog.log("lastVisibleItemPosition" + lastVisibleItemPosition);
+                                TLog.log("normalAdapterWrapper.getItemCount()" + normalAdapterWrapper.getItemCount());
+                                if (lastVisibleItemPosition + 2 == normalAdapterWrapper.getItemCount()) {
                                     footerView.setVisibility(View.GONE);
                                 }
                             }
                         });
-
             }
 
             @Override
@@ -253,7 +243,7 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
                         progressBar.setVisibility(View.GONE);
                         textView_loading.setText(getString(R.string.already_reach_the_top));
                     }
-                    if (feedbackMessageBean.getData().getList().size()<5) {
+                    if (feedbackMessageBean.getData().getList().size() < 5) {
                         footerView.setVisibility(View.GONE);
                     }
                 } else if (feedbackMessageBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
@@ -262,6 +252,23 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
                 }
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onNoNetworkLayoutClicks(View view) {
+        initData();
     }
 
     public void getSuggestion(int pageNo, int pageSize, String id, String suggestion, String token, Api.BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
@@ -316,10 +323,12 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
             @Override
             public void onError() {
                 feedbackSend.setEnabled(true);
+                showNetWorkErrorLayout();
             }
 
             @Override
             public void setData(FeedBackBean feedBackBean) {
+                hideNetWorkErrorLayout();
                 if (feedBackBean.getStatus() == 200) {
                     recyclerView.setVisibility(View.VISIBLE);
                     emptyView.setVisibility(View.GONE);
@@ -405,10 +414,12 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
             @Override
             public void onError() {
                 feedbackSend.setEnabled(true);
+                showNetWorkErrorLayout();
             }
 
             @Override
             public void setData(FeedBackBean feedBackBean) {
+                hideNetWorkErrorLayout();
                 if (feedBackBean.getStatus() == 200) {
                     responseBack(data, suggestionBean, adapter, feedBackBean);
                     etFeedback.setText(null);
@@ -443,5 +454,10 @@ public class FeedbackActivity extends BaseActivity implements FeedbackMessagesAd
                 startActivity(new Intent(this, MyQuestionsActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void initDataInResume() {
+        initData();
     }
 }

@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MessageDetailsAdapter;
-import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageDetailsBean;
@@ -40,7 +40,7 @@ import static com.pilipa.fapiaobao.net.Constant.MSG_TYPE_SERVICE_NOTIFICATION;
  * Created by wjn on 2017/10/23.
  */
 
-public class MessageDetailsActivity extends BaseActivity  implements AdapterView.OnItemClickListener{
+public class MessageDetailsActivity extends BaseNoNetworkActivity implements AdapterView.OnItemClickListener {
     @Bind(R.id.title)
     TextView tv_title;
     @Bind(R.id.lv_content)
@@ -81,14 +81,13 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
         String title = getIntent().getStringExtra("title");
         type = getIntent().getStringExtra("type");
         tv_title.setText(title);
-        messageDetails(type);
         adapter = new MessageDetailsAdapter(this);
         listview.setAdapter(adapter);
         listview.setOnItemClickListener(this);
     }
     @Override
     public void initData() {
-
+        messageDetails(type);
     }
 
     @Override
@@ -97,33 +96,39 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
+    @Override
+    public void onNoNetworkLayoutClicks(View view) {
+        initData();
+    }
+
     private void messageDetails(final String type) {
 
                     bonus = String.valueOf(AccountHelper.getUser().getData().getCustomer().getBonus());
                         Api.messageDetails(type,AccountHelper.getToken(), new Api.BaseRawResponse<MessageDetailsBean>() {
                             @Override
                             public void onStart() {
-
+                                showProgressDialog();
                             }
 
                             @Override
                             public void onFinish() {
-
+                                hideProgressDialog();
                             }
 
                             @Override
                             public void onError() {
-
+                                showNetWorkErrorLayout();
                             }
 
                             @Override
                             public void onTokenInvalid() {
-
+                                hideNetWorkErrorLayout();
                             }
 
                             @Override
                             public void setData(MessageDetailsBean messageDetailsBean) {
-
+                                hideNetWorkErrorLayout();
                                 if (messageDetailsBean.getStatus() == 200) {
                                     noContent.setVisibility(View.GONE);
                                     list = messageDetailsBean.getData();
@@ -179,5 +184,10 @@ public class MessageDetailsActivity extends BaseActivity  implements AdapterView
                     }
                 break;
         }
+    }
+
+    @Override
+    public void initDataInResume() {
+        initData();
     }
 }

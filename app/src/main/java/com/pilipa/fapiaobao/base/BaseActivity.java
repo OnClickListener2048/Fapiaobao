@@ -12,14 +12,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -33,6 +36,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.interf.BaseView;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.constants.Constant;
+import com.pilipa.fapiaobao.ui.fragment.ProgressDialogFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.TDevice;
@@ -75,6 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             }
         }
     };
+    private ProgressDialogFragment progressDialogFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,7 +107,29 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         intentFilter.addAction(Constant.UNKNOWN_ERROR);
         intentFilter.addAction(Constant.PARSE_ERROR);
         registerReceiver(mBroadcastReceiver, intentFilter);
+
+        initDialogFragment();
+
     }
+
+
+
+
+    private void initDialogFragment() {
+        progressDialogFragment = ProgressDialogFragment.newInstance();
+    }
+
+    public void showDialogFragment(String tag) {
+        progressDialogFragment.show(getSupportFragmentManager(),tag);
+    }
+
+    public void hideDialogFragment(String tag) {
+        String tag1 = progressDialogFragment.getTag();
+        if (TextUtils.equals(tag, tag1)) {
+            progressDialogFragment.dismiss();
+        }
+    }
+
 
     private void initProgressDialog() {
         if (progressDialog == null) {

@@ -563,6 +563,24 @@ public class Api {
                         baseViewCallback.setData(response.body());
                     }
                 }
+
+                @Override
+                public void onError(Response<NormalBean> response) {
+                    super.onError(response);
+                    baseViewCallback.onError();
+                }
+
+                @Override
+                public void onFinish() {
+                    super.onFinish();
+                    baseViewCallback.onFinish();
+                }
+
+                @Override
+                public void onStart(Request<NormalBean, ? extends Request> request) {
+                    super.onStart(request);
+                    baseViewCallback.onStart();
+                }
             });
     }
 
@@ -789,6 +807,24 @@ public class Api {
                     baseViewCallback.setData(body);
                 }
             }
+
+            @Override
+            public void onStart(Request<MyInvoiceListBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onError(Response<MyInvoiceListBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
         });
     }
     /**
@@ -940,6 +976,24 @@ public class Api {
                 }
 
             }
+
+            @Override
+            public void onStart(Request<MessageListBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onError(Response<MessageListBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
         });
 
     }
@@ -962,6 +1016,24 @@ public class Api {
                     baseViewCallback.setData(body);
                 }
 
+            }
+
+            @Override
+            public void onError(Response<MessageDetailsBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onStart(Request<MessageDetailsBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
             }
         });
     }
