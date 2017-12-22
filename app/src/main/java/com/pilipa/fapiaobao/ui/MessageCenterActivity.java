@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MessageCenterAdapter;
-import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
@@ -161,6 +160,6 @@ showNetWorkErrorLayout();
 
     @Override
     public void initDataInResume() {
-        initData();
+
     }
 }

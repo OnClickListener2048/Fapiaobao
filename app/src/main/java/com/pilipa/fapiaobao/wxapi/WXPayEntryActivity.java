@@ -4,11 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
-import com.example.mylibrary.widget.SimplexToast;
-import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.receiver.WXPayReceiver;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -39,6 +35,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp baseResp) {
+
         if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (baseResp.errCode == 0) {
 //                BaseApplication.showToast("支付成功");

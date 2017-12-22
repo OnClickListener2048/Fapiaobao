@@ -4,14 +4,15 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="314dp"
         android:layout_height="141dp"
         android:background="@drawable/shape_tip_bg"
         android:layout_gravity="center"
         android:orientation="vertical">
         <LinearLayout
-            android:layout_marginStart="@dimen/d20"
+            android:id="@+id/ll"
+            android:layout_marginStart="@dimen/d21"
             android:layout_marginTop="@dimen/d30"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -35,34 +36,44 @@
                 android:text="@string/withdraw_tip2"/>
         </LinearLayout>
         <TextView
-            android:layout_marginStart="@dimen/d20"
+            android:layout_below="@+id/ll"
+            android:layout_marginTop="@dimen/d3"
+            android:layout_marginStart="@dimen/d21"
+            android:layout_marginEnd="@dimen/d21"
             android:textColor="@color/title_small"
             android:textSize="13sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/withdraw_tip3"/>
+
+
         <LinearLayout
             android:gravity="end"
-            android:layout_marginEnd="@dimen/d30"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/d21"
             android:layout_marginStart="@dimen/d50"
-            android:layout_marginBottom="@dimen/d20"
+            android:layout_marginBottom="22dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
+            <TextView
                 android:id="@+id/btn_cancel1"
+                android:layout_marginEnd="32dp"
+                android:padding="@dimen/d5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:textColor="@drawable/selector_union_main_style_text"
                 android:text="@string/cancel"/>
-            <Button
+            <TextView
                 android:id="@+id/btn_confirm"
                 android:background="@null"
+                android:padding="@dimen/d5"
+
                 android:textColor="@drawable/selector_union_main_style_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/confirm"/>
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

@@ -472,14 +472,9 @@ public class UserInfoActivity extends BaseActivity {
             bindPhone.setVisibility(View.VISIBLE);
             bindPhone.setText("去绑定");
             edtPhone.setVisibility(View.GONE);
-//            edtPhone.setText("去绑定");
-//            edtPhone.setTextColor(getResources().getColor(R.color.main_style));
-//            edtPhone.setOnClickListener(this);
         } else {
             bindPhone.setVisibility(View.GONE);
             edtPhone.setVisibility(View.VISIBLE);
-//            edtPhone.setTextColor(getResources().getColor(R.color.title_small));
-//            edtPhone.setOnClickListener(null);
         }
         if (Constant.GENDER_FEMALE.equals(customer.getGender())) {
             radioGroup.check(R.id.rb_female);

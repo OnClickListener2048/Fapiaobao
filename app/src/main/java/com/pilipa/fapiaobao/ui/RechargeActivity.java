@@ -113,7 +113,7 @@ public class RechargeActivity extends BaseActivity  {
     }
 
     private void recharge(){
-        Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), amount, new Api.BaseViewCallbackWithOnStart<PrepayBean>() {
+        Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallbackWithOnStart<PrepayBean>() {
             @Override
             public void onStart() {
                 showProgressDialog();
@@ -151,6 +151,7 @@ public class RechargeActivity extends BaseActivity  {
                 request.sign = data.getSign();
 
                 api.sendReq(request);
+
             }
         });
     }

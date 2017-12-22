@@ -89,7 +89,7 @@ public class MyWalletActivity extends BaseActivity {
 
             @Override
             public void onError() {
-                hideProgressDialog();
+
             }
 
             @Override

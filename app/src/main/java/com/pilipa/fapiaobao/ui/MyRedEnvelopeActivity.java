@@ -61,7 +61,10 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             if (intent.getAction().equals(WX_LOGIN_ACTION)) {
+                btnWithdraw.setEnabled(true);
+                hideProgressDialog();
                 TLog.d(TAG,WX_LOGIN_ACTION +" success");
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
@@ -102,6 +105,8 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                 if (normalBean.getStatus() == 200) {
                     BaseApplication.showToast("微信绑定成功");
                     withdaw(openID);
+                    AccountHelper.updateCustomerOpenId(openID);
+
                 }else if(normalBean.getStatus() == 707){
                     BaseApplication.showToast(normalBean.getMsg());
                 }
@@ -118,11 +123,14 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                     @Override
                     public void onStart() {
                         showProgressDialog();
+                        btnWithdraw.setEnabled(false);
+
                     }
 
                     @Override
                     public void onFinish() {
                         hideProgressDialog();
+                        btnWithdraw.setEnabled(true);
                     }
 
                     @Override
@@ -132,7 +140,6 @@ public class MyRedEnvelopeActivity extends BaseActivity {
 
                     @Override
                     public void setData(PrepayBean normalBean) {
-                        btnWithdraw.setEnabled(true);
                         if (normalBean.getStatus() ==200) {
                             BaseApplication.showToast("提现成功");
                             finish();
@@ -332,7 +339,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     }
     private void weChatLogin() {
         btnWithdraw.setEnabled(false);
-
+        showProgressDialog();
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo_test";

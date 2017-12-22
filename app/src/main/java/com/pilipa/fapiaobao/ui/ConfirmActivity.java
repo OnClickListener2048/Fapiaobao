@@ -159,6 +159,7 @@ public class ConfirmActivity extends BaseActivity {
                 if (!ButtonUtils.isFastDoubleClick(R.id.collect)) {
 
                                 if (isCollected) {
+                                    //删除收藏公司id为 表主键
                                     Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseRawResponse<FavBean>() {
                                         @Override
                                         public void onStart() {

@@ -46,25 +46,29 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/d10"
             >
-
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/img_head_me"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/drawable_scan"
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:foreground="@drawable/drawable_scan_circle"
+                android:id="@+id/fl_img_head"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="32dp"
-                android:layout_marginStart="28dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_head_circle_default_small_"
-                app:riv_corner_radius="30dp" />
+                android:layout_height="wrap_content">
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/img_head_me"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_head_circle_default_small_"
+                    app:riv_corner_radius="30dp" />
+            </FrameLayout>
+
 
             <TextView
                 android:id="@+id/tv_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/img_head_me"
+                android:layout_toEndOf="@+id/fl_img_head"
                 android:layout_marginLeft="@dimen/d10"
                 android:paddingLeft="@dimen/d8"
                 android:paddingRight="@dimen/d8"
@@ -87,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_userName"
-                android:layout_toEndOf="@+id/img_head_me"
+                android:layout_toEndOf="@+id/fl_img_head"
                 android:orientation="horizontal">
 
                 <TextView

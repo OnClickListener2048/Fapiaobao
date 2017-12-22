@@ -125,7 +125,7 @@ public class MeFragment extends BaseFragment{
 
 
     @OnClick({R.id.tv_userName
-            ,R.id.img_head_me
+            ,R.id.fl_img_head
             ,R.id.btn_mPublish
             ,R.id.btn_manager
             ,R.id.btn_receipt_folder
@@ -161,9 +161,9 @@ public class MeFragment extends BaseFragment{
                 if(!"notoken".equals(AccountHelper.getToken())){
                     switch (view.getId()) {
                         case R.id.tv_userName:
-                        case R.id.img_head_me:
+                        case R.id.fl_img_head:
                             if (!ButtonUtils.isFastDoubleClick(R.id.tv_userName)||
-                                    !ButtonUtils.isFastDoubleClick(R.id.img_head_me)) {
+                                    !ButtonUtils.isFastDoubleClick(R.id.fl_img_head)) {
                                 startActivity(new Intent(getContext(), UserInfoActivity.class));
                             }
                             break;

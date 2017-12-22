@@ -88,6 +88,15 @@ public class AccountHelper {
             SharedPreferencesHelper.save(instances.application,instances.user);
         }
     }
+    public static void updateCustomerOpenId(String openId){
+        instances.user = SharedPreferencesHelper.loadFormSource(instances.application, LoginWithInfoBean.class);
+        if (getUser() != null || getUser().getData() != null) {
+            if(openId != null){
+                instances.user.getData().getCustomer().setOpenid(openId);
+            }
+            SharedPreferencesHelper.save(instances.application,instances.user);
+        }
+    }
     public static void clearCustomerOpenId(){
         instances.user = SharedPreferencesHelper.loadFormSource(instances.application, LoginWithInfoBean.class);
         if (getUser() != null || getUser().getData() != null) {

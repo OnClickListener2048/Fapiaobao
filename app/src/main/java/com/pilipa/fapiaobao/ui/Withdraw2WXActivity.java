@@ -109,6 +109,7 @@ public class Withdraw2WXActivity extends BaseActivity {
                 if (normalBean.getStatus() == 200) {
                     BaseApplication.showToast("微信绑定成功");
                     withdaw(openID);
+                    AccountHelper.updateCustomerOpenId(openID);
                 } else if (normalBean.getStatus() == 707) {
                     BaseApplication.showToast(normalBean.getMsg());
                 }
@@ -136,7 +137,8 @@ public class Withdraw2WXActivity extends BaseActivity {
 
                     @Override
                     public void onError() {
-
+                        hideProgressDialog();
+                        btnWithdraw.setEnabled(true);
                     }
 
                     @Override
