@@ -18,7 +18,8 @@ import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyReceiptAdapter;
-import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseNoNetworkFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
@@ -30,11 +31,13 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE;
+
 /**
  * Created by lyt on 2017/10/17.
  */
 
-public class ProvidePagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+public class ProvidePagerFragment extends BaseNoNetworkFragment implements AdapterView.OnItemClickListener {
     private static final String TAG = "ProvidePagerFragment";
 
     @Bind(R.id.recyclerview)
@@ -45,6 +48,10 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
     private int pageNo=0;
     private int pageSize=100;
     List<OrderListBean.DataBean> mDataList =new ArrayList<>();
+    private boolean mIsInited;
+    private boolean mIsPrepared;
+
+
     public ProvidePagerFragment() {
 
     }
@@ -57,7 +64,23 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        mIsPrepared = true;
+        lazyLoad();
         return rootView;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            lazyLoad();
+        }
+    }
+
+    private void lazyLoad() {
+        if (getUserVisibleHint() && mIsPrepared && !mIsInited) {
+            orderList(pageNo,pageSize);
+        }
     }
     @Override
     public void onPause() {
@@ -90,7 +113,7 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
 
     @Override
     protected void initData() {
-        orderList(pageNo,pageSize);
+
         super.initData();
 
     }
@@ -171,17 +194,17 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
         Api.orderList(AccountHelper.getToken(), pageNo + "", pageSize + "", ProvidePagerFragment.this, new Api.BaseRawResponse<OrderListBean>() {
             @Override
             public void onStart() {
-
+                ((BaseActivity) getActivity()).showProgressDialog();
             }
 
             @Override
             public void onFinish() {
-
+                ((BaseActivity) getActivity()).hideProgressDialog();
             }
 
             @Override
             public void onError() {
-
+                showNetWorkErrorLayout();
             }
 
             @Override
@@ -191,6 +214,8 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
 
             @Override
             public void setData(OrderListBean orderListBean) {
+                mIsInited = true;
+                hideNetWorkErrorLayout();
                 if (orderListBean.getStatus() == Constant.REQUEST_SUCCESS) {
 
                     List<OrderListBean.DataBean> list =  orderListBean.getData();
@@ -213,4 +238,13 @@ public class ProvidePagerFragment extends BaseFragment implements AdapterView.On
     }
 
 
+    @Override
+    public void initDataInResume() {
+
+    }
+
+    @Override
+    protected void onNoNetworkLayoutClicks(View v) {
+        initData();
+    }
 }

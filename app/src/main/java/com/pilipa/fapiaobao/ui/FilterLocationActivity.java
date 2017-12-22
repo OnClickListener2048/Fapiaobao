@@ -15,7 +15,7 @@ import com.lljjcoder.citywheel.CityConfig;
 import com.lljjcoder.citywheel.CityPickerView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.base.LocationBaseActivity;
+import com.pilipa.fapiaobao.base.BaseLocationActivity;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 
@@ -29,7 +29,7 @@ import butterknife.OnClick;
  * Created by edz on 2017/11/5.
  */
 
-public class FilterActivity extends LocationBaseActivity {
+public class FilterLocationActivity extends BaseLocationActivity {
 
     @Bind(R.id.title)
     TextView title;
@@ -141,7 +141,7 @@ public class FilterActivity extends LocationBaseActivity {
 
 
     private void initCityPicker() {
-        CityConfig cityConfig = new CityConfig.Builder(FilterActivity.this)
+        CityConfig cityConfig = new CityConfig.Builder(FilterLocationActivity.this)
                 .title("选择地区")
                 .titleBackgroundColor("#E9E9E9")
                 .textSize(15)

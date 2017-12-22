@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.mylibrary.utils.TLog;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
@@ -19,10 +21,12 @@ import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyCompanyAdapter;
-import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseNoNetworkFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.ui.CompanyDetailsActivity;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +35,16 @@ import java.util.Objects;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static android.app.Activity.RESULT_OK;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_NO_CONTENT;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
+import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE;
 
 /**
  * Created by lyt on 2017/10/17.
  */
 
-public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+public class MyCompanyViewPagerFragment extends BaseNoNetworkFragment implements AdapterView.OnItemClickListener {
     private static final String TAG = "MyCompanyViewPagerFragment";
 
     @Bind(R.id.recyclerview)
@@ -48,8 +54,8 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
     private MyCompanyAdapter mAdapter;
 
     public List<CompaniesBean.DataBean> mData = new ArrayList();
-    private View emptyView;
-
+    private boolean mIsInited;
+    private boolean mIsPrepared;
     public MyCompanyViewPagerFragment() {
 
     }
@@ -62,6 +68,8 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        mIsPrepared = true;
+        lazyLoad();
         return rootView;
     }
 
@@ -83,7 +91,7 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         trl.setEnableOverScroll(false);
         listView.setAdapter(mAdapter=new MyCompanyAdapter(mContext));
         listView.setOnItemClickListener(this);
-        emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
+        View emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
         emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         emptyView.setVisibility(View.GONE);
         ((ViewGroup)listView.getParent()).addView(emptyView);
@@ -91,18 +99,38 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        TLog.d(TAG,"isVisibleToUser"+isVisibleToUser);
+        if (isVisibleToUser) {
+            lazyLoad();
+        }
+    }
+
+    private void lazyLoad() {
+        TLog.d(TAG,"lazyLoad");
+        if (getUserVisibleHint() && mIsPrepared && !mIsInited) {
+            getCompanyList();
+        }
+    }
+
+    @Override
     protected void initData() {
         super.initData();
     }
 
+
     @Override
-    public void onResume() {
+    protected void onNoNetworkLayoutClicks(View v) {
         getCompanyList();
-        super.onResume();
     }
+
+
+
     @Override
     public void onPause() {
         super.onPause();
+        mIsInited = false;
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
@@ -164,7 +192,6 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         @Override
         public void onRefreshCanceled() {
             super.onRefreshCanceled();
-
         }
 
         @Override
@@ -178,7 +205,17 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         Intent intent = new Intent(mContext, CompanyDetailsActivity.class);
         intent.putParcelableArrayListExtra("companyList", (ArrayList<? extends Parcelable>) mData);
         intent.putExtra("mPreviousPos",position);
-        startActivity(intent);
+        startActivityForResult(intent, Constant.REQUEST_REFRESH_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        TLog.d(TAG,"requestCode----"+requestCode);
+        TLog.d(TAG,"resultCode----"+resultCode);
+        if (requestCode == Constant.REQUEST_REFRESH_CODE && resultCode == RESULT_OK) {
+            lazyLoad();
+        }
     }
 
     public void getCompanyList(){
@@ -186,17 +223,17 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
             Api.companiesList(AccountHelper.getToken(),this,new Api.BaseRawResponse<CompaniesBean>() {
                 @Override
                 public void onStart() {
-
+                    ((BaseActivity) getActivity()).showProgressDialog();
                 }
 
                 @Override
                 public void onFinish() {
-
+                    ((BaseActivity) getActivity()).hideProgressDialog();
                 }
 
                 @Override
                 public void onError() {
-
+                    showNetWorkErrorLayout();
                 }
 
                 @Override
@@ -206,6 +243,8 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
 
                 @Override
                 public void setData(CompaniesBean companiesBean) {
+                    mIsInited = true;
+                    hideNetWorkErrorLayout();
                     if(companiesBean.getStatus() == REQUEST_SUCCESS){
                         List<CompaniesBean.DataBean> list =  companiesBean.getData();
                         mData.clear();
@@ -228,4 +267,8 @@ public class MyCompanyViewPagerFragment extends BaseFragment implements AdapterV
         }
     }
 
+    @Override
+    public void initDataInResume() {
+
+    }
 }

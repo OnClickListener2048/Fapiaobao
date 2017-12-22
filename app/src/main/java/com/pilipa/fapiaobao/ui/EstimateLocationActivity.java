@@ -37,7 +37,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.base.LocationBaseActivity;
+import com.pilipa.fapiaobao.base.BaseLocationActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
@@ -72,8 +72,8 @@ import io.reactivex.schedulers.Schedulers;
  * @date 2017/10/23
  */
 
-public class EstimateActivity extends LocationBaseActivity implements ViewPager.OnPageChangeListener {
-    String TAG = "EstimateActivity";
+public class EstimateLocationActivity extends BaseLocationActivity implements ViewPager.OnPageChangeListener {
+    String TAG = "EstimateLocationActivity";
 
     @Bind(R.id.title)
     TextView title;
@@ -380,9 +380,9 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
                             intent.putExtra("company_id", dataBean.getCompany().getId());
                             intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
                             if (type == 3) {
-                                intent.setClass(EstimateActivity.this, UploadReceiptActivity.class);
+                                intent.setClass(EstimateLocationActivity.this, UploadReceiptActivity.class);
                             } else {
-                                intent.setClass(EstimateActivity.this, ConfirmActivity.class);
+                                intent.setClass(EstimateLocationActivity.this, ConfirmActivity.class);
                             }
                             startActivity(intent);
                         } else if (normalBean.getStatus() == 401) {
@@ -426,7 +426,7 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
             case R.id.reset_filter_top:
                 intent.putExtra("location", locate);
                 intent.putExtra("type", type);
-                intent.setClass(this, FilterActivity.class);
+                intent.setClass(this, FilterLocationActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_ESTIMATE);
                 break;
             case R.id.locating:
@@ -503,7 +503,7 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
                         llConfirmCaution.setVisibility(View.VISIBLE);
                         estimatePlease.setVisibility(View.GONE);
                         llBonus.setVisibility(View.VISIBLE);
-                        EstimateActivity.this.matchBean = matchBean;
+                        EstimateLocationActivity.this.matchBean = matchBean;
                         tonext.setEnabled(matchBean.getData().size() != 1);
                         bonus.setText(String.valueOf(matchBean.getData().get(0).getBonus()));
                         demandId = matchBean.getData().get(0).getDemandId();
@@ -619,7 +619,7 @@ public class EstimateActivity extends LocationBaseActivity implements ViewPager.
 
 
     private void initCityPicker() {
-        CityConfig cityConfig = new CityConfig.Builder(EstimateActivity.this)
+        CityConfig cityConfig = new CityConfig.Builder(EstimateLocationActivity.this)
                 .title("选择地区")
                 .textSize(15)
                 .confirTextColor("#000000")

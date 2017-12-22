@@ -51,6 +51,12 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        TLog.d(getClass().getSimpleName(),"isVisibleToUser----------"+isVisibleToUser);
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mContext = null;
@@ -291,7 +297,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
     }
 
 

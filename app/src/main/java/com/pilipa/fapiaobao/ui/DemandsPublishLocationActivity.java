@@ -52,7 +52,7 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.CompanyListAdapter;
 import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.base.LocationBaseActivity;
+import com.pilipa.fapiaobao.base.BaseLocationActivity;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
@@ -85,9 +85,9 @@ import butterknife.OnClick;
  * Created by edz on 2017/10/26.
  */
 
-public class DemandsPublishActivity extends LocationBaseActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener, CompanyListAdapter.OnCompanyClickListener {
+public class DemandsPublishLocationActivity extends BaseLocationActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener, CompanyListAdapter.OnCompanyClickListener {
 
-    private static final String TAG = "DemandsPublishActivity";
+    private static final String TAG = "DemandsPublishLocationActivity";
 
 
     @Bind(R.id.paper_elec_receipt)
@@ -419,96 +419,152 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
     private void setUsusallyReceiptkind() {
         LoginWithInfoBean loginBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         if (loginBean != null) {
-            Api.<DefaultInvoiceBean>findUserInvoiceType(loginBean.getData().getToken(), new Api.BaseRawResponse<DefaultInvoiceBean>() {
-                @Override
-                public void onTokenInvalid() {
-                    Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseViewCallbackWithOnStart<DefaultInvoiceBean>() {
-                        @Override
-                        public void onStart() {
-                            showProgressDialog();
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
-
-                        @Override
-                        public void onError() {
-                            hideProgressDialog();
-                        }
-
-                        @Override
-                        public void setData(DefaultInvoiceBean allInvoiceType) {
-                            if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
-                                bean = allInvoiceType.getData();
-                                ArrayList<String> arrayReceipt = new ArrayList<>();
-                                for (DefaultInvoiceBean.DataBean dataBean : bean) {
-                                    arrayReceipt.add(dataBean.getName());
-                                }
-                                labelsReceiptKind.setLabels(arrayReceipt);
-                            }
-                        }
-                    });
-                }
-
-                @Override
-                public void onStart() {
-                    showProgressDialog();
-                }
-
-                @Override
-                public void onFinish() {
-                    hideProgressDialog();
-                }
-
-                @Override
-                public void onError() {
-                    hideProgressDialog();
-                }
-
-                @Override
-                public void setData(DefaultInvoiceBean defaultInvoiceBean) {
-                    if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
-                        bean = defaultInvoiceBean.getData();
-                        ArrayList<String> arrayReceipt = new ArrayList<>();
-                        for (DefaultInvoiceBean.DataBean dataBean : bean) {
-                            arrayReceipt.add(dataBean.getName());
-                        }
-                        labelsReceiptKind.setLabels(arrayReceipt);
-                    }
-                }
-            });
+            alreadyLogin(loginBean);
         } else {
-            Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseViewCallbackWithOnStart<DefaultInvoiceBean>() {
-                @Override
-                public void onStart() {
-                    showProgressDialog();
-                }
+            hasnLogin(loginBean);
 
-                @Override
-                public void onFinish() {
-                    hideProgressDialog();
-                }
-
-                @Override
-                public void onError() {
-                    hideProgressDialog();
-                }
-
-                @Override
-                public void setData(DefaultInvoiceBean allInvoiceType) {
-                    if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
-                        bean = allInvoiceType.getData();
-                        ArrayList<String> arrayReceipt = new ArrayList<>();
-                        for (DefaultInvoiceBean.DataBean dataBean : bean) {
-                            arrayReceipt.add(dataBean.getName());
-                        }
-                        labelsReceiptKind.setLabels(arrayReceipt);
-                    }
-                }
-            });
         }
+    }
+
+    private void hasnLogin(LoginWithInfoBean loginBean) {
+        Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
+            @Override
+            public void onCacheSuccess(DefaultInvoiceBean allInvoiceType) {
+                if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
+                    bean = allInvoiceType.getData();
+                    ArrayList<String> arrayReceipt = new ArrayList<>();
+                    for (DefaultInvoiceBean.DataBean dataBean : bean) {
+                        arrayReceipt.add(dataBean.getName());
+                    }
+                    labelsReceiptKind.setLabels(arrayReceipt);
+                }
+            }
+
+            @Override
+            public void onTokenInvalid() {
+
+            }
+
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void setData(DefaultInvoiceBean allInvoiceType) {
+                if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
+                    bean = allInvoiceType.getData();
+                    ArrayList<String> arrayReceipt = new ArrayList<>();
+                    for (DefaultInvoiceBean.DataBean dataBean : bean) {
+                        arrayReceipt.add(dataBean.getName());
+                    }
+                    labelsReceiptKind.setLabels(arrayReceipt);
+                }
+            }
+        });
+    }
+
+    private void alreadyLogin(final LoginWithInfoBean loginBean) {
+        Api.<DefaultInvoiceBean>findUserInvoiceType(loginBean.getData().getToken(), new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
+            @Override
+            public void onCacheSuccess(DefaultInvoiceBean defaultInvoiceBean) {
+                fillupData(defaultInvoiceBean, loginBean);
+            }
+
+            @Override
+            public void onTokenInvalid() {
+                findDefaultInvoiceType();
+            }
+
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void setData(DefaultInvoiceBean defaultInvoiceBean) {
+                fillupData(defaultInvoiceBean, loginBean);
+            }
+        });
+    }
+
+    private void fillupData(DefaultInvoiceBean defaultInvoiceBean, LoginWithInfoBean loginBean) {
+        if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
+            bean = defaultInvoiceBean.getData();
+            ArrayList<String> arrayReceipt = new ArrayList<>();
+            for (DefaultInvoiceBean.DataBean dataBean : bean) {
+                arrayReceipt.add(dataBean.getName());
+            }
+            labelsReceiptKind.setLabels(arrayReceipt);
+        }
+    }
+
+    private void findDefaultInvoiceType() {
+        Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
+            @Override
+            public void onCacheSuccess(DefaultInvoiceBean allInvoiceType) {
+                if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
+                    bean = allInvoiceType.getData();
+                    ArrayList<String> arrayReceipt = new ArrayList<>();
+                    for (DefaultInvoiceBean.DataBean dataBean : bean) {
+                        arrayReceipt.add(dataBean.getName());
+                    }
+                    labelsReceiptKind.setLabels(arrayReceipt);
+                }
+            }
+
+            @Override
+            public void onTokenInvalid() {
+
+            }
+
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void setData(DefaultInvoiceBean allInvoiceType) {
+                if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
+                    bean = allInvoiceType.getData();
+                    ArrayList<String> arrayReceipt = new ArrayList<>();
+                    for (DefaultInvoiceBean.DataBean dataBean : bean) {
+                        arrayReceipt.add(dataBean.getName());
+                    }
+                    labelsReceiptKind.setLabels(arrayReceipt);
+                }
+            }
+        });
     }
 
     @Override
@@ -696,16 +752,16 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
                                     Intent intent = new Intent();
                                     if (balanceBean.getStatus() == 200) {
                                         intent.putExtra("demand", balanceBean.getData().getDemand());
-                                        intent.setClass(DemandsPublishActivity.this, PubSuccessActivity.class);
+                                        intent.setClass(DemandsPublishLocationActivity.this, PubSuccessActivity.class);
                                         startActivity(intent);
                                         finish();
                                     } else if (balanceBean.getStatus() == 888) {
                                         BaseApplication.showToast("账户余额不足，请先充值");
-                                        intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
+                                        intent.setClass(DemandsPublishLocationActivity.this, RechargeActivity.class);
                                         startActivityForResult(intent, REQUEST_CODE);
                                     } else if (balanceBean.getStatus() == 885) {
                                         BaseApplication.showToast("可用金额不足，已发红包占用中");
-                                        intent.setClass(DemandsPublishActivity.this, RechargeActivity.class);
+                                        intent.setClass(DemandsPublishLocationActivity.this, RechargeActivity.class);
                                         startActivityForResult(intent, REQUEST_CODE);
                                     } else if (balanceBean.getStatus() == 400) {
                                         BaseApplication.showToast("截止日期不能小于当前时间");
@@ -740,12 +796,12 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
 
                         @Override
                         public void onStart() {
-
+                            showProgressDialog();
                         }
 
                         @Override
                         public void onFinish() {
-
+                            hideProgressDialog();
                         }
 
                         @Override
@@ -756,7 +812,7 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
                         @Override
                         public void setData(NormalBean normalBean) {
                             if (normalBean.getStatus() == 200) {
-                                Toast.makeText(DemandsPublishActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DemandsPublishLocationActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                                 setResult(RESULT_OK);
                                 Log.d(TAG, "createCompany;success");
                             }
@@ -1126,12 +1182,12 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
 
                     @Override
                     public void onStart() {
-
+                        showProgressDialog();
                     }
 
                     @Override
                     public void onFinish() {
-
+                        hideProgressDialog();
                     }
 
                     @Override
@@ -1146,7 +1202,7 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
 
                     @Override
                     public void setData(CompaniesBean companiesBean) {
-                        DemandsPublishActivity.this.companiesBean = companiesBean;
+                        DemandsPublishLocationActivity.this.companiesBean = companiesBean;
                         if (companiesBean.getStatus() == 200 && companiesBean.getData() != null) {
                             if (companiesBean.getData().size() == 1) {
                                 updateCompanyInfo(companiesBean.getData().get(0));
@@ -1192,7 +1248,7 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SharedPreferencesHelper.save(DemandsPublishActivity.this, dataBean);
+                        SharedPreferencesHelper.save(DemandsPublishLocationActivity.this, dataBean);
                         etPublishCompanyName.setText(dataBean.getName());
                         etPublishAddress.setText(dataBean.getAddress());
                         etPublishTexNumber.setText(dataBean.getTaxno());
@@ -1221,7 +1277,7 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
                 etPublishPhoneNumber.setText("");
                 etPublishBank.setText("");
                 etPublishBankAccount.setText("");
-                SharedPreferencesHelper.remove(DemandsPublishActivity.this, CompaniesBean.DataBean.class);
+                SharedPreferencesHelper.remove(DemandsPublishLocationActivity.this, CompaniesBean.DataBean.class);
                 mCameraDialog.dismiss();
             }
         });
@@ -1267,7 +1323,7 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
 
 
     private void initCityPicker() {
-        CityConfig cityConfig = new CityConfig.Builder(DemandsPublishActivity.this)
+        CityConfig cityConfig = new CityConfig.Builder(DemandsPublishLocationActivity.this)
                 .title("选择地区")
                 .titleBackgroundColor("#E9E9E9")
                 .textSize(15)
@@ -1286,7 +1342,7 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
                 .build();
 
 
-        CityConfig cityConfig2 = new CityConfig.Builder(DemandsPublishActivity.this)
+        CityConfig cityConfig2 = new CityConfig.Builder(DemandsPublishLocationActivity.this)
                 .title("选择地区")
                 .titleBackgroundColor("#E9E9E9")
                 .textSize(15)
@@ -1416,7 +1472,7 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
         });
         Guide guide = builder.createGuide();
         guide.setShouldCheckLocInWindow(false);
-        guide.show(DemandsPublishActivity.this);
+        guide.show(DemandsPublishLocationActivity.this);
     }
 
 
@@ -1460,8 +1516,10 @@ public class DemandsPublishActivity extends LocationBaseActivity implements Comp
         });
         Guide guide = builder1.createGuide();
         guide.setShouldCheckLocInWindow(false);
-        guide.show(DemandsPublishActivity.this);
+        guide.show(DemandsPublishLocationActivity.this);
     }
+
+
     public void setScanDialog() {
         scanDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(

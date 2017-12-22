@@ -114,7 +114,7 @@ public class PubActivity extends BaseActivity {
         intent.putExtra(RECEIPTELEC_DATA, receiptElec.isSelected());
         intent.putExtra(RECEIPTPAPERSPECIAL_DATA, receiptPaperSpecial.isSelected());
         intent.putExtra(RECEIPTPAPERNORMAL_DATA, receiptPaperNormal.isSelected());
-        intent.setClass(this, DemandsPublishActivity.class);
+        intent.setClass(this, DemandsPublishLocationActivity.class);
         startActivity(intent);
         finish();
     }

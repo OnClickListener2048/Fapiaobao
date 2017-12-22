@@ -189,9 +189,9 @@ public class AddCompanyInfoActivity extends BaseActivity {
         tvMustfillCompanyPhone.setVisibility(View.GONE);
 
         boolean isFromPublish = getIntent().getBooleanExtra("isPublish", false);
-//        boolean elec = getIntent().getBooleanExtra(DemandsPublishActivity.RECEIPTELEC_DATA, false);
-//        boolean paperNormal = getIntent().getBooleanExtra(DemandsPublishActivity.RECEIPTPAPERNORMAL_DATA, false);
-        boolean paperSpecial = getIntent().getBooleanExtra(DemandsPublishActivity.RECEIPTPAPERSPECIAL_DATA, false);
+//        boolean elec = getIntent().getBooleanExtra(DemandsPublishLocationActivity.RECEIPTELEC_DATA, false);
+//        boolean paperNormal = getIntent().getBooleanExtra(DemandsPublishLocationActivity.RECEIPTPAPERNORMAL_DATA, false);
+        boolean paperSpecial = getIntent().getBooleanExtra(DemandsPublishLocationActivity.RECEIPTPAPERSPECIAL_DATA, false);
 
         if (isFromPublish) {
             tvMustfillTexno.setVisibility(View.VISIBLE);

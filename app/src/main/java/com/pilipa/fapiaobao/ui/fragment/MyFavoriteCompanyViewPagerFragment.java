@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.mylibrary.utils.TLog;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
@@ -20,13 +22,12 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyCompanyAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
-import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.base.BaseNoNetworkFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
-import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
-import com.pilipa.fapiaobao.net.bean.me.FavBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.ui.FavCompanyDetailsActivity;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 import java.util.ArrayList;
@@ -35,14 +36,16 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static android.app.Activity.RESULT_OK;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_NO_CONTENT;
 import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
+import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE;
 
 /**
  * Created by lyt on 2017/10/17.
  */
 
-public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+public class MyFavoriteCompanyViewPagerFragment extends BaseNoNetworkFragment implements AdapterView.OnItemClickListener {
     private static final String TAG = "MyCompanyViewPagerFragment";
 
     @Bind(R.id.recyclerview)
@@ -51,7 +54,9 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
     TwinklingRefreshLayout trl;
     private MyCompanyAdapter mAdapter;
     public List<FavoriteCompanyBean.DataBean> mData = new ArrayList();
-    private View emptyView;
+    private boolean mIsInited;
+    private boolean mIsPrepared;
+
 
     public MyFavoriteCompanyViewPagerFragment() {
 
@@ -65,6 +70,8 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        mIsPrepared = true;
+        lazyLoad();
         return rootView;
     }
 
@@ -86,7 +93,7 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
         trl.setEnableOverScroll(false);
         listView.setAdapter(mAdapter = new MyCompanyAdapter(mContext));
         listView.setOnItemClickListener(this);
-        emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
+        View emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
         emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         emptyView.setVisibility(View.GONE);
         ((ViewGroup)listView.getParent()).addView(emptyView);
@@ -95,21 +102,27 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
 
     @Override
     protected void initData() {
-
-
-        LoginWithInfoBean loginBean =  SharedPreferencesHelper.loadFormSource(mContext,LoginWithInfoBean.class);
-        if(loginBean != null){
-          String token =  loginBean.getData().getToken();
-//          favCompanyCreate(favCompany);
-        }
-
         super.initData();
     }
 
     @Override
-    public void onResume() {
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            lazyLoad();
+        }
+    }
+
+    private void lazyLoad() {
+        if (getUserVisibleHint() && mIsPrepared && !mIsInited) {
+            getFavCompanyList();
+        }
+    }
+
+
+    @Override
+    protected void onNoNetworkLayoutClicks(View v) {
         getFavCompanyList();
-        super.onResume();
     }
 
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
@@ -184,7 +197,18 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
         Intent intent = new Intent(mContext, FavCompanyDetailsActivity.class);
         intent.putParcelableArrayListExtra("favCompanyList", (ArrayList<? extends Parcelable>) mData);
         intent.putExtra("mPreviousPos",position);
-        startActivity(intent);
+        startActivityForResult(intent, Constant.REQUEST_REFRESH_CODE);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        TLog.d(TAG,"requestCode----"+requestCode);
+        TLog.d(TAG,"resultCode----"+resultCode);
+        if (requestCode == Constant.REQUEST_REFRESH_CODE && resultCode == RESULT_OK) {
+            lazyLoad();
+        }
     }
 
     public void getFavCompanyList(){
@@ -193,7 +217,6 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
                 @Override
                 public void onStart() {
                     ((BaseActivity) getActivity()).showProgressDialog();
-
                 }
 
                 @Override
@@ -203,7 +226,7 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
 
                 @Override
                 public void onError() {
-
+                    showNetWorkErrorLayout();
                 }
 
                 @Override
@@ -213,6 +236,8 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
 
                 @Override
                 public void setData(FavoriteCompanyBean favoriteCompanyBean) {
+                    mIsInited = true;
+                    hideNetWorkErrorLayout();
                     if (favoriteCompanyBean.getStatus() == REQUEST_SUCCESS) {
 
                     List<FavoriteCompanyBean.DataBean> list =  favoriteCompanyBean.getData();
@@ -236,17 +261,14 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseFragment implements 
     }
     @Override
     public void onPause() {
+        mIsInited = false;
         OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
         super.onPause();
     }
-//    public void favCompanyCreate(CompanyCollectBean favCompany){
-//        Api.favCompanyCreate(favCompany,new Api.BaseViewCallback<FavBean>() {
-//            @Override
-//            public void setData(FavBean normalBean) {
-//                if(normalBean.getStatus() == REQUEST_SUCCESS){
-//                    Log.d(TAG, "favCompanyCreate success");
-//                }
-//            }
-//        });
-//    }
+
+    @Override
+    public void initDataInResume() {
+
+    }
+
 }

@@ -238,12 +238,12 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
                                 Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseRawResponse<FavBean>() {
                                     @Override
                                     public void onStart() {
-
+                                        showNetWorkErrorLayout();
                                     }
 
                                     @Override
                                     public void onFinish() {
-
+                                        hideNetWorkErrorLayout();
                                     }
 
                                     @Override

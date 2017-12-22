@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,10 +20,12 @@ import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
-import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseNoNetworkFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsListBean;
 import com.pilipa.fapiaobao.ui.DemandActivity;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +41,7 @@ import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_ING;
 /**
  * Created by lyt on 2017/10/17.
  */
-public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView.OnItemClickListener{
+public class UnusedPagerFragment_ing extends BaseNoNetworkFragment implements AdapterView.OnItemClickListener {
     private static final String TAG = "UnusedPagerFragment_ing";
 
     @Bind(R.id.recyclerview)
@@ -53,12 +56,14 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
     protected int getLayoutId() {
         return R.layout.fragment_viewpager_item;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
-
+        mIsPrepared = true;
+        lazyLoad();
         return rootView;
     }
 
@@ -68,17 +73,25 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
         ButterKnife.unbind(this);
     }
 
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-
+        if (isVisibleToUser) {
+            lazyLoad();
+        }
     }
 
+    private void lazyLoad() {
+        if (getUserVisibleHint() && mIsPrepared && !mIsInited) {
+            demandsList(STATE_DEMAND_ING);
+        }
+    }
+
+
     @Override
-    public void onResume() {
-        super.onResume();
+    protected void onNoNetworkLayoutClicks(View v) {
         demandsList(STATE_DEMAND_ING);
-        Log.d(TAG,"onResume");
     }
 
     @Override
@@ -165,7 +178,6 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
         @Override
         public void onRefreshCanceled() {
             super.onRefreshCanceled();
-
         }
 
         @Override
@@ -178,13 +190,22 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(mContext, DemandActivity.class);
         intent.putExtra("demandId",dataBeanList.get(position).getId());
-        startActivity(intent);
+        startActivityForResult(intent, Constant.REQUEST_REFRESH_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constant.REQUEST_REFRESH_CODE && resultCode == Activity.RESULT_OK) {
+            lazyLoad();
+        }
     }
 
     @Override
     public void onPause() {
-        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
         super.onPause();
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
+        mIsInited = false;
     }
     public void demandsList(String state){
         if (AccountHelper.getToken() != null && !Objects.equals(AccountHelper.getToken(), "")) {
@@ -193,17 +214,17 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
 
                 @Override
                 public void onStart() {
-
+                    ((BaseActivity) getActivity()).showProgressDialog();
                 }
 
                 @Override
                 public void onFinish() {
-
+                    ((BaseActivity) getActivity()).hideProgressDialog();
                 }
 
                 @Override
                 public void onError() {
-
+                    showNetWorkErrorLayout();
                 }
 
                 @Override
@@ -213,6 +234,8 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
 
                 @Override
                 public void setData(DemandsListBean demandsListBean) {
+                    mIsInited = true;
+                    hideNetWorkErrorLayout();
                     int status = demandsListBean.getStatus();
                     if (status == REQUEST_SUCCESS) {
                         List<DemandsListBean.DataBean> list =  demandsListBean.getData();
@@ -240,4 +263,10 @@ public class UnusedPagerFragment_ing extends BaseFragment implements AdapterView
         }
     }
 
+
+
+    @Override
+    public void initDataInResume() {
+//        demandsList(STATE_DEMAND_ING);
+    }
 }

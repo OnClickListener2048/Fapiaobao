@@ -133,7 +133,7 @@
         <activity android:name=".ui.PubSuccessActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.UploadSuccessActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.MoreTypesActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.FilterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.FilterLocationActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.FillUpActivity"
             android:screenOrientation="portrait"
@@ -155,7 +155,7 @@
         <activity android:name=".ui.FavCompanyDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BindPhoneActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.PdfPreviewActivity" />
-        <activity android:name=".ui.EstimateActivity" android:screenOrientation="portrait">
+        <activity android:name=".ui.EstimateLocationActivity" android:screenOrientation="portrait">
         </activity>
 
         <activity android:name=".ui.UploadReceiptActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
@@ -172,7 +172,7 @@
         <activity android:name=".ui.PreviewActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.TestActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.DemandsPublishActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.DemandsPublishLocationActivity" android:screenOrientation="portrait"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.pilipa.fapiaobao.fileprovider"

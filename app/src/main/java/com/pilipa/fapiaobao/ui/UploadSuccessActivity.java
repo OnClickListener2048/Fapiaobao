@@ -162,7 +162,7 @@ public class UploadSuccessActivity extends BaseActivity {
        ActivityUtils.finishActivity(UploadReceiptActivity.class);
        ActivityUtils.finishActivity(UploadReceiptPreviewActivity.class);
        ActivityUtils.finishActivity(ConfirmActivity.class);
-       ActivityUtils.finishActivity(EstimateActivity.class);
+       ActivityUtils.finishActivity(EstimateLocationActivity.class);
     }
 
     @Override
@@ -182,7 +182,7 @@ public class UploadSuccessActivity extends BaseActivity {
                 ActivityUtils.finishActivity(UploadReceiptActivity.class);
                 ActivityUtils.finishActivity(UploadReceiptPreviewActivity.class);
                 ActivityUtils.finishActivity(ConfirmActivity.class);
-                ActivityUtils.finishActivity(EstimateActivity.class);
+                ActivityUtils.finishActivity(EstimateLocationActivity.class);
 
                 break;
             case R.id.btn_watch:
@@ -196,7 +196,7 @@ public class UploadSuccessActivity extends BaseActivity {
                 ActivityUtils.finishActivity(UploadReceiptActivity.class);
                 ActivityUtils.finishActivity(UploadReceiptPreviewActivity.class);
                 ActivityUtils.finishActivity(ConfirmActivity.class);
-                ActivityUtils.finishActivity(EstimateActivity.class);
+                ActivityUtils.finishActivity(EstimateLocationActivity.class);
 
                 break;
             case R.id.WeChat:

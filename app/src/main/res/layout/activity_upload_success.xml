@@ -89,7 +89,7 @@
             android:layout_height="@dimen/d45"
             android:layout_weight="1"
             android:background="@drawable/selector_checkout_publish"
-            android:text="@string/checkout_publish"
+            android:text="@string/checkout_upload"
             android:textColor="@color/white" />
 
         <View

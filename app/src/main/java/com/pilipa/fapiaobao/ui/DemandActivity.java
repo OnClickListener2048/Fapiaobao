@@ -255,6 +255,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
             }
             break;
             case R.id.demand_back: {
+                setResult(RESULT_OK);
                 finish();
             }
             break;
@@ -553,6 +554,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
                             hideNetWorkErrorLayout();
                             Toast.makeText(DemandActivity.this, "需求已关闭", Toast.LENGTH_SHORT).show();
                             demandDetails(id,false);
+                            setResult(RESULT_OK);
                             DemandActivity.this.finish();
                             Log.d(TAG, "updateData:shatDownEarly success");
                         }
@@ -731,7 +733,9 @@ public class DemandActivity extends BaseNoNetworkActivity {
 
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
+        if (!isFinishing()) {
         mDialog.show();
+        }
     }
 
     @Override

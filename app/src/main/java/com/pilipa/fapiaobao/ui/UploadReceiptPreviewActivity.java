@@ -426,7 +426,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                                                     intent1.setAction(Constant.UPLOAD_SUCCESS);
                                                     sendBroadcast(intent1);
                                                     startActivity(intent);
-                                                    ActivityUtils.finishToActivity(EstimateActivity.class, true);
+                                                    ActivityUtils.finishToActivity(EstimateLocationActivity.class, true);
                                                 } else if (orderBean.getStatus() == 886) {
                                                     TLog.log("orderBean。getStatus" + orderBean.getStatus());
                                                     BaseApplication.showToast(orderBean.getMsg());

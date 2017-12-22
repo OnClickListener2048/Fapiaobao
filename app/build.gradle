@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'key0'
             keyPassword '111111'
-            storeFile file('C:/Users/edz/AndroidStudioProjects/Fapiaobao/keystore_release.jks')
+            storeFile file('C:/Users/edz/StudioProjects/Fapiaobao/keystore_release.jks')
             storePassword '111111'
         }
     }

@@ -34,7 +34,7 @@ import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.CompanyManagerActivity;
-import com.pilipa.fapiaobao.ui.EstimateActivity;
+import com.pilipa.fapiaobao.ui.EstimateLocationActivity;
 import com.pilipa.fapiaobao.ui.FavCompanyDetailsActivity;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
@@ -260,7 +260,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, EstimateActivity.class);
+                Intent intent = new Intent(mContext, EstimateLocationActivity.class);
                 intent.putExtra("companyId", companyId);
                 intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, typeId);
                 intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME, tv.getText().toString().trim());
@@ -476,7 +476,7 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
         TLog.log("dataBean.getName()"+dataBean.getName());
         TLog.log("dataBean.getId()"+dataBean.getId());
 
-        Intent intent = new Intent(mContext, EstimateActivity.class);
+        Intent intent = new Intent(mContext, EstimateLocationActivity.class);
         intent.putExtra("companyId", companyId);
         intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, dataBean.getId());
         intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME, dataBean.getName());

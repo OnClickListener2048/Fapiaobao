@@ -134,12 +134,12 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
             Api.deleteCompany(id, AccountHelper.getToken(), new Api.BaseRawResponse<NormalBean>() {
                 @Override
                 public void onStart() {
-
+                    showProgressDialog();
                 }
 
                 @Override
                 public void onFinish() {
-
+                    hideProgressDialog();
                 }
 
                 @Override
@@ -155,6 +155,7 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
                 @Override
                 public void setData(NormalBean normalBean) {
                     if (normalBean.getStatus() == REQUEST_SUCCESS) {
+                        setResult(RESULT_OK);
                         mDialog.dismiss();
                         companyDetailsAdapter.remove(mPreviousPos);
                         BaseApplication.showToast("删除成功");

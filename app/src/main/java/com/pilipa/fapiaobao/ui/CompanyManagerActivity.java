@@ -12,6 +12,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.fragment.MyCompanyViewPagerFragment;
 import com.pilipa.fapiaobao.ui.fragment.MyFavoriteCompanyViewPagerFragment;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
@@ -35,7 +36,6 @@ public class CompanyManagerActivity extends BaseActivity implements TabLayout.On
     ViewPager vpVerpager;
     @Bind(R.id.img_add)
     ImageView imgAdd;
-    private List<Fragment> fragmentList;
 
     @Override
     protected int getLayoutId() {
@@ -46,7 +46,8 @@ public class CompanyManagerActivity extends BaseActivity implements TabLayout.On
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.img_add:{
-                startActivity(new Intent(this,AddCompanyInfoActivity.class));
+                Intent intent = new Intent(this, AddCompanyInfoActivity.class);
+                startActivityForResult(intent, Constant.REQUEST_REFRESH_CODE);
             }break;
             case R.id.company_manager_back:{
                 finish();
@@ -56,10 +57,10 @@ public class CompanyManagerActivity extends BaseActivity implements TabLayout.On
     @Override
     public void initView() {
         List list = StaticDataCreator.initCompanyManagerTabData(BaseApplication.context());
-        fragmentList = new ArrayList<>();
+        List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(new MyCompanyViewPagerFragment());
         fragmentList.add(new MyFavoriteCompanyViewPagerFragment());
-        vpVerpager.setAdapter(new TabPageIndicatorAdapter(getSupportFragmentManager(),list,fragmentList));
+        vpVerpager.setAdapter(new TabPageIndicatorAdapter(getSupportFragmentManager(),list, fragmentList));
         tlTabLayout.setupWithViewPager(vpVerpager);
         tlTabLayout.setOnTabSelectedListener(this);
 
@@ -97,5 +98,12 @@ public class CompanyManagerActivity extends BaseActivity implements TabLayout.On
 
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for (Fragment fragment : fragments) {
+            fragment.onActivityResult(requestCode,resultCode,data);
+        }
+    }
 }

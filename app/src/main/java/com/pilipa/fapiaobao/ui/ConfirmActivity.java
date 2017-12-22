@@ -162,12 +162,12 @@ public class ConfirmActivity extends BaseActivity {
                                     Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseRawResponse<FavBean>() {
                                         @Override
                                         public void onStart() {
-
+showProgressDialog();
                                         }
 
                                         @Override
                                         public void onFinish() {
-
+hideProgressDialog();
                                         }
 
                                         @Override

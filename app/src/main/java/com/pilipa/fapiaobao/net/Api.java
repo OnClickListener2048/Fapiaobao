@@ -12,7 +12,6 @@ import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
@@ -59,7 +58,62 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-import static com.pilipa.fapiaobao.net.Constant.*;
+import static com.pilipa.fapiaobao.net.Constant.AMOUNT_HISTORY;
+import static com.pilipa.fapiaobao.net.Constant.BIND;
+import static com.pilipa.fapiaobao.net.Constant.COMPANIES_LIST;
+import static com.pilipa.fapiaobao.net.Constant.COMPANY_INFO;
+import static com.pilipa.fapiaobao.net.Constant.CONFIRM_DEMAND;
+import static com.pilipa.fapiaobao.net.Constant.CONFIRM_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.CREATE_COMPANY;
+import static com.pilipa.fapiaobao.net.Constant.CREATE_ORDER;
+import static com.pilipa.fapiaobao.net.Constant.DELETE_COMPANY;
+import static com.pilipa.fapiaobao.net.Constant.DELETE_MY_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.DO_MATCH_DEMAND;
+import static com.pilipa.fapiaobao.net.Constant.ESTIMATE;
+import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY;
+import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_CREATE;
+import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_LIST;
+import static com.pilipa.fapiaobao.net.Constant.FAVORITE_COMPANY_REMOVE;
+import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_EXPRESS_COMPANY;
+import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_INVIICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_INVOICE_VARIETY;
+import static com.pilipa.fapiaobao.net.Constant.FIND_ALL_REJECT_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_HISTORY;
+import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_INFO;
+import static com.pilipa.fapiaobao.net.Constant.FIND_CREDIT_NEGATIVE_HISTORY;
+import static com.pilipa.fapiaobao.net.Constant.FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
+import static com.pilipa.fapiaobao.net.Constant.LOGOUT_BY_TOKEN;
+import static com.pilipa.fapiaobao.net.Constant.LOG_RECORD;
+import static com.pilipa.fapiaobao.net.Constant.MAIL_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.MESSAGE_DETAILS;
+import static com.pilipa.fapiaobao.net.Constant.MESSAGE_MESSAGES;
+import static com.pilipa.fapiaobao.net.Constant.MESSAGE_READ;
+import static com.pilipa.fapiaobao.net.Constant.MESSAGE_REMOVE;
+import static com.pilipa.fapiaobao.net.Constant.MY_INVOICE_LIST;
+import static com.pilipa.fapiaobao.net.Constant.ORDER_LIST;
+import static com.pilipa.fapiaobao.net.Constant.PUBLISH;
+import static com.pilipa.fapiaobao.net.Constant.REJECT_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.RELOAD;
+import static com.pilipa.fapiaobao.net.Constant.SHARE_SCORE_ADD;
+import static com.pilipa.fapiaobao.net.Constant.SHAT_DOWN_EARLY;
+import static com.pilipa.fapiaobao.net.Constant.SHORT_MESSAGE_VERIFY;
+import static com.pilipa.fapiaobao.net.Constant.SHOW_ORDER_DETAIL;
+import static com.pilipa.fapiaobao.net.Constant.SUGGESTION;
+import static com.pilipa.fapiaobao.net.Constant.TRANSFORM_PDF;
+import static com.pilipa.fapiaobao.net.Constant.UBIND;
+import static com.pilipa.fapiaobao.net.Constant.UPDATE_CUSTOMER;
+import static com.pilipa.fapiaobao.net.Constant.UPDATE_INVOICE_TYPE;
+import static com.pilipa.fapiaobao.net.Constant.UPLOAD_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.UPLOAD_MY_INVOICE;
+import static com.pilipa.fapiaobao.net.Constant.UPLOAD_PDF;
+import static com.pilipa.fapiaobao.net.Constant.URL_UPDATE;
+import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_DETAILS;
+import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_LIST;
+import static com.pilipa.fapiaobao.net.Constant.USER_LOGIN;
+import static com.pilipa.fapiaobao.net.Constant.WITHDRAW;
+import static com.pilipa.fapiaobao.net.Constant.WX_RECHARGE;
 
 
 
@@ -286,6 +340,24 @@ public class Api {
                     baseViewCallback.setData(response.body());
                 }
             }
+
+            @Override
+            public void onStart(Request<CompaniesBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onError(Response<CompaniesBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
         });
     }
 
@@ -361,6 +433,24 @@ public class Api {
                 } else {
                     baseViewCallback.setData(response.body());
                 }
+            }
+
+            @Override
+            public void onStart(Request<NormalBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onError(Response<NormalBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
             }
         });
     }
@@ -457,6 +547,24 @@ public class Api {
                             baseViewCallback.setData(response.body());
                         }
                     }
+
+                    @Override
+                    public void onError(Response<FavBean> response) {
+                        super.onError(response);
+                        baseViewCallback.onError();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        baseViewCallback.onFinish();
+                    }
+
+                    @Override
+                    public void onStart(Request<FavBean, ? extends Request> request) {
+                        super.onStart(request);
+                        baseViewCallback.onStart();
+                    }
                 });
     }
 
@@ -466,7 +574,7 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void demandsList(String token, String state, BaseFragment baseFragment, final BaseRawResponse baseViewCallback) {
+    public static void demandsList(String token, String state, Object baseFragment, final BaseRawResponse baseViewCallback) {
         OkGo.<DemandsListBean>get(String.format(USER_ISSUED_LIST,state,token)).tag(baseFragment).execute(new JsonCallBack<DemandsListBean>(DemandsListBean.class) {
             @Override
             public void onSuccess(Response<DemandsListBean> response) {
@@ -475,6 +583,24 @@ public class Api {
                 } else {
                     baseViewCallback.setData(response.body());
                 }
+            }
+
+            @Override
+            public void onStart(Request<DemandsListBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onError(Response<DemandsListBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
             }
         });
     }
@@ -725,7 +851,7 @@ public class Api {
      *
      * @param baseViewCallback
      */
-    public static void findDefaultInvoiceType(final BaseViewCallbackWithOnStart baseViewCallback) {
+    public static void findDefaultInvoiceType(final BaseRawResponseWithCache baseViewCallback) {
         OkGo.<DefaultInvoiceBean>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE)
                 .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
                 .execute(new JsonCallBack<DefaultInvoiceBean>(DefaultInvoiceBean.class) {
@@ -740,7 +866,7 @@ public class Api {
                     public void onCacheSuccess(Response<DefaultInvoiceBean> response) {
                         super.onCacheSuccess(response);
                         if (response.isSuccessful()) {
-                            baseViewCallback.setData(response.body());
+                            baseViewCallback.onCacheSuccess(response.body());
                         }
                     }
 
@@ -769,7 +895,7 @@ public class Api {
      * @param token
      * @param baseViewCallback
      */
-    public static void findUserInvoiceType(String token, final BaseRawResponse baseViewCallback) {
+    public static void findUserInvoiceType(String token, final BaseRawResponseWithCache baseViewCallback) {
 
             String url = String.format(FIND_FREQUENTLY_INVOICE_TYPE, token);
         OkGo.<DefaultInvoiceBean>get(url).tag("findUserInvoiceType")
@@ -792,7 +918,7 @@ public class Api {
                         DefaultInvoiceBean body = response.body();
 
                         if (response.isSuccessful() && body.getStatus() == Constant.REQUEST_SUCCESS) {
-                            baseViewCallback.setData(body);
+                            baseViewCallback.onCacheSuccess(body);
                         } else if (body.getStatus() == Constant.TOKEN_INVALIDE) {
                             baseViewCallback.onTokenInvalid();
                         }
@@ -957,6 +1083,24 @@ public class Api {
                 } else {
                     baseViewCallback.setData(body);
                 }
+            }
+
+            @Override
+            public void onError(Response<OrderListBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onStart(Request<OrderListBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
             }
         });
     }
@@ -1652,6 +1796,11 @@ public class Api {
 
         void onError();
     }
+
+    public interface BaseRawResponseWithCache<T> extends BaseRawResponse<T> {
+        void onCacheSuccess(T t);
+    }
+
 
     public interface BaseViewCallbackWithOnStartCache<T> extends BaseViewCallback<T> {
         void onStart();

@@ -485,6 +485,7 @@
     <string name="scan_tip">目前仅支持购物小票二维码、发票宝生成的单位信息二维码的扫描</string>
     <string name="save_to_invoice_clip">保存到发票夹</string>
     <string name="no_network_phase">网络连接超时，看到了外太空\n点击刷新试试</string>
+    <string name="checkout_upload">查看本次提供</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

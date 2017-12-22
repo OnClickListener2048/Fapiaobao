@@ -185,12 +185,12 @@ public class Op extends BaseActivity implements
                     Api.companiesList(AccountHelper.getToken(), this, new Api.BaseRawResponse<CompaniesBean>() {
                         @Override
                         public void onStart() {
-
+                            showProgressDialog();
                         }
 
                         @Override
                         public void onFinish() {
-
+                            hideProgressDialog();
                         }
 
                         @Override

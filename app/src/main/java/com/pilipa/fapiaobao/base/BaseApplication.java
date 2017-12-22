@@ -32,7 +32,7 @@ import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.thirdparty.tencent.push.PushConstant;
 import com.pilipa.fapiaobao.ui.DemandActivity;
-import com.pilipa.fapiaobao.ui.EstimateActivity;
+import com.pilipa.fapiaobao.ui.EstimateLocationActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.MyQuestionsActivity;
 import com.pilipa.fapiaobao.ui.MyRedEnvelopeActivity;
@@ -298,7 +298,7 @@ public class BaseApplication extends Application {
                             intent4.putExtra("city", city);
                             intent4.putExtra("invoiceVarieties", invoiceVarieties);
                             intent4.putExtra(FinanceFragment.EXTRA_DATA_LABEL_NAME, invoiceTypeName);
-                            intent4.setClass(getApplicationContext(), EstimateActivity.class);
+                            intent4.setClass(getApplicationContext(), EstimateLocationActivity.class);
                             intent4.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent4);
                             TLog.log("startActivity(intent4);");

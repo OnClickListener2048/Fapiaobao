@@ -133,12 +133,12 @@ public class FavCompanyDetailsActivity extends BaseActivity implements MyCompany
         Api.deleteFavoriteCompany(id, AccountHelper.getToken(),new Api.BaseRawResponse<FavBean>() {
             @Override
             public void onStart() {
-
+                showProgressDialog();
             }
 
             @Override
             public void onFinish() {
-
+                hideProgressDialog();
             }
 
             @Override
@@ -156,6 +156,7 @@ public class FavCompanyDetailsActivity extends BaseActivity implements MyCompany
                 if(normalBean.getStatus() == REQUEST_SUCCESS){
                     companyDetailsAdapter.remove(mPreviousPos);
                     mDialog.dismiss();
+                    setResult(RESULT_OK);
                     BaseApplication.showToast("删除成功");
                 }
             }
@@ -165,7 +166,6 @@ public class FavCompanyDetailsActivity extends BaseActivity implements MyCompany
     @Override
     protected void onDestroy() {
         unregisterReceiver(mBroadcastReceiver);
-
         super.onDestroy();
     }
 

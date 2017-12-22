@@ -2,7 +2,6 @@ package com.pilipa.fapiaobao.base;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -11,7 +10,6 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.example.mylibrary.utils.TLog;
-import com.pilipa.fapiaobao.ui.EstimateActivity;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -22,7 +20,7 @@ import io.reactivex.disposables.Disposable;
  * Created by edz on 2017/12/11.
  */
 
-public class LocationBaseActivity extends BaseActivity {
+public class BaseLocationActivity extends BaseActivity {
     public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
     public AMapLocationListener mLocationListener = new AMapLocationListener() {

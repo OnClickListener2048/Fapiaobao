@@ -13,7 +13,6 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.CompanyListAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.utils.TDevice;
@@ -63,37 +62,38 @@ public class CompanySelectActivity extends BaseActivity implements CompanyListAd
 
     @Override
     public void initData() {
+        initCompanys();
+    }
 
-                    Api.companiesList(AccountHelper.getToken(),this ,new Api.BaseRawResponse<CompaniesBean>() {
-                        @Override
-                        public void onStart() {
+    private void initCompanys() {
+        Api.companiesList(AccountHelper.getToken(), this, new Api.BaseRawResponse<CompaniesBean>() {
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
 
-                        }
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
 
-                        @Override
-                        public void onFinish() {
+            @Override
+            public void onError() {
 
-                        }
+            }
 
-                        @Override
-                        public void onError() {
+            @Override
+            public void onTokenInvalid() {
 
-                        }
+            }
 
-                        @Override
-                        public void onTokenInvalid() {
-
-                        }
-
-                        @Override
-                        public void setData(CompaniesBean companiesBean) {
-                            if (companiesBean.getStatus() == 200 && companiesBean.getData() != null) {
-                                companyListAdapter.addCompanyInfo(companiesBean.getData());
-                            }
-                        }
-                    });
-
-
+            @Override
+            public void setData(CompaniesBean companiesBean) {
+                if (companiesBean.getStatus() == 200 && companiesBean.getData() != null) {
+                    companyListAdapter.addCompanyInfo(companiesBean.getData());
+                }
+            }
+        });
     }
 
     @Override

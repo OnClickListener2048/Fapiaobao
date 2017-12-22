@@ -34,13 +34,13 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.AllInvoiceAdapter;
 import com.pilipa.fapiaobao.adapter.FinanceAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.base.BaseFinanceFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
-import com.pilipa.fapiaobao.ui.EstimateActivity;
+import com.pilipa.fapiaobao.ui.EstimateLocationActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.constants.Constant;
@@ -72,9 +72,9 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  * Created by edz on 2017/10/23.
  */
 
-public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.OnLabelClickListener, FinanceAdapter.OnLabelClickListener {
-    public static String TAG = "FinanceFragment";
-    //    @Bind(R.id.scan)
+public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAdapter.OnLabelClickListener, FinanceAdapter.OnLabelClickListener {
+   public static String TAG = "FinanceFragment";
+//    @Bind(R.id.scan)
 //    ImageView scan;
 //    @Bind(R.id.notification)
 //    ImageView notification;
@@ -119,6 +119,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
             }
         }
     };
+    private boolean isCacheSuccess = false;
 
 
     @Override
@@ -154,7 +155,7 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                         intent.putExtra("url", content);
                         intent.putExtra(Constant.TAG, TAG);
                         startActivity(intent);
-                    } else {
+                    }else{
                         setScanDialog();
                     }
                 }
@@ -208,7 +209,14 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
 
     private void findUserInvoiceType(String token, final AllInvoiceType allInvoiceType) {
-        Api.<DefaultInvoiceBean>findUserInvoiceType(token, new Api.BaseRawResponse<DefaultInvoiceBean>() {
+
+        Api.<DefaultInvoiceBean>findUserInvoiceType(token, new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
+            @Override
+            public void onCacheSuccess(DefaultInvoiceBean defaultInvoiceBean) {
+                isCacheSuccess = true;
+                fillupData(defaultInvoiceBean, allInvoiceType);
+            }
+
             @Override
             public void onTokenInvalid() {
                 TLog.log("onTokenInvalide");
@@ -217,31 +225,40 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
             @Override
             public void onStart() {
+
             }
 
             @Override
             public void onFinish() {
+                isCacheSuccess = false;
             }
 
             @Override
             public void onError() {
+                if (!isCacheSuccess) {
+                    showNetWorkErrorLayout();
+                }
             }
 
             @Override
             public void setData(DefaultInvoiceBean defaultInvoiceBean) {
-                try {
-                    if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
-                        financeAdapter = new FinanceAdapter(defaultInvoiceBean);
-                        financeAdapter.setOnLabelClickListener(FinanceFragment.this);
-                        recyclerview.setAdapter(financeAdapter);
-                        updateInvoiceHighlight(defaultInvoiceBean, allInvoiceType);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                hideNetWorkErrorLayout();
+                fillupData(defaultInvoiceBean, allInvoiceType);
             }
         });
+    }
+
+    private void fillupData(DefaultInvoiceBean defaultInvoiceBean, AllInvoiceType allInvoiceType) {
+        try {
+            if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
+                financeAdapter = new FinanceAdapter(defaultInvoiceBean);
+                financeAdapter.setOnLabelClickListener(FinanceFragment.this);
+                recyclerview.setAdapter(financeAdapter);
+                updateInvoiceHighlight(defaultInvoiceBean, allInvoiceType);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateInvoiceHighlight(final DefaultInvoiceBean defaultInvoiceBean, final AllInvoiceType allInvoiceType) {
@@ -286,7 +303,19 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
 
     private void findDefaultInvoiceType(final AllInvoiceType allInvoiceType) {
-        Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseViewCallbackWithOnStart<DefaultInvoiceBean>() {
+        Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
+            @Override
+            public void onCacheSuccess(DefaultInvoiceBean defaultInvoiceBean) {
+                isCacheSuccess = true;
+                hideNetWorkErrorLayout();
+                fillupData(defaultInvoiceBean,allInvoiceType);
+            }
+
+            @Override
+            public void onTokenInvalid() {
+
+            }
+
             @Override
             public void onStart() {
                 activity.showProgressDialog();
@@ -295,20 +324,26 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
             @Override
             public void onFinish() {
                 activity.hideProgressDialog();
+                isCacheSuccess = false;
             }
 
             @Override
             public void onError() {
+                if (!isCacheSuccess) {
+                    showNetWorkErrorLayout();
+                }
             }
 
             @Override
             public void setData(DefaultInvoiceBean defaultInvoiceBean) {
-                if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
-                    financeAdapter = new FinanceAdapter(defaultInvoiceBean);
-                    financeAdapter.setOnLabelClickListener(FinanceFragment.this);
-                    recyclerview.setAdapter(financeAdapter);
-                    updateInvoiceHighlight(defaultInvoiceBean, allInvoiceType);
-                }
+                hideNetWorkErrorLayout();
+                fillupData(defaultInvoiceBean,allInvoiceType);
+//                if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
+//                    financeAdapter = new FinanceAdapter(defaultInvoiceBean);
+//                    financeAdapter.setOnLabelClickListener(FinanceFragment.this);
+//                    recyclerview.setAdapter(financeAdapter);
+//                    updateInvoiceHighlight(defaultInvoiceBean, allInvoiceType);
+//                }
             }
         });
     }
@@ -328,11 +363,13 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
             @Override
             public void onError() {
+                showNetWorkErrorLayout();
             }
 
 
             @Override
             public void setData(AllInvoiceType allInvoiceType) {
+                hideNetWorkErrorLayout();
                 if (allInvoiceType.getStatus() == 200) {
                     adapter = new AllInvoiceAdapter(allInvoiceType);
                     adapter.setOnLabelClickListener(FinanceFragment.this);
@@ -349,16 +386,16 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
     }
 
 
-    @OnClick({R.id.pull_to_find_more, R.id.rl_pull_to_find_more, R.id.fl_notification, R.id.title, R.id.fl_scan})
+    @OnClick({ R.id.pull_to_find_more, R.id.rl_pull_to_find_more, R.id.fl_notification, R.id.title,R.id.fl_scan})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fl_scan:
                 quickResponse();
                 break;
             case R.id.fl_notification:
-                newNotification.setVisibility(View.GONE);
-                BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
-                startActivity(new Intent(mContext, MessageCenterActivity.class));
+                            newNotification.setVisibility(View.GONE);
+                            BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
+                            startActivity(new Intent(mContext, MessageCenterActivity.class));
                 break;
             case R.id.pull_to_find_more:
             case R.id.rl_pull_to_find_more:
@@ -390,12 +427,12 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
 
             @Override
             public void onError(Throwable e) {
-                TLog.d(TAG, "Throwable e" + e.getMessage());
+                TLog.d(TAG,"Throwable e"+e.getMessage());
             }
 
             @Override
             public void onComplete() {
-                TLog.d(TAG, " rxPermissions.request  onComplete");
+                TLog.d(TAG," rxPermissions.request  onComplete");
             }
         });
     }
@@ -410,18 +447,14 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         Intent intent = new Intent();
         intent.putExtra(EXTRA_DATA_LABEL, label);
         intent.putExtra(EXTRA_DATA_LABEL_NAME, name);
-        intent.setClass(mContext, EstimateActivity.class);
+        intent.setClass(mContext, EstimateLocationActivity.class);
         startActivity(intent);
     }
 
+
     @Override
-    public void onResume() {
-        super.onResume();
-        messageList();
-        newNotification.setVisibility(BaseApplication.get(BaseApplication.PUSH_RECEIVE, false) ? View.VISIBLE : View.GONE);
-        if (delayIntentRefresh) {
-            findAllInvoiceTypes("");
-        }
+    protected void onNoNetworkLayoutClicks(View v) {
+        initData();
     }
 
     private void messageList() {
@@ -470,8 +503,8 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
                 }
             });
         }
-
     }
+
 
     public void setScanDialog() {
         scanDialog = new Dialog(getActivity(), R.style.BottomDialog);
@@ -498,5 +531,14 @@ public class FinanceFragment extends BaseFragment implements AllInvoiceAdapter.O
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
         scanDialog.show();
+    }
+
+    @Override
+    public void initDataInResume() {
+        messageList();
+        newNotification.setVisibility(BaseApplication.get(BaseApplication.PUSH_RECEIVE, false) ? View.VISIBLE : View.GONE);
+        if (delayIntentRefresh) {
+            findAllInvoiceTypes("");
+        }
     }
 }

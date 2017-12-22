@@ -18,7 +18,7 @@ import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
-import com.pilipa.fapiaobao.ui.EstimateActivity;
+import com.pilipa.fapiaobao.ui.EstimateLocationActivity;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 
@@ -46,7 +46,7 @@ public class FilterFragment extends BaseFragment {
     LabelsView labelsArea;
     @Bind(R.id.others_province)
     RelativeLayout othersProvince;
-    private EstimateActivity estimateActivity;
+    private EstimateLocationActivity estimateActivity;
     private ArrayList<String> arrayListSelectedReceiptKind;
     private String area;
     //声明AMapLocationClient类对象
@@ -115,7 +115,7 @@ public class FilterFragment extends BaseFragment {
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
-        estimateActivity = (EstimateActivity) getActivity();
+        estimateActivity = (EstimateLocationActivity) getActivity();
         new Thread() {
             @Override
             public void run() {

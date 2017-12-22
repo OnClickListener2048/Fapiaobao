@@ -35,294 +35,295 @@
             android:visibility="invisible"
             />
     </RelativeLayout>
-<FrameLayout
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <android.support.v4.widget.NestedScrollView
 
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
+        android:layout_height="wrap_content">
+        <android.support.v4.widget.NestedScrollView
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/d10"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv_invoiceType"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/bg_receipt_type"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/d5"
-                    android:paddingLeft="@dimen/d10"
-                    android:paddingRight="@dimen/d10"
-                    android:paddingTop="@dimen/d5"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/s12"
-                    />
-                <TextView
-                    android:layout_weight="1"
-                    android:id="@+id/tv_arrival_state"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="left|center"
-                    android:layout_marginStart="@dimen/d20"
-                    android:textStyle="bold"
-                    android:textColor="@color/red"
-                    />
-            </LinearLayout>
-
-            <!--票据列表-->
-
-            <include
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/layout_receipt_list" />
-            <!--邮寄信息-->
-
-            <include
-                layout="@layout/layout_mailing_information"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!--我提供的-->
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/layout_provide" />
-
-            <!--公司详情-->
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_margin="@dimen/d20"
-                app:cardCornerRadius="@dimen/d10"
-                android:elevation="@dimen/d10"
-                android:orientation="vertical"
-                android:translationZ="@dimen/d5">
-
-
-                <FrameLayout
-                    android:id="@+id/fl_change"
+                android:orientation="vertical">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    >
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    android:layout_margin="@dimen/d10"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_invoiceType"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:background="@mipmap/bg_receipt_type"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/d5"
+                        android:paddingLeft="@dimen/d10"
+                        android:paddingRight="@dimen/d10"
+                        android:paddingTop="@dimen/d5"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/s12"
+                        />
+                    <TextView
+                        android:layout_weight="1"
+                        android:id="@+id/tv_arrival_state"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:layout_marginStart="@dimen/d20"
+                        android:textStyle="bold"
+                        android:textColor="@color/red"
+                        />
+                </LinearLayout>
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1" />
+                <!--票据列表-->
 
-                        <ImageView
-                            android:id="@+id/collect"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/d20"
-                            android:src="@mipmap/collect" />
-                    </LinearLayout>
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/layout_receipt_list" />
+                <!--邮寄信息-->
 
-                    <LinearLayout
-                        android:id="@+id/translate"
+                <include
+                    layout="@layout/layout_mailing_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!--我提供的-->
+
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/layout_provide" />
+
+                <!--公司详情-->
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_margin="@dimen/d20"
+                    app:cardCornerRadius="@dimen/d10"
+                    android:elevation="@dimen/d10"
+                    android:orientation="vertical"
+                    android:translationZ="@dimen/d5">
+
+
+                    <FrameLayout
+                        android:id="@+id/fl_change"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/d20"
-                        android:orientation="vertical"
                         >
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d30" />
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal"
-                            android:text="@string/scan_to_have_info" />
+                            android:orientation="horizontal">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:layout_gravity="center">
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1" />
 
                             <ImageView
-                                android:id="@+id/qr"
+                                android:id="@+id/collect"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerInParent="true" />
-                        </RelativeLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d30" />
-
-                        <TextView
-                            android:id="@+id/look_directly"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal"
-                            android:text="@string/look_directly"
-                            android:textColor="@drawable/selector_union_main_style_text"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/translate_details"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone"
-                        android:layout_margin="@dimen/d20"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/text_normal_item"
-                                android:text="@string/company_name" />
-
-                            <TextView
-                                android:id="@+id/company_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/d20"
-                                android:textColor="@color/title_small"
-                                android:textIsSelectable="true"
-                                android:text="" />
+                                android:layout_marginEnd="@dimen/d20"
+                                android:src="@mipmap/collect" />
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/translate"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/d20"
+                            android:orientation="vertical"
+                            >
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d30" />
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/text_normal_item"
-                                android:text="@string/tex_number" />
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:text="@string/scan_to_have_info" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="200dp"
+                                android:layout_gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/qr"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true" />
+                            </RelativeLayout>
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d30" />
 
                             <TextView
-                                android:id="@+id/tex_number"
-                                android:layout_width="wrap_content"
+                                android:id="@+id/look_directly"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/title_small"
-                                android:textIsSelectable="true"
-                                android:layout_marginStart="@dimen/d20"
-                                android:text="" />
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:text="@string/look_directly"
+                                android:textColor="@drawable/selector_union_main_style_text"/>
+
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/translate_details"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
+                            android:layout_height="match_parent"
+                            android:visibility="gone"
+                            android:layout_margin="@dimen/d20"
+                            android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/text_normal_item"
-                                android:text="@string/company_address" />
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/company_address"
-                                android:layout_width="wrap_content"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text_normal_item"
+                                    android:text="@string/company_name" />
+
+                                <TextView
+                                    android:id="@+id/company_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/d20"
+                                    android:textColor="@color/title_small"
+                                    android:textIsSelectable="true"
+                                    android:text="" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/d20"
-                                android:textColor="@color/title_small"
-                                android:textIsSelectable="true"
-                                android:text="" />
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text_normal_item"
+                                    android:text="@string/tex_number" />
+
+                                <TextView
+                                    android:id="@+id/tex_number"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/title_small"
+                                    android:textIsSelectable="true"
+                                    android:layout_marginStart="@dimen/d20"
+                                    android:text="" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text_normal_item"
+                                    android:text="@string/company_address" />
+
+                                <TextView
+                                    android:id="@+id/company_address"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/d20"
+                                    android:textColor="@color/title_small"
+                                    android:textIsSelectable="true"
+                                    android:text="" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text_normal_item"
+                                    android:text="@string/number" />
+
+                                <TextView
+                                    android:id="@+id/number"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/d20"
+                                    android:textColor="@color/title_small"
+                                    android:textIsSelectable="true"
+                                    android:text="" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text_normal_item"
+                                    android:text="@string/bank_name" />
+
+                                <TextView
+                                    android:id="@+id/bank"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/d20"
+                                    android:textColor="@color/title_small"
+                                    android:textIsSelectable="true"
+                                    android:text="" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/text_normal_item"
+                                    android:text="@string/bank_account" />
+
+                                <TextView
+                                    android:id="@+id/bank_account"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/d20"
+                                    android:textIsSelectable="true"
+                                    android:textColor="@color/title_small"
+                                    android:text="" />
+                            </LinearLayout>
+
                         </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/text_normal_item"
-                                android:text="@string/number" />
-
-                            <TextView
-                                android:id="@+id/number"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/d20"
-                                android:textColor="@color/title_small"
-                                android:textIsSelectable="true"
-                                android:text="" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/text_normal_item"
-                                android:text="@string/bank_name" />
-
-                            <TextView
-                                android:id="@+id/bank"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/d20"
-                                android:textColor="@color/title_small"
-                                android:textIsSelectable="true"
-                                android:text="" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.5"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/text_normal_item"
-                                android:text="@string/bank_account" />
-
-                            <TextView
-                                android:id="@+id/bank_account"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/d20"
-                                android:textIsSelectable="true"
-                                android:textColor="@color/title_small"
-                                android:text="" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </FrameLayout>
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-</FrameLayout>
+                    </FrameLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </FrameLayout>
 
 
 

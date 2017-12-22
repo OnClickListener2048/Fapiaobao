@@ -33,7 +33,7 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.UnusedReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.base.BaseFragment;
+import com.pilipa.fapiaobao.base.BaseNoNetworkFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
@@ -80,7 +80,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by edz on 2017/10/27.
  */
 
-public class UnusedReceiptFragment extends BaseFragment implements UnusedReceiptAdapter.OnImageClickListener
+public class UnusedReceiptFragment extends BaseNoNetworkFragment implements UnusedReceiptAdapter.OnImageClickListener
         , UnusedReceiptAdapter.OnImageSelectListener, UnusedReceiptAdapter.OnPhotoCapture,View.OnClickListener
         ,UnusedReceiptAdapter.OnImageLongClickListener{
     private static final String TAG = "UnusedReceiptFragment";
@@ -99,7 +99,8 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
     private Dialog mCameraDialog;
     private Dialog mDelDialog;
     private UnusedReceiptAdapter unusedReceiptAdapter;
-
+    private boolean mIsInited;
+    private boolean mIsPrepared;
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
     private ArrayList<Image> arrayList;
@@ -158,13 +159,15 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
     @Override
     protected void initData() {
-        myInvoiceList();
         super.initData();
+
     }
 
+
+
     @Override
-    public void onResume() {
-        super.onResume();
+    protected void onNoNetworkLayoutClicks(View v) {
+        myInvoiceList();
     }
 
     private void setUpData(List<MyInvoiceListBean.DataBean> results) {
@@ -195,6 +198,8 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        mIsPrepared = true;
+        lazyLoad();
         return rootView;
     }
 
@@ -203,7 +208,20 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
         super.onDestroyView();
         ButterKnife.unbind(this);
         getActivity().unregisterReceiver(mBroadcastReceiver);
+    }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            lazyLoad();
+        }
+    }
+
+    private void lazyLoad() {
+        if (getUserVisibleHint() && mIsPrepared && !mIsInited) {
+            myInvoiceList();
+        }
     }
 
     private void openMedia() {
@@ -363,7 +381,6 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
                 @Override
                 public void onError() {
-                    ((BaseActivity)getActivity()).hideProgressDialog();
                 }
                 @Override
                 public void setData(NormalBean response) {
@@ -388,27 +405,11 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
             List<Uri> uris = Matisse.obtainResult(data);
             final int count = uris.size();
             final List<String> imageList = new ArrayList<>();
-//            for (Uri uri : uris) {
-//                String path = BitmapUtils.getRealFilePath(getActivity(),uri);
-//                Image image = new Image();
-//                image.isCapture = false;
-//                image.position = mPreviousPosition;
-//                mPreviousPosition++;
-//                image.uri = uri;
-//                image.path = path;
-//                image.isFromNet = false;
-//                images.add(image);
-//                imageList.add(upLoadReceipt(image));
-//                UnusedReceiptAdapter unusedReceiptAdapter = (UnusedReceiptAdapter) recyclerview.getAdapter();
-//                unusedReceiptAdapter.notifyItemInserted(mPreviousPosition);
-//            }
-
 
             Observable.fromIterable(uris)
                     .concatMap(new Function<Uri, ObservableSource<String>>() {
                         @Override
                         public ObservableSource<String> apply(@NonNull Uri uri) throws Exception {
-                            TLog.log("public ObservableSource<String> apply(@NonNull Uri uri) throws Exception {");
                             String path = BitmapUtils.getRealFilePath(getActivity(), uri);
                             final Image image = new Image();
                             image.isCapture = false;
@@ -497,7 +498,6 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
                                         @Override
                                         public void onError() {
-                                            ((BaseActivity) getActivity()).hideProgressDialog();
                                         }
 
                                         @Override
@@ -527,7 +527,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
             @Override
             public void onError() {
-
+                showNetWorkErrorLayout();
             }
 
             @Override
@@ -537,6 +537,7 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
             @Override
             public void setData(MyInvoiceListBean myInvoiceListBean) {
+                hideNetWorkErrorLayout();
                 List<MyInvoiceListBean.DataBean> list = new ArrayList<>();
                 if(myInvoiceListBean.getStatus() == 200){
                     list=myInvoiceListBean.getData();
@@ -597,17 +598,17 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                     Api.myInvoiceList(AccountHelper.getToken() ,this, new Api.BaseRawResponse<MyInvoiceListBean>() {
                         @Override
                         public void onStart() {
-
+                            ((BaseActivity)getActivity()).showProgressDialog();
                         }
 
                         @Override
                         public void onFinish() {
-
+                            ((BaseActivity)getActivity()).hideProgressDialog();
                         }
 
                         @Override
                         public void onError() {
-
+showNetWorkErrorLayout();
                         }
 
                         @Override
@@ -617,6 +618,8 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
 
                         @Override
                         public void setData(MyInvoiceListBean myInvoiceListBean) {
+                            mIsInited = true;
+                            hideNetWorkErrorLayout();
                             List<MyInvoiceListBean.DataBean> list = new ArrayList<>();
                             if(myInvoiceListBean.getStatus() == 200){
                                 list=myInvoiceListBean.getData();
@@ -707,6 +710,11 @@ public class UnusedReceiptFragment extends BaseFragment implements UnusedReceipt
                             Log.d("", "initData:deleteMyInvoice success");
                         }
                     });
+
+    }
+
+    @Override
+    public void initDataInResume() {
 
     }
 }
