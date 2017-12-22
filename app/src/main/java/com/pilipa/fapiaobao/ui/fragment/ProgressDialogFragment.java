@@ -26,12 +26,15 @@ public class ProgressDialogFragment extends DialogFragment {
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         root.setLayoutParams(layoutParams);
+
         return root;
     }
 
     public static ProgressDialogFragment newInstance() {
         return new ProgressDialogFragment();
     }
+
+
 
 
 }

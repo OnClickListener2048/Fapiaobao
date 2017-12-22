@@ -21,6 +21,7 @@ import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.ui.LoginActivity;
+import com.pilipa.fapiaobao.ui.fragment.ProgressDialogFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
 
@@ -43,6 +44,7 @@ public abstract class BaseFragment extends Fragment {
     private RequestManager mImgLoader;
     protected LayoutInflater mInflater;
     private Fragment mFragment;
+    private ProgressDialogFragment progressDialogFragment;
 
     @Override
     public void onAttach(Context context) {
@@ -90,8 +92,33 @@ public abstract class BaseFragment extends Fragment {
             // Init
             initWidget(mRoot);
             initData();
+            initDialogFragment();
         }
         return mRoot;
+    }
+
+
+
+
+    private void initDialogFragment() {
+        progressDialogFragment = ProgressDialogFragment.newInstance();
+    }
+
+    public void showDialogFragment(String tag) {
+        if (!progressDialogFragment.isInLayout() && !progressDialogFragment.isVisible()) {
+            progressDialogFragment.show(getFragmentManager(), tag);
+        }
+
+    }
+
+    public void hideDialogFragment(String tag) {
+        String tag1 = progressDialogFragment.getTag();
+        TLog.log("tag1"+tag1);
+        TLog.log("progressDialogFragment.getTag()"+progressDialogFragment.getTag());
+        TLog.log("progressDialogFragment.isInLayout()"+progressDialogFragment.isInLayout());
+        if (TextUtils.equals(tag, tag1)) {
+            progressDialogFragment.dismiss();
+        }
     }
 
     protected void onBindViewBefore(View root) {
