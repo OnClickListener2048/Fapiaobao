@@ -176,7 +176,7 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
                                     new TypeToken<List<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean>>() {}.getType());
                             Intent intent4 = new Intent(MessageDetailsActivity.this,MyQuestionsActivity.class);
                             intent4.putParcelableArrayListExtra("suggestionList", (ArrayList<? extends Parcelable>) retList);
-                            intent4.putExtra("flag", true);
+                            intent4.putExtra("flag", true);//标记是(true)否(false)来自推送
                             startActivity(intent4);
                         }
                     } catch (JSONException e) {

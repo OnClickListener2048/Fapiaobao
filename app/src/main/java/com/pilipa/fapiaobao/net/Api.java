@@ -125,6 +125,14 @@ public class Api {
 
     private static String TAG = "api";
 
+    /**
+     * 绑定手机/微信
+     * @param customerId
+     * @param platform
+     * @param code
+     * @param authCode  （验证码/绑定微信（默认0））
+     * @param baseViewCallback
+     */
     public static void bindWX(String customerId,String platform,String code,String authCode, final BaseViewCallbackWithOnStart baseViewCallback) {
         OkGo.<NormalBean>get(String.format(BIND, customerId,platform,code,authCode)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override

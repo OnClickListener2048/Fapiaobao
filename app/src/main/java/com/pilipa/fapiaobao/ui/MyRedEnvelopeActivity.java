@@ -69,6 +69,9 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 wx_info = bundle.getParcelable("wx_info");
+                  /*微信提现
+                * 1.调起微信登录获取当前登录OPENID
+                * 2.获取本地OPENID 去绑定微信——>提现/校对与绑定是否一致*/
                 if(AccountHelper.getUser().getData().getCustomer().getOpenid()==null){
                     bind(wx_info.getOpenid());
                 }else{
@@ -105,6 +108,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                 if (normalBean.getStatus() == 200) {
                     BaseApplication.showToast("微信绑定成功");
                     withdaw(openID);
+                    /*更新openid 避免重复绑定*/
                     AccountHelper.updateCustomerOpenId(openID);
 
                 }else if(normalBean.getStatus() == 707){

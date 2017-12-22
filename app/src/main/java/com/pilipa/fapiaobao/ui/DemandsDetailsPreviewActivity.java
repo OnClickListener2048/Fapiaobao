@@ -601,6 +601,10 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
 
     private void rejectInvoice() {
             final RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
+            /*驳回理由
+            * 类型为（8）其他时 reason 需要填输入框中意见
+            * 类型为（1-7） reason 填入 返回的label
+            * */
             if ("8".equals(data.getValue())) {
                 reason = edt_reason_reject.getText().toString().trim();
             } else {
@@ -613,7 +617,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                             edt_reason_reject.getText().toString().trim();
                             Api.rejectInvoice(AccountHelper.getToken()
                                     , currentImage.name
-                                    , "0"
+                                    , "0"//此金额无实际意义
                                     , data.getValue()
                                     , reason
                                     , new Api.BaseRawResponse<RejectInvoiceBean>() {

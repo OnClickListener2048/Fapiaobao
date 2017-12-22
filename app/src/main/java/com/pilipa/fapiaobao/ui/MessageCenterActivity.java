@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.MessageCenterAdapter;
@@ -133,13 +134,13 @@ showNetWorkErrorLayout();
 
     private void messageRead(final String type) {
         if (TDevice.hasInternet()) {
-
-                        Api.messageRead(AccountHelper.getToken(),type, new Api.BaseViewCallback<NormalBean>() {
-                            @Override
-                            public void setData(NormalBean normalBean) {
-
-                            }
-                        });
+            /*修改消息已读状态 （当前类别全部修改）*/
+            Api.messageRead(AccountHelper.getToken(),type, new Api.BaseViewCallback<NormalBean>() {
+                @Override
+                public void setData(NormalBean normalBean) {
+                    TLog.d(" private void messageRead(final String type) {",normalBean.getStatus()+"");
+                }
+            });
 
         } else {
             noContent.setVisibility(View.VISIBLE);

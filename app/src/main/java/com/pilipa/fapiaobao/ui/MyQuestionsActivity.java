@@ -172,7 +172,7 @@ public class MyQuestionsActivity extends BaseNoNetworkActivity implements Feedba
         });
 
 
-        //来自推送跳转
+        //来自推送/消息中心跳转
         FeedbackMessageBean.DataBean dataBean = new FeedbackMessageBean.DataBean();
         ArrayList<FeedbackMessageBean.DataBean.ListBean.SuggestionListBean> suggestionList = getIntent().getParcelableArrayListExtra("suggestionList");
         FeedbackMessageBean.DataBean.ListBean listBean = new FeedbackMessageBean.DataBean.ListBean();
