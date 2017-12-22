@@ -338,12 +338,6 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             public void setData(DefaultInvoiceBean defaultInvoiceBean) {
                 hideNetWorkErrorLayout();
                 fillupData(defaultInvoiceBean,allInvoiceType);
-//                if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
-//                    financeAdapter = new FinanceAdapter(defaultInvoiceBean);
-//                    financeAdapter.setOnLabelClickListener(FinanceFragment.this);
-//                    recyclerview.setAdapter(financeAdapter);
-//                    updateInvoiceHighlight(defaultInvoiceBean, allInvoiceType);
-//                }
             }
         });
     }

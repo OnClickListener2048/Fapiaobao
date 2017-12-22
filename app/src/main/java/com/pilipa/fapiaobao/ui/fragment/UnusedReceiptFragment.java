@@ -305,8 +305,6 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
 
     @Override
     public void capture() {
-
-
          setDialog();
     }
 
@@ -398,6 +396,7 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
                     diffResult.dispatchUpdatesTo(unusedReceiptAdapter);
                     this.images = images;
                     mPreviousPosition = images.size();
+
                     break;
                 default:
             }

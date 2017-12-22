@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.receiver.WXPayReceiver;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -33,9 +34,14 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     }
 
+
     @Override
     public void onResp(BaseResp baseResp) {
-
+        TLog.d(TAG,"baseResp.errStr==="+baseResp.errStr);
+        TLog.d(TAG,"baseResp.errCode==="+baseResp.errCode);
+        TLog.d(TAG,"baseResp.transaction==="+baseResp.transaction);
+        TLog.d(TAG,"baseResp.toString()==="+baseResp.toString());
+        TLog.d(TAG,"baseResp.getType()==="+baseResp.getType());
         if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             if (baseResp.errCode == 0) {
 //                BaseApplication.showToast("支付成功");

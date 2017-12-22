@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -123,11 +124,7 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
                 setDelDialog(allList.get(mPreviousPos+1));
                 break;
             case R.id.back:
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA, allList);
-                intent.putExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE, bundle);
-                setResult(UploadNormalReceiptFragment.RESULT_CODE_BACK, intent);
+                returnResult();
                 finish();
                 break;
             case R.id.click:
@@ -136,6 +133,22 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
                 break;
             default:
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            returnResult();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    protected void returnResult() {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA, allList);
+        intent.putExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE, bundle);
+        setResult(UploadNormalReceiptFragment.RESULT_CODE_BACK, intent);
     }
 
     @Override
@@ -249,11 +262,7 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
         Log.d(TAG, "after---onViewClicked: allList.size()=========" + allList.size());
         Log.d(TAG, "onViewClicked: previewPagerAdapter.arrayList.size()=========" + previewPagerAdapter.arrayList.size());
         if (allList.size() == 0 || previewPagerAdapter.arrayList.size() == 0) {
-            Intent intent2 = new Intent();
-            Bundle bundle2 = new Bundle();
-            bundle2.putParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA, allList);
-            intent2.putExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE, bundle2);
-            setResult(UploadNormalReceiptFragment.RESULT_CODE_BACK, intent2);
+            returnResult();
             finish();
         }
     }

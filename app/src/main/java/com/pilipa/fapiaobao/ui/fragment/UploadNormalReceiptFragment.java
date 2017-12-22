@@ -218,7 +218,6 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                 R.layout.elec_data_bottom, null);
         //初始化视图
         root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
-        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
         root.findViewById(R.id.btn_cancel).setOnClickListener(this);
         root.findViewById(R.id.btn_choose_img_receipt_folder).setOnClickListener(this);
         root.findViewById(R.id.btn_shopping_stamp).setOnClickListener(this);

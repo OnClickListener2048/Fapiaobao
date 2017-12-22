@@ -56,11 +56,22 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 data = allInvoiceType.getData();
                 DefaultInvoiceBean.DataBean dataBean = data.get(position);
 //                ImageLoader.loadImage(with,financeholder.iv_finance, dataBean.getMiddleSize(),R.mipmap.receipt_012);
-                with.load(dataBean.getMiddleSize())
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .placeholder(R.mipmap.receipt_012)
-                        .into(financeholder.iv_finance);
+//
+                String middleSize = dataBean.getMiddleSize();
+                if ("https://www.youpiao8.cn".equals(middleSize)) {
+                    with.load(R.mipmap.receipt_014)
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .placeholder(R.mipmap.receipt_012)
+                            .into(financeholder.iv_finance);
+                } else {
+                    with.load(middleSize)
+                            .skipMemoryCache(true)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .placeholder(R.mipmap.receipt_012)
+                            .into(financeholder.iv_finance);
+                }
+
                 financeholder.tv_finance.setText(dataBean.getName());
             }
             financeholder.fl_container.setOnClickListener(new View.OnClickListener() {

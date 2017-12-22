@@ -66,9 +66,11 @@ public class FilterLocationActivity extends BaseLocationActivity {
 
     @Override
     public void initView() {
+
+        type = getIntent().getIntExtra("type", -1);
+        locate = getIntent().getStringExtra("location");
         initLabels();
-        initCityPicker();
-        setUpAddress();
+        initCityPicker(locate);
         labelsReceiptKind.setOnLabelSelectChangeListener(new LabelsView.OnLabelSelectChangeListener() {
             @Override
             public void onLabelSelectChange(View label, String labelText, boolean isSelect, int position) {
@@ -80,8 +82,6 @@ public class FilterLocationActivity extends BaseLocationActivity {
             }
         });
 
-        type = getIntent().getIntExtra("type", -1);
-        locate = getIntent().getStringExtra("location");
         if (type != -1) {
             labelsReceiptKind.setSelects(type - 1);
         }
@@ -140,7 +140,7 @@ public class FilterLocationActivity extends BaseLocationActivity {
     }
 
 
-    private void initCityPicker() {
+    private void initCityPicker(String locate) {
         CityConfig cityConfig = new CityConfig.Builder(FilterLocationActivity.this)
                 .title("选择地区")
                 .titleBackgroundColor("#E9E9E9")
@@ -171,7 +171,7 @@ public class FilterLocationActivity extends BaseLocationActivity {
             @Override
             public void onSelected(ProvinceBean province, CityBean city) {
                 super.onSelected(province, city);
-                locate = city.getName() + "市";
+                FilterLocationActivity.this.locate = city.getName() + "市";
                 tvArea.setText(city.getName() + "市");
                 cityPicker.hide();
             }
