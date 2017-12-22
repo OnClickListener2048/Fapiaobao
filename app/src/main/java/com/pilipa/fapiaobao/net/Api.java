@@ -125,11 +125,29 @@ public class Api {
 
     private static String TAG = "api";
 
-    public static void bindWX(String customerId,String platform,String code,String authCode, final BaseViewCallback baseViewCallback) {
+    public static void bindWX(String customerId,String platform,String code,String authCode, final BaseViewCallbackWithOnStart baseViewCallback) {
         OkGo.<NormalBean>get(String.format(BIND, customerId,platform,code,authCode)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
                     baseViewCallback.setData(response.body());
+            }
+
+            @Override
+            public void onStart(Request<NormalBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onError(Response<NormalBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
             }
         });
     }
@@ -192,7 +210,7 @@ public class Api {
      * @param deviceToken
      * @param baseViewCallback
      */
-    public static void login(String platform, String credenceName, String credenceCode, String deviceToken, final BaseViewCallback baseViewCallback) {
+    public static void login(String platform, String credenceName, String credenceCode, String deviceToken, final BaseViewCallbackWithOnStart baseViewCallback) {
         OkGo.<LoginWithInfoBean>get(String.format(USER_LOGIN, platform, credenceName, credenceCode, deviceToken)).execute(new JsonCallBack<LoginWithInfoBean>(LoginWithInfoBean.class) {
             @Override
             public void onSuccess(Response<LoginWithInfoBean> response) {
@@ -203,14 +221,50 @@ public class Api {
                     BaseApplication.showToast("验证码错误");
                 }
             }
+
+            @Override
+            public void onError(Response<LoginWithInfoBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onStart(Request<LoginWithInfoBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
         });
     }
 
-    public static void logoutByToken(String token, final BaseViewCallback baseViewCallback) {
+    public static void logoutByToken(String token, final BaseViewCallbackWithOnStart baseViewCallback) {
         OkGo.<NormalBean>get(String.format(LOGOUT_BY_TOKEN, token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
                     baseViewCallback.setData(response.body());
+            }
+
+            @Override
+            public void onStart(Request<NormalBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onError(Response<NormalBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
             }
         });
     }
@@ -1391,7 +1445,7 @@ public class Api {
      * @param amount
      * @param b
      */
-    public static void wxRecharge(String token, String ip, double amount, final BaseViewCallback b) {
+    public static void wxRecharge(String token, String ip, double amount, final BaseViewCallbackWithOnStart b) {
         String url = String.format(WX_RECHARGE, token, ip, amount);
         OkGo.<PrepayBean>get(url).execute(new JsonCallBack<PrepayBean>(PrepayBean.class) {
 
@@ -1402,6 +1456,24 @@ public class Api {
                 }else{
                     BaseApplication.showToast("充值失败，请稍后重试");
                 }
+            }
+
+            @Override
+            public void onError(Response<PrepayBean> response) {
+                super.onError(response);
+                b.onError();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                b.onFinish();
+            }
+
+            @Override
+            public void onStart(Request<PrepayBean, ? extends Request> request) {
+                super.onStart(request);
+                b.onStart();
             }
         });
     }
@@ -1414,13 +1486,31 @@ public class Api {
             }
         });
     }
-    public static void withdaw(String token, String accountType,String ip, double amount, String openid, final BaseViewCallback b) {
+    public static void withdaw(String token, String accountType,String ip, double amount, String openid, final BaseViewCallbackWithOnStart b) {
         String url = String.format(WITHDRAW, token,accountType, ip, amount,openid);
         OkGo.<PrepayBean>get(url).execute(new JsonCallBack<PrepayBean>(PrepayBean.class) {
 
             @Override
             public void onSuccess(Response<PrepayBean> response) {
                     b.setData(response.body());
+            }
+
+            @Override
+            public void onStart(Request<PrepayBean, ? extends Request> request) {
+                super.onStart(request);
+                b.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                b.onFinish();
+            }
+
+            @Override
+            public void onError(Response<PrepayBean> response) {
+                super.onError(response);
+                b.onError();
             }
         });
     }

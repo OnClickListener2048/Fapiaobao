@@ -74,7 +74,22 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 WXmodel wx_info = bundle.getParcelable("wx_info");
                 assert wx_info != null;
-                Api.login("1", wx_info.getOpenid(), wx_info.getAccess_token(), deviceToken, new Api.BaseViewCallback<LoginWithInfoBean>() {
+                Api.login("1", wx_info.getOpenid(), wx_info.getAccess_token(), deviceToken, new Api.BaseViewCallbackWithOnStart<LoginWithInfoBean>() {
+                    @Override
+                    public void onStart() {
+                        showProgressDialog();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+
                     @Override
                     public void setData(final LoginWithInfoBean loginWithInfoBean) {
                         if (loginWithInfoBean.getStatus()==200) {
@@ -175,8 +190,23 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
         } else {
             String deviceToken = BaseApplication.get("deviceToken",null);
             Log.d(TAG, "login :deviceToken "+deviceToken);
-            Api.login(platform,credenceName,credenceCode,deviceToken,new Api.BaseViewCallback<LoginWithInfoBean>() {
-                        @Override
+            Api.login(platform,credenceName,credenceCode,deviceToken,new Api.BaseViewCallbackWithOnStart<LoginWithInfoBean>() {
+                @Override
+                public void onStart() {
+                    showProgressDialog();
+                }
+
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onError() {
+
+                }
+
+                @Override
                         public void setData(LoginWithInfoBean loginWithInfoBean) {
                             loginWithInfoBean.getData().setCustomer(loginWithInfoBean.getData().getCustomer());
                             SharedPreferencesHelper.save(LoginActivity.this, loginWithInfoBean.getData().getCustomer());

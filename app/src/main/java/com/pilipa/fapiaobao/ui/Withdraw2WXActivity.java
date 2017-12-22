@@ -62,15 +62,15 @@ public class Withdraw2WXActivity extends BaseActivity {
     private Dialog mTipDialog;
     private BigDecimal yue;
 
-    private WXmodel wx_info;
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(WX_LOGIN_ACTION)) {
+                btnWithdraw.setEnabled(true);
                 TLog.d(TAG, WX_LOGIN_ACTION + " success");
                 String deviceToken = BaseApplication.get("deviceToken", "");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
-                wx_info = bundle.getParcelable("wx_info");
+                WXmodel wx_info = bundle.getParcelable("wx_info");
 
                 if (AccountHelper.getUser().getData().getCustomer().getOpenid() == null) {
                     bind(wx_info.getOpenid());
@@ -78,7 +78,7 @@ public class Withdraw2WXActivity extends BaseActivity {
                     if (wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())) {
                         withdaw(wx_info.getOpenid());
                     } else {
-                        btnWithdraw.setEnabled(true);
+
                         BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
                     }
                 }
@@ -88,7 +88,22 @@ public class Withdraw2WXActivity extends BaseActivity {
     };
 
     private void bind(final String openID) {
-        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, openID, "0", new Api.BaseViewCallback<NormalBean>() {
+        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, openID, "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == 200) {
@@ -107,10 +122,26 @@ public class Withdraw2WXActivity extends BaseActivity {
                 , NetworkUtils.getIPAddress(true)
                 , Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ? "0" : tv_amount.getText().toString().trim())
                 , openID
-                , new Api.BaseViewCallback<PrepayBean>() {
+                , new Api.BaseViewCallbackWithOnStart<PrepayBean>() {
+                    @Override
+                    public void onStart() {
+                        showProgressDialog();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                        btnWithdraw.setEnabled(true);
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+
                     @Override
                     public void setData(PrepayBean normalBean) {
-                        btnWithdraw.setEnabled(true);
+
                         if (normalBean.getStatus() == 200) {
                             BaseApplication.showToast("提现成功");
                             finish();
@@ -313,7 +344,7 @@ public class Withdraw2WXActivity extends BaseActivity {
             req.state = "wechat_sdk_demo_test";
             api.sendReq(req);
         } else {
-            BaseApplication.showToast("请安装微信客户端");
+            BaseApplication.showToast(getString(R.string.please_install_WX_app));
         }
 
     }

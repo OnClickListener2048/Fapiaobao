@@ -1,6 +1,5 @@
 package com.pilipa.fapiaobao.base;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,24 +11,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
@@ -39,15 +31,11 @@ import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.fragment.ProgressDialogFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
-import com.pilipa.fapiaobao.utils.TDevice;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.umeng.message.PushAgent;
 
 import java.io.IOException;
 
 import butterknife.ButterKnife;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 import static com.pilipa.fapiaobao.utils.BitmapUtils.readPictureDegree;
 import static com.pilipa.fapiaobao.utils.BitmapUtils.rotaingImageView;
@@ -120,12 +108,15 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     public void showDialogFragment(String tag) {
-        progressDialogFragment.show(getSupportFragmentManager(),tag);
+        if (!progressDialogFragment.isInLayout() && !progressDialogFragment.isVisible()) {
+            progressDialogFragment.show(getSupportFragmentManager(), tag);
+        }
+
     }
 
     public void hideDialogFragment(String tag) {
         String tag1 = progressDialogFragment.getTag();
-        if (TextUtils.equals(tag, tag1)) {
+        if (TextUtils.equals(tag, tag1) && progressDialogFragment.isInLayout()) {
             progressDialogFragment.dismiss();
         }
     }

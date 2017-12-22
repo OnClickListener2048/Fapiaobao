@@ -81,7 +81,22 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     };
 
     private void bind(final String openID){
-        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_WX , openID,"0", new Api.BaseViewCallback<NormalBean>() {
+        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, openID, "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == 200) {
@@ -99,7 +114,22 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                 ,NetworkUtils.getIPAddress(true)
                 ,Double.parseDouble(tv_bonus.getText().toString())
                 ,openID
-                , new Api.BaseViewCallback<PrepayBean>() {
+                , new Api.BaseViewCallbackWithOnStart<PrepayBean>() {
+                    @Override
+                    public void onStart() {
+                        showProgressDialog();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+
                     @Override
                     public void setData(PrepayBean normalBean) {
                         btnWithdraw.setEnabled(true);

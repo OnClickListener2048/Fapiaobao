@@ -25,5 +25,7 @@ public class Constant {
     public static final String TAG = "tag";
     public static final String CHOOSE_RECEIPT_FOLDER = "choose_receipt_folder";
     public static final int REQUEST_REFRESH_CODE = 845;
+    public static final int INVILDE_URL = 800;
 
+    public static final int REQEUST_SUCCESS = 200;
 }

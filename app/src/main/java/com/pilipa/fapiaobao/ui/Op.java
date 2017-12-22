@@ -17,6 +17,7 @@ import com.just.agentwebX5.DownLoadResultListener;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
@@ -436,14 +437,18 @@ public class Op extends BaseActivity implements
 
                     @Override
                     public void setData(NormalBean normalBean) {
-                        TLog.d(TAG,normalBean.getData());
-                        Intent intent = new Intent();
-                        intent.putExtra(Constant.PDF_EXTRA, normalBean.getData());
-                        intent.putExtra(Constant.TAG, tag);
-                        intent.putExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, isFromUploadReceiptActivity);
-                        intent.setClass(Op.this, PdfPreviewActivity.class);
-                        startActivity(intent);
-
+                        if (normalBean.getStatus() == Constant.REQEUST_SUCCESS) {
+                            TLog.d(TAG,normalBean.getData());
+                            Intent intent = new Intent();
+                            intent.putExtra(Constant.PDF_EXTRA, normalBean.getData());
+                            intent.putExtra(Constant.TAG, tag);
+                            intent.putExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, isFromUploadReceiptActivity);
+                            intent.setClass(Op.this, PdfPreviewActivity.class);
+                            startActivity(intent);
+                        }
+                        if (normalBean.getStatus() == Constant.INVILDE_URL) {
+                            BaseApplication.showToast(normalBean.getMsg());
+                        }
                     }
                 });
             }

@@ -486,6 +486,7 @@
     <string name="save_to_invoice_clip">保存到发票夹</string>
     <string name="no_network_phase">网络连接超时，看到了外太空\n点击刷新试试</string>
     <string name="checkout_upload">查看本次提供</string>
+    <string name="please_install_WX_app">请安装微信客户端</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

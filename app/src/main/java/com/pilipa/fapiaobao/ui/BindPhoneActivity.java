@@ -92,7 +92,22 @@ public class BindPhoneActivity extends BaseActivity {
         }
     }
     private void bind(final String phone) {
-        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(),LOGIN_PLATFORM_MSG ,phone,etPassword.getText().toString().trim(), new Api.BaseViewCallback<NormalBean>() {
+        Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_MSG, phone, etPassword.getText().toString().trim(), new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == 200) {

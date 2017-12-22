@@ -235,7 +235,22 @@ public class UserInfoActivity extends BaseActivity {
                 String deviceToken = BaseApplication.get("deviceToken", "");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 WXmodel wx_info = bundle.getParcelable("wx_info");
-                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(),"0", new Api.BaseViewCallback<NormalBean>() {
+                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+                    @Override
+                    public void onStart() {
+                        showProgressDialog();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+
                     @Override
                     public void setData(NormalBean normalBean) {
                         if (normalBean.getStatus() == 200) {
@@ -614,11 +629,25 @@ public class UserInfoActivity extends BaseActivity {
                     });
             }
         });
-
     }
 
     private void logoutByToken() {
-        Api.logoutByToken(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+        Api.logoutByToken(AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == 200) {
