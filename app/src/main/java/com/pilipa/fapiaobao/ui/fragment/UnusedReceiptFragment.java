@@ -36,6 +36,7 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseNoNetworkFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
@@ -107,7 +108,7 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
     public BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals("UPLOAD_PDF_SUCCESS")) {
+            if (com.pilipa.fapiaobao.ui.constants.Constant.UPLOAD_PDF_SUCCESS.equals(intent.getAction())) {
                 Bundle bundle = intent.getBundleExtra("bundle");
                 Image image =  bundle.getParcelable("pdf");
                 images.add(image);
@@ -236,16 +237,18 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
                     Matisse.from(UnusedReceiptFragment.this)
+
                             .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
                             .countable(true)
                             .captureStrategy(
-                                    new CaptureStrategy(true, "com.pilipa.fapiaobao.fileprovider"))
+                                    new CaptureStrategy(true, MediaStoreCompat.authority))
                             .maxSelectable(9)
                             .gridExpectedSize(
                                     getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
                             .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                             .thumbnailScale(0.4f)
                             .imageEngine(new GlideEngine())
+                            .theme(R.style.Matisse_Pilipa)
                             .forResult(REQUEST_CODE_CHOOSE);
                 }
             }
@@ -382,7 +385,7 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
                 }
                 @Override
                 public void setData(NormalBean response) {
-                    BaseApplication.showToast("上传成功");
+                    BaseApplication.showToast(getString(R.string.upload_success));
                 }
             });
         } else if (REQUEST_CODE_IMAGE_CLICK == requestCode) {
@@ -501,7 +504,7 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
 
                                         @Override
                                         public void setData(NormalBean response) {
-                                            BaseApplication.showToast("上传成功");
+                                            BaseApplication.showToast(getString(R.string.upload_success));
                                             retrieveIDsOfAddedPhotos();
                                         }
                                     });
@@ -696,15 +699,15 @@ showNetWorkErrorLayout();
                         @Override
                         public void onError() {
                             activity.hideProgressDialog();
-                            BaseApplication.showToast("删除失败");
+                            BaseApplication.showToast(getString(R.string.delete_fail));
                         }
 
                         @Override
                         public void setData(NormalBean normalBean) {
-                            if(normalBean.getStatus() == 200){
+                            if(normalBean.getStatus() == Constant.REQUEST_SUCCESS){
                                 mDelDialog.dismiss();
                                 unusedReceiptAdapter.delete(pos);
-                                BaseApplication.showToast("删除成功");
+                                BaseApplication.showToast(getString(R.string.delete_success));
                             }
                             Log.d("", "initData:deleteMyInvoice success");
                         }

@@ -141,13 +141,14 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
                             .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
                             .countable(true)
                             .captureStrategy(
-                                    new CaptureStrategy(true, "com.pilipa.fapiaobao.fileprovider"))
+                                    new CaptureStrategy(true, MediaStoreCompat.authority))
                             .maxSelectable(9)
                             .gridExpectedSize(
                                     getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
                             .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                             .thumbnailScale(0.4f)
                             .imageEngine(new GlideEngine())
+                            .theme(R.style.Matisse_Pilipa)
                             .forResult(REQUEST_CODE_CHOOSE);
                 }
             }

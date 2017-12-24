@@ -27,6 +27,7 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.widget.CashierInputFilter;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -70,7 +71,7 @@ public class Withdraw2WXActivity extends BaseActivity {
                 TLog.d(TAG, WX_LOGIN_ACTION + " success");
                 String deviceToken = BaseApplication.get("deviceToken", "");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
-                WXmodel wx_info = bundle.getParcelable("wx_info");
+                WXmodel wx_info = bundle.getParcelable(Constant.WX_INFO);
                 /*微信提现
                 * 1.调起微信登录获取当前登录OPENID
                 * 2.获取本地OPENID 去绑定微信——>提现/校对与绑定是否一致*/
@@ -108,8 +109,8 @@ public class Withdraw2WXActivity extends BaseActivity {
 
             @Override
             public void setData(NormalBean normalBean) {
-                if (normalBean.getStatus() == 200) {
-                    BaseApplication.showToast("微信绑定成功");
+                if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
+                    BaseApplication.showToast(getString(R.string.WX_bind_success));
                     withdaw(openID);
                     /*更新openid 避免重复绑定*/
                     AccountHelper.updateCustomerOpenId(openID);

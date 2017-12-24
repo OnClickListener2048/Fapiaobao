@@ -70,4 +70,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         setIntent(intent);
         api.handleIntent(intent, this);
     }
+
+
 }

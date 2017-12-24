@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <!--<item name="colorPrimary">@color/colorPrimary</item>-->
-        <item name="colorPrimaryDark">#e6af7a</item>
+        <item name="colorPrimaryDark">@color/main_primary_dark</item>
         <!--<item name="colorAccent">@color/colorAccent</item>-->
         <!--<item name="android:windowBackground">@color/white</item>-->
     </style>
@@ -89,4 +89,32 @@
         <item name="android:windowExitAnimation">@anim/download_alert_layout_out</item>
     </style>
 
+    <style name="Matisse.Pilipa" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/main_style</item>
+        <item name="colorPrimaryDark">@color/main_primary_dark</item>
+        <item name="toolbar">@style/Toolbar.Pilipa</item>
+        <item name="album.title.color">@color/zhihu_album_title_text</item>
+        <item name="album.count.color">@color/zhihu_album_count_text</item>
+        <item name="album.selected">@android:color/white</item>
+        <item name="album.placeholder">@color/zhihu_album_placeholder</item>
+        <item name="album.emptyView">@drawable/ic_empty_zhihu</item>
+        <item name="album.emptyView.color">@color/zhihu_empty_view</item>
+        <item name="item.placeholder">@color/zhihu_item_placeholder</item>
+        <item name="page.bg">@color/zhihu_page_bg</item>
+        <item name="bottomToolbar.bg">@color/zhihu_bottom_toolbar_bg</item>
+        <item name="bottomToolbar.preview.color">@color/zhihu_bottom_toolbar_preview</item>
+        <item name="bottomToolbar.apply.color">@color/main_style</item>
+        <item name="listPopupWindowStyle">@style/Popup.Pilipa</item>
+        <item name="capture.color">@color/zhihu_capture</item>
+    </style>
+
+    <style name="Popup.Pilipa" parent="Widget.AppCompat.Light.ListPopupWindow">
+        <item name="android:popupBackground">@color/zhihu_album_popup_bg</item>
+    </style>
+
+    <style name="Toolbar.Pilipa" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    </style>
+
+    <color name="main_primary_dark">#e6af7a</color>
 </resources>

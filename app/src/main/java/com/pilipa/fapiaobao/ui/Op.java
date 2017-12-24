@@ -60,7 +60,7 @@ public class Op extends BaseActivity implements
     @Bind(R.id.ll)
     LinearLayout ll;
     String TAG = Op.class.getSimpleName();
-    private  MacherBeanToken.DataBean.CompanyBean company_info;
+    private  MacherBeanToken.DataBean.CompanyBean companyInfo;
 
 
 
@@ -106,8 +106,8 @@ public class Op extends BaseActivity implements
         public void onPageFinished(final WebView view, final String url) {
             super.onPageFinished(view, url);
             TLog.d(TAG,"onPageFinished");
-            TLog.log("company_info"+company_info);
-            if (company_info != null) {
+            TLog.log("companyInfo"+ companyInfo);
+            if (companyInfo != null) {
                 if (url.contains("yumchina")) {
                     view.loadUrl("javascript:;(function(currentRules){\n" +
                             "            var jQueryUrl = 'https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js';\n" +
@@ -134,10 +134,10 @@ public class Op extends BaseActivity implements
                             "                setFormVals();\n" +
                             "            }\n" +
                             "        })([\n" +
-                            "            {selector:'#invTitle', value:'" + company_info.getName() + "'},\n" +
-                            "            {selector:'#invTaxNo', value:'" + company_info.getTaxno() + "'},\n" +
-                            "            {selector:'#invAddrPhone', value:'" + company_info.getAddress() + company_info.getPhone() + "'},\n" +
-                            "            {selector:'#invBank',value:'" + company_info.getDepositBank() + company_info.getAccount() + "'},\n" +
+                            "            {selector:'#invTitle', value:'" + companyInfo.getName() + "'},\n" +
+                            "            {selector:'#invTaxNo', value:'" + companyInfo.getTaxno() + "'},\n" +
+                            "            {selector:'#invAddrPhone', value:'" + companyInfo.getAddress() + companyInfo.getPhone() + "'},\n" +
+                            "            {selector:'#invBank',value:'" + companyInfo.getDepositBank() + companyInfo.getAccount() + "'},\n" +
                             "            {selector:'#hxEmail',value:'" + AccountHelper.getUser().getData().getCustomer().getEmail() + "'},\n" +
                             "            {selector:'#mobile',value:'" + AccountHelper.getUser().getData().getCustomer().getTelephone() + "'}\n" +
                             "        ]);");
@@ -167,12 +167,12 @@ public class Op extends BaseActivity implements
                             "                setFormVals();\n" +
                             "            }\n" +
                             "        })([\n" +
-                            "            {selector:'#invoiceTitle', value:'" + company_info.getName() + "'},\n" +
-                            "            {selector:'#taxpayerNumber', value:'" + company_info.getTaxno() + "'},\n" +
-                            "            {selector:'#telephoneNumber', value:'" + company_info.getPhone() + "'},\n" +
-                            "            {selector:'#address', value:'" + company_info.getAddress() + "'},\n" +
-                            "            {selector:'#depositBank',value:'" + company_info.getDepositBank() + "'},\n" +
-                            "            {selector:'#bankAccount',value:'" + company_info.getAccount() + "'},\n" +
+                            "            {selector:'#invoiceTitle', value:'" + companyInfo.getName() + "'},\n" +
+                            "            {selector:'#taxpayerNumber', value:'" + companyInfo.getTaxno() + "'},\n" +
+                            "            {selector:'#telephoneNumber', value:'" + companyInfo.getPhone() + "'},\n" +
+                            "            {selector:'#address', value:'" + companyInfo.getAddress() + "'},\n" +
+                            "            {selector:'#depositBank',value:'" + companyInfo.getDepositBank() + "'},\n" +
+                            "            {selector:'#bankAccount',value:'" + companyInfo.getAccount() + "'},\n" +
                             "            {selector:'#mailAccount',value:'" + AccountHelper.getUser().getData().getCustomer().getEmail() + "'},\n" +
                             "            {selector:'#cellPhoneNumber',value:'" + AccountHelper.getUser().getData().getCustomer().getTelephone() + "'}\n" +
                             "        ]);");
@@ -382,10 +382,10 @@ public class Op extends BaseActivity implements
         super.onCreate(savedInstanceState);
 
         ButterKnife.bind(this);
-        company_info = getIntent().getParcelableExtra("company_info");
+        companyInfo = getIntent().getParcelableExtra("companyInfo");
         isFromUploadReceiptActivity = getIntent().getBooleanExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, false);
         tag = getIntent().getStringExtra(Constant.TAG);
-        TLog.log(" company_info = getIntent().getParcelableExtra(\"company_info\");");
+        TLog.log(" companyInfo = getIntent().getParcelableExtra(\"companyInfo\");");
         AgentWeb.PreAgentWeb preAgentWeb = WebViewUtils.init(this, ll, this, webViewClient, webChromeClient, null);
         String url = getIntent().getStringExtra("url");
         go = preAgentWeb.go(url);

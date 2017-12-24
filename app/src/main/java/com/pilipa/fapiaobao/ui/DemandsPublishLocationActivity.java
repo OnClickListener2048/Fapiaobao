@@ -713,6 +713,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             case R.id.tv_express_limited:
                 setTipDialog(R.layout.layout_extimate_tip2);
                 break;
+                default:
         }
     }
 
@@ -915,6 +916,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                     }
                 }
                 break;
+                default:
         }
     }
 

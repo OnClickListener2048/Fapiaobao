@@ -322,7 +322,7 @@
     <string name="save">保存</string>
     <string name="cancel">取消</string>
     <string name="share_to">分享至</string>
-    <string name="limit">15-20位</string>
+    <string name="limit">15–20位</string>
     <string name="company_number">公司电话</string>
     <string name="mailing">邮寄信息</string>
     <string name="consignee">收\u0020\u0020件\u0020\u0020人</string>
@@ -487,6 +487,19 @@
     <string name="no_network_phase">网络连接超时，看到了外太空\n点击刷新试试</string>
     <string name="checkout_upload">查看本次提供</string>
     <string name="please_install_WX_app">请安装微信客户端</string>
+    <string name="gobind">去绑定</string>
+    <string name="haveBound">已绑定</string>
+    <string name="placeholder_birthday">%1$d-%2$d-%3$d</string>
+    <string name="user_name_can_not_be_null">昵称不能为空</string>
+    <string name="WX_unbind_success">微信解绑成功</string>
+    <string name="no_content_in_the_server">没有找到业务数据</string>
+    <string name="logout_success">退出成功</string>
+    <string name="user_info_save_success">用户信息保存成功</string>
+    <string name="WX_bind_success">微信绑定成功</string>
+    <string name="email_format_not_right">邮箱格式不正确</string>
+    <string name="phone_number_format_not_right">手机号码格式不正确</string>
+    <string name="delete_success">删除成功</string>
+    <string name="delete_fail">删除失败</string>
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

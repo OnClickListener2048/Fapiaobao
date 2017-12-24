@@ -17,6 +17,7 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
@@ -43,13 +44,13 @@ public class RechargeActivity extends BaseActivity  {
     private static final String TAG = "RechargeActivity";
 
     @Bind(R.id.tv_recharge_10)
-    TextView tv_recharge_10;
+    TextView tvRecharge10;
     @Bind(R.id.tv_recharge_30)
-    TextView tv_recharge_30;
+    TextView tvRecharge30;
     @Bind(R.id.tv_recharge_100)
-    TextView tv_recharge_100;
+    TextView tvRecharge100;
     @Bind(R.id.tv_recharge_500)
-    TextView tv_recharge_500;
+    TextView tvRecharge500;
     @Bind(R.id.go_recharge)
     Button goRecharge;
     private IWXAPI api;
@@ -64,7 +65,7 @@ public class RechargeActivity extends BaseActivity  {
                 RechargeActivity.this.setResult(RESULT_CANCELED);
                 finish();
             }
-            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
+            if (WX_LOGIN_ACTION.equals(intent.getAction())) {
                 TLog.d(TAG,WX_LOGIN_ACTION +" success");
 
                 String deviceToken = BaseApplication.get("deviceToken","");
@@ -102,7 +103,7 @@ public class RechargeActivity extends BaseActivity  {
 
             @Override
             public void setData(NormalBean normalBean) {
-                if (normalBean.getStatus() == 200) {
+                if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
                     BaseApplication.showToast("微信绑定成功");
                     recharge();
                 }else if(normalBean.getStatus() == 707){
@@ -113,7 +114,7 @@ public class RechargeActivity extends BaseActivity  {
     }
 
     private void recharge(){
-        Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallbackWithOnStart<PrepayBean>() {
+        Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), amount, new Api.BaseViewCallbackWithOnStart<PrepayBean>() {
             @Override
             public void onStart() {
                 showProgressDialog();
@@ -197,6 +198,8 @@ public class RechargeActivity extends BaseActivity  {
                 amount = 500;
             }
             break;
+            default:
+                break;
         }
     }
 
@@ -235,10 +238,10 @@ public class RechargeActivity extends BaseActivity  {
     }
 
     public void selected(int selectedId) {
-        tv_recharge_10.setSelected(selectedId == 1);
-        tv_recharge_30.setSelected(selectedId == 2);
-        tv_recharge_100.setSelected(selectedId == 3);
-        tv_recharge_500.setSelected(selectedId == 4);
+        tvRecharge10.setSelected(selectedId == 1);
+        tvRecharge30.setSelected(selectedId == 2);
+        tvRecharge100.setSelected(selectedId == 3);
+        tvRecharge500.setSelected(selectedId == 4);
     }
 
 
@@ -253,7 +256,12 @@ public class RechargeActivity extends BaseActivity  {
 //        });
 
         /* 充值 直接调用 后台充值接口 不需要绑定*/
-        recharge();
+        if (api.isWXAppInstalled() && api.isWXAppSupportAPI()) {
+            recharge();
+        } else {
+            BaseApplication.showToast(getString(R.string.please_install_WX_app));
+        }
+
     }
 
     private void weChatLogin() {

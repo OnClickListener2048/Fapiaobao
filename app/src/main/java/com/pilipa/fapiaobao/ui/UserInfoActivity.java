@@ -129,7 +129,7 @@ public class UserInfoActivity extends BaseActivity {
                     dialog.showDatePickerDialog(new TimePickerDialog.TimePickerDialogInterface() {
                         @Override
                         public void positiveListener() {
-                            tv_birthday.setText(dialog.getYear() + "-" + dialog.getMonth() + "-" + dialog.getDay());
+                            tv_birthday.setText(getString(R.string.placeholder_birthday, dialog.getYear(), dialog.getMonth(), dialog.getDay()));
                         }
 
                         @Override
@@ -156,7 +156,7 @@ public class UserInfoActivity extends BaseActivity {
                     if (!edtUserName.getText().toString().trim().isEmpty()) {
                         customer.setNickname(edtUserName.getText().toString().trim());
                     } else {
-                        BaseApplication.showToast("昵称不能为空");
+                        BaseApplication.showToast(getString(R.string.user_name_can_not_be_null));
                         return;
                     }
                     customer.setBirthday(tv_birthday.getText().toString().trim());
@@ -170,13 +170,14 @@ public class UserInfoActivity extends BaseActivity {
                         case R.id.rb_secrecy:
                             customer.setGender(Constant.GENDER_SECRECY);
                             break;
+                        default:
                     }
                     if (!edt_email.getText().toString().trim().isEmpty()) {
                         boolean emailExact = RegexUtils.isEmail(edt_email.getText().toString().trim());
                         if (emailExact) {
                             customer.setEmail(edt_email.getText().toString().trim());
                         } else {
-                            BaseApplication.showToast("邮箱格式不正确");
+                            BaseApplication.showToast(getString(R.string.email_format_not_right));
                             return;
                         }
                     }
@@ -185,7 +186,7 @@ public class UserInfoActivity extends BaseActivity {
                         if (mobileExact) {
                             customer.setTelephone(edtPhone.getText().toString().trim());
                         } else {
-                            BaseApplication.showToast("手机号码格式不正确");
+                            BaseApplication.showToast(getString(R.string.phone_number_format_not_right));
                             return;
                         }
                     }
@@ -224,6 +225,7 @@ public class UserInfoActivity extends BaseActivity {
             case R.id.img_logout:
                 setLogoutDialog();
                 break;
+            default:
         }
     }
 
@@ -232,9 +234,9 @@ public class UserInfoActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(WX_LOGIN_ACTION)) {
                 TLog.d(TAG, WX_LOGIN_ACTION + " success");
-                String deviceToken = BaseApplication.get("deviceToken", "");
-                Bundle bundle = intent.getBundleExtra("extra_bundle");
-                WXmodel wx_info = bundle.getParcelable("wx_info");
+                String deviceToken = BaseApplication.get(com.pilipa.fapiaobao.ui.constants.Constant.DEVICE_TOKEN, "");
+                Bundle bundle = intent.getBundleExtra(com.pilipa.fapiaobao.ui.constants.Constant.EXTRA_BUNDLE);
+                WXmodel wx_info = bundle.getParcelable(com.pilipa.fapiaobao.ui.constants.Constant.WX_INFO);
                 Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
                     @Override
                     public void onStart() {
@@ -253,18 +255,19 @@ public class UserInfoActivity extends BaseActivity {
 
                     @Override
                     public void setData(NormalBean normalBean) {
-                        if (normalBean.getStatus() == 200) {
-                            tv_wx.setText("已绑定");
+                        if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
+                            tv_wx.setText(getString(R.string.haveBound));
                             tv_wx.setOnClickListener(null);
-                            BaseApplication.showToast("微信绑定成功");
+                            BaseApplication.showToast(getString(R.string.WX_bind_success));
                         } else if (normalBean.getStatus() == 707) {
                             BaseApplication.showToast(normalBean.getMsg());
                         }
                     }
                 });
+
             } else if (intent.getAction().equals(com.pilipa.fapiaobao.ui.constants.Constant.BIND_PHONE_ACTION)) {
                 boolean isbind = intent.getBooleanExtra("isbind", false);
-                String phone = intent.getStringExtra("phone");
+                String phone = intent.getStringExtra(com.pilipa.fapiaobao.ui.constants.Constant.PHONE);
                 if (isbind) {
 //                    updateUserInfo(AccountHelper.getUserCustormer());
                     AccountHelper.getUserCustormer().setTelephone(phone);
@@ -314,14 +317,15 @@ public class UserInfoActivity extends BaseActivity {
                     Matisse.from(UserInfoActivity.this)
                             .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
                             .countable(true)
-                            .captureStrategy(
-                                    new CaptureStrategy(true, "com.pilipa.fapiaobao.fileprovider"))
+                            .captureStrategy(//com.pilipa.fapiaobao.fileprovider
+                                    new CaptureStrategy(true, MediaStoreCompat.authority))
                             .maxSelectable(1)
                             .gridExpectedSize(
                                     getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
                             .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                             .thumbnailScale(0.4f)
                             .imageEngine(new GlideEngine())
+                            .theme(R.style.Matisse_Pilipa)
                             .forResult(REQUEST_CODE_CHOOSE);
                 }
             }
@@ -347,7 +351,7 @@ public class UserInfoActivity extends BaseActivity {
 
             Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
             String path = mediaStoreCompat.getCurrentPhotoPath();
-            Log.d(TAG, "updateData:getCurrentPhotoPath success"+path);
+            TLog.d(TAG, "updateData:getCurrentPhotoPath success" + path);
 //            try {
 //                MediaStore.Images.Media.insertImage(this.getContentResolver(), path, new File(path).getName(), null);
 //                this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri));
@@ -373,8 +377,8 @@ public class UserInfoActivity extends BaseActivity {
         } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<Uri> uris = Matisse.obtainResult(data);
             for (Uri uri : uris) {
-                String path = BitmapUtils.getRealFilePath(UserInfoActivity.this,uri);
-                Log.d(TAG, "updateData:getPhotoUri success"+      path);
+                String path = BitmapUtils.getRealFilePath(UserInfoActivity.this, uri);
+                Log.d(TAG, "updateData:getPhotoUri success" + path);
                 image = new Image();
                 image.isCapture = false;
                 image.position = mPreviousPosition;
@@ -461,16 +465,16 @@ public class UserInfoActivity extends BaseActivity {
         edtPhone.setText(customer.getTelephone());
         edt_email.setText(customer.getEmail());
 
-        if (customer.getOpenid()==null) {
-            tv_wx.setText("去绑定");
+        if (customer.getOpenid() == null) {
+            tv_wx.setText(getString(R.string.gobind));
             tv_wx.setOnClickListener(this);
         } else {
-            tv_wx.setText("已绑定");
+            tv_wx.setText(getString(R.string.haveBound));
             tv_wx.setOnClickListener(null);
         }
         if ("".equals(customer.getTelephone())) {
             bindPhone.setVisibility(View.VISIBLE);
-            bindPhone.setText("去绑定");
+            bindPhone.setText(getString(R.string.gobind));
             edtPhone.setVisibility(View.GONE);
         } else {
             bindPhone.setVisibility(View.GONE);
@@ -515,6 +519,7 @@ public class UserInfoActivity extends BaseActivity {
         dialogWindow.setAttributes(lp);
         mCameraDialog.show();
     }
+
     private void setUBindDialog() {
         mDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
@@ -548,6 +553,7 @@ public class UserInfoActivity extends BaseActivity {
         dialogWindow.setAttributes(lp);
         mDialog.show();
     }
+
     private void setLogoutDialog() {
         mDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
@@ -596,32 +602,32 @@ public class UserInfoActivity extends BaseActivity {
 
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
-                    Api.updateCustomer(AccountHelper.getToken(), customer, new Api.BaseViewCallbackWithOnStart<UpdateCustomerBean>() {
-                        @Override
-                        public void setData(UpdateCustomerBean updateCustomerBean) {
-                            Toast.makeText(UserInfoActivity.this, "用户信息保存成功", Toast.LENGTH_SHORT).show();
-                            AccountHelper.updateCustomer(customer);
-                            setUserData(customer);
-                            UserInfoActivity.this.finish();
-                            Log.d(TAG, "updateData:updateUserInfo success");
-                        }
+                Api.updateCustomer(AccountHelper.getToken(), customer, new Api.BaseViewCallbackWithOnStart<UpdateCustomerBean>() {
+                    @Override
+                    public void setData(UpdateCustomerBean updateCustomerBean) {
+                        Toast.makeText(UserInfoActivity.this, getString(R.string.user_info_save_success), Toast.LENGTH_SHORT).show();
+                        AccountHelper.updateCustomer(customer);
+                        setUserData(customer);
+                        UserInfoActivity.this.finish();
+                        Log.d(TAG, "updateData:updateUserInfo success");
+                    }
 
-                        @Override
-                        public void onStart() {
-                            showProgressDialog();
-                        }
+                    @Override
+                    public void onStart() {
+                        showProgressDialog();
+                    }
 
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                    }
 
-                        @Override
-                        public void onError() {
-                            hideProgressDialog();
-                        }
+                    @Override
+                    public void onError() {
+                        hideProgressDialog();
+                    }
 
-                    });
+                });
             }
         });
     }
@@ -645,23 +651,23 @@ public class UserInfoActivity extends BaseActivity {
 
             @Override
             public void setData(NormalBean normalBean) {
-                if (normalBean.getStatus() == 200) {
-                    Toast.makeText(UserInfoActivity.this, "退出成功", Toast.LENGTH_SHORT).show();
+                if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
+                    Toast.makeText(UserInfoActivity.this, getString(R.string.logout_success), Toast.LENGTH_SHORT).show();
                     mDialog.dismiss();
                     AccountHelper.logout();
                     UserInfoActivity.this.finish();
                     set(PUSH_RECEIVE, false);
 
                     Log.d(TAG, "updateData:logoutByToken success");
-                } else if (normalBean.getStatus() == 400) {
-                    BaseApplication.showToast("没有找到业务数据");
+                } else if (normalBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
+                    BaseApplication.showToast(getString(R.string.no_content_in_the_server));
                 }
             }
         });
     }
 
     private void bindWX() {
-        if (!"notoken".equals(AccountHelper.getToken())) {
+        if (!com.pilipa.fapiaobao.ui.constants.Constant.NOTOKEN.equals(AccountHelper.getToken())) {
             if (AccountHelper.getUser().getData().getCustomer().getOpenid() == null) {
                 weChatLogin();
             }
@@ -670,24 +676,26 @@ public class UserInfoActivity extends BaseActivity {
             finish();
         }
     }
+
     private void uBindWX() {
         Api.uBindWX(AccountHelper.getUser().getData().getCustomer().getId()
-                 ,LOGIN_PLATFORM_WX
-                 ,AccountHelper.getUser().getData().getCustomer().getOpenid()
-                 , new Api.BaseViewCallback<NormalBean>() {
-            @Override
-            public void setData(NormalBean normalBean) {
-                if (normalBean.getStatus() == 200) {
-                    tv_wx.setText("去绑定");
-                    tv_wx.setOnClickListener(UserInfoActivity.this);
-                    AccountHelper.clearCustomerOpenId();
-                    BaseApplication.showToast("微信解绑成功");
-                } else if (normalBean.getStatus() == 707) {
-                    BaseApplication.showToast(normalBean.getMsg());
-                }
-            }
-        });
+                , LOGIN_PLATFORM_WX
+                , AccountHelper.getUser().getData().getCustomer().getOpenid()
+                , new Api.BaseViewCallback<NormalBean>() {
+                    @Override
+                    public void setData(NormalBean normalBean) {
+                        if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
+                            tv_wx.setText(getString(R.string.gobind));
+                            tv_wx.setOnClickListener(UserInfoActivity.this);
+                            AccountHelper.clearCustomerOpenId();
+                            BaseApplication.showToast(getString(R.string.WX_unbind_success));
+                        } else if (normalBean.getStatus() == 707) {
+                            BaseApplication.showToast(normalBean.getMsg());
+                        }
+                    }
+                });
     }
+
     private IWXAPI api;
 
     private void regexToWX() {
