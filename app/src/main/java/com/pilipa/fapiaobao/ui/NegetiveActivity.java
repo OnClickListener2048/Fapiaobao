@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.NegativeCreditInfoBean;
 
@@ -30,7 +30,7 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  * Created by wjn on 2017/10/23.
  */
 
-public class NegetiveActivity extends BaseActivity {
+public class NegetiveActivity extends BaseNoNetworkActivity {
     private static final String TAG = "NegetiveActivity";
 
     @Bind(R.id.listview)
@@ -69,11 +69,38 @@ public class NegetiveActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+    @Override
+    public void onNoNetworkLayoutClicks(View view) {
+        findCreditNegativeHistory("0","100");
+    }
+
     public void findCreditNegativeHistory(String pageNo,String pageSize){
         if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.findCreditNegativeHistory(AccountHelper.getToken(),pageNo,pageSize,new Api.BaseViewCallback<NegativeCreditInfoBean>() {
+            Api.findCreditNegativeHistory(AccountHelper.getToken(), pageNo, pageSize, new Api.BaseRawResponse<NegativeCreditInfoBean>() {
+                @Override
+                public void onStart() {
+                    showProgressDialog();
+                }
+
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onError() {
+                    showNetWorkErrorLayout();
+                }
+
+                @Override
+                public void onTokenInvalid() {
+
+                }
+
                 @Override
                 public void setData(NegativeCreditInfoBean negativeCreditInfoBean) {
+                    hideNetWorkErrorLayout();
                     if(negativeCreditInfoBean.getStatus() == REQUEST_SUCCESS){
                         rechargeDetailsAdapter.addData(negativeCreditInfoBean.getData());
                         ll_no_record.setVisibility(View.GONE);
@@ -85,6 +112,12 @@ public class NegetiveActivity extends BaseActivity {
             });
         }
     }
+
+    @Override
+    public void initDataInResume() {
+
+    }
+
     class RechargeDetailsAdapter extends BaseAdapter {
         private Context mContext = null;
         private List<?> mMarkerData = null;

@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.AmountHistoryBean;
 
@@ -31,7 +31,7 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  * Created by lyt on 2017/10/17.
  */
 
-public class RechargeDetailsActivity extends BaseActivity {
+public class RechargeDetailsActivity extends BaseNoNetworkActivity {
     @Bind(R.id.listview)
     ListView listview;
     @Bind(R.id.ll_no_record)
@@ -71,10 +71,36 @@ public class RechargeDetailsActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
+    @Override
+    public void onNoNetworkLayoutClicks(View view) {
+        amountHistory("0", "100");
+    }
+
     private void amountHistory(final String pageNo,final String pageSize) {
-        Api.amountHistory(AccountHelper.getToken(),pageNo,pageSize, new Api.BaseViewCallback<AmountHistoryBean>() {
+        Api.amountHistory(AccountHelper.getToken(), pageNo, pageSize, new Api.BaseRawResponse<AmountHistoryBean>() {
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+                showNetWorkErrorLayout();
+            }
+
+            @Override
+            public void onTokenInvalid() {
+
+            }
+
             @Override
             public void setData(AmountHistoryBean amountHistoryBean) {
+                hideNetWorkErrorLayout();
                 if(amountHistoryBean.getStatus() == REQUEST_SUCCESS){
                     ll_no_record.setVisibility(View.GONE);
                     mData.addAll(amountHistoryBean.getData());
@@ -86,6 +112,12 @@ public class RechargeDetailsActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    public void initDataInResume() {
+
+    }
+
     class RechargeDetailsAdapter extends BaseAdapter {
         private Context mContext = null;
         private List<?> mMarkerData = null;

@@ -218,7 +218,7 @@ public class UploadSuccessActivity extends BaseActivity {
                     //记录用户分享状态
                     set(SHARE_SOCORE, true);
                 } else {
-                    BaseApplication.showToast("请安装微信客户端");
+                    BaseApplication.showToast(getString(R.string.please_install_WX_app));
                 }
 
                 
@@ -234,7 +234,7 @@ public class UploadSuccessActivity extends BaseActivity {
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {
-                    BaseApplication.showToast("请安装微信客户端");
+                    BaseApplication.showToast(getString(R.string.please_install_WX_app));
                 }
 
                 break;
@@ -256,7 +256,7 @@ public class UploadSuccessActivity extends BaseActivity {
                                         .setCallback(umShareListener)//回调监听器
                                         .share();
                             } else {
-                                BaseApplication.showToast("请安装QQ客户端");
+                                BaseApplication.showToast(getString(R.string.please_install_QQ_app));
                             }
                         }
                     }
@@ -283,7 +283,7 @@ public class UploadSuccessActivity extends BaseActivity {
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {
-                    BaseApplication.showToast("请安装QQ空间客户端");
+                    BaseApplication.showToast(getString(R.string.please_install_Qzone_app));
                 }
 
                 break;
@@ -295,7 +295,7 @@ public class UploadSuccessActivity extends BaseActivity {
                             .setCallback(umShareListener)//回调监听器
                             .share();
                 } else {
-                    BaseApplication.showToast("请安装新浪客户端");
+                    BaseApplication.showToast(getString(R.string.please_install_WEIBO_app));
                 }
 
                 break;

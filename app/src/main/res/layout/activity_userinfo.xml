@@ -194,7 +194,7 @@
                 android:text="邮箱"/>
             <EditText
                 android:id="@+id/edt_email"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_width="200dp"
                 android:gravity="right"
                 android:background="@null"
@@ -220,7 +220,7 @@
                 android:layout_height="wrap_content"
                 android:text="手机"/>
             <FrameLayout
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <EditText
@@ -228,9 +228,9 @@
                     android:layout_width="200dp"
                     android:gravity="end"
                     android:background="@null"
-                    android:maxLength="11"
+                    android:textColor="@color/main_style"
                     android:layout_height="wrap_content"
-                    android:paddingRight="@dimen/d5"
+                    android:paddingEnd="@dimen/d5"
                     android:focusable="false"
                     android:textSize="13sp"
                     android:text=""/>
@@ -244,7 +244,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/d5"
-                    android:text="去绑定"/>
+                    android:text="@string/gobind"/>
             </FrameLayout>
 
         </RelativeLayout>
@@ -266,12 +266,12 @@
             <TextView
                 android:id="@+id/tv_wx"
                 android:textSize="13sp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/d5"
+                android:layout_marginEnd="@dimen/d5"
                 android:textColor="@drawable/selector_union_main_style_text"
-                android:text="去绑定"/>
+                android:text="@string/gobind"/>
         </RelativeLayout>
         <View
             android:layout_width="match_parent"

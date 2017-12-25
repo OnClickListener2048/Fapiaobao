@@ -27,10 +27,10 @@ public class Constant {
     public static final int REQUEST_REFRESH_CODE = 845;
     public static final int INVILDE_URL = 800;
 
-    public static final int REQEUST_SUCCESS = 200;
     public static final String DEVICE_TOKEN = "deviceToken";
     public static final String EXTRA_BUNDLE = "extra_bundle";
     public static final String WX_INFO = "wx_info";
     public static final String PHONE = "phone";
     public static final String UPLOAD_PDF_SUCCESS = "UPLOAD_PDF_SUCCESS";
+    public static final CharSequence PROJECT_NAME = "fapiaobao";
 }

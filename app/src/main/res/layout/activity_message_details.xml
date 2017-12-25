@@ -30,12 +30,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView
-            android:id="@+id/lv_content"
-            android:dividerHeight="@dimen/d1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </ListView>
+            <ListView
+                android:id="@+id/lv_content"
+                android:dividerHeight="@dimen/d1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ListView>
+
+
+
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/no_content"

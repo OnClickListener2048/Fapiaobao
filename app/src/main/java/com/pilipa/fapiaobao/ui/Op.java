@@ -437,7 +437,7 @@ public class Op extends BaseActivity implements
 
                     @Override
                     public void setData(NormalBean normalBean) {
-                        if (normalBean.getStatus() == Constant.REQEUST_SUCCESS) {
+                        if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
                             TLog.d(TAG,normalBean.getData());
                             Intent intent = new Intent();
                             intent.putExtra(Constant.PDF_EXTRA, normalBean.getData());

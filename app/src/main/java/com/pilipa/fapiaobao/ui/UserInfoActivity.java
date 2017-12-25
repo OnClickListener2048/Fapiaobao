@@ -8,9 +8,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -181,15 +185,15 @@ public class UserInfoActivity extends BaseActivity {
                             return;
                         }
                     }
-                    if (!(bindPhone.getVisibility() == View.VISIBLE && edtPhone.getVisibility() == View.GONE)) {
-                        boolean mobileExact = RegexUtils.isMobileExact(edtPhone.getText().toString().trim());
-                        if (mobileExact) {
-                            customer.setTelephone(edtPhone.getText().toString().trim());
-                        } else {
-                            BaseApplication.showToast(getString(R.string.phone_number_format_not_right));
-                            return;
-                        }
-                    }
+//                    if (!(bindPhone.getVisibility() == View.VISIBLE && edtPhone.getVisibility() == View.GONE)) {
+//                        boolean mobileExact = RegexUtils.isMobileExact(edtPhone.getText().toString().trim());
+//                        if (mobileExact) {
+//                            customer.setTelephone(edtPhone.getText().toString().trim());
+//                        } else {
+//                            BaseApplication.showToast(getString(R.string.phone_number_format_not_right));
+//                            return;
+//                        }
+//                    }
                     updateUserInfo(customer);
                 }
             }
@@ -237,34 +241,36 @@ public class UserInfoActivity extends BaseActivity {
                 String deviceToken = BaseApplication.get(com.pilipa.fapiaobao.ui.constants.Constant.DEVICE_TOKEN, "");
                 Bundle bundle = intent.getBundleExtra(com.pilipa.fapiaobao.ui.constants.Constant.EXTRA_BUNDLE);
                 WXmodel wx_info = bundle.getParcelable(com.pilipa.fapiaobao.ui.constants.Constant.WX_INFO);
-                Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
-                    @Override
-                    public void onStart() {
-                        showProgressDialog();
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        hideProgressDialog();
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-
-                    @Override
-                    public void setData(NormalBean normalBean) {
-                        if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
-                            tv_wx.setText(getString(R.string.haveBound));
-                            tv_wx.setOnClickListener(null);
-                            BaseApplication.showToast(getString(R.string.WX_bind_success));
-                        } else if (normalBean.getStatus() == 707) {
-                            BaseApplication.showToast(normalBean.getMsg());
+                if (wx_info!= null) {
+                    Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+                        @Override
+                        public void onStart() {
+                            showProgressDialog();
                         }
-                    }
-                });
 
+                        @Override
+                        public void onFinish() {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+
+                        @Override
+                        public void setData(NormalBean normalBean) {
+                            if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
+//                            tv_wx.setText(getString(R.string.haveBound));
+                                hightlightPartText(tv_wx,getString(R.string.haveBound),AccountHelper.getUser().getData().getCustomer().getNickname());
+                                tv_wx.setOnClickListener(null);
+                                BaseApplication.showToast(getString(R.string.WX_bind_success));
+                            } else if (normalBean.getStatus() == 707) {
+                                BaseApplication.showToast(normalBean.getMsg());
+                            }
+                        }
+                    });
+                }
             } else if (intent.getAction().equals(com.pilipa.fapiaobao.ui.constants.Constant.BIND_PHONE_ACTION)) {
                 boolean isbind = intent.getBooleanExtra("isbind", false);
                 String phone = intent.getStringExtra(com.pilipa.fapiaobao.ui.constants.Constant.PHONE);
@@ -275,11 +281,8 @@ public class UserInfoActivity extends BaseActivity {
                     edtPhone.setText(phone);
                     edtPhone.setVisibility(View.VISIBLE);
                     bindPhone.setVisibility(View.GONE);
-
                 }
             }
-
-
         }
     };
 
@@ -409,31 +412,39 @@ public class UserInfoActivity extends BaseActivity {
 
             String bmpStr = BitmapUtils.bitmapToBase64(newbitmap);
             customerBean.setHeadimg(bmpStr);
+            updateCustomer(AccountHelper.getToken(),customerBean);
 
-            Api.updateCustomer(AccountHelper.getToken(), customerBean, new Api.BaseViewCallbackWithOnStart<UpdateCustomerBean>() {
-                @Override
-                public void setData(UpdateCustomerBean updateCustomerBean) {
-                    AccountHelper.updateCustomer(customerBean);
-                    Log.d(TAG, "updateData:updateUserInfo success");
-                }
-
-                @Override
-                public void onStart() {
-                    showProgressDialog();
-                }
-
-                @Override
-                public void onFinish() {
-                    hideProgressDialog();
-                }
-
-                @Override
-                public void onError() {
-                    hideProgressDialog();
-                }
-
-            });
         }
+    }
+
+    private void updateCustomer(String token, final LoginWithInfoBean.DataBean.CustomerBean customerBean) {
+        Api.updateCustomer(token, customerBean, new Api.BaseRawResponse<UpdateCustomerBean>() {
+            @Override
+            public void onTokenInvalid() {
+                login();
+            }
+
+            @Override
+            public void setData(UpdateCustomerBean updateCustomerBean) {
+                AccountHelper.updateCustomer(customerBean);
+                Log.d(TAG, "updateData:updateUserInfo success");
+            }
+
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+            }
+
+        });
     }
 
     @Override
@@ -442,6 +453,14 @@ public class UserInfoActivity extends BaseActivity {
 //        setUserData(AccountHelper.getUser().getData().getCustomer());
 
         super.onResume();
+    }
+
+    private void hightlightPartText(TextView textView, String highlightString, String lowlightString) {
+        String lowlight = "（"+lowlightString+"）";
+        SpannableString spannableString = new SpannableString(lowlight+highlightString);  //获取按钮上的文字
+        ForegroundColorSpan lowlightSpan = new ForegroundColorSpan(Color.parseColor("#959595"));
+        spannableString.setSpan(lowlightSpan,0,lowlight.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        textView.setText(spannableString);
     }
 
     @Override
@@ -469,7 +488,7 @@ public class UserInfoActivity extends BaseActivity {
             tv_wx.setText(getString(R.string.gobind));
             tv_wx.setOnClickListener(this);
         } else {
-            tv_wx.setText(getString(R.string.haveBound));
+            hightlightPartText(tv_wx,getString(R.string.haveBound),customer.getNickname());
             tv_wx.setOnClickListener(null);
         }
         if ("".equals(customer.getTelephone())) {
@@ -478,6 +497,7 @@ public class UserInfoActivity extends BaseActivity {
             edtPhone.setVisibility(View.GONE);
         } else {
             bindPhone.setVisibility(View.GONE);
+            hightlightPartText(edtPhone, getString(R.string.haveBound), customer.getTelephone());
             edtPhone.setVisibility(View.VISIBLE);
         }
         if (Constant.GENDER_FEMALE.equals(customer.getGender())) {
@@ -488,6 +508,8 @@ public class UserInfoActivity extends BaseActivity {
             radioGroup.check(R.id.rb_secrecy);
         }
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -578,31 +600,13 @@ public class UserInfoActivity extends BaseActivity {
     }
 
     private void updateUserInfo(final LoginWithInfoBean.DataBean.CustomerBean customer) {
-        AccountHelper.isTokenValid(new Api.BaseRawResponse<LoginWithInfoBean>() {
-            @Override
-            public void onStart() {
-                showProgressDialog();
-            }
 
-            @Override
-            public void onFinish() {
-                hideProgressDialog();
-            }
+                Api.updateCustomer(AccountHelper.getToken(), customer, new Api.BaseRawResponse<UpdateCustomerBean>() {
+                    @Override
+                    public void onTokenInvalid() {
+                        login();
+                    }
 
-            @Override
-            public void onError() {
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onTokenInvalid() {
-                startActivity(new Intent(UserInfoActivity.this, LoginActivity.class));
-                finish();
-            }
-
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                Api.updateCustomer(AccountHelper.getToken(), customer, new Api.BaseViewCallbackWithOnStart<UpdateCustomerBean>() {
                     @Override
                     public void setData(UpdateCustomerBean updateCustomerBean) {
                         Toast.makeText(UserInfoActivity.this, getString(R.string.user_info_save_success), Toast.LENGTH_SHORT).show();
@@ -624,12 +628,10 @@ public class UserInfoActivity extends BaseActivity {
 
                     @Override
                     public void onError() {
-                        hideProgressDialog();
                     }
 
                 });
-            }
-        });
+
     }
 
     private void logoutByToken() {

@@ -58,4 +58,5 @@
     <color name="main_style_transparent">#99e6af7a</color>
     <color name="red_estimate_transparent">#aaff9076</color>
     <color name="foreground_grayXX">#eeAEAEAE</color>
+    <color name="No_Action_bar_default_bg">#fafafa</color>
 </resources>

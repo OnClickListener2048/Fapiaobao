@@ -261,7 +261,7 @@ public class UploadReceiptActivity extends BaseActivity {
         ArrayList<Image> currentImagesPS = paperSpecialReceiptFragment.getCurrentImages();
         ArrayList<Image> currentImagesPE = paperElecReceiptFragment.getCurrentImages();
         if (currentImagesPE.size() <= 1 && currentImagesPN.size() <= 1 && currentImagesPS.size() <= 1) {
-            BaseApplication.showToast("请上传发票");
+            BaseApplication.showToast(getString(R.string.please_upload_invoice_atleast_one));
             return;
 
         }

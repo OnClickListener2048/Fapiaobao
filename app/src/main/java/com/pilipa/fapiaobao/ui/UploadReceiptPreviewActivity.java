@@ -228,12 +228,11 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
                             @Override
                             public void onError() {
-                                hideProgressDialog();
                             }
 
                             @Override
                             public void setData(RedBagBean redBagBean) {
-                                if (redBagBean.getStatus() == 200) {
+                                if (redBagBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
                                     TLog.log("redBagBean.getStatus() == 200");
                                     UploadReceiptPreviewActivity.this.aDouble = redBagBean.getData().getBonus();
                                     BigDecimal bigDecimal = new BigDecimal(UploadReceiptPreviewActivity.this.aDouble);

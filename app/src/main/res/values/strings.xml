@@ -362,7 +362,7 @@
     <string name="no_negetive">无负面记录，请继续保持哦~</string>
     <string name="no_receipt">暂时还没收到票哦，请耐心等待~</string>
     <string name="no_message">暂时还没有信息哦~</string>
-    <string name="continuous_to_upload">继续上传发票</string>
+    <string name="continuous_to_upload">继续提供发票</string>
     <string name="tip_wait_dowload">查验合格后，您就可以下载这张发票了哦~</string>
     <string name="tip_wait_mail">查验合格后，对方将邮寄这张发票给您~</string>
     <string name="filter_kind">筛选类型</string>
@@ -500,6 +500,24 @@
     <string name="phone_number_format_not_right">手机号码格式不正确</string>
     <string name="delete_success">删除成功</string>
     <string name="delete_fail">删除失败</string>
+    <string name="ummatched_wx_openid">您登录的微信账号与绑定的不一致，请登录绑定的微信账号</string>
+    <string name="withdraw_success">提现成功</string>
+    <string name="insufficient_account">账户余额不足</string>
+    <string name="withdraw_balance_cannot_below_one_yuan">提现金额不能少于1元</string>
+    <string name="withdraw_balance_not_right">提现金额不正确</string>
+    <string name="add_success">添加成功</string>
+    <string name="please_install_QQ_app">请安装QQ客户端</string>
+    <string name="please_install_Qzone_app">请安装QQ空间客户端</string>
+    <string name="please_install_WEIBO_app">请安装新浪微博客户端</string>
+    <string name="please_upload_invoice_atleast_one">请上传发票</string>
+    <string name="do_you_real_wanna_delete_this_invoice">确定要删除该发票吗？</string>
+
+
+
+
+
+
+
     <string-array name="express">
         <item >圆通</item>
         <item >顺丰</item>

@@ -168,11 +168,36 @@ public class Api {
      * @param pageSize
      * @param baseViewCallback
      */
-    public static void findCreditHistory(String token, String pageNo, String pageSize, final BaseViewCallback baseViewCallback) {
+    public static void findCreditHistory(String token, String pageNo, String pageSize, final BaseRawResponse baseViewCallback) {
         OkGo.<CreditHistroyBean>get(String.format(FIND_CREDIT_HISTORY, token, pageNo, pageSize)).execute(new JsonCallBack<CreditHistroyBean>(CreditHistroyBean.class) {
             @Override
             public void onSuccess(Response<CreditHistroyBean> response) {
-                    baseViewCallback.setData(response.body());
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                        baseViewCallback.onTokenInvalid();
+                    } else {
+                        baseViewCallback.setData(response.body());
+                    }
+                }
+            }
+
+
+            @Override
+            public void onError(Response<CreditHistroyBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onStart(Request<CreditHistroyBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
             }
         });
     }
@@ -200,11 +225,35 @@ public class Api {
      * @param pageSize
      * @param baseViewCallback
      */
-    public static void findCreditNegativeHistory(String token, String pageNo, String pageSize, final BaseViewCallback baseViewCallback) {
+    public static void findCreditNegativeHistory(String token, String pageNo, String pageSize, final BaseRawResponse baseViewCallback) {
         OkGo.<NegativeCreditInfoBean>get(String.format(FIND_CREDIT_NEGATIVE_HISTORY, token, pageNo, pageSize)).execute(new JsonCallBack<NegativeCreditInfoBean>(NegativeCreditInfoBean.class) {
             @Override
             public void onSuccess(Response<NegativeCreditInfoBean> response) {
-                    baseViewCallback.setData(response.body());
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                        baseViewCallback.onTokenInvalid();
+                    } else {
+                        baseViewCallback.setData(response.body());
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Response<NegativeCreditInfoBean> response) {
+                super.onError(response);
+                baseViewCallback.onError();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                baseViewCallback.onFinish();
+            }
+
+            @Override
+            public void onStart(Request<NegativeCreditInfoBean, ? extends Request> request) {
+                super.onStart(request);
+                baseViewCallback.onStart();
             }
         });
     }
@@ -357,14 +406,20 @@ public class Api {
      * @param customer
      * @param baseViewCallback
      */
-    public static void updateCustomer(String token,LoginWithInfoBean.DataBean.CustomerBean customer, final BaseViewCallbackWithOnStart baseViewCallback) {
+    public static void updateCustomer(String token, LoginWithInfoBean.DataBean.CustomerBean customer, final BaseRawResponse baseViewCallback) {
         JSONObject data = JsonCreator.setCustomerData(customer, token);
         OkGo.<UpdateCustomerBean>post(UPDATE_CUSTOMER)
                 .upJson(data)
                 .execute(new JsonCallBack<UpdateCustomerBean>(UpdateCustomerBean.class) {
                     @Override
                     public void onSuccess(Response<UpdateCustomerBean> response) {
-                        baseViewCallback.setData(response.body());
+                        if (response.isSuccessful()) {
+                            if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                                baseViewCallback.onTokenInvalid();
+                            } else {
+                                 baseViewCallback.setData(response.body());
+                            }
+                        }
                     }
                     @Override
                     public void onError(Response<UpdateCustomerBean> response) {
@@ -1485,12 +1540,37 @@ public class Api {
             }
         });
     }
-    public static void amountHistory(String token,String pageNo,String pageSize, final BaseViewCallback b) {
+
+    public static void amountHistory(String token, String pageNo, String pageSize, final BaseRawResponse b) {
         String url = String.format(AMOUNT_HISTORY,token,pageNo,pageSize);
         OkGo.<AmountHistoryBean>get(url).execute(new JsonCallBack<AmountHistoryBean>(AmountHistoryBean.class) {
             @Override
             public void onSuccess(Response<AmountHistoryBean> response) {
-                    b.setData(response.body());
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus() == Constant.TOKEN_INVALIDE) {
+                        b.onTokenInvalid();
+                    } else {
+                        b.setData(response.body());
+                    }
+                }
+            }
+
+            @Override
+            public void onStart(Request<AmountHistoryBean, ? extends Request> request) {
+                super.onStart(request);
+                b.onStart();
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                b.onFinish();
+            }
+
+            @Override
+            public void onError(Response<AmountHistoryBean> response) {
+                super.onError(response);
+                b.onError();
             }
         });
     }

@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
@@ -51,10 +52,8 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
     @Bind(R.id.click)
     CheckBox click;
     private ArrayList<Image> allList;
-    private int currentPosition;
     protected int mPreviousPos = -1;
     private PreviewPagerAdapter previewPagerAdapter;
-    private ArrayList<PreviewImageFragment> FragmentList;
     private Dialog mDelDialog;
     private Image mImage;
 
@@ -83,22 +82,22 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
         click.setVisibility(View.GONE);
 
         allList = bundleExtra.getParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA);
-        currentPosition = bundleExtra.getInt(UploadNormalReceiptFragment.EXTRA_CURRENT_POSITION);
+        int currentPosition = bundleExtra.getInt(UploadNormalReceiptFragment.EXTRA_CURRENT_POSITION);
         Log.d(TAG, "initView: currentPosition" + currentPosition);
         boolean isFromDemands = bundleExtra.getBoolean(DemandsDetailsReceiptFragment.IS_FROM_DEMANDS, false);
 //        mPreviousPos = isFromDemands ? currentPosition : currentPosition - 1;
-        mPreviousPos = currentPosition-1;
+        mPreviousPos = currentPosition -1;
         click.setChecked(allList.get(currentPosition).isSelected);
 
-        FragmentList = new ArrayList<>();
+        ArrayList<PreviewImageFragment> fragmentList = new ArrayList<>();
         for (Image image : allList) {
             if (!image.isCapture) {
                 mImage = image;
-                FragmentList.add(PreviewImageFragment.newInstance(image));
+                fragmentList.add(PreviewImageFragment.newInstance(image));
             }
         }
 
-        previewPagerAdapter = new PreviewPagerAdapter(getSupportFragmentManager(), FragmentList);
+        previewPagerAdapter = new PreviewPagerAdapter(getSupportFragmentManager(), fragmentList);
         previewViewpager.setAdapter(previewPagerAdapter);
         previewViewpager.setCurrentItem(mPreviousPos);
         previewViewpager.setOnPageChangeListener(this);
@@ -189,7 +188,7 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
         LinearLayout root = (LinearLayout) LayoutInflater.from(UnusedPreviewActivity.this).inflate(
                 R.layout.layout_delete_tip, null);
         TextView tv_title = (TextView) root.findViewById(R.id.tv_title);
-        tv_title.setText("确定要删除该发票吗？");
+        tv_title.setText(getString(R.string.do_you_real_wanna_delete_this_invoice));
         //初始化视图
         root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,7 +238,7 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
                         @Override
                         public void onError() {
                             hideProgressDialog();
-                            BaseApplication.showToast("删除失败");
+                            BaseApplication.showToast(getString(R.string.delete_fail));
                         }
 
                         @Override
@@ -247,20 +246,20 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
                             if(normalBean.getStatus() == 200){
                                 mDelDialog.dismiss();
                                 deleteLoc();
-                                BaseApplication.showToast("删除成功");
+                                BaseApplication.showToast(getString(R.string.delete_success));
                             }
-                            Log.d("", "initData:deleteMyInvoice success");
+                            TLog.d("", "initData:deleteMyInvoice success");
 
                         }
                     });
 
     }
     private void deleteLoc(){
-        Log.d(TAG, "before allList.remove(mPreviousPos+1);allList.size()" + allList.size());
+        TLog.d(TAG, "before allList.remove(mPreviousPos+1);allList.size()" + allList.size());
         allList.remove(mPreviousPos+1);
         previewPagerAdapter.remove(mPreviousPos);
-        Log.d(TAG, "after---onViewClicked: allList.size()=========" + allList.size());
-        Log.d(TAG, "onViewClicked: previewPagerAdapter.arrayList.size()=========" + previewPagerAdapter.arrayList.size());
+        TLog.d(TAG, "after---onViewClicked: allList.size()=========" + allList.size());
+        TLog.d(TAG, "onViewClicked: previewPagerAdapter.arrayList.size()=========" + previewPagerAdapter.arrayList.size());
         if (allList.size() == 0 || previewPagerAdapter.arrayList.size() == 0) {
             returnResult();
             finish();

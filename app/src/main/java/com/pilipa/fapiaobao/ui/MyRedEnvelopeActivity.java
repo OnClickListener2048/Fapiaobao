@@ -21,6 +21,7 @@ import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
@@ -57,7 +58,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_red_envelope;
     }
-    private WXmodel wx_info;
+
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -68,18 +69,20 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                 TLog.d(TAG,WX_LOGIN_ACTION +" success");
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
-                wx_info = bundle.getParcelable("wx_info");
+                WXmodel wx_info = bundle.getParcelable("wx_info");
                   /*微信提现
                 * 1.调起微信登录获取当前登录OPENID
                 * 2.获取本地OPENID 去绑定微信——>提现/校对与绑定是否一致*/
-                if(AccountHelper.getUser().getData().getCustomer().getOpenid()==null){
-                    bind(wx_info.getOpenid());
-                }else{
-                    if(wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())){
-                        withdaw(wx_info.getOpenid());
+                if (wx_info != null) {
+                    if(AccountHelper.getUser().getData().getCustomer().getOpenid()==null){
+                        bind(wx_info.getOpenid());
                     }else{
-                        btnWithdraw.setEnabled(true);
-                        BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
+                        if(wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())){
+                            withdaw(wx_info.getOpenid());
+                        }else{
+                            btnWithdraw.setEnabled(true);
+                            BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
+                        }
                     }
                 }
             }
@@ -146,6 +149,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                     public void setData(PrepayBean normalBean) {
                         if (normalBean.getStatus() ==200) {
                             BaseApplication.showToast("提现成功");
+                            setResult(RESULT_OK);
                             finish();
                         }else if(normalBean.getStatus() ==888){
                             BaseApplication.showToast("红包余额不足");
@@ -161,6 +165,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id._back: {
+                setResult(RESULT_CANCELED);
                 finish();
             }
             break;
@@ -303,11 +308,13 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                 Api.reload(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
                     @Override
                     public void setData(NormalBean normalBean) {
-                        if (normalBean.getStatus() ==200) {
+                        if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
                             BaseApplication.showToast("充值成功");
+                            setResult(RESULT_OK);
                             finish();
                         }else {
                             BaseApplication.showToast(normalBean.getMsg());
+                            setResult(RESULT_CANCELED);
                             finish();
                         }
                     }

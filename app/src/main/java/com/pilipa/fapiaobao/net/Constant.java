@@ -258,4 +258,5 @@ public class Constant {
      * 记录log
      */
     public static final String LOG_RECORD = BASE_URL+"log/android";
+    public static final int INSUFFICIENT_ACCOUNT = 888;
 }

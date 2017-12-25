@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/white"
+    android:background="@color/No_Action_bar_default_bg"
     android:gravity="center_vertical"
     android:orientation="vertical">
 

@@ -27,6 +27,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
@@ -111,7 +112,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
                     String codedContent = data.getStringExtra(DECODED_CONTENT_KEY);
 
                     TLog.log("getStringExtra(DECODED_CONTENT_KEY) codedContent " + codedContent);
-                    if(codedContent.contains("fapiaobao")){
+                    if(codedContent.contains(Constant.PROJECT_NAME)){
                             try{
                                 String[] split = codedContent.split("\\?");
                                 String[] split1 = split[1].split("=");
@@ -308,7 +309,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
                         @Override
                         public void setData(NormalBean normalBean) {
                             if (normalBean.getStatus() == 200) {
-                                Toast.makeText(AddCompanyInfoActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddCompanyInfoActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT).show();
                                 setResult(RESULT_OK);
                                 AddCompanyInfoActivity.this.finish();
                                 Log.d(TAG, "createCompany;success");

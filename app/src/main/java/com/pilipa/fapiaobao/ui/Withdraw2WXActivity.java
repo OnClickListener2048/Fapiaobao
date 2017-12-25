@@ -75,17 +75,17 @@ public class Withdraw2WXActivity extends BaseActivity {
                 /*微信提现
                 * 1.调起微信登录获取当前登录OPENID
                 * 2.获取本地OPENID 去绑定微信——>提现/校对与绑定是否一致*/
-                if (AccountHelper.getUser().getData().getCustomer().getOpenid() == null) {
-                    bind(wx_info.getOpenid());
-                } else {
-                    if (wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())) {
-                        withdaw(wx_info.getOpenid());
+                if (wx_info != null) {
+                    if (AccountHelper.getUser().getData().getCustomer().getOpenid() == null) {
+                        bind(wx_info.getOpenid());
                     } else {
-
-                        BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
+                        if (wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())) {
+                            withdaw(wx_info.getOpenid());
+                        } else {
+                            BaseApplication.showToast(getString(R.string.ummatched_wx_openid));
+                        }
                     }
                 }
-
             }
         }
     };
@@ -148,11 +148,12 @@ public class Withdraw2WXActivity extends BaseActivity {
                     @Override
                     public void setData(PrepayBean normalBean) {
 
-                        if (normalBean.getStatus() == 200) {
-                            BaseApplication.showToast("提现成功");
+                        if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
+                            BaseApplication.showToast(getString(R.string.withdraw_success));
+                            setResult(RESULT_OK);
                             finish();
-                        } else if (normalBean.getStatus() == 888) {
-                            BaseApplication.showToast("账户余额不足");
+                        } else if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.INSUFFICIENT_ACCOUNT) {
+                            BaseApplication.showToast(getString(R.string.insufficient_account));//账户余额不足
                         } else {
                             BaseApplication.showToast(normalBean.getMsg());
                         }
@@ -174,16 +175,17 @@ public class Withdraw2WXActivity extends BaseActivity {
             }
             break;
             case R.id._back: {
+                setResult(RESULT_CANCELED);
                 finish();
             }
             break;
             case R.id.btn_withdraw: {
                 if (Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ? "0" : tv_amount.getText().toString().trim()) < 1.0) {
-                    BaseApplication.showToast("提现金额不能少于1元");
+                    BaseApplication.showToast(getString(R.string.withdraw_balance_cannot_below_one_yuan));
                 } else if (Double.parseDouble(withdraw_max.getText().toString()) < Double.parseDouble(tv_amount.getText().toString())) {
-                    BaseApplication.showToast("账户余额不足");
+                    BaseApplication.showToast(getString(R.string.insufficient_account));
                 } else if (Double.parseDouble(withdraw_max.getText().toString()) <= (double) 0) {
-                    BaseApplication.showToast("账户余额不足");
+                    BaseApplication.showToast(getString(R.string.insufficient_account));
                 } else {
                     setDialog();
                 }
@@ -232,7 +234,6 @@ public class Withdraw2WXActivity extends BaseActivity {
 
             @Override
             public void onError() {
-                hideProgressDialog();
             }
 
             @Override
@@ -242,7 +243,7 @@ public class Withdraw2WXActivity extends BaseActivity {
 
             @Override
             public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if (loginWithInfoBean.getStatus() == 200) {
+                if (loginWithInfoBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
                     AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
                     if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
                         double d = loginWithInfoBean.getData().getCustomer().getAmount()
@@ -329,9 +330,8 @@ public class Withdraw2WXActivity extends BaseActivity {
             dialogWindow.setAttributes(lp);
             mDialog.show();
         } else {
-            Toast.makeText(this, "提现金额不正确", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.withdraw_balance_not_right), Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private IWXAPI api;

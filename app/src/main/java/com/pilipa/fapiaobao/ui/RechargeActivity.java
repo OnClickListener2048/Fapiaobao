@@ -71,13 +71,15 @@ public class RechargeActivity extends BaseActivity  {
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 final WXmodel wx_info = bundle.getParcelable("wx_info");
-                if(AccountHelper.getUser().getData().getCustomer().getOpenid().isEmpty()){
-                    bind(wx_info.getOpenid());
-                }else{
-                    if(wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())){
-                        recharge();
+                if (wx_info!= null) {
+                    if(AccountHelper.getUser().getData().getCustomer().getOpenid().isEmpty()){
+                        bind(wx_info.getOpenid());
                     }else{
-                        BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
+                        if(wx_info.getOpenid().equals(AccountHelper.getUser().getData().getCustomer().getOpenid())){
+                            recharge();
+                        }else{
+                            BaseApplication.showToast("系统检测到您登录的微信账号与绑定的不一致");
+                        }
                     }
                 }
             }
@@ -114,7 +116,7 @@ public class RechargeActivity extends BaseActivity  {
     }
 
     private void recharge(){
-        Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), amount, new Api.BaseViewCallbackWithOnStart<PrepayBean>() {
+        Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallbackWithOnStart<PrepayBean>() {
             @Override
             public void onStart() {
                 showProgressDialog();

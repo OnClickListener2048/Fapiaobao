@@ -13,12 +13,13 @@ import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.CreditHistroyBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -30,7 +31,7 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  * Created by wjn on 2017/10/23.
  */
 
-public class CreditHistoryActivity extends BaseActivity {
+public class CreditHistoryActivity extends BaseNoNetworkActivity {
     private static final String TAG = "NegetiveActivity";
 
     @Bind(R.id.title)
@@ -61,7 +62,6 @@ public class CreditHistoryActivity extends BaseActivity {
     public void initView() {
         rechargeDetailsAdapter = new RechargeDetailsAdapter(this);
         listView.setAdapter(rechargeDetailsAdapter);
-
     }
 
     @Override
@@ -75,11 +75,38 @@ public class CreditHistoryActivity extends BaseActivity {
         title.setText("信用历史");
         tv_history.setText("暂时还没有消息哦~");
     }
+
+    @Override
+    public void onNoNetworkLayoutClicks(View view) {
+        findCreditHistory("0", "100");
+    }
+
     public void findCreditHistory(String pageNo,String pageSize){
-        if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
-            Api.findCreditHistory(AccountHelper.getToken(),pageNo,pageSize,new Api.BaseViewCallback<CreditHistroyBean>() {
+        if (AccountHelper.getToken() != null && !Objects.equals(AccountHelper.getToken(), "")) {
+            Api.findCreditHistory(AccountHelper.getToken(), pageNo, pageSize, new Api.BaseRawResponse<CreditHistroyBean>() {
+                @Override
+                public void onStart() {
+                    showProgressDialog();
+                }
+
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onError() {
+                    showNetWorkErrorLayout();
+                }
+
+                @Override
+                public void onTokenInvalid() {
+
+                }
+
                 @Override
                 public void setData(CreditHistroyBean creditHistroyBean) {
+                    hideNetWorkErrorLayout();
                     if(creditHistroyBean != null && creditHistroyBean.getStatus() == REQUEST_SUCCESS){
                         rechargeDetailsAdapter.addData(creditHistroyBean.getData());
                         ll_no_record.setVisibility(View.GONE);
@@ -91,7 +118,13 @@ public class CreditHistoryActivity extends BaseActivity {
             });
         }
     }
-    class RechargeDetailsAdapter extends BaseAdapter {
+
+    @Override
+    public void initDataInResume() {
+
+    }
+
+    private class RechargeDetailsAdapter extends BaseAdapter {
         private Context mContext = null;
         private List<?> mMarkerData = null;
         public RechargeDetailsAdapter(Context context)
