@@ -23,7 +23,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:text="@string/delete"
-            android:textColor="@color/white"
+            android:textColor="@color/main_style"
             android:visibility="gone" />
     </RelativeLayout>
 
@@ -41,7 +41,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:text="@string/back"
-            android:textColor="@color/gray_hint" />
+            android:textColor="@color/main_style" />
 
         <CheckBox
             android:id="@+id/click"

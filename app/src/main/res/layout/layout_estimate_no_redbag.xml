@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="400dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/noredbag" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d10" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/other_demand"
+                android:layout_width="@dimen/d150"
+                android:layout_height="@dimen/d35"
+                android:layout_weight="1"
+                android:background="@drawable/selector_mainstyle_to_transparent"
+                android:text="@string/back_to_financefragment"
+                android:textColor="@color/white" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="@dimen/d20"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/reset_filter"
+                android:layout_width="@dimen/d150"
+                android:layout_height="@dimen/d35"
+                android:layout_weight="1"
+                android:background="@drawable/selector_mainstyle_to_transparent"
+                android:text="@string/reset_filter_event"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d10" />
+
+        <LinearLayout
+            android:id="@+id/ll_filter_condition_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="您的筛选条件:"
+                android:textSize="12sp" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="@dimen/d10"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/filter_condition_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/main_style"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

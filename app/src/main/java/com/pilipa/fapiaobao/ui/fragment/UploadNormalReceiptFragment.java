@@ -193,7 +193,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         bundle.putParcelableArrayList(EXTRA_ALL_DATA, allItemList);
         TLog.log("position" + position);
         TLog.log("image.position" + image.position);
-        bundle.putInt(EXTRA_CURRENT_POSITION, image.position);
+        bundle.putInt(EXTRA_CURRENT_POSITION, position); //
         intent.putExtra(EXTRA_BUNDLE, bundle);
         startActivityForResult(intent, REQUEST_CODE_IMAGE_CLICK);
     }

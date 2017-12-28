@@ -1,6 +1,6 @@
 package com.pilipa.fapiaobao.base;
 
-import android.app.ProgressDialog;
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,28 +15,52 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Progress;
+import com.lzy.okgo.request.base.Request;
+import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.interf.BaseView;
+import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.bean.update.VersionMode;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.fragment.ProgressDialogFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.ui.dialog.LoadingDialog;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
+import com.pilipa.fapiaobao.utils.TDevice;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.umeng.message.PushAgent;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
+import static com.pilipa.fapiaobao.ui.constants.Constant.FORCE_UPDATE;
 import static com.pilipa.fapiaobao.utils.BitmapUtils.readPictureDegree;
 import static com.pilipa.fapiaobao.utils.BitmapUtils.rotaingImageView;
 
@@ -49,7 +73,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected LayoutInflater mInflater;
     private Fragment mFragment;
     private ActionBar mActionBar;
-    private ProgressDialog progressDialog;
+    private LoadingDialog progressDialog;
 
     private Bitmap compressedImageBitmap;
 
@@ -96,11 +120,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         intentFilter.addAction(Constant.PARSE_ERROR);
         registerReceiver(mBroadcastReceiver, intentFilter);
 
-        initDialogFragment();
+//        initDialogFragment();
 
     }
-
-
 
 
     private void initDialogFragment() {
@@ -111,7 +133,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         if (!progressDialogFragment.isInLayout() && !progressDialogFragment.isVisible()) {
             progressDialogFragment.show(getSupportFragmentManager(), tag);
         }
-
     }
 
     public void hideDialogFragment(String tag) {
@@ -124,23 +145,16 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     private void initProgressDialog() {
         if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this);
+            progressDialog = new LoadingDialog(this, R.style.CustomDialog);
         }
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setTitle("提示");
-        progressDialog.setMessage("正在加载中");
         progressDialog.setOnKeyListener(this);
     }
 
     public void showProgressDialog() {
-        if (!isFinishing()) {
-            if (progressDialog != null) {
-                if (!progressDialog.isShowing()) {
-                    progressDialog.show();
-                }
-            }
-        }
+        if (isFinishing()) return;
+        if (progressDialog == null) return;
+        if (progressDialog.isShowing()) return;
+        progressDialog.show();
     }
 
 
@@ -168,11 +182,25 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     public void hideProgressDialog() {
-        if (progressDialog != null) {
-            if (progressDialog.isShowing()) {
-            progressDialog.dismiss();
-            }
-        }
+
+        Observable.timer(500,TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                    }
+                })
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        if (progressDialog != null) {
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                            }
+                        }
+                    }
+                });
     }
 
     @Override
@@ -382,4 +410,5 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     public void initData() {
 
     }
+
 }

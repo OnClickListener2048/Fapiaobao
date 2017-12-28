@@ -29,6 +29,8 @@ public abstract class BaseFinanceFragment extends BaseFragment implements InitDa
         initNetErrorLayout(view);
     }
 
+
+
     @Override
     public void onResume() {
         super.onResume();
@@ -74,4 +76,6 @@ public abstract class BaseFinanceFragment extends BaseFragment implements InitDa
     protected void hideNetWorkErrorLayout() {
         container.removeView(viewNoNetwork);
     }
+
+
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -57,7 +58,7 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
         boolean aBoolean = bundleExtra.getBoolean(UploadPreviewReceiptFragment.IS_SHOW_SELECT_AND_DELETE, true);
         if (aBoolean) {
             delete.setVisibility(View.VISIBLE);
-            click.setVisibility(View.VISIBLE);
+            click.setVisibility(View.INVISIBLE);
         } else {
             delete.setVisibility(View.INVISIBLE);
             click.setVisibility(View.INVISIBLE);
@@ -127,6 +128,8 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
         }
     }
 
+
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -139,6 +142,18 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
             ((PreviewImageFragment) adapter.instantiateItem(previewViewpager, mPreviousPos)).resetView();
         }
         mPreviousPos = position;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA, allList);
+            intent.putExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE, bundle);
+            setResult(UploadNormalReceiptFragment.RESULT_CODE_BACK, intent);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

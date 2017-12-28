@@ -20,11 +20,11 @@
             android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:text="@string/delete"
-            android:textColor="@color/gray_hint" />
+            android:textColor="@color/main_style" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -37,19 +37,19 @@
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:text="@string/back"
-            android:textColor="@color/gray_hint" />
+            android:textColor="@color/main_style" />
 
         <CheckBox
             android:id="@+id/click"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:textColor="@color/white"
             android:visibility="gone" />
     </RelativeLayout>

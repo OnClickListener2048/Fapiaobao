@@ -35,6 +35,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -149,8 +150,11 @@ public class Withdraw2WXActivity extends BaseActivity {
                     public void setData(PrepayBean normalBean) {
 
                         if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
-                            BaseApplication.showToast(getString(R.string.withdraw_success));
-                            setResult(RESULT_OK);
+                            Intent intent = new Intent();
+                            intent.putExtra(Constant.TITLE, getString(R.string.withdraw_success));
+                            intent.putExtra(Constant.MESSAGE, getString(R.string.withdraw_message,tv_amount.getText().toString().trim()));
+                            setResult(RESULT_OK,intent);
+
                             finish();
                         } else if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.INSUFFICIENT_ACCOUNT) {
                             BaseApplication.showToast(getString(R.string.insufficient_account));//账户余额不足
@@ -245,7 +249,7 @@ public class Withdraw2WXActivity extends BaseActivity {
             public void setData(LoginWithInfoBean loginWithInfoBean) {
                 if (loginWithInfoBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
                     AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
-                    if (AccountHelper.getToken() != null && AccountHelper.getToken() != "") {
+                    if (AccountHelper.getToken() != null && !Objects.equals(AccountHelper.getToken(), "")) {
                         double d = loginWithInfoBean.getData().getCustomer().getAmount()
                                 - loginWithInfoBean.getData().getCustomer().getFrozen();
                         BigDecimal amount = new BigDecimal(loginWithInfoBean.getData().getCustomer().getAmount());

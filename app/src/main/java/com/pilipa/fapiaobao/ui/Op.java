@@ -182,37 +182,40 @@ public class Op extends BaseActivity implements
 
             } else {
                 TLog.d(TAG," if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {");
-                if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {
-                    Api.companiesList(AccountHelper.getToken(), this, new Api.BaseRawResponse<CompaniesBean>() {
-                        @Override
-                        public void onStart() {
-                            showProgressDialog();
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
-
-                        @Override
-                        public void onError() {
-
-                        }
-
-                        @Override
-                        public void onTokenInvalid() {
-
-                        }
-
-                        @Override
-                        public void setData(CompaniesBean companiesBean) {
-                            if (companiesBean.getData()!= null && companiesBean.getData().size() == 1) {
-                                TLog.d(TAG,"companiesBean.getData().size() "+companiesBean.getData().size());
-                                fillInWithSingleCompany(makeCompany(companiesBean),view,url);
+                if (url.contains("starbucks") || url.contains("yumchina")) {
+                    if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {
+                        Api.companiesList(AccountHelper.getToken(), this, new Api.BaseRawResponse<CompaniesBean>() {
+                            @Override
+                            public void onStart() {
+                                showProgressDialog();
                             }
-                        }
-                    });
+
+                            @Override
+                            public void onFinish() {
+                                hideProgressDialog();
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+
+                            @Override
+                            public void onTokenInvalid() {
+
+                            }
+
+                            @Override
+                            public void setData(CompaniesBean companiesBean) {
+                                if (companiesBean.getData()!= null && companiesBean.getData().size() == 1) {
+                                    TLog.d(TAG,"companiesBean.getData().size() "+companiesBean.getData().size());
+                                    fillInWithSingleCompany(makeCompany(companiesBean),view,url);
+                                }
+                            }
+                        });
+                    }
                 }
+
             }
         }
     };

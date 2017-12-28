@@ -59,4 +59,8 @@
     <color name="red_estimate_transparent">#aaff9076</color>
     <color name="foreground_grayXX">#eeAEAEAE</color>
     <color name="No_Action_bar_default_bg">#fafafa</color>
+    <color name="main_primary_dark">#e6af7a</color>
+    <color name="agentweb_indicator_color">#e0c553</color>
+    <color name="wx_pay_color">#ef5c5c</color>
+    <color name="withdraw_color">#13b5b1</color>
 </resources>

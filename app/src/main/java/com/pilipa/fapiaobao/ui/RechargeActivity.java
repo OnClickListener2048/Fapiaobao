@@ -59,7 +59,10 @@ public class RechargeActivity extends BaseActivity  {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (TextUtils.equals(intent.getAction(), WXPayReceiver.pay_success)) {
-                RechargeActivity.this.setResult(RESULT_OK);
+                Intent intent1 = new Intent();
+                intent1.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.TITLE, getString(R.string.recharge_success));
+                intent1.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.MESSAGE, getString(R.string.recharge_message,String.valueOf(amount)));
+                RechargeActivity.this.setResult(RESULT_OK,intent1);
                 finish();
             } else if (TextUtils.equals(intent.getAction(), WXPayReceiver.pay_fail)) {
                 RechargeActivity.this.setResult(RESULT_CANCELED);
@@ -106,7 +109,7 @@ public class RechargeActivity extends BaseActivity  {
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
-                    BaseApplication.showToast("微信绑定成功");
+                    BaseApplication.showToast(getString(R.string.WX_bind_success));
                     recharge();
                 }else if(normalBean.getStatus() == 707){
                     BaseApplication.showToast(normalBean.getMsg());
@@ -116,7 +119,7 @@ public class RechargeActivity extends BaseActivity  {
     }
 
     private void recharge(){
-        Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), 1, new Api.BaseViewCallbackWithOnStart<PrepayBean>() {
+        Api.wxRecharge(AccountHelper.getToken(), NetworkUtils.getIPAddress(true), amount, new Api.BaseViewCallbackWithOnStart<PrepayBean>() {
             @Override
             public void onStart() {
                 showProgressDialog();

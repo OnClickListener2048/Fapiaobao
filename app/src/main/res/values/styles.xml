@@ -116,5 +116,13 @@
 
     </style>
 
-    <color name="main_primary_dark">#e6af7a</color>
+
+    <style name="CustomDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="custom_progressbar" parent="Base.Widget.AppCompat.ProgressBar">
+
+    </style>
 </resources>

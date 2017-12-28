@@ -31,6 +31,7 @@ import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
@@ -48,6 +49,7 @@ import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -472,15 +474,17 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
             Api.judgeCompanyIsCollcted(companyId, loginWithInfoBean.getData().getToken(), new Api.BaseViewCallback<FavBean>() {
                 @Override
                 public void setData(FavBean s) {
-                    if (s != null && s.getStatus() == 200) {
-                        //TODO 设置收藏图片
-                        isCollected = false;
-                        collect.setImageResource(R.mipmap.collect);
-                    } else if (s.getStatus() == 701 && s.getMsg().equals("token验证失败")) {
-                        login();
-                    } else if (s.getStatus() == 400) {
-                        collect.setImageResource(R.mipmap.collected);
-                        isCollected = true;
+                    if (s != null) {
+                        if (s.getStatus() == Constant.REQUEST_SUCCESS) {
+                            //TODO 设置收藏图片
+                            isCollected = false;
+                            collect.setImageResource(R.mipmap.collect);
+                        } else if (s.getStatus() == Constant.TOKEN_INVALIDE) {
+                            login();
+                        } else if (s.getStatus() == Constant.REQUEST_NO_CONTENT) {
+                            collect.setImageResource(R.mipmap.collected);
+                            isCollected = true;
+                        }
                     }
                 }
             });
@@ -545,7 +549,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
                                 @Override
                                 public void setData(NormalBean normalBean) {
                                     hideNetWorkErrorLayout();
-                                    if(normalBean.getStatus() == 200){
+                                    if(normalBean.getStatus() == Constant.REQUEST_SUCCESS){
                                         showOrderDetail(orderId,false);
                                         BaseApplication.showToast(normalBean.getData());
                                     }
@@ -635,14 +639,14 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
                                 city = bean.getPostage().getCity()+" ";
                             }
                             tvPublishAddress.setText(city+ district + bean.getPostage().getAddress());
-                            tv_low_limit.setText(new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP) + "元");
-                            tv_minMail.setText(new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP)+"");
-                            tv_current_amount.setText(new BigDecimal(bean.getNeedMailAmount()).setScale(2, BigDecimal.ROUND_HALF_UP)+"");
+                            tv_low_limit.setText(getString(R.string.end_with_yuan,new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+                            tv_minMail.setText(String.valueOf(new BigDecimal(bean.getMailMinimum()).setScale(2, BigDecimal.ROUND_HALF_UP)));
+                            tv_current_amount.setText(String.valueOf(new BigDecimal(bean.getNeedMailAmount()).setScale(2, BigDecimal.ROUND_HALF_UP)));
                         }
-                        receivedBonus.setText(String.format("%.2f", bean.getReceivedBonus()));
-                        estimateMoney.setText(String.format("%.2f", bean.getBonus()));
+                        receivedBonus.setText(String.valueOf(new BigDecimal(bean.getReceivedBonus()).setScale(2, RoundingMode.HALF_EVEN)));
+                        estimateMoney.setText(String.valueOf(new BigDecimal(bean.getBonus()).setScale(2,RoundingMode.HALF_EVEN)));
                         receiptNumber.setText(String.valueOf(bean.getInvoiceCount()));
-                        receiptMoney.setText(String.format("%.2f", bean.getAmount()));
+                        receiptMoney.setText(String.valueOf(new BigDecimal(bean.getAmount()).setScale(2,RoundingMode.HALF_EVEN)));
                         if (bean.getCompany() != null) {
                             companyName.setText(bean.getCompany().getName());
                             number.setText(bean.getCompany().getPhone());
@@ -657,7 +661,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
                                 Bitmap qrCode = CodeCreator.createQRCode(ProvidedActivity.this,content);
                                 qr.setImageBitmap(qrCode);
                             } catch (Exception e) {
-                                BaseApplication.showToast("二维码生成失败");
+                                BaseApplication.showToast(getString(R.string.qrcode_create_fail));
                                 e.printStackTrace();
                             }
                         }

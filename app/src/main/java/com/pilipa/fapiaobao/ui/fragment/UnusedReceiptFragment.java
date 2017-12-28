@@ -453,8 +453,8 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
                         @Override
                         public void onNext(@NonNull String s) {
                             imageList.add(s);
-                            UnusedReceiptAdapter unusedReceiptAdapter = (UnusedReceiptAdapter) recyclerview.getAdapter();
-                            unusedReceiptAdapter.notifyItemInserted(mPreviousPosition);
+//                            UnusedReceiptAdapter unusedReceiptAdapter = (UnusedReceiptAdapter) recyclerview.getAdapter();
+//                            unusedReceiptAdapter.notifyItemInserted(mPreviousPosition);
                             ((BaseActivity) getActivity()).updateDialog(String.valueOf(imageList.size() + "/" + count));
                         }
 
@@ -505,6 +505,8 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
                                         @Override
                                         public void setData(NormalBean response) {
                                             BaseApplication.showToast(getString(R.string.upload_success));
+                                            UnusedReceiptAdapter unusedReceiptAdapter = (UnusedReceiptAdapter) recyclerview.getAdapter();
+                                            unusedReceiptAdapter.notifyDataSetChanged();
                                             retrieveIDsOfAddedPhotos();
                                         }
                                     });

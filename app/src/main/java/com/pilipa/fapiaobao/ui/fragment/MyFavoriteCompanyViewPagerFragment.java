@@ -56,6 +56,7 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseNoNetworkFragment im
     public List<FavoriteCompanyBean.DataBean> mData = new ArrayList();
     private boolean mIsInited;
     private boolean mIsPrepared;
+    private View emptyView;
 
 
     public MyFavoriteCompanyViewPagerFragment() {
@@ -93,11 +94,11 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseNoNetworkFragment im
         trl.setEnableOverScroll(false);
         listView.setAdapter(mAdapter = new MyCompanyAdapter(mContext));
         listView.setOnItemClickListener(this);
-        View emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
+        emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
         emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         emptyView.setVisibility(View.GONE);
         ((ViewGroup)listView.getParent()).addView(emptyView);
-        listView.setEmptyView(emptyView);
+
     }
 
     @Override
@@ -251,6 +252,7 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseNoNetworkFragment im
                     if (favoriteCompanyBean.getStatus() == REQUEST_NO_CONTENT) {
                         if (listView != null) {
                             listView.setAdapter(null);
+                            listView.setEmptyView(emptyView);
                         }
                         if (mAdapter!= null) {
                             mAdapter.clearData();

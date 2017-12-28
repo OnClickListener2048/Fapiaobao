@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.ui;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,7 +30,6 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.FeedbackAdapterWrapper;
 import com.pilipa.fapiaobao.adapter.FeedbackMessagesAdapter;
-import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
@@ -72,7 +72,7 @@ public class FeedbackActivity extends BaseNoNetworkActivity implements FeedbackM
     private int pageNo = 1;
     private boolean isLoadingMore;
     private FeedbackAdapterWrapper normalAdapterWrapper;
-    private ProgressBar progressBar;
+    private ImageView progressBar;
     private TextView textView_loading;
     private int totalPageNo;
     private boolean responding;
@@ -128,9 +128,13 @@ public class FeedbackActivity extends BaseNoNetworkActivity implements FeedbackM
         emptyView = findViewById(R.id.empty_view);
         emptyView.setVisibility(View.GONE);
         recyclerView.setAdapter(normalAdapterWrapper);
-        progressBar = (ProgressBar) footerView.findViewById(R.id.loading_progress);
+        progressBar = (ImageView) footerView.findViewById(R.id.loading_progress);
+        AnimationDrawable animationDrawable = (AnimationDrawable) progressBar.getDrawable();
+        if (animationDrawable!= null) {
+            animationDrawable.start();
+        }
         textView_loading = (TextView) footerView.findViewById(R.id.loading);
-
+        recyclerView.setVisibility(View.GONE);
         RxRecyclerView.scrollStateChanges(recyclerView)
                 .subscribe(new Consumer<Integer>() {
                     @Override
@@ -199,11 +203,12 @@ public class FeedbackActivity extends BaseNoNetworkActivity implements FeedbackM
         getSuggestion(pageNo, pageSize, "", "", "", new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
             @Override
             public void onStart() {
-
+                showProgressDialog();
             }
 
             @Override
             public void onFinish() {
+                hideProgressDialog();
                 Observable
                         .timer(100, TimeUnit.MILLISECONDS)
                         .subscribeOn(AndroidSchedulers.mainThread())
@@ -232,6 +237,7 @@ public class FeedbackActivity extends BaseNoNetworkActivity implements FeedbackM
 
             @Override
             public void setData(FeedbackMessageBean feedbackMessageBean) {
+
                 if (feedbackMessageBean.getStatus() == 200) {
                     emptyView.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);

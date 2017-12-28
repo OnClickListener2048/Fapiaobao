@@ -108,8 +108,8 @@ public class MyRedEnvelopeActivity extends BaseActivity {
 
             @Override
             public void setData(NormalBean normalBean) {
-                if (normalBean.getStatus() == 200) {
-                    BaseApplication.showToast("微信绑定成功");
+                if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
+                    BaseApplication.showToast(getString(R.string.WX_bind_success));
                     withdaw(openID);
                     /*更新openid 避免重复绑定*/
                     AccountHelper.updateCustomerOpenId(openID);
@@ -131,7 +131,6 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                     public void onStart() {
                         showProgressDialog();
                         btnWithdraw.setEnabled(false);
-
                     }
 
                     @Override
@@ -147,12 +146,14 @@ public class MyRedEnvelopeActivity extends BaseActivity {
 
                     @Override
                     public void setData(PrepayBean normalBean) {
-                        if (normalBean.getStatus() ==200) {
-                            BaseApplication.showToast("提现成功");
-                            setResult(RESULT_OK);
+                        if (normalBean.getStatus() ==Constant.REQUEST_SUCCESS) {
+                            Intent intent = new Intent();
+                            intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.TITLE, getString(R.string.withdraw_success));
+                            intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.MESSAGE, getString(R.string.withdraw_message,bonus));
+                            setResult(RESULT_OK,intent);
                             finish();
-                        }else if(normalBean.getStatus() ==888){
-                            BaseApplication.showToast("红包余额不足");
+                        }else if(normalBean.getStatus() ==Constant.INSUFFICIENT_ACCOUNT){
+                            BaseApplication.showToast(getString(R.string.insufficient_account));
                         }else{
                             BaseApplication.showToast(normalBean.getMsg());
                         }
@@ -309,8 +310,11 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                     @Override
                     public void setData(NormalBean normalBean) {
                         if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
-                            BaseApplication.showToast("充值成功");
-                            setResult(RESULT_OK);
+                            BaseApplication.showToast(getString(R.string.recharge_success));
+                            Intent intent = new Intent();
+                            intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.TITLE, getString(R.string.recharge_success));
+                            intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.MESSAGE, getString(R.string.recharge_message,bonus));
+                            setResult(RESULT_OK,intent);
                             finish();
                         }else {
                             BaseApplication.showToast(normalBean.getMsg());

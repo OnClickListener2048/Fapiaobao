@@ -18,6 +18,8 @@ import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.AmountHistoryBean;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,7 +120,7 @@ public class RechargeDetailsActivity extends BaseNoNetworkActivity {
 
     }
 
-    class RechargeDetailsAdapter extends BaseAdapter {
+    private class RechargeDetailsAdapter extends BaseAdapter {
         private Context mContext = null;
         private List<?> mMarkerData = null;
         public RechargeDetailsAdapter(Context context)
@@ -161,12 +163,14 @@ public class RechargeDetailsActivity extends BaseNoNetworkActivity {
             }
             AmountHistoryBean.DataBean bean =(AmountHistoryBean.DataBean)mMarkerData.get(position);
             if(bean.getFee() >= (double) 0){
-                viewHolder.tvAmountOffered.setText("+"+String.format("%.2f", bean.getFee())+"");//钱包金额
-                viewHolder.tvAmountOffered.setTextColor(Color.parseColor("#ef5c5c"));
+                BigDecimal bigDecimal = new BigDecimal(bean.getFee());
+                viewHolder.tvAmountOffered.setText(getString(R.string.add_details,String.valueOf(bigDecimal.setScale(2, RoundingMode.UP))));//钱包金额
+                viewHolder.tvAmountOffered.setTextColor(getResources().getColor(R.color.wx_pay_color));
 
             }else{
-                viewHolder.tvAmountOffered.setText(String.format("%.2f", bean.getFee())+"");//钱包金额
-                viewHolder.tvAmountOffered.setTextColor(Color.parseColor("#13b5b1"));
+                BigDecimal bigDecimal = new BigDecimal(bean.getFee());
+                viewHolder.tvAmountOffered.setText(String.valueOf(bigDecimal.setScale(2, RoundingMode.UP)));//钱包金额
+                viewHolder.tvAmountOffered.setTextColor(getResources().getColor(R.color.withdraw_color));
 
             }
             viewHolder.title.setText(bean.getTitle());

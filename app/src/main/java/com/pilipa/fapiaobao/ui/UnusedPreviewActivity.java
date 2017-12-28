@@ -23,6 +23,7 @@ import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.PreviewImageFragment;
@@ -243,7 +244,7 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
 
                         @Override
                         public void setData(NormalBean normalBean) {
-                            if(normalBean.getStatus() == 200){
+                            if(normalBean.getStatus() == Constant.REQUEST_SUCCESS){
                                 mDelDialog.dismiss();
                                 deleteLoc();
                                 BaseApplication.showToast(getString(R.string.delete_success));

@@ -230,7 +230,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
         Bundle bundle = new Bundle();
         bundle.putBoolean(IS_SHOW_SELECT_AND_DELETE,false);
         bundle.putParcelableArrayList(EXTRA_ALL_DATA, allItemList);
-        bundle.putInt(EXTRA_CURRENT_POSITION, image.position);
+        bundle.putInt(EXTRA_CURRENT_POSITION, position+1);
         intent.putExtra(EXTRA_BUNDLE, bundle);
         startActivityForResult(intent, REQUEST_CODE_IMAGE_CLICK);
     }

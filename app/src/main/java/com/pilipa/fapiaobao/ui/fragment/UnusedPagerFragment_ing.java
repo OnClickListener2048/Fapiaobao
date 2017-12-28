@@ -52,6 +52,8 @@ public class UnusedPagerFragment_ing extends BaseNoNetworkFragment implements Ad
     private List<DemandsListBean.DataBean> dataBeanList = new ArrayList<>();
     private boolean mIsInited;
     private boolean mIsPrepared;
+    private View emptyView;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_viewpager_item;
@@ -113,11 +115,10 @@ public class UnusedPagerFragment_ing extends BaseNoNetworkFragment implements Ad
         mAdapter = new MyPublishAdapter(mContext);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
-        View emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
+        emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
         emptyView.setVisibility(View.GONE);
         emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         ((ViewGroup) listView.getParent()).addView(emptyView);
-        listView.setEmptyView(emptyView);
     }
     private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
         @Override
@@ -251,6 +252,8 @@ public class UnusedPagerFragment_ing extends BaseNoNetworkFragment implements Ad
                         TLog.log("status == REQUEST_NO_CONTENT");
                         if (listView != null) {
                             listView.setAdapter(null);
+                            listView.setEmptyView(emptyView);
+
                         }
                         if (mAdapter!= null) {
                             mAdapter.clearData();

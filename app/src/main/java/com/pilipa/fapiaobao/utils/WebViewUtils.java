@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import com.just.agentwebX5.AgentWeb;
 import com.just.agentwebX5.ChromeClientCallbackManager;
 import com.just.agentwebX5.DownLoadResultListener;
+import com.pilipa.fapiaobao.R;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebViewClient;
 
@@ -32,7 +33,7 @@ public class WebViewUtils {
         return AgentWeb.with(activity)//
                 .setAgentWebParent(viewGroup, new LinearLayout.LayoutParams(-1, -1))//
                 .useDefaultIndicator()//
-                .defaultProgressBarColor()
+                .setIndicatorColorWithHeight(activity.getResources().getColor(R.color.agentweb_indicator_color),-1)
                 .addDownLoadResultListener(downLoadResultListener)
                 .setReceivedTitleCallback(callback)
                 .setWebChromeClient(webChromeClient)

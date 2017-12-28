@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="false" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_01" android:duration="@integer/frameloading" />
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_02" android:duration="@integer/frameloading" />
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_03" android:duration="@integer/frameloading" />
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_04" android:duration="@integer/frameloading" />
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_05" android:duration="@integer/frameloading" />
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_06" android:duration="@integer/frameloading" />
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_08" android:duration="@integer/frameloading" />
+
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_09" android:duration="@integer/frameloading" />
+
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_10" android:duration="@integer/frameloading" />
+
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_11" android:duration="@integer/frameloading" />
+
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_12" android:duration="@integer/frameloading" />
+
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_13" android:duration="@integer/frameloading" />
+
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_14" android:duration="@integer/frameloading" />
+
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_15" android:duration="@integer/frameloading" />
+
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_16" android:duration="@integer/frameloading" />
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_17" android:duration="@integer/frameloading" />
+
+    <item
+        android:drawable="@mipmap/fapiaobai_anim_18" android:duration="@integer/frameloading" />
+
+</animation-list>

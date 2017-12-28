@@ -52,6 +52,8 @@ public abstract class BaseFragment extends Fragment {
         mContext = context;
     }
 
+
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);

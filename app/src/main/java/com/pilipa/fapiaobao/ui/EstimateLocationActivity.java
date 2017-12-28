@@ -87,18 +87,14 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
     RelativeLayout estimatePlease;
     @Bind(R.id.test_redbag)
     Button testRedbag;
-    @Bind(R.id.ll_filter_key)
-    LinearLayout llFilterKey;
+
     @Bind(R.id.ultra_viewpager)
     UltraViewPager ultraViewpager;
     @Bind(R.id.go)
     Button go;
     @Bind(R.id.confirm_caution)
     LinearLayout llConfirmCaution;
-    @Bind(R.id.dl_container)
-    FrameLayout dlContainer;
-    @Bind(R.id.dl)
-    DrawerLayout dl;
+
     @Bind(R.id.tolast)
     ImageView tolast;
     @Bind(R.id.tonext)
@@ -186,7 +182,6 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
         tvLabel.setText(name);
         httpParams.put("invoiceType", label);
         llConfirmCaution.setVisibility(View.GONE);
-        llFilterKey.setVisibility(View.GONE);
         ultraViewpager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
         ultraViewpager.disableAutoScroll();
         ultraViewpager.disableIndicator();
@@ -402,11 +397,7 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
                 updateButtonStatus();
                 break;
             case R.id.filter:
-                if (dl.isDrawerOpen(Gravity.END)) {
-                    dl.closeDrawer(Gravity.END);
-                } else {
-                    dl.openDrawer(Gravity.END);
-                }
+
                 break;
             case R.id.other_demand:
                 finish();
@@ -499,7 +490,6 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
                         llEstimateCaution.setVisibility(View.GONE);
                         llFilterConditionTop.setVisibility(View.VISIBLE);
                         llFilterTypesLocation.setVisibility(View.GONE);
-                        llFilterKey.setVisibility(View.GONE);
                         llConfirmCaution.setVisibility(View.VISIBLE);
                         estimatePlease.setVisibility(View.GONE);
                         llBonus.setVisibility(View.VISIBLE);
@@ -563,11 +553,7 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
 
 
     public void closeDrawer() {
-        if (dl != null) {
-            if (dl.isDrawerOpen(Gravity.END)) {
-                dl.closeDrawer(Gravity.END);
-            }
-        }
+
     }
 
     public void setFilterKeys(ArrayList<String> arrayListKind, String area) {
@@ -587,7 +573,6 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
         httpParams.put("varieties", param);
         httpParams.put("city", area);
 
-        llFilterKey.setVisibility(View.VISIBLE);
     }
 
     @Override

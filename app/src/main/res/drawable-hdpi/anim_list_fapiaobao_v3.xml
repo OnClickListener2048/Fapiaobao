@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="false" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_01" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_02" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_03" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_04" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_05" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_06" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_07" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_08" android:duration="40" />
+
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_09" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_10" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_11" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_12" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_13" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_14" android:duration="40" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_v3_15" android:duration="40" />
+</animation-list>

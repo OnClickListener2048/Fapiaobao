@@ -49,6 +49,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -176,14 +177,9 @@ public class DemandActivity extends BaseNoNetworkActivity {
 
     private String demandId;
 
-    private ArrayList<Image> images;
-    private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
-    private DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment;
-    private DemandsDetailsReceiptFragment3 paperElecReceiptFragment;
     private MyInvoiceNameAdapter invoiceNameAdapter;
     ArrayList<Image> images_qualified ;
     private Dialog mCameraDialog;
-    private Dialog mTipDialog;
     private Dialog mDialog;
     private boolean isCanShutDown = false;//能否提前关闭
     private UMShareAPI umShareAPI;
@@ -201,7 +197,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
             Api.shareScoreAdd(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
                 @Override
                 public void setData(NormalBean normalBean) {
-                    Log.d(TAG, "updateData:shareScoreAdd success");
+                    TLog.d(TAG, "updateData:shareScoreAdd success");
                 }
             });
         }
@@ -224,7 +220,6 @@ public class DemandActivity extends BaseNoNetworkActivity {
         TLog.log(TAG+"onActivityResult1");
         TLog.log(TAG+"requestCode"+requestCode);
         TLog.log(TAG+"resultCode"+resultCode);
-        umShareAPI = UMShareAPI.get(this);
         umShareAPI.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
             case DemandsDetailsReceiptFragment.RESULT_CODE_BACK:
@@ -280,14 +275,15 @@ public class DemandActivity extends BaseNoNetworkActivity {
 
     @Override
     public void initView() {
+        umShareAPI = UMShareAPI.get(this);
         invoiceNameAdapter = new MyInvoiceNameAdapter(this);
         horizontalListView.setAdapter(invoiceNameAdapter);
 
         web = new UMWeb(Constant.MATCH);
-        web.setTitle("伙伴们，多余的发票也能挣红包了~");//标题
+        web.setTitle(getString(R.string.share_demand_title));//标题
         UMImage umImage = new UMImage(this, R.mipmap.icon);
         web.setThumb(umImage);  //缩略图
-        web.setDescription("伙伴们，多余的发票也能挣红包了~");//描述
+        web.setDescription(getString(R.string.share_demand_title));//描述
 
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         api.registerApp(Constants.APP_ID);
@@ -305,7 +301,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
             ll_no_record.setVisibility(View.GONE);
             ll_receiptlist.setVisibility(View.VISIBLE);
 
-            images = new ArrayList<>();
+            ArrayList<Image> images = new ArrayList<>();
             for (DemandDetails.DataBean.OrderInvoiceListBean result : results) {
                 Log.d(TAG, "setUpData:  for (model.ResultsBean result : body) {");
                 Image image = new Image();
@@ -356,13 +352,13 @@ public class DemandActivity extends BaseNoNetworkActivity {
             if (isSetList) {//是否需要刷新发票列表
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
-                paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
+                DemandsDetailsReceiptFragment paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
                 addCaptureFragment2(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
                 bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
-                paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
+                DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
                 addCaptureFragment2(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
                 bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
-                paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
+                DemandsDetailsReceiptFragment3 paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
                 addCaptureFragment2(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
             }
             //隐藏空发票的类型
@@ -425,7 +421,6 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 public void onTokenInvalid() {
                     hideNetWorkErrorLayout();
                 }
-
                 @Override
                 public void onStart() {
                     showProgressDialog();
@@ -448,15 +443,15 @@ public class DemandActivity extends BaseNoNetworkActivity {
                         mList.addAll(bean.getInvoiceNameList());
                         invoiceNameAdapter.initData(mList);
 
-                        tvBounsAmount.setText(String.format("%.2f", bean.getDemand().getTotalBonus()));
-                        tvAmount.setText(String.format("%.2f", bean.getDemand().getTotalAmount()));
-                        tvLeftAmount.setText(String.format("%.2f", bean.getDemand().getLeftBonus()));
-                        tvPublishTime.setText("发布时间：" + bean.getDemand().getPublishDate());
-                        tvDeadline.setText("截止日期：" + bean.getDemand().getDeadline());
+                        tvBounsAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getTotalBonus()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
+                        tvAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getTotalAmount()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
+                        tvLeftAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getLeftBonus()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
+                        tvPublishTime.setText(getString(R.string.publish_date,bean.getDemand().getPublishDate()));
+                        tvDeadline.setText(getString(R.string.deadline_date,bean.getDemand().getDeadline()));
                         tvAttentions.setText(bean.getDemand().getAttentions().isEmpty() ? "无" : bean.getDemand().getAttentions());
-                        tv_receive.setText(String.format("%.2f", bean.getReceivedAmount()));
+                        tv_receive.setText(String.valueOf(new BigDecimal(bean.getReceivedAmount()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
                         tvAlreadyCollected.setText(String.valueOf(bean.getReceivedNum()));
-                        tv_low_limit.setText(String.format("%.2f",bean.getDemand().getMailMinimum())+ "元");
+                        tv_low_limit.setText(getString(R.string.end_with_yuan,String.valueOf(new BigDecimal(bean.getDemand().getMailMinimum()).setScale(2,BigDecimal.ROUND_HALF_EVEN))));
                         //地址信息判断
                         String district = null;
                         if(bean.getDemand().getDemandPostage().getDistrict()!=null){
@@ -490,7 +485,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
                                 Bitmap qrCode = CodeCreator.createQRCode(DemandActivity.this,content);
                                 qr.setImageBitmap(qrCode);
                             } catch (Exception e) {
-                                BaseApplication.showToast("二维码生成失败");
+                                BaseApplication.showToast(getString(R.string.qrcode_create_fail));
                                 e.printStackTrace();
                             }
                         }
@@ -552,14 +547,13 @@ public class DemandActivity extends BaseNoNetworkActivity {
                         @Override
                         public void setData(NormalBean normalBean) {
                             hideNetWorkErrorLayout();
-                            Toast.makeText(DemandActivity.this, "需求已关闭", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DemandActivity.this, getString(R.string.demand_closed), Toast.LENGTH_SHORT).show();
                             demandDetails(id,false);
                             setResult(RESULT_OK);
                             DemandActivity.this.finish();
                             Log.d(TAG, "updateData:shatDownEarly success");
                         }
                     });
-
     }
 
 
@@ -584,52 +578,60 @@ public class DemandActivity extends BaseNoNetworkActivity {
                     req.transaction = String.valueOf(System.currentTimeMillis());
                     req.message = wxMediaMessage;
 
+
                     req.scene = SendMessageToWX.Req.WXSceneSession;
                     api.sendReq(req);
                     mCameraDialog.dismiss();
                     //记录用户分享状态
                     set(SHARE_SOCORE, true);
                 } else {
-                    BaseApplication.showToast("请安装微信客户端");
+                    BaseApplication.showToast(getString(R.string.please_install_WX_app));
                 }
             }
         });
         root.findViewById(R.id.weibo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ShareAction(DemandActivity.this)
-                        .setPlatform(SHARE_MEDIA.SINA)//传入平台
-                        .withMedia(web)
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
-                mCameraDialog.dismiss();
+                if (umShareAPI.isInstall(DemandActivity.this, SHARE_MEDIA.SINA)) {
+                    new ShareAction(DemandActivity.this)
+                            .setPlatform(SHARE_MEDIA.SINA)//传入平台
+                            .withMedia(web)
+                            .setCallback(umShareListener)//回调监听器
+                            .share();
+                    mCameraDialog.dismiss();
+                } else {
+                    BaseApplication.showToast(getString(R.string.please_install_WEIBO_app));
+                }
             }
         });
         root.findViewById(R.id.moments).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ShareAction(DemandActivity.this)
-                        .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
-                        .withMedia(web)
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
-                mCameraDialog.dismiss();
+                if (umShareAPI.isInstall(DemandActivity.this, SHARE_MEDIA.WEIXIN_CIRCLE)) {
+                    new ShareAction(DemandActivity.this)
+                            .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
+                            .withMedia(web)
+                            .setCallback(umShareListener)//回调监听器
+                            .share();
+                    mCameraDialog.dismiss();
+                } else {
+                    BaseApplication.showToast(getString(R.string.please_install_WX_app));
+                }
             }
         });
         root.findViewById(R.id.qq).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RxPermissions rxPermissions = new RxPermissions(DemandActivity.this);
-                rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(new Observer<Boolean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+                if (umShareAPI.isInstall(DemandActivity.this, SHARE_MEDIA.QQ)) {
+                    RxPermissions rxPermissions = new RxPermissions(DemandActivity.this);
+                    rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(new Observer<Boolean>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                        }
 
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-                        if (aBoolean) {
-                            if (umShareAPI.isInstall(DemandActivity.this, SHARE_MEDIA.QQ)) {
+                        @Override
+                        public void onNext(Boolean aBoolean) {
+                            if (aBoolean) {
                                 TLog.d(" if (umShareAPI.isInstall(getActivity(), SHARE_MEDIA.QQ)) {","");
                                 new ShareAction(DemandActivity.this)
                                         .setPlatform(SHARE_MEDIA.QQ)//传入平台
@@ -637,34 +639,39 @@ public class DemandActivity extends BaseNoNetworkActivity {
                                         .setCallback(umShareListener)//回调监听器
                                         .share();
                                 mCameraDialog.dismiss();
-                            } else {
-                                BaseApplication.showToast("请安装QQ客户端");
                             }
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
+                        @Override
+                        public void onError(Throwable e) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onComplete() {
 
-                    }
-                });
+                        }
+                    });
+                }else {
+                    BaseApplication.showToast(getString(R.string.please_install_QQ_app));
+                }
 
             }
         });
         root.findViewById(R.id.qzone).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ShareAction(DemandActivity.this)
-                        .setPlatform(SHARE_MEDIA.QZONE)//传入平台
-                        .withMedia(web)
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
-                mCameraDialog.dismiss();
+                if (umShareAPI.isInstall(DemandActivity.this, SHARE_MEDIA.QZONE)) {
+                    new ShareAction(DemandActivity.this)
+                            .setPlatform(SHARE_MEDIA.QZONE)//传入平台
+                            .withMedia(web)
+                            .setCallback(umShareListener)//回调监听器
+                            .share();
+                    mCameraDialog.dismiss();
+                } else {
+                    BaseApplication.showToast(getString(R.string.please_install_Qzone_app));
+                }
+
             }
         });
         root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {

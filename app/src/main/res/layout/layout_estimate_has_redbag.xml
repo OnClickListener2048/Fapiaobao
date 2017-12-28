@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d1"
+        android:layout_marginBottom="@dimen/d5"
+        android:layout_marginLeft="@dimen/d20"
+        android:layout_marginRight="@dimen/d20"
+        android:layout_marginTop="@dimen/d10"
+        android:background="@color/gray_line" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/ll_estimate_caution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/d5"
+                android:drawableStart="@mipmap/caution"
+                android:text="请如实填写,与票面合计金额保持一致,否则将被拒收"
+                android:textColor="@color/olive"
+                android:textSize="@dimen/s13" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_filter_condition_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d20"
+            android:layout_marginRight="@dimen/d20"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="您的筛选条件:"
+                android:textSize="12sp" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="@dimen/d10"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/filter_condition_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ad9d7e"
+                android:textSize="12sp" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/reset_filter_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/d5"
+                android:text="@string/refilter"
+                android:textColor="@drawable/selector_union_main_style_text" />
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d20" />
+
+    <include
+        android:id="@+id/ll_filter_types_location"
+        layout="@layout/layout_estimate_filter_keys"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/d20"
+        android:layout_marginRight="@dimen/d20"
+        android:orientation="vertical" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d20" />
+
+    <include
+        layout="@layout/layout_estimate_redbag_area"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d170"
+        android:layout_gravity="center"
+        android:clipChildren="false"
+        android:clipToPadding="false" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d10" />
+
+    <include
+        android:id="@+id/confirm_caution"
+        layout="@layout/layout_estimate_confirm_caution"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/d10"
+        android:orientation="vertical" />
+
+
+
+</LinearLayout>

@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;    
     
 /**  
- * Created by Jackie on 2017/2/22. 
+ *
  * 过滤用户输入只能为金额格式  
  */    
 public class CashierInputFilter implements InputFilter {  

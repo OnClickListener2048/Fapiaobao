@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -50,7 +51,7 @@ public class SearchActivity extends BaseActivity {
     private int pageNo = 1;
     private FeedbackMessagesAdapter feedbackMessagesAdapter;
     private FeedbackAdapterWrapper normalAdapterWrapper;
-    private ProgressBar progressBar;
+    private ImageView progressBar;
     private TextView textView_loading;
     private int totalPageNo;
     private boolean isLoadingMore;
@@ -78,68 +79,75 @@ public class SearchActivity extends BaseActivity {
                 break;
             case R.id.search:
                 if (metFeedback.validate()) {
-                    getSuggestion(pageNo, pageSize, "", metFeedback.getText().toString().trim(), "", new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
-                        @Override
-                        public void onStart() {
-                            emptyView.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
-                            pageNo = 1;
-                            headerView.setVisibility(View.VISIBLE);
-                            footerView.setVisibility(View.VISIBLE);
-                            progressBar.setVisibility(View.VISIBLE);
-                            textView_loading.setText(getString(R.string.loading));
-                        }
+                    goSearch();
 
-                        @Override
-                        public void onFinish() {
-                            LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                            int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-                            TLog.log("lastVisibleItemPosition"+lastVisibleItemPosition);
-                            TLog.log("normalAdapterWrapper.getItemCount()"+normalAdapterWrapper.getItemCount());
-                            if (lastVisibleItemPosition+2 == normalAdapterWrapper.getItemCount()) {
-                                footerView.setVisibility(View.GONE);
-                            }
-                        }
-
-                        @Override
-                        public void onError() {
-
-                        }
-
-                        @Override
-                        public void setData(FeedbackMessageBean feedbackMessageBean) {
-                            if (feedbackMessageBean.getStatus() == 200) {
-                                recyclerView.setVisibility(View.VISIBLE);
-                                emptyView.setVisibility(View.GONE);
-                                normalAdapterWrapper.addFooterView(footerView);
-                                normalAdapterWrapper.addHeaderView(headerView);
-                                List<FeedbackMessageBean.DataBean.ListBean> list = feedbackMessageBean.getData().getList();
-                                for (FeedbackMessageBean.DataBean.ListBean listBean : list) {
-                                    listBean.setHighlightString(metFeedback.getText().toString().trim());
-                                }
-                                feedbackMessagesAdapter.clearAndInitData(list);
-                                normalAdapterWrapper.notifyDataSetChanged();
-                                totalPageNo = feedbackMessageBean.getData().getTotalPage();
-                                pageNo++;
-                                if (feedbackMessageBean.getData().getList().size()<pageSize) {
-                                    progressBar.setVisibility(View.GONE);
-                                    textView_loading.setText(getString(R.string.already_reach_the_bottom));
-                                }
-                            } else if (feedbackMessageBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
-//                                normalAdapterWrapper.removeFooterView();
-//                                normalAdapterWrapper.removeHeaderView();
-                                recyclerView.setVisibility(View.GONE);
-                                emptyView.setVisibility(View.VISIBLE);
-                                feedbackMessagesAdapter.clearData();
-                                normalAdapterWrapper.notifyDataSetChanged();
-                                progressBar.setVisibility(View.INVISIBLE);
-                                textView_loading.setText(getString(R.string.already_reach_the_bottom));
-                            }
-                        }
-                    });
                 }
                 break;
         }
+    }
+
+    private void goSearch() {
+        getSuggestion(pageNo, pageSize, "", metFeedback.getText().toString().trim(), "", new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
+            @Override
+            public void onStart() {
+                showProgressDialog();
+                emptyView.setVisibility(View.GONE);
+//                            recyclerView.setVisibility(View.VISIBLE);
+                pageNo = 1;
+                headerView.setVisibility(View.VISIBLE);
+                footerView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
+                textView_loading.setText(getString(R.string.loading));
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                TLog.log("lastVisibleItemPosition"+lastVisibleItemPosition);
+                TLog.log("normalAdapterWrapper.getItemCount()"+normalAdapterWrapper.getItemCount());
+                if (lastVisibleItemPosition+2 == normalAdapterWrapper.getItemCount()) {
+                    footerView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void setData(FeedbackMessageBean feedbackMessageBean) {
+                if (feedbackMessageBean.getStatus() == 200) {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                    normalAdapterWrapper.addFooterView(footerView);
+                    normalAdapterWrapper.addHeaderView(headerView);
+                    List<FeedbackMessageBean.DataBean.ListBean> list = feedbackMessageBean.getData().getList();
+                    for (FeedbackMessageBean.DataBean.ListBean listBean : list) {
+                        listBean.setHighlightString(metFeedback.getText().toString().trim());
+                    }
+                    feedbackMessagesAdapter.clearAndInitData(list);
+                    normalAdapterWrapper.notifyDataSetChanged();
+                    totalPageNo = feedbackMessageBean.getData().getTotalPage();
+                    pageNo++;
+                    if (feedbackMessageBean.getData().getList().size()<pageSize) {
+                        progressBar.setVisibility(View.GONE);
+                        textView_loading.setText(getString(R.string.already_reach_the_bottom));
+                    }
+                } else if (feedbackMessageBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
+//                                normalAdapterWrapper.removeFooterView();
+//                                normalAdapterWrapper.removeHeaderView();
+                    recyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                    feedbackMessagesAdapter.clearData();
+                    normalAdapterWrapper.notifyDataSetChanged();
+                    progressBar.setVisibility(View.INVISIBLE);
+                    textView_loading.setText(getString(R.string.already_reach_the_bottom));
+                }
+            }
+        });
     }
 
     @Override
@@ -221,6 +229,7 @@ public class SearchActivity extends BaseActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setVisibility(View.GONE);
         metFeedback.addValidator(new METValidator("请输入内容来进行搜索~") {
             @Override
             public boolean isValid(@NonNull CharSequence text, boolean isEmpty) {
@@ -236,7 +245,11 @@ public class SearchActivity extends BaseActivity {
         recyclerView.setAdapter(normalAdapterWrapper);
         emptyView = findViewById(R.id.empty_view);
         emptyView.setVisibility(View.GONE);
-        progressBar = (ProgressBar) footerView.findViewById(R.id.loading_progress);
+        progressBar = (ImageView) footerView.findViewById(R.id.loading_progress);
+        AnimationDrawable animationDrawable = (AnimationDrawable) progressBar.getDrawable();
+        if (animationDrawable!= null) {
+            animationDrawable.start();
+        }
         textView_loading = (TextView) footerView.findViewById(R.id.loading);
 
         headerView.setVisibility(View.INVISIBLE);

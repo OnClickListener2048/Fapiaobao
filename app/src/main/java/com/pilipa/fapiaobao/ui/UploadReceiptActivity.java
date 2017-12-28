@@ -122,6 +122,7 @@ public class UploadReceiptActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        TLog.d(TAG, "onNewIntent");
         paperElecReceiptFragment.resultFromElec(intent);
     }
 

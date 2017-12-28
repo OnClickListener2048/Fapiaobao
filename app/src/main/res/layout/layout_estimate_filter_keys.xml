@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filter"
+            android:textSize="@dimen/s12" />
+    </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d20" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/receipt_kind"
+            android:textSize="@dimen/s12" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="@dimen/d10"
+            android:layout_height="match_parent" />
+
+        <com.pilipa.fapiaobao.ui.widget.LabelsView
+            android:id="@+id/labels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:labelBackground="@drawable/selector_estimate_kind_bg"
+            app:labelTextColor="@drawable/selector_estimate_kind_text"
+            app:labelTextPaddingBottom="5dp"
+            app:labelTextPaddingLeft="10dp"
+            app:labelTextPaddingRight="10dp"
+            app:labelTextPaddingTop="5dp"
+            app:labelTextSize="13sp"
+            app:lineMargin="10dp"
+            app:maxSelect="0"
+            app:selectType="SINGLE"
+            app:wordMargin="5dp">
+
+        </com.pilipa.fapiaobao.ui.widget.LabelsView>
+    </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d20" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开票地区:"
+            android:textSize="@dimen/s12" />
+
+        <android.support.v4.widget.Space
+            android:layout_width="@dimen/d10"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/locating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/d5"
+            android:drawableStart="@mipmap/locating"
+            android:text="@string/locating"
+            android:textSize="@dimen/s13" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/select_other_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/d5"
+            android:text="选择其他省市"
+            android:textColor="@drawable/selector_union_main_style_text"
+            android:textSize="@dimen/s12" />
+    </LinearLayout>
+</LinearLayout>

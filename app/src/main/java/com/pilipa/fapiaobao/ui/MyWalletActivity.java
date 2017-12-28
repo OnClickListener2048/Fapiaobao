@@ -1,8 +1,10 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,10 +17,16 @@ import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -31,7 +39,7 @@ public class MyWalletActivity extends BaseActivity {
     TextView tv_bouns;
     @Bind(R.id.tv_amount)
     TextView tv_amount;
-    private Dialog mDialog;
+    private AlertDialog alertDialog;
 
     @Override
     protected int getLayoutId() {
@@ -75,13 +83,45 @@ public class MyWalletActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        initDialog();
+    }
+
+    public void initDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        builder.setMessage(getString(R.string.demand_publish_quit));
+        builder.setTitle(getString(R.string.demand_publish_title));
+
+//        builder.setNegativeButton(R.string.have_known, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                refreshAccount();
+//            }
+//        });
+
+
+        alertDialog = builder.create();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == Constant.REQUEST_REFRESH_CODE && resultCode == RESULT_OK) {
-            refreshAccount();
+            String title = data.getStringExtra(Constant.TITLE);
+            String message = data.getStringExtra(Constant.MESSAGE);
+            alertDialog.setTitle(title);
+            alertDialog.setMessage(message);
+            alertDialog.show();
+            Observable.timer(1000, TimeUnit.MILLISECONDS)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(@NonNull Long aLong) throws Exception {
+                            refreshAccount();
+                            alertDialog.dismiss();
+                        }
+                    });
         }
     }
 

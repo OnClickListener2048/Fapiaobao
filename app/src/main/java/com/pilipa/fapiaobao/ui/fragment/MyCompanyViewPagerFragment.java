@@ -56,6 +56,8 @@ public class MyCompanyViewPagerFragment extends BaseNoNetworkFragment implements
     public List<CompaniesBean.DataBean> mData = new ArrayList();
     private boolean mIsInited;
     private boolean mIsPrepared;
+    private View emptyView;
+
     public MyCompanyViewPagerFragment() {
 
     }
@@ -91,11 +93,11 @@ public class MyCompanyViewPagerFragment extends BaseNoNetworkFragment implements
         trl.setEnableOverScroll(false);
         listView.setAdapter(mAdapter=new MyCompanyAdapter(mContext));
         listView.setOnItemClickListener(this);
-        View emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
+        emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
         emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         emptyView.setVisibility(View.GONE);
         ((ViewGroup)listView.getParent()).addView(emptyView);
-        listView.setEmptyView(emptyView);
+
     }
 
     @Override
@@ -257,6 +259,7 @@ public class MyCompanyViewPagerFragment extends BaseNoNetworkFragment implements
                     if (companiesBean.getStatus() == REQUEST_NO_CONTENT) {
                         if (listView != null) {
                             listView.setAdapter(null);
+                            listView.setEmptyView(emptyView);
                         }
                         if (mAdapter!= null) {
                             mAdapter.clearData();

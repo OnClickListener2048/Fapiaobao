@@ -33,4 +33,9 @@ public class Constant {
     public static final String PHONE = "phone";
     public static final String UPLOAD_PDF_SUCCESS = "UPLOAD_PDF_SUCCESS";
     public static final CharSequence PROJECT_NAME = "fapiaobao";
+    public static final String TITLE = "title";
+    public static final String MESSAGE = "message";
+    public static final String AMOUNT = "amount";
+    public static final String ACTION_UPDATE = "go_update";
+    public static final String VERSION_EXTRA = "version_extra";
 }

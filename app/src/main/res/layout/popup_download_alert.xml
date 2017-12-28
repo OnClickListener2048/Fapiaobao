@@ -111,7 +111,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/shape_update"
                         android:gravity="center"
-                        android:text="还用老版本"
+                        android:text="@string/donnot_update"
                         android:textColor="#e6af7a"
                         android:textSize="@dimen/s16" />
 
@@ -127,7 +127,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/shape_update"
                         android:gravity="center"
-                        android:text="立即更新"
+                        android:text="@string/update_immediately"
                         android:textColor="#e6af7a"
                         android:textSize="@dimen/s16" />
 

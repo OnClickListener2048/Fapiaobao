@@ -262,7 +262,8 @@ public class UserInfoActivity extends BaseActivity {
                         public void setData(NormalBean normalBean) {
                             if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
 //                            tv_wx.setText(getString(R.string.haveBound));
-                                hightlightPartText(tv_wx,getString(R.string.haveBound),AccountHelper.getUser().getData().getCustomer().getNickname());
+//                                hightlightPartText(tv_wx,getString(R.string.haveBound),AccountHelper.getUser().getData().getCustomer().getNickname());
+                                tv_wx.setText(getString(R.string.haveBound));
                                 tv_wx.setOnClickListener(null);
                                 BaseApplication.showToast(getString(R.string.WX_bind_success));
                             } else if (normalBean.getStatus() == 707) {
@@ -488,7 +489,8 @@ public class UserInfoActivity extends BaseActivity {
             tv_wx.setText(getString(R.string.gobind));
             tv_wx.setOnClickListener(this);
         } else {
-            hightlightPartText(tv_wx,getString(R.string.haveBound),customer.getNickname());
+//            hightlightPartText(tv_wx,getString(R.string.haveBound),customer.getNickname());
+            tv_wx.setText(getString(R.string.haveBound));
             tv_wx.setOnClickListener(null);
         }
         if ("".equals(customer.getTelephone())) {

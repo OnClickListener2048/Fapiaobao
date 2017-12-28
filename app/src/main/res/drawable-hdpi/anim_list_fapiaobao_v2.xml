@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list android:oneshot="false" xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:drawable="@mipmap/fapiaobao_anim_01_v2" android:duration="100" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_anim_02_v2" android:duration="100" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_anim_03_v2" android:duration="100" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_anim_04_v2" android:duration="100" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_anim_05_v2" android:duration="100" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_anim_06_v2" android:duration="100" />
+
+    <item
+        android:drawable="@mipmap/fapiaobao_anim_07_v2" android:duration="100" />
+
+
+
+    <item
+        android:drawable="@mipmap/fapiaobao_anim_08_v2" android:duration="100" />
+
+
+    <item
+        android:drawable="@mipmap/fapiaobao_anim_09_v2" android:duration="100" />
+
+
+</animation-list>

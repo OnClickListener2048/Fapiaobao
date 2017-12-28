@@ -1829,7 +1829,7 @@ public class Api {
         }
     }
 
-    public static void getUpdateInfo(final BaseViewCallback baseViewCallback) {
+    public static void getUpdateInfo(final BaseViewCallbackWithOnStart baseViewCallback) {
         OkGo.<VersionMode>get(URL_UPDATE)
                 .execute(new JsonCallBack<VersionMode>(VersionMode.class) {
 
@@ -1840,6 +1840,24 @@ public class Api {
                                 baseViewCallback.setData(response.body());
                             }
                         }
+                    }
+
+                    @Override
+                    public void onStart(Request<VersionMode, ? extends Request> request) {
+                        super.onStart(request);
+                        baseViewCallback.onStart();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        baseViewCallback.onFinish();
+                    }
+
+                    @Override
+                    public void onError(Response<VersionMode> response) {
+                        super.onError(response);
+                        baseViewCallback.onError();
                     }
                 });
     }

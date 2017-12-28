@@ -50,6 +50,7 @@ public class ProvidePagerFragment extends BaseNoNetworkFragment implements Adapt
     List<OrderListBean.DataBean> mDataList =new ArrayList<>();
     private boolean mIsInited;
     private boolean mIsPrepared;
+    private View emptyView;
 
 
     public ProvidePagerFragment() {
@@ -105,10 +106,11 @@ public class ProvidePagerFragment extends BaseNoNetworkFragment implements Adapt
         trl.setEnableOverScroll(false);
         listView.setAdapter(mAdapter = new MyReceiptAdapter(mContext));
         listView.setOnItemClickListener(this);
-        View emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
+        emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
+        emptyView.setVisibility(View.GONE);
         emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         ((ViewGroup)listView.getParent()).addView(emptyView);
-        listView.setEmptyView(emptyView);
+
     }
 
     @Override
@@ -220,7 +222,7 @@ public class ProvidePagerFragment extends BaseNoNetworkFragment implements Adapt
 
                     List<OrderListBean.DataBean> list =  orderListBean.getData();
                     mDataList = list;
-                    mAdapter.initData(mDataList);
+                    mAdapter.initData(list);
                     listView.setAdapter(mAdapter);
                     Log.d(TAG, "updateData:orderList success");
                 }
@@ -228,6 +230,7 @@ public class ProvidePagerFragment extends BaseNoNetworkFragment implements Adapt
                 if (orderListBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
                     if (listView != null) {
                         listView.setAdapter(null);
+                        listView.setEmptyView(emptyView);
                     }
                     if (mAdapter!= null) {
                         mAdapter.clearData();

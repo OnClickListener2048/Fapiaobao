@@ -8,7 +8,7 @@
         android:id="@+id/preview_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="@color/white">
     </com.pilipa.fapiaobao.ui.widget.PreviewViewpager>
 
     <RelativeLayout
@@ -16,7 +16,7 @@
         android:layout_height="48dp"
         android:layout_gravity="bottom"
         android:alpha="0.5"
-        android:background="@color/black">
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/delete"
@@ -26,7 +26,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:text="@string/delete"
-            android:textColor="@color/white" />
+            android:textColor="@color/main_style" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -34,7 +34,7 @@
         android:layout_height="48dp"
         android:layout_gravity="top"
         android:alpha="0.5"
-        android:background="@color/black">
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/back"
@@ -44,7 +44,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:text="@string/back"
-            android:textColor="@color/white" />
+            android:textColor="@color/main_style" />
 
         <TextView
             android:visibility="gone"

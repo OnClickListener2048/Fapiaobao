@@ -2,6 +2,7 @@ package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -59,7 +60,7 @@ public class MyQuestionsActivity extends BaseNoNetworkActivity implements Feedba
     private int pageNo = 1;
     private boolean isLoadingMore;
     private FeedbackAdapterWrapper normalAdapterWrapper;
-    private ProgressBar progressBar;
+    private ImageView progressBar;
     private TextView textView_loading;
     private int totalPageNo;
     private boolean responding;
@@ -116,7 +117,11 @@ public class MyQuestionsActivity extends BaseNoNetworkActivity implements Feedba
         emptyView = findViewById(R.id.empty_view);
         emptyView.setVisibility(View.GONE);
         recyclerView.setAdapter(normalAdapterWrapper);
-        progressBar = (ProgressBar) footerView.findViewById(R.id.loading_progress);
+        progressBar = (ImageView) footerView.findViewById(R.id.loading_progress);
+        AnimationDrawable animationDrawable = (AnimationDrawable) progressBar.getDrawable();
+        if (animationDrawable!= null) {
+            animationDrawable.start();
+        }
         textView_loading = (TextView) footerView.findViewById(R.id.loading);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -198,12 +203,14 @@ public class MyQuestionsActivity extends BaseNoNetworkActivity implements Feedba
             getSuggestion(pageNo, pageSize, "", "", AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<FeedbackMessageBean>() {
                 @Override
                 public void onStart() {
+                    showProgressDialog();
                     emptyView.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
+//                    recyclerView.setVisibility(View.VISIBLE);
                 }
 
                 @Override
                 public void onFinish() {
+                    hideProgressDialog();
                     LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                     int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
                     if (lastVisibleItemPosition+2 == normalAdapterWrapper.getItemCount()) {
