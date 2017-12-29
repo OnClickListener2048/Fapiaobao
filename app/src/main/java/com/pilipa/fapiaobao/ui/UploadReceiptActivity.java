@@ -103,7 +103,7 @@ public class UploadReceiptActivity extends BaseActivity {
         label = getIntent().getStringExtra(FinanceFragment.EXTRA_DATA_LABEL);
         amount = getIntent().getDoubleExtra("amount", 0);
         bonus = getIntent().getDoubleExtra("bonus", 0);
-        company_info = getIntent().getParcelableExtra("company_info");
+        company_info = getIntent().getParcelableExtra(Constant.COMPANY_INFO);
         TLog.log("company_info== null?"+company_info);
         demandsId = getIntent().getStringExtra("demandsId");
         paperNormalReceiptFragment = UploadNormalReceiptFragment.newInstance(new Bundle());
@@ -224,7 +224,7 @@ public class UploadReceiptActivity extends BaseActivity {
                     TLog.log(content);
                     if (RegexUtils.isURL(content)||content.contains("http")) {
                         Intent intent = new Intent();
-                        intent.putExtra("company_info", company_info);
+                        intent.putExtra(Constant.COMPANY_INFO, company_info);
                         intent.putExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, true);
                         intent.setClass(this, Op.class);
                         intent.putExtra("url", content);

@@ -43,6 +43,7 @@ import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.component.SimpleComponent;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.fragment.EstimatePagerFragment;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.widget.CashierInputFilter;
@@ -371,7 +372,8 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
                             intent.putExtra("demandsId", dataBean.getDemandId());
                             intent.putExtra("amount", amount);
                             intent.putExtra("bonus", dataBean.getBonus());
-                            intent.putExtra("company_info", dataBean.getCompany());
+                            intent.putExtra(Constant.COMPANY_INFO, dataBean.getCompany());
+                            TLog.d(TAG,dataBean.getCompany().toString());
                             intent.putExtra("company_id", dataBean.getCompany().getId());
                             intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
                             if (type == 3) {

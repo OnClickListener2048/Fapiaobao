@@ -156,7 +156,17 @@
         <activity android:name=".ui.CompanyDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.FavCompanyDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BindPhoneActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.PdfPreviewActivity" />
+        <activity android:name=".ui.PdfPreviewActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                　　
+                <category android:name="android.intent.category.DEFAULT" />
+                　　
+                <data android:scheme="https" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.EstimateLocationActivity" android:screenOrientation="portrait">
         </activity>
 
@@ -167,13 +177,7 @@
 
 
         <activity android:name=".ui.SearchActivity" android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain"  />
-                <data android:mimeType="image/*"/>
-                <data android:mimeType="application/pdf"  />
-            </intent-filter>
+
         </activity>
         <activity
             android:windowSoftInputMode="adjustResize"

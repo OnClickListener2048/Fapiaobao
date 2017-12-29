@@ -38,4 +38,5 @@ public class Constant {
     public static final String AMOUNT = "amount";
     public static final String ACTION_UPDATE = "go_update";
     public static final String VERSION_EXTRA = "version_extra";
+    public static final String COMPANY_INFO = "company_info";
 }

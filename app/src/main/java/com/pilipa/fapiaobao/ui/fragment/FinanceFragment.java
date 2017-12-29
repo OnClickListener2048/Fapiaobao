@@ -387,9 +387,14 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                 quickResponse();
                 break;
             case R.id.fl_notification:
-                            newNotification.setVisibility(View.GONE);
-                            BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
-                            startActivity(new Intent(mContext, MessageCenterActivity.class));
+                if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {
+                    newNotification.setVisibility(View.GONE);
+                    BaseApplication.set(BaseApplication.PUSH_RECEIVE, false);
+                    startActivity(new Intent(mContext, MessageCenterActivity.class));
+                } else {
+                    login();
+                }
+
                 break;
             case R.id.pull_to_find_more:
             case R.id.rl_pull_to_find_more:

@@ -17,7 +17,7 @@ import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 
 public class PublishSpinnerAdapter extends BaseAdapter {
 
-    ExpressCompanyBean expressCompanyBean;
+    private ExpressCompanyBean expressCompanyBean;
 
     public PublishSpinnerAdapter(ExpressCompanyBean expressCompanyBean) {
         this.expressCompanyBean = expressCompanyBean;

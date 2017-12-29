@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.example.mylibrary.utils.ActivityUtils;
+import com.example.mylibrary.utils.TLog;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -38,7 +40,7 @@ import io.reactivex.functions.Consumer;
  */
 
 public class PdfPreviewActivity extends BaseActivity {
-
+    private static final String TAG = PdfPreviewActivity.class.getSimpleName();
     @Bind(R.id.pdfView)
     ImageView pdfView;
     @Bind(R.id.save_to_invoice_clip)
@@ -65,6 +67,11 @@ public class PdfPreviewActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
+//
+//        String data = getIntent().getData().getPath();
+//        String host = getIntent().getData().getHost();
+//        TLog.d(TAG,"data"+data);
+//        TLog.d(TAG,"host"+host);
         pdfUrl = getIntent().getStringExtra(Constant.PDF_EXTRA);
         boolean isFromUploadReceiptActivity = getIntent().getBooleanExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, false);
         tag = getIntent().getStringExtra(Constant.TAG);

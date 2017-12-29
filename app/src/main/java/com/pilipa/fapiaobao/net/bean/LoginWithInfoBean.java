@@ -117,7 +117,7 @@ public class LoginWithInfoBean {
 
             public String getEmail() {
                 if ("".equals(email)) {
-                    return "";
+                    return null;
                 }
 
                 if (email == null) {

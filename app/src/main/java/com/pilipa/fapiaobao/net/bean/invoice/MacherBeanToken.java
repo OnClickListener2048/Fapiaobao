@@ -209,6 +209,24 @@ public class MacherBeanToken implements Parcelable{
         }
 
         public static class CompanyBean implements Parcelable{
+            @Override
+            public String toString() {
+                return "CompanyBean{" +
+                        "id='" + id + '\'' +
+                        ", isNewRecord=" + isNewRecord +
+                        ", createDate='" + createDate + '\'' +
+                        ", updateDate='" + updateDate + '\'' +
+                        ", customer=" + customer +
+                        ", name='" + name + '\'' +
+                        ", taxno='" + taxno + '\'' +
+                        ", address='" + address + '\'' +
+                        ", phone='" + phone + '\'' +
+                        ", depositBank='" + depositBank + '\'' +
+                        ", account='" + account + '\'' +
+                        ", qrcode='" + qrcode + '\'' +
+                        '}';
+            }
+
             /**
              * id : 242443fe0f044f218b022479562f436d
              * isNewRecord : false

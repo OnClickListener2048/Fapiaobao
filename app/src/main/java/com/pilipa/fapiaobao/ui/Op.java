@@ -2,10 +2,20 @@ package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +30,7 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
-import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
+import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.WebViewUtils;
@@ -40,10 +50,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.widget.AdapterView.OnItemClickListener;
 
 /**
  * Created by lyt on 2017/10/13.
@@ -58,7 +71,7 @@ public class Op extends BaseActivity implements
     @Bind(R.id.webView_back)
     ImageView webViewBack;
     @Bind(R.id.ll)
-    LinearLayout ll;
+    FrameLayout ll;
     String TAG = Op.class.getSimpleName();
     private  MacherBeanToken.DataBean.CompanyBean companyInfo;
 
@@ -142,6 +155,7 @@ public class Op extends BaseActivity implements
                             "            {selector:'#mobile',value:'" + AccountHelper.getUser().getData().getCustomer().getTelephone() + "'}\n" +
                             "        ]);");
                 } else if (url.contains("starbucks")) {
+                    TLog.d(TAG, "else if (url.contains(\"starbucks\")) {");
                     view.loadUrl("javascript:;(function(currentRules){\n" +
                             "            var jQueryUrl = 'https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js';\n" +
                             "            function writeValue(conf) {\n" +
@@ -176,15 +190,13 @@ public class Op extends BaseActivity implements
                             "            {selector:'#mailAccount',value:'" + AccountHelper.getUser().getData().getCustomer().getEmail() + "'},\n" +
                             "            {selector:'#cellPhoneNumber',value:'" + AccountHelper.getUser().getData().getCustomer().getTelephone() + "'}\n" +
                             "        ]);");
-                } else if (true) {
-
                 }
 
             } else {
                 TLog.d(TAG," if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {");
                 if (url.contains("starbucks") || url.contains("yumchina")) {
                     if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {
-                        Api.companiesList(AccountHelper.getToken(), this, new Api.BaseRawResponse<CompaniesBean>() {
+                        Api.favoriteCompanyList(AccountHelper.getToken(), this, new Api.BaseRawResponse<FavoriteCompanyBean>() {
                             @Override
                             public void onStart() {
                                 showProgressDialog();
@@ -206,32 +218,96 @@ public class Op extends BaseActivity implements
                             }
 
                             @Override
-                            public void setData(CompaniesBean companiesBean) {
+                            public void setData(final FavoriteCompanyBean companiesBean) {
                                 if (companiesBean.getData()!= null && companiesBean.getData().size() == 1) {
                                     TLog.d(TAG,"companiesBean.getData().size() "+companiesBean.getData().size());
-                                    fillInWithSingleCompany(makeCompany(companiesBean),view,url);
+                                    fillInWithSingleCompany(makeCompany(companiesBean.getData().get(0)), view, url);
+                                }
+
+                                if (companiesBean.getData() != null && companiesBean.getData().size() > 1) {
+                                    if (!popWnd.isShowing()) {
+                                        CompanySpinnerAdapter companySpinnerAdapter = new CompanySpinnerAdapter(companiesBean.getData());
+                                        listView.setAdapter(companySpinnerAdapter);
+
+                                        popWnd.showAtLocation(View.inflate(Op.this, R.layout.activity_web, null), Gravity.CENTER, 0, 0);
+
+                                        listView.setOnItemClickListener(new OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view2, int position, long id) {
+                                                fillInWithSingleCompany(makeCompany(companiesBean.getData().get(position)), view, url);
+                                                popWnd.dismiss();
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         });
                     }
                 }
-
             }
         }
     };
+    private ListView listView;
+    private PopupWindow popWnd;
+
+    private void initPopup() {
+        View popupContentView = LayoutInflater.from(this).inflate(R.layout.layout_spinner, null);
+        listView = (ListView) popupContentView.findViewById(R.id.listview);
+        popWnd = new PopupWindow(this);
+        popWnd.setAnimationStyle(R.style.download_alert_layout_style);
+        popWnd.setContentView(popupContentView);
+        popWnd.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_rect));
+        popWnd.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popWnd.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popWnd.setOutsideTouchable(true);
+    }
+
+    private static class CompanySpinnerAdapter extends BaseAdapter {
+
+        private final List<FavoriteCompanyBean.DataBean> data;
+
+        public CompanySpinnerAdapter(List<FavoriteCompanyBean.DataBean> data) {
+            this.data = data;
+        }
+
+        @Override
+        public int getCount() {
+            return data.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return data.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return data.get(position).hashCode();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater _LayoutInflater = LayoutInflater.from(parent.getContext());
+            LinearLayout ll = (LinearLayout) _LayoutInflater.inflate(R.layout.item_simple_text_spinner, null);
+            TextView textView = (TextView) ll.findViewById(R.id.spinner_item);
+            textView.setTextColor(Color.parseColor("#434343"));
+            textView.setText(data.get(position).getName());
+            return ll;
+        }
+    }
+
     private String tag;
 
-    private  MacherBeanToken.DataBean.CompanyBean makeCompany(CompaniesBean companiesBean) {
-        CompaniesBean.DataBean data = companiesBean.getData().get(0);
+    private MacherBeanToken.DataBean.CompanyBean makeCompany(FavoriteCompanyBean.DataBean companiesBean) {
         MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
-        companyBean.setAccount(data.getAccount());
-        companyBean.setAddress(data.getAddress());
-        companyBean.setDepositBank(data.getDepositBank());
-        companyBean.setId(data.getId());
-        companyBean.setIsNewRecord(data.isIsNewRecord());
-        companyBean.setName(data.getName());
-        companyBean.setPhone(data.getPhone());
-        companyBean.setTaxno(data.getTaxno());
+        companyBean.setAccount(companiesBean.getAccount());
+        companyBean.setAddress(companiesBean.getAddress());
+        companyBean.setDepositBank(companiesBean.getDepositBank());
+        companyBean.setId(companiesBean.getId());
+        companyBean.setIsNewRecord(companiesBean.isIsNewRecord());
+        companyBean.setName(companiesBean.getName());
+        companyBean.setPhone(companiesBean.getPhone());
+        companyBean.setTaxno(companiesBean.getTaxno());
         return companyBean;
     }
 
@@ -385,14 +461,13 @@ public class Op extends BaseActivity implements
         super.onCreate(savedInstanceState);
 
         ButterKnife.bind(this);
-        companyInfo = getIntent().getParcelableExtra("companyInfo");
+        companyInfo = getIntent().getParcelableExtra(Constant.COMPANY_INFO);
         isFromUploadReceiptActivity = getIntent().getBooleanExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, false);
         tag = getIntent().getStringExtra(Constant.TAG);
-        TLog.log(" companyInfo = getIntent().getParcelableExtra(\"companyInfo\");");
         AgentWeb.PreAgentWeb preAgentWeb = WebViewUtils.init(this, ll, this, webViewClient, webChromeClient, null);
         String url = getIntent().getStringExtra("url");
         go = preAgentWeb.go(url);
-
+        initPopup();
 
             JSONObject jsonObject = new JSONObject();
         try {
