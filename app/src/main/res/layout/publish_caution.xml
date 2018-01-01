@@ -20,6 +20,8 @@
         <EditText
             android:lineSpacingExtra="@dimen/d6"
             android:layout_gravity="top"
+            android:inputType="text"
+            android:imeOptions="actionGo"
             android:gravity="top"
             android:id="@+id/et_publish_cautions"
             android:layout_width="match_parent"

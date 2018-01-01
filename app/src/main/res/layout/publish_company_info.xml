@@ -9,29 +9,30 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/d23" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/d13"
-            android:layout_marginRight="@dimen/d13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/d13"
+            android:layout_marginRight="@dimen/d13"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
 
             <TextView
-                android:textSize="@dimen/s12"
                 android:layout_width="wrap_content"
-                android:textColor="@color/main_style"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/please_choose_a_company" />
+                android:text="@string/please_choose_a_company"
+                android:textColor="@color/main_style"
+                android:textSize="@dimen/s12" />
 
             <View
                 android:layout_width="0dp"
@@ -39,38 +40,38 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/changeCompanyinfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/changeCompanyinfo"
-                android:textColor="@drawable/selector_union_main_style_text" />
+                android:textColor="@drawable/selector_union_main_style_text"
+                android:visibility="gone" />
 
             <android.support.v4.widget.Space
                 android:layout_width="@dimen/d10"
                 android:layout_height="match_parent" />
 
             <TextView
-                android:visibility="gone"
-                android:padding="@dimen/d5"
                 android:id="@+id/more_company"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/d5"
                 android:drawableEnd="@mipmap/more_company"
+                android:drawablePadding="@dimen/d5"
+                android:padding="@dimen/d5"
                 android:text="@string/more"
-                android:textColor="@drawable/selector_union_main_style_text" />
+                android:textColor="@drawable/selector_union_main_style_text"
+                android:visibility="gone" />
 
             <android.support.v4.widget.Space
                 android:layout_width="@dimen/d20"
                 android:layout_height="match_parent" />
 
             <ImageView
-                android:background="@drawable/drawable_scan"
-                android:padding="@dimen/d5"
                 android:id="@+id/iv_dots_more_company"
                 android:layout_width="@dimen/d25"
                 android:layout_height="@dimen/d25"
+                android:background="@drawable/drawable_scan"
+                android:padding="@dimen/d5"
                 android:src="@mipmap/scan" />
 
 
@@ -83,28 +84,27 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <LinearLayout
                 android:id="@+id/ll_company_info"
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/d15"
                     android:layout_marginRight="@dimen/d15"
-                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/d10"
                         android:text="@string/company_name" />
 
-                    <View
-                        android:layout_width="@dimen/d10"
-                        android:layout_height="match_parent" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -115,13 +115,16 @@
                         android:focusableInTouchMode="true">
 
                         <EditText
-                            android:maxLines="2"
-                            android:textSize="@dimen/s12"
                             android:id="@+id/et_publish_company_name"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@null" />
+                            android:background="@null"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLines="2"
+                            android:nextFocusForward="@+id/et_publish_tex_number"
+                            android:textSize="@dimen/s12" />
                     </LinearLayout>
 
                     <TextView
@@ -136,34 +139,30 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/d1"
+                    android:layout_marginBottom="@dimen/d20"
                     android:layout_marginLeft="@dimen/d15"
                     android:layout_marginRight="@dimen/d15"
                     android:layout_marginTop="@dimen/d5"
                     android:background="@color/gray_line" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d20" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/d15"
                     android:layout_marginRight="@dimen/d15"
-                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/d10"
                         android:text="@string/tex_number" />
 
-                    <View
-                        android:layout_width="@dimen/d10"
-                        android:layout_height="match_parent" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
@@ -171,14 +170,16 @@
                         android:focusableInTouchMode="true">
 
                         <EditText
-                            android:maxLines="2"
-                            android:textSize="@dimen/s12"
                             android:id="@+id/et_publish_tex_number"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            />
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLines="2"
+                            android:nextFocusForward="@+id/et_publish_address"
+                            android:textSize="@dimen/s12" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -193,34 +194,30 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/d1"
+                    android:layout_marginBottom="@dimen/d20"
                     android:layout_marginLeft="@dimen/d15"
                     android:layout_marginRight="@dimen/d15"
                     android:layout_marginTop="@dimen/d5"
                     android:background="@color/gray_line" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d20" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/d15"
                     android:layout_marginRight="@dimen/d15"
-                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/d10"
                         android:text="@string/company_address" />
 
-                    <View
-                        android:layout_width="@dimen/d10"
-                        android:layout_height="match_parent" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
@@ -228,13 +225,16 @@
                         android:focusableInTouchMode="true">
 
                         <EditText
-                            android:maxLines="2"
-                            android:textSize="@dimen/s12"
                             android:id="@+id/et_publish_address"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:background="@null" />
+                            android:background="@null"
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLines="2"
+                            android:nextFocusForward="@+id/et_publish_phone_number"
+                            android:textSize="@dimen/s12" />
 
                         <TextView
                             android:id="@+id/tv_publish_address_must_fill"
@@ -248,47 +248,45 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/d1"
+                    android:layout_marginBottom="@dimen/d20"
                     android:layout_marginLeft="@dimen/d15"
                     android:layout_marginRight="@dimen/d15"
                     android:layout_marginTop="@dimen/d5"
                     android:background="@color/gray_line" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d20" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/d15"
                     android:layout_marginRight="@dimen/d15"
-                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/d10"
                         android:text="@string/number" />
 
-                    <View
-                        android:layout_width="@dimen/d10"
-                        android:layout_height="match_parent" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1">
 
                         <EditText
-                            android:maxLines="2"
-                            android:textSize="@dimen/s12"
                             android:id="@+id/et_publish_phone_number"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:inputType="number" />
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLines="2"
+                            android:nextFocusForward="@+id/et_publish_bank"
+                            android:textSize="@dimen/s12" />
 
                         <TextView
                             android:id="@+id/tv_publish_phone_number_must_fill"
@@ -304,47 +302,45 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/d1"
+                    android:layout_marginBottom="@dimen/d20"
                     android:layout_marginLeft="@dimen/d15"
                     android:layout_marginRight="@dimen/d15"
                     android:layout_marginTop="@dimen/d5"
                     android:background="@color/gray_line" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d20" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/d15"
                     android:layout_marginRight="@dimen/d15"
-                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/d10"
                         android:text="@string/bank_name" />
 
-                    <View
-                        android:layout_width="@dimen/d10"
-                        android:layout_height="match_parent" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1">
 
                         <EditText
-                            android:maxLines="2"
-                            android:textSize="@dimen/s12"
                             android:id="@+id/et_publish_bank"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            />
+                            android:imeOptions="actionNext"
+                            android:inputType="text"
+                            android:maxLines="2"
+                            android:nextFocusForward="@+id/et_publish_bank_account"
+                            android:textSize="@dimen/s12" />
 
                         <TextView
                             android:id="@+id/tv_et_publish_bank_must_fill"
@@ -360,31 +356,26 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/d1"
+                    android:layout_marginBottom="@dimen/d20"
                     android:layout_marginLeft="@dimen/d15"
                     android:layout_marginRight="@dimen/d15"
                     android:layout_marginTop="@dimen/d5"
                     android:background="@color/gray_line" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/d20" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/d15"
                     android:layout_marginRight="@dimen/d15"
-                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/d10"
                         android:text="@string/bank_account" />
-
-                    <View
-                        android:layout_width="@dimen/d10"
-                        android:layout_height="match_parent" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -393,14 +384,16 @@
                         android:layout_weight="1">
 
                         <EditText
-                            android:maxLines="2"
-                            android:textSize="@dimen/s12"
                             android:id="@+id/et_publish_bank_account"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:inputType="number" />
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:nextFocusForward="@+id/et_amount"
+                            android:maxLines="2"
+                            android:textSize="@dimen/s12" />
 
                         <TextView
                             android:id="@+id/tv_publish_bank_account_must_fill"
@@ -421,11 +414,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/ll_add_company_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"
@@ -460,8 +453,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/add_demand"
-            android:gravity="center"
             android:drawablePadding="@dimen/d5"
+            android:gravity="center"
             android:text="@string/addCompanyInfo"
             android:textColor="@color/white" />
     </LinearLayout>

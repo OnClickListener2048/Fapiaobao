@@ -527,6 +527,7 @@
     <string name="quit_app">退出发票宝</string>
     <string name="update_immediately">立即升级</string>
     <string name="donnot_update">还用老版本</string>
+    <string name="recharge_fail">充值失败</string>
 
 
     <string-array name="express">

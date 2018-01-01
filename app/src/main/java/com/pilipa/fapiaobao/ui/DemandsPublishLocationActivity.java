@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Looper;
-import android.support.annotation.NonNull;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.AppCompatSpinner;
@@ -19,6 +19,7 @@ import android.text.TextUtils;
 import android.text.method.ReplacementTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,9 @@ import android.widget.Toast;
 import com.blog.www.guideview.Component;
 import com.blog.www.guideview.Guide;
 import com.blog.www.guideview.GuideBuilder;
+import com.example.mylibrary.utils.DeviceUtils;
 import com.example.mylibrary.utils.RegexUtils;
+import com.example.mylibrary.utils.ScreenUtils;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.TimeUtils;
 import com.google.gson.Gson;
@@ -55,6 +58,7 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseLocationActivity;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
@@ -177,7 +181,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     @Bind(R.id.ll_toggle_switch)
     LinearLayout llToggleSwitch;
     @Bind(R.id.SwitchArea)
-    SwitchCompat SwitchArea;
+    SwitchCompat switchArea;
     @Bind(R.id.ll_area)
     LinearLayout llArea;
     @Bind(R.id.ll_estimate_request)
@@ -194,6 +198,8 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     LinearLayout llDate;
     @Bind(R.id.ll_more_company_types)
     LinearLayout llMoreCompanyTypes;
+    @Bind(R.id.scrollview)
+    NestedScrollView scrollview;
     private boolean paperNormal;
     private boolean elec;
     private boolean paperSpecial;
@@ -227,7 +233,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 publish();
 
             } else if (TextUtils.equals(intent.getAction(), WXPayReceiver.pay_fail)) {
-                BaseApplication.showToast("充值失败");
+                BaseApplication.showToast(getString(R.string.recharge_fail));
             }
         }
     };
@@ -235,6 +241,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     private String tempCompanyId;
     private AlertDialog alertDialog;
     private CityPickerView cityPickerAreaLimited;
+    private List<DemandsPublishBean.DemandInvoiceTypeListBean> listBeen;
 
     @Override
     protected int getLayoutId() {
@@ -248,7 +255,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     @Override
     public void initView() {
-        InputFilter[] cashierInputFilter ={new CashierInputFilter()};
+        InputFilter[] cashierInputFilter = {new CashierInputFilter()};
         etAmount.setFilters(cashierInputFilter);
         etAmountRedbag.setFilters(cashierInputFilter);
         etExpressAmountMinimum.setFilters(cashierInputFilter);
@@ -274,15 +281,15 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 //        llAreaLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
         llExpressLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
 
-        int fourteen_days_miliseconds = 14 * 24 * 60 * 60 * 1000;
-        etDate.setText(TimeUtils.millis2String(System.currentTimeMillis() + fourteen_days_miliseconds, TimeUtils.FORMAT));
+        int fourteenDaysMilliseconds = 14 * 24 * 60 * 60 * 1000;
+        etDate.setText(TimeUtils.millis2String(System.currentTimeMillis() + fourteenDaysMilliseconds, TimeUtils.FORMAT));
         dialog = new TimePickerDialog(this);
         Switch.setChecked(true);
         Switch.setOnCheckedChangeListener(this);
         Switch.setTag("Switch");
-        SwitchArea.setChecked(true);
-        SwitchArea.setOnCheckedChangeListener(this);
-        SwitchArea.setTag("SwitchArea");
+        switchArea.setChecked(true);
+        switchArea.setOnCheckedChangeListener(this);
+        switchArea.setTag("SwitchArea");
         llEstimateRequest.setVisibility(View.GONE);
         llToggleSwitch.setVisibility(View.GONE);
         rbCod.setSelected(true);
@@ -297,7 +304,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 initCityPicker();
             }
         }.start();
-
 
 
         spinner.setOnItemSelectedListener(this);
@@ -317,10 +323,10 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         registerReceiver(wxPayReceiver, intentFilter);
         String location = BaseApplication.get("location", "定位失败，点击选择地区");
         tvAreaLimited.setText(location);
-        if("定位异常，请点击重新定位".equals(location)){
+        if ("定位异常，请点击重新定位".equals(location)) {
             BaseApplication.showToast("定位异常，请开启定位功能或手动选择");
         }
-        
+
         etPublishTexNumber.setTransformationMethod(new ReplacementTransformationMethod() {
             @Override
             protected char[] getOriginal() {
@@ -332,7 +338,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 return new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
             }
         });
-
 
 
         etAreaDetails.setText(BaseApplication.get("etAreaDetails", null));
@@ -402,9 +407,9 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     @Override
     public void initData() {
         demandPostageBean = new DemandsPublishBean.DemandPostageBean();
-        demandPostageBean.setProvince(BaseApplication.get("province",null));
-        demandPostageBean.setCity(BaseApplication.get("city",null));
-        demandPostageBean.setDistrict(BaseApplication.get("district",null));
+        demandPostageBean.setProvince(BaseApplication.get("province", null));
+        demandPostageBean.setCity(BaseApplication.get("city", null));
+        demandPostageBean.setDistrict(BaseApplication.get("district", null));
         Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
             @Override
             public void setData(ExpressCompanyBean expressCompanyBean) {
@@ -421,12 +426,11 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         if (loginBean != null) {
             alreadyLogin(loginBean);
         } else {
-            hasnLogin(loginBean);
-
+            hasnLogin();
         }
     }
 
-    private void hasnLogin(LoginWithInfoBean loginBean) {
+    private void hasnLogin() {
         Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
             @Override
             public void onCacheSuccess(DefaultInvoiceBean allInvoiceType) {
@@ -650,10 +654,10 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                     public void positiveListener() {
                         String date = dialog.getYear() + "-" + dialog.getMonth() + "-" + dialog.getDay();
                         long selectTime = TimeUtils.string2Millis(date, TimeUtils.FORMAT);
-                        TLog.log("selectTime"+selectTime);
+                        TLog.log("selectTime" + selectTime);
                         String nowString = TimeUtils.getNowString(TimeUtils.FORMAT);
                         long today = TimeUtils.string2Millis(nowString, TimeUtils.FORMAT);
-                        TLog.log("selectTime - currentTimeMillis"+(selectTime - today));
+                        TLog.log("selectTime - currentTimeMillis" + (selectTime - today));
                         if (selectTime - today < 0) {
                             BaseApplication.showToast(getString(R.string.cant_choose_last_day));
                             return;
@@ -713,7 +717,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             case R.id.tv_express_limited:
                 setTipDialog(R.layout.layout_extimate_tip2);
                 break;
-                default:
+            default:
         }
     }
 
@@ -723,56 +727,56 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             if (makeParams() != null) {
                 final Gson gson = new GsonBuilder().serializeNulls().create();
 
-                            Api.publish(gson.toJson(makeParams()), new Api.BaseRawResponse<BalanceBean>() {
-                                @Override
-                                public void onTokenInvalid() {
-                                    login();
-                                }
+                Api.publish(gson.toJson(makeParams()), new Api.BaseRawResponse<BalanceBean>() {
+                    @Override
+                    public void onTokenInvalid() {
+                        login();
+                    }
 
-                                @Override
-                                public void onStart() {
-                                    btnPublishNow.setEnabled(false);
-                                    showProgressDialog();
-                                }
+                    @Override
+                    public void onStart() {
+                        btnPublishNow.setEnabled(false);
+                        showProgressDialog();
+                    }
 
-                                @Override
-                                public void onFinish() {
-                                    hideProgressDialog();
-                                    btnPublishNow.setEnabled(true);
-                                }
+                    @Override
+                    public void onFinish() {
+                        hideProgressDialog();
+                        btnPublishNow.setEnabled(true);
+                    }
 
-                                @Override
-                                public void onError() {
-                                    hideProgressDialog();
-                                    btnPublishNow.setEnabled(true);
-                                }
+                    @Override
+                    public void onError() {
+                        hideProgressDialog();
+                        btnPublishNow.setEnabled(true);
+                    }
 
-                                @Override
-                                public void setData(BalanceBean balanceBean) {
-                                    btnPublishNow.setEnabled(true);
-                                    Intent intent = new Intent();
-                                    if (balanceBean.getStatus() == 200) {
-                                        intent.putExtra("demand", balanceBean.getData().getDemand());
-                                        intent.setClass(DemandsPublishLocationActivity.this, PubSuccessActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    } else if (balanceBean.getStatus() == 888) {
-                                        BaseApplication.showToast("账户余额不足，请先充值");
-                                        intent.setClass(DemandsPublishLocationActivity.this, RechargeActivity.class);
-                                        startActivityForResult(intent, REQUEST_CODE);
-                                    } else if (balanceBean.getStatus() == 885) {
-                                        BaseApplication.showToast("可用金额不足，已发红包占用中");
-                                        intent.setClass(DemandsPublishLocationActivity.this, RechargeActivity.class);
-                                        startActivityForResult(intent, REQUEST_CODE);
-                                    } else if (balanceBean.getStatus() == 400) {
-                                        BaseApplication.showToast("截止日期不能小于当前时间");
-                                    } else if (balanceBean.getStatus() == 406) {
-                                        BaseApplication.showToast("红包不能超过需求总金额的5%");
-                                    }
-                                }
-                            });
+                    @Override
+                    public void setData(BalanceBean balanceBean) {
+                        btnPublishNow.setEnabled(true);
+                        Intent intent = new Intent();
+                        if (balanceBean.getStatus() == Constant.REQUEST_SUCCESS) {
+                            intent.putExtra("demand", balanceBean.getData().getDemand());
+                            intent.setClass(DemandsPublishLocationActivity.this, PubSuccessActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else if (balanceBean.getStatus() == Constant.INSUFFICIENT_ACCOUNT) {
+                            BaseApplication.showToast("账户余额不足，请先充值");
+                            intent.setClass(DemandsPublishLocationActivity.this, RechargeActivity.class);
+                            startActivityForResult(intent, REQUEST_CODE);
+                        } else if (balanceBean.getStatus() == 885) {
+                            BaseApplication.showToast("可用金额不足，已发红包占用中");
+                            intent.setClass(DemandsPublishLocationActivity.this, RechargeActivity.class);
+                            startActivityForResult(intent, REQUEST_CODE);
+                        } else if (balanceBean.getStatus() == 400) {
+                            BaseApplication.showToast("截止日期不能小于当前时间");
+                        } else if (balanceBean.getStatus() == 406) {
+                            BaseApplication.showToast("红包不能超过需求总金额的5%");
                         }
                     }
+                });
+            }
+        }
 
     }
 
@@ -789,36 +793,36 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     private void createCompany(final Company company) {
 
-                    Api.companyCreate(company, AccountHelper.getToken(),new Api.BaseRawResponse<NormalBean>() {
-                        @Override
-                        public void onTokenInvalid() {
+        Api.companyCreate(company, AccountHelper.getToken(), new Api.BaseRawResponse<NormalBean>() {
+            @Override
+            public void onTokenInvalid() {
 
-                        }
+            }
 
-                        @Override
-                        public void onStart() {
-                            showProgressDialog();
-                        }
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
 
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
 
-                        @Override
-                        public void onError() {
+            @Override
+            public void onError() {
 
-                        }
+            }
 
-                        @Override
-                        public void setData(NormalBean normalBean) {
-                            if (normalBean.getStatus() == 200) {
-                                Toast.makeText(DemandsPublishLocationActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
-                                setResult(RESULT_OK);
-                                Log.d(TAG, "createCompany;success");
-                            }
-                        }
-                    });
+            @Override
+            public void setData(NormalBean normalBean) {
+                if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
+                    Toast.makeText(DemandsPublishLocationActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
+                    Log.d(TAG, "createCompany;success");
+                }
+            }
+        });
     }
 
     private void requestForMoreTypes() {
@@ -836,7 +840,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         switch (requestCode) {
             case REQUEST_CODE:
                 if (RESULT_CANCELED == resultCode) {
-                    BaseApplication.showToast("余额不足");
+                    BaseApplication.showToast(getString(R.string.insufficient_account));
                 } else if (RESULT_OK == resultCode) {
                 }
                 break;
@@ -875,13 +879,13 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
                     TLog.log("getStringExtra(DECODED_CONTENT_KEY) codedContent " + content);
 
-                    if(content.contains("fapiaobao")) {
-                        TLog.d("content" , content);
-                        try{
+                    if (content.contains("fapiaobao")) {
+                        TLog.d("content", content);
+                        try {
                             String[] split = content.split("\\?");
                             String[] split1 = null;
                             split1 = split[1].split("=");
-                            TLog.d("REQUEST_CODE_SCAN",split[1]);
+                            TLog.d("REQUEST_CODE_SCAN", split[1]);
                             Api.companyDetails(split1[1], new Api.BaseViewCallback<CompanyDetailsBean>() {
 
                                 private CompanyDetailsBean.DataBean data;
@@ -889,7 +893,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                                 @Override
                                 public void setData(CompanyDetailsBean companyDetailsBean) {
 
-                                    try{
+                                    try {
                                         MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
                                         data = companyDetailsBean.getData();
                                         companyBean.setAccount(data.getAccount());
@@ -901,22 +905,22 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                                         companyBean.setPhone(data.getPhone());
                                         companyBean.setTaxno(data.getTaxno());
                                         updateCompanyInfo(companyBean);
-                                    }catch (Exception e){
+                                    } catch (Exception e) {
                                         setScanDialog();
                                     }
                                 }
                             });
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                             setScanDialog();
                         }
 
-                    }else{
-                      setScanDialog();
+                    } else {
+                        setScanDialog();
                     }
                 }
                 break;
-                default:
+            default:
         }
     }
 
@@ -965,11 +969,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         LoginWithInfoBean loginWithInfoBean = SharedPreferencesHelper.loadFormSource(this, LoginWithInfoBean.class);
         DemandsPublishBean bean = new DemandsPublishBean();
 
-        if (SwitchArea.isChecked()) {
-            if ("定位失败，点击选择地区".equals(tvAreaLimited.getText().toString())) {
-                BaseApplication.showToast("限制开票区域定位异常，请开启定位功能或手动选择开票地区");
-                return null;
-            }
+        if (switchArea.isChecked()) {
             bean.setAreaRestrict("1");
             bean.setCity(tvAreaLimited.getText().toString());
         } else {
@@ -987,16 +987,54 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             companyBean.setId(dataBean.getId());
         }
         companyBean.setId(tempCompanyId);
-        companyBean.setAccount(etPublishBankAccount.getText().toString().trim());
-        companyBean.setAddress(etPublishAddress.getText().toString().trim());
-        companyBean.setTaxno(etPublishTexNumber.getText().toString().trim().toUpperCase());
-        companyBean.setName(etPublishCompanyName.getText().toString().trim());
-        companyBean.setDepositBank(etPublishBank.getText().toString().trim());
-        companyBean.setPhone(etPublishPhoneNumber.getText().toString().trim());
+        companyBean.setAccount(getTextViewValue(etPublishBankAccount));
+        companyBean.setAddress(getTextViewValue(etPublishAddress));
+        companyBean.setTaxno(getTextViewValue(etPublishTexNumber).toUpperCase());
+        companyBean.setName(getTextViewValue(etPublishCompanyName));
+        companyBean.setDepositBank(getTextViewValue(etPublishBank));
+        companyBean.setPhone(getTextViewValue(etPublishPhoneNumber));
         bean.setCompany(companyBean);
 
-        List<DemandsPublishBean.DemandInvoiceTypeListBean> listBeen = new ArrayList<>();
+        bean.setDemandInvoiceTypeList(listBeen);
 
+        demandPostageBean.setAddress(getTextViewValue(etAreaDetails));
+        demandPostageBean.setProvince(getTextViewValue(tvArea));
+        demandPostageBean.setPhone(getTextViewValue(etReceptionNumber));
+        demandPostageBean.setReceiver(getTextViewValue(etReceptionName));
+        demandPostageBean.setTelephone(getTextViewValue(etReceptionNumber));
+
+        BaseApplication.set("etAreaDetails", getTextViewValue(etAreaDetails));
+        BaseApplication.set("tvArea", getTextViewValue(tvArea));
+        BaseApplication.set("etReceptionNumber", getTextViewValue(etReceptionNumber));
+        BaseApplication.set("etReceptionName", getTextViewValue(etReceptionName));
+
+
+        bean.setDemandPostage(demandPostageBean);
+
+        bean.setAttentions(getTextViewValue(etPublishCautions));
+        bean.setDeadline(getTextViewValue(etDate));
+        if (paperNormal || paperSpecial) {
+            bean.setMailMinimum(Double.valueOf(getTextViewValue(etExpressAmountMinimum)));
+        }
+        if (Switch.isChecked()) {
+            if (!getTextViewValue(etAmountRedbag).isEmpty()) {
+                bean.setTotalBonus(Double.parseDouble(getTextViewValue(etAmountRedbag)));
+            } else {
+                bean.setTotalBonus(0);
+            }
+        } else {
+            bean.setTotalBonus(0);
+        }
+        if (!getTextViewValue(etAmount).isEmpty()) {
+            bean.setTotalAmount(Double.parseDouble(getTextViewValue(etAmount)));
+        }
+        TLog.log(bean.toString());
+        return bean;
+    }
+
+    private boolean checkInvoiceTypes() {
+        llMoreCompanyTypes.requestFocus();
+        listBeen = new ArrayList<>();
         for (DefaultInvoiceBean.DataBean defaultBean : this.bean) {
             if (defaultBean.isSelect()) {
                 DemandsPublishBean.DemandInvoiceTypeListBean demandInvoiceTypeListBean = new DemandsPublishBean.DemandInvoiceTypeListBean();
@@ -1007,150 +1045,224 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             }
         }
         if (listBeen.size() == 0) {
+            llMoreCompanyTypes.requestFocus();
+            llMoreCompanyTypes.setBackgroundResource(R.drawable.bg_error_filling);
+            sooothScrollToView(llMoreCompanyTypes);
             BaseApplication.showToast("请指定一种发票类型");
-            return null;
-        }
-
-        bean.setDemandInvoiceTypeList(listBeen);
-
-        demandPostageBean.setAddress(etAreaDetails.getText().toString().trim());
-        demandPostageBean.setProvince(tvArea.getText().toString());
-        demandPostageBean.setPhone(etReceptionNumber.getText().toString().trim());
-        demandPostageBean.setReceiver(etReceptionName.getText().toString().trim());
-        demandPostageBean.setTelephone(etReceptionNumber.getText().toString().trim());
-
-        BaseApplication.set("etAreaDetails", etAreaDetails.getText().toString().trim());
-        BaseApplication.set("tvArea", tvArea.getText().toString().trim());
-        BaseApplication.set("etReceptionNumber", etReceptionNumber.getText().toString().trim());
-        BaseApplication.set("etReceptionName", etReceptionName.getText().toString().trim());
-
-
-        bean.setDemandPostage(demandPostageBean);
-
-        bean.setAttentions(etPublishCautions.getText().toString().trim());
-        bean.setDeadline(etDate.getText().toString().trim());
-        if (paperNormal||paperSpecial) {
-            bean.setMailMinimum(Double.valueOf(etExpressAmountMinimum.getText().toString().trim()));
-        }
-        if (Switch.isChecked()) {
-            if (!etAmountRedbag.getText().toString().trim().isEmpty()) {
-                bean.setTotalBonus(Double.parseDouble(etAmountRedbag.getText().toString().trim()));
-            } else {
-                bean.setTotalBonus(0);
-            }
+            return false;
         } else {
-            bean.setTotalBonus(0);
+            llMoreCompanyTypes.setBackground(null);
+            return true;
         }
-        if (!etAmount.getText().toString().trim().isEmpty()) {
-            bean.setTotalAmount(Double.parseDouble(etAmount.getText().toString().trim()));
-        }
-        TLog.log(bean.toString());
-        return bean;
     }
 
     private boolean checkParams() {
-
-        if (!checkIfIsEmpty(etAmount)) {
-            BaseApplication.showToast("需求总额不能为空");
+        if (llAddCompanyInfo.getVisibility() == View.VISIBLE) {
+            llAddCompanyInfo.setBackgroundResource(R.drawable.bg_error_filling);
+            sooothScrollToView(llAddCompanyInfo);
+            BaseApplication.showToast("请选择或添加一家开票单位信息");
             return false;
-        }
-        if (Double.valueOf(etAmount.getText().toString().trim()) > MAX_AMOUNT) {
-            BaseApplication.showToast("单次需求总额不得超过50000元");
-            return false;
-        }
-        if (Switch.isChecked()) {
-            if (!checkIfIsEmpty(etAmountRedbag)) {
-                BaseApplication.showToast("悬赏红包不能为空");
-                return false;
-            }
-
-            if ((Double.valueOf(etAmountRedbag.getText().toString().trim())
-                    > Double.valueOf(etAmount.getText().toString().trim()) * 0.05)) {
-                BaseApplication.showToast("悬赏红包不能超过需求总额的5%");
-                return false;
-            }
-        }
-        if (!etExpressAmountMinimum.getText().toString().isEmpty()
-                && Double.valueOf(etExpressAmountMinimum.getText().toString().trim())
-                > Double.valueOf(etAmount.getText().toString().trim())) {
-            BaseApplication.showToast("最少寄送限额必须小于等于需求总额");
-            return false;
+        } else {
+            llAddCompanyInfo.setBackground(null);
         }
 
-        if (!checkIfIsEmpty(etPublishCompanyName)) {
+        if (checkIfIsEmpty(etPublishCompanyName)) {
             BaseApplication.showToast("单位名称不能为空");
             return false;
+        } else {
+            resetBackground(etPublishCompanyName);
         }
-        if (!checkIfIsEmpty(etAreaDetails) && view.getVisibility() == View.VISIBLE) {
-            BaseApplication.showToast("详细地址不能为空");
+
+        if (checkIfIsEmpty(etPublishTexNumber)) {
+            BaseApplication.showToast("税号不能为空");
             return false;
-        }
-        if (paperNormal || paperSpecial) {
-            if (view.getVisibility() == View.VISIBLE) {
-                if (!checkIfIsEmpty(etReceptionNumber)) {
-                    BaseApplication.showToast("收件人手机号不能为空");
-                    return false;
-                } else if (!RegexUtils.isTel(etReceptionNumber.getText().toString().trim())&&!RegexUtils.isMobileExact(etReceptionNumber.getText().toString().trim())) {
-                    BaseApplication.showToast("收票信息-联系电话应为区号+座机号或手机号码~");
-                    return false;
-                }
-            }
-            if (view.getVisibility() == View.VISIBLE) {
-                if (!checkIfIsEmpty(etReceptionName)) {
-                    BaseApplication.showToast("收件人姓名不能为空");
-                    return false;
-                }
-            }
-
-            if (!checkIfIsEmpty(etPublishTexNumber)) {
-                BaseApplication.showToast("税号不能为空");
-                return false;
-            }
-
-            if (!checkIfIsEmpty(etAreaDetails)) {
-                BaseApplication.showToast("详细地址不能为空");
-                return false;
-            }
-
-            if (!checkIfIsEmpty(etExpressAmountMinimum) && llExpressLimited.getVisibility() == View.VISIBLE) {
-                BaseApplication.showToast("最少邮寄限额不能为空");
-                return false;
-            }
-
-            if (TextUtils.isEmpty(tvArea.getText())) {
-                BaseApplication.showToast("所在地区不能为空");
-                return false;
-            }
+        } else {
+            resetBackground(etPublishTexNumber);
         }
 
         if (paperSpecial) {
             String str = "请完善必填信息";
-            if (!checkIfIsEmpty(etPublishAddress)) {
+            if (checkIfIsEmpty(etPublishAddress)) {
                 BaseApplication.showToast(str);
                 return false;
+            } else {
+                resetBackground(etPublishAddress);
             }
-            if (!checkIfIsEmpty(etPublishPhoneNumber)) {
+            if (checkIfIsEmpty(etPublishPhoneNumber)) {
                 BaseApplication.showToast(str);
                 return false;
+            } else {
+                resetBackground(etPublishPhoneNumber);
             }
-            if (!checkIfIsEmpty(etPublishBankAccount)) {
+            if (checkIfIsEmpty(etPublishBank)) {
                 BaseApplication.showToast(str);
                 return false;
+            } else {
+                resetBackground(etPublishBank);
             }
-            if (!checkIfIsEmpty(etPublishBank)) {
+            if (checkIfIsEmpty(etPublishBankAccount)) {
                 BaseApplication.showToast(str);
+                return false;
+            } else {
+                resetBackground(etPublishBankAccount);
+            }
+
+        }
+
+        if (!checkInvoiceTypes()) {
+            return false;
+        }
+
+        if (checkIfIsEmpty(etAmount)) {
+            BaseApplication.showToast("需求总额不能为空");
+            return false;
+        }
+        if (Double.valueOf(getTextViewValue(etAmount)) > MAX_AMOUNT) {
+            BaseApplication.showToast("单次需求总额不得超过50000元");
+            sooothScrollToView(etAmount);
+            setErrorBackground(etAmount);
+            return false;
+        }
+        if (Switch.isChecked()) {
+            if (checkIfIsEmpty(etAmountRedbag)) {
+                BaseApplication.showToast("悬赏红包不能为空");
+                sooothScrollToView(etAmountRedbag);
+                return false;
+            }
+
+            if ((Double.valueOf(getTextViewValue(etAmountRedbag))
+                    > Double.valueOf(getTextViewValue(etAmount)) * 0.05)) {
+                BaseApplication.showToast("悬赏红包不能超过需求总额的5%");
+                sooothScrollToView(etAmountRedbag);
                 return false;
             }
         }
+
+
+        if (checkIfIsEmpty(etExpressAmountMinimum)) {
+            BaseApplication.showToast("最少邮寄限额不能为空");
+            return false;
+        }
+
+        if (switchArea.isChecked()) {
+            tvAreaLimited.requestFocus();
+            if ("定位失败，点击选择地区".equals(tvAreaLimited.getText().toString())) {
+                BaseApplication.showToast("限制开票区域定位异常，请开启定位功能或手动选择开票地区");
+                sooothScrollToView(switchArea);
+                return false;
+            }
+        }
+
+        if (!etExpressAmountMinimum.getText().toString().isEmpty()
+                && Double.valueOf(getTextViewValue(etExpressAmountMinimum))
+                > Double.valueOf(getTextViewValue(etAmount))) {
+            BaseApplication.showToast("最少寄送限额必须小于等于需求总额");
+            sooothScrollToView(etExpressAmountMinimum);
+            return false;
+        }
+
+        if (paperNormal || paperSpecial) {
+            if (view.getVisibility() == View.VISIBLE) {
+                if (checkIfIsEmpty(etReceptionName)) {
+                    BaseApplication.showToast("收件人姓名不能为空");
+                    return false;
+                }else {
+                    resetBackground(etReceptionName);
+                }
+
+                if (checkIfIsEmpty(etReceptionNumber)) {
+                    BaseApplication.showToast("收件人手机号不能为空");
+                    return false;
+                } else if (!RegexUtils.isTel(getTextViewValue(etReceptionNumber)) && !RegexUtils.isMobileExact(getTextViewValue(etReceptionNumber))) {
+                    BaseApplication.showToast("收票信息-联系电话应为区号+座机号或手机号码~");
+                    setErrorBackground(etReceptionNumber);
+                    return false;
+                } else {
+                    resetBackground(etReceptionNumber);
+                }
+
+                if (checkIfIsEmpty(etAreaDetails)) {
+                    BaseApplication.showToast("详细地址不能为空");
+                    return false;
+                }else {
+                    resetBackground(etAreaDetails);
+                }
+
+
+                if (checkIfIsEmpty(tvArea)) {
+                    BaseApplication.showToast("所在地区不能为空");
+                    return false;
+                }else {
+                    resetBackground(tvArea);
+                }
+            }
+        }
+
+
         return true;
     }
 
-    private boolean checkIfIsEmpty(EditText editText) {
-        return !TextUtils.isEmpty(editText.getText());
+    private void setErrorBackground(View view) {
+        ViewGroup viewParent = (ViewGroup) view.getParent();
+        if (viewParent != null) {
+            viewParent.setBackgroundResource(R.drawable.bg_error_filling);
+        } else {
+            view.setBackgroundResource(R.drawable.bg_error_filling);
+        }
+    }
+
+    private void resetBackground(View view) {
+        ViewGroup viewParent = (ViewGroup) view.getParent();
+        if (viewParent != null) {
+            viewParent.setBackgroundDrawable(null);
+        } else {
+            view.setBackgroundDrawable(null);
+        }
+
     }
 
 
-    private void setTipDialog(@NonNull int res) {
+    private boolean checkIfIsEmpty(TextView editText) {
+        boolean b = TextUtils.isEmpty(editText.getText());
+        ViewGroup viewGroup = (ViewGroup) editText.getParent();
+        scrollview.setSmoothScrollingEnabled(true);
+        scrollview.smoothScrollTo(0, getPixelsWithinScrollView(editText) + editText.getHeight() - ScreenUtils.getScreenHeight() / 2);
+        if (b) {
+            if (editText instanceof EditText) {
+                editText.requestFocus();
+            }
+            viewGroup.setBackgroundResource(R.drawable.bg_error_filling);
+        } else {
+
+            viewGroup.setBackgroundResource(R.drawable.shape_rect_demand_info);
+        }
+        return b;
+    }
+
+
+    private void sooothScrollToView(View view) {
+        scrollview.setSmoothScrollingEnabled(true);
+        scrollview.smoothScrollTo(0, getPixelsWithinScrollView(view) + view.getHeight() - ScreenUtils.getScreenHeight() / 2);
+    }
+
+    private String getTextViewValue(TextView view) {
+        return view.getText().toString().trim();
+    }
+
+    private int getPixelsWithinScrollView(View view) {
+        int totalPixels = 0;
+        totalPixels += view.getTop();
+        ViewGroup viewGroup = (ViewGroup) view.getParent();
+        if (viewGroup instanceof NestedScrollView) {
+            return totalPixels;
+        } else {
+            totalPixels += getPixelsWithinScrollView(viewGroup);
+        }
+        return totalPixels;
+    }
+
+
+    private void setTipDialog(int res) {
         mTipDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
                 res, null);
@@ -1182,54 +1294,54 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         Api.companiesList(AccountHelper.getToken(), this, new Api.BaseRawResponse<CompaniesBean>() {
 
 
-                    @Override
-                    public void onStart() {
-                        showProgressDialog();
-                    }
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
 
-                    @Override
-                    public void onFinish() {
-                        hideProgressDialog();
-                    }
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
 
-                    @Override
-                    public void onError() {
+            @Override
+            public void onError() {
 
-                    }
+            }
 
-                    @Override
-                    public void onTokenInvalid() {
+            @Override
+            public void onTokenInvalid() {
 
-                    }
+            }
 
-                    @Override
-                    public void setData(CompaniesBean companiesBean) {
-                        DemandsPublishLocationActivity.this.companiesBean = companiesBean;
-                        if (companiesBean.getStatus() == 200 && companiesBean.getData() != null) {
-                            if (companiesBean.getData().size() == 1) {
-                                updateCompanyInfo(companiesBean.getData().get(0));
+            @Override
+            public void setData(CompaniesBean companiesBean) {
+                DemandsPublishLocationActivity.this.companiesBean = companiesBean;
+                if (companiesBean.getStatus() == Constant.REQUEST_SUCCESS && companiesBean.getData() != null) {
+                    if (companiesBean.getData().size() == 1) {
+                        updateCompanyInfo(companiesBean.getData().get(0));
 
-                            } else {
-                                companyListAdapter.addCompanyInfo(companiesBean.getData());
-                                if (companiesBean.getData().size() > 5) {
-                                    moreCompany.setVisibility(View.VISIBLE);
-                                }
-                            }
-
-                        } else if (companiesBean.getStatus() == 400) {
-
-                        }
-
-                        if (BaseApplication.get("Is_First_In_Publish", true)) {
-                            btnAddCompanyInfo.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    showGuideView();
-                                }
-                            });
+                    } else {
+                        companyListAdapter.addCompanyInfo(companiesBean.getData());
+                        if (companiesBean.getData().size() > 5) {
+                            moreCompany.setVisibility(View.VISIBLE);
                         }
                     }
-                });
+
+                } else if (companiesBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
+
+                }
+
+                if (BaseApplication.get("Is_First_In_Publish", true)) {
+                    btnAddCompanyInfo.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            showGuideView();
+                        }
+                    });
+                }
+            }
+        });
 
     }
 
@@ -1238,7 +1350,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.company_dialog_bottom, null);
         //初始化视图
-        LinearLayout ll_container = (LinearLayout) root.findViewById(R.id.ll_container);
+        LinearLayout llContainer = (LinearLayout) root.findViewById(R.id.ll_container);
         for (int i = 0; i < data.size(); i++) {
             final TextView textView = new TextView(this);
             if (data.size() > 0) {
@@ -1260,7 +1372,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                         mCameraDialog.dismiss();
                     }
                 });
-                ll_container.addView(textView);
+                llContainer.addView(textView);
             }
 
         }
@@ -1301,10 +1413,10 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (buttonView.getTag().equals("SwitchArea")) {
+        if ("SwitchArea".equals(buttonView.getTag())) {
             llArea.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             llEstimateRequest.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-        } else if (buttonView.getTag().equals("Switch")) {
+        } else if ("Switch".equals(buttonView.getTag())) {
             llAmount.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             llToggleSwitch.setVisibility(isChecked ? View.GONE : View.VISIBLE);
         }
@@ -1388,14 +1500,14 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 //CityBean     城市信息
                 //DistrictBean 区县信息
 
-                    demandPostageBean.setProvince(province.getName());
-                    demandPostageBean.setCity(city.getName());
-                    demandPostageBean.setDistrict(district.getName());
+                demandPostageBean.setProvince(province.getName());
+                demandPostageBean.setCity(city.getName());
+                demandPostageBean.setDistrict(district.getName());
 
-                    BaseApplication.set("province", province.getName());
-                    BaseApplication.set("city", city.getName());
-                    BaseApplication.set("district", district.getName());
-                    tvArea.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
+                BaseApplication.set("province", province.getName());
+                BaseApplication.set("city", city.getName());
+                BaseApplication.set("district", district.getName());
+                tvArea.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
 
                 cityPicker.hide();
             }
@@ -1454,7 +1566,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             }
         });
 
-        builder.addComponent(new SimpleComponent(){
+        builder.addComponent(new SimpleComponent() {
             @Override
             public View getView(LayoutInflater inflater) {
                 ImageView imageView = new ImageView(inflater.getContext());
@@ -1494,11 +1606,11 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
             @Override
             public void onDismiss() {
-                BaseApplication.set("Is_First_In_Publish",false);
+                BaseApplication.set("Is_First_In_Publish", false);
             }
         });
 
-        builder1.addComponent(new SimpleComponent(){
+        builder1.addComponent(new SimpleComponent() {
             @Override
             public View getView(LayoutInflater inflater) {
                 ImageView imageView = new ImageView(inflater.getContext());
@@ -1526,7 +1638,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         scanDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.layout_scan_tip, null);
-        TextView tv = (TextView)root.findViewById(R.id.scan_tip);
+        TextView tv = (TextView) root.findViewById(R.id.scan_tip);
         tv.setText("添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描");
         //初始化视图
         root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
@@ -1550,6 +1662,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         dialogWindow.setAttributes(lp);
         scanDialog.show();
     }
+
     @Override
     public void onBackPressed() {
         if (!alertDialog.isShowing()) {

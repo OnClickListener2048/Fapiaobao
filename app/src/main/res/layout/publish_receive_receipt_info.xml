@@ -107,6 +107,9 @@
                 android:layout_weight="1">
 
                 <EditText
+                    android:inputType="text"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/et_reception_number"
                     android:textSize="@dimen/s14"
                     android:id="@+id/et_reception_name"
                     android:layout_width="0dp"
@@ -157,6 +160,8 @@
                 android:layout_weight="1">
 
                 <EditText
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/et_area_details"
                     android:textSize="@dimen/s14"
                     android:inputType="phone"
                     android:id="@+id/et_reception_number"
@@ -266,6 +271,9 @@
                 android:layout_weight="1">
 
                 <EditText
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@+id/et_publish_cautions"
+                    android:inputType="text"
                     android:textSize="@dimen/s14"
                     android:id="@+id/et_area_details"
                     android:layout_width="0dp"
