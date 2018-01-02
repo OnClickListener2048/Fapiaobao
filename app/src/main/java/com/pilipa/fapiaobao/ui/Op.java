@@ -5,11 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -55,8 +53,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.widget.AdapterView.OnItemClickListener;
 
 /**
  * Created by lyt on 2017/10/13.
@@ -193,57 +189,57 @@ public class Op extends BaseActivity implements
                 }
 
             } else {
-                TLog.d(TAG," if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {");
-                if (url.contains("starbucks") || url.contains("yumchina")) {
-                    if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {
-                        Api.favoriteCompanyList(AccountHelper.getToken(), this, new Api.BaseRawResponse<FavoriteCompanyBean>() {
-                            @Override
-                            public void onStart() {
-                                showProgressDialog();
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                hideProgressDialog();
-                            }
-
-                            @Override
-                            public void onError() {
-
-                            }
-
-                            @Override
-                            public void onTokenInvalid() {
-
-                            }
-
-                            @Override
-                            public void setData(final FavoriteCompanyBean companiesBean) {
-                                if (companiesBean.getData()!= null && companiesBean.getData().size() == 1) {
-                                    TLog.d(TAG,"companiesBean.getData().size() "+companiesBean.getData().size());
-                                    fillInWithSingleCompany(makeCompany(companiesBean.getData().get(0)), view, url);
-                                }
-
-                                if (companiesBean.getData() != null && companiesBean.getData().size() > 1) {
-                                    if (!popWnd.isShowing()) {
-                                        CompanySpinnerAdapter companySpinnerAdapter = new CompanySpinnerAdapter(companiesBean.getData());
-                                        listView.setAdapter(companySpinnerAdapter);
-
-                                        popWnd.showAtLocation(View.inflate(Op.this, R.layout.activity_web, null), Gravity.CENTER, 0, 0);
-
-                                        listView.setOnItemClickListener(new OnItemClickListener() {
-                                            @Override
-                                            public void onItemClick(AdapterView<?> parent, View view2, int position, long id) {
-                                                fillInWithSingleCompany(makeCompany(companiesBean.getData().get(position)), view, url);
-                                                popWnd.dismiss();
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
+//                if (url.contains("invoiceWrite") || url.contains("yumchina")) {
+//                    if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {
+//                        Api.favoriteCompanyList(AccountHelper.getToken(), this, new Api.BaseRawResponse<FavoriteCompanyBean>() {
+//                            @Override
+//                            public void onStart() {
+//                                showProgressDialog();
+//                            }
+//
+//                            @Override
+//                            public void onFinish() {
+//                                hideProgressDialog();
+//                            }
+//
+//                            @Override
+//                            public void onError() {
+//
+//                            }
+//
+//                            @Override
+//                            public void onTokenInvalid() {
+//
+//                            }
+//
+//                            @Override
+//                            public void setData(final FavoriteCompanyBean companiesBean) {
+//                                if (companiesBean.getData()!= null && companiesBean.getData().size() == 1) {
+//                                    fillInWithSingleCompany(makeCompany(companiesBean.getData().get(0)), view, url);
+//                                }
+//
+//                                if (companiesBean.getData() != null && companiesBean.getData().size() > 1) {
+//                                    if (!popWnd.isShowing()) {
+//                                        if (!isFinishing()) {
+//                                            CompanySpinnerAdapter companySpinnerAdapter = new CompanySpinnerAdapter(companiesBean.getData());
+//                                            listView.setAdapter(companySpinnerAdapter);
+//
+//                                            popWnd.showAtLocation(View.inflate(Op.this, R.layout.activity_web, null), Gravity.CENTER, 0, 0);
+//
+//                                            listView.setOnItemClickListener(new OnItemClickListener() {
+//                                                @Override
+//                                                public void onItemClick(AdapterView<?> parent, View view2, int position, long id) {
+//                                                    fillInWithSingleCompany(makeCompany(companiesBean.getData().get(position)), view, url);
+//                                                    popWnd.dismiss();
+//                                                }
+//                                            });
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        });
+//                    }
+//                }
             }
         }
     };

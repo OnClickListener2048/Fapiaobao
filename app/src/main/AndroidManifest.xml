@@ -156,6 +156,9 @@
         <activity android:name=".ui.CompanyDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.FavCompanyDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BindPhoneActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.FavCompanyChooseActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.PdfPreviewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
