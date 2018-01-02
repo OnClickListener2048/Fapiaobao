@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 
 /**
  * Created by edz on 2017/10/29.
@@ -17,20 +16,20 @@ import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 
 public class PublishSpinnerAdapter extends BaseAdapter {
 
-    private ExpressCompanyBean expressCompanyBean;
+    private String[] expressCompanyBean;
 
-    public PublishSpinnerAdapter(ExpressCompanyBean expressCompanyBean) {
+    public PublishSpinnerAdapter(String[] expressCompanyBean) {
         this.expressCompanyBean = expressCompanyBean;
     }
 
     @Override
     public int getCount() {
-        return expressCompanyBean.getData().size();
+        return expressCompanyBean.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return expressCompanyBean.getData().get(position);
+        return expressCompanyBean[position];
     }
 
     @Override
@@ -44,7 +43,7 @@ public class PublishSpinnerAdapter extends BaseAdapter {
         LinearLayout ll = (LinearLayout) _LayoutInflater.inflate(R.layout.item_simple_text_spinner, null);
         TextView textView = (TextView) ll.findViewById(R.id.spinner_item);
         textView.setTextColor(Color.parseColor("#434343"));
-        textView.setText(expressCompanyBean.getData().get(position).getLabel());
+        textView.setText(expressCompanyBean[position]);
         return ll;
     }
 
