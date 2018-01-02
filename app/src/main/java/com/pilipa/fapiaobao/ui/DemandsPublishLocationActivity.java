@@ -19,7 +19,6 @@ import android.text.TextUtils;
 import android.text.method.ReplacementTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,6 @@ import android.widget.Toast;
 import com.blog.www.guideview.Component;
 import com.blog.www.guideview.Guide;
 import com.blog.www.guideview.GuideBuilder;
-import com.example.mylibrary.utils.DeviceUtils;
 import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.ScreenUtils;
 import com.example.mylibrary.utils.TLog;
@@ -502,7 +500,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
             @Override
             public void onError() {
-                hideProgressDialog();
             }
 
             @Override
@@ -748,12 +745,10 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                     @Override
                     public void onError() {
                         hideProgressDialog();
-                        btnPublishNow.setEnabled(true);
                     }
 
                     @Override
                     public void setData(BalanceBean balanceBean) {
-                        btnPublishNow.setEnabled(true);
                         Intent intent = new Intent();
                         if (balanceBean.getStatus() == Constant.REQUEST_SUCCESS) {
                             intent.putExtra("demand", balanceBean.getData().getDemand());
@@ -1149,6 +1144,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             if ("定位失败，点击选择地区".equals(tvAreaLimited.getText().toString())) {
                 BaseApplication.showToast("限制开票区域定位异常，请开启定位功能或手动选择开票地区");
                 sooothScrollToView(switchArea);
+                cityPickerAreaLimited.show();
                 return false;
             }
         }

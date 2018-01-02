@@ -33,14 +33,18 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.AllInvoiceAdapter;
 import com.pilipa.fapiaobao.adapter.FinanceAdapter;
+import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFinanceFragment;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
+import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
+import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.ui.EstimateLocationActivity;
+import com.pilipa.fapiaobao.ui.FavCompanyChooseActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.constants.Constant;
@@ -139,28 +143,74 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        TLog.log("requestCode" + requestCode);
-        TLog.log("resultCode" + resultCode);
-        TLog.log("data" + data);
         switch (requestCode) {
             case REQUEST_CODE_SCAN:
                 if (resultCode == Activity.RESULT_OK) {
-                    TLog.log("if (resultCode == Activity.RESULT_OK) {");
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
-                    TLog.log(content);
-                    TLog.log("RegexUtils.isURL(content)" + RegexUtils.isURL(content));
                     if (RegexUtils.isURL(content) || content.contains("http")) {
-                        Intent intent = new Intent();
-                        intent.setClass(mContext, Op.class);
-                        intent.putExtra("url", content);
-                        intent.putExtra(Constant.TAG, TAG);
-                        startActivity(intent);
+                        checkFavCompanies(content);
                     }else{
                         setScanDialog();
                     }
                 }
                 break;
         }
+    }
+
+    private void checkFavCompanies(final String content) {
+        Api.favoriteCompanyList(AccountHelper.getToken(), this, new Api.BaseRawResponse<FavoriteCompanyBean>() {
+            @Override
+            public void onTokenInvalid() {
+                login();
+            }
+
+            @Override
+            public void onStart() {
+                ((BaseActivity) getActivity()).showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                ((BaseActivity) getActivity()).hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void setData(FavoriteCompanyBean favoriteCompanyBean) {
+                Intent intent = new Intent();
+                intent.putExtra("url", content);
+                intent.putExtra(Constant.TAG, TAG);
+                if (favoriteCompanyBean == null || favoriteCompanyBean.getData() == null || favoriteCompanyBean.getData().size() == 0) {
+                    intent.setClass(mContext, Op.class);
+                    startActivity(intent);
+                } else if (favoriteCompanyBean.getData().size() == 1) {
+                    intent.setClass(mContext, Op.class);
+                    intent.putExtra(Constant.COMPANY_INFO, makeCompany(favoriteCompanyBean.getData().get(0)));
+                    startActivity(intent);
+                } else {
+                    intent.putExtra(Constant.COMPANIES_BEAN, favoriteCompanyBean);
+                    intent.setClass(mContext, FavCompanyChooseActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+    }
+
+    private MacherBeanToken.DataBean.CompanyBean makeCompany(FavoriteCompanyBean.DataBean companiesBean) {
+        MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
+        companyBean.setAccount(companiesBean.getAccount());
+        companyBean.setAddress(companiesBean.getAddress());
+        companyBean.setDepositBank(companiesBean.getDepositBank());
+        companyBean.setId(companiesBean.getId());
+        companyBean.setIsNewRecord(companiesBean.isIsNewRecord());
+        companyBean.setName(companiesBean.getName());
+        companyBean.setPhone(companiesBean.getPhone());
+        companyBean.setTaxno(companiesBean.getTaxno());
+        return companyBean;
     }
 
     @Override
