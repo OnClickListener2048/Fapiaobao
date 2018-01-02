@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/ll_title"
         android:layout_width="match_parent"
@@ -38,90 +38,83 @@
     </LinearLayout>
 
 
-        <android.support.v7.widget.CardView
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btn_save"
+        android:layout_below="@+id/ll_title"
+        android:layout_marginBottom="@dimen/d13"
+        android:layout_marginLeft="@dimen/d10"
+        android:layout_marginRight="@dimen/d10"
+        android:background="@drawable/receipt_info_bg"
+        android:elevation="@dimen/d10"
+        android:orientation="vertical"
+        android:translationZ="@dimen/d10"
+        app:cardCornerRadius="@dimen/d10">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/btn_save"
-            android:layout_below="@+id/ll_title"
-            android:layout_marginBottom="@dimen/d13"
-            android:layout_marginLeft="@dimen/d10"
-            android:layout_marginRight="@dimen/d10"
-            android:background="@drawable/receipt_info_bg"
-            android:elevation="@dimen/d10"
             android:orientation="vertical"
-            android:translationZ="@dimen/d10"
-            app:cardCornerRadius="@dimen/d10">
+            android:paddingBottom="@dimen/d10"
+            android:paddingTop="@dimen/d10">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:padding="@dimen/d5">
+
+                <ImageView
+                    android:id="@+id/img_scan"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/drawable_scan"
+                    android:gravity="center"
+                    android:padding="@dimen/d12"
+                    android:src="@mipmap/scan" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/d10"
-                android:paddingTop="@dimen/d10">
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/d5">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_weight="1"
-                    android:padding="@dimen/d5">
-                    <ImageView
-                        android:id="@+id/img_scan"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="@drawable/drawable_scan"
-                        android:gravity="center"
-                        android:padding="@dimen/d12"
-                        android:src="@mipmap/scan"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/d5">
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/textView6"
-                        android:layout_width="@dimen/d80"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
                         android:padding="@dimen/d10"
                         android:text="@string/company_name" />
 
-                    <LinearLayout
+
+                    <EditText
+                        android:id="@+id/edt_company_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
+                        android:layout_marginEnd="@dimen/d5"
+                        android:layout_marginStart="@dimen/d5"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:paddingBottom="@dimen/d10"
-                        android:paddingLeft="@dimen/d10"
-                        android:paddingRight="@dimen/d10"
-                        android:paddingTop="@dimen/d10">
-
-                        <EditText
-                            android:id="@+id/edt_company_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="@string/company_name"
-                            android:imeOptions="actionNext"
-                            android:inputType="text"
-                            android:maxLines="2"
-                            android:nextFocusForward="@+id/edt_taxno"
-                            android:textSize="@dimen/s12" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d0.5"
-                            android:layout_marginEnd="@dimen/d10"
-                            android:layout_marginTop="@dimen/d5"
-                            android:background="@color/gray_line" />
-                    </LinearLayout>
+                        android:background="@drawable/shape_edittext_underline"
+                        android:hint="@string/company_name"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="2"
+                        android:nextFocusForward="@+id/edt_taxno"
+                        android:padding="@dimen/d5"
+                        android:textSize="@dimen/s12" />
 
 
                     <TextView
@@ -133,53 +126,50 @@
                         android:text="@string/must_fill"
                         android:textColor="@color/olive"
                         android:textSize="@dimen/s11" />
-
                 </LinearLayout>
 
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/d5">
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:padding="@dimen/d5">
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
-
                         android:id="@+id/textView5"
-                        android:layout_width="@dimen/d80"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
                         android:padding="@dimen/d10"
-                        android:text="税        号" />
+                        android:text="@string/texnumber" />
 
-                    <LinearLayout
+                    <EditText
+                        android:id="@+id/edt_taxno"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
+                        android:layout_marginEnd="@dimen/d5"
+                        android:layout_marginStart="@dimen/d5"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="@dimen/d10">
+                        android:background="@drawable/shape_edittext_underline"
+                        android:digits="@string/alphabet_and_number"
+                        android:hint="@string/limit"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLines="2"
+                        android:nextFocusForward="@+id/edt_company_address"
+                        android:padding="@dimen/d5"
+                        android:textSize="@dimen/s12" />
 
-                        <EditText
-                            android:id="@+id/edt_taxno"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:digits="@string/alphabet_and_number"
-                            android:hint="@string/limit"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:maxLines="2"
-                            android:nextFocusForward="@+id/edt_company_address"
-                            android:textSize="@dimen/s12" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d0.5"
-                            android:layout_marginEnd="@dimen/d10"
-                            android:layout_marginTop="@dimen/d5"
-                            android:background="@color/gray_line" />
-                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_mustfill_texno"
@@ -192,12 +182,21 @@
                         android:textSize="@dimen/s11" />
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/d5">
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:padding="@dimen/d5">
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -206,33 +205,23 @@
                         android:padding="@dimen/d10"
                         android:text="@string/company_address" />
 
-                    <LinearLayout
+
+                    <EditText
+                        android:id="@+id/edt_company_address"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
+                        android:layout_marginEnd="@dimen/d5"
+                        android:layout_marginStart="@dimen/d5"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="@dimen/d10">
+                        android:background="@drawable/shape_edittext_underline"
+                        android:hint="@string/company_address"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="2"
+                        android:nextFocusForward="@+id/edt_company_number"
+                        android:padding="@dimen/d5"
+                        android:textSize="@dimen/s12" />
 
-                        <EditText
-                            android:id="@+id/edt_company_address"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="@string/company_address"
-                            android:imeOptions="actionNext"
-                            android:inputType="text"
-                            android:maxLines="2"
-                            android:nextFocusForward="@+id/edt_company_number"
-                            android:textSize="@dimen/s12" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d0.5"
-                            android:layout_marginEnd="@dimen/d10"
-                            android:layout_marginTop="@dimen/d5"
-                            android:background="@color/gray_line" />
-                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_mustfill_address"
@@ -243,51 +232,49 @@
                         android:text="@string/must_fill"
                         android:textColor="@color/olive"
                         android:textSize="@dimen/s11" />
+
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/d5">
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/d5">
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
 
                     <TextView
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
                         android:padding="@dimen/d10"
                         android:text="@string/number" />
 
-                    <LinearLayout
+
+                    <EditText
+                        android:id="@+id/edt_company_number"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
+                        android:layout_marginEnd="@dimen/d5"
+                        android:layout_marginStart="@dimen/d5"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="@dimen/d10">
+                        android:background="@drawable/shape_edittext_underline"
+                        android:hint="@string/company_number"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"
+                        android:maxLines="2"
+                        android:nextFocusForward="@+id/edt_bank_name"
+                        android:padding="@dimen/d5"
+                        android:textSize="@dimen/s12" />
 
-                        <EditText
-                            android:id="@+id/edt_company_number"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="@string/company_number"
-                            android:imeOptions="actionNext"
-                            android:inputType="phone"
-                            android:maxLines="2"
-                            android:nextFocusForward="@+id/edt_bank_name"
-                            android:textSize="@dimen/s12" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d0.5"
-                            android:layout_marginEnd="@dimen/d10"
-                            android:layout_marginTop="@dimen/d5"
-                            android:background="@color/gray_line" />
-                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_mustfill_company_phone"
@@ -300,13 +287,21 @@
                         android:textSize="@dimen/s11" />
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/d5">
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/d5">
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -315,33 +310,23 @@
                         android:padding="@dimen/d10"
                         android:text="@string/bank_name" />
 
-                    <LinearLayout
+
+                    <EditText
+                        android:id="@+id/edt_bank_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
+                        android:layout_marginEnd="@dimen/d5"
+                        android:layout_marginStart="@dimen/d5"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="@dimen/d10">
+                        android:background="@drawable/shape_edittext_underline"
+                        android:hint="@string/bank_name"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxLines="2"
+                        android:nextFocusForward="@+id/edt_bank_account"
+                        android:padding="@dimen/d5"
+                        android:textSize="@dimen/s12" />
 
-                        <EditText
-                            android:id="@+id/edt_bank_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="@string/bank_name"
-                            android:imeOptions="actionNext"
-                            android:inputType="text"
-                            android:maxLines="2"
-                            android:nextFocusForward="@+id/edt_bank_account"
-                            android:textSize="@dimen/s12" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d0.5"
-                            android:layout_marginEnd="@dimen/d10"
-                            android:layout_marginTop="@dimen/d5"
-                            android:background="@color/gray_line" />
-                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_mustfill_bank_name"
@@ -354,13 +339,22 @@
                         android:textSize="@dimen/s11" />
                 </LinearLayout>
 
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/d5">
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/d5">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -369,32 +363,22 @@
                         android:padding="@dimen/d10"
                         android:text="@string/bank_account" />
 
-                    <LinearLayout
+
+                    <EditText
+                        android:id="@+id/edt_bank_account"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
+                        android:layout_marginEnd="@dimen/d5"
+                        android:layout_marginStart="@dimen/d5"
                         android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:padding="@dimen/d10">
+                        android:background="@drawable/shape_edittext_underline"
+                        android:hint="@string/bank_account"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLines="2"
+                        android:padding="@dimen/d5"
+                        android:textSize="@dimen/s12" />
 
-                        <EditText
-                            android:id="@+id/edt_bank_account"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            android:hint="@string/bank_account"
-                            android:imeOptions="actionDone"
-                            android:inputType="number"
-                            android:maxLines="2"
-                            android:textSize="@dimen/s12" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d0.5"
-                            android:layout_marginEnd="@dimen/d10"
-                            android:layout_marginTop="@dimen/d5"
-                            android:background="@color/gray_line" />
-                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_mustfill_bank_number"
@@ -407,12 +391,14 @@
                         android:textSize="@dimen/s11" />
                 </LinearLayout>
 
-                <android.support.v4.widget.Space
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp" />
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+            <android.support.v4.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
     <Button
         android:id="@+id/btn_save"

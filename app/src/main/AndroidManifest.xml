@@ -127,7 +127,7 @@
         <activity
             android:name=".ui.AddCompanyInfoActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified" />
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.ProvidedActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.PubActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.ConfirmActivity" android:screenOrientation="portrait"/>

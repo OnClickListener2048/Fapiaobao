@@ -529,6 +529,7 @@
     <string name="donnot_update">还用老版本</string>
     <string name="recharge_fail">充值失败</string>
     <string name="alphabet_and_number">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
+    <string name="texnumber">税\u3000\u3000号</string>
 
     <string-array name="express_array">
         <item>顺丰</item>
