@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,20 +13,20 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/d23" />
         <LinearLayout
-            android:layout_marginLeft="@dimen/d15"
-            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:orientation="horizontal">
 
 
             <TextView
                 android:layout_width="wrap_content"
-                android:textColor="@color/main_style"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/settings" />
+                android:text="@string/settings"
+                android:textColor="@color/main_style" />
 
 
         </LinearLayout>
@@ -38,18 +38,18 @@
 
 
         <LinearLayout
-            android:layout_marginLeft="@dimen/d15"
-            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_receive_deadline"
-                android:drawablePadding="@dimen/d5"
-                android:drawableRight="@mipmap/question"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawableEnd="@mipmap/question"
+                android:drawablePadding="@dimen/d5"
                 android:text="@string/deadline" />
 
             <View
@@ -57,34 +57,34 @@
                 android:layout_height="@dimen/d10" />
             <LinearLayout
                 android:id="@+id/ll_date"
-                android:layout_height="@dimen/d43"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/d43"
                 android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
                 android:layout_weight="1"
-                android:background="@drawable/shape_rect_demand_info">
+                android:background="@drawable/shape_rect_demand_info"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <android.support.v4.widget.Space
                     android:layout_width="@dimen/d10"
                     android:layout_height="match_parent" />
                 <TextView
-                    android:layout_height="@dimen/d43"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
                     android:id="@+id/et_date"
                     android:layout_width="0dp"
-                    android:text="@string/c2017"
+                    android:layout_height="@dimen/d43"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:background="@null" />
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:text="@string/c2017" />
 
                 <ImageView
-                    android:background="@drawable/drawable_scan"
                     android:id="@+id/iv_select_date"
-                    android:padding="@dimen/d10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/d10"
+                    android:background="@drawable/drawable_scan"
+                    android:padding="@dimen/d10"
                     android:src="@mipmap/date" />
             </LinearLayout>
         </LinearLayout>
@@ -95,10 +95,10 @@
 
 
         <LinearLayout
-            android:layout_marginLeft="@dimen/d15"
-            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:orientation="vertical">
 
             <TextView
@@ -118,20 +118,21 @@
                 android:background="@drawable/shape_rect_demand_info">
 
                 <EditText
-                    android:inputType="numberDecimal"
                     android:id="@+id/et_amount"
-                    android:layout_height="@dimen/d43"
-                    android:maxLength="9"
                     android:layout_width="0dp"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@+id/et_amount_redbag"
+                    android:layout_height="@dimen/d43"
+                    android:layout_marginStart="@dimen/d21"
+                    android:layout_weight="1"
                     android:background="@null"
-                    android:layout_weight="1" />
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:maxLength="9"
+                    android:nextFocusForward="@+id/et_amount_redbag" />
 
                 <TextView
-                    android:layout_marginEnd="@dimen/d10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/d10"
                     android:text="@string/yuan" />
             </LinearLayout>
         </LinearLayout>
@@ -142,10 +143,10 @@
             android:layout_height="@dimen/d10" />
 
         <LinearLayout
-            android:layout_marginLeft="@dimen/d15"
-            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:orientation="vertical">
 
             <LinearLayout
@@ -165,13 +166,13 @@
                     android:layout_weight="1" />
 
                 <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/Switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:buttonTint="@color/main_style"
                     app:buttonTintMode="multiply"
                     app:showText="false"
-                    app:theme="@style/switchCompat"
-                    android:id="@+id/Switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    app:theme="@style/switchCompat" />
             </LinearLayout>
 
 
@@ -193,14 +194,15 @@
 
                     <EditText
                         android:id="@+id/et_amount_redbag"
-                        android:maxLength="5"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/d43"
+                        android:layout_marginStart="@dimen/d21"
                         android:layout_weight="1"
                         android:background="@null"
                         android:imeOptions="actionNext"
-                        android:nextFocusForward="@+id/et_express_amount_minimum"
-                        android:inputType="numberDecimal" />
+                        android:inputType="numberDecimal"
+                        android:maxLength="5"
+                        android:nextFocusForward="@+id/et_express_amount_minimum" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -257,10 +259,10 @@
                     android:id="@+id/SwitchArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:theme="@style/switchCompat"
                     app:buttonTint="@color/main_style"
                     app:buttonTintMode="multiply"
-                    app:showText="false" />
+                    app:showText="false"
+                    app:theme="@style/switchCompat" />
             </LinearLayout>
 
 
@@ -282,10 +284,10 @@
 
                     <TextView
                         android:id="@+id/tv_area_limited"
-                        android:layout_marginLeft="@dimen/d10"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/d30"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/d21"
                         android:layout_weight="1"
                         android:background="@null"
                         android:gravity="center_vertical" />
@@ -317,26 +319,26 @@
 
         <LinearLayout
             android:id="@+id/ll_express_limited"
-            android:layout_marginLeft="@dimen/d15"
-            android:layout_marginRight="@dimen/d15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tv_express_limited"
-                    android:drawablePadding="@dimen/d5"
-                    android:drawableRight="@mipmap/question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:drawableEnd="@mipmap/question"
+                    android:drawablePadding="@dimen/d5"
                     android:text="@string/express_limited" />
 
                 <View
@@ -356,24 +358,25 @@
                 android:layout_height="@dimen/d43"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:background="@drawable/shape_rect_demand_info">
+                android:background="@drawable/shape_rect_demand_info"
+                android:gravity="center_vertical">
 
                 <EditText
-                    android:nextFocusForward="@+id/et_reception_name"
-                    android:imeOptions="actionNext"
-                    android:inputType="numberDecimal"
                     android:id="@+id/et_express_amount_minimum"
-                    android:maxLength="6"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/d43"
+                    android:layout_marginStart="@dimen/d21"
                     android:layout_weight="1"
-                    android:background="@null" />
+                    android:background="@null"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberDecimal"
+                    android:maxLength="6"
+                    android:nextFocusForward="@+id/et_reception_name" />
 
                 <TextView
-                    android:layout_marginRight="@dimen/d10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/d10"
                     android:text="@string/yuan" />
             </LinearLayout>
 

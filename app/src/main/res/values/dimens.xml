@@ -112,5 +112,5 @@
     <dimen name="d55">55dp</dimen>
     <dimen name="d53">53dp</dimen>
     <dimen name="d51">51dp</dimen>
-   <integer name="frameloading">50</integer>
+    <integer name="frameloading">30</integer>
 </resources>

@@ -89,9 +89,19 @@ import butterknife.OnClick;
 
 public class DemandsPublishLocationActivity extends BaseLocationActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener, CompanyListAdapter.OnCompanyClickListener {
 
+    public static final int REQUEST_CODE = 300;
+    public static final int REQUEST_CODE_FOR_MORE_TYPE = 400;
+    public static final String RECEIPTELEC_DATA = "receiptElec";
+    public static final String RECEIPTPAPERNORMAL_DATA = "receiptPaperNormal";
+    public static final String RECEIPTPAPERSPECIAL_DATA = "receiptPaperSpecial";
     private static final String TAG = "DemandsPublishLocationActivity";
-
-
+    private static final String DECODED_CONTENT_KEY = "codedContent";
+    private static final String DECODED_BITMAP_KEY = "codedBitmap";
+    private static final int REQUEST_ADD_COMPANY_INFO = 971;
+    private static final int REQUEST_ALL_COMPANY_INFO = 321;
+    private static final int REQUEST_CODE_SCAN = 0x0022;
+    private static final double MAX_AMOUNT = 50000;
+    public CompaniesBean companiesBean;
     @Bind(R.id.paper_elec_receipt)
     TextView paperElecReceipt;
     @Bind(R.id.paper_special_receipt)
@@ -204,26 +214,17 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     private Dialog mCameraDialog;
     private TimePickerDialog dialog;
     private CityPickerView cityPicker;
-    public CompaniesBean companiesBean;
     private CompaniesBean.DataBean dataBean;
     private ArrayList<DefaultInvoiceBean.DataBean> bean;
     private DemandsPublishBean.DemandPostageBean demandPostageBean;
-    public static final int REQUEST_CODE = 300;
-    public static final int REQUEST_CODE_FOR_MORE_TYPE = 400;
     private CompanyListAdapter companyListAdapter;
-    private static final String DECODED_CONTENT_KEY = "codedContent";
-    private static final String DECODED_BITMAP_KEY = "codedBitmap";
-    private static final int REQUEST_ADD_COMPANY_INFO = 971;
-    private static final int REQUEST_ALL_COMPANY_INFO = 321;
-    private static final int REQUEST_CODE_SCAN = 0x0022;
-    public static final String RECEIPTELEC_DATA = "receiptElec";
-    public static final String RECEIPTPAPERNORMAL_DATA = "receiptPaperNormal";
-    public static final String RECEIPTPAPERSPECIAL_DATA = "receiptPaperSpecial";
     private Dialog mTipDialog;
     private Dialog scanDialog;
-
-    private static final double MAX_AMOUNT = 50000;
-
+    private View view;
+    private String tempCompanyId;
+    private AlertDialog alertDialog;
+    private CityPickerView cityPickerAreaLimited;
+    private List<DemandsPublishBean.DemandInvoiceTypeListBean> listBeen;
     public WXPayReceiver wxPayReceiver = new WXPayReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -235,11 +236,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             }
         }
     };
-    private View view;
-    private String tempCompanyId;
-    private AlertDialog alertDialog;
-    private CityPickerView cityPickerAreaLimited;
-    private List<DemandsPublishBean.DemandInvoiceTypeListBean> listBeen;
 
     @Override
     protected int getLayoutId() {
@@ -1133,10 +1129,11 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             }
         }
 
-
-        if (checkIfIsEmpty(etExpressAmountMinimum)) {
-            BaseApplication.showToast("最少邮寄限额不能为空");
-            return false;
+        if (llExpressLimited.getVisibility() == View.VISIBLE) {
+            if (checkIfIsEmpty(etExpressAmountMinimum)) {
+                BaseApplication.showToast("最少邮寄限额不能为空");
+                return false;
+            }
         }
 
         if (switchArea.isChecked()) {

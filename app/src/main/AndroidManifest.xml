@@ -46,8 +46,8 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
-        tools:replace="label,allowBackup"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="label,allowBackup">
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
@@ -70,8 +70,8 @@
         <activity
             android:name="com.pilipa.fapiaobao.wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
 
         </activity>
 
@@ -121,10 +121,13 @@
         <activity android:name=".ui.ReceiptFolderActivity" android:screenOrientation="portrait" />
         <activity android:name=".ui.MyWalletActivity" android:screenOrientation="portrait"/>
         <activity
-            android:windowSoftInputMode="adjustResize|stateHidden"
             android:name=".ui.FeedbackActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".ui.AddCompanyInfoActivity" android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".ui.AddCompanyInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified" />
         <activity android:name=".ui.ProvidedActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.PubActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.ConfirmActivity" android:screenOrientation="portrait"/>
@@ -173,7 +176,10 @@
         <activity android:name=".ui.EstimateLocationActivity" android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".ui.UploadReceiptActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
+        <activity
+            android:name=".ui.UploadReceiptActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -189,15 +195,18 @@
 
         </activity>
         <activity
-            android:windowSoftInputMode="adjustResize"
             android:name=".ui.MyQuestionsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity android:name=".ui.UploadReceiptPreviewActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.PreviewActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.TestActivity" android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.DemandsPublishLocationActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.DemandsPublishLocationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.pilipa.fapiaobao.fileprovider"
