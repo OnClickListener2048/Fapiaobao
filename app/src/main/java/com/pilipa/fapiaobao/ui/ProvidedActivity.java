@@ -75,8 +75,11 @@ import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
  */
 
 public class ProvidedActivity extends BaseNoNetworkActivity {
+    public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
+    public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
+    public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
     private static final String TAG = "ProvidedActivity";
-
+    private static final int REQUEST_CODE_SCAN = 0x0000;
     @Bind(R.id.container_paper_normal_receipt)
     FrameLayout containerPaperNormalReceipt;
     @Bind(R.id.container_paper_special_receipt)
@@ -87,7 +90,6 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     TextView tvInvoiceType;
     @Bind(R.id.tv_arrival_state)
     TextView tvArrivalState;
-
     @Bind(R.id.tv_receiver)
     TextView tvReceiver;
     @Bind(R.id.tv_telephone)
@@ -98,7 +100,6 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     TextView tvPublishAddress;
     @Bind(R.id.edt_oddNumber)
     EditText edtOddNumber;
-
     @Bind(R.id.receipt_number)
     TextView receiptNumber;
     @Bind(R.id.receipt_money)
@@ -109,7 +110,6 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     TextView receivedBonus;
     @Bind(R.id.continue_to_upload)
     TextView continueToUpload;
-
     @Bind(R.id.collect)
     ImageView collect;
     @Bind(R.id.company_name)
@@ -138,18 +138,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     LinearLayout container_paper_special_receipt;
     @Bind(R.id.ll_container_paper_elec_receipt)
     LinearLayout container_paper_elec_receipt;
-    public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
-    public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
-    public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
-
-    private Dialog mTipDialog;
-    private ArrayList<Image> images;
-    private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
-    private DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment;
-    private DemandsDetailsReceiptFragment3 paperElecReceiptFragment;
     List<OrderDetailsBean.DataBean.InvoiceListBean> mDataList = new ArrayList<>();
-
-    private static final int REQUEST_CODE_SCAN = 0x0000;
     @Bind(R.id.translate_details)
     LinearLayout translateDetails;
     @Bind(R.id.translate)
@@ -174,14 +163,21 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     TextView tv_minMail;
     @Bind(R.id.tv_current_amount)
     TextView tv_current_amount;
+    boolean isCollected;
+    PublishSpinnerAdapter spinnerAdapter;
+    String CompanyId;
+    String orderId;
+    private Dialog mTipDialog;
+    private ArrayList<Image> images;
+    private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
+    private DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment;
+    private DemandsDetailsReceiptFragment3 paperElecReceiptFragment;
     private boolean isShow = true;//当前详情是否显示
     private boolean isLogisticShow = false;//当前物流信息是否显示
     private boolean isCanMail = false;//是否可以邮寄
-
-    boolean isCollected;
     private String favoriteId;
     private List<RejectTypeBean.DataBean> list = new ArrayList<>();
-    PublishSpinnerAdapter spinnerAdapter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_provided;
@@ -442,9 +438,6 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
         });
     }
 
-    String CompanyId;
-    String orderId;
-
     @Override
     public void initData() {
         orderId = getIntent().getStringExtra("OrderId");
@@ -458,13 +451,10 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     }
 
     private void findAllLogisticsCompany() {
-        Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
-            @Override
-            public void setData(ExpressCompanyBean expressCompanyBean) {
-                spinnerAdapter = new PublishSpinnerAdapter(expressCompanyBean);
-                mSpinner.setAdapter(spinnerAdapter);
-            }
-        });
+        String[] stringArray = getResources().getStringArray(R.array.express_array);
+
+        spinnerAdapter = new PublishSpinnerAdapter(stringArray);
+        mSpinner.setAdapter(spinnerAdapter);
     }
 
 

@@ -65,7 +65,6 @@ import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsPublishBean;
-import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 import com.pilipa.fapiaobao.receiver.WXPayReceiver;
 import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
@@ -404,15 +403,15 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         demandPostageBean.setProvince(BaseApplication.get("province", null));
         demandPostageBean.setCity(BaseApplication.get("city", null));
         demandPostageBean.setDistrict(BaseApplication.get("district", null));
-        Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
-            @Override
-            public void setData(ExpressCompanyBean expressCompanyBean) {
-                spinner.setAdapter(new PublishSpinnerAdapter(expressCompanyBean));
-            }
-        });
 
+        findAllLogisticsCompany();
         setUsusallyReceiptkind();
         requestForCompanies();
+    }
+
+    private void findAllLogisticsCompany() {
+        String[] stringArray = getResources().getStringArray(R.array.express_array);
+        spinner.setAdapter(new PublishSpinnerAdapter(stringArray));
     }
 
     private void setUsusallyReceiptkind() {
