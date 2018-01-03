@@ -12,9 +12,9 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.ReplacementTransformationMethod;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,6 +25,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.mylibrary.utils.KeyboardUtils;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -51,7 +53,7 @@ import butterknife.OnClick;
  * Created by wjn on 2017/10/23.
  */
 
-public class AddCompanyInfoActivity extends BaseActivity {
+public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, View.OnTouchListener {
     private static final String TAG = "AddCompanyInfoActivity";
     private static final int REQUEST_CODE_SCAN = 0x0033;
     private static final String DECODED_CONTENT_KEY = "codedContent";
@@ -116,6 +118,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
                 }
             }
             break;
+            default:
         }
     }
 
@@ -171,7 +174,9 @@ public class AddCompanyInfoActivity extends BaseActivity {
 
                 }
                 break;
+            default:
         }
+
     }
 
     private void updateCompanyinfo(MacherBeanToken.DataBean.CompanyBean companyBean) {
@@ -212,8 +217,14 @@ public class AddCompanyInfoActivity extends BaseActivity {
                 TLog.d(TAG, "onTextChanged  CharSequence" + s);
                 if (s.length() >= 3) {
                     adapter.addData(a);
-                    popWnd.showAsDropDown(llCompanyName, 0, (int) -TDevice.dp2px(20));
-                    TLog.d(TAG, "popWnd.showAsDropDown(edtCompany_name,-edtBankAccount.getHeight(),0);");
+//                    popWnd.showAsDropDown(llCompanyName, 0, (int) -TDevice.dp2px(20));
+                    TLog.d(TAG, "cardView.getTop()" + cardView.getTop());
+                    TLog.d(TAG, "cardView.getLeft()" + cardView.getLeft());
+                    TLog.d(TAG, "cardView.getRight()" + cardView.getRight());
+                    TLog.d(TAG, "cardView.getBottom()" + cardView.getBottom());
+                    TLog.d(TAG, "llCompanyName.getHeight()" + llCompanyName.getHeight());
+                    TLog.d(TAG, "llCompanyName.getleft" + cardView.getLeft());
+                    popWnd.showAtLocation(cardView, Gravity.NO_GRAVITY, cardView.getLeft(), llCompanyName.getBottom() + cardView.getTop());
                 }
             }
 
@@ -231,6 +242,7 @@ public class AddCompanyInfoActivity extends BaseActivity {
         recyclerView1.setItemAnimator(new DefaultItemAnimator());
         recyclerView1.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         adapter = new SearchCompaniesAdapter(R.layout.item_search_companies);
+        adapter.setOnItemClickListener(this);
         recyclerView1.setAdapter(adapter);
         popWnd = new PopupWindow(this);
         popWnd.setContentView(popupContentView);
@@ -241,10 +253,13 @@ public class AddCompanyInfoActivity extends BaseActivity {
                 popWnd.setWidth(cardView.getMeasuredWidth());
             }
         });
-        popWnd.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        popWnd.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         popWnd.setHeight((int) TDevice.dp2px(300));
         popWnd.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popWnd.setOutsideTouchable(true);
+        popWnd.setTouchable(true);
+        popWnd.setTouchInterceptor(this);
+        popWnd.update();
     }
 
     private void resets() {
@@ -379,15 +394,25 @@ public class AddCompanyInfoActivity extends BaseActivity {
 
             @Override
             public void setData(NormalBean normalBean) {
-                if (normalBean.getStatus() == 200) {
+                if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
                     Toast.makeText(AddCompanyInfoActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT).show();
                     setResult(RESULT_OK);
                     AddCompanyInfoActivity.this.finish();
-                    Log.d(TAG, "createCompany;success");
+                    TLog.d(TAG, "createCompany;success");
                 }
             }
         });
     }
 
 
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        KeyboardUtils.hideSoftInput(this);
+        return false;
+    }
 }
