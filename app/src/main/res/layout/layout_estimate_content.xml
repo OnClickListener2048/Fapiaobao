@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <include layout="@layout/layout_estimate_has_redbag" android:id="@+id/hasRedbag" />
-    <include layout="@layout/layout_estimate_no_redbag"  android:id="@+id/noredbag" />
+    <include
+        android:id="@+id/hasRedbag"
+        layout="@layout/layout_estimate_has_redbag" />
+
+    <include
+        android:id="@+id/noredbag"
+        layout="@layout/layout_estimate_no_redbag" />
 
 
 </FrameLayout>

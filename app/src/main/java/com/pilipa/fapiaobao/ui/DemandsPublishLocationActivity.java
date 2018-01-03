@@ -1128,12 +1128,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             }
         }
 
-        if (llExpressLimited.getVisibility() == View.VISIBLE) {
-            if (checkIfIsEmpty(etExpressAmountMinimum)) {
-                BaseApplication.showToast("最少邮寄限额不能为空");
-                return false;
-            }
-        }
 
         if (switchArea.isChecked()) {
             tvAreaLimited.requestFocus();
@@ -1141,6 +1135,13 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 BaseApplication.showToast("限制开票区域定位异常，请开启定位功能或手动选择开票地区");
                 sooothScrollToView(switchArea);
                 cityPickerAreaLimited.show();
+                return false;
+            }
+        }
+
+        if (llExpressLimited.getVisibility() == View.VISIBLE) {
+            if (checkIfIsEmpty(etExpressAmountMinimum)) {
+                BaseApplication.showToast("最少邮寄限额不能为空");
                 return false;
             }
         }
