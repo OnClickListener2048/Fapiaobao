@@ -176,7 +176,6 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
                 break;
             default:
         }
-
     }
 
     private void updateCompanyinfo(MacherBeanToken.DataBean.CompanyBean companyBean) {
@@ -224,7 +223,7 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
                     TLog.d(TAG, "cardView.getBottom()" + cardView.getBottom());
                     TLog.d(TAG, "llCompanyName.getHeight()" + llCompanyName.getHeight());
                     TLog.d(TAG, "llCompanyName.getleft" + cardView.getLeft());
-                    popWnd.showAtLocation(cardView, Gravity.NO_GRAVITY, cardView.getLeft(), llCompanyName.getBottom() + cardView.getTop());
+                    popWnd.showAtLocation(cardView, Gravity.NO_GRAVITY, cardView.getLeft(), llCompanyName.getPaddingBottom() + llCompanyName.getPaddingTop() + llCompanyName.getBottom() + cardView.getTop());
                 }
             }
 
