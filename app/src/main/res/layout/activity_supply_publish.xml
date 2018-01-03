@@ -13,24 +13,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:text="@string/demand_publish"
             android:textColor="@color/title"
-            android:text="@string/demand_publish" />
+            android:textSize="@dimen/d18" />
 
         <ImageView
-            android:background="@drawable/drawable_scan"
             android:id="@+id/upload_back"
             android:layout_width="@dimen/d48"
             android:layout_height="@dimen/d52"
+            android:background="@drawable/drawable_scan"
             android:src="@mipmap/estimate_back_brawn" />
 
         <ImageView
             android:id="@+id/upload_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/d10"
+            android:layout_marginEnd="@dimen/d10"
             android:src="@mipmap/upload_scan"
             android:text="@string/filter"
             android:textColor="@color/main_style"
