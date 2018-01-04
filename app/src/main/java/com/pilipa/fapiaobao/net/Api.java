@@ -1318,15 +1318,14 @@ public class Api {
             @Override
             public void onSuccess(Response<MessageListBean> response) {
                 MessageListBean body = response.body();
-                int status = body.getStatus();
-
-
-                if (status == Constant.TOKEN_INVALIDE) {
-                    baseViewCallback.onTokenInvalid();
-                } else {
-                    baseViewCallback.setData(body);
+                if (body != null) {
+                    int status = body.getStatus();
+                    if (status == Constant.TOKEN_INVALIDE) {
+                        baseViewCallback.onTokenInvalid();
+                    } else {
+                        baseViewCallback.setData(body);
+                    }
                 }
-
             }
 
             @Override

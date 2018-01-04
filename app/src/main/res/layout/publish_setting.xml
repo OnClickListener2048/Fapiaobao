@@ -27,8 +27,6 @@
                 android:gravity="center"
                 android:text="@string/settings"
                 android:textColor="@color/main_style" />
-
-
         </LinearLayout>
 
 
@@ -40,8 +38,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/d15"
-            android:layout_marginRight="@dimen/d15"
+            android:layout_marginEnd="@dimen/d15"
+            android:layout_marginStart="@dimen/d15"
             android:orientation="vertical">
 
             <TextView
@@ -60,7 +58,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d43"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
                 android:background="@drawable/shape_rect_demand_info"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -76,7 +73,8 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:text="@string/c2017" />
+                    android:text="@string/c2017"
+                    android:textColor="@color/black" />
 
                 <ImageView
                     android:id="@+id/iv_select_date"
@@ -110,31 +108,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d10" />
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d43"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/shape_rect_demand_info">
+                android:layout_marginBottom="@dimen/d10">
 
                 <EditText
                     android:id="@+id/et_amount"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/d43"
-                    android:layout_marginStart="@dimen/d21"
-                    android:layout_weight="1"
-                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_rect_demand_info"
                     android:imeOptions="actionNext"
                     android:inputType="numberDecimal"
+                    android:labelFor="@+id/et_amount"
                     android:maxLength="9"
-                    android:nextFocusForward="@+id/et_amount_redbag" />
+                    android:nextFocusForward="@+id/et_amount_redbag"
+                    android:padding="@dimen/d10" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
                     android:layout_marginEnd="@dimen/d10"
                     android:text="@string/yuan" />
-            </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
 
 
@@ -184,32 +182,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <FrameLayout
                     android:id="@+id/ll_amount"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/d43"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@drawable/shape_rect_demand_info">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
 
                     <EditText
                         android:id="@+id/et_amount_redbag"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/d43"
-                        android:layout_marginStart="@dimen/d21"
-                        android:layout_weight="1"
-                        android:background="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_rect_demand_info"
                         android:imeOptions="actionNext"
                         android:inputType="numberDecimal"
+                        android:labelFor="@+id/et_amount_redbag"
                         android:maxLength="5"
-                        android:nextFocusForward="@+id/et_express_amount_minimum" />
+                        android:nextFocusForward="@+id/et_express_amount_minimum"
+                        android:padding="@dimen/d10" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
                         android:layout_marginEnd="@dimen/d10"
                         android:text="@string/yuan" />
-                </LinearLayout>
+                </FrameLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_toggle_switch"
@@ -248,7 +245,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="限制开票地区" />
+                    android:text="@string/limit_invoice_area" />
 
                 <View
                     android:layout_width="0dp"
@@ -279,7 +276,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/d43"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:background="@drawable/shape_rect_demand_info">
 
                     <TextView
@@ -287,10 +283,11 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/d30"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/d21"
+                        android:layout_marginStart="@dimen/d10"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:gravity="center_vertical" />
+                        android:gravity="center_vertical"
+                        android:textColor="@color/black" />
 
                 </LinearLayout>
 
@@ -341,10 +338,7 @@
                     android:drawablePadding="@dimen/d5"
                     android:text="@string/express_limited" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+
 
             </LinearLayout>
 
@@ -353,32 +347,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d10" />
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/d43"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/shape_rect_demand_info"
                 android:gravity="center_vertical">
 
                 <EditText
                     android:id="@+id/et_express_amount_minimum"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/d43"
-                    android:layout_marginStart="@dimen/d21"
-                    android:layout_weight="1"
-                    android:background="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rect_demand_info"
                     android:imeOptions="actionNext"
                     android:inputType="numberDecimal"
+                    android:labelFor="@+id/et_express_amount_minimum"
                     android:maxLength="6"
-                    android:nextFocusForward="@+id/et_reception_name" />
+                    android:nextFocusForward="@+id/et_reception_name"
+                    android:padding="@dimen/d10" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
                     android:layout_marginEnd="@dimen/d10"
                     android:text="@string/yuan" />
-            </LinearLayout>
+            </FrameLayout>
 
 
         </LinearLayout>

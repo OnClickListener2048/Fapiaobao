@@ -16,9 +16,9 @@ import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 public class AccountHelper {
     private static final String TAG = AccountHelper.class.getSimpleName();
-    private Application application;
     @SuppressLint("StaticFieldLeak")
     private static AccountHelper instances;
+    private Application application;
     private LoginWithInfoBean user;
 
     private AccountHelper(Application application) {
@@ -26,9 +26,9 @@ public class AccountHelper {
     }
 
     public static void init(Application application) {
-        if (instances == null)
+        if (instances == null) {
             instances = new AccountHelper(application);
-        else {
+        } else {
             // reload from source
             instances.user = SharedPreferencesHelper.loadFormSource(instances.application, LoginWithInfoBean.class);
             TLog.d(TAG, "init reload:" + instances.user);

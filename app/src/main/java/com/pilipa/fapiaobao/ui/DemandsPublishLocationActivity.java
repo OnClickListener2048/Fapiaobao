@@ -28,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -144,7 +145,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     @Bind(R.id.et_amount_redbag)
     EditText etAmountRedbag;
     @Bind(R.id.ll_amount)
-    LinearLayout llAmount;
+    FrameLayout llAmount;
     @Bind(R.id.et_express_amount_minimum)
     EditText etExpressAmountMinimum;
     @Bind(R.id.rb_cod)
@@ -780,7 +781,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         startActivityForResult(intent, REQUEST_ADD_COMPANY_INFO);
     }
 
-
     private void createCompany(final Company company) {
 
         Api.companyCreate(company, AccountHelper.getToken(), new Api.BaseRawResponse<NormalBean>() {
@@ -1128,12 +1128,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             }
         }
 
-        if (llExpressLimited.getVisibility() == View.VISIBLE) {
-            if (checkIfIsEmpty(etExpressAmountMinimum)) {
-                BaseApplication.showToast("最少邮寄限额不能为空");
-                return false;
-            }
-        }
 
         if (switchArea.isChecked()) {
             tvAreaLimited.requestFocus();
@@ -1141,6 +1135,13 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 BaseApplication.showToast("限制开票区域定位异常，请开启定位功能或手动选择开票地区");
                 sooothScrollToView(switchArea);
                 cityPickerAreaLimited.show();
+                return false;
+            }
+        }
+
+        if (llExpressLimited.getVisibility() == View.VISIBLE) {
+            if (checkIfIsEmpty(etExpressAmountMinimum)) {
+                BaseApplication.showToast("最少邮寄限额不能为空");
                 return false;
             }
         }
@@ -1213,7 +1214,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     }
 
-
     private boolean checkIfIsEmpty(TextView editText) {
         boolean b = TextUtils.isEmpty(editText.getText());
         ViewGroup viewGroup = (ViewGroup) editText.getParent();
@@ -1230,7 +1230,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         }
         return b;
     }
-
 
     private void sooothScrollToView(View view) {
         scrollview.setSmoothScrollingEnabled(true);
@@ -1252,7 +1251,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         }
         return totalPixels;
     }
-
 
     private void setTipDialog(int res) {
         mTipDialog = new Dialog(this, R.style.BottomDialog);
@@ -1279,7 +1277,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         dialogWindow.setAttributes(lp);
         mTipDialog.show();
     }
-
 
     private void requestForCompanies() {
 
@@ -1427,7 +1424,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     }
 
-
     private void initCityPicker() {
         CityConfig cityConfig = new CityConfig.Builder(DemandsPublishLocationActivity.this)
                 .title("选择地区")
@@ -1525,7 +1521,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         updateCompanyInfo(dataBean);
     }
 
-
     @OnClick(R.id.tv_area_limited)
     public void onViewClicked() {
         cityPickerAreaLimited.show();
@@ -1581,7 +1576,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         guide.show(DemandsPublishLocationActivity.this);
     }
 
-
     public void showGuideView2() {
 
 
@@ -1624,7 +1618,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         guide.setShouldCheckLocInWindow(false);
         guide.show(DemandsPublishLocationActivity.this);
     }
-
 
     public void setScanDialog() {
         scanDialog = new Dialog(this, R.style.BottomDialog);
