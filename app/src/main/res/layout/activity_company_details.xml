@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -19,54 +18,54 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textSize="@dimen/d18"
+                android:text="@string/company_details"
                 android:textColor="@color/title"
-                android:text="@string/company_details" />
+                android:textSize="@dimen/d18" />
 
             <ImageView
                 android:id="@+id/details_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/drawable_scan"
                 android:src="@mipmap/estimate_back_brawn" />
 
             <ImageView
                 android:id="@+id/img_add"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
-                android:padding="@dimen/d12"
-                android:background="@drawable/drawable_scan"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/add_company" />
+                android:background="@drawable/drawable_scan"
+                android:padding="@dimen/d12"
+                android:src="@mipmap/add_company"
+                android:visibility="gone" />
         </RelativeLayout>
 
     </LinearLayout>
 
     <android.support.v4.view.ViewPager
-        android:layout_below="@+id/ll_title"
-        android:layout_above="@+id/btn_save"
         android:id="@+id/vp_verpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_save"
+        android:layout_below="@+id/ll_title"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:paddingLeft="@dimen/d5"
-        android:paddingRight="@dimen/d20"
+        android:paddingEnd="@dimen/d20"
+        android:paddingStart="@dimen/d5"
          />
     <Button
         android:id="@+id/btn_save"
-        android:visibility="gone"
-        android:text="@string/save"
-        android:layout_alignParentBottom="true"
-        android:textColor="@color/white"
-        android:layout_marginRight="@dimen/d15"
-        android:layout_marginLeft="@dimen/d15"
-        android:layout_marginBottom="@dimen/d15"
-        android:background="@mipmap/bg_btn_normal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/d15"
+        android:layout_marginLeft="@dimen/d15"
+        android:layout_marginRight="@dimen/d15"
+        android:background="@mipmap/bg_btn_normal"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        android:visibility="gone" />
 </RelativeLayout>

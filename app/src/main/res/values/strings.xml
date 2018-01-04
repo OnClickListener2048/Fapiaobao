@@ -535,6 +535,8 @@
     <string name="your_filter_keys">您的筛选条件:</string>
     <string name="invoice_area">开票地区:</string>
     <string name="select_others_province_and_city">选择其他省市</string>
+    <string name="last_change">上次积分变化</string>
+    <string name="point_two">%.2f</string>
 
     <string-array name="express_array">
         <item>顺丰</item>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/d5">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@mipmap/dotted_line" />
+    <!--红包信息1-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d60"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:gravity="start|center_vertical"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/d15"
+            android:paddingStart="@dimen/d15">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_bounsAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zero"
+                    android:textColor="@color/bouns_1"
+                    android:textSize="@dimen/s15" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yuan"
+                    android:textColor="@color/text_normal_item"
+                    android:textSize="@dimen/s12" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/d5"
+                android:text="@string/envelopes_amount"
+                android:textColor="@color/text_normal_item"
+                android:textSize="@dimen/s12" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="start|center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rest"
+                    android:textColor="@color/text_normal_item"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_leftAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zero"
+                    android:textColor="@color/bouns_1"
+                    android:textSize="@dimen/s15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/envelopes_unclaimed"
+                    android:textColor="@color/text_normal_item"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_deadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/d5"
+                android:text="@string/end_time_"
+                android:textColor="@color/text_normal_item"
+                android:textSize="@dimen/s12" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1" />
+        <!--mipmap/finish   on_the_way    close-->
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@mipmap/dotted_line" />
+    <!--红包信息2-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d60"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:gravity="start|center_vertical"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/d15"
+            android:paddingStart="@dimen/d15">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zero"
+                    android:textColor="@color/bouns_1"
+                    android:textSize="@dimen/s15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/yuan"
+                    android:textColor="@color/text_normal_item"
+                    android:textSize="@dimen/s12" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/d5"
+                android:text="@string/amount_demand"
+                android:textColor="@color/text_normal_item"
+                android:textSize="@dimen/s12" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="start|center_vertical"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/collected"
+                    android:textColor="@color/text_normal_item"
+                    android:textSize="@dimen/s12" />
+
+                <TextView
+                    android:id="@+id/tv_AlreadyCollected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zero"
+                    android:textColor="@color/bouns_1"
+                    android:textSize="@dimen/s15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sheets"
+                    android:textColor="@color/text_normal_item"
+                    android:textSize="@dimen/s12" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_publishTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/d5"
+                android:text="@string/publish_time_"
+                android:textColor="@color/text_normal_item"
+                android:textSize="@dimen/s12" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/received"
+                android:textColor="@color/text_normal_item"
+                android:textSize="@dimen/s12" />
+
+            <TextView
+                android:id="@+id/tv_receive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zero"
+                android:textColor="@color/bouns_1"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yuan"
+                android:textColor="@color/text_normal_item"
+                android:textSize="@dimen/s12" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@mipmap/dotted_line" />
+</LinearLayout>
