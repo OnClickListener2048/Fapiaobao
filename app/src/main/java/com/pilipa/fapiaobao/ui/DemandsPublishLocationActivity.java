@@ -28,9 +28,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -145,7 +145,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     @Bind(R.id.et_amount_redbag)
     EditText etAmountRedbag;
     @Bind(R.id.ll_amount)
-    FrameLayout llAmount;
+    RelativeLayout llAmount;
     @Bind(R.id.et_express_amount_minimum)
     EditText etExpressAmountMinimum;
     @Bind(R.id.rb_cod)
@@ -1174,6 +1174,15 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                     resetBackground(etReceptionNumber);
                 }
 
+
+                if (checkIfIsEmpty(tvArea)) {
+                    BaseApplication.showToast("所在地区不能为空");
+                    cityPicker.show();
+                    return false;
+                } else {
+                    resetBackground(tvArea);
+                }
+
                 if (checkIfIsEmpty(etAreaDetails)) {
                     BaseApplication.showToast("详细地址不能为空");
                     return false;
@@ -1182,51 +1191,31 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 }
 
 
-                if (checkIfIsEmpty(tvArea)) {
-                    BaseApplication.showToast("所在地区不能为空");
-                    return false;
-                }else {
-                    resetBackground(tvArea);
-                }
+
             }
         }
-
-
         return true;
     }
 
     private void setErrorBackground(View view) {
-        ViewGroup viewParent = (ViewGroup) view.getParent();
-        if (viewParent != null) {
-            viewParent.setBackgroundResource(R.drawable.bg_error_filling);
-        } else {
-            view.setBackgroundResource(R.drawable.bg_error_filling);
-        }
+        view.setBackgroundResource(R.drawable.bg_error_filling);
     }
 
     private void resetBackground(View view) {
-        ViewGroup viewParent = (ViewGroup) view.getParent();
-        if (viewParent != null) {
-            viewParent.setBackgroundDrawable(null);
-        } else {
-            view.setBackgroundDrawable(null);
-        }
-
+        view.setBackgroundDrawable(null);
     }
 
     private boolean checkIfIsEmpty(TextView editText) {
         boolean b = TextUtils.isEmpty(editText.getText());
-        ViewGroup viewGroup = (ViewGroup) editText.getParent();
         scrollview.setSmoothScrollingEnabled(true);
         scrollview.smoothScrollTo(0, getPixelsWithinScrollView(editText) + editText.getHeight() - ScreenUtils.getScreenHeight() / 2);
         if (b) {
             if (editText instanceof EditText) {
                 editText.requestFocus();
             }
-            viewGroup.setBackgroundResource(R.drawable.bg_error_filling);
+            editText.setBackgroundResource(R.drawable.bg_error_filling);
         } else {
-
-            viewGroup.setBackgroundResource(R.drawable.shape_rect_demand_info);
+            editText.setBackgroundResource(R.drawable.shape_rect_demand_info);
         }
         return b;
     }
