@@ -76,6 +76,7 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/d2"
         android:layout_marginTop="@dimen/d5"

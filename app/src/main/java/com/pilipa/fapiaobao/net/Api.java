@@ -16,6 +16,7 @@ import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
+import com.pilipa.fapiaobao.net.bean.base.BaseResponseBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
@@ -42,6 +43,7 @@ import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
 import com.pilipa.fapiaobao.net.bean.me.RejectInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
+import com.pilipa.fapiaobao.net.bean.me.search.CompaniesSearchBean;
 import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.ConfirmInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
@@ -62,6 +64,7 @@ import static com.pilipa.fapiaobao.net.Constant.AMOUNT_HISTORY;
 import static com.pilipa.fapiaobao.net.Constant.BIND;
 import static com.pilipa.fapiaobao.net.Constant.COMPANIES_LIST;
 import static com.pilipa.fapiaobao.net.Constant.COMPANY_INFO;
+import static com.pilipa.fapiaobao.net.Constant.COMPANY_SEARCH;
 import static com.pilipa.fapiaobao.net.Constant.CONFIRM_DEMAND;
 import static com.pilipa.fapiaobao.net.Constant.CONFIRM_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.CREATE_COMPANY;
@@ -121,7 +124,7 @@ import static com.pilipa.fapiaobao.net.Constant.WX_RECHARGE;
  * Created by lyt on 2017/10/12.
  */
 
-public class Api {
+public class Api<T> {
 
     private static String TAG = "api";
 
@@ -1931,6 +1934,26 @@ public class Api {
                         baseViewCallbackWithOnStart.onError();
                     }
                 });
+    }
+
+    public static void searchCompanies(String companyName, Object tag, final BaseViewCallback baseViewCallback) {
+        OkGo.<CompaniesSearchBean>get(String.format(COMPANY_SEARCH, companyName))
+                .tag(tag)
+                .cacheMode(CacheMode.NO_CACHE)
+                .execute(new JsonCallBack<CompaniesSearchBean>
+                        (CompaniesSearchBean.class) {
+
+
+                    @Override
+                    public void onSuccess(Response<CompaniesSearchBean> response) {
+                        if (response.body() != null) {
+                            if (response.body().getStatus() == Constant.REQUEST_SUCCESS) {
+                                baseViewCallback.setData(response.body());
+                            }
+                        }
+                    }
+
+                });
 
     }
 
@@ -1971,7 +1994,12 @@ public class Api {
                         baseViewCallbackWithOnStart.onError();
                     }
                 });
+    }
 
+    public static void distribute(BaseResponseBean baseResponseBean, BaseViewCallback baseViewCallback) {
+        if (baseResponseBean.getStatus() == Constant.REQUEST_SUCCESS) {
+            baseViewCallback.setData(baseResponseBean.getData());
+        }
     }
 
     public interface BaseViewCallback<T> {

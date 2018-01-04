@@ -2,7 +2,6 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,6 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
-import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -43,8 +39,6 @@ public class UnusedPagerFragment_finish extends BaseNoNetworkFragment implements
 
     @Bind(R.id.recyclerview)
     ListView listView;
-    @Bind(R.id.trl)
-    TwinklingRefreshLayout trl;
     private MyPublishAdapter mAdapter;
     private List<DemandsListBean.DataBean> dataBeanList = new ArrayList<>();
     private boolean mIsInited;
@@ -93,15 +87,7 @@ public class UnusedPagerFragment_finish extends BaseNoNetworkFragment implements
 
     @Override
     protected void initWidget(View root) {
-
         super.initWidget(root);
-        ProgressLayout headerView = new ProgressLayout(getContext());
-        trl.setOnRefreshListener(refreshListenerAdapter);
-        trl.setHeaderView(headerView);
-        trl.setOverScrollRefreshShow(false);
-        trl.setOverScrollBottomShow(false);
-        trl.setOverScrollTopShow(false);
-        trl.setEnableOverScroll(false);
     }
 
 
@@ -122,72 +108,6 @@ public class UnusedPagerFragment_finish extends BaseNoNetworkFragment implements
         ((ViewGroup)listView.getParent()).addView(emptyView);
 
     }
-    private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
-        @Override
-        public void onPullingDown(TwinklingRefreshLayout refreshLayout, float fraction) {
-            super.onPullingDown(refreshLayout, fraction);
-        }
-
-        @Override
-        public void onPullingUp(TwinklingRefreshLayout refreshLayout, float fraction) {
-            super.onPullingUp(refreshLayout, fraction);
-        }
-
-        @Override
-        public void onPullDownReleasing(TwinklingRefreshLayout refreshLayout, float fraction) {
-            super.onPullDownReleasing(refreshLayout, fraction);
-        }
-
-        @Override
-        public void onPullUpReleasing(TwinklingRefreshLayout refreshLayout, float fraction) {
-            super.onPullUpReleasing(refreshLayout, fraction);
-        }
-
-        @Override
-        public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-            super.onRefresh(refreshLayout);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    demandsList(STATE_DEMAND_FINISH);
-                    if(trl != null)
-                        trl.finishRefreshing();
-                }
-            },2000);
-        }
-
-        @Override
-        public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-            super.onLoadMore(refreshLayout);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(trl != null)
-                        trl.finishLoadmore();
-                }
-            },2000);
-        }
-
-        @Override
-        public void onFinishRefresh() {
-            super.onFinishRefresh();
-        }
-
-        @Override
-        public void onFinishLoadMore() {
-            super.onFinishLoadMore();
-        }
-
-        @Override
-        public void onRefreshCanceled() {
-            super.onRefreshCanceled();
-        }
-
-        @Override
-        public void onLoadmoreCanceled() {
-            super.onLoadmoreCanceled();
-        }
-    };
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
