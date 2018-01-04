@@ -15,9 +15,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textSize="@dimen/d18"
+                android:text="@string/credit_rating"
                 android:textColor="@color/title"
-                android:text="@string/credit_rating" />
+                android:textSize="@dimen/d18" />
 
             <ImageView
                 android:id="@+id/details_back"
@@ -32,10 +32,10 @@
                 android:id="@+id/tv_creditHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/d10"
                 android:layout_alignParentEnd="true"
-                android:text="@string/credit_history"
                 android:layout_centerVertical="true"
+                android:padding="@dimen/d10"
+                android:text="@string/credit_history"
                 android:textColor="@drawable/selector_union_main_style_text"
                 />
         </RelativeLayout>
@@ -43,100 +43,101 @@
             android:id="@+id/textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_below="@+id/rl_title"
             android:layout_marginTop="@dimen/d10"
-            android:textColor="@color/main_style"
-            android:text="@string/credit_life"/>
+            android:gravity="center"
+            android:text="@string/credit_life"
+            android:textColor="@color/main_style" />
         <com.pilipa.fapiaobao.ui.widget.ColorArcProgressBar
+            android:id="@+id/bar2"
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_below="@+id/textview"
             android:layout_centerHorizontal="true"
-            android:id="@+id/bar2"
-            app:is_need_content="true"
+            app:back_color="#ddd"
+            app:back_width="10dp"
             app:front_color1="#ebb884"
             app:front_color2="#ebaf7a"
             app:front_color3="#ff9076"
-            app:max_value="100"
-            app:back_width="10dp"
             app:front_width="10dp"
-            app:total_engle="270"
-            app:is_need_unit="true"
-            app:string_unit="请继续加油~"
+            app:is_need_content="true"
             app:is_need_title="true"
+            app:is_need_unit="true"
+            app:max_value="100"
             app:string_title=""
-            app:back_color="#ddd"
+            app:string_unit="请继续加油~"
+            app:total_engle="270"
             />
         <RelativeLayout
             android:id="@+id/rl_star"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/bar2"
-            android:orientation="horizontal"
             android:layout_marginLeft="@dimen/d20"
             android:layout_marginRight="@dimen/d20"
             android:layout_marginTop="@dimen/d20"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
             <ImageView
                 android:id="@+id/star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/dstar0"/>
             <TextView
-                android:layout_toEndOf="@+id/star"
-                android:layout_marginStart="@dimen/d10"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="上次积分变化"/>
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/d10"
+                android:layout_toEndOf="@+id/star"
+                android:text="@string/last_change" />
             <TextView
                 android:id="@+id/tv_lastChange"
-                android:textColor="@color/main_style"
                 android:layout_width="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:textSize="15sp"
-                android:text="@string/zero"/>
+                android:layout_centerVertical="true"
+                android:text="@string/zero"
+                android:textColor="@color/main_style"
+                android:textSize="15sp" />
 
         </RelativeLayout>
 
     <View
-        android:layout_below="@+id/rl_star"
         android:layout_width="match_parent"
         android:layout_height="@dimen/d1"
-        android:layout_marginTop="@dimen/d5"
+        android:layout_below="@+id/rl_star"
         android:layout_marginLeft="@dimen/d20"
         android:layout_marginRight="@dimen/d20"
+        android:layout_marginTop="@dimen/d5"
         android:background="@color/gray_line" />
     <LinearLayout
-        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/d20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="horizontal">
         <TextView
             android:id="@+id/tv_rules"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/d15"
-            android:gravity="center"
-            android:padding="@dimen/d10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/d15"
+            android:layout_weight="1"
             android:background="@drawable/selector_mainstyle_shape_to_transparent"
-            android:textColor="@drawable/selector_union_main_style_text"
-            android:text="@string/rules"/>
+            android:gravity="center"
+            android:padding="@dimen/d10"
+            android:text="@string/rules"
+            android:textColor="@drawable/selector_union_main_style_text" />
+
         <TextView
             android:id="@+id/tv_negative"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/d15"
-            android:layout_marginRight="@dimen/d15"
-            android:padding="@dimen/d10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d15"
+            android:layout_marginRight="@dimen/d15"
+            android:layout_weight="1"
             android:background="@drawable/selector_mainstyle_shape_to_transparent"
-            android:textColor="@drawable/selector_union_main_style_text"
-            android:text="@string/negative"/>
+            android:gravity="center"
+            android:padding="@dimen/d10"
+            android:text="@string/negative"
+            android:textColor="@drawable/selector_union_main_style_text" />
     </LinearLayout>
 </RelativeLayout>
