@@ -40,5 +40,10 @@ public class Constant {
     public static final String VERSION_EXTRA = "version_extra";
     public static final String COMPANY_INFO = "company_info";
     public static final String COMPANIES_BEAN = "companies_bean";
+    public static final String LOCATION_ERROR = "定位异常，请点击重新定位";
 
+    public static final String IS_FIRST_IN = "Is_First_In_Publish";
+    public static final String SWITCH_AREA = "SwitchArea";
+    public static final String SWITCH = "Switch";
+    public static final String MORE_TYPES = "more_types";
 }

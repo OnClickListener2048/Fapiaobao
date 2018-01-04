@@ -280,10 +280,10 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         dialog = new TimePickerDialog(this);
         Switch.setChecked(true);
         Switch.setOnCheckedChangeListener(this);
-        Switch.setTag("Switch");
+        Switch.setTag(com.pilipa.fapiaobao.ui.constants.Constant.SWITCH);
         switchArea.setChecked(true);
         switchArea.setOnCheckedChangeListener(this);
-        switchArea.setTag("SwitchArea");
+        switchArea.setTag(com.pilipa.fapiaobao.ui.constants.Constant.SWITCH_AREA);
         llEstimateRequest.setVisibility(View.GONE);
         llToggleSwitch.setVisibility(View.GONE);
         rbCod.setSelected(true);
@@ -317,7 +317,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         registerReceiver(wxPayReceiver, intentFilter);
         String location = BaseApplication.get("location", "定位失败，点击选择地区");
         tvAreaLimited.setText(location);
-        if ("定位异常，请点击重新定位".equals(location)) {
+        if (com.pilipa.fapiaobao.ui.constants.Constant.LOCATION_ERROR.equals(location)) {
             BaseApplication.showToast("定位异常，请开启定位功能或手动选择");
         }
 
@@ -818,7 +818,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     private void requestForMoreTypes() {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("new_data", bean);
+        bundle.putSerializable(com.pilipa.fapiaobao.ui.constants.Constant.MORE_TYPES, bean);
         intent.putExtra(MoreTypesActivity.EXTRA_BUNDLE, bundle);
         intent.setClass(this, MoreTypesActivity.class);
         startActivityForResult(intent, REQUEST_CODE_FOR_MORE_TYPE);
@@ -838,7 +838,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
                         Bundle bundle = data.getBundleExtra(MoreTypesActivity.EXTRA_BUNDLE);
-                        bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundle.getSerializable("new_data");
+                        bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundle.getSerializable(com.pilipa.fapiaobao.ui.constants.Constant.MORE_TYPES);
                         ArrayList<String> arrayReceipt = new ArrayList<>();
                         for (DefaultInvoiceBean.DataBean dataBean : bean) {
                             arrayReceipt.add(dataBean.getName());
@@ -1131,7 +1131,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
         if (switchArea.isChecked()) {
             tvAreaLimited.requestFocus();
-            if ("定位失败，点击选择地区".equals(tvAreaLimited.getText().toString())) {
+            if (com.pilipa.fapiaobao.ui.constants.Constant.LOCATION_ERROR.equals(tvAreaLimited.getText().toString())) {
                 BaseApplication.showToast("限制开票区域定位异常，请开启定位功能或手动选择开票地区");
                 sooothScrollToView(switchArea);
                 cityPickerAreaLimited.show();
@@ -1159,7 +1159,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 if (checkIfIsEmpty(etReceptionName)) {
                     BaseApplication.showToast("收件人姓名不能为空");
                     return false;
-                }else {
+                } else {
                     resetBackground(etReceptionName);
                 }
 
@@ -1177,7 +1177,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 if (checkIfIsEmpty(etAreaDetails)) {
                     BaseApplication.showToast("详细地址不能为空");
                     return false;
-                }else {
+                } else {
                     resetBackground(etAreaDetails);
                 }
 
@@ -1185,7 +1185,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 if (checkIfIsEmpty(tvArea)) {
                     BaseApplication.showToast("所在地区不能为空");
                     return false;
-                }else {
+                } else {
                     resetBackground(tvArea);
                 }
             }
@@ -1321,7 +1321,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
                 }
 
-                if (BaseApplication.get("Is_First_In_Publish", true)) {
+                if (BaseApplication.get(com.pilipa.fapiaobao.ui.constants.Constant.IS_FIRST_IN, true)) {
                     btnAddCompanyInfo.post(new Runnable() {
                         @Override
                         public void run() {
@@ -1402,10 +1402,10 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if ("SwitchArea".equals(buttonView.getTag())) {
+        if (com.pilipa.fapiaobao.ui.constants.Constant.SWITCH_AREA.equals(buttonView.getTag())) {
             llArea.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             llEstimateRequest.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-        } else if ("Switch".equals(buttonView.getTag())) {
+        } else if (com.pilipa.fapiaobao.ui.constants.Constant.SWITCH.equals(buttonView.getTag())) {
             llAmount.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             llToggleSwitch.setVisibility(isChecked ? View.GONE : View.VISIBLE);
         }
@@ -1468,7 +1468,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             @Override
             public void onSelected(ProvinceBean province, CityBean city) {
                 super.onSelected(province, city);
-                tvAreaLimited.setText(city.getName() + "市");
+                tvAreaLimited.setText(getString(R.string.end_with_city, city.getName()));
                 cityPickerAreaLimited.hide();
             }
 
@@ -1495,8 +1495,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 BaseApplication.set("province", province.getName());
                 BaseApplication.set("city", city.getName());
                 BaseApplication.set("district", district.getName());
-                tvArea.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
-
+                tvArea.setText(getString(R.string.placeholder_area, province.getName(), city.getName(), district.getName()));
                 cityPicker.hide();
             }
 
@@ -1592,7 +1591,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
             @Override
             public void onDismiss() {
-                BaseApplication.set("Is_First_In_Publish", false);
+                BaseApplication.set(com.pilipa.fapiaobao.ui.constants.Constant.IS_FIRST_IN, false);
             }
         });
 
@@ -1624,7 +1623,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.layout_scan_tip, null);
         TextView tv = (TextView) root.findViewById(R.id.scan_tip);
-        tv.setText("添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描");
+        tv.setText(getString(R.string.only_support_this_app_created_qrcode));
         //初始化视图
         root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
