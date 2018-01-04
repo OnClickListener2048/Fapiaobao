@@ -530,6 +530,11 @@
     <string name="recharge_fail">充值失败</string>
     <string name="alphabet_and_number">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
     <string name="texnumber">税\u3000\u3000号</string>
+    <string name="limit_invoice_area">限制开票地区</string>
+    <string name="please_fulfill_honestly">请如实填写,与票面合计金额保持一致,否则将被拒收</string>
+    <string name="your_filter_keys">您的筛选条件:</string>
+    <string name="invoice_area">开票地区:</string>
+    <string name="select_others_province_and_city">选择其他省市</string>
 
     <string-array name="express_array">
         <item>顺丰</item>

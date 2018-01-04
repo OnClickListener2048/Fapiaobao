@@ -39,13 +39,15 @@
 
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/btn_save"
         android:layout_below="@+id/ll_title"
-        android:layout_marginBottom="@dimen/d13"
-        android:layout_marginLeft="@dimen/d10"
-        android:layout_marginRight="@dimen/d10"
+        android:layout_marginBottom="@dimen/d23"
+        android:layout_marginLeft="@dimen/d30"
+        android:layout_marginRight="@dimen/d30"
+        android:layout_marginTop="@dimen/d23"
         android:background="@drawable/receipt_info_bg"
         android:elevation="@dimen/d10"
         android:orientation="vertical"
@@ -78,6 +80,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_company_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
