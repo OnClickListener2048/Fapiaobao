@@ -38,7 +38,6 @@ import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
 import com.pilipa.fapiaobao.net.bean.me.FavBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
-import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
@@ -299,6 +298,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
                                 });
                             }
                 break;
+            default:
         }
     }
 
@@ -511,8 +511,8 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
 
     public void mailInvoice() {
 
-                    ExpressCompanyBean.DataBean bean = (ExpressCompanyBean.DataBean) mSpinner.getSelectedItem();
-                    Api.mailInvoice(AccountHelper.getToken(), orderId, bean.getLabel()
+        String express = (String) mSpinner.getSelectedItem();
+        Api.mailInvoice(AccountHelper.getToken(), orderId, express
                             , edtOddNumber.getText().toString(), new Api.BaseRawResponse<NormalBean>() {
                                 @Override
                                 public void onStart() {

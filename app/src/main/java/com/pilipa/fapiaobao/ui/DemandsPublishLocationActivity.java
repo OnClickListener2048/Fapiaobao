@@ -1189,9 +1189,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 }else {
                     resetBackground(etAreaDetails);
                 }
-
-
-
             }
         }
         return true;
