@@ -1,7 +1,9 @@
 package com.pilipa.fapiaobao.net.bean.base;
 
 /**
- * Created by edz on 2017/12/11.
+ *
+ * @author edz
+ * @date 2017/12/11
  */
 
 public class BaseResponseBean<T> {
