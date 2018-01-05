@@ -383,7 +383,7 @@
     <string name="more">更多</string>
     <string name="addCompanyInfo">添加开票信息</string>
     <string name="changeCompanyinfo">更换公司</string>
-    <string name="company_select">公司选择</string>
+    <string name="company_select">请选择要开票的公司</string>
     <string name="quqlified_invoice">合格发票</string>
     <string name="awareness">请填写注意事项，如：\n1.需要经济型酒店的住宿费；\n2.单张餐费发票金额不能超过100元；\n3.不要定额发票；\n4.出租车发票不要连号。</string>
     <string name="next_step">下一步</string>
