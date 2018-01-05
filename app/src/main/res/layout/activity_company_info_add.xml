@@ -57,9 +57,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/d10"
-            android:paddingTop="@dimen/d10">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -89,6 +87,7 @@
                 android:padding="@dimen/d5">
 
                 <LinearLayout
+                    android:id="@+id/ll_child_company_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

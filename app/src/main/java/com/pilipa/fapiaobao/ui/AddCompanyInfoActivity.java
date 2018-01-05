@@ -94,6 +94,8 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
     CardView cardView;
     @Bind(R.id.ll_company_name)
     LinearLayout llCompanyName;
+    @Bind(R.id.ll_child_company_name)
+    LinearLayout llChildCompanyName;
     private Dialog scanDialog;
     private PopupWindow popWnd;
     private ArrayList<TestBean> a;
@@ -232,23 +234,37 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
     }
 
     private void startSearching(String companyName, String tag) {
-        Api.searchCompanies(companyName, tag, new Api.BaseViewCallback<CompaniesSearchBean>() {
+        Api.searchCompanies(companyName, tag, new Api.BaseViewWithoutDatas<CompaniesSearchBean>() {
+            @Override
+            public void onNoData() {
+                popWnd.dismiss();
+            }
+
             @Override
             public void setData(CompaniesSearchBean companiesSearchBean) {
                 adapter.setNewData(companiesSearchBean.getData());
                 if (companiesSearchBean.getData().size() > 4) {
-                    popWnd.setHeight((int) TDevice.dp2px(300));
+                    popWnd.setHeight((int) TDevice.dp2px(200));
                 } else {
                     popWnd.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                 }
                 popWnd.update();
+
+                TLog.d(TAG, "edtCompany_name.getHeight()=" + edtCompany_name.getHeight());
+                TLog.d(TAG, "edtCompany_name.getTop()=" + edtCompany_name.getTop());
+                TLog.d(TAG, "llChildCompanyName.getTop()=" + llChildCompanyName.getTop());
+                TLog.d(TAG, "llCompanyName.getTop()=" + llCompanyName.getTop());
+                TLog.d(TAG, "cardView.getTop()=" + cardView.getTop());
+
+
                 popWnd.showAtLocation(cardView
                         , Gravity.NO_GRAVITY
                         , cardView.getLeft()
-                        , llCompanyName.getPaddingBottom()
-                                + llCompanyName.getPaddingTop()
-                                + llCompanyName.getBottom()
-                                + cardView.getTop());
+                        , edtCompany_name.getHeight()
+                                + edtCompany_name.getTop()
+                                + llChildCompanyName.getTop()
+                                + llCompanyName.getTop()
+                                + cardView.getTop() + (int) TDevice.dp2px(20));
 
             }
         });
@@ -430,11 +446,19 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
         edtCompany_name.removeTextChangedListener(textWatcher);
         CompaniesBean companiesBean = (CompaniesBean) adapter.getItem(position);
         if (companiesBean != null) {
-            edtCompany_name.setText(companiesBean.getNsrmc());
-            edtTaxno.setText(companiesBean.getNsrsbh());
+            if (companiesBean.getNsrmc() != null || !TextUtils.isEmpty(companiesBean.getNsrmc())) {
+                edtCompany_name.setText(companiesBean.getNsrmc());
+            }
+            if (companiesBean.getNsrsbh() != null && !TextUtils.isEmpty(companiesBean.getNsrsbh())) {
+                edtTaxno.setText(companiesBean.getNsrsbh());
+                edtCompanyAddress.requestFocus();
+            } else {
+                edtTaxno.requestFocus();
+            }
+
         }
         popWnd.dismiss();
-        edtCompanyAddress.requestFocus();
+
 
     }
 

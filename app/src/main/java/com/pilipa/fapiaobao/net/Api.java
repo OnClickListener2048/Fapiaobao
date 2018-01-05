@@ -1936,7 +1936,7 @@ public class Api<T> {
                 });
     }
 
-    public static void searchCompanies(String companyName, Object tag, final BaseViewCallback baseViewCallback) {
+    public static void searchCompanies(String companyName, Object tag, final BaseViewWithoutDatas baseViewCallback) {
         OkGo.<CompaniesSearchBean>get(String.format(COMPANY_SEARCH, companyName))
                 .tag(tag)
                 .cacheMode(CacheMode.NO_CACHE)
@@ -1949,6 +1949,10 @@ public class Api<T> {
                         if (response.body() != null) {
                             if (response.body().getStatus() == Constant.REQUEST_SUCCESS) {
                                 baseViewCallback.setData(response.body());
+                            }
+
+                            if (response.body().getStatus() == Constant.REQUEST_NO_CONTENT) {
+                                baseViewCallback.onNoData();
                             }
                         }
                     }
@@ -2005,6 +2009,12 @@ public class Api<T> {
     public interface BaseViewCallback<T> {
         void setData(T t);
     }
+
+    public interface BaseViewWithoutDatas<T> extends BaseViewCallback<T> {
+        void onNoData();
+    }
+
+
 
 
     public interface BaseRawResponse<T> extends BaseViewCallbackWithOnStart<T> {

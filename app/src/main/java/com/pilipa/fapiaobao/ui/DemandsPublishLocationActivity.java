@@ -1686,7 +1686,12 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     }
 
     private void startSearching(String companyName, String tag) {
-        Api.searchCompanies(companyName, tag, new Api.BaseViewCallback<CompaniesSearchBean>() {
+        Api.searchCompanies(companyName, tag, new Api.BaseViewWithoutDatas<CompaniesSearchBean>() {
+            @Override
+            public void onNoData() {
+                popWnd.dismiss();
+            }
+
             @Override
             public void setData(CompaniesSearchBean companiesSearchBean) {
                 adapter.setNewData(companiesSearchBean.getData());
@@ -1766,8 +1771,16 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         if (companiesBean != null) {
             etPublishCompanyName.setText(companiesBean.getNsrmc());
             etPublishTexNumber.setText(companiesBean.getNsrsbh());
+            if (companiesBean.getNsrmc() != null || !TextUtils.isEmpty(companiesBean.getNsrmc())) {
+                etPublishCompanyName.setText(companiesBean.getNsrmc());
+            }
+            if (companiesBean.getNsrsbh() != null && !TextUtils.isEmpty(companiesBean.getNsrsbh())) {
+                etPublishTexNumber.setText(companiesBean.getNsrsbh());
+                etPublishAddress.requestFocus();
+            } else {
+                etPublishTexNumber.requestFocus();
+            }
         }
         popWnd.dismiss();
-        etPublishAddress.requestFocus();
     }
 }
