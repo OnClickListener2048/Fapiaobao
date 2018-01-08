@@ -438,6 +438,7 @@ public class BaseApplication extends Application {
                             startActivity(intent5);
                             TLog.log("startActivity(intent5);");
                             break;
+                        default:
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
