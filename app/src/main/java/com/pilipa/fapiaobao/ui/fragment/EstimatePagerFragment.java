@@ -21,7 +21,6 @@ import com.example.mylibrary.utils.TimeUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
-import com.pilipa.fapiaobao.ui.EstimateLocationActivity;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 
 import java.util.ArrayList;
@@ -45,7 +44,6 @@ public class EstimatePagerFragment extends BaseFragment {
     TextView date;
     private MacherBeanToken.DataBean dataBean;
     private Dialog mTipDialog;
-    private EstimateLocationActivity activity;
 
     public static EstimatePagerFragment newInstance(Bundle bundle) {
         EstimatePagerFragment estimatePagerFragment = new EstimatePagerFragment();
