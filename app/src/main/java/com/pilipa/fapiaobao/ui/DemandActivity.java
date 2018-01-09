@@ -49,7 +49,6 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -80,6 +79,9 @@ import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
  */
 
 public class DemandActivity extends BaseNoNetworkActivity {
+    public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
+    public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
+    public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
     private static final String TAG = "DemandActivity";
     @Bind(R.id.container_paper_normal_receipt)
     FrameLayout containerPaperNormalReceipt;
@@ -155,7 +157,6 @@ public class DemandActivity extends BaseNoNetworkActivity {
     LinearLayout container_paper_special_receipt;
     @Bind(R.id.ll_container_paper_elec_receipt)
     LinearLayout container_paper_elec_receipt;
-    private UMWeb web;
     //发票类型
     @Bind(R.id.paper_normal_receipt)
     TextView paperNormalReceipt;
@@ -165,20 +166,13 @@ public class DemandActivity extends BaseNoNetworkActivity {
     TextView paperElecReceipt;
     @Bind(R.id.tv_qualified_list)
     TextView tvQualifiedList;
-
-
     List<DemandDetails.DataBean.OrderInvoiceListBean> mDataList = new ArrayList<>();
     List<String> mList = new ArrayList<>();
+    ArrayList<Image> images_qualified;
+    private UMWeb web;
     private boolean isShow = true;//当前详情是否显示
-
-    public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
-    public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
-    public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
-
     private String demandId;
-
     private MyInvoiceNameAdapter invoiceNameAdapter;
-    ArrayList<Image> images_qualified ;
     private Dialog mCameraDialog;
     private Dialog mDialog;
     private boolean isCanShutDown = false;//能否提前关闭
@@ -270,6 +264,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 }
             }
             break;
+            default:
         }
     }
 
@@ -312,7 +307,8 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 image.isCapture = false;
                 image.isFromNet = true;
                 image.state = result.getState();
-                image.amount = String.format("%.2f",result.getAmount());
+//                image.amount = String.format("%.2f",result.getAmount());
+                image.amount = getString(R.string.point_two, result.getAmount());
                 image.logisticsTradeno = result.getLogisticsTradeno();
                 image.logisticsCompany = result.getLogisticsCompany();
                 image.variety = result.getVariety();
@@ -443,15 +439,16 @@ public class DemandActivity extends BaseNoNetworkActivity {
                         mList.addAll(bean.getInvoiceNameList());
                         invoiceNameAdapter.initData(mList);
 
-                        tvBounsAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getTotalBonus()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
-                        tvAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getTotalAmount()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
-                        tvLeftAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getLeftBonus()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
+//                        tvBounsAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getTotalBonus()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
+                        tvBounsAmount.setText(String.valueOf(getString(R.string.point_two, bean.getDemand().getTotalBonus())));
+                        tvAmount.setText(String.valueOf(getString(R.string.point_two, bean.getDemand().getTotalAmount())));
+                        tvLeftAmount.setText(String.valueOf(getString(R.string.point_two, bean.getDemand().getLeftBonus())));
                         tvPublishTime.setText(getString(R.string.publish_date,bean.getDemand().getPublishDate()));
                         tvDeadline.setText(getString(R.string.deadline_date,bean.getDemand().getDeadline()));
                         tvAttentions.setText(bean.getDemand().getAttentions().isEmpty() ? "无" : bean.getDemand().getAttentions());
-                        tv_receive.setText(String.valueOf(new BigDecimal(bean.getReceivedAmount()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
+                        tv_receive.setText(String.valueOf(getString(R.string.point_two, bean.getReceivedAmount())));
                         tvAlreadyCollected.setText(String.valueOf(bean.getReceivedNum()));
-                        tv_low_limit.setText(getString(R.string.end_with_yuan,String.valueOf(new BigDecimal(bean.getDemand().getMailMinimum()).setScale(2,BigDecimal.ROUND_HALF_EVEN))));
+                        tv_low_limit.setText(getString(R.string.end_with_yuan, getString(R.string.point_two, bean.getDemand().getMailMinimum())));
                         //地址信息判断
                         String district = null;
                         if(bean.getDemand().getDemandPostage().getDistrict()!=null){

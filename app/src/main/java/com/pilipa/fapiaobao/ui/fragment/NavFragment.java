@@ -16,8 +16,6 @@ import android.widget.ImageView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseFragment;
-import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.PubActivity;
 import com.pilipa.fapiaobao.ui.constants.Constant;
@@ -71,7 +69,6 @@ public class NavFragment extends BaseFragment{
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
-
         navItemTex.init(R.drawable.selector_finance_tab,
                 R.string.main_tab_name_tex,
                 FinanceFragment.class);
@@ -188,8 +185,10 @@ public class NavFragment extends BaseFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        return rootView;
+//        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.NavFragmentBackground);
+//        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+        getContext().getTheme().applyStyle(R.style.NavFragmentBackground, true);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -232,11 +231,6 @@ public class NavFragment extends BaseFragment{
         }
     }
 
-
-    public interface OnNavigationReselectListener {
-        void onReselect(NavigationButton navigationButton);
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -245,6 +239,10 @@ public class NavFragment extends BaseFragment{
     @Override
     protected void initData() {
         super.initData();
+    }
+
+    public interface OnNavigationReselectListener {
+        void onReselect(NavigationButton navigationButton);
     }
 
 }

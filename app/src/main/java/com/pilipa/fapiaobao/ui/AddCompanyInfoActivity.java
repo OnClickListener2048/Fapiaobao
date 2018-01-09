@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -13,9 +14,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.ReplacementTransformationMethod;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -28,6 +31,8 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.mylibrary.utils.KeyboardUtils;
 import com.example.mylibrary.utils.TLog;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.SearchCompaniesAdapter;
@@ -36,15 +41,19 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.TestBean;
+import com.pilipa.fapiaobao.net.bean.base.BaseResponseBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean;
+import com.pilipa.fapiaobao.net.callback.JsonConvertor;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -53,7 +62,7 @@ import butterknife.OnClick;
  * Created by wjn on 2017/10/23.
  */
 
-public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, View.OnTouchListener {
+public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener, View.OnTouchListener, View.OnFocusChangeListener, PopupWindow.OnDismissListener {
     private static final String TAG = "AddCompanyInfoActivity";
     private static final int REQUEST_CODE_SCAN = 0x0033;
     private static final String DECODED_CONTENT_KEY = "codedContent";
@@ -89,10 +98,28 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
     @Bind(R.id.ll_company_name)
     LinearLayout llCompanyName;
     private Dialog scanDialog;
-    private CharSequence oldPhase;
     private PopupWindow popWnd;
     private ArrayList<TestBean> a;
     private SearchCompaniesAdapter adapter;
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            cancelSearching(s.toString());
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() >= 3) {
+                startSearching(s.toString(), s.toString());
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     @Override
     protected int getLayoutId() {
@@ -205,33 +232,40 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
         resets();
 
         initPopup();
-        edtCompany_name.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                TLog.d(TAG, "beforeTextChanged  CharSequence" + s);
-            }
+    }
+
+    private void startSearching(String companyName, String tag) {
+        Api.searchCompanies(companyName, tag, new JsonConvertor<BaseResponseBean<List<CompaniesBean>>>() {
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                TLog.d(TAG, "onTextChanged  CharSequence" + s);
-                if (s.length() >= 3) {
-                    adapter.addData(a);
-//                    popWnd.showAsDropDown(llCompanyName, 0, (int) -TDevice.dp2px(20));
-                    TLog.d(TAG, "cardView.getTop()" + cardView.getTop());
-                    TLog.d(TAG, "cardView.getLeft()" + cardView.getLeft());
-                    TLog.d(TAG, "cardView.getRight()" + cardView.getRight());
-                    TLog.d(TAG, "cardView.getBottom()" + cardView.getBottom());
-                    TLog.d(TAG, "llCompanyName.getHeight()" + llCompanyName.getHeight());
-                    TLog.d(TAG, "llCompanyName.getleft" + cardView.getLeft());
-                    popWnd.showAtLocation(cardView, Gravity.NO_GRAVITY, cardView.getLeft(), llCompanyName.getPaddingBottom() + llCompanyName.getPaddingTop() + llCompanyName.getBottom() + cardView.getTop());
+            public void onSuccess(Response<BaseResponseBean<List<CompaniesBean>>> response) {
+                adapter.setNewData(response.body().getData());
+                if (response.body().getData().size() > 4) {
+                    popWnd.setHeight((int) TDevice.dp2px(200));
+                } else {
+                    popWnd.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                 }
+                popWnd.update();
+                popWnd.showAtLocation(cardView
+                        , Gravity.NO_GRAVITY
+                        , cardView.getLeft()
+                        , llCompanyName.getPaddingBottom()
+                                + llCompanyName.getPaddingTop()
+                                + llCompanyName.getBottom()
+                                + cardView.getTop());
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                TLog.d(TAG, "afterTextChanged  CharSequence" + s);
+            protected void onNoContent() {
+                super.onNoContent();
+                popWnd.dismiss();
             }
         });
+    }
+
+    private void cancelSearching(String tag) {
+        TLog.log("cancelSearching===" + tag);
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), tag);
     }
 
     private void initPopup() {
@@ -253,11 +287,11 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
             }
         });
         popWnd.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        popWnd.setHeight((int) TDevice.dp2px(300));
         popWnd.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         popWnd.setOutsideTouchable(true);
         popWnd.setTouchable(true);
         popWnd.setTouchInterceptor(this);
+        popWnd.setOnDismissListener(this);
         popWnd.update();
     }
 
@@ -300,17 +334,13 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
                 tvMustfillCompanyPhone.setVisibility(View.GONE);
             }
         }
+
+        edtCompany_name.setOnFocusChangeListener(this);
     }
 
     @Override
     public void initData() {
-        a = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
-            TestBean t = new TestBean();
-            t.setCompanyName("companyName" + i);
-            t.setTexNum(String.valueOf(i * 1123421));
-            a.add(t);
-        }
+
     }
 
     public void addCompany() {
@@ -406,12 +436,69 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        edtCompany_name.removeTextChangedListener(textWatcher);
+        CompaniesBean companiesBean = (CompaniesBean) adapter.getItem(position);
+        if (companiesBean != null) {
+            edtCompany_name.setText(companiesBean.getNsrmc());
+            edtTaxno.setText(companiesBean.getNsrsbh());
+        }
+        popWnd.dismiss();
+        edtCompanyAddress.requestFocus();
 
     }
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         KeyboardUtils.hideSoftInput(this);
         return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        TLog.d(TAG, "keyCode" + keyCode);
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+        TLog.d(TAG, "onKey" + keyCode);
+        return super.onKey(dialog, keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        TLog.d(TAG, "onKeyLongPress" + keyCode);
+        return super.onKeyLongPress(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyShortcut(int keyCode, KeyEvent event) {
+        TLog.d(TAG, "onKeyShortcut" + keyCode);
+        return super.onKeyShortcut(keyCode, event);
+    }
+
+    @Override
+    public boolean onKeyMultiple(int keyCode, int repeatCount, KeyEvent event) {
+        TLog.d(TAG, "onKeyMultiple" + keyCode);
+        return super.onKeyMultiple(keyCode, repeatCount, event);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        TLog.d(TAG, "onKeyUp" + keyCode);
+        return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        TLog.d(TAG, "onFocusChange---hasFocus---" + hasFocus);
+        if (hasFocus) {
+            edtCompany_name.addTextChangedListener(textWatcher);
+        }
+    }
+
+    @Override
+    public void onDismiss() {
     }
 }
