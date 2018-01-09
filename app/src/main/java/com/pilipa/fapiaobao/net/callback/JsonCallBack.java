@@ -139,14 +139,6 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
         BaseApplication.context().sendBroadcast(intent);
     }
 
-    private enum  ExceptionReason {
-        BAD_NETWORK,
-        CONNECT_ERROR,
-        CONNECT_TIMEOUT,
-        PARSE_ERROR,
-        UNKNOWN_ERROR,
-    }
-
     @Override
     public void onCacheSuccess(com.lzy.okgo.model.Response<T> response) {
         super.onCacheSuccess(response);
@@ -173,7 +165,13 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
             default:
                 break;
         }
+    }
 
-
+    private enum ExceptionReason {
+        BAD_NETWORK,
+        CONNECT_ERROR,
+        CONNECT_TIMEOUT,
+        PARSE_ERROR,
+        UNKNOWN_ERROR,
     }
 }

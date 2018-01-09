@@ -4,14 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
 
         <android.support.v4.widget.Space
             android:layout_width="match_parent"
             android:layout_height="@dimen/d23" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,14 +48,12 @@
                 android:drawablePadding="@dimen/d5"
                 android:text="@string/deadline" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d10" />
             <LinearLayout
                 android:id="@+id/ll_date"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d43"
                 android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/d10"
                 android:background="@drawable/shape_rect_demand_info"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -87,9 +83,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
 
 
         <LinearLayout
@@ -97,22 +90,19 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/d15"
             android:layout_marginRight="@dimen/d15"
+            android:layout_marginTop="@dimen/d10"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/d10"
                 android:text="@string/need_total" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d10" />
-
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d43"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/d10">
+                android:layout_gravity="center">
 
                 <EditText
                     android:id="@+id/et_amount"
@@ -129,25 +119,23 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/d10"
                     android:text="@string/yuan" />
-            </FrameLayout>
+            </RelativeLayout>
         </LinearLayout>
 
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/d15"
             android:layout_marginRight="@dimen/d15"
+            android:layout_marginTop="@dimen/d10"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -155,34 +143,31 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:text="@string/reward" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/Switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     app:buttonTint="@color/main_style"
                     app:buttonTintMode="multiply"
                     app:showText="false"
                     app:theme="@style/switchCompat" />
-            </LinearLayout>
+            </RelativeLayout>
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d10" />
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/d10">
 
-                <FrameLayout
+                <RelativeLayout
                     android:id="@+id/ll_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -203,10 +188,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end|center_vertical"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/d10"
                         android:text="@string/yuan" />
-                </FrameLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_toggle_switch"
@@ -224,9 +210,6 @@
             </FrameLayout>
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
 
         <LinearLayout
             android:id="@+id/ll_area_limited"
@@ -234,9 +217,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/d15"
             android:layout_marginRight="@dimen/d15"
+            android:layout_marginTop="@dimen/d10"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -244,32 +228,28 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:text="@string/limit_invoice_area" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/SwitchArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     app:buttonTint="@color/main_style"
                     app:buttonTintMode="multiply"
                     app:showText="false"
                     app:theme="@style/switchCompat" />
-            </LinearLayout>
+            </RelativeLayout>
 
 
-            <View
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/d10" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d43">
+                android:layout_height="@dimen/d43"
+                android:layout_marginTop="@dimen/d10">
 
                 <LinearLayout
                     android:id="@+id/ll_area"
@@ -305,14 +285,10 @@
                         android:textSize="@dimen/s10" />
                 </LinearLayout>
 
-            </FrameLayout>
+            </RelativeLayout>
 
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
 
         <LinearLayout
             android:id="@+id/ll_express_limited"
@@ -320,6 +296,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/d15"
             android:layout_marginRight="@dimen/d15"
+            android:layout_marginTop="@dimen/d10"
             android:orientation="vertical">
 
             <LinearLayout
@@ -342,15 +319,10 @@
 
             </LinearLayout>
 
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d10" />
-
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/d10"
                 android:gravity="center_vertical">
 
                 <EditText
@@ -368,12 +340,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/d10"
                     android:text="@string/yuan" />
-            </FrameLayout>
+            </RelativeLayout>
 
 
         </LinearLayout>
-    </LinearLayout>
+
 </LinearLayout>

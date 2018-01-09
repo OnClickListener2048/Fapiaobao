@@ -71,8 +71,9 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class EstimateLocationActivity extends BaseLocationActivity implements ViewPager.OnPageChangeListener {
+    public static final int REQUEST_CODE_ESTIMATE = 500;
+    public ExtimatePagerAdapter adapter;
     String TAG = "EstimateLocationActivity";
-
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.estimate_back)
@@ -85,14 +86,12 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
     RelativeLayout estimatePlease;
     @Bind(R.id.test_redbag)
     Button testRedbag;
-
     @Bind(R.id.ultra_viewpager)
     UltraViewPager ultraViewpager;
     @Bind(R.id.go)
     Button go;
     @Bind(R.id.confirm_caution)
     LinearLayout llConfirmCaution;
-
     @Bind(R.id.tolast)
     ImageView tolast;
     @Bind(R.id.tonext)
@@ -131,7 +130,6 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
     LinearLayout llFilterTypesLocation;
     String locate = "";
     int type = 0;
-    public static final int REQUEST_CODE_ESTIMATE = 500;
     @Bind(R.id.tv_label)
     TextView tvLabel;
     private String label = "";
@@ -139,14 +137,11 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
     private int currentItem = 0;
     private MacherBeanToken matchBean;
     private double amount;
-
     private CityPickerView cityPicker;
     private ArrayList<String> arrayListSelectedReceiptKind;
     private String name = "";
     private String companyId;
     private String demandId;
-    public ExtimatePagerAdapter adapter;
-
 
     @Override
     protected int getLayoutId() {
@@ -523,6 +518,7 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
                     estimate();
                 }
                 break;
+            default:
         }
     }
 

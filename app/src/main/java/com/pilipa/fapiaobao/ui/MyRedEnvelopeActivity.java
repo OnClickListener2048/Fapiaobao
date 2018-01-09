@@ -54,11 +54,6 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     TextView btnWithdraw;
     private Dialog mDialog;
     private String bonus;
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_red_envelope;
-    }
-
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -88,6 +83,12 @@ public class MyRedEnvelopeActivity extends BaseActivity {
             }
         }
     };
+    private IWXAPI api;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_red_envelope;
+    }
 
     private void bind(final String openID){
         Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, openID, "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
@@ -120,6 +121,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
             }
         });
     }
+
     private void withdaw(String openID){
         Api.withdaw(AccountHelper.getToken()
                 ,ACCOUNT_TYPE_RED
@@ -248,6 +250,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
     private void setupViews(String bonus) {
         // 设置数据
         tv_bonus.withNumber(Float.parseFloat(bonus));
@@ -262,6 +265,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         });
         tv_bonus.start();
     }
+
     private void setDialog() {
         mDialog = new Dialog(this, R.style.BottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
@@ -310,7 +314,6 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                     @Override
                     public void setData(NormalBean normalBean) {
                         if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
-                            BaseApplication.showToast(getString(R.string.recharge_success));
                             Intent intent = new Intent();
                             intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.TITLE, getString(R.string.recharge_success));
                             intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.MESSAGE, getString(R.string.recharge_message,bonus));
@@ -347,7 +350,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         dialogWindow.setAttributes(lp);
         mDialog.show();
     }
-    private IWXAPI api;
+
     private void regexToWX() {
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         api.registerApp(Constants.APP_ID);
