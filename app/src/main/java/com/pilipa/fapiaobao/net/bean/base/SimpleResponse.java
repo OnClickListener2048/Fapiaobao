@@ -1,29 +1,13 @@
 package com.pilipa.fapiaobao.net.bean.base;
 
 /**
- *
- * @author edz
- * @date 2017/12/11
+ * Created by edz on 2018/1/9.
  */
 
-public class BaseResponseBean<T> {
-
-    /**
-     * status : 701
-     * msg : token验证失败
-     */
+public class SimpleResponse {
 
     private int status;
     private String msg;
-    private T data;
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
 
     public int getStatus() {
         return status;
@@ -39,5 +23,12 @@ public class BaseResponseBean<T> {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public BaseResponseBean toBaseResponseBean() {
+        BaseResponseBean baseResponseBean = new BaseResponseBean();
+        baseResponseBean.setStatus(status);
+        baseResponseBean.setMsg(msg);
+        return baseResponseBean;
     }
 }

@@ -383,7 +383,7 @@
     <string name="more">更多</string>
     <string name="addCompanyInfo">添加开票信息</string>
     <string name="changeCompanyinfo">更换公司</string>
-    <string name="company_select">公司选择</string>
+    <string name="company_select">请选择要开票的公司</string>
     <string name="quqlified_invoice">合格发票</string>
     <string name="awareness">请填写注意事项，如：\n1.需要经济型酒店的住宿费；\n2.单张餐费发票金额不能超过100元；\n3.不要定额发票；\n4.出租车发票不要连号。</string>
     <string name="next_step">下一步</string>
@@ -490,7 +490,6 @@
     <string name="gobind">去绑定</string>
     <string name="haveBound">已绑定</string>
     <string name="placeholder_birthday">%1$d-%2$d-%3$d</string>
-    <string name="placeholder_area">%1$s-%2$s-%3$s</string>
     <string name="user_name_can_not_be_null">昵称不能为空</string>
     <string name="WX_unbind_success">微信解绑成功</string>
     <string name="no_content_in_the_server">没有找到业务数据</string>
@@ -537,8 +536,7 @@
     <string name="invoice_area">开票地区:</string>
     <string name="select_others_province_and_city">选择其他省市</string>
     <string name="last_change">上次积分变化</string>
-    <string name="only_support_this_app_created_qrcode">添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描</string>
-    <string name="end_with_city">%1$s市</string>
+    <string name="point_two">%.2f</string>
 
     <string-array name="express_array">
         <item>顺丰</item>

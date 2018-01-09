@@ -251,6 +251,7 @@ public class PubSuccessActivity extends BaseActivity {
                 }
 
                 break;
+            default:
         }
     }
 
