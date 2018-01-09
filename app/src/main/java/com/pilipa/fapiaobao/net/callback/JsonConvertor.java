@@ -2,14 +2,12 @@ package com.pilipa.fapiaobao.net.callback;
 
 import android.content.Intent;
 import android.net.ParseException;
+import android.text.TextUtils;
 
 import com.example.mylibrary.utils.NetworkUtils;
 import com.example.mylibrary.utils.TLog;
 import com.example.mylibrary.utils.TimeUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import com.google.gson.stream.JsonReader;
 import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.exception.HttpException;
 import com.lzy.okgo.request.base.Request;
@@ -22,10 +20,10 @@ import com.pilipa.fapiaobao.utils.TDevice;
 import org.json.JSONException;
 
 import java.io.InterruptedIOException;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -35,22 +33,24 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 /**
- * Created by lyt on 2017/10/12.
+ * Created by edz on 2018/1/8.
  */
 
-public abstract class JsonCallBack<T> extends AbsCallback<T> {
-    String TAG = JsonCallBack.class.getSimpleName();
+public abstract class JsonConvertor<T> extends AbsCallback<T> {
+    private static final String TAG = JsonConvert.class.getSimpleName();
     private Type type;
     private Class<T> clazz;
 
-    protected JsonCallBack(Type type) {
+    public JsonConvertor() {
+    }
+
+    public JsonConvertor(Type type) {
         this.type = type;
     }
 
-    protected JsonCallBack(Class<T> clazz) {
+    public JsonConvertor(Class<T> clazz) {
         this.clazz = clazz;
     }
 
@@ -59,35 +59,26 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
         super.onStart(request);
     }
 
-
-    @Override
-    public void onFinish() {
-        super.onFinish();
-    }
-
     @Override
     public T convertResponse(Response response) throws Throwable {
-        ResponseBody body = response.body();
-        if (body == null) {
-            return null;
+
+        if (type == null) {
+            if (clazz == null) {
+                Type genType = getClass().getGenericSuperclass();
+                type = ((ParameterizedType) genType).getActualTypeArguments()[0];
+            } else {
+                JsonConvert<T> convert = new JsonConvert<>(clazz);
+                return convert.convertResponse(response);
+            }
         }
 
-        T data = null;
-        Gson gson = new GsonBuilder().serializeNulls().create();
-        JsonReader jsonReader = new JsonReader(body.charStream());
-        if (type != null) {
-            data = gson.fromJson(jsonReader, type);
-        }
-        if (clazz != null) {
-            data = gson.fromJson(jsonReader, clazz);
-        }
-        return data;
+        JsonConvert<T> convert = new JsonConvert<>(type);
+        return convert.convertResponse(response);
     }
 
     @Override
     public void onError(com.lzy.okgo.model.Response<T> response) {
         super.onError(response);
-        TLog.log("response.isFromCache()"+response.isFromCache());
         final Throwable e = response.getException();
         Intent intent = new Intent();
         if (e instanceof HttpException) {     //   HTTP错误
@@ -105,12 +96,12 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
                 || e instanceof ParseException) {   //  解析错误
             onException(ExceptionReason.PARSE_ERROR);
             intent.setAction(Constant.PARSE_ERROR);
+        } else if (e instanceof IllegalStateException) {
+            handleException(response);
         } else {
             onException(ExceptionReason.UNKNOWN_ERROR);
             intent.setAction(Constant.UNKNOWN_ERROR);
         }
-        TLog.d(TAG, Arrays.toString(e.getStackTrace()));
-        TLog.d(TAG,e.getMessage());
         if (TDevice.hasInternet() && NetworkUtils.isConnected()) {
             Observable.create(new ObservableOnSubscribe<Boolean>() {
                 @Override
@@ -139,10 +130,24 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
         BaseApplication.context().sendBroadcast(intent);
     }
 
+    private void handleException(com.lzy.okgo.model.Response<T> response) {
+        String message = response.getException().getMessage();
+
+        if (message == null) return;
+
+        if (TextUtils.equals(message, String.valueOf(com.pilipa.fapiaobao.net.Constant.REQUEST_NO_CONTENT))) {
+            onNoContent();
+        }
+    }
+
+    protected void onNoContent() {
+
+    }
+
     @Override
     public void onCacheSuccess(com.lzy.okgo.model.Response<T> response) {
         super.onCacheSuccess(response);
-        TLog.log("onCacheSuccess"+response.message());
+        TLog.log("onCacheSuccess" + response.message());
     }
 
     private void onException(ExceptionReason reason) {
@@ -157,7 +162,7 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
                 BaseApplication.showToast(R.string.bad_network);
                 break;
             case PARSE_ERROR:
-                BaseApplication.showToast(R.string.connect_error);
+                BaseApplication.showToast(R.string.parse_error);
                 break;
             case UNKNOWN_ERROR:
                 BaseApplication.showToast(R.string.unknown_error);

@@ -1,6 +1,5 @@
 package com.pilipa.fapiaobao.base;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,52 +14,35 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Progress;
-import com.lzy.okgo.request.base.Request;
-import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.interf.BaseView;
-import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.update.VersionMode;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.constants.Constant;
+import com.pilipa.fapiaobao.ui.dialog.LoadingDialog;
 import com.pilipa.fapiaobao.ui.fragment.ProgressDialogFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
-import com.pilipa.fapiaobao.ui.dialog.LoadingDialog;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
-import com.pilipa.fapiaobao.utils.TDevice;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.umeng.message.PushAgent;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-import static com.pilipa.fapiaobao.ui.constants.Constant.FORCE_UPDATE;
 import static com.pilipa.fapiaobao.utils.BitmapUtils.readPictureDegree;
 import static com.pilipa.fapiaobao.utils.BitmapUtils.rotaingImageView;
 
@@ -69,7 +51,7 @@ import static com.pilipa.fapiaobao.utils.BitmapUtils.rotaingImageView;
  * Created by lyt on 2017/10/12.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, BaseView, DialogInterface.OnKeyListener {
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, BaseView, DialogInterface.OnKeyListener, DialogInterface.OnDismissListener {
     protected LayoutInflater mInflater;
     private Fragment mFragment;
     private ActionBar mActionBar;
@@ -148,6 +130,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             progressDialog = new LoadingDialog(this, R.style.CustomDialog);
         }
         progressDialog.setOnKeyListener(this);
+        progressDialog.setOnDismissListener(this);
     }
 
     public void showProgressDialog() {
@@ -411,4 +394,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+
+    }
 }

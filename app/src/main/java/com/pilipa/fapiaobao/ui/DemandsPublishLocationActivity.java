@@ -11,15 +11,20 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.ReplacementTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -28,15 +33,18 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blog.www.guideview.Component;
 import com.blog.www.guideview.Guide;
 import com.blog.www.guideview.GuideBuilder;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.mylibrary.utils.KeyboardUtils;
 import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.ScreenUtils;
 import com.example.mylibrary.utils.TLog;
@@ -49,16 +57,20 @@ import com.lljjcoder.bean.DistrictBean;
 import com.lljjcoder.bean.ProvinceBean;
 import com.lljjcoder.citywheel.CityConfig;
 import com.lljjcoder.citywheel.CityPickerView;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.CompanyListAdapter;
 import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
+import com.pilipa.fapiaobao.adapter.SearchCompaniesAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseLocationActivity;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.base.BaseResponseBean;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
@@ -66,6 +78,7 @@ import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsPublishBean;
+import com.pilipa.fapiaobao.net.callback.JsonConvertor;
 import com.pilipa.fapiaobao.receiver.WXPayReceiver;
 import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
@@ -87,7 +100,7 @@ import butterknife.OnClick;
  * Created by edz on 2017/10/26.
  */
 
-public class DemandsPublishLocationActivity extends BaseLocationActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener, CompanyListAdapter.OnCompanyClickListener {
+public class DemandsPublishLocationActivity extends BaseLocationActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener, CompanyListAdapter.OnCompanyClickListener, View.OnFocusChangeListener, PopupWindow.OnDismissListener, View.OnTouchListener, BaseQuickAdapter.OnItemClickListener {
 
     public static final int REQUEST_CODE = 300;
     public static final int REQUEST_CODE_FOR_MORE_TYPE = 400;
@@ -145,7 +158,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     @Bind(R.id.et_amount_redbag)
     EditText etAmountRedbag;
     @Bind(R.id.ll_amount)
-    FrameLayout llAmount;
+    RelativeLayout llAmount;
     @Bind(R.id.et_express_amount_minimum)
     EditText etExpressAmountMinimum;
     @Bind(R.id.rb_cod)
@@ -208,6 +221,14 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     LinearLayout llMoreCompanyTypes;
     @Bind(R.id.scrollview)
     NestedScrollView scrollview;
+    @Bind(R.id.ll_publish_company_name)
+    LinearLayout llPublishCompanyName;
+    @Bind(R.id.line)
+    View line;
+    @Bind(R.id.iv_select_area)
+    ImageView ivSelectArea;
+    @Bind(R.id.line_above_popup)
+    View lineAbovePopup;
     private boolean paperNormal;
     private boolean elec;
     private boolean paperSpecial;
@@ -234,6 +255,26 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             } else if (TextUtils.equals(intent.getAction(), WXPayReceiver.pay_fail)) {
                 BaseApplication.showToast(getString(R.string.recharge_fail));
             }
+        }
+    };
+    private SearchCompaniesAdapter adapter;
+    private PopupWindow popWnd;
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            cancelSearching(s.toString());
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() >= 3) {
+                startSearching(s.toString(), s.toString());
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
         }
     };
 
@@ -280,14 +321,17 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         dialog = new TimePickerDialog(this);
         Switch.setChecked(true);
         Switch.setOnCheckedChangeListener(this);
-        Switch.setTag(com.pilipa.fapiaobao.ui.constants.Constant.SWITCH);
+        Switch.setTag("Switch");
         switchArea.setChecked(true);
         switchArea.setOnCheckedChangeListener(this);
-        switchArea.setTag(com.pilipa.fapiaobao.ui.constants.Constant.SWITCH_AREA);
+        switchArea.setTag("SwitchArea");
         llEstimateRequest.setVisibility(View.GONE);
         llToggleSwitch.setVisibility(View.GONE);
         rbCod.setSelected(true);
 
+
+        etPublishCompanyName.setOnFocusChangeListener(this);
+        initPopup();
 
         setUpReceiptParams();
         initDialog();
@@ -317,7 +361,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         registerReceiver(wxPayReceiver, intentFilter);
         String location = BaseApplication.get("location", "定位失败，点击选择地区");
         tvAreaLimited.setText(location);
-        if (com.pilipa.fapiaobao.ui.constants.Constant.LOCATION_ERROR.equals(location)) {
+        if ("定位异常，请点击重新定位".equals(location)) {
             BaseApplication.showToast("定位异常，请开启定位功能或手动选择");
         }
 
@@ -339,7 +383,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         etReceptionNumber.setText(BaseApplication.get("etReceptionNumber", null));
         etReceptionName.setText(BaseApplication.get("etReceptionName", null));
     }
-
 
     private void initDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -571,7 +614,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         ButterKnife.bind(this);
     }
 
-
     @OnClick({R.id.title, R.id.upload_back, R.id.upload_scan, R.id.paper_elec_receipt
             , R.id.paper_special_receipt, R.id.paper_normal_receipt, R.id.iv_dots_more_company
             , R.id.tv_publish_address_must_fill, R.id.tv_publish_phone_number_must_fill
@@ -768,7 +810,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 });
             }
         }
-
     }
 
     private void addCompanyInfo() {
@@ -818,7 +859,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     private void requestForMoreTypes() {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(com.pilipa.fapiaobao.ui.constants.Constant.MORE_TYPES, bean);
+        bundle.putSerializable("new_data", bean);
         intent.putExtra(MoreTypesActivity.EXTRA_BUNDLE, bundle);
         intent.setClass(this, MoreTypesActivity.class);
         startActivityForResult(intent, REQUEST_CODE_FOR_MORE_TYPE);
@@ -838,7 +879,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
                         Bundle bundle = data.getBundleExtra(MoreTypesActivity.EXTRA_BUNDLE);
-                        bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundle.getSerializable(com.pilipa.fapiaobao.ui.constants.Constant.MORE_TYPES);
+                        bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundle.getSerializable("new_data");
                         ArrayList<String> arrayReceipt = new ArrayList<>();
                         for (DefaultInvoiceBean.DataBean dataBean : bean) {
                             arrayReceipt.add(dataBean.getName());
@@ -953,6 +994,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         moreCompany.setVisibility(View.GONE);
         uploadScan.setVisibility(View.GONE);
         ivDotsMoreCompany.setVisibility(View.GONE);
+        scrollview.requestFocus();
     }
 
     private DemandsPublishBean makeParams() {
@@ -1131,7 +1173,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
         if (switchArea.isChecked()) {
             tvAreaLimited.requestFocus();
-            if (com.pilipa.fapiaobao.ui.constants.Constant.LOCATION_ERROR.equals(tvAreaLimited.getText().toString())) {
+            if ("定位失败，点击选择地区".equals(tvAreaLimited.getText().toString())) {
                 BaseApplication.showToast("限制开票区域定位异常，请开启定位功能或手动选择开票地区");
                 sooothScrollToView(switchArea);
                 cityPickerAreaLimited.show();
@@ -1174,59 +1216,45 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                     resetBackground(etReceptionNumber);
                 }
 
+
+                if (checkIfIsEmpty(tvArea)) {
+                    BaseApplication.showToast("所在地区不能为空");
+                    cityPicker.show();
+                    return false;
+                } else {
+                    resetBackground(tvArea);
+                }
+
                 if (checkIfIsEmpty(etAreaDetails)) {
                     BaseApplication.showToast("详细地址不能为空");
                     return false;
                 } else {
                     resetBackground(etAreaDetails);
                 }
-
-
-                if (checkIfIsEmpty(tvArea)) {
-                    BaseApplication.showToast("所在地区不能为空");
-                    return false;
-                } else {
-                    resetBackground(tvArea);
-                }
             }
         }
-
-
         return true;
     }
 
     private void setErrorBackground(View view) {
-        ViewGroup viewParent = (ViewGroup) view.getParent();
-        if (viewParent != null) {
-            viewParent.setBackgroundResource(R.drawable.bg_error_filling);
-        } else {
-            view.setBackgroundResource(R.drawable.bg_error_filling);
-        }
+        view.setBackgroundResource(R.drawable.bg_error_filling);
     }
 
     private void resetBackground(View view) {
-        ViewGroup viewParent = (ViewGroup) view.getParent();
-        if (viewParent != null) {
-            viewParent.setBackgroundDrawable(null);
-        } else {
-            view.setBackgroundDrawable(null);
-        }
-
+        view.setBackgroundDrawable(null);
     }
 
     private boolean checkIfIsEmpty(TextView editText) {
         boolean b = TextUtils.isEmpty(editText.getText());
-        ViewGroup viewGroup = (ViewGroup) editText.getParent();
         scrollview.setSmoothScrollingEnabled(true);
         scrollview.smoothScrollTo(0, getPixelsWithinScrollView(editText) + editText.getHeight() - ScreenUtils.getScreenHeight() / 2);
         if (b) {
             if (editText instanceof EditText) {
                 editText.requestFocus();
             }
-            viewGroup.setBackgroundResource(R.drawable.bg_error_filling);
+            editText.setBackgroundResource(R.drawable.bg_error_filling);
         } else {
-
-            viewGroup.setBackgroundResource(R.drawable.shape_rect_demand_info);
+            editText.setBackgroundResource(R.drawable.shape_rect_demand_info);
         }
         return b;
     }
@@ -1321,7 +1349,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
                 }
 
-                if (BaseApplication.get(com.pilipa.fapiaobao.ui.constants.Constant.IS_FIRST_IN, true)) {
+                if (BaseApplication.get("Is_First_In_Publish", true)) {
                     btnAddCompanyInfo.post(new Runnable() {
                         @Override
                         public void run() {
@@ -1402,10 +1430,10 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (com.pilipa.fapiaobao.ui.constants.Constant.SWITCH_AREA.equals(buttonView.getTag())) {
+        if ("SwitchArea".equals(buttonView.getTag())) {
             llArea.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             llEstimateRequest.setVisibility(isChecked ? View.GONE : View.VISIBLE);
-        } else if (com.pilipa.fapiaobao.ui.constants.Constant.SWITCH.equals(buttonView.getTag())) {
+        } else if ("Switch".equals(buttonView.getTag())) {
             llAmount.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             llToggleSwitch.setVisibility(isChecked ? View.GONE : View.VISIBLE);
         }
@@ -1468,7 +1496,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             @Override
             public void onSelected(ProvinceBean province, CityBean city) {
                 super.onSelected(province, city);
-                tvAreaLimited.setText(getString(R.string.end_with_city, city.getName()));
+                tvAreaLimited.setText(city.getName() + "市");
                 cityPickerAreaLimited.hide();
             }
 
@@ -1495,7 +1523,8 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 BaseApplication.set("province", province.getName());
                 BaseApplication.set("city", city.getName());
                 BaseApplication.set("district", district.getName());
-                tvArea.setText(getString(R.string.placeholder_area, province.getName(), city.getName(), district.getName()));
+                tvArea.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
+
                 cityPicker.hide();
             }
 
@@ -1591,7 +1620,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
             @Override
             public void onDismiss() {
-                BaseApplication.set(com.pilipa.fapiaobao.ui.constants.Constant.IS_FIRST_IN, false);
+                BaseApplication.set("Is_First_In_Publish", false);
             }
         });
 
@@ -1623,7 +1652,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.layout_scan_tip, null);
         TextView tv = (TextView) root.findViewById(R.id.scan_tip);
-        tv.setText(getString(R.string.only_support_this_app_created_qrcode));
+        tv.setText("添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描");
         //初始化视图
         root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1656,5 +1685,98 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             TLog.log("alertDialog.hide();");
             alertDialog.hide();
         }
+    }
+
+    private void startSearching(String companyName, String tag) {
+        Api.searchCompanies(companyName, tag, new JsonConvertor<BaseResponseBean<List<com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean>>>() {
+
+            @Override
+            public void onSuccess(Response<BaseResponseBean<List<com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean>>> response) {
+                adapter.setNewData(response.body().getData());
+                if (response.body().getData().size() > 4) {
+                    popWnd.setHeight((int) TDevice.dp2px(200));
+                } else {
+                    popWnd.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                }
+                popWnd.update();
+
+                popWnd.showAtLocation(llPublishCompanyName
+                        , Gravity.NO_GRAVITY
+                        , llPublishCompanyName.getLeft()
+                        , scrollview.getTop()
+                                + getPixelsWithinScrollView(lineAbovePopup)
+                                + lineAbovePopup.getHeight()
+                                + llPublishCompanyName.getHeight());
+            }
+
+            @Override
+            protected void onNoContent() {
+                super.onNoContent();
+                popWnd.dismiss();
+            }
+        });
+    }
+
+    private void cancelSearching(String tag) {
+        TLog.log("cancelSearching===" + tag);
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), tag);
+    }
+
+    private void initPopup() {
+        View popupContentView = LayoutInflater.from(this).inflate(R.layout.layout_search_companies, null);
+        RecyclerView recyclerView1 = (RecyclerView) popupContentView.findViewById(R.id.recyclerView);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView1.setItemAnimator(new DefaultItemAnimator());
+        recyclerView1.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        adapter = new SearchCompaniesAdapter(R.layout.item_search_companies);
+        adapter.setOnItemClickListener(this);
+        recyclerView1.setAdapter(adapter);
+        popWnd = new PopupWindow(this);
+        popWnd.setContentView(popupContentView);
+        popWnd.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_search_companies_pop));
+        scrollview.post(new Runnable() {
+            @Override
+            public void run() {
+                TLog.d(TAG, " popWnd.setWidth(viewGroup.getMeasuredWidth());----" + scrollview.getMeasuredWidth());
+                popWnd.setWidth((scrollview.getMeasuredWidth() - (int) TDevice.dp2px(30)));
+            }
+        });
+        popWnd.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        popWnd.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popWnd.setOutsideTouchable(true);
+        popWnd.setTouchable(true);
+        popWnd.setTouchInterceptor(this);
+        popWnd.setOnDismissListener(this);
+        popWnd.update();
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus) {
+            etPublishCompanyName.addTextChangedListener(textWatcher);
+        }
+    }
+
+    @Override
+    public void onDismiss() {
+
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        KeyboardUtils.hideSoftInput(this);
+        return false;
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        etPublishCompanyName.removeTextChangedListener(textWatcher);
+        com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean companiesBean = (com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean) adapter.getItem(position);
+        if (companiesBean != null) {
+            etPublishCompanyName.setText(companiesBean.getNsrmc());
+            etPublishTexNumber.setText(companiesBean.getNsrsbh());
+        }
+        popWnd.dismiss();
+        etPublishAddress.requestFocus();
     }
 }
