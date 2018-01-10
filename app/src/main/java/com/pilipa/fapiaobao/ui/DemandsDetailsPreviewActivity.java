@@ -70,6 +70,7 @@ import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
 public class DemandsDetailsPreviewActivity extends BaseActivity implements
         ViewPager.OnPageChangeListener, AdapterView.OnItemSelectedListener {
     private static final String TAG = "DemandsDetailsPreviewActivity";
+    protected int mPreviousPos = -1;
     @Bind(R.id.preview_viewpager)
     PreviewViewpager previewViewpager;
     @Bind(R.id.delete)
@@ -96,7 +97,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     TextView tv_Unqualified_reject;
     @Bind(R.id.tv_state)
     TextView tv_state;
-
     @Bind(R.id.layout_qualified_item)
     LinearLayout layout_qualified_item;
     @Bind(R.id.layout_unqualified_item)
@@ -109,7 +109,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     LinearLayout layout_qualified_privoide_item;
     @Bind(R.id.tv_receive_amount)
     TextView tv_receive_amount;
-
     @Bind(R.id.ll_express_info)
     LinearLayout llExpressInfo;
     @Bind(R.id.tv_qualified)
@@ -135,22 +134,21 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     @Bind(R.id.privide_amount_privoide)
     TextView privideAmountPrivoide;
     private MyRejectTypeAdapter mSpinnerAdapter;
-
-
     private ArrayList<Image> allList;
     private int currentPosition;
-    protected int mPreviousPos = -1;
     private PreviewPagerAdapter previewPagerAdapter;
     private ArrayList<PreviewImageFragment> FragmentList;
     private Image currentImage;
 
     private int REJECT_START = 0;
     private int REJECT_FINISH = 1;
+    private String reason;
+    private Dialog mDialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_demands_details_preview;
     }
-
 
     @Override
     public void initView() {
@@ -195,7 +193,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         mSpinner.setAdapter(mSpinnerAdapter);
         mSpinner.setOnItemSelectedListener(this);
     }
-
 
     public void setLayout(Image image) {
         tv_tip.setText("");
@@ -265,6 +262,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                     tv_state.setText("待邮寄");
                 }
                 break;
+            default:
         }
 
 
@@ -315,11 +313,13 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                     Api.confirmInvoice(AccountHelper.getToken(), currentImage.name, new Api.BaseRawResponse<ConfirmInvoiceBean>() {
                         @Override
                         public void onStart() {
+                            showProgressDialog();
                             tvQualified.setEnabled(false);
                         }
 
                         @Override
                         public void onFinish() {
+                            hideProgressDialog();
                             tvQualified.setEnabled(true);
                         }
 
@@ -543,7 +543,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         Api.findAllRejectType(new Api.BaseViewCallback<RejectTypeBean>() {
             @Override
             public void setData(RejectTypeBean rejectTypeBean) {
-                if (rejectTypeBean.getStatus() == 200) {
+                if (rejectTypeBean.getStatus() == Constant.REQUEST_SUCCESS) {
                     mSpinnerAdapter.initData(rejectTypeBean.getData());
                 }
             }
@@ -597,7 +597,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             tonext.setVisibility(View.VISIBLE);
         }
     }
-    private String reason;
 
     private void rejectInvoice() {
             final RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
@@ -623,12 +622,12 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                                     , new Api.BaseRawResponse<RejectInvoiceBean>() {
                                         @Override
                                         public void onStart() {
-
+                                            showProgressDialog();
                                         }
 
                                         @Override
                                         public void onFinish() {
-
+                                            hideProgressDialog();
                                         }
 
                                         @Override
@@ -644,7 +643,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
 
                                         @Override
                                         public void setData(RejectInvoiceBean normalBean) {
-                                            if (normalBean.getStatus() == 200) {
+                                            if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
                                                 String reason = normalBean.getData().getReason();
                                                 currentImage.state = Constant.STATE_INCOMPETENT;
                                                 allList.remove(currentImage);
@@ -661,8 +660,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
 
             }
     }
-
-    private Dialog mDialog;
 
     private void setRejectDialog(int step) {
         mDialog = new Dialog(this, R.style.BottomDialog);
