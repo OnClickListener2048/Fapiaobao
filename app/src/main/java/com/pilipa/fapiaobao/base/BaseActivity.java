@@ -189,8 +189,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onPause() {
         super.onPause();
-        TLog.log("OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);"+this.getClass().getSimpleName());
-        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
     }
 
     @Override
@@ -203,6 +201,8 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         } catch (Exception e) {
             e.printStackTrace();
         }
+        TLog.log("OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);" + this.getClass().getSimpleName());
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), this);
     }
 
     public void login() {

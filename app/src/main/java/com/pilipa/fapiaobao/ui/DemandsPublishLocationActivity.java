@@ -859,7 +859,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     private void requestForMoreTypes() {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("new_data", bean);
+        bundle.putSerializable(com.pilipa.fapiaobao.ui.constants.Constant.MORE_TYPES, bean);
         intent.putExtra(MoreTypesActivity.EXTRA_BUNDLE, bundle);
         intent.setClass(this, MoreTypesActivity.class);
         startActivityForResult(intent, REQUEST_CODE_FOR_MORE_TYPE);
@@ -879,7 +879,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
                         Bundle bundle = data.getBundleExtra(MoreTypesActivity.EXTRA_BUNDLE);
-                        bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundle.getSerializable("new_data");
+                        bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundle.getSerializable(com.pilipa.fapiaobao.ui.constants.Constant.MORE_TYPES);
                         ArrayList<String> arrayReceipt = new ArrayList<>();
                         for (DefaultInvoiceBean.DataBean dataBean : bean) {
                             arrayReceipt.add(dataBean.getName());

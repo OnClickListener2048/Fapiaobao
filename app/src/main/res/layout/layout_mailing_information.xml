@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <android.support.v7.widget.CardView
         android:id="@+id/layout_mailing_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/d2"
         android:layout_marginLeft="@dimen/d20"
         android:layout_marginRight="@dimen/d20"
-        android:layout_marginBottom="@dimen/d2"
         android:layout_marginTop="@dimen/d20"
         android:background="@drawable/receipt_info_bg"
-        app:cardCornerRadius="@dimen/d10"
-        android:visibility="gone"
         android:elevation="@dimen/d10"
-        android:translationZ="@dimen/d5">
+        android:translationZ="@dimen/d5"
+        app:cardCornerRadius="@dimen/d10">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
             <LinearLayout
-                android:orientation="vertical"
-
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/d20" />
@@ -35,9 +34,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/d10"
+                    android:text="@string/mailing"
                     android:textColor="@color/text_normal_item"
-                    android:textSize="@dimen/d12"
-                    android:text="@string/mailing" />
+                    android:textSize="@dimen/d12" />
 
                 <View
                     android:layout_width="match_parent"
@@ -50,26 +49,26 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/d8"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="@dimen/d8">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12"
                             android:layout_gravity="center"
-                            android:text="@string/low_limit" />
+                            android:text="@string/low_limit"
+                            android:textColor="@color/title_small"
+                            android:textSize="@dimen/d12" />
 
                         <TextView
                             android:id="@+id/tv_low_limit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/d20"
-                            android:textColor="@color/main_style"
                             android:layout_gravity="center"
-                            android:textSize="@dimen/d12"
-                            android:text="0元" />
+                            android:layout_marginLeft="@dimen/d20"
+                            android:text="0元"
+                            android:textColor="@color/main_style"
+                            android:textSize="@dimen/d12" />
                         <ImageView
                             android:id="@+id/question"
                             android:layout_width="wrap_content"
@@ -80,48 +79,48 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/d8"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="@dimen/d8">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/consignee"
                             android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12"
-                            android:text="@string/consignee" />
+                            android:textSize="@dimen/d12" />
 
                         <TextView
                             android:id="@+id/tv_receiver"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d20"
+                            android:text=""
                             android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12"
-                            android:text="" />
+                            android:textSize="@dimen/d12" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/d8"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="@dimen/d8">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12"
                             android:layout_gravity="center"
-                            android:text="@string/contact" />
+                            android:text="@string/contact"
+                            android:textColor="@color/title_small"
+                            android:textSize="@dimen/d12" />
 
                         <TextView
                             android:id="@+id/tv_telephone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/d20"
-                            android:textColor="@color/title_small"
                             android:layout_gravity="center"
-                            android:textSize="@dimen/d12"
-                            android:text="" />
+                            android:layout_marginLeft="@dimen/d20"
+                            android:text=""
+                            android:textColor="@color/title_small"
+                            android:textSize="@dimen/d12" />
                         <ImageView
                             android:id="@+id/link_to_telephone"
                             android:layout_width="wrap_content"
@@ -134,26 +133,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:visibility="gone"
-                        android:padding="@dimen/d8">
+                        android:padding="@dimen/d8"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12"
                             android:layout_gravity="center"
-                            android:text="@string/fixed_line" />
+                            android:text="@string/fixed_line"
+                            android:textColor="@color/title_small"
+                            android:textSize="@dimen/d12" />
 
                         <TextView
                             android:id="@+id/tv_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/d20"
-                            android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12"
                             android:layout_gravity="center"
-                            android:text="" />
+                            android:layout_marginLeft="@dimen/d20"
+                            android:text=""
+                            android:textColor="@color/title_small"
+                            android:textSize="@dimen/d12" />
 
                         <ImageView
                             android:id="@+id/link_to_phone"
@@ -166,15 +165,15 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/d8"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="@dimen/d8">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/address_details"
                             android:textColor="@color/title_small"
-                            android:textSize="@dimen/d12"
-                            android:text="@string/address_details" />
+                            android:textSize="@dimen/d12" />
 
                         <TextView
                             android:id="@+id/tv_publish_address"
@@ -192,8 +191,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d0.5"
-                android:layout_marginTop="@dimen/d5"
                 android:layout_marginBottom="@dimen/d5"
+                android:layout_marginTop="@dimen/d5"
                 android:background="@color/gray_line"></View>
             <FrameLayout
 
@@ -214,102 +213,102 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/d10"
+                            android:text="@string/ogistics_info"
                             android:textColor="@color/text_normal_item"
-                            android:textSize="@dimen/d12"
-                            android:text="@string/ogistics_info" />
+                            android:textSize="@dimen/d12" />
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:padding="@dimen/d15"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/d15">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/d10"
-                                android:textColor="@color/title_small"
                                 android:layout_gravity="center"
-                                android:textSize="@dimen/d12"
-                                android:text="@string/ogistics_company" />
+                                android:layout_marginLeft="@dimen/d10"
+                                android:text="@string/ogistics_company"
+                                android:textColor="@color/title_small"
+                                android:textSize="@dimen/d12" />
 
                             <Spinner
                                 android:id="@+id/mSpinner"
-                                android:layout_marginLeft="@dimen/d5"
+                                style="@style/spinner_style"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/d5"
                                 android:animationCache="true"
-                                style="@style/spinner_style"
                                 android:drawSelectorOnTop="true"></Spinner>
 
                         </LinearLayout>
                         <LinearLayout
-                            android:paddingLeft="@dimen/d15"
-                            android:paddingRight="@dimen/d15"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:focusable="true"
                             android:focusableInTouchMode="true"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:paddingLeft="@dimen/d15"
+                            android:paddingRight="@dimen/d15">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/d10"
-                                android:textColor="@color/title_small"
-                                android:textSize="@dimen/d12"
-                                android:gravity="center"
                                 android:layout_gravity="center"
-                                android:text="@string/ogistics_num" />
+                                android:layout_marginLeft="@dimen/d10"
+                                android:gravity="center"
+                                android:text="@string/ogistics_num"
+                                android:textColor="@color/title_small"
+                                android:textSize="@dimen/d12" />
                             <RelativeLayout
-                                android:layout_marginLeft="@dimen/d5"
-                                android:background="@drawable/bg_express"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/d5"
+                                android:background="@drawable/bg_express">
                                 <EditText
                                     android:id="@+id/edt_oddNumber"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:paddingLeft="@dimen/d15"
+                                    android:layout_centerVertical="true"
+                                    android:layout_toLeftOf="@+id/btn_scan"
+                                    android:background="@null"
+                                    android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM"
                                     android:inputType="number"
                                     android:lines="1"
-                                    android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM"
                                     android:maxLength="14"
-                                    android:layout_toLeftOf="@+id/btn_scan"
-                                    android:layout_centerVertical="true"
-                                    android:background="@null"/>
+                                    android:paddingLeft="@dimen/d15" />
                                 <ImageView
                                     android:id="@+id/btn_scan"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:background="@null"
-                                    android:textColor="@color/main_style"
                                     android:layout_alignParentRight="true"
-                                    android:src="@mipmap/scan"
+                                    android:background="@null"
                                     android:padding="@dimen/d15"
+                                    android:src="@mipmap/scan"
+                                    android:textColor="@color/main_style"
                                     />
                             </RelativeLayout>
                         </LinearLayout>
                     </LinearLayout>
                     <TextView
-                        android:layout_marginTop="@dimen/d15"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/d15"
                         android:gravity="center"
-                        android:textSize="@dimen/s11"
+                        android:text="请确认实际发票与影像信息一致"
                         android:textColor="@color/main_style"
-                        android:text="请确认实际发票与影像信息一致"/>
+                        android:textSize="@dimen/s11" />
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/s11"
                         android:gravity="center"
+                        android:text="否则退回的快递费将由您个人承担"
                         android:textColor="@color/main_style"
-                        android:text="否则退回的快递费将由您个人承担"/>
+                        android:textSize="@dimen/s11" />
                     <Button
                         android:id="@+id/btn_mailing"
-                        android:text="@string/express_mail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:textColor="@color/main_style"
                         android:layout_margin="@dimen/d15"
                         android:background="@drawable/shape_receipt_type"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:text="@string/express_mail"
+                        android:textColor="@color/main_style" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -318,8 +317,8 @@
                     android:layout_height="match_parent"
                     android:background="@mipmap/mail_bg"
                     android:gravity="center"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -389,8 +388,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_marginTop="@dimen/d23"
+                        android:gravity="center"
                         android:orientation="horizontal">
                         <ImageView
                             android:layout_width="wrap_content"
@@ -400,8 +399,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="未满足最低寄送金额，还不能邮寄哦~"
                             android:layout_marginLeft="@dimen/d5"
+                            android:text="未满足最低寄送金额，还不能邮寄哦~"
                             android:textColor="@color/olive"
                             android:textSize="@dimen/d12" />
                     </LinearLayout>

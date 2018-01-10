@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.SharedPreferencesCompat;
 import android.util.Log;
@@ -38,8 +39,13 @@ import com.pilipa.fapiaobao.ui.MyQuestionsActivity;
 import com.pilipa.fapiaobao.ui.MyRedEnvelopeActivity;
 import com.pilipa.fapiaobao.ui.ProvidedActivity;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
+import com.pilipa.fapiaobao.ui.widget.DemandHeader;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.commonsdk.UMConfigure;
@@ -87,6 +93,17 @@ public class BaseApplication extends Application {
     private static final int CONNECT_TIMEOUT = 10*1000;
     public static ArrayList<BaseActivity> activities = new ArrayList<>();
     static Context _context;
+
+    static {
+        SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
+            @NonNull
+            @Override
+            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+                return new DemandHeader(context());
+            }
+        });
+    }
+
     private PushAgent mPushAgent;
     private int mFinalCount;
 
