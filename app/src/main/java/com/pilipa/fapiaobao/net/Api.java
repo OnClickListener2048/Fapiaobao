@@ -1785,7 +1785,7 @@ public class Api<T> {
      * @param baseViewCallback
      */
     public static void findAllRejectType(final BaseViewCallback baseViewCallback) {
-        OkGo.<RejectTypeBean>get(FIND_ALL_REJECT_TYPE).execute(new JsonCallBack<RejectTypeBean>(RejectTypeBean.class) {
+        OkGo.<RejectTypeBean>get(FIND_ALL_REJECT_TYPE).cacheMode(CacheMode.IF_NONE_CACHE_REQUEST).execute(new JsonCallBack<RejectTypeBean>(RejectTypeBean.class) {
             @Override
             public void onSuccess(Response<RejectTypeBean> response) {
                     baseViewCallback.setData(response.body());
