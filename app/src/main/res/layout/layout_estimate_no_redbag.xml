@@ -72,7 +72,7 @@
                 android:id="@+id/filter_condition_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/main_style"
+                android:textColor="#ad9d7e"
                 android:textSize="12sp" />
         </LinearLayout>
 

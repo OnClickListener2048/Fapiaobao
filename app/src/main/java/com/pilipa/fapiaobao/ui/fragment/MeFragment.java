@@ -99,7 +99,6 @@ public class MeFragment extends BaseFragment{
         } catch (IllegalArgumentException i) {
             i.printStackTrace();
         }
-
     }
 
     @Override

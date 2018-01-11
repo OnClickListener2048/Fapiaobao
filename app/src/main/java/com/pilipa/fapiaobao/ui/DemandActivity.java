@@ -581,7 +581,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
             @Override
             public void setData(NormalBean normalBean) {
                 hideNetWorkErrorLayout();
-                Toast.makeText(DemandActivity.this, getString(R.string.demand_closed), Toast.LENGTH_SHORT).show();
+                BaseApplication.showToast(getString(R.string.demand_closed));
                 demandDetails(id, false);
                 setResult(RESULT_OK);
                 DemandActivity.this.finish();
@@ -746,6 +746,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
             root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mDialog.dismiss();
                     if (demandId != null) {
                         shatDownEarly(demandId);
                     }

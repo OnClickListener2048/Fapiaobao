@@ -1209,7 +1209,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                     BaseApplication.showToast("收件人手机号不能为空");
                     return false;
                 } else if (!RegexUtils.isTel(getTextViewValue(etReceptionNumber)) && !RegexUtils.isMobileExact(getTextViewValue(etReceptionNumber))) {
-                    BaseApplication.showToast("收票信息-联系电话应为区号+座机号或手机号码~");
+                    BaseApplication.showToast("格式不正确，请填写“区号-座机号”或“手机号码”哦~");
                     setErrorBackground(etReceptionNumber);
                     return false;
                 } else {
