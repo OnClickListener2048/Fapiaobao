@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,11 +11,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/provided_details"
-            android:textSize="@dimen/d18"
-            android:textColor="@color/title"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:text="@string/provided_details"
+            android:textColor="@color/title"
+            android:textSize="@dimen/d18" />
 
         <ImageView
             android:id="@+id/provided_back"
@@ -36,14 +36,18 @@
             />
     </RelativeLayout>
 
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.support.v4.widget.NestedScrollView
-
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,23 +71,23 @@
                         android:textSize="@dimen/s12"
                         />
                     <TextView
-                        android:layout_weight="1"
                         android:id="@+id/tv_arrival_state"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="left|center"
                         android:layout_marginStart="@dimen/d20"
-                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:gravity="left|center"
                         android:textColor="@color/red"
+                        android:textStyle="bold"
                         />
                 </LinearLayout>
 
                 <!--票据列表-->
 
                 <include
+                    layout="@layout/layout_receipt_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    layout="@layout/layout_receipt_list" />
+                    android:layout_height="wrap_content" />
                 <!--邮寄信息-->
 
                 <include
@@ -94,19 +98,19 @@
                 <!--我提供的-->
 
                 <include
+                    layout="@layout/layout_provide"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    layout="@layout/layout_provide" />
+                    android:layout_height="wrap_content" />
 
                 <!--公司详情-->
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:layout_margin="@dimen/d20"
-                    app:cardCornerRadius="@dimen/d10"
                     android:elevation="@dimen/d10"
                     android:orientation="vertical"
-                    android:translationZ="@dimen/d5">
+                    android:translationZ="@dimen/d5"
+                    app:cardCornerRadius="@dimen/d10">
 
 
                     <FrameLayout
@@ -182,9 +186,9 @@
                             android:id="@+id/translate_details"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:visibility="gone"
                             android:layout_margin="@dimen/d20"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -195,17 +199,17 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/text_normal_item"
-                                    android:text="@string/company_name" />
+                                    android:text="@string/company_name"
+                                    android:textColor="@color/text_normal_item" />
 
                                 <TextView
                                     android:id="@+id/company_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/d20"
+                                    android:text=""
                                     android:textColor="@color/title_small"
-                                    android:textIsSelectable="true"
-                                    android:text="" />
+                                    android:textIsSelectable="true" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -217,17 +221,17 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/text_normal_item"
-                                    android:text="@string/tex_number" />
+                                    android:text="@string/tex_number"
+                                    android:textColor="@color/text_normal_item" />
 
                                 <TextView
                                     android:id="@+id/tex_number"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/title_small"
-                                    android:textIsSelectable="true"
                                     android:layout_marginStart="@dimen/d20"
-                                    android:text="" />
+                                    android:text=""
+                                    android:textColor="@color/title_small"
+                                    android:textIsSelectable="true" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -239,17 +243,17 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/text_normal_item"
-                                    android:text="@string/company_address" />
+                                    android:text="@string/company_address"
+                                    android:textColor="@color/text_normal_item" />
 
                                 <TextView
                                     android:id="@+id/company_address"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/d20"
+                                    android:text=""
                                     android:textColor="@color/title_small"
-                                    android:textIsSelectable="true"
-                                    android:text="" />
+                                    android:textIsSelectable="true" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -261,17 +265,17 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/text_normal_item"
-                                    android:text="@string/number" />
+                                    android:text="@string/number"
+                                    android:textColor="@color/text_normal_item" />
 
                                 <TextView
                                     android:id="@+id/number"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/d20"
+                                    android:text=""
                                     android:textColor="@color/title_small"
-                                    android:textIsSelectable="true"
-                                    android:text="" />
+                                    android:textIsSelectable="true" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -283,17 +287,17 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/text_normal_item"
-                                    android:text="@string/bank_name" />
+                                    android:text="@string/bank_name"
+                                    android:textColor="@color/text_normal_item" />
 
                                 <TextView
                                     android:id="@+id/bank"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/d20"
+                                    android:text=""
                                     android:textColor="@color/title_small"
-                                    android:textIsSelectable="true"
-                                    android:text="" />
+                                    android:textIsSelectable="true" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -305,17 +309,17 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/text_normal_item"
-                                    android:text="@string/bank_account" />
+                                    android:text="@string/bank_account"
+                                    android:textColor="@color/text_normal_item" />
 
                                 <TextView
                                     android:id="@+id/bank_account"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/d20"
-                                    android:textIsSelectable="true"
+                                    android:text=""
                                     android:textColor="@color/title_small"
-                                    android:text="" />
+                                    android:textIsSelectable="true" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -324,7 +328,7 @@
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </FrameLayout>
-
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
 </LinearLayout >

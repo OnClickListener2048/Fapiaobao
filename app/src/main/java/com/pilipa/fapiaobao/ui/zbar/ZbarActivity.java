@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui.zbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.Vibrator;
@@ -7,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 import cn.bingoogolapple.qrcode.zbar.ZBarView;
@@ -35,17 +38,22 @@ public class ZbarActivity extends AppCompatActivity implements QRCodeView.Delega
 
     @Override
     public void onScanQRCodeSuccess(String s) {
+        vibrate();
+        Intent intent = new Intent();
+        intent.putExtra(Constant.CODED_CONTENT, s);
         setResult(RESULT_OK);
+        finish();
     }
 
     @Override
     public void onScanQRCodeOpenCameraError() {
-
+        BaseApplication.showToast(getString(R.string.open_camera_error));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        mQRCodeView.startCamera();
         mQRCodeView.startSpotAndShowRect();
     }
 

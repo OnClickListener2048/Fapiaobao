@@ -50,9 +50,9 @@ import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
+import com.pilipa.fapiaobao.ui.zbar.ZbarActivity;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
-import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
@@ -77,6 +77,11 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  */
 
 public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAdapter.OnLabelClickListener, FinanceAdapter.OnLabelClickListener {
+    public static final String EXTRA_DATA_LABEL = "extra_data_label";
+    public static final String EXTRA_DATA_LABEL_NAME = "extra_data_label_name";
+    public static final String DECODED_CONTENT_KEY = "codedContent";
+    public static final String DECODED_BITMAP_KEY = "codedBitmap";
+    public static final int REQUEST_CODE_SCAN = 0x0234;
    public static String TAG = "FinanceFragment";
 //    @Bind(R.id.scan)
 //    ImageView scan;
@@ -92,8 +97,6 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     NestedScrollView srollview;
     @Bind(R.id.new_notification)
     ImageView newNotification;
-    public static final String EXTRA_DATA_LABEL = "extra_data_label";
-    public static final String EXTRA_DATA_LABEL_NAME = "extra_data_label_name";
     @Bind(R.id.rl_pull_to_find_more)
     RelativeLayout rlPullToFindMore;
     @Bind(R.id.title)
@@ -102,11 +105,8 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     TextView selectYourReceiptKind;
     @Bind(R.id.fl_notification)
     FrameLayout flNotification;
-    private LoginWithInfoBean loginBean;
     FinanceAdapter financeAdapter;
-    public static final String DECODED_CONTENT_KEY = "codedContent";
-    public static final String DECODED_BITMAP_KEY = "codedBitmap";
-    public static final int REQUEST_CODE_SCAN = 0x0234;
+    private LoginWithInfoBean loginBean;
     private AllInvoiceAdapter adapter;
     private MainActivity activity;
     private Dialog scanDialog;
@@ -154,6 +154,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                     }
                 }
                 break;
+            default:
         }
     }
 
@@ -470,7 +471,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
                     TLog.log("REQUEST_CODE_SCAN" + aBoolean);
-                    startActivityForResult(new Intent(mContext, CaptureActivity.class), REQUEST_CODE_SCAN);
+                    startActivityForResult(new Intent(mContext, ZbarActivity.class), REQUEST_CODE_SCAN);
                 }
             }
 

@@ -46,4 +46,5 @@ public class Constant {
     public static final String SWITCH_AREA = "SwitchArea";
     public static final String SWITCH = "Switch";
     public static final String MORE_TYPES = "more_types";
+    public static final String CODED_CONTENT = "codedContent";
 }

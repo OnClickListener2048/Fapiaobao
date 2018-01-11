@@ -159,6 +159,7 @@
         <activity android:name=".ui.CompanyDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.FavCompanyDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BindPhoneActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.zbar.ZbarActivity" />
         <activity
             android:name=".ui.FavCompanyChooseActivity"
             android:screenOrientation="portrait" />

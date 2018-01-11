@@ -537,6 +537,7 @@
     <string name="select_others_province_and_city">选择其他省市</string>
     <string name="last_change">上次积分变化</string>
     <string name="point_two">%.2f</string>
+    <string name="open_camera_error">打开相机失败</string>
 
     <string-array name="express_array">
         <item>顺丰</item>
