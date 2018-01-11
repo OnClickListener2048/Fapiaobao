@@ -36,6 +36,9 @@ import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.HorizontalListView;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -49,7 +52,6 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -80,6 +82,9 @@ import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
  */
 
 public class DemandActivity extends BaseNoNetworkActivity {
+    public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
+    public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
+    public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
     private static final String TAG = "DemandActivity";
     @Bind(R.id.container_paper_normal_receipt)
     FrameLayout containerPaperNormalReceipt;
@@ -155,7 +160,6 @@ public class DemandActivity extends BaseNoNetworkActivity {
     LinearLayout container_paper_special_receipt;
     @Bind(R.id.ll_container_paper_elec_receipt)
     LinearLayout container_paper_elec_receipt;
-    private UMWeb web;
     //发票类型
     @Bind(R.id.paper_normal_receipt)
     TextView paperNormalReceipt;
@@ -165,20 +169,15 @@ public class DemandActivity extends BaseNoNetworkActivity {
     TextView paperElecReceipt;
     @Bind(R.id.tv_qualified_list)
     TextView tvQualifiedList;
-
-
     List<DemandDetails.DataBean.OrderInvoiceListBean> mDataList = new ArrayList<>();
     List<String> mList = new ArrayList<>();
+    ArrayList<Image> images_qualified;
+    @Bind(R.id.smartRefreshLayout)
+    SmartRefreshLayout smartRefreshLayout;
+    private UMWeb web;
     private boolean isShow = true;//当前详情是否显示
-
-    public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
-    public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
-    public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
-
     private String demandId;
-
     private MyInvoiceNameAdapter invoiceNameAdapter;
-    ArrayList<Image> images_qualified ;
     private Dialog mCameraDialog;
     private Dialog mDialog;
     private boolean isCanShutDown = false;//能否提前关闭
@@ -210,6 +209,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
         public void onCancel(SHARE_MEDIA share_media) {
         }
     };
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_demand;
@@ -217,14 +217,14 @@ public class DemandActivity extends BaseNoNetworkActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        TLog.log(TAG+"onActivityResult1");
-        TLog.log(TAG+"requestCode"+requestCode);
-        TLog.log(TAG+"resultCode"+resultCode);
+        TLog.log(TAG + "onActivityResult1");
+        TLog.log(TAG + "requestCode" + requestCode);
+        TLog.log(TAG + "resultCode" + resultCode);
         umShareAPI.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
             case DemandsDetailsReceiptFragment.RESULT_CODE_BACK:
-                TLog.log(TAG+"onActivityResult3");
-                demandDetails(demandId,false);
+                TLog.log(TAG + "onActivityResult3");
+                demandDetails(demandId, false);
                 break;
             default:
         }
@@ -240,9 +240,9 @@ public class DemandActivity extends BaseNoNetworkActivity {
             }
             break;
             case R.id.tv_qualified_list: {
-                if (images_qualified!=null && images_qualified.size() != 0) {
+                if (images_qualified != null && images_qualified.size() != 0) {
                     Intent intent = new Intent(DemandActivity.this, QualifiedInvoiceActivity.class);
-                    intent.putParcelableArrayListExtra("images_qualified",images_qualified);
+                    intent.putParcelableArrayListExtra("images_qualified", images_qualified);
                     startActivity(intent);
                 } else {
                     Toast.makeText(DemandActivity.this, "您还没有确认过任何发票", Toast.LENGTH_SHORT).show();
@@ -270,6 +270,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 }
             }
             break;
+            default:
         }
     }
 
@@ -287,6 +288,16 @@ public class DemandActivity extends BaseNoNetworkActivity {
 
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         api.registerApp(Constants.APP_ID);
+        initSmartRefreshLayout();
+    }
+
+    private void initSmartRefreshLayout() {
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                demandDetails(demandId, true);
+            }
+        });
     }
 
     private void setUpData(List<DemandDetails.DataBean.OrderInvoiceListBean> results, boolean isSetList) {
@@ -312,30 +323,31 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 image.isCapture = false;
                 image.isFromNet = true;
                 image.state = result.getState();
-                image.amount = String.format("%.2f",result.getAmount());
+//                image.amount = String.format("%.2f",result.getAmount());
+                image.amount = getString(R.string.point_two, result.getAmount());
                 image.logisticsTradeno = result.getLogisticsTradeno();
                 image.logisticsCompany = result.getLogisticsCompany();
                 image.variety = result.getVariety();
                 image.reason = result.getReason();
                 images.add(image);
                 //是否有未确认的发票 当前是否可关闭
-                if(STATE_CONFIRMING.equals(result.getState())
-                        ||STATE_MAILING.equals(result.getState())){//收到票 有未完成发票
+                if (STATE_CONFIRMING.equals(result.getState())
+                        || STATE_MAILING.equals(result.getState())) {//收到票 有未完成发票
                     isCanShutDown = false;
                 }
             }
-            Log.d(TAG, "all receipt is checked  isCanShutDown  "+isCanShutDown);
+            Log.d(TAG, "all receipt is checked  isCanShutDown  " + isCanShutDown);
 
             ArrayList<Image> images1 = new ArrayList<>();
             ArrayList<Image> images2 = new ArrayList<>();
             ArrayList<Image> images3 = new ArrayList<>();
-            images_qualified= new ArrayList<>();
+            images_qualified = new ArrayList<>();
             //拆分发票集合
             for (int i = 0; i < images.size(); i++) {
                 if (STATE_COMPETENT.equals(images.get(i).state)) {
                     images_qualified.add(images.get(i));//合格发票集合
                 }
-                if(!STATE_INCOMPETENT .equals(images.get(i).state)){
+                if (!STATE_INCOMPETENT.equals(images.get(i).state)) {
                     if (VARIETY_GENERAL_PAPER.equals(images.get(i).variety)) {
                         images1.add(images.get(i));
                     } else if (VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)) {
@@ -362,25 +374,34 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 addCaptureFragment2(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
             }
             //隐藏空发票的类型
-            if(images1.size()==0){
+            if (images1.size() == 0) {
                 container_paper_normal_receipt.setVisibility(View.GONE);
+            } else {
+                container_paper_normal_receipt.setVisibility(View.VISIBLE);
             }
-            if(images2.size()==0){
+            if (images2.size() == 0) {
                 container_paper_special_receipt.setVisibility(View.GONE);
+            } else {
+                container_paper_special_receipt.setVisibility(View.VISIBLE);
             }
-            if(images3.size()==0){
+            if (images3.size() == 0) {
                 container_paper_elec_receipt.setVisibility(View.GONE);
+            } else {
+                container_paper_elec_receipt.setVisibility(View.VISIBLE);
             }
 
-            if(images1.size()==0&&images2.size()==0&&images3.size()==0){
+            if (images1.size() == 0 && images2.size() == 0 && images3.size() == 0) {
                 ll_no_record.setVisibility(View.VISIBLE);
                 ll_receiptlist.setVisibility(View.GONE);
+            } else {
+                ll_no_record.setVisibility(View.GONE);
+                ll_receiptlist.setVisibility(View.VISIBLE);
             }
 
             Log.d(TAG, "initData: images_qualified" + images_qualified.size());
-            if(images_qualified.size() == 0){
+            if (images_qualified.size() == 0) {
                 tvQualifiedList.setVisibility(View.GONE);
-            }else{
+            } else {
                 tvQualifiedList.setVisibility(View.VISIBLE);
             }
         }
@@ -391,7 +412,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
         demandId = getIntent().getStringExtra("demandId");
         Log.d(TAG, "initData:demandDetails demandId" + demandId);
         if (demandId != null) {
-            demandDetails(demandId,true);
+            demandDetails(demandId, true);
         }
     }
 
@@ -410,9 +431,10 @@ public class DemandActivity extends BaseNoNetworkActivity {
 
     @Override
     protected void onPause() {
-        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"demandDetails");
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), "demandDetails");
         super.onPause();
     }
+
     public void demandDetails(String demandId, final boolean isSetList) {
         if (AccountHelper.getToken() != null && !Objects.equals(AccountHelper.getToken(), "")) {
             String token = AccountHelper.getToken();
@@ -421,18 +443,23 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 public void onTokenInvalid() {
                     hideNetWorkErrorLayout();
                 }
+
                 @Override
                 public void onStart() {
-                    showProgressDialog();
+                    smartRefreshLayout.autoRefresh(10);
                 }
+
                 @Override
                 public void onFinish() {
                     hideProgressDialog();
+                    smartRefreshLayout.finishRefresh();
                 }
+
                 @Override
                 public void onError() {
                     showNetWorkErrorLayout();
                 }
+
                 @Override
                 public void setData(DemandDetails demandDetails) {
                     hideNetWorkErrorLayout();
@@ -443,25 +470,26 @@ public class DemandActivity extends BaseNoNetworkActivity {
                         mList.addAll(bean.getInvoiceNameList());
                         invoiceNameAdapter.initData(mList);
 
-                        tvBounsAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getTotalBonus()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
-                        tvAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getTotalAmount()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
-                        tvLeftAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getLeftBonus()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
-                        tvPublishTime.setText(getString(R.string.publish_date,bean.getDemand().getPublishDate()));
-                        tvDeadline.setText(getString(R.string.deadline_date,bean.getDemand().getDeadline()));
+//                        tvBounsAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getTotalBonus()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
+                        tvBounsAmount.setText(String.valueOf(getString(R.string.point_two, bean.getDemand().getTotalBonus())));
+                        tvAmount.setText(String.valueOf(getString(R.string.point_two, bean.getDemand().getTotalAmount())));
+                        tvLeftAmount.setText(String.valueOf(getString(R.string.point_two, bean.getDemand().getLeftBonus())));
+                        tvPublishTime.setText(getString(R.string.publish_date, bean.getDemand().getPublishDate()));
+                        tvDeadline.setText(getString(R.string.deadline_date, bean.getDemand().getDeadline()));
                         tvAttentions.setText(bean.getDemand().getAttentions().isEmpty() ? "无" : bean.getDemand().getAttentions());
-                        tv_receive.setText(String.valueOf(new BigDecimal(bean.getReceivedAmount()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
+                        tv_receive.setText(String.valueOf(getString(R.string.point_two, bean.getReceivedAmount())));
                         tvAlreadyCollected.setText(String.valueOf(bean.getReceivedNum()));
-                        tv_low_limit.setText(getString(R.string.end_with_yuan,String.valueOf(new BigDecimal(bean.getDemand().getMailMinimum()).setScale(2,BigDecimal.ROUND_HALF_EVEN))));
+                        tv_low_limit.setText(getString(R.string.end_with_yuan, getString(R.string.point_two, bean.getDemand().getMailMinimum())));
                         //地址信息判断
                         String district = null;
-                        if(bean.getDemand().getDemandPostage().getDistrict()!=null){
-                            district = bean.getDemand().getDemandPostage().getDistrict()+ " ";
+                        if (bean.getDemand().getDemandPostage().getDistrict() != null) {
+                            district = bean.getDemand().getDemandPostage().getDistrict() + " ";
                         }
                         String city = null;
-                        if(bean.getDemand().getDemandPostage().getCity()!=null){
-                            city = bean.getDemand().getDemandPostage().getCity()+" ";
+                        if (bean.getDemand().getDemandPostage().getCity() != null) {
+                            city = bean.getDemand().getDemandPostage().getCity() + " ";
                         }
-                        tvAddress.setText(city+ district + bean.getDemand().getDemandPostage().getAddress());
+                        tvAddress.setText(city + district + bean.getDemand().getDemandPostage().getAddress());
 
                         if (!VARIETY_GENERAL_ELECTRON.equals(bean.getDemand().getInvoiceVarieties())) {
                             ll_receive.setVisibility(View.VISIBLE);
@@ -481,8 +509,8 @@ public class DemandActivity extends BaseNoNetworkActivity {
 
                             try {
                                 String content = new String(bean.getDemand().getCompany().getQrcode().getBytes("UTF-8"), "ISO-8859-1");
-                                TLog.log("content-----------"+content);
-                                Bitmap qrCode = CodeCreator.createQRCode(DemandActivity.this,content);
+                                TLog.log("content-----------" + content);
+                                Bitmap qrCode = CodeCreator.createQRCode(DemandActivity.this, content);
                                 qr.setImageBitmap(qrCode);
                             } catch (Exception e) {
                                 BaseApplication.showToast(getString(R.string.qrcode_create_fail));
@@ -490,9 +518,9 @@ public class DemandActivity extends BaseNoNetworkActivity {
                             }
                         }
                         //发票列表
-                            mDataList.clear();
-                            mDataList.addAll(bean.getOrderInvoiceList());
-                            setUpData(mDataList,isSetList);
+                        mDataList.clear();
+                        mDataList.addAll(bean.getOrderInvoiceList());
+                        setUpData(mDataList, isSetList);
 
 
                         if (STATE_DEMAND_ING.equals(bean.getDemand().getState())) {
@@ -507,10 +535,16 @@ public class DemandActivity extends BaseNoNetworkActivity {
                         }
                         //发票类型列表
                         String sourceStr = bean.getDemand().getInvoiceVarieties();
-                        if(sourceStr != null){
-                            if(sourceStr.contains("1")){paperNormalReceipt.setVisibility(View.VISIBLE);}
-                            if(sourceStr.contains("2")) {paperSpecialReceipt.setVisibility(View.VISIBLE);}
-                            if(sourceStr.contains("3")){paperElecReceipt.setVisibility(View.VISIBLE);}
+                        if (sourceStr != null) {
+                            if (sourceStr.contains("1")) {
+                                paperNormalReceipt.setVisibility(View.VISIBLE);
+                            }
+                            if (sourceStr.contains("2")) {
+                                paperSpecialReceipt.setVisibility(View.VISIBLE);
+                            }
+                            if (sourceStr.contains("3")) {
+                                paperElecReceipt.setVisibility(View.VISIBLE);
+                            }
                         }
 
                     }
@@ -521,39 +555,39 @@ public class DemandActivity extends BaseNoNetworkActivity {
 
     private void shatDownEarly(final String id) {
 
-                    Api.shatDownEarly(AccountHelper.getToken(), id, new Api.BaseRawResponse<NormalBean>() {
-                        @Override
-                        public void onStart() {
-                            showProgressDialog();
-                        }
+        Api.shatDownEarly(AccountHelper.getToken(), id, new Api.BaseRawResponse<NormalBean>() {
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
 
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
 
-                        @Override
-                        public void onError() {
-                            showNetWorkErrorLayout();
-                        }
+            @Override
+            public void onError() {
+                showNetWorkErrorLayout();
+            }
 
-                        @Override
-                        public void onTokenInvalid() {
-                            hideNetWorkErrorLayout();
-                            login();
-                            finish();
-                        }
+            @Override
+            public void onTokenInvalid() {
+                hideNetWorkErrorLayout();
+                login();
+                finish();
+            }
 
-                        @Override
-                        public void setData(NormalBean normalBean) {
-                            hideNetWorkErrorLayout();
-                            Toast.makeText(DemandActivity.this, getString(R.string.demand_closed), Toast.LENGTH_SHORT).show();
-                            demandDetails(id,false);
-                            setResult(RESULT_OK);
-                            DemandActivity.this.finish();
-                            Log.d(TAG, "updateData:shatDownEarly success");
-                        }
-                    });
+            @Override
+            public void setData(NormalBean normalBean) {
+                hideNetWorkErrorLayout();
+                BaseApplication.showToast(getString(R.string.demand_closed));
+                demandDetails(id, false);
+                setResult(RESULT_OK);
+                DemandActivity.this.finish();
+                Log.d(TAG, "updateData:shatDownEarly success");
+            }
+        });
     }
 
 
@@ -570,7 +604,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
                     wxWebpageObject.webpageUrl = Constant.MATCH;
 
                     WXMediaMessage wxMediaMessage = new WXMediaMessage(wxWebpageObject);
-                    wxMediaMessage.title= getString(R.string.share_pub_title);
+                    wxMediaMessage.title = getString(R.string.share_pub_title);
                     wxMediaMessage.description = getString(R.string.share_pub_description);
                     wxMediaMessage.thumbData = ImageUtils.drawable2Bytes(getResources().getDrawable(R.mipmap.share_redbag), Bitmap.CompressFormat.JPEG);
 
@@ -632,7 +666,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
                         @Override
                         public void onNext(Boolean aBoolean) {
                             if (aBoolean) {
-                                TLog.d(" if (umShareAPI.isInstall(getActivity(), SHARE_MEDIA.QQ)) {","");
+                                TLog.d(" if (umShareAPI.isInstall(getActivity(), SHARE_MEDIA.QQ)) {", "");
                                 new ShareAction(DemandActivity.this)
                                         .setPlatform(SHARE_MEDIA.QQ)//传入平台
                                         .withMedia(web)
@@ -652,7 +686,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
 
                         }
                     });
-                }else {
+                } else {
                     BaseApplication.showToast(getString(R.string.please_install_QQ_app));
                 }
 
@@ -700,7 +734,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
     private void setShutDialog(boolean isCanShutDown) {
         mDialog = new Dialog(DemandActivity.this, R.style.BottomDialog);
         LinearLayout root;
-        if(isCanShutDown){
+        if (isCanShutDown) {
             root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
                     R.layout.layout_shutdown1_tip, null);
             root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
@@ -712,12 +746,13 @@ public class DemandActivity extends BaseNoNetworkActivity {
             root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mDialog.dismiss();
                     if (demandId != null) {
                         shatDownEarly(demandId);
                     }
                 }
             });
-        }else{
+        } else {
             root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
                     R.layout.layout_shutdown2_tip, null);
             root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
@@ -741,7 +776,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
         lp.alpha = 9f; // 透明度
         dialogWindow.setAttributes(lp);
         if (!isFinishing()) {
-        mDialog.show();
+            mDialog.show();
         }
     }
 

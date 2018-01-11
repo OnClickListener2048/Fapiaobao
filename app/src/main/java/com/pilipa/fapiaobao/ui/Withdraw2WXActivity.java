@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,9 +88,12 @@ public class Withdraw2WXActivity extends BaseActivity {
                         }
                     }
                 }
+            } else if (TextUtils.equals(intent.getAction(), Constant.WX_LOGIN_CANCEL)) {
+                hideProgressDialog();
             }
         }
     };
+    private IWXAPI api;
 
     private void bind(final String openID) {
         Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, openID, "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
@@ -210,6 +214,7 @@ public class Withdraw2WXActivity extends BaseActivity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(LoginActivity.WX_LOGIN_ACTION);
+        filter.addAction(Constant.WX_LOGIN_CANCEL);
         registerReceiver(mBroadcastReceiver, filter);
 
         InputFilter[] cashierInputFilter = {new CashierInputFilter()};
@@ -338,8 +343,6 @@ public class Withdraw2WXActivity extends BaseActivity {
         }
     }
 
-    private IWXAPI api;
-
     private void regexToWX() {
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         api.registerApp(Constants.APP_ID);
@@ -349,6 +352,7 @@ public class Withdraw2WXActivity extends BaseActivity {
 
         if (api.isWXAppInstalled()) {
             btnWithdraw.setEnabled(false);
+            showProgressDialog();
             SendAuth.Req req = new SendAuth.Req();
             req.scope = "snsapi_userinfo";
             req.state = "wechat_sdk_demo_test";

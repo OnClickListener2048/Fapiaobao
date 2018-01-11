@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Progress;
@@ -43,7 +44,6 @@ import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
 import com.pilipa.fapiaobao.net.bean.me.RejectInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
-import com.pilipa.fapiaobao.net.bean.me.search.CompaniesSearchBean;
 import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.ConfirmInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
@@ -59,6 +59,7 @@ import com.pilipa.fapiaobao.wxapi.Constants;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.List;
 
 import static com.pilipa.fapiaobao.net.Constant.AMOUNT_HISTORY;
 import static com.pilipa.fapiaobao.net.Constant.BIND;
@@ -1653,7 +1654,7 @@ public class Api<T> {
         OkGo.<AllInvoiceVariety>get(FIND_ALL_INVOICE_VARIETY).cacheMode(CacheMode.IF_NONE_CACHE_REQUEST).execute(new JsonCallBack<AllInvoiceVariety>(AllInvoiceVariety.class) {
             @Override
             public void onSuccess(Response<AllInvoiceVariety> response) {
-                if (response.isSuccessful()&&response.body().getStatus()==200) {
+                if (response.isSuccessful() && response.body().getStatus() == Constant.REQUEST_SUCCESS) {
                     if (response.body().getData()!= null&& response.body().getData().size()>0) {
                         baseViewCallback.setData(response.body());
                     }
@@ -1677,12 +1678,11 @@ public class Api<T> {
             @Override
             public void onSuccess(Response<UploadProcessing> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getStatus() == 200) {
+                    if (response.body().getStatus() == Constant.REQUEST_SUCCESS) {
                         BaseApplication.showToast("上传成功");
                         baseViewCallbackWithOnStart.setData(response.body());
                     }
                 }
-
             }
 
             @Override
@@ -1785,7 +1785,7 @@ public class Api<T> {
      * @param baseViewCallback
      */
     public static void findAllRejectType(final BaseViewCallback baseViewCallback) {
-        OkGo.<RejectTypeBean>get(FIND_ALL_REJECT_TYPE).execute(new JsonCallBack<RejectTypeBean>(RejectTypeBean.class) {
+        OkGo.<RejectTypeBean>get(FIND_ALL_REJECT_TYPE).cacheMode(CacheMode.IF_NONE_CACHE_REQUEST).execute(new JsonCallBack<RejectTypeBean>(RejectTypeBean.class) {
             @Override
             public void onSuccess(Response<RejectTypeBean> response) {
                     baseViewCallback.setData(response.body());
@@ -1936,29 +1936,11 @@ public class Api<T> {
                 });
     }
 
-    public static void searchCompanies(String companyName, Object tag, final BaseViewWithoutDatas baseViewCallback) {
-        OkGo.<CompaniesSearchBean>get(String.format(COMPANY_SEARCH, companyName))
+    public static void searchCompanies(String companyName, Object tag, final Callback callback) {
+        OkGo.<BaseResponseBean<List<com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean>>>get(String.format(COMPANY_SEARCH, companyName))
                 .tag(tag)
                 .cacheMode(CacheMode.NO_CACHE)
-                .execute(new JsonCallBack<CompaniesSearchBean>
-                        (CompaniesSearchBean.class) {
-
-
-                    @Override
-                    public void onSuccess(Response<CompaniesSearchBean> response) {
-                        if (response.body() != null) {
-                            if (response.body().getStatus() == Constant.REQUEST_SUCCESS) {
-                                baseViewCallback.setData(response.body());
-                            }
-
-                            if (response.body().getStatus() == Constant.REQUEST_NO_CONTENT) {
-                                baseViewCallback.onNoData();
-                            }
-                        }
-                    }
-
-                });
-
+                .execute(callback);
     }
 
     public static void getSuggestions(int pageNo
@@ -2009,12 +1991,6 @@ public class Api<T> {
     public interface BaseViewCallback<T> {
         void setData(T t);
     }
-
-    public interface BaseViewWithoutDatas<T> extends BaseViewCallback<T> {
-        void onNoData();
-    }
-
-
 
 
     public interface BaseRawResponse<T> extends BaseViewCallbackWithOnStart<T> {

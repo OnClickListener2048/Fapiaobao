@@ -23,7 +23,6 @@ import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
 import com.pilipa.fapiaobao.receiver.WXPayReceiver;
 import com.pilipa.fapiaobao.wxapi.Constants;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -252,14 +251,6 @@ public class RechargeActivity extends BaseActivity  {
 
     @OnClick(R.id.go_recharge)
     public void onViewClicked() {
-//        AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-//            @Override
-//            public void setData(LoginWithInfoBean loginWithInfoBean) {
-//                AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
-//                weChatLogin();
-//            }
-//        });
-
         /* 充值 直接调用 后台充值接口 不需要绑定*/
         if (api.isWXAppInstalled() && api.isWXAppSupportAPI()) {
             recharge();
@@ -269,10 +260,4 @@ public class RechargeActivity extends BaseActivity  {
 
     }
 
-    private void weChatLogin() {
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo_test";
-        api.sendReq(req);
-    }
 }

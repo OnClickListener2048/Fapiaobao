@@ -113,5 +113,7 @@
     <dimen name="d53">53dp</dimen>
     <dimen name="d51">51dp</dimen>
     <dimen name="d600">600dp</dimen>
+    <dimen name="d22">22dp</dimen>
+    <dimen name="d19">19dp</dimen>
     <integer name="frameloading">30</integer>
 </resources>

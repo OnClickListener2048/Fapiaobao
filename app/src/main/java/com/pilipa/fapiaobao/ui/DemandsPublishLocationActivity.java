@@ -58,6 +58,7 @@ import com.lljjcoder.bean.ProvinceBean;
 import com.lljjcoder.citywheel.CityConfig;
 import com.lljjcoder.citywheel.CityPickerView;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.CompanyListAdapter;
@@ -69,14 +70,15 @@ import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.base.BaseResponseBean;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
-import com.pilipa.fapiaobao.net.bean.me.search.CompaniesSearchBean;
 import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsPublishBean;
+import com.pilipa.fapiaobao.net.callback.JsonConvertor;
 import com.pilipa.fapiaobao.receiver.WXPayReceiver;
 import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
@@ -857,7 +859,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     private void requestForMoreTypes() {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("new_data", bean);
+        bundle.putSerializable(com.pilipa.fapiaobao.ui.constants.Constant.MORE_TYPES, bean);
         intent.putExtra(MoreTypesActivity.EXTRA_BUNDLE, bundle);
         intent.setClass(this, MoreTypesActivity.class);
         startActivityForResult(intent, REQUEST_CODE_FOR_MORE_TYPE);
@@ -877,7 +879,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
                         Bundle bundle = data.getBundleExtra(MoreTypesActivity.EXTRA_BUNDLE);
-                        bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundle.getSerializable("new_data");
+                        bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundle.getSerializable(com.pilipa.fapiaobao.ui.constants.Constant.MORE_TYPES);
                         ArrayList<String> arrayReceipt = new ArrayList<>();
                         for (DefaultInvoiceBean.DataBean dataBean : bean) {
                             arrayReceipt.add(dataBean.getName());
@@ -1207,7 +1209,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                     BaseApplication.showToast("收件人手机号不能为空");
                     return false;
                 } else if (!RegexUtils.isTel(getTextViewValue(etReceptionNumber)) && !RegexUtils.isMobileExact(getTextViewValue(etReceptionNumber))) {
-                    BaseApplication.showToast("收票信息-联系电话应为区号+座机号或手机号码~");
+                    BaseApplication.showToast("格式不正确，请填写“区号-座机号”或“手机号码”哦~");
                     setErrorBackground(etReceptionNumber);
                     return false;
                 } else {
@@ -1686,16 +1688,12 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     }
 
     private void startSearching(String companyName, String tag) {
-        Api.searchCompanies(companyName, tag, new Api.BaseViewWithoutDatas<CompaniesSearchBean>() {
-            @Override
-            public void onNoData() {
-                popWnd.dismiss();
-            }
+        Api.searchCompanies(companyName, tag, new JsonConvertor<BaseResponseBean<List<com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean>>>() {
 
             @Override
-            public void setData(CompaniesSearchBean companiesSearchBean) {
-                adapter.setNewData(companiesSearchBean.getData());
-                if (companiesSearchBean.getData().size() > 4) {
+            public void onSuccess(Response<BaseResponseBean<List<com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean>>> response) {
+                adapter.setNewData(response.body().getData());
+                if (response.body().getData().size() > 4) {
                     popWnd.setHeight((int) TDevice.dp2px(200));
                 } else {
                     popWnd.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -1709,6 +1707,12 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                                 + getPixelsWithinScrollView(lineAbovePopup)
                                 + lineAbovePopup.getHeight()
                                 + llPublishCompanyName.getHeight());
+            }
+
+            @Override
+            protected void onNoContent() {
+                super.onNoContent();
+                popWnd.dismiss();
             }
         });
     }
@@ -1771,16 +1775,8 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         if (companiesBean != null) {
             etPublishCompanyName.setText(companiesBean.getNsrmc());
             etPublishTexNumber.setText(companiesBean.getNsrsbh());
-            if (companiesBean.getNsrmc() != null || !TextUtils.isEmpty(companiesBean.getNsrmc())) {
-                etPublishCompanyName.setText(companiesBean.getNsrmc());
-            }
-            if (companiesBean.getNsrsbh() != null && !TextUtils.isEmpty(companiesBean.getNsrsbh())) {
-                etPublishTexNumber.setText(companiesBean.getNsrsbh());
-                etPublishAddress.requestFocus();
-            } else {
-                etPublishTexNumber.requestFocus();
-            }
         }
         popWnd.dismiss();
+        etPublishAddress.requestFocus();
     }
 }

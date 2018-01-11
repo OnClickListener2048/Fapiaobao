@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +42,7 @@ import static com.pilipa.fapiaobao.net.Constant.REGISTRATION;
  */
 
 public class LoginActivity extends BaseActivity implements View.OnFocusChangeListener {
+    public static final String WX_LOGIN_ACTION = "com.pilipa.fapiaobao.wxlogin";
     String TAG = "LoginActivity";
     @Bind(R.id.et_username)
     EditText etUsername;
@@ -65,11 +67,10 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
     private CountDownTimerUtils countDownTimerUtils;
     private IWXAPI api;
     private boolean mobileExact;
-    public static final String WX_LOGIN_ACTION = "com.pilipa.fapiaobao.wxlogin";
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, final Intent intent) {
-            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
+            if (TextUtils.equals(WX_LOGIN_ACTION, intent.getAction())) {
                 String deviceToken = BaseApplication.get("deviceToken","");
                 Bundle bundle = intent.getBundleExtra("extra_bundle");
                 WXmodel wx_info = bundle.getParcelable("wx_info");
@@ -99,6 +100,7 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                         }
                     }
                 });
+            } else if (TextUtils.equals(Constant.WX_LOGIN_CANCEL, intent.getAction())) {
             }
         }
     };
@@ -117,6 +119,7 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
     public void initView() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WX_LOGIN_ACTION);
+        intentFilter.addAction(Constant.WX_LOGIN_CANCEL);
         registerReceiver(mBroadcastReceiver, intentFilter);
         countDownTimerUtils = new CountDownTimerUtils(requireVerify, 60000, 1000);
         regexToWX();

@@ -1,79 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="314dp"
-        android:layout_height="141dp"
-        android:background="@drawable/shape_tip_bg"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/shape_tip_bg"
         android:orientation="vertical">
         <LinearLayout
             android:id="@+id/ll"
-            android:layout_marginStart="@dimen/d21"
-            android:layout_marginTop="@dimen/d30"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/d21"
+            android:layout_marginTop="@dimen/d30">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/withdraw_tip1"
                 android:textColor="@color/title_small"
-                android:textSize="13sp"
-                android:text="@string/withdraw_tip1"/>
+                android:textSize="13sp" />
             <TextView
                 android:id="@+id/tv_bouns"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/main_style"
-                android:text=""/>
+                android:text=""
+                android:textColor="@color/main_style" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/withdraw_tip2"
                 android:textColor="@color/title_small"
-                android:textSize="13sp"
-                android:text="@string/withdraw_tip2"/>
+                android:textSize="13sp" />
         </LinearLayout>
         <TextView
-            android:layout_below="@+id/ll"
-            android:layout_marginTop="@dimen/d3"
-            android:layout_marginStart="@dimen/d21"
-            android:layout_marginEnd="@dimen/d21"
-            android:textColor="@color/title_small"
-            android:textSize="13sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/withdraw_tip3"/>
-
+            android:layout_marginEnd="@dimen/d21"
+            android:layout_marginStart="@dimen/d21"
+            android:layout_marginTop="@dimen/d3"
+            android:text="@string/withdraw_tip3"
+            android:textColor="@color/title_small"
+            android:textSize="13sp" />
 
         <LinearLayout
-            android:gravity="end"
-            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="22dp"
             android:layout_marginEnd="@dimen/d21"
             android:layout_marginStart="@dimen/d50"
-            android:layout_marginBottom="22dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_marginTop="@dimen/d50"
+            android:gravity="end">
 
             <TextView
                 android:id="@+id/btn_cancel1"
-                android:layout_marginEnd="32dp"
-                android:padding="@dimen/d5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
                 android:background="@null"
-                android:textColor="@drawable/selector_union_main_style_text"
-                android:text="@string/cancel"/>
+                android:padding="@dimen/d5"
+                android:text="@string/cancel"
+                android:textColor="@drawable/selector_union_main_style_text" />
             <TextView
                 android:id="@+id/btn_confirm"
-                android:background="@null"
-                android:padding="@dimen/d5"
-
-                android:textColor="@drawable/selector_union_main_style_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/confirm"/>
+                android:background="@null"
+                android:padding="@dimen/d5"
+                android:text="@string/confirm"
+                android:textColor="@drawable/selector_union_main_style_text" />
         </LinearLayout>
-    </RelativeLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

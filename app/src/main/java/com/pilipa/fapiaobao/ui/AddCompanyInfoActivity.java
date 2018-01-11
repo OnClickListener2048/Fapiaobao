@@ -32,6 +32,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.mylibrary.utils.KeyboardUtils;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.SearchCompaniesAdapter;
@@ -40,17 +41,19 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.TestBean;
+import com.pilipa.fapiaobao.net.bean.base.BaseResponseBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean;
-import com.pilipa.fapiaobao.net.bean.me.search.CompaniesSearchBean;
+import com.pilipa.fapiaobao.net.callback.JsonConvertor;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -94,8 +97,6 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
     CardView cardView;
     @Bind(R.id.ll_company_name)
     LinearLayout llCompanyName;
-    @Bind(R.id.ll_child_company_name)
-    LinearLayout llChildCompanyName;
     private Dialog scanDialog;
     private PopupWindow popWnd;
     private ArrayList<TestBean> a;
@@ -234,38 +235,30 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
     }
 
     private void startSearching(String companyName, String tag) {
-        Api.searchCompanies(companyName, tag, new Api.BaseViewWithoutDatas<CompaniesSearchBean>() {
-            @Override
-            public void onNoData() {
-                popWnd.dismiss();
-            }
+        Api.searchCompanies(companyName, tag, new JsonConvertor<BaseResponseBean<List<CompaniesBean>>>() {
 
             @Override
-            public void setData(CompaniesSearchBean companiesSearchBean) {
-                adapter.setNewData(companiesSearchBean.getData());
-                if (companiesSearchBean.getData().size() > 4) {
+            public void onSuccess(Response<BaseResponseBean<List<CompaniesBean>>> response) {
+                adapter.setNewData(response.body().getData());
+                if (response.body().getData().size() > 4) {
                     popWnd.setHeight((int) TDevice.dp2px(200));
                 } else {
                     popWnd.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                 }
                 popWnd.update();
-
-                TLog.d(TAG, "edtCompany_name.getHeight()=" + edtCompany_name.getHeight());
-                TLog.d(TAG, "edtCompany_name.getTop()=" + edtCompany_name.getTop());
-                TLog.d(TAG, "llChildCompanyName.getTop()=" + llChildCompanyName.getTop());
-                TLog.d(TAG, "llCompanyName.getTop()=" + llCompanyName.getTop());
-                TLog.d(TAG, "cardView.getTop()=" + cardView.getTop());
-
-
                 popWnd.showAtLocation(cardView
                         , Gravity.NO_GRAVITY
                         , cardView.getLeft()
-                        , edtCompany_name.getHeight()
-                                + edtCompany_name.getTop()
-                                + llChildCompanyName.getTop()
-                                + llCompanyName.getTop()
-                                + cardView.getTop() + (int) TDevice.dp2px(20));
+                        , llCompanyName.getPaddingBottom()
+                                + llCompanyName.getPaddingTop()
+                                + llCompanyName.getBottom()
+                                + cardView.getTop());
+            }
 
+            @Override
+            protected void onNoContent() {
+                super.onNoContent();
+                popWnd.dismiss();
             }
         });
     }
@@ -446,19 +439,11 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
         edtCompany_name.removeTextChangedListener(textWatcher);
         CompaniesBean companiesBean = (CompaniesBean) adapter.getItem(position);
         if (companiesBean != null) {
-            if (companiesBean.getNsrmc() != null || !TextUtils.isEmpty(companiesBean.getNsrmc())) {
-                edtCompany_name.setText(companiesBean.getNsrmc());
-            }
-            if (companiesBean.getNsrsbh() != null && !TextUtils.isEmpty(companiesBean.getNsrsbh())) {
-                edtTaxno.setText(companiesBean.getNsrsbh());
-                edtCompanyAddress.requestFocus();
-            } else {
-                edtTaxno.requestFocus();
-            }
-
+            edtCompany_name.setText(companiesBean.getNsrmc());
+            edtTaxno.setText(companiesBean.getNsrsbh());
         }
         popWnd.dismiss();
-
+        edtCompanyAddress.requestFocus();
 
     }
 
