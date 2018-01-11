@@ -41,7 +41,7 @@ public class ZbarActivity extends AppCompatActivity implements QRCodeView.Delega
         vibrate();
         Intent intent = new Intent();
         intent.putExtra(Constant.CODED_CONTENT, s);
-        setResult(RESULT_OK);
+        setResult(RESULT_OK, intent);
         finish();
     }
 
@@ -54,7 +54,8 @@ public class ZbarActivity extends AppCompatActivity implements QRCodeView.Delega
     protected void onStart() {
         super.onStart();
         mQRCodeView.startCamera();
-        mQRCodeView.startSpotAndShowRect();
+        mQRCodeView.showScanRect();
+        mQRCodeView.startSpotDelay(1000);
     }
 
     @Override
