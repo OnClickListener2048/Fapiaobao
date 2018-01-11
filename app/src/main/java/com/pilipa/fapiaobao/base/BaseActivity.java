@@ -270,7 +270,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         if (fragment != null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(frameLayoutId, fragment).show(fragment);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
     }
 

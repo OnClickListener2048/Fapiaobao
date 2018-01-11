@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -54,6 +56,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -171,6 +175,20 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     String orderId;
     @Bind(R.id.smartRefreshLayout)
     SmartRefreshLayout smartRefreshLayout;
+    InputFilter specialCharFilter = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            String regexStr = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+            Pattern pattern = Pattern.compile(regexStr);
+            Matcher matcher = pattern.matcher(source.toString());
+            if (matcher.matches()) {
+                return "";
+            } else {
+                return null;
+            }
+
+        }
+    };
     private Dialog mTipDialog;
     private ArrayList<Image> images;
     private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
@@ -309,6 +327,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
 
     @Override
     public void initView() {
+        edtOddNumber.setFilters(new InputFilter[]{specialCharFilter});
         initSmartRefreshLayout();
     }
 
@@ -466,7 +485,6 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
 
     private void findAllLogisticsCompany() {
         String[] stringArray = getResources().getStringArray(R.array.express_array);
-
         spinnerAdapter = new PublishSpinnerAdapter(stringArray);
         mSpinner.setAdapter(spinnerAdapter);
     }

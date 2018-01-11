@@ -470,7 +470,6 @@ public class DemandActivity extends BaseNoNetworkActivity {
                         mList.addAll(bean.getInvoiceNameList());
                         invoiceNameAdapter.initData(mList);
 
-//                        tvBounsAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getTotalBonus()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
                         tvBounsAmount.setText(String.valueOf(getString(R.string.point_two, bean.getDemand().getTotalBonus())));
                         tvAmount.setText(String.valueOf(getString(R.string.point_two, bean.getDemand().getTotalAmount())));
                         tvLeftAmount.setText(String.valueOf(getString(R.string.point_two, bean.getDemand().getLeftBonus())));
@@ -582,7 +581,6 @@ public class DemandActivity extends BaseNoNetworkActivity {
             public void setData(NormalBean normalBean) {
                 hideNetWorkErrorLayout();
                 BaseApplication.showToast(getString(R.string.demand_closed));
-                demandDetails(id, false);
                 setResult(RESULT_OK);
                 DemandActivity.this.finish();
                 Log.d(TAG, "updateData:shatDownEarly success");

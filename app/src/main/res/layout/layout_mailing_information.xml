@@ -267,8 +267,8 @@
                                     android:layout_centerVertical="true"
                                     android:layout_toLeftOf="@+id/btn_scan"
                                     android:background="@null"
-                                    android:digits="0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM"
-                                    android:inputType="number"
+                                    android:digits="@string/alphabet_and_number"
+                                    android:inputType="text"
                                     android:lines="1"
                                     android:maxLength="14"
                                     android:paddingLeft="@dimen/d15" />
