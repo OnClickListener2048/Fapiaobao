@@ -82,8 +82,9 @@ import static com.pilipa.fapiaobao.utils.BitmapUtils.rotaingImageView;
  */
 
 public class UserInfoActivity extends BaseActivity {
+    public static final int REQUEST_CODE_CAPTURE = 10;
+    public static final int REQUEST_CODE_CHOOSE = 20;
     private static final String TAG = "UserInfoActivity";
-
     @Bind(R.id.edt_userName)
     EditText edtUserName;
     @Bind(R.id.edt_email)
@@ -108,16 +109,69 @@ public class UserInfoActivity extends BaseActivity {
     EditText tv_birthday;
     @Bind(R.id.bind_phone)
     TextView bindPhone;
+    LoginWithInfoBean.DataBean.CustomerBean customerBean;
     private Dialog mCameraDialog;
     private Dialog mDialog;
     private MediaStoreCompat mediaStoreCompat;
-    public static final int REQUEST_CODE_CAPTURE = 10;
-    public static final int REQUEST_CODE_CHOOSE = 20;
     private int mPreviousPosition = -1;
     private RequestManager requestManager;
     private LoginWithInfoBean loginBean;
     private Image image;
     private TimePickerDialog dialog;
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
+                TLog.d(TAG, WX_LOGIN_ACTION + " success");
+                String deviceToken = BaseApplication.get(com.pilipa.fapiaobao.ui.constants.Constant.DEVICE_TOKEN, "");
+                Bundle bundle = intent.getBundleExtra(com.pilipa.fapiaobao.ui.constants.Constant.EXTRA_BUNDLE);
+                WXmodel wx_info = bundle.getParcelable(com.pilipa.fapiaobao.ui.constants.Constant.WX_INFO);
+                if (wx_info != null) {
+                    Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+                        @Override
+                        public void onStart() {
+                            showProgressDialog();
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+
+                        @Override
+                        public void setData(NormalBean normalBean) {
+                            if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
+//                            tv_wx.setText(getString(R.string.haveBound));
+//                                hightlightPartText(tv_wx,getString(R.string.haveBound),AccountHelper.getUser().getData().getCustomer().getNickname());
+                                tv_wx.setText(getString(R.string.haveBound));
+                                tv_wx.setOnClickListener(null);
+                                BaseApplication.showToast(getString(R.string.WX_bind_success));
+                            } else if (normalBean.getStatus() == 707) {
+                                BaseApplication.showToast(normalBean.getMsg());
+                            }
+                        }
+                    });
+                }
+            } else if (intent.getAction().equals(com.pilipa.fapiaobao.ui.constants.Constant.BIND_PHONE_ACTION)) {
+                boolean isbind = intent.getBooleanExtra("isbind", false);
+                String phone = intent.getStringExtra(com.pilipa.fapiaobao.ui.constants.Constant.PHONE);
+                if (isbind) {
+//                    updateUserInfo(AccountHelper.getUserCustormer());
+                    AccountHelper.getUserCustormer().setTelephone(phone);
+                    AccountHelper.getUser().getData().getCustomer().setTelephone(phone);
+                    edtPhone.setText(phone);
+                    edtPhone.setVisibility(View.VISIBLE);
+                    bindPhone.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
+    private IWXAPI api;
 
     @Override
     protected int getLayoutId() {
@@ -233,60 +287,6 @@ public class UserInfoActivity extends BaseActivity {
         }
     }
 
-    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
-                TLog.d(TAG, WX_LOGIN_ACTION + " success");
-                String deviceToken = BaseApplication.get(com.pilipa.fapiaobao.ui.constants.Constant.DEVICE_TOKEN, "");
-                Bundle bundle = intent.getBundleExtra(com.pilipa.fapiaobao.ui.constants.Constant.EXTRA_BUNDLE);
-                WXmodel wx_info = bundle.getParcelable(com.pilipa.fapiaobao.ui.constants.Constant.WX_INFO);
-                if (wx_info!= null) {
-                    Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
-                        @Override
-                        public void onStart() {
-                            showProgressDialog();
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
-
-                        @Override
-                        public void onError() {
-
-                        }
-
-                        @Override
-                        public void setData(NormalBean normalBean) {
-                            if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
-//                            tv_wx.setText(getString(R.string.haveBound));
-//                                hightlightPartText(tv_wx,getString(R.string.haveBound),AccountHelper.getUser().getData().getCustomer().getNickname());
-                                tv_wx.setText(getString(R.string.haveBound));
-                                tv_wx.setOnClickListener(null);
-                                BaseApplication.showToast(getString(R.string.WX_bind_success));
-                            } else if (normalBean.getStatus() == 707) {
-                                BaseApplication.showToast(normalBean.getMsg());
-                            }
-                        }
-                    });
-                }
-            } else if (intent.getAction().equals(com.pilipa.fapiaobao.ui.constants.Constant.BIND_PHONE_ACTION)) {
-                boolean isbind = intent.getBooleanExtra("isbind", false);
-                String phone = intent.getStringExtra(com.pilipa.fapiaobao.ui.constants.Constant.PHONE);
-                if (isbind) {
-//                    updateUserInfo(AccountHelper.getUserCustormer());
-                    AccountHelper.getUserCustormer().setTelephone(phone);
-                    AccountHelper.getUser().getData().getCustomer().setTelephone(phone);
-                    edtPhone.setText(phone);
-                    edtPhone.setVisibility(View.VISIBLE);
-                    bindPhone.setVisibility(View.GONE);
-                }
-            }
-        }
-    };
-
     @Override
     public void initView() {
         regexToWX();
@@ -345,8 +345,6 @@ public class UserInfoActivity extends BaseActivity {
             }
         });
     }
-
-    LoginWithInfoBean.DataBean.CustomerBean customerBean;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -510,8 +508,6 @@ public class UserInfoActivity extends BaseActivity {
             radioGroup.check(R.id.rb_secrecy);
         }
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -700,18 +696,20 @@ public class UserInfoActivity extends BaseActivity {
                 });
     }
 
-    private IWXAPI api;
-
     private void regexToWX() {
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         api.registerApp(Constants.APP_ID);
     }
 
     private void weChatLogin() {
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo_test";
-        api.sendReq(req);
+        if (api.isWXAppInstalled()) {
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_demo_test";
+            api.sendReq(req);
+        } else {
+            BaseApplication.showToast(getString(R.string.please_install_WX));
+        }
     }
 
     @OnClick(R.id.bind_phone)

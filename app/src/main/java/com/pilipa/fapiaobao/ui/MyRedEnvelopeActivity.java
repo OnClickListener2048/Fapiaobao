@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
+            if (TextUtils.equals(WX_LOGIN_ACTION, intent.getAction())) {
                 btnWithdraw.setEnabled(true);
                 hideProgressDialog();
                 TLog.d(TAG,WX_LOGIN_ACTION +" success");
@@ -80,6 +81,8 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                         }
                     }
                 }
+            } else if (com.pilipa.fapiaobao.ui.constants.Constant.WX_LOGIN_CANCEL.equals(intent.getAction())) {
+                hideProgressDialog();
             }
         }
     };
@@ -200,6 +203,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         regexToWX();
         IntentFilter filter = new IntentFilter();
         filter.addAction(LoginActivity.WX_LOGIN_ACTION);
+        filter.addAction(com.pilipa.fapiaobao.ui.constants.Constant.WX_LOGIN_CANCEL);
         registerReceiver(mBroadcastReceiver, filter);
     }
 
@@ -356,12 +360,16 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         api.registerApp(Constants.APP_ID);
     }
     private void weChatLogin() {
-        btnWithdraw.setEnabled(false);
-        showProgressDialog();
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo_test";
-        api.sendReq(req);
+        if (api.isWXAppInstalled()) {
+            showProgressDialog();
+            btnWithdraw.setEnabled(false);
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_demo_test";
+            api.sendReq(req);
+        } else {
+            BaseApplication.showToast(getString(R.string.please_install_WX_app));
+        }
     }
 
 }

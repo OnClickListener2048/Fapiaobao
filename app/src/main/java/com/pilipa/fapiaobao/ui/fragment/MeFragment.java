@@ -62,7 +62,7 @@ public class MeFragment extends BaseFragment{
 
     int[] LevelIcon=new int[]{R.mipmap.star0,R.mipmap.star1,R.mipmap.star2,R.mipmap.star3,R.mipmap.star4,R.mipmap.star5
                               ,R.mipmap.star6,R.mipmap.star7,R.mipmap.star8,R.mipmap.star9,R.mipmap.star10};
-
+    RequestManager requestManager;
     private BroadcastReceiver mBoradcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -86,6 +86,7 @@ public class MeFragment extends BaseFragment{
         ButterKnife.bind(this, rootView);
         return rootView;
     }
+
     @Override
     public void initData(){
     }
@@ -100,7 +101,6 @@ public class MeFragment extends BaseFragment{
         }
 
     }
-
 
     @Override
     protected void initWidget(View root) {
@@ -120,9 +120,6 @@ public class MeFragment extends BaseFragment{
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-
-
 
     @OnClick({R.id.tv_userName
             ,R.id.fl_img_head
@@ -153,7 +150,11 @@ public class MeFragment extends BaseFragment{
                 break;
 
             case R.id.my_wallet:
-                startActivity(new Intent(getContext(), MyWalletActivity.class));
+                if (AccountHelper.isLogin()) {
+                    startActivity(new Intent(getContext(), MyWalletActivity.class));
+                } else {
+                    login();
+                }
                 break;
 
 
@@ -204,8 +205,6 @@ public class MeFragment extends BaseFragment{
             }
         }
     }
-    RequestManager requestManager;
-
 
     @Override
     public void onPause() {

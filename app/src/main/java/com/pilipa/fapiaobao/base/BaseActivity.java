@@ -134,6 +134,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     public void showProgressDialog() {
+        TLog.log("showProgressDialog" + getClass().getSimpleName());
         if (isFinishing()) return;
         if (progressDialog == null) return;
         if (progressDialog.isShowing()) return;
@@ -165,7 +166,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     public void hideProgressDialog() {
-
+        TLog.log("hideProgressDialog" + getClass().getSimpleName());
         Observable.timer(500,TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
