@@ -115,13 +115,10 @@ public abstract class JsonConvertor<T> extends AbsCallback<T> {
                         @Override
                         public void accept(@NonNull Boolean aBoolean) throws Exception {
                             if (aBoolean) {
-
                                 Api.RECORD_LOG("Date========" + TimeUtils.millis2String(System.currentTimeMillis()) + "\\n" +
                                         "Throwable.toString========" + e.toString() + "\\n" +
                                         "Throwable.getMessage========" + e.getMessage() + "\\n"
                                 );
-                            } else {
-                                BaseApplication.showToast("当前WIFI不可用，请检查您的网络设置");
                             }
                         }
                     });

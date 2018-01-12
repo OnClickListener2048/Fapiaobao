@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
@@ -47,6 +46,7 @@ import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.AnimationConfig;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -84,7 +84,6 @@ import static android.app.Activity.RESULT_OK;
 public class UnusedReceiptFragment extends BaseNoNetworkFragment implements UnusedReceiptAdapter.OnImageClickListener
         , UnusedReceiptAdapter.OnImageSelectListener, UnusedReceiptAdapter.OnPhotoCapture,View.OnClickListener
         ,UnusedReceiptAdapter.OnImageLongClickListener{
-    private static final String TAG = "UnusedReceiptFragment";
     public static final int REQUEST_CODE_CAPTURE = 10;
     public static final int REQUEST_CODE_CHOOSE = 20;
     public static final String EXTRA_ALL_DATA = "EXTRA_ALL_DATA";
@@ -92,19 +91,11 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
     public static final String EXTRA_BUNDLE = "EXTRA_BUNDLE";
     public static final int REQUEST_CODE_IMAGE_CLICK = 30;
     public static final int RESULT_CODE_BACK = 40;
-
-    private int mImageResize;
-    private ArrayList<Image> images;
-    private MediaStoreCompat mediaStoreCompat;
-    private int mPreviousPosition = -1;
-    private Dialog mCameraDialog;
-    private Dialog mDelDialog;
-    private UnusedReceiptAdapter unusedReceiptAdapter;
-    private boolean mIsInited;
-    private boolean mIsPrepared;
+    private static final String TAG = "UnusedReceiptFragment";
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
-    private ArrayList<Image> arrayList;
+    private int mImageResize;
+    private ArrayList<Image> images;
     public BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -119,6 +110,17 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
             }
         }
     };
+    private MediaStoreCompat mediaStoreCompat;
+    private int mPreviousPosition = -1;
+    private Dialog mCameraDialog;
+    private Dialog mDelDialog;
+    private UnusedReceiptAdapter unusedReceiptAdapter;
+    private boolean mIsInited;
+    private boolean mIsPrepared;
+    private ArrayList<Image> arrayList;
+    private Image image;
+    private int pos = -1;
+
     public static UnusedReceiptFragment newInstance(Bundle bundle) {
         UnusedReceiptFragment unusedReceiptFragment = new UnusedReceiptFragment();
         unusedReceiptFragment.setArguments(bundle);
@@ -156,6 +158,22 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
         intentFilter.addAction("UPLOAD_PDF_SUCCESS");
 
         getActivity().registerReceiver(mBroadcastReceiver, intentFilter);
+        initDialog();
+    }
+
+    private void initDialog() {
+        mDelDialog = DialogUtil.getInstance().createDialog(mContext, R.style.BottomDialog, R.layout.dialog_delete_receiptfolder_invoice, null, new DialogUtil.OnConfirmListener() {
+            @Override
+            public void onConfirm(View view) {
+                mDelDialog.dismiss();
+                deleteMyInvoice(image.name, pos);
+            }
+        }, new DialogUtil.OnCancelListener() {
+            @Override
+            public void onCancel(View view) {
+                mDelDialog.dismiss();
+            }
+        });
     }
 
     @Override
@@ -640,43 +658,45 @@ showNetWorkErrorLayout();
     public void onImageLongClick(View view,Image image,int pos) {
         TLog.d("onImageLongClick","position----------"+pos);
         AnimationConfig.shake(mContext,view);
-        setDelDialog(image,pos);
+        this.image = image;
+        this.pos = pos;
+        showDialog(mDelDialog);
         Log.d(TAG, "updateData:onImageLongClick image.name----------"+image.name);
     }
-    private void setDelDialog(final Image image,final int pos) {
-        mDelDialog = new Dialog(getActivity(), R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
-                R.layout.layout_delete_tip, null);
-        TextView tv_title = (TextView) root.findViewById(R.id.tv_title);
-        tv_title.setText("确定要删除该发票吗？");
-        //初始化视图
-        root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDelDialog.dismiss();
-            }
-        });
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteMyInvoice(image.name,pos);
-            }
-        });
-        mDelDialog.setContentView(root);
-        Window dialogWindow = mDelDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDelDialog.show();
-    }
+//    private void setDelDialog(final Image image,final int pos) {
+//        mDelDialog = new Dialog(getActivity(), R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
+//                R.layout.layout_delete_tip, null);
+//        TextView tv_title = (TextView) root.findViewById(R.id.tv_title);
+//        tv_title.setText("确定要删除该发票吗？");
+//        //初始化视图
+//        root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDelDialog.dismiss();
+//            }
+//        });
+//        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                deleteMyInvoice(image.name,pos);
+//            }
+//        });
+//        mDelDialog.setContentView(root);
+//        Window dialogWindow = mDelDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mDelDialog.show();
+//    }
 
     private void deleteMyInvoice(final String invoiceId,final int pos) {
         TLog.d("deleteMyInvoice","position======="+pos);
@@ -707,7 +727,6 @@ showNetWorkErrorLayout();
                         @Override
                         public void setData(NormalBean normalBean) {
                             if(normalBean.getStatus() == Constant.REQUEST_SUCCESS){
-                                mDelDialog.dismiss();
                                 unusedReceiptAdapter.delete(pos);
                                 BaseApplication.showToast(getString(R.string.delete_success));
                             }

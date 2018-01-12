@@ -332,12 +332,19 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     public void initView() {
         edtOddNumber.setFilters(new InputFilter[]{specialCharFilter});
         initSmartRefreshLayout();
-        expressDialog = DialogUtil.getInstance().createExpressDialog(this, new DialogUtil.OnKnownListener() {
+//        expressDialog = DialogUtil.getInstance().createExpressDialog(this, new DialogUtil.OnKnownListener() {
+//            @Override
+//            public void onKnown(View view) {
+//                expressDialog.dismiss();
+//            }
+//        });
+
+        expressDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.dialog_expressing, new DialogUtil.OnKnownListener() {
             @Override
             public void onKnown(View view) {
                 expressDialog.dismiss();
             }
-        });
+        }, null, null);
     }
 
     private void initSmartRefreshLayout() {

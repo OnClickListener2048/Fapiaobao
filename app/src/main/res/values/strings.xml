@@ -482,7 +482,7 @@
     <string name="flag">¥</string>
     <string name="acquire_short_message">获取验证码</string>
     <string name="please_enter_the_right_phone_number">请输入正确的手机号码</string>
-    <string name="scan_tip">目前仅支持购物小票二维码、发票宝生成的单位信息二维码的扫描</string>
+    <string name="scan_tip">添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描</string>
     <string name="save_to_invoice_clip">保存到发票夹</string>
     <string name="no_network_phase">网络连接超时，看到了外太空\n点击刷新试试</string>
     <string name="checkout_upload">查看本次提供</string>
@@ -539,6 +539,8 @@
     <string name="point_two">%.2f</string>
     <string name="open_camera_error">打开相机失败</string>
     <string name="rule_express">物流单号错误，请填写或扫描正确的物流单号哦</string>
+    <string name="pickup_from_media">从相册中选取</string>
+    <string name="take_picture">拍照</string>
 
     <string-array name="express_array">
         <item>顺丰</item>

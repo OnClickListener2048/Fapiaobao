@@ -300,12 +300,8 @@ public class DemandActivity extends BaseNoNetworkActivity {
     }
 
     private void initDialog() {
-        canShutDownEarlyDialog = DialogUtil.getInstance().canShutDownEarlyDialog(this, new DialogUtil.OnCancelListener() {
-            @Override
-            public void onCancel(View view) {
-                canShutDownEarlyDialog.dismiss();
-            }
-        }, new DialogUtil.OnConfirmListener() {
+
+        canShutDownEarlyDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_shutdown1_tip, null, new DialogUtil.OnConfirmListener() {
             @Override
             public void onConfirm(View view) {
                 canShutDownEarlyDialog.dismiss();
@@ -313,14 +309,20 @@ public class DemandActivity extends BaseNoNetworkActivity {
                     shatDownEarly(demandId);
                 }
             }
+        }, new DialogUtil.OnCancelListener() {
+            @Override
+            public void onCancel(View view) {
+                canShutDownEarlyDialog.dismiss();
+            }
         });
 
-        canNotShutDownEarlyDialog = DialogUtil.getInstance().canNotShutDownEarlyDialog(this, new DialogUtil.OnKnownListener() {
+
+        canNotShutDownEarlyDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_shutdown2_tip, new DialogUtil.OnKnownListener() {
             @Override
             public void onKnown(View view) {
                 canNotShutDownEarlyDialog.dismiss();
             }
-        });
+        }, null, null);
     }
 
     private void initSmartRefreshLayout() {
@@ -763,54 +765,6 @@ public class DemandActivity extends BaseNoNetworkActivity {
     }
 
 
-//    private void setShutDialog(boolean isCanShutDown) {
-//        mDialog = new Dialog(DemandActivity.this, R.style.BottomDialog);
-//        LinearLayout root;
-//        if (isCanShutDown) {
-//            root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
-//                    R.layout.layout_shutdown1_tip, null);
-//            root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mDialog.dismiss();
-//                }
-//            });
-//            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mDialog.dismiss();
-//                    if (demandId != null) {
-//                        shatDownEarly(demandId);
-//                    }
-//                }
-//            });
-//        } else {
-//            root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
-//                    R.layout.layout_shutdown2_tip, null);
-//            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mDialog.dismiss();
-//                }
-//            });
-//        }
-//        mDialog.setContentView(root);
-//        Window dialogWindow = mDialog.getWindow();
-//        dialogWindow.setGravity(Gravity.CENTER);
-////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-//        lp.x = 0; // 新位置X坐标
-//        lp.y = 0; // 新位置Y坐标
-//        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
-//        root.measure(0, 0);
-//        lp.height = root.getMeasuredHeight();
-//
-//        lp.alpha = 9f; // 透明度
-//        dialogWindow.setAttributes(lp);
-//        if (!isFinishing()) {
-//            mDialog.show();
-//        }
-//    }
 
     @Override
     public void initDataInResume() {

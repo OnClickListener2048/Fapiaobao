@@ -112,7 +112,19 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
     }
 
     private void initDialog() {
-        deleteCompanyDialog = DialogUtil.getInstance().createDeleteCompanyDialog(this, new DialogUtil.OnConfirmListener() {
+//        deleteCompanyDialog = DialogUtil.getInstance().createDeleteCompanyDialog(this, new DialogUtil.OnConfirmListener() {
+//            @Override
+//            public void onConfirm(View view) {
+//                deleteCompany(deleteId);
+//            }
+//        }, new DialogUtil.OnCancelListener() {
+//            @Override
+//            public void onCancel(View view) {
+//                deleteCompanyDialog.dismiss();
+//            }
+//        });
+
+        deleteCompanyDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_delete_tip, null, new DialogUtil.OnConfirmListener() {
             @Override
             public void onConfirm(View view) {
                 deleteCompany(deleteId);
@@ -123,6 +135,7 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
                 deleteCompanyDialog.dismiss();
             }
         });
+
     }
 
     @Override

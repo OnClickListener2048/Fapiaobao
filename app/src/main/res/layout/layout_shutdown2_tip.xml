@@ -41,7 +41,7 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/btn_confirm"
+                android:id="@+id/i_know"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"

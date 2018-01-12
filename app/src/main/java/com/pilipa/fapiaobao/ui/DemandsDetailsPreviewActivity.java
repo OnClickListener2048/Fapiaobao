@@ -8,11 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,6 +38,7 @@ import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.PreviewViewpager;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.ButtonUtils;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.StreamUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -143,6 +140,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     private int REJECT_FINISH = 1;
     private String reason;
     private Dialog mDialog;
+    private Dialog rejectionStart;
+    private Dialog rejectionFinish;
 
     @Override
     protected int getLayoutId() {
@@ -184,7 +183,10 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         }else{
             checkPagePos(mPreviousPos);
         }
+
+        initDialog();
     }
+
 
     @Override
     public void initData() {
@@ -301,7 +303,9 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             }
             break;
             case R.id.tv_Unqualified:
-                setRejectDialog(REJECT_START);
+//                setRejectDialog(REJECT_START);
+                changeLayout();
+                showDialog(rejectionStart);
                 break;
             case R.id.cancel_reject: {
                 changeLayout();
@@ -649,53 +653,32 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                                                 bundle.putParcelableArrayList(DemandsDetailsReceiptFragment.EXTRA_ALL_DATA, allList);
                                                 intent.putExtra(DemandsDetailsReceiptFragment.EXTRA_BUNDLE, bundle);
                                                 setResult(DemandsDetailsReceiptFragment.RESULT_CODE_BACK, intent);
-                                                setRejectDialog(REJECT_FINISH);
+//                                                setRejectDialog(REJECT_FINISH);
+                                                showDialog(rejectionFinish);
                                             }
                                         }
                                     });
             }
     }
 
-    private void setRejectDialog(int step) {
-        mDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = null;
-        if (step == REJECT_START) {
-            changeLayout();
-            root = (LinearLayout) LayoutInflater.from(this).inflate(
-                    R.layout.layout_reject1_tip, null);
-            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialog.dismiss();
-                }
-            });
-        } else if (step == REJECT_FINISH) {
-            root = (LinearLayout) LayoutInflater.from(this).inflate(
-                    R.layout.layout_reject2_tip, null);
-            root.findViewById(R.id.btn_finish).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DemandsDetailsPreviewActivity.this.finish();
-                }
-            });
-        }
-        //初始化视图
-        mDialog.setContentView(root);
-        mDialog.setCanceledOnTouchOutside(false);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
+    private void initDialog() {
+        rejectionStart = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_reject1_tip, new DialogUtil.OnKnownListener() {
+            @Override
+            public void onKnown(View view) {
+                rejectionStart.dismiss();
+            }
+        }, null, null);
 
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDialog.show();//TODO ?
+        rejectionFinish = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_reject2_tip, new DialogUtil.OnKnownListener() {
+            @Override
+            public void onKnown(View view) {
+                rejectionFinish.dismiss();
+                finish();
+            }
+        }, null, null);
+
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

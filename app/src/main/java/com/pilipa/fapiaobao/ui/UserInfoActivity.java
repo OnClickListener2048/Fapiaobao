@@ -49,6 +49,7 @@ import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.ButtonUtils;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -257,7 +258,8 @@ public class UserInfoActivity extends BaseActivity {
             }
             break;
             case R.id.img_head: {
-                setDialog();
+//                setDialog();
+                showDialog(mCameraDialog);
             }
             break;
             case R.id.btn_choose_img:
@@ -281,7 +283,8 @@ public class UserInfoActivity extends BaseActivity {
 
                 break;
             case R.id.img_logout:
-                setLogoutDialog();
+//                setLogoutDialog();
+                showDialog(mDialog);
                 break;
             default:
         }
@@ -298,7 +301,46 @@ public class UserInfoActivity extends BaseActivity {
         intentFilter.addAction(WX_LOGIN_ACTION);
         intentFilter.addAction(com.pilipa.fapiaobao.ui.constants.Constant.BIND_PHONE_ACTION);
         registerReceiver(mBroadcastReceiver, intentFilter);
+        initDialog();
+        initLogoutDialog();
+    }
 
+    private void initLogoutDialog() {
+        mDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_logout_tip, null, new DialogUtil.OnConfirmListener() {
+            @Override
+            public void onConfirm(View view) {
+                mDialog.dismiss();
+                logoutByToken();
+            }
+        }, new DialogUtil.OnCancelListener() {
+            @Override
+            public void onCancel(View view) {
+                mDialog.dismiss();
+            }
+        });
+    }
+
+    private void initDialog() {
+        mCameraDialog = DialogUtil.getInstance().createBottomDialog(this, new DialogUtil.OnDialogDismissListener() {
+            @Override
+            public void onDialogDismiss(View view) {
+                mCameraDialog.dismiss();
+            }
+        }, new DialogUtil.OnMediaOpenListener() {
+            @Override
+            public void onMediaOpen(View view) {
+                openMedia();
+                mCameraDialog.dismiss();
+            }
+        }, null, new DialogUtil.OnPhotoTakeListener() {
+            @Override
+            public void onPhotoTake(View view) {
+                if (MediaStoreCompat.hasCameraFeature(UserInfoActivity.this)) {
+                    mediaStoreCompat.dispatchCaptureIntent(UserInfoActivity.this, REQUEST_CODE_CAPTURE);
+                }
+                mCameraDialog.dismiss();
+            }
+        }, null);
     }
 
     @Override
@@ -653,7 +695,6 @@ public class UserInfoActivity extends BaseActivity {
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
                     Toast.makeText(UserInfoActivity.this, getString(R.string.logout_success), Toast.LENGTH_SHORT).show();
-                    mDialog.dismiss();
                     AccountHelper.logout();
                     UserInfoActivity.this.finish();
                     set(PUSH_RECEIVE, false);

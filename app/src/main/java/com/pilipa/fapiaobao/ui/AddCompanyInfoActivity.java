@@ -184,16 +184,16 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
                                     try {
                                         updateCompanyinfo(companyBean);
                                     } catch (Exception e) {
-                                        showDialog();
+                                        showDialog(scanDialog);
                                     }
                                 }
                             });
                         } catch (Exception e) {
                             e.printStackTrace();
-                            showDialog();
+                            showDialog(scanDialog);
                         }
                     } else {
-                        showDialog();
+                        showDialog(scanDialog);
                     }
 
                 }
@@ -234,18 +234,15 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
     }
 
     private void initDialog() {
-        scanDialog = DialogUtil.getInstance().createScanDialog(this, new DialogUtil.OnKnownListener() {
+        scanDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_scan_tip, new DialogUtil.OnKnownListener() {
             @Override
             public void onKnown(View view) {
                 scanDialog.dismiss();
             }
-        });
+        }, null, null);
+
     }
 
-    private void showDialog() {
-        if (isFinishing()) return;
-        scanDialog.show();
-    }
 
     private void startSearching(String companyName, String tag) {
         Api.searchCompanies(companyName, tag, new JsonConvertor<BaseResponseBean<List<CompaniesBean>>>() {

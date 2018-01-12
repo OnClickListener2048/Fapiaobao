@@ -30,7 +30,7 @@
             android:gravity="end">
 
             <TextView
-                android:id="@+id/btn_cancel"
+                android:id="@+id/cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -39,7 +39,7 @@
                 android:textColor="@drawable/selector_union_main_style_text" />
 
             <TextView
-                android:id="@+id/btn_confirm"
+                android:id="@+id/confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
