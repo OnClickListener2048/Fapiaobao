@@ -18,13 +18,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
@@ -44,9 +44,11 @@ import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -105,7 +107,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     @Bind(R.id.tv_publish_address)
     TextView tvPublishAddress;
     @Bind(R.id.edt_oddNumber)
-    EditText edtOddNumber;
+    MaterialEditText edtOddNumber;
     @Bind(R.id.receipt_number)
     TextView receiptNumber;
     @Bind(R.id.receipt_money)
@@ -199,6 +201,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     private boolean isCanMail = false;//是否可以邮寄
     private String favoriteId;
     private List<RejectTypeBean.DataBean> list = new ArrayList<>();
+    private Dialog expressDialog;
 
     @Override
     protected int getLayoutId() {
@@ -258,17 +261,17 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
                     Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseRawResponse<FavBean>() {
                         @Override
                         public void onStart() {
-                            showNetWorkErrorLayout();
+                            showProgressDialog();
                         }
 
                         @Override
                         public void onFinish() {
-                            hideNetWorkErrorLayout();
+                            hideProgressDialog();
                         }
 
                         @Override
                         public void onError() {
-
+                            showNetWorkErrorLayout();
                         }
 
                         @Override
@@ -329,6 +332,12 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     public void initView() {
         edtOddNumber.setFilters(new InputFilter[]{specialCharFilter});
         initSmartRefreshLayout();
+        expressDialog = DialogUtil.getInstance().createExpressDialog(this, new DialogUtil.OnKnownListener() {
+            @Override
+            public void onKnown(View view) {
+                expressDialog.dismiss();
+            }
+        });
     }
 
     private void initSmartRefreshLayout() {
@@ -338,6 +347,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
                 showOrderDetail(orderId, true);
             }
         });
+        smartRefreshLayout.setDisableContentWhenRefresh(true);
     }
 
     private void setTipDialog() {
@@ -518,7 +528,14 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_SCAN) {
             String codedContent = data.getStringExtra("codedContent");
-            edtOddNumber.setText(codedContent);
+            if (RegexUtils.isAlphaBeta(codedContent)) {
+                edtOddNumber.setText(codedContent);
+                getWindow().getDecorView().requestFocus();
+            } else {
+                if (isFinishing()) return;
+                expressDialog.show();
+            }
+
             // TODO: 2017/12/8 添加提示 物流单号
         }
     }

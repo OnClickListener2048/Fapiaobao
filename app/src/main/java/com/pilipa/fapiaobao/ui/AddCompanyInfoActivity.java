@@ -19,7 +19,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,7 +39,6 @@ import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.TestBean;
 import com.pilipa.fapiaobao.net.bean.base.BaseResponseBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
@@ -49,10 +47,10 @@ import com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean;
 import com.pilipa.fapiaobao.net.callback.JsonConvertor;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.ButtonUtils;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -97,9 +95,7 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
     CardView cardView;
     @Bind(R.id.ll_company_name)
     LinearLayout llCompanyName;
-    private Dialog scanDialog;
     private PopupWindow popWnd;
-    private ArrayList<TestBean> a;
     private SearchCompaniesAdapter adapter;
 
     private TextWatcher textWatcher = new TextWatcher() {
@@ -120,6 +116,7 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
 
         }
     };
+    private Dialog scanDialog;
 
     @Override
     protected int getLayoutId() {
@@ -187,16 +184,16 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
                                     try {
                                         updateCompanyinfo(companyBean);
                                     } catch (Exception e) {
-                                        setScanDialog();
+                                        showDialog();
                                     }
                                 }
                             });
                         } catch (Exception e) {
                             e.printStackTrace();
-                            setScanDialog();
+                            showDialog();
                         }
                     } else {
-                        setScanDialog();
+                        showDialog();
                     }
 
                 }
@@ -232,6 +229,22 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
         resets();
 
         initPopup();
+
+        initDialog();
+    }
+
+    private void initDialog() {
+        scanDialog = DialogUtil.getInstance().createScanDialog(this, new DialogUtil.OnKnownListener() {
+            @Override
+            public void onKnown(View view) {
+                scanDialog.dismiss();
+            }
+        });
+    }
+
+    private void showDialog() {
+        if (isFinishing()) return;
+        scanDialog.show();
     }
 
     private void startSearching(String companyName, String tag) {
@@ -368,34 +381,35 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
         super.onCreate(savedInstanceState);
     }
 
-    public void setScanDialog() {
-        scanDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_scan_tip, null);
-        TextView tv = (TextView) root.findViewById(R.id.scan_tip);
-        tv.setText("添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描");
-        //初始化视图
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                scanDialog.dismiss();
-            }
-        });
-        scanDialog.setContentView(root);
-        Window dialogWindow = scanDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
+//    public void setScanDialog() {
+//        scanDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.layout_scan_tip, null);
+//        TextView tv = (TextView) root.findViewById(R.id.scan_tip);
+//        tv.setText("添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描");
+//        //初始化视图
+//        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                scanDialog.dismiss();
+//            }
+//        });
+//        scanDialog.setContentView(root);
+//        Window dialogWindow = scanDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        scanDialog.show();
+//    }
 
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        scanDialog.show();
-    }
 
     private void createCompany(final Company company) {
 

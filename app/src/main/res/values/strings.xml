@@ -538,6 +538,7 @@
     <string name="last_change">上次积分变化</string>
     <string name="point_two">%.2f</string>
     <string name="open_camera_error">打开相机失败</string>
+    <string name="rule_express">物流单号错误，请填写或扫描正确的物流单号哦</string>
 
     <string-array name="express_array">
         <item>顺丰</item>

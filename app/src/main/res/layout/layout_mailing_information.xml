@@ -19,11 +19,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <View
@@ -188,12 +186,13 @@
 
                 </LinearLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d0.5"
                 android:layout_marginBottom="@dimen/d5"
                 android:layout_marginTop="@dimen/d5"
-                android:background="@color/gray_line"></View>
+                android:background="@color/gray_line" />
             <FrameLayout
 
                 android:layout_width="match_parent"
@@ -236,7 +235,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d5"
                                 android:animationCache="true"
-                                android:drawSelectorOnTop="true"></Spinner>
+                                android:drawSelectorOnTop="true" />
 
                         </LinearLayout>
                         <LinearLayout
@@ -260,7 +259,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/d5"
                                 android:background="@drawable/bg_express">
-                                <EditText
+
+                                <com.rengwuxian.materialedittext.MaterialEditText
                                     android:id="@+id/edt_oddNumber"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -271,7 +271,11 @@
                                     android:inputType="text"
                                     android:lines="1"
                                     android:maxLength="14"
-                                    android:paddingLeft="@dimen/d15" />
+                                    android:paddingLeft="@dimen/d15"
+                                    android:textSize="@dimen/s12"
+                                    app:met_baseColor="#434343"
+                                    app:met_clearButton="true"
+                                    app:met_hideUnderline="true" />
                                 <ImageView
                                     android:id="@+id/btn_scan"
                                     android:layout_width="wrap_content"

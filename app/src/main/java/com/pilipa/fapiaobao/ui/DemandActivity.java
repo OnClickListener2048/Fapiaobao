@@ -34,6 +34,7 @@ import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.HorizontalListView;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -179,7 +180,6 @@ public class DemandActivity extends BaseNoNetworkActivity {
     private String demandId;
     private MyInvoiceNameAdapter invoiceNameAdapter;
     private Dialog mCameraDialog;
-    private Dialog mDialog;
     private boolean isCanShutDown = false;//能否提前关闭
     private UMShareAPI umShareAPI;
 
@@ -209,6 +209,8 @@ public class DemandActivity extends BaseNoNetworkActivity {
         public void onCancel(SHARE_MEDIA share_media) {
         }
     };
+    private Dialog canShutDownEarlyDialog;
+    private Dialog canNotShutDownEarlyDialog;
 
     @Override
     protected int getLayoutId() {
@@ -255,7 +257,11 @@ public class DemandActivity extends BaseNoNetworkActivity {
             }
             break;
             case btn_shut_down_early: {
-                setShutDialog(isCanShutDown);
+                if (isCanShutDown) {
+                    showDialog(canShutDownEarlyDialog);
+                } else {
+                    showDialog(canNotShutDownEarlyDialog);
+                }
             }
             break;
             case R.id.fl_change: {
@@ -289,6 +295,32 @@ public class DemandActivity extends BaseNoNetworkActivity {
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         api.registerApp(Constants.APP_ID);
         initSmartRefreshLayout();
+
+        initDialog();
+    }
+
+    private void initDialog() {
+        canShutDownEarlyDialog = DialogUtil.getInstance().canShutDownEarlyDialog(this, new DialogUtil.OnCancelListener() {
+            @Override
+            public void onCancel(View view) {
+                canShutDownEarlyDialog.dismiss();
+            }
+        }, new DialogUtil.OnConfirmListener() {
+            @Override
+            public void onConfirm(View view) {
+                canShutDownEarlyDialog.dismiss();
+                if (demandId != null) {
+                    shatDownEarly(demandId);
+                }
+            }
+        });
+
+        canNotShutDownEarlyDialog = DialogUtil.getInstance().canNotShutDownEarlyDialog(this, new DialogUtil.OnKnownListener() {
+            @Override
+            public void onKnown(View view) {
+                canNotShutDownEarlyDialog.dismiss();
+            }
+        });
     }
 
     private void initSmartRefreshLayout() {
@@ -298,6 +330,8 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 demandDetails(demandId, true);
             }
         });
+
+        smartRefreshLayout.setDisableContentWhenRefresh(true);
     }
 
     private void setUpData(List<DemandDetails.DataBean.OrderInvoiceListBean> results, boolean isSetList) {
@@ -729,54 +763,54 @@ public class DemandActivity extends BaseNoNetworkActivity {
     }
 
 
-    private void setShutDialog(boolean isCanShutDown) {
-        mDialog = new Dialog(DemandActivity.this, R.style.BottomDialog);
-        LinearLayout root;
-        if (isCanShutDown) {
-            root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
-                    R.layout.layout_shutdown1_tip, null);
-            root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialog.dismiss();
-                }
-            });
-            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialog.dismiss();
-                    if (demandId != null) {
-                        shatDownEarly(demandId);
-                    }
-                }
-            });
-        } else {
-            root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
-                    R.layout.layout_shutdown2_tip, null);
-            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialog.dismiss();
-                }
-            });
-        }
-        mDialog.setContentView(root);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        if (!isFinishing()) {
-            mDialog.show();
-        }
-    }
+//    private void setShutDialog(boolean isCanShutDown) {
+//        mDialog = new Dialog(DemandActivity.this, R.style.BottomDialog);
+//        LinearLayout root;
+//        if (isCanShutDown) {
+//            root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
+//                    R.layout.layout_shutdown1_tip, null);
+//            root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mDialog.dismiss();
+//                }
+//            });
+//            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mDialog.dismiss();
+//                    if (demandId != null) {
+//                        shatDownEarly(demandId);
+//                    }
+//                }
+//            });
+//        } else {
+//            root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
+//                    R.layout.layout_shutdown2_tip, null);
+//            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mDialog.dismiss();
+//                }
+//            });
+//        }
+//        mDialog.setContentView(root);
+//        Window dialogWindow = mDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        if (!isFinishing()) {
+//            mDialog.show();
+//        }
+//    }
 
     @Override
     public void initDataInResume() {

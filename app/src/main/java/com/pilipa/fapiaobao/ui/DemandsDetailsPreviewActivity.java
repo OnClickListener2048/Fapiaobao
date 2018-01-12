@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
@@ -419,7 +418,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                         setLayout(currentImage);
                     }
                     checkPagePos(pos -1);
-
                 }
                 break;
             case R.id.save_to_media:
@@ -448,7 +446,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         } else {
             layout_reject_item.setVisibility(View.VISIBLE);
             layout_willchecked_item.setVisibility(View.GONE);
-
             findAllRejectType();
         }
     }
@@ -484,7 +481,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         Log.d("saveToFile  next >>>>>>", "saveToFile");
 
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            Toast.makeText(this, R.string.gallery_save_file_not_have_external_storage, Toast.LENGTH_SHORT).show();
+            BaseApplication.showToast(R.string.gallery_save_file_not_have_external_storage);
             return;
         }
 
@@ -531,9 +528,9 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                         return;
                     Uri uri = Uri.fromFile(savePath);
                     sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
-                    Toast.makeText(DemandsDetailsPreviewActivity.this, R.string.gallery_save_file_success, Toast.LENGTH_SHORT).show();
+                    BaseApplication.showToast(R.string.gallery_save_file_success);
                 } else {
-                    Toast.makeText(DemandsDetailsPreviewActivity.this, R.string.gallery_save_file_failed, Toast.LENGTH_SHORT).show();
+                    BaseApplication.showToast(R.string.gallery_save_file_failed);
                 }
             }
         });
@@ -653,11 +650,9 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                                                 intent.putExtra(DemandsDetailsReceiptFragment.EXTRA_BUNDLE, bundle);
                                                 setResult(DemandsDetailsReceiptFragment.RESULT_CODE_BACK, intent);
                                                 setRejectDialog(REJECT_FINISH);
-
                                             }
                                         }
                                     });
-
             }
     }
 

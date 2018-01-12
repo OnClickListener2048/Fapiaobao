@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.base;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -370,6 +371,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             e.printStackTrace();
         }
         return BitmapUtils.bitmapToBase64(newbitmap);
+    }
+
+    protected void showDialog(Dialog dialog) {
+        if (isFinishing()) return;
+        dialog.show();
     }
 
 
