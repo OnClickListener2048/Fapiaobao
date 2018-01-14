@@ -12,11 +12,7 @@ import android.support.v7.widget.CardView;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -224,7 +220,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
             }
             break;
             case R.id.question: {
-                setTipDialog();
+                showDialog();
             }
             break;
             case R.id.btn_scan: {
@@ -332,19 +328,6 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     public void initView() {
         edtOddNumber.setFilters(new InputFilter[]{specialCharFilter});
         initSmartRefreshLayout();
-//        expressDialog = DialogUtil.getInstance().createExpressDialog(this, new DialogUtil.OnKnownListener() {
-//            @Override
-//            public void onKnown(View view) {
-//                expressDialog.dismiss();
-//            }
-//        });
-
-        expressDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.dialog_expressing, new DialogUtil.OnKnownListener() {
-            @Override
-            public void onKnown(View view) {
-                expressDialog.dismiss();
-            }
-        }, null, null);
     }
 
     private void initSmartRefreshLayout() {
@@ -357,31 +340,55 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
         smartRefreshLayout.setDisableContentWhenRefresh(true);
     }
 
-    private void setTipDialog() {
-        mTipDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_low_tip, null);
-        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTipDialog.dismiss();
-            }
-        });
-        mTipDialog.setContentView(root);
-        Window dialogWindow = mTipDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mTipDialog.show();
+    private void showExpressDialog() {
+        if (expressDialog == null) {
+            expressDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.dialog_expressing, new DialogUtil.OnKnownListener() {
+                @Override
+                public void onKnown(View view) {
+                    expressDialog.dismiss();
+                }
+            }, null, null);
+        }
+        showDialog(expressDialog);
     }
+
+    private void showDialog() {
+        if (mTipDialog == null) {
+            mTipDialog = DialogUtil.getInstance().createDialog(this, 0, R.layout.layout_low_tip, new DialogUtil.OnKnownListener() {
+                @Override
+                public void onKnown(View view) {
+                    mTipDialog.dismiss();
+                }
+            }, null, null);
+        }
+        showDialog(mTipDialog);
+    }
+
+//    private void setTipDialog() {
+//        mTipDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.layout_low_tip, null);
+//        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mTipDialog.dismiss();
+//            }
+//        });
+//        mTipDialog.setContentView(root);
+//        Window dialogWindow = mTipDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mTipDialog.show();
+//    }
 
     private void setUpData(List<OrderDetailsBean.DataBean.InvoiceListBean> results) {
         Log.d(TAG, "setUpData:   private void setUpData(ArrayList<model.ResultsBean> body) {");
@@ -481,7 +488,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
         Api.findAllRejectType(new Api.BaseViewCallback<RejectTypeBean>() {
             @Override
             public void setData(RejectTypeBean rejectTypeBean) {
-                if (rejectTypeBean.getStatus() == 200) {
+                if (rejectTypeBean.getStatus() == Constant.REQUEST_SUCCESS) {
                     list.addAll(rejectTypeBean.getData());
                 }
             }
@@ -497,7 +504,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
         findAllLogisticsCompany();
         findAllRejectType();
         checkFav(CompanyId);
-        showOrderDetail(orderId, true);
+        smartRefreshLayout.autoRefresh(10);
     }
 
     private void findAllLogisticsCompany() {
@@ -539,8 +546,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
                 edtOddNumber.setText(codedContent);
                 getWindow().getDecorView().requestFocus();
             } else {
-                if (isFinishing()) return;
-                expressDialog.show();
+                showExpressDialog();
             }
 
             // TODO: 2017/12/8 添加提示 物流单号
@@ -615,7 +621,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
 
             @Override
             public void onStart() {
-                smartRefreshLayout.autoRefresh(10);
+
             }
 
             @Override

@@ -13,15 +13,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -50,6 +46,7 @@ import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
@@ -77,6 +74,11 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  */
 
 public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAdapter.OnLabelClickListener, FinanceAdapter.OnLabelClickListener {
+    public static final String EXTRA_DATA_LABEL = "extra_data_label";
+    public static final String EXTRA_DATA_LABEL_NAME = "extra_data_label_name";
+    public static final String DECODED_CONTENT_KEY = "codedContent";
+    public static final String DECODED_BITMAP_KEY = "codedBitmap";
+    public static final int REQUEST_CODE_SCAN = 0x0234;
    public static String TAG = "FinanceFragment";
 //    @Bind(R.id.scan)
 //    ImageView scan;
@@ -92,8 +94,6 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     NestedScrollView srollview;
     @Bind(R.id.new_notification)
     ImageView newNotification;
-    public static final String EXTRA_DATA_LABEL = "extra_data_label";
-    public static final String EXTRA_DATA_LABEL_NAME = "extra_data_label_name";
     @Bind(R.id.rl_pull_to_find_more)
     RelativeLayout rlPullToFindMore;
     @Bind(R.id.title)
@@ -102,11 +102,8 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     TextView selectYourReceiptKind;
     @Bind(R.id.fl_notification)
     FrameLayout flNotification;
-    private LoginWithInfoBean loginBean;
     FinanceAdapter financeAdapter;
-    public static final String DECODED_CONTENT_KEY = "codedContent";
-    public static final String DECODED_BITMAP_KEY = "codedBitmap";
-    public static final int REQUEST_CODE_SCAN = 0x0234;
+    private LoginWithInfoBean loginBean;
     private AllInvoiceAdapter adapter;
     private MainActivity activity;
     private Dialog scanDialog;
@@ -124,6 +121,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
         }
     };
     private boolean isCacheSuccess = false;
+    private Dialog mDialog;
 
 
     @Override
@@ -150,10 +148,11 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                     if (RegexUtils.isURL(content) || content.contains("http")) {
                         checkFavCompanies(content);
                     }else{
-                        setScanDialog();
+                        showDialog();
                     }
                 }
                 break;
+            default:
         }
     }
 
@@ -554,33 +553,45 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
         }
     }
 
-
-    public void setScanDialog() {
-        scanDialog = new Dialog(getActivity(), R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
-                R.layout.layout_scan_tip, null);
-        //初始化视图
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                scanDialog.dismiss();
-            }
-        });
-        scanDialog.setContentView(root);
-        Window dialogWindow = scanDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        scanDialog.show();
+    private void showDialog() {
+        if (mDialog == null) {
+            mDialog = DialogUtil.getInstance().createDialog(mContext, 0, R.layout.layout_scan_tip, new DialogUtil.OnKnownListener() {
+                @Override
+                public void onKnown(View view) {
+                    mDialog.dismiss();
+                }
+            }, null, null);
+        }
+        showDialog(mDialog);
     }
+
+
+//    public void setScanDialog() {
+//        scanDialog = new Dialog(getActivity(), R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
+//                R.layout.layout_scan_tip, null);
+//        //初始化视图
+//        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                scanDialog.dismiss();
+//            }
+//        });
+//        scanDialog.setContentView(root);
+//        Window dialogWindow = scanDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        scanDialog.show();
+//    }
 
     @Override
     public void initDataInResume() {

@@ -43,13 +43,13 @@
             android:gravity="end">
 
             <TextView
-                android:id="@+id/btn_cancel1"
+                android:id="@+id/i_know"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@null"
                 android:padding="@dimen/d22"
-                android:text="@string/iknow"
+                android:text="@string/know"
                 android:textColor="@color/main_style"
                 android:textSize="12sp" />
         </LinearLayout>

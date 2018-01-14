@@ -178,11 +178,11 @@ public class BaseApplication extends Application {
     }
 
     public static void showToast(int message) {
-        showToast(message, Toast.LENGTH_LONG, 0);
+        showToast(message, Toast.LENGTH_SHORT, 0);
     }
 
     public static void showToast(String message) {
-        showToast(message, Toast.LENGTH_LONG, 0, Gravity.CENTER);
+        showToast(message, Toast.LENGTH_SHORT, 0, Gravity.CENTER);
     }
 
     public static void showToast(int message, int icon) {

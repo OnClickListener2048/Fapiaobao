@@ -15,13 +15,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
@@ -120,6 +116,7 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
     private ArrayList<Image> arrayList;
     private Image image;
     private int pos = -1;
+    private Dialog mBottomDialog;
 
     public static UnusedReceiptFragment newInstance(Bundle bundle) {
         UnusedReceiptFragment unusedReceiptFragment = new UnusedReceiptFragment();
@@ -326,33 +323,51 @@ public class UnusedReceiptFragment extends BaseNoNetworkFragment implements Unus
 
     @Override
     public void capture() {
-         setDialog();
+        showDialog();
     }
 
-    private void setDialog() {
-        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
-                R.layout.dialog_bottom, null);
-        //初始化视图
-        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
-        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
-        root.findViewById(R.id.btn_open_camera).setVisibility(View.GONE);
-        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
-        mCameraDialog.setContentView(root);
-        Window dialogWindow = mCameraDialog.getWindow();
-        dialogWindow.setGravity(Gravity.BOTTOM);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mCameraDialog.show();
+    private void showDialog() {
+        if (mBottomDialog == null) {
+            mBottomDialog = DialogUtil.getInstance().createBottomDialog(mContext, new DialogUtil.OnDialogDismissListener() {
+                @Override
+                public void onDialogDismiss(View view) {
+                    mBottomDialog.dismiss();
+                }
+            }, new DialogUtil.OnMediaOpenListener() {
+                @Override
+                public void onMediaOpen(View view) {
+                    openMedia();
+                    mBottomDialog.dismiss();
+                }
+            }, null, null, null);
+        }
+        showDialog(mBottomDialog);
     }
+
+//    private void setDialog() {
+//        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
+//                R.layout.dialog_bottom, null);
+//        //初始化视图
+//        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
+//        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
+//        root.findViewById(R.id.btn_open_camera).setVisibility(View.GONE);
+//        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
+//        mCameraDialog.setContentView(root);
+//        Window dialogWindow = mCameraDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.BOTTOM);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mCameraDialog.show();
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

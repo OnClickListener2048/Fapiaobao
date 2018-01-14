@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -27,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -85,6 +83,7 @@ import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.widget.CashierInputFilter;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
@@ -239,7 +238,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     private ArrayList<DefaultInvoiceBean.DataBean> bean;
     private DemandsPublishBean.DemandPostageBean demandPostageBean;
     private CompanyListAdapter companyListAdapter;
-    private Dialog mTipDialog;
     private Dialog scanDialog;
     private View view;
     private String tempCompanyId;
@@ -277,6 +275,9 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
         }
     };
+    private Dialog mDialogTip1;
+    private Dialog mDialogTip2;
+    private Dialog mScanDialog;
 
     @Override
     protected int getLayoutId() {
@@ -382,7 +383,9 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         tvArea.setText(BaseApplication.get("tvArea", null));
         etReceptionNumber.setText(BaseApplication.get("etReceptionNumber", null));
         etReceptionName.setText(BaseApplication.get("etReceptionName", null));
+
     }
+
 
     private void initDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -747,10 +750,10 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 addCompanyInfo();
                 break;
             case R.id.tv_receive_deadline:
-                setTipDialog(R.layout.layout_extimate_tip1);
+                showTip1Dialog();
                 break;
             case R.id.tv_express_limited:
-                setTipDialog(R.layout.layout_extimate_tip2);
+                showTip2Dialog();
                 break;
             default:
         }
@@ -937,17 +940,17 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                                         companyBean.setTaxno(data.getTaxno());
                                         updateCompanyInfo(companyBean);
                                     } catch (Exception e) {
-                                        setScanDialog();
+                                        showScanDialog();
                                     }
                                 }
                             });
                         } catch (Exception e) {
                             e.printStackTrace();
-                            setScanDialog();
+                            showScanDialog();
                         }
 
                     } else {
-                        setScanDialog();
+                        showScanDialog();
                     }
                 }
                 break;
@@ -1280,31 +1283,69 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         return totalPixels;
     }
 
-    private void setTipDialog(int res) {
-        mTipDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                res, null);
-        root.findViewById(R.id.i_know).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTipDialog.dismiss();
-            }
-        });
-        mTipDialog.setContentView(root);
-        Window dialogWindow = mTipDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
 
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mTipDialog.show();
+    private void showTip1Dialog() {
+        if (mDialogTip1 == null) {
+            mDialogTip1 = DialogUtil.getInstance().createDialog(this, 0, R.layout.layout_extimate_tip1, new DialogUtil.OnKnownListener() {
+                @Override
+                public void onKnown(View view) {
+                    mDialogTip1.dismiss();
+                }
+            }, null, null);
+        }
+        showDialog(mDialogTip1);
     }
+
+    private void showTip2Dialog() {
+        if (mDialogTip2 == null) {
+            mDialogTip2 = DialogUtil.getInstance().createDialog(this, 0, R.layout.layout_extimate_tip2, new DialogUtil.OnKnownListener() {
+                @Override
+                public void onKnown(View view) {
+                    mDialogTip2.dismiss();
+                }
+            }, null, null);
+        }
+        showDialog(mDialogTip2);
+    }
+
+    private void showScanDialog() {
+        if (mScanDialog == null) {
+            mScanDialog = DialogUtil.getInstance().createDialog(this, 0, R.layout.dialog_scan_tip, new DialogUtil.OnKnownListener() {
+                @Override
+                public void onKnown(View view) {
+
+                }
+            }, null, null);
+        }
+        showDialog(mScanDialog);
+    }
+
+
+//    private void setTipDialog(int res) {
+//        mTipDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                res, null);
+//        root.findViewById(R.id.i_know).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mTipDialog.dismiss();
+//            }
+//        });
+//        mTipDialog.setContentView(root);
+//        Window dialogWindow = mTipDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mTipDialog.show();
+//    }
 
     private void requestForCompanies() {
 
@@ -1359,74 +1400,74 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 }
             }
         });
-
     }
 
-    private void setDialog(final List<CompaniesBean.DataBean> data) {
-        mCameraDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.company_dialog_bottom, null);
-        //初始化视图
-        LinearLayout llContainer = (LinearLayout) root.findViewById(R.id.ll_container);
-        for (int i = 0; i < data.size(); i++) {
-            final TextView textView = new TextView(this);
-            if (data.size() > 0) {
-                dataBean = data.get(i);
-                textView.setText(dataBean.getName());
-                textView.setLayoutParams(new ActionBarOverlayLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                textView.setGravity(Gravity.CENTER_HORIZONTAL);
-                textView.setTextSize(TDevice.spToPx(getResources(), 12));
-                textView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SharedPreferencesHelper.save(DemandsPublishLocationActivity.this, dataBean);
-                        etPublishCompanyName.setText(dataBean.getName());
-                        etPublishAddress.setText(dataBean.getAddress());
-                        etPublishTexNumber.setText(dataBean.getTaxno());
-                        etPublishPhoneNumber.setText(dataBean.getPhone());
-                        etPublishBank.setText(dataBean.getDepositBank());
-                        etPublishBankAccount.setText(dataBean.getAccount());
-                        mCameraDialog.dismiss();
-                    }
-                });
-                llContainer.addView(textView);
-            }
 
-        }
-        root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCameraDialog.dismiss();
-            }
-        });
-        root.findViewById(R.id.btn_clear).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etPublishCompanyName.setText("");
-                etPublishAddress.setText("");
-                etPublishTexNumber.setText("");
-                etPublishPhoneNumber.setText("");
-                etPublishBank.setText("");
-                etPublishBankAccount.setText("");
-                SharedPreferencesHelper.remove(DemandsPublishLocationActivity.this, CompaniesBean.DataBean.class);
-                mCameraDialog.dismiss();
-            }
-        });
-        mCameraDialog.setContentView(root);
-        Window dialogWindow = mCameraDialog.getWindow();
-        dialogWindow.setGravity(Gravity.BOTTOM);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-//        mCameraDialog.show();
-    }
+//    private void setDialog(final List<CompaniesBean.DataBean> data) {
+//        mCameraDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.company_dialog_bottom, null);
+//        //初始化视图
+//        LinearLayout llContainer = (LinearLayout) root.findViewById(R.id.ll_container);
+//        for (int i = 0; i < data.size(); i++) {
+//            final TextView textView = new TextView(this);
+//            if (data.size() > 0) {
+//                dataBean = data.get(i);
+//                textView.setText(dataBean.getName());
+//                textView.setLayoutParams(new ActionBarOverlayLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//                textView.setGravity(Gravity.CENTER_HORIZONTAL);
+//                textView.setTextSize(TDevice.spToPx(getResources(), 12));
+//                textView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        SharedPreferencesHelper.save(DemandsPublishLocationActivity.this, dataBean);
+//                        etPublishCompanyName.setText(dataBean.getName());
+//                        etPublishAddress.setText(dataBean.getAddress());
+//                        etPublishTexNumber.setText(dataBean.getTaxno());
+//                        etPublishPhoneNumber.setText(dataBean.getPhone());
+//                        etPublishBank.setText(dataBean.getDepositBank());
+//                        etPublishBankAccount.setText(dataBean.getAccount());
+//                        mCameraDialog.dismiss();
+//                    }
+//                });
+//                llContainer.addView(textView);
+//            }
+//
+//        }
+//        root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mCameraDialog.dismiss();
+//            }
+//        });
+//        root.findViewById(R.id.btn_clear).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                etPublishCompanyName.setText("");
+//                etPublishAddress.setText("");
+//                etPublishTexNumber.setText("");
+//                etPublishPhoneNumber.setText("");
+//                etPublishBank.setText("");
+//                etPublishBankAccount.setText("");
+//                SharedPreferencesHelper.remove(DemandsPublishLocationActivity.this, CompaniesBean.DataBean.class);
+//                mCameraDialog.dismiss();
+//            }
+//        });
+//        mCameraDialog.setContentView(root);
+//        Window dialogWindow = mCameraDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.BOTTOM);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+////        mCameraDialog.show();
+//    }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -1438,7 +1479,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             llToggleSwitch.setVisibility(isChecked ? View.GONE : View.VISIBLE);
         }
     }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         LinearLayout linearLayout = (LinearLayout) view;
@@ -1647,34 +1687,34 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         guide.show(DemandsPublishLocationActivity.this);
     }
 
-    public void setScanDialog() {
-        scanDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_scan_tip, null);
-        TextView tv = (TextView) root.findViewById(R.id.scan_tip);
-        tv.setText("添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描");
-        //初始化视图
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                scanDialog.dismiss();
-            }
-        });
-        scanDialog.setContentView(root);
-        Window dialogWindow = scanDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        scanDialog.show();
-    }
+//    public void setScanDialog() {
+//        scanDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.layout_scan_tip, null);
+//        TextView tv = (TextView) root.findViewById(R.id.scan_tip);
+//        tv.setText("添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描");
+//        //初始化视图
+//        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                scanDialog.dismiss();
+//            }
+//        });
+//        scanDialog.setContentView(root);
+//        Window dialogWindow = scanDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        scanDialog.show();
+//    }
 
     @Override
     public void onBackPressed() {

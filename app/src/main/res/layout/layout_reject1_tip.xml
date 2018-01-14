@@ -2,12 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="314dp"
-        android:layout_height="141dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/shape_tip_bg"
         android:orientation="vertical">
@@ -24,7 +23,6 @@
             android:id="@+id/tv_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text"
             android:layout_marginLeft="19dp"
             android:layout_marginRight="19dp"
             android:layout_marginTop="@dimen/d13"
@@ -35,9 +33,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/tv_tip"
-            android:gravity="end|bottom">
+            android:layout_marginTop="@dimen/d50"
+            android:gravity="end">
             <Button
                 android:id="@+id/i_know"
                 android:layout_width="wrap_content"
@@ -46,5 +43,5 @@
                 android:text="@string/know"
                 android:textColor="@drawable/selector_union_main_style_text" />
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

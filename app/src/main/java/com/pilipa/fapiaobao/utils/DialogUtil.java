@@ -168,6 +168,7 @@ public class DialogUtil {
 
 
     private void setContentView(Dialog dialog, View rootView) {
+        dialog.setCanceledOnTouchOutside(false);
         dialog.setContentView(rootView);
         Window dialogWindow = dialog.getWindow();
         dialogWindow.setGravity(Gravity.CENTER);

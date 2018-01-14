@@ -16,14 +16,9 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -558,86 +553,86 @@ public class UserInfoActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    private void setDialog() {
-        mCameraDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.dialog_bottom, null);
-        //初始化视图
-        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
-        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
-        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
-        mCameraDialog.setContentView(root);
-        Window dialogWindow = mCameraDialog.getWindow();
-        dialogWindow.setGravity(Gravity.BOTTOM);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
+//    private void setDialog() {
+//        mCameraDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.dialog_bottom, null);
+//        //初始化视图
+//        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
+//        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
+//        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
+//        mCameraDialog.setContentView(root);
+//        Window dialogWindow = mCameraDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.BOTTOM);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mCameraDialog.show();
+//    }
 
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mCameraDialog.show();
-    }
+//    private void setUBindDialog() {
+//        mDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.layout_ubind_tip, null);
+//        //初始化视图
+//        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                uBindWX();
+//                mDialog.dismiss();
+//            }
+//        });
+//        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDialog.dismiss();
+//            }
+//        });
+//        mDialog.setContentView(root);
+//        Window dialogWindow = mDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mDialog.show();
+//    }
 
-    private void setUBindDialog() {
-        mDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_ubind_tip, null);
-        //初始化视图
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uBindWX();
-                mDialog.dismiss();
-            }
-        });
-        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog.dismiss();
-            }
-        });
-        mDialog.setContentView(root);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDialog.show();
-    }
-
-    private void setLogoutDialog() {
-        mDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_logout_tip, null);
-        //初始化视图
-        root.findViewById(R.id.btn_confirm).setOnClickListener(this);
-        root.findViewById(R.id.btn_cancel1).setOnClickListener(this);
-        mDialog.setContentView(root);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDialog.show();
-    }
+//    private void setLogoutDialog() {
+//        mDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.layout_logout_tip, null);
+//        //初始化视图
+//        root.findViewById(R.id.btn_confirm).setOnClickListener(this);
+//        root.findViewById(R.id.btn_cancel1).setOnClickListener(this);
+//        mDialog.setContentView(root);
+//        Window dialogWindow = mDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mDialog.show();
+//    }
 
     private void updateUserInfo(final LoginWithInfoBean.DataBean.CustomerBean customer) {
 

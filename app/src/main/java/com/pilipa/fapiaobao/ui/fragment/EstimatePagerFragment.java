@@ -4,16 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
@@ -22,6 +17,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +40,7 @@ public class EstimatePagerFragment extends BaseFragment {
     TextView date;
     private MacherBeanToken.DataBean dataBean;
     private Dialog mTipDialog;
+    private Dialog mDialog;
 
     public static EstimatePagerFragment newInstance(Bundle bundle) {
         EstimatePagerFragment estimatePagerFragment = new EstimatePagerFragment();
@@ -184,32 +181,19 @@ public class EstimatePagerFragment extends BaseFragment {
 
     @OnClick(R.id.date)
     public void onViewClicked() {
-        setTipDialog(R.layout.layout_extimate_tip1);
+        showDialog();
     }
 
-    private void setTipDialog(@NonNull int res) {
-        mTipDialog = new Dialog(mContext, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(mContext).inflate(
-                res, null);
-        root.findViewById(R.id.i_know).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTipDialog.dismiss();
-            }
-        });
-        mTipDialog.setContentView(root);
-        Window dialogWindow = mTipDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
+    private void showDialog() {
+        if (mDialog == null) {
+            mDialog = DialogUtil.getInstance().createDialog(mContext, 0, R.layout.layout_extimate_tip1, new DialogUtil.OnKnownListener() {
+                @Override
+                public void onKnown(View view) {
+                    mDialog.dismiss();
+                }
+            }, null, null);
+        }
 
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mTipDialog.show();
+        showDialog(mDialog);
     }
 }

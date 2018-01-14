@@ -3,9 +3,7 @@ package com.pilipa.fapiaobao.net.callback;
 import android.content.Intent;
 import android.net.ParseException;
 
-import com.example.mylibrary.utils.NetworkUtils;
 import com.example.mylibrary.utils.TLog;
-import com.example.mylibrary.utils.TimeUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
@@ -15,9 +13,7 @@ import com.lzy.okgo.exception.HttpException;
 import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.ui.constants.Constant;
-import com.pilipa.fapiaobao.utils.TDevice;
 
 import org.json.JSONException;
 
@@ -27,13 +23,6 @@ import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -111,33 +100,36 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
         }
         TLog.d(TAG, Arrays.toString(e.getStackTrace()));
         TLog.d(TAG,e.getMessage());
-        if (TDevice.hasInternet() && NetworkUtils.isConnected()) {
-            Observable.create(new ObservableOnSubscribe<Boolean>() {
-                @Override
-                public void subscribe(@NonNull ObservableEmitter<Boolean> e) throws Exception {
-                    e.onNext(NetworkUtils.isAvailableByPing());
-                    e.onComplete();
-                }
-            }).subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Consumer<Boolean>() {
-                        @Override
-                        public void accept(@NonNull Boolean aBoolean) throws Exception {
-                            if (aBoolean) {
 
-                                Api.RECORD_LOG("Date========" + TimeUtils.millis2String(System.currentTimeMillis()) + "\\n" +
-                                        "Throwable.toString========" + e.toString() + "\\n" +
-                                        "Throwable.getMessage========" + e.getMessage() + "\\n"
-                                );
-                            } else {
-                                BaseApplication.showToast("当前WIFI不可用，请检查您的网络设置");
-                            }
-                        }
-                    });
-
-        }
         BaseApplication.context().sendBroadcast(intent);
     }
+
+//    private void handleConnectionError() {
+//        if (TDevice.hasInternet() && NetworkUtils.isConnected()) {
+//            Observable.create(new ObservableOnSubscribe<Boolean>() {
+//                @Override
+//                public void subscribe(@NonNull ObservableEmitter<Boolean> e) throws Exception {
+//                    e.onNext(NetworkUtils.isAvailableByPing());
+//                    e.onComplete();
+//                }
+//            }).subscribeOn(Schedulers.newThread())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Consumer<Boolean>() {
+//                        @Override
+//                        public void accept(@NonNull Boolean aBoolean) throws Exception {
+//                            if (aBoolean) {
+//
+//                                Api.RECORD_LOG("Date========" + TimeUtils.millis2String(System.currentTimeMillis()) + "\\n" +
+//                                        "Throwable.toString========" + e.toString() + "\\n" +
+//                                        "Throwable.getMessage========" + e.getMessage() + "\\n"
+//                                );
+//                            } else {
+//                                BaseApplication.showToast("当前WIFI不可用，请检查您的网络设置");
+//                            }
+//                        }
+//                    });
+//        }
+//    }
 
     @Override
     public void onCacheSuccess(com.lzy.okgo.model.Response<T> response) {

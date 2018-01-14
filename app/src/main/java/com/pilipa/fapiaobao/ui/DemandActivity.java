@@ -394,6 +394,10 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 }
             }
 
+            TLog.d(TAG, "images1.size()" + images1.size());
+            TLog.d(TAG, "images2.size()" + images2.size());
+            TLog.d(TAG, "images3.size()" + images3.size());
+
             tv_num_1.setText(String.format(getResources().getString(R.string.paper_normal_receipt_num), images1.size()));
             tv_num_2.setText(String.format(getResources().getString(R.string.paper_special_receipt_num), images2.size()));
             tv_num_3.setText(String.format(getResources().getString(R.string.paper_elec_receipt_num), images3.size()));
@@ -448,7 +452,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
         demandId = getIntent().getStringExtra("demandId");
         Log.d(TAG, "initData:demandDetails demandId" + demandId);
         if (demandId != null) {
-            demandDetails(demandId, true);
+            smartRefreshLayout.autoRefresh(10);
         }
     }
 
@@ -482,7 +486,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
 
                 @Override
                 public void onStart() {
-                    smartRefreshLayout.autoRefresh(10);
+//                    smartRefreshLayout.autoRefresh(10);
                 }
 
                 @Override

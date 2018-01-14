@@ -336,7 +336,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                             login();
                             finish();
                             tvQualified.setEnabled(true);
-
                         }
 
                         @Override
@@ -387,11 +386,11 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                 }
                 break;
             case R.id.back:
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA, allList);
-                intent.putExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE, bundle);
-                setResult(UploadNormalReceiptFragment.RESULT_CODE_BACK, intent);
+//                Intent intent = new Intent();
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA, allList);
+//                intent.putExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE, bundle);
+//                setResult(UploadNormalReceiptFragment.RESULT_CODE_BACK, intent);
                 finish();
                 break;
             case R.id.click:
