@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.MyPublishAdapter;
+import com.pilipa.fapiaobao.adapter.me.MyPublishAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseNoNetworkFragment;
 import com.pilipa.fapiaobao.net.Api;

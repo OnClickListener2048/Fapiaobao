@@ -25,7 +25,7 @@ import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
+import com.pilipa.fapiaobao.adapter.me.PublishSpinnerAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;

@@ -32,7 +32,7 @@ import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.Constants.Config;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
+import com.pilipa.fapiaobao.adapter.supply.ExtimatePagerAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseLocationActivity;
 import com.pilipa.fapiaobao.net.Api;

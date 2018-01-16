@@ -25,7 +25,7 @@ import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.MyCompanyDetailsAdapter;
+import com.pilipa.fapiaobao.adapter.me.MyCompanyDetailsAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.entity.Company;
@@ -113,6 +113,14 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
     private UMWeb web;
     private UMShareAPI umShareAPI;
     private Company company;
+    private OnDelClickListener onDelClickListener;
+    private OnNextClickListener onNextClickListener;
+
+    public static MyCompanyDetailsPagerFragment newInstance(Bundle bundle) {
+        MyCompanyDetailsPagerFragment myCompanyDetailsPagerFragment = new MyCompanyDetailsPagerFragment();
+        myCompanyDetailsPagerFragment.setArguments(bundle);
+        return myCompanyDetailsPagerFragment;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -139,12 +147,6 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
-    }
-
-    public static MyCompanyDetailsPagerFragment newInstance(Bundle bundle) {
-        MyCompanyDetailsPagerFragment myCompanyDetailsPagerFragment = new MyCompanyDetailsPagerFragment();
-        myCompanyDetailsPagerFragment.setArguments(bundle);
-        return myCompanyDetailsPagerFragment;
     }
 
     @Override
@@ -465,8 +467,6 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
         });
     }
 
-    private OnDelClickListener onDelClickListener;
-
     public void setOnDelClickListener(OnDelClickListener onDelClickListener) {
         this.onDelClickListener = onDelClickListener;
     }
@@ -488,14 +488,12 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
         ActivityUtils.finishActivity(CompanyManagerActivity.class);
     }
 
-    public interface OnDelClickListener {
-        void onDelClick(String companyId);
-    }
-
-    private OnNextClickListener onNextClickListener;
-
     public void setOnNextClickListener(OnNextClickListener onNextClickListener) {
         this.onNextClickListener = onNextClickListener;
+    }
+
+    public interface OnDelClickListener {
+        void onDelClick(String companyId);
     }
 
     public interface OnNextClickListener {

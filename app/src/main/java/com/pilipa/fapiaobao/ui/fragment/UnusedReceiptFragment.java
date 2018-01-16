@@ -25,7 +25,7 @@ import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.UnusedReceiptAdapter;
+import com.pilipa.fapiaobao.adapter.me.UnusedReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseNoNetworkFragment;

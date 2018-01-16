@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.FavoriteCompaniesSelectorAdapter;
+import com.pilipa.fapiaobao.adapter.publish.FavoriteCompaniesSelectorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;

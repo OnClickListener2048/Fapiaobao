@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.UploadReceiptPreviewAdapter;
+import com.pilipa.fapiaobao.adapter.supply.UploadReceiptPreviewAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;

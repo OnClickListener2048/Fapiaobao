@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.DemandsDetailsReceiptAdapter;
+import com.pilipa.fapiaobao.adapter.supply.DemandsDetailsReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.ui.DemandsDetailsPreviewActivity;
 import com.pilipa.fapiaobao.ui.UploadReceiptPreviewActivity;

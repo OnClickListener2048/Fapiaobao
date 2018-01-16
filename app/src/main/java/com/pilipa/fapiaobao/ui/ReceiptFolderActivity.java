@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import com.example.mylibrary.utils.RegexUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
+import com.pilipa.fapiaobao.adapter.me.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
