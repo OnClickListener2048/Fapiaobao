@@ -157,8 +157,6 @@ public class UserInfoActivity extends BaseActivity {
                 boolean isbind = intent.getBooleanExtra("isbind", false);
                 String phone = intent.getStringExtra(com.pilipa.fapiaobao.ui.constants.Constant.PHONE);
                 if (isbind) {
-//                    updateUserInfo(AccountHelper.getUserCustormer());
-                    AccountHelper.getUserCustormer().setTelephone(phone);
                     AccountHelper.getUser().getData().getCustomer().setTelephone(phone);
                     edtPhone.setText(phone);
                     edtPhone.setVisibility(View.VISIBLE);

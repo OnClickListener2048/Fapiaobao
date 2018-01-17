@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/bg_popup_publish_preview"
+              android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d36"
+        android:gravity="center"
+        android:text="@string/please_ensure_the_key_info"
+        android:textColor="#ad9d7e"
+        android:textSize="12sp"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/d36"
+        android:layout_marginStart="@dimen/d36"
+        android:layout_marginTop="@dimen/d23"
+        android:layout_weight="1"
+        android:fadingEdge="vertical"
+        android:fadingEdgeLength="@dimen/d20"
+        android:overScrollMode="never"
+        android:requiresFadingEdge="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/layout_preview_company_info"/>
+
+            <include layout="@layout/layout_preview_invoice_info"/>
+
+            <include layout="@layout/popup_preview_express_info"/>
+
+            <include layout="@layout/popup_preview_cautions"/>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d38"
+        android:layout_marginBottom="@dimen/d26"
+        android:layout_marginEnd="@dimen/d36"
+        android:layout_marginStart="@dimen/d36"
+        android:layout_marginTop="@dimen/d16"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_ensure_to_publish"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/d30"
+            android:layout_weight="1"
+            android:background="@drawable/shape_publish_preview"
+            android:gravity="center"
+            android:text="@string/ensure_to_publish"
+            android:textColor="@color/main_style"/>
+
+        <TextView
+            android:id="@+id/tv_back_to_revise"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape_publish_preview"
+            android:gravity="center"
+            android:text="@string/back_to_revise"
+            android:textColor="@color/main_style"/>
+    </LinearLayout>
+
+</LinearLayout>

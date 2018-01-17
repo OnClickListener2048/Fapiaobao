@@ -114,6 +114,15 @@ public class LoginWithInfoBean {
             private String creditScore;
             private String email;
             private int creditLevel;
+            private double availiableBalance;
+
+            public double getAvailiableBalance() {
+                return availiableBalance;
+            }
+
+            public void setAvailiableBalance(double availiableBalance) {
+                this.availiableBalance = availiableBalance;
+            }
 
             public String getEmail() {
                 if ("".equals(email)) {
