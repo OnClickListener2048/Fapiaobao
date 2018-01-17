@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginTop="@dimen/d36"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/popup_preview_left_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invoice_type"/>
+
+        <TextView
+            android:id="@+id/tv_invoice_type"
+            style="@style/popup_preview_end_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="增值税专票"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d13"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/popup_preview_left_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tex_kind"/>
+
+        <TextView
+            android:id="@+id/tv_tex_kind"
+            style="@style/popup_preview_end_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="会议费 会议费 会议费 会议费"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d13"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/popup_preview_left_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/blocking_time"/>
+
+        <TextView
+            android:id="@+id/tv_deadline"
+            style="@style/popup_preview_end_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018-01-20"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d13"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/popup_preview_left_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/amount_demand"/>
+
+        <TextView
+            android:id="@+id/tv_amount"
+            style="@style/popup_preview_end_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2000元"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d13"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/popup_preview_left_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reward"/>
+
+        <TextView
+            android:id="@+id/tv_redbag_amount"
+            style="@style/popup_preview_end_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2000元"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d13"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/popup_preview_left_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/available_balance"/>
+
+        <TextView
+            android:id="@+id/tv_available_balance"
+            style="@style/popup_preview_end_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/d3"
+            android:text="2000元"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/d5"
+            android:text="@string/insufficient"
+            android:textColor="@color/main_style"
+            android:textSize="@dimen/s12"/>
+
+
+        <TextView
+            android:id="@+id/go_recharge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recharge_go"
+            android:textColor="#fd8e8e"
+            android:textSize="@dimen/s12"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d13"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/popup_preview_left_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invoiceArea"/>
+
+        <TextView
+            android:id="@+id/tv_area"
+            style="@style/popup_preview_end_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="天津市"/>
+    </LinearLayout>
+
+</LinearLayout>
