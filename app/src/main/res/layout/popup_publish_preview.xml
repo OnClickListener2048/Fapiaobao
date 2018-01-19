@@ -21,10 +21,15 @@
         android:layout_marginStart="@dimen/d36"
         android:layout_marginTop="@dimen/d23"
         android:layout_weight="1"
+        android:fadeScrollbars="false"
         android:fadingEdge="vertical"
         android:fadingEdgeLength="@dimen/d20"
         android:overScrollMode="never"
-        android:requiresFadingEdge="vertical">
+        android:requiresFadingEdge="vertical"
+        android:scrollIndicators="end"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"

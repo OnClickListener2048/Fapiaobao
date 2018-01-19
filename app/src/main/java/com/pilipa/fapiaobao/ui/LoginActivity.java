@@ -217,6 +217,9 @@ public class LoginActivity extends BaseActivity implements View.OnFocusChangeLis
                             if (Constant.LOGIN_TO_PUBLISH.equals(getIntent().getAction())) {
                                 startActivity(new Intent(LoginActivity.this,PubActivity.class));
                             }
+                    Intent intent = new Intent();
+                    intent.setAction(Constant.USER_LOGIN);
+                    sendBroadcast(intent);
                             finish();
 
                         }

@@ -318,7 +318,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         tvPublishPhoneNumberMustFill.setText(paperSpecial ? "必填" : "选填");
 //        llAreaLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
         llExpressLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
-
+        etAmountRedbag.setNextFocusForwardId(elec && !paperNormal && !paperSpecial ? R.id.et_publish_cautions : R.id.et_express_amount_minimum);
         int fourteenDaysMilliseconds = 14 * 24 * 60 * 60 * 1000;
         etDate.setText(TimeUtils.millis2String(System.currentTimeMillis() + fourteenDaysMilliseconds, TimeUtils.FORMAT));
         dialog = new TimePickerDialog(this);
@@ -1306,15 +1306,16 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 BaseApplication.showToast("最少邮寄限额不能为空");
                 return false;
             }
+
+            if (!etExpressAmountMinimum.getText().toString().isEmpty()
+                    && Double.valueOf(getTextViewValue(etExpressAmountMinimum))
+                    > Double.valueOf(getTextViewValue(etAmount))) {
+                BaseApplication.showToast("最少寄送限额必须小于等于需求总额");
+                sooothScrollToView(etExpressAmountMinimum);
+                return false;
+            }
         }
 
-        if (!etExpressAmountMinimum.getText().toString().isEmpty()
-                && Double.valueOf(getTextViewValue(etExpressAmountMinimum))
-                > Double.valueOf(getTextViewValue(etAmount))) {
-            BaseApplication.showToast("最少寄送限额必须小于等于需求总额");
-            sooothScrollToView(etExpressAmountMinimum);
-            return false;
-        }
 
         if (paperNormal || paperSpecial) {
             if (view.getVisibility() == View.VISIBLE) {
@@ -1715,6 +1716,10 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     @Override
     public void onBackPressed() {
+        if (mPreviewPopup.isShowing()) {
+            mPreviewPopup.dismiss();
+            return;
+        }
         if (!alertDialog.isShowing()) {
             TLog.log("alertDialog.show();");
             alertDialog.show();
@@ -1722,6 +1727,8 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             TLog.log("alertDialog.hide();");
             alertDialog.hide();
         }
+
+
     }
 
     private void startSearching(String companyName, String tag) {

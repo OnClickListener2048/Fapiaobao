@@ -149,11 +149,7 @@ public class MeFragment extends BaseFragment{
                 break;
 
             case R.id.my_wallet:
-                if (AccountHelper.isLogin()) {
                     startActivity(new Intent(getContext(), MyWalletActivity.class));
-                } else {
-                    login();
-                }
                 break;
 
 

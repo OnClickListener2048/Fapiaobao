@@ -56,8 +56,6 @@ public class Withdraw2WXActivity extends BaseActivity {
     TextView withdraw_max;
     @Bind(R.id.btn_withdraw)
     TextView btnWithdraw;
-    private Dialog mDialog;
-    private Dialog mTipDialog;
     private BigDecimal yue;
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
@@ -80,6 +78,7 @@ public class Withdraw2WXActivity extends BaseActivity {
                             withdaw(wx_info.getOpenid());
                         } else {
                             BaseApplication.showToast(getString(R.string.ummatched_wx_openid));
+                            hideProgressDialog();
                         }
                     }
                 }
@@ -284,31 +283,6 @@ public class Withdraw2WXActivity extends BaseActivity {
         showDialog(mWithdrawToWxDialog);
     }
 
-//    private void setTipDialog() {
-//        mTipDialog = new Dialog(this, R.style.BottomDialog);
-//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-//                R.layout.layout_withdraw2wx_tip, null);
-//        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mTipDialog.dismiss();
-//            }
-//        });
-//        mTipDialog.setContentView(root);
-//        Window dialogWindow = mTipDialog.getWindow();
-//        dialogWindow.setGravity(Gravity.CENTER);
-////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-//        lp.x = 0; // 新位置X坐标
-//        lp.y = 0; // 新位置Y坐标
-//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-//        root.measure(0, 0);
-//        lp.height = root.getMeasuredHeight();
-//
-//        lp.alpha = 9f; // 透明度
-//        dialogWindow.setAttributes(lp);
-//        mTipDialog.show();
-//    }
 
     private void showWithdrawTipDialog() {
         if (mWithdrawTipDialog == null) {
@@ -328,48 +302,6 @@ public class Withdraw2WXActivity extends BaseActivity {
         showDialog(mWithdrawTipDialog);
     }
 
-//    private void setDialog() {
-//        mDialog = new Dialog(this, R.style.BottomDialog);
-//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-//                R.layout.layout_withdraw_tip, null);
-//        TextView tv_bouns = (TextView) root.findViewById(R.id.tv_bouns);
-//        double amount = Double.parseDouble(tv_amount.getText().toString().trim().isEmpty() ? "0" : tv_amount.getText().toString().trim());
-//        if (amount > (double) 0) {
-//            tv_bouns.setText(String.valueOf(amount));
-//            //初始化视图
-//            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                   /*提现流程： weChatLogin  openid--Y--> withdraw
-//                   *                              --N-->  bind  ----> withdraw*/
-//                    weChatLogin();
-//                    mDialog.dismiss();
-//                }
-//            });
-//            root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mDialog.dismiss();
-//                }
-//            });
-//            mDialog.setContentView(root);
-//            Window dialogWindow = mDialog.getWindow();
-//            dialogWindow.setGravity(Gravity.CENTER);
-////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-//            WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-//            lp.x = 0; // 新位置X坐标
-//            lp.y = 0; // 新位置Y坐标
-//            lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-//            root.measure(0, 0);
-//            lp.height = root.getMeasuredHeight();
-//
-//            lp.alpha = 9f; // 透明度
-//            dialogWindow.setAttributes(lp);
-//            mDialog.show();
-//        } else {
-//            BaseApplication.showToast(getString(R.string.withdraw_balance_not_right));
-//        }
-//    }
 
     private void regexToWX() {
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);

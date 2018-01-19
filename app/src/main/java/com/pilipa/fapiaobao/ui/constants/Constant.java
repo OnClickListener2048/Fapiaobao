@@ -48,4 +48,5 @@ public class Constant {
     public static final String MORE_TYPES = "more_types";
     public static final String CODED_CONTENT = "codedContent";
     public static final String WX_LOGIN_CANCEL = "wx_login_cancel";
+    public static final String USER_LOGIN = "user_login";
 }

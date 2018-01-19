@@ -1,10 +1,12 @@
 package com.pilipa.fapiaobao.ui;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -40,7 +42,16 @@ public class MyWalletActivity extends BaseActivity {
     @Bind(R.id.tv_amount)
     TextView tv_amount;
     private AlertDialog alertDialog;
-
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (TextUtils.equals(LoginActivity.WX_LOGIN_ACTION, intent.getAction())) {
+                refreshAccount();
+            } else if (TextUtils.equals(Constant.USER_LOGIN, intent.getAction())) {
+                refreshAccount();
+            }
+        }
+    };
     @Override
     protected int getLayoutId() {
         return R.layout.activity_wallet;
@@ -91,15 +102,6 @@ public class MyWalletActivity extends BaseActivity {
         builder.setCancelable(false);
         builder.setMessage(getString(R.string.demand_publish_quit));
         builder.setTitle(getString(R.string.demand_publish_title));
-
-//        builder.setNegativeButton(R.string.have_known, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                refreshAccount();
-//            }
-//        });
-
-
         alertDialog = builder.create();
     }
 
@@ -169,8 +171,22 @@ public class MyWalletActivity extends BaseActivity {
     @Override
     public void initData() {
         refreshAccount();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(LoginActivity.WX_LOGIN_ACTION);
+        intentFilter.addAction(Constant.WX_LOGIN_CANCEL);
+        intentFilter.addAction(Constant.USER_LOGIN);
+        registerReceiver(mBroadcastReceiver, intentFilter);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            unregisterReceiver(mBroadcastReceiver);
+        } catch (Exception e) {
+            TLog.e(TAG, "unregisterReceiver");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

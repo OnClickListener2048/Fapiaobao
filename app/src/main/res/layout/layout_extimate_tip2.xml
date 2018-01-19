@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/d12"
-            android:layout_marginTop="@dimen/d12"
+            android:layout_marginTop="@dimen/d25"
             android:gravity="end">
 
             <TextView
