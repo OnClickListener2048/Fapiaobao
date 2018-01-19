@@ -435,7 +435,7 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
         }
 
         if (type == 0) {
-            BaseApplication.showToast("请选择发票类型");
+            BaseApplication.showToast("请选择发票种类");
             return;
         }
         filterConditionTop.setText(locate + "\u3000" + arrayListSelectedReceiptKind.get(type - 1));

@@ -5,10 +5,6 @@ package com.pilipa.fapiaobao.wxapi;
  */
 
 public class Constants {
-    public static final String APP_ID = "wxb704e8dd773cc94e";
-    public static final String APP_SECRET = "7df3fe092b8d88ebc28a94b84b5388c3";
-    public static final String PARTNER_ID = "1490725712";
-    public static final String PREPAY_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-    public static final String KEY = "SFK3242jsfdoSJDLKF1FDSLKFJDSK213";
-
+    public static final String APP_ID = "wxf4ab232701a3b217";
+    public static final String APP_SECRET = "e4473207a6b81489748eef68351235f2";
 }
