@@ -52,9 +52,7 @@ import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 import com.pilipa.fapiaobao.net.bean.update.VersionMode;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
-import com.pilipa.fapiaobao.utils.PayCommonUtil;
 import com.pilipa.fapiaobao.utils.TDevice;
-import com.pilipa.fapiaobao.wxapi.Constants;
 
 import org.json.JSONObject;
 
@@ -817,14 +815,6 @@ public class Api<T> {
         });
     }
 
-    public static void wxPay(String total_fee, final BaseViewCallback baseViewCallback) {
-        OkGo.<String>post(Constants.PREPAY_URL).upString(PayCommonUtil.getRequestXml(PayCommonUtil.wxPrePay(total_fee))).execute(new StringCallback() {
-            @Override
-            public void onSuccess(Response<String> response) {
-                baseViewCallback.setData(response.body());
-            }
-        });
-    }
 
     /**
      * @param baseViewCallback

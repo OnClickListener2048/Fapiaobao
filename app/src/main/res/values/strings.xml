@@ -541,6 +541,17 @@
     <string name="rule_express">物流单号错误，请填写或扫描正确的物流单号哦</string>
     <string name="pickup_from_media">从相册中选取</string>
     <string name="take_picture">拍照</string>
+    <string name="please_ensure_the_key_info">请核对关键信息，以确保需求准确无误</string>
+    <string name="companyname">公司名称</string>
+    <string name="invoice_type">发票种类</string>
+    <string name="blocking_time">截止时间</string>
+    <string name="available_balance">可用余额</string>
+    <string name="insufficient">余额不足</string>
+    <string name="invoiceArea">开票地区</string>
+    <string name="cautions">注意事项</string>
+    <string name="ensure_to_publish">确认发布</string>
+    <string name="back_to_revise">返回修改</string>
+    <string name="suffix_yuan">%1$s元</string>
 
     <string-array name="express_array">
         <item>顺丰</item>

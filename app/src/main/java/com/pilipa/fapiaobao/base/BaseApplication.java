@@ -279,10 +279,10 @@ public class BaseApplication extends Application {
 
 
         Config.DEBUG = true;
-        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
+        PlatformConfig.setWeixin(Constants.APP_ID, Constants.APP_SECRET);
         PlatformConfig.setQQZone("1106395149", "gtn8LLR4FxWRvwWb");
         PlatformConfig.setSinaWeibo("3639386105", "63143b3cc202fed0c17baf57030a88a0", "http://sns.whalecloud.com");
-        PlatformConfig.setWeixin(Constants.APP_ID, "7df3fe092b8d88ebc28a94b84b5388c3");
+        PlatformConfig.setWeixin(Constants.APP_ID, Constants.APP_SECRET);
         UMShareAPI.get(this);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());

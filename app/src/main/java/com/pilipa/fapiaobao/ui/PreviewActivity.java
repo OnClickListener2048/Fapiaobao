@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
+import com.pilipa.fapiaobao.adapter.supply.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.PreviewImageFragment;
@@ -30,6 +30,7 @@ import butterknife.OnClick;
 
 public class PreviewActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
     private static final String TAG = "PreviewActivity";
+    protected int mPreviousPos = -1;
     @Bind(R.id.preview_viewpager)
     PreviewViewpager previewViewpager;
     @Bind(R.id.delete)
@@ -39,7 +40,6 @@ public class PreviewActivity extends BaseActivity implements ViewPager.OnPageCha
     @Bind(R.id.click)
     TextView click;
     private ArrayList<Image> allList;
-    protected int mPreviousPos = -1;
     private PreviewPagerAdapter previewPagerAdapter;
 
     @Override

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.MessageCenterAdapter;
+import com.pilipa.fapiaobao.adapter.supply.MessageCenterAdapter;
 import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;

@@ -17,7 +17,7 @@ import com.example.mylibrary.utils.TLog;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent;
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.PreviewFillupAdapter;
+import com.pilipa.fapiaobao.adapter.supply.PreviewFillupAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.ui.fragment.PreviewFillupFragment;
@@ -41,6 +41,7 @@ import io.reactivex.functions.Consumer;
 public class FillUpActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     private static final Double MAX_AMOUNT = 10000.0;
+    protected int mPreviousPos = 0;
     @Bind(R.id.preview_viewpager)
     NoScrollViewpager previewViewpager;
     @Bind(R.id.sum_piece)
@@ -52,7 +53,6 @@ public class FillUpActivity extends BaseActivity implements ViewPager.OnPageChan
     @Bind(R.id.et_fillup)
     EditText etFillup;
     private ArrayList<Image> images;
-    protected int mPreviousPos = 0;
 
     @Override
     protected int getLayoutId() {
