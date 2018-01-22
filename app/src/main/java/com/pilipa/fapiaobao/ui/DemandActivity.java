@@ -15,14 +15,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.MyInvoiceNameAdapter;
+import com.pilipa.fapiaobao.adapter.me.MyInvoiceNameAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
@@ -247,7 +246,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
                     intent.putParcelableArrayListExtra("images_qualified", images_qualified);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(DemandActivity.this, "您还没有确认过任何发票", Toast.LENGTH_SHORT).show();
+                    BaseApplication.showToast(getString(R.string.you_didnt_confirm_any_invoice));
                 }
             }
             break;

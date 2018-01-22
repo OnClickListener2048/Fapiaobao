@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
+import com.pilipa.fapiaobao.adapter.supply.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;

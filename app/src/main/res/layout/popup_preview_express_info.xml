@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/ll_express_info"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginTop="@dimen/d36"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/popup_preview_left_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/express_way"/>
+
+        <TextView
+            android:id="@+id/tv_express_way"
+            style="@style/popup_preview_end_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d13"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/popup_preview_left_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recipients"/>
+
+        <TextView
+            android:id="@+id/tv_recipients"
+            style="@style/popup_preview_end_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d13"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/popup_preview_left_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contact"/>
+
+        <TextView
+            android:id="@+id/tv_contact"
+            style="@style/popup_preview_end_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d13"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/popup_preview_left_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/address_details"/>
+
+        <TextView
+            android:id="@+id/tv_address_details"
+            style="@style/popup_preview_end_textview_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

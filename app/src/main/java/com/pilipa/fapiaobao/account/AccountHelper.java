@@ -82,7 +82,7 @@ public class AccountHelper {
             instances.user.getData().getCustomer().setNickname(customer.getNickname());
             instances.user.getData().getCustomer().setHeadimg(customer.getHeadimg());
             instances.user.getData().getCustomer().setEmail(customer.getEmail());
-
+            instances.user.getData().getCustomer().setAvailiableBalance(customer.getAmount() - customer.getFrozen());
             if(customer.getOpenid() != null){
                 instances.user.getData().getCustomer().setOpenid(customer.getOpenid());
             }

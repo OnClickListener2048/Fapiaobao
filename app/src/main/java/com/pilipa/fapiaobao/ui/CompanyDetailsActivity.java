@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.CompanyDetailsAdapter;
+import com.pilipa.fapiaobao.adapter.me.CompanyDetailsAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;

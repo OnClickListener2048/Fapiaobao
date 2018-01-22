@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.CompanyListAdapter;
+import com.pilipa.fapiaobao.adapter.publish.CompanyListAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
@@ -27,6 +27,8 @@ import butterknife.OnClick;
 
 public class CompanySelectActivity extends BaseActivity implements CompanyListAdapter.OnCompanyClickListener {
 
+    public static final String EXTRA_BUNDLE = "extra_bundle";
+    public static final String EXTRA_SELECT_COMPANY = "extra_select_company";
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.company_select_back)
@@ -35,10 +37,6 @@ public class CompanySelectActivity extends BaseActivity implements CompanyListAd
     TextView filter;
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
-
-    public static final String EXTRA_BUNDLE  = "extra_bundle";
-    public static final String EXTRA_SELECT_COMPANY  = "extra_select_company";
-
     private CompanyListAdapter companyListAdapter;
 
     @Override

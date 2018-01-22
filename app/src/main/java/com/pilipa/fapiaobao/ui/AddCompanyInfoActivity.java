@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.mylibrary.utils.KeyboardUtils;
@@ -34,7 +33,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.SearchCompaniesAdapter;
+import com.pilipa.fapiaobao.adapter.me.SearchCompaniesAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
@@ -435,7 +434,7 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
-                    Toast.makeText(AddCompanyInfoActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT).show();
+                    BaseApplication.showToast(getString(R.string.add_success));
                     setResult(RESULT_OK);
                     AddCompanyInfoActivity.this.finish();
                     TLog.d(TAG, "createCompany;success");

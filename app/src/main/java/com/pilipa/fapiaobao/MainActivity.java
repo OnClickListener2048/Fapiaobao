@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -21,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blog.www.guideview.Component;
 import com.blog.www.guideview.Guide;
@@ -62,25 +60,10 @@ import static com.pilipa.fapiaobao.ui.constants.Constant.IS_FIRST_IN_MAIN;
 
 public class MainActivity extends BaseActivity implements NavFragment.OnNavigationReselectListener {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int UPDATE = 924;
+    public NavFragment mNavBar;
     @Bind(R.id.bg)
     FrameLayout bg;
-    public NavFragment mNavBar;
-    private static final int UPDATE = 924;
-
-
-
-
-    private  Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == UPDATE) {
-                if (TDevice.UPDATE) {
-                    checkOutVersion();
-                }
-            }
-        }
-    };
-
     private PopupWindow popWnd;
     private ProgressBar progressBar;
     private TextView tvProgress;
@@ -92,6 +75,17 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
     private View popupContentView;
     private boolean update;
     private LoadingDialog progressDialog2;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == UPDATE) {
+                if (TDevice.UPDATE) {
+                    checkOutVersion();
+                }
+            }
+        }
+    };
+    private long mExitTime;
 
     @Override
     protected int getLayoutId() {
@@ -158,7 +152,6 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
                 });
     }
 
-
     public void showGuideViewFromChildFragment() {
         if (BaseApplication.get(IS_FIRST_IN_MAIN, true)) {
             mNavBar.navItemPublish.post(new Runnable() {
@@ -169,8 +162,6 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
             });
         }
     }
-
-
 
     @Override
     public void initData() {
@@ -218,7 +209,6 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
         guide.setShouldCheckLocInWindow(false);
         guide.show(MainActivity.this);
     }
-
 
     public void showGuideView2() {
 
@@ -310,15 +300,10 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 //                }
     }
 
-
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 
     private void checkOutVersion() {
         Api.getUpdateInfo(new Api.BaseViewCallbackWithOnStart<VersionMode>() {
@@ -477,7 +462,6 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
         });
     }
 
-
     private void initPopup() {
         popupContentView = LayoutInflater.from(this).inflate(R.layout.popup_download_alert, null);
         textViewCancel = (TextView) popupContentView.findViewById(R.id.cancel);
@@ -498,7 +482,6 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
         ButterKnife.bind(this);
     }
 
-    private long mExitTime;
     //对返回键进行监听
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -513,7 +496,7 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
     public void exit() {
         if ((System.currentTimeMillis() - mExitTime) > 2000) {
-            Toast.makeText(MainActivity.this, getString(R.string.click_twice_to_exit), Toast.LENGTH_SHORT).show();
+            BaseApplication.showToast(getString(R.string.click_twice_to_exit));
             mExitTime = System.currentTimeMillis();
         } else {
             finish();
