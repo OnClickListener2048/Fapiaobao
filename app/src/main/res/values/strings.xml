@@ -554,6 +554,7 @@
     <string name="suffix_yuan">%1$s元</string>
     <string name="dot">.</string>
     <string name="you_didnt_confirm_any_invoice">您还没有确认过任何发票</string>
+    <string name="expressLimited">最低邮寄</string>
 
     <string-array name="express_array">
         <item>顺丰</item>

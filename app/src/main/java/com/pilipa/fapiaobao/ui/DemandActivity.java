@@ -527,7 +527,11 @@ public class DemandActivity extends BaseNoNetworkActivity {
                         if (bean.getDemand().getDemandPostage().getCity() != null) {
                             city = bean.getDemand().getDemandPostage().getCity() + " ";
                         }
-                        tvAddress.setText(city + district + bean.getDemand().getDemandPostage().getAddress());
+                        String province = null;
+                        if (bean.getDemand().getDemandPostage().getProvince() != null) {
+                            province = bean.getDemand().getDemandPostage().getProvince() + " ";
+                        }
+                        tvAddress.setText(province + bean.getDemand().getDemandPostage().getAddress());
 
                         if (!VARIETY_GENERAL_ELECTRON.equals(bean.getDemand().getInvoiceVarieties())) {
                             ll_receive.setVisibility(View.VISIBLE);
