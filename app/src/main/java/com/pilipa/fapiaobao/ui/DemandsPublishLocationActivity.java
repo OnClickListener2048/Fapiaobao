@@ -268,6 +268,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     private Dialog mDialogTip2;
     private Dialog mScanDialog;
     private PreviewPopup mPreviewPopup;
+    private boolean mIsShowExpressLimited;
     public WXPayReceiver wxPayReceiver = new WXPayReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -315,9 +316,9 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         tvPublishAddressMustFill.setText(paperSpecial ? "必填" : "选填");
         tvPublishBankAccountMustFill.setText(paperSpecial ? "必填" : "选填");
         tvPublishPhoneNumberMustFill.setText(paperSpecial ? "必填" : "选填");
-//        llAreaLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
-        llExpressLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
-        etAmountRedbag.setNextFocusForwardId(elec && !paperNormal && !paperSpecial ? R.id.et_publish_cautions : R.id.et_express_amount_minimum);
+        mIsShowExpressLimited = elec && !paperNormal && !paperSpecial;
+        llExpressLimited.setVisibility(mIsShowExpressLimited ? View.GONE : View.VISIBLE);
+        etAmountRedbag.setNextFocusForwardId(mIsShowExpressLimited ? R.id.et_publish_cautions : R.id.et_express_amount_minimum);
         int fourteenDaysMilliseconds = 14 * 24 * 60 * 60 * 1000;
         etDate.setText(TimeUtils.millis2String(System.currentTimeMillis() + fourteenDaysMilliseconds, TimeUtils.FORMAT));
         dialog = new TimePickerDialog(this);
@@ -819,8 +820,10 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 .setInvoiceArea(switchArea.isChecked() ? getTextViewValue(tvAreaLimited) : "")
                 .setIsShowExpressInfo(paperNormal || paperSpecial)
                 .setReceiption(getTextViewValue(etReceptionName))
-                .setReceiptionAddress(getTextViewValue(etAreaDetails))
+                .setReceiptionAddress(getTextViewValue(tvArea) + "  " + getTextViewValue(etAreaDetails))
                 .setReceiptionPhoneNumber(getTextViewValue(etReceptionNumber))
+                .setShowExpressLimited(!mIsShowExpressLimited)
+                .setExpressLimited(mIsShowExpressLimited ? "" : getString(R.string.point_two, Double.valueOf(getTextViewValue(etExpressAmountMinimum))))
                 .setCautions(getTextViewValue(etPublishCautions))
                 .setOnBalanceInsufficientListener(new PreviewPopup.OnBalanceInsufficientListener() {
                     @Override
@@ -1712,7 +1715,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     @Override
     public void onBackPressed() {
-        if (mPreviewPopup.isShowing()) {
+        if (mPreviewPopup != null && mPreviewPopup.isShowing()) {
             mPreviewPopup.dismiss();
             return;
         }
@@ -1723,8 +1726,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             TLog.log("alertDialog.hide();");
             alertDialog.hide();
         }
-
-
     }
 
     private void startSearching(String companyName, String tag) {

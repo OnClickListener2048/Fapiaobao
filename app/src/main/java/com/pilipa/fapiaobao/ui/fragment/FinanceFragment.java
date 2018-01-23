@@ -61,6 +61,7 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -320,7 +321,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                         return Observable.fromIterable(dataBean.getInvoiceTypeList());
                     }
                 }).subscribeOn(Schedulers.from(AppOperator.getExecutor()))
-                .observeOn(Schedulers.from(AppOperator.getExecutor()))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AllInvoiceType.DataBean.InvoiceTypeListBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {

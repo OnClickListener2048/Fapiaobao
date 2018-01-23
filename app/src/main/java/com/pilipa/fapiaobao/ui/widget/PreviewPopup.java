@@ -83,6 +83,10 @@ public class PreviewPopup extends PopupWindow implements PopupWindow.OnDismissLi
     TextView mTvContact;
     @Bind(R.id.tv_address_details)
     TextView mTvAddressDetails;
+    @Bind(R.id.tv_express_limited)
+    TextView mTvExpressLimited;
+    @Bind(R.id.ll_express_limited)
+    LinearLayout mLlExpressLimited;
 
     private PreviewPopup(PopupBuilder popupBuilder) {
         super(popupBuilder.getActivity());
@@ -162,6 +166,12 @@ public class PreviewPopup extends PopupWindow implements PopupWindow.OnDismissLi
                 popupBuilder.getOnPublishListener().onPublish();
             }
         });
+        mLlExpressLimited.setVisibility(popupBuilder.isShowExpressLimited() ? View.VISIBLE : View.GONE);
+        if (checkEmpty(popupBuilder.getExpressLimited())) {
+            mTvExpressLimited.setText("无");
+        } else {
+            mTvExpressLimited.setText(activity.getString(R.string.suffix_yuan, popupBuilder.getExpressLimited()));
+        }
 
     }
 
@@ -233,9 +243,29 @@ public class PreviewPopup extends PopupWindow implements PopupWindow.OnDismissLi
         private OnBackToReviseListener mOnBackToReviseListener;
         private OnPublishListener mOnPublishListener;
         private OnBalanceInsufficientListener mOnBalanceInsufficientListener;
+        private boolean mIsShowExpressLimited;
+        private String mExpressLimited;
 
         public PopupBuilder(Activity activity) {
             mActivity = activity;
+        }
+
+        public boolean isShowExpressLimited() {
+            return mIsShowExpressLimited;
+        }
+
+        public PreviewPopup.PopupBuilder setShowExpressLimited(boolean showExpressLimited) {
+            mIsShowExpressLimited = showExpressLimited;
+            return this;
+        }
+
+        public String getExpressLimited() {
+            return mExpressLimited;
+        }
+
+        public PopupBuilder setExpressLimited(String expressLimited) {
+            mExpressLimited = expressLimited;
+            return this;
         }
 
         public OnBalanceInsufficientListener getOnBalanceInsufficientListener() {
@@ -453,9 +483,6 @@ public class PreviewPopup extends PopupWindow implements PopupWindow.OnDismissLi
             return new PreviewPopup(this);
         }
     }
-
-
-
 
 
 }
