@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 /**
@@ -36,7 +37,7 @@ public class AccountHelper {
     }
 
     public static boolean isLogin() {
-        return !TextUtils.isEmpty(getToken());
+        return !TextUtils.equals(getToken(), Constant.NOTOKEN);
     }
     public static void logout(){
         SharedPreferencesHelper.remove(instances.application,LoginWithInfoBean.class);
@@ -81,7 +82,7 @@ public class AccountHelper {
             instances.user.getData().getCustomer().setNickname(customer.getNickname());
             instances.user.getData().getCustomer().setHeadimg(customer.getHeadimg());
             instances.user.getData().getCustomer().setEmail(customer.getEmail());
-
+            instances.user.getData().getCustomer().setAvailiableBalance(customer.getAmount() - customer.getFrozen());
             if(customer.getOpenid() != null){
                 instances.user.getData().getCustomer().setOpenid(customer.getOpenid());
             }

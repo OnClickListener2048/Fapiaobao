@@ -5,4 +5,6 @@ package com.pilipa.fapiaobao.utils;
  */
 
 public class WindowWidgetUtils {
+
+
 }

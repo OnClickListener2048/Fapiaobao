@@ -1,52 +1,31 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
-import android.Manifest;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.DemandsDetailsReceiptAdapter;
+import com.pilipa.fapiaobao.adapter.supply.DemandsDetailsReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
-import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.ui.DemandsDetailsPreviewActivity;
 import com.pilipa.fapiaobao.ui.UploadReceiptPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
-import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -56,11 +35,9 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
-        View.OnClickListener
-       , DemandsDetailsReceiptAdapter.OnImageSelectListener, DemandsDetailsReceiptAdapter.OnImageClickListener, DemandsDetailsReceiptAdapter.OnPhotoCapture {
+        DemandsDetailsReceiptAdapter.OnImageSelectListener, DemandsDetailsReceiptAdapter.OnImageClickListener, DemandsDetailsReceiptAdapter.OnPhotoCapture {
 
 
-    private static final String TAG = "DemandsDetailsReceiptFragment2";
     public static final int REQUEST_CODE_CAPTURE = 10;
     public static final int REQUEST_CODE_CHOOSE = 20;
     public static final String EXTRA_ALL_DATA = "EXTRA_ALL_DATA";
@@ -70,25 +47,23 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
     public static final int RESULT_CODE_BACK = 40;
     public static final String IS_SHOW_SELECT_AND_DELETE = "is_show_select_and_delete";
     public static final String IS_FROM_DEMANDS = "is_from_demands";
-
+    private static final String TAG = "DemandsDetailsReceiptFragment2";
     @Bind(R.id.rv_upload_receipt)
     RecyclerView rvUploadReceipt;
     private int mImageResize;
     private ArrayList<Image> images;
-    private MediaStoreCompat mediaStoreCompat;
     private int mPreviousPosition = -1;
-    private Dialog mCameraDialog;
     private DemandsDetailsReceiptAdapter uploadReceiptAdapter;
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_upload_receipt;
-    }
 
     public static DemandsDetailsReceiptFragment2 newInstance(Bundle b) {
         DemandsDetailsReceiptFragment2 u = new DemandsDetailsReceiptFragment2();
         u.setArguments(b);
         return u;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_upload_receipt;
     }
 
     @Override
@@ -126,49 +101,10 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
     }
 
 
-    private void openMedia() {
-        RxPermissions rxPermissions = new RxPermissions(getActivity());
-        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Observer<Boolean>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(Boolean aBoolean) {
-                if (aBoolean) {
-                    Matisse.from(DemandsDetailsReceiptFragment2.this)
-                            .choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
-                            .countable(true)
-                            .captureStrategy(
-                                    new CaptureStrategy(true, MediaStoreCompat.authority))
-                            .maxSelectable(9)
-                            .gridExpectedSize(
-                                    getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                            .thumbnailScale(0.4f)
-                            .imageEngine(new GlideEngine())
-                            .theme(R.style.Matisse_Pilipa)
-                            .forResult(REQUEST_CODE_CHOOSE);
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
-    }
 
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
-        mediaStoreCompat = new MediaStoreCompat(getActivity(), this);
         GridLayoutManager grid = new GridLayoutManager(getActivity(), 3) {
             @Override
             public boolean canScrollVertically() {
@@ -220,7 +156,7 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
 
     @Override
     public void capture() {
-        setDialog();
+
     }
 
     @Override
@@ -228,34 +164,9 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
         TLog.log(TAG+"onActivityResult3");
         super.onActivityResult(requestCode, resultCode, data);
         TLog.log(TAG+"onActivityResult4");
-//        if (resultCode != RESULT_OK) {
-//            return;
-//        }
 
         if (requestCode == REQUEST_CODE_CAPTURE && resultCode == RESULT_OK) {
-//            Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
-//            String path = mediaStoreCompat.getCurrentPhotoPath();
-//            try {
-//                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
-//                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri));
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//            Image image = new Image();
-//            image.isFromNet = false;
-//            image.name = new File(path).getName();
-//            image.isCapture = false;
-//            image.position = mPreviousPosition;
-//            image.uri = contentUri;
-//            images.add(image);
-//            uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
-//            uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
-//            mPreviousPosition = images.size();
-//
-//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//                getActivity().revokeUriPermission(contentUri,
-//                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//            }
+
         } else if (REQUEST_CODE_IMAGE_CLICK == requestCode) {
             switch (resultCode) {
                 case RESULT_CODE_BACK:
@@ -271,84 +182,7 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
                 default:
             }
         } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            List<Uri> uris = Matisse.obtainResult(data);
-            for (Uri uri : uris) {
-//                Image image = new Image();
-//                image.isCapture = false;
-//                image.position = mPreviousPosition;
-//                mPreviousPosition++;
-//                image.uri = uri;
-//                image.isFromNet = false;
-//                images.add(image);
-//                uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
-//                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
-            }
 
         }
-
     }
-
-    private void setDialog() {
-        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
-                R.layout.dialog_bottom, null);
-        //初始化视图
-        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
-        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
-        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
-        mCameraDialog.setContentView(root);
-        Window dialogWindow = mCameraDialog.getWindow();
-        dialogWindow.setGravity(Gravity.BOTTOM);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mCameraDialog.show();
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_choose_img:
-                openMedia();
-                mCameraDialog.dismiss();
-                break;
-            case R.id.btn_open_camera:
-                if (MediaStoreCompat.hasCameraFeature(getActivity())) {
-                    mediaStoreCompat.dispatchCaptureIntent(getActivity(), REQUEST_CODE_CAPTURE);
-                }
-                mCameraDialog.dismiss();
-                break;
-            case R.id.btn_cancel:
-                mCameraDialog.dismiss();
-                break;
-
-            default:
-        }
-    }
-
-    public ArrayList<Image> getCurrentImages() {
-        if (images != null) {
-            return images;
-        }
-        return null;
-    }
-
-    public int getCurrentImageCount() {
-        Log.d(TAG, "getCurrentImageCount: ");
-        if (images!= null) {
-            Log.d(TAG, "getCurrentImageCount: ");
-            return images.size();
-        }
-
-        return 0;
-    }
-
 }

@@ -11,17 +11,13 @@ import android.os.Bundle;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.UploadReceiptAdapter;
+import com.pilipa.fapiaobao.adapter.supply.UploadReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
@@ -32,6 +28,7 @@ import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.receipt_folder_image_select.ReceiptActivityToken;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
@@ -56,7 +53,6 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class UploadNormalReceiptFragment extends BaseFragment implements UploadReceiptAdapter.OnImageClickListener, UploadReceiptAdapter.OnImageSelectListener, UploadReceiptAdapter.OnPhotoCapture, View.OnClickListener {
-    private static final String TAG = "UploadNormalReceiptFragment";
     public static final int REQUEST_CODE_CAPTURE = 10;
     public static final int REQUEST_CODE_CHOOSE = 20;
     public static final String EXTRA_ALL_DATA = "EXTRA_ALL_DATA";
@@ -66,8 +62,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
     public static final int RESULT_CODE_BACK = 40;
     public static final int REQUEST_CODE_FROM_ELEC = 50;
     public static final int REQUEST_CODE_AMOUNT = 60;
-
-
+    private static final String TAG = "UploadNormalReceiptFragment";
     @Bind(R.id.rv_upload_receipt)
     RecyclerView rvUploadReceipt;
     private int mImageResize;
@@ -76,16 +71,17 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
     private int mPreviousPosition = -1;
     private Dialog mCameraDialog;
     private boolean is_elec_data;
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_upload_receipt;
-    }
+    private Dialog mDialog;
 
     public static UploadNormalReceiptFragment newInstance(Bundle b) {
         UploadNormalReceiptFragment u = new UploadNormalReceiptFragment();
         u.setArguments(b);
         return u;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_upload_receipt;
     }
 
     @Override
@@ -206,38 +202,13 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
     @Override
     public void capture() {
         if (is_elec_data) {
-            setElecDialog();
+            showElecDialog();
         } else {
-
-        setDialog();
+            showDialog();
         }
     }
 
-    private void setElecDialog() {
-        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
-                R.layout.elec_data_bottom, null);
-        //初始化视图
-        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
-        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
-        root.findViewById(R.id.btn_choose_img_receipt_folder).setOnClickListener(this);
-        root.findViewById(R.id.btn_shopping_stamp).setOnClickListener(this);
 
-        mCameraDialog.setContentView(root);
-        Window dialogWindow = mCameraDialog.getWindow();
-        dialogWindow.setGravity(Gravity.BOTTOM);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mCameraDialog.show();
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -324,7 +295,6 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                 images.addAll(arrayList);
                 UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
                 uploadReceiptAdapter.notifyItemRangeInserted(mPreviousPosition,arrayList.size());
-
             }
         }
     }
@@ -333,16 +303,15 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         Bundle bundleExtra = data.getBundleExtra(ReceiptActivityToken.EXTRA_DATA_FROM_TOKEN);
         ArrayList<Image> parcelableArrayList = bundleExtra.getParcelableArrayList(ReceiptActivityToken.RESULT_RECEIPT_FOLDER);
 
-        if (parcelableArrayList != null && parcelableArrayList.size() == 0) {
-            return;
-        }
+        if (parcelableArrayList == null) return;
+
+        if (parcelableArrayList.size() == 0) return;
+
         ArrayList<Image> arrayList = new ArrayList<>();
         for (Image image : parcelableArrayList) {
             image.position = mPreviousPosition;
             arrayList.add(image);
             mPreviousPosition++;
-//                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
-//                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
         }
         Intent intent = new Intent();
         intent.setClass(mContext, FillUpActivity.class);
@@ -350,29 +319,106 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
         startActivityForResult(intent, REQUEST_CODE_AMOUNT);
     }
 
-    private void setDialog() {
-        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
-                R.layout.dialog_bottom, null);
-        //初始化视图
-        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
-        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
-        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
-        mCameraDialog.setContentView(root);
-        Window dialogWindow = mCameraDialog.getWindow();
-        dialogWindow.setGravity(Gravity.BOTTOM);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width =  getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mCameraDialog.show();
+    private void showDialog() {
+        mDialog = DialogUtil.getInstance().createBottomDialog(mContext, new DialogUtil.OnDialogDismissListener() {
+            @Override
+            public void onDialogDismiss(View view) {
+                mDialog.dismiss();
+            }
+        }, new DialogUtil.OnMediaOpenListener() {
+            @Override
+            public void onMediaOpen(View view) {
+                openMedia();
+                mDialog.dismiss();
+            }
+        }, null, new DialogUtil.OnPhotoTakeListener() {
+            @Override
+            public void onPhotoTake(View view) {
+                takePhoto();
+                mDialog.dismiss();
+            }
+        }, null);
+        showDialog(mDialog);
     }
+
+    private void showElecDialog() {
+        mDialog = DialogUtil.getInstance().createBottomDialog(mContext, new DialogUtil.OnDialogDismissListener() {
+            @Override
+            public void onDialogDismiss(View view) {
+                mDialog.dismiss();
+            }
+        }, new DialogUtil.OnMediaOpenListener() {
+            @Override
+            public void onMediaOpen(View view) {
+                openMedia();
+                mDialog.dismiss();
+            }
+        }, new DialogUtil.OnReceiptFolderOpenListener() {
+            @Override
+            public void onReceiptFolderOpen(View view) {
+                startActivityForResult(new Intent(mContext, ReceiptActivityToken.class), REQUEST_CODE_FROM_ELEC);
+                mDialog.dismiss();
+            }
+        }, null, new DialogUtil.OnShoppingStampOpenListener() {
+            @Override
+            public void onShoppingStampOpen(View view) {
+                UploadReceiptActivity activity = (UploadReceiptActivity) getActivity();
+                activity.scan();
+                mDialog.dismiss();
+            }
+        });
+        showDialog(mDialog);
+    }
+
+//    private void setDialog() {
+//        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
+//                R.layout.dialog_bottom, null);
+//        //初始化视图
+//        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
+//        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
+//        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
+//        mCameraDialog.setContentView(root);
+//        Window dialogWindow = mCameraDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.BOTTOM);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width =  getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mCameraDialog.show();
+//    }
+
+//    private void setElecDialog() {
+//        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
+//                R.layout.elec_data_bottom, null);
+//        //初始化视图
+//        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
+//        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
+//        root.findViewById(R.id.btn_choose_img_receipt_folder).setOnClickListener(this);
+//        root.findViewById(R.id.btn_shopping_stamp).setOnClickListener(this);
+//
+//        mCameraDialog.setContentView(root);
+//        Window dialogWindow = mCameraDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.BOTTOM);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mCameraDialog.show();
+//    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -380,7 +426,35 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
 
     }
 
+    private void takePhoto() {
+        if (MediaStoreCompat.hasCameraFeature(getActivity())) {
+            onSaveInstanceState(getArguments());
+            RxPermissions rxPermissions = new RxPermissions(getActivity());
+            rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA).subscribe(new Observer<Boolean>() {
+                @Override
+                public void onSubscribe(Disposable d) {
 
+                }
+
+                @Override
+                public void onNext(Boolean aBoolean) {
+                    if (aBoolean) {
+                        mediaStoreCompat.dispatchCaptureIntent(getActivity(), REQUEST_CODE_CAPTURE);
+                    }
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            });
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -389,33 +463,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
                 mCameraDialog.dismiss();
                 break;
             case R.id.btn_open_camera:
-                if (MediaStoreCompat.hasCameraFeature(getActivity())) {
-                    onSaveInstanceState(getArguments());
-                    RxPermissions rxPermissions = new RxPermissions(getActivity());
-                    rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA).subscribe(new Observer<Boolean>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(Boolean aBoolean) {
-                            if (aBoolean) {
-                                mediaStoreCompat.dispatchCaptureIntent(getActivity(), REQUEST_CODE_CAPTURE);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-                }
+                takePhoto();
                 mCameraDialog.dismiss();
                 break;
             case R.id.btn_cancel:

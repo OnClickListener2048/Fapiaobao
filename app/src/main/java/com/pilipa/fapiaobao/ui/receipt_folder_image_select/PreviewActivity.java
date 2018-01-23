@@ -12,7 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
+import com.pilipa.fapiaobao.adapter.supply.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.ui.fragment.PreviewImageFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.receipt_folder_image_select.adapter.NormalAdpater;
@@ -31,7 +31,7 @@ import butterknife.OnClick;
 public class PreviewActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, CompoundButton.OnCheckedChangeListener {
 
     private static final String TAG = "PreviewActivity";
-
+    protected int mPreviousPos = -1;
     @Bind(R.id.preview_viewpager)
     PreviewViewpager previewViewpager;
     @Bind(R.id.back)
@@ -42,7 +42,6 @@ public class PreviewActivity extends AppCompatActivity implements ViewPager.OnPa
     TextView delete;
     private ArrayList<Image> allList;
     private int currentPosition;
-    protected int mPreviousPos = -1;
     private PreviewPagerAdapter previewPagerAdapter;
     private ArrayList<PreviewImageFragment> FragmentList;
 

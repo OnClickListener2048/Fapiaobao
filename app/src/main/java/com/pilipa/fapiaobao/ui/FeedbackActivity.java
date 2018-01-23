@@ -1,7 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -10,16 +9,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.KeyboardUtils;
@@ -28,8 +22,8 @@ import com.example.mylibrary.utils.TimeUtils;
 import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.FeedbackAdapterWrapper;
-import com.pilipa.fapiaobao.adapter.FeedbackMessagesAdapter;
+import com.pilipa.fapiaobao.adapter.me.FeedbackAdapterWrapper;
+import com.pilipa.fapiaobao.adapter.me.FeedbackMessagesAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
@@ -281,38 +275,38 @@ public class FeedbackActivity extends BaseNoNetworkActivity implements FeedbackM
         Api.getSuggestions(pageNo, pageSize, id, suggestion, token, this, baseViewCallbackWithOnStart);
     }
 
-    private void setDialog() {
-        mDialog = new Dialog(this, R.style.BottomDialog);
-        mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                FeedbackActivity.this.finish();
-            }
-        });
-        RelativeLayout root = (RelativeLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_feedback_tip, null);
-        root.findViewById(R.id.rl_root).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog.dismiss();
-            }
-        });
-        //初始化视图
-        mDialog.setContentView(root);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDialog.show();
-    }
+//    private void setDialog() {
+//        mDialog = new Dialog(this, R.style.BottomDialog);
+//        mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialog) {
+//                FeedbackActivity.this.finish();
+//            }
+//        });
+//        RelativeLayout root = (RelativeLayout) LayoutInflater.from(this).inflate(
+//                R.layout.layout_feedback_tip, null);
+//        root.findViewById(R.id.rl_root).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDialog.dismiss();
+//            }
+//        });
+//        //初始化视图
+//        mDialog.setContentView(root);
+//        Window dialogWindow = mDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mDialog.show();
+//    }
 
     private void suggestion(final String str) {
         Api.suggestion("", str, AccountHelper.getToken(), new Api.BaseViewCallbackWithOnStart<FeedBackBean>() {

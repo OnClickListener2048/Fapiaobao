@@ -9,25 +9,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
+import com.pilipa.fapiaobao.adapter.me.PublishSpinnerAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
@@ -42,9 +40,11 @@ import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -54,6 +54,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -101,7 +103,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     @Bind(R.id.tv_publish_address)
     TextView tvPublishAddress;
     @Bind(R.id.edt_oddNumber)
-    EditText edtOddNumber;
+    MaterialEditText edtOddNumber;
     @Bind(R.id.receipt_number)
     TextView receiptNumber;
     @Bind(R.id.receipt_money)
@@ -171,6 +173,20 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     String orderId;
     @Bind(R.id.smartRefreshLayout)
     SmartRefreshLayout smartRefreshLayout;
+    InputFilter specialCharFilter = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            String regexStr = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+            Pattern pattern = Pattern.compile(regexStr);
+            Matcher matcher = pattern.matcher(source.toString());
+            if (matcher.matches()) {
+                return "";
+            } else {
+                return null;
+            }
+
+        }
+    };
     private Dialog mTipDialog;
     private ArrayList<Image> images;
     private DemandsDetailsReceiptFragment paperNormalReceiptFragment;
@@ -181,6 +197,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
     private boolean isCanMail = false;//是否可以邮寄
     private String favoriteId;
     private List<RejectTypeBean.DataBean> list = new ArrayList<>();
+    private Dialog expressDialog;
 
     @Override
     protected int getLayoutId() {
@@ -203,7 +220,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
             }
             break;
             case R.id.question: {
-                setTipDialog();
+                showDialog();
             }
             break;
             case R.id.btn_scan: {
@@ -240,17 +257,17 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
                     Api.deleteFavoriteCompany(favoriteId, AccountHelper.getToken(), new Api.BaseRawResponse<FavBean>() {
                         @Override
                         public void onStart() {
-                            showNetWorkErrorLayout();
+                            showProgressDialog();
                         }
 
                         @Override
                         public void onFinish() {
-                            hideNetWorkErrorLayout();
+                            hideProgressDialog();
                         }
 
                         @Override
                         public void onError() {
-
+                            showNetWorkErrorLayout();
                         }
 
                         @Override
@@ -309,6 +326,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
 
     @Override
     public void initView() {
+        edtOddNumber.setFilters(new InputFilter[]{specialCharFilter});
         initSmartRefreshLayout();
     }
 
@@ -319,33 +337,58 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
                 showOrderDetail(orderId, true);
             }
         });
+        smartRefreshLayout.setDisableContentWhenRefresh(true);
     }
 
-    private void setTipDialog() {
-        mTipDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_low_tip, null);
-        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTipDialog.dismiss();
-            }
-        });
-        mTipDialog.setContentView(root);
-        Window dialogWindow = mTipDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mTipDialog.show();
+    private void showExpressDialog() {
+        if (expressDialog == null) {
+            expressDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.dialog_expressing, new DialogUtil.OnKnownListener() {
+                @Override
+                public void onKnown(View view) {
+                    expressDialog.dismiss();
+                }
+            }, null, null);
+        }
+        showDialog(expressDialog);
     }
+
+    private void showDialog() {
+        if (mTipDialog == null) {
+            mTipDialog = DialogUtil.getInstance().createDialog(this, 0, R.layout.layout_low_tip, new DialogUtil.OnKnownListener() {
+                @Override
+                public void onKnown(View view) {
+                    mTipDialog.dismiss();
+                }
+            }, null, null);
+        }
+        showDialog(mTipDialog);
+    }
+
+//    private void setTipDialog() {
+//        mTipDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.layout_low_tip, null);
+//        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mTipDialog.dismiss();
+//            }
+//        });
+//        mTipDialog.setContentView(root);
+//        Window dialogWindow = mTipDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mTipDialog.show();
+//    }
 
     private void setUpData(List<OrderDetailsBean.DataBean.InvoiceListBean> results) {
         Log.d(TAG, "setUpData:   private void setUpData(ArrayList<model.ResultsBean> body) {");
@@ -445,7 +488,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
         Api.findAllRejectType(new Api.BaseViewCallback<RejectTypeBean>() {
             @Override
             public void setData(RejectTypeBean rejectTypeBean) {
-                if (rejectTypeBean.getStatus() == 200) {
+                if (rejectTypeBean.getStatus() == Constant.REQUEST_SUCCESS) {
                     list.addAll(rejectTypeBean.getData());
                 }
             }
@@ -461,12 +504,11 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
         findAllLogisticsCompany();
         findAllRejectType();
         checkFav(CompanyId);
-        showOrderDetail(orderId, true);
+        smartRefreshLayout.autoRefresh(10);
     }
 
     private void findAllLogisticsCompany() {
         String[] stringArray = getResources().getStringArray(R.array.express_array);
-
         spinnerAdapter = new PublishSpinnerAdapter(stringArray);
         mSpinner.setAdapter(spinnerAdapter);
     }
@@ -500,7 +542,13 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_SCAN) {
             String codedContent = data.getStringExtra("codedContent");
-            edtOddNumber.setText(codedContent);
+            if (RegexUtils.isAlphaBeta(codedContent)) {
+                edtOddNumber.setText(codedContent);
+                getWindow().getDecorView().requestFocus();
+            } else {
+                showExpressDialog();
+            }
+
             // TODO: 2017/12/8 添加提示 物流单号
         }
     }
@@ -573,7 +621,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
 
             @Override
             public void onStart() {
-                smartRefreshLayout.autoRefresh(10);
+
             }
 
             @Override

@@ -18,6 +18,7 @@ import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.ui.LoginActivity;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -37,13 +38,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     private static final String TAG = "WXEntryActivity";
 
 
-    private IWXAPI api;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_type);
-        api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
+        IWXAPI api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         api.handleIntent(getIntent(), this);
     }
 
@@ -93,6 +92,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 case BaseResp.ErrCode.ERR_USER_CANCEL:
                     Log.i("savedInstanceState", "发送取消ERR_USER_CANCEL");
 //                    BaseApplication.showToast("发送取消");
+                    setResult(RESULT_CANCELED);
+                    Intent intent2 = new Intent();
+                    intent2.setAction(Constant.WX_LOGIN_CANCEL);
+                    sendBroadcast(intent2);
                     finish();
 //                    startActivity(intent);
                     //发送取消

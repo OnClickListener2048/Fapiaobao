@@ -15,14 +15,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mylibrary.utils.ImageUtils;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.MyInvoiceNameAdapter;
+import com.pilipa.fapiaobao.adapter.me.MyInvoiceNameAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
@@ -34,6 +33,7 @@ import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.HorizontalListView;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -179,7 +179,6 @@ public class DemandActivity extends BaseNoNetworkActivity {
     private String demandId;
     private MyInvoiceNameAdapter invoiceNameAdapter;
     private Dialog mCameraDialog;
-    private Dialog mDialog;
     private boolean isCanShutDown = false;//能否提前关闭
     private UMShareAPI umShareAPI;
 
@@ -209,6 +208,8 @@ public class DemandActivity extends BaseNoNetworkActivity {
         public void onCancel(SHARE_MEDIA share_media) {
         }
     };
+    private Dialog canShutDownEarlyDialog;
+    private Dialog canNotShutDownEarlyDialog;
 
     @Override
     protected int getLayoutId() {
@@ -245,7 +246,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
                     intent.putParcelableArrayListExtra("images_qualified", images_qualified);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(DemandActivity.this, "您还没有确认过任何发票", Toast.LENGTH_SHORT).show();
+                    BaseApplication.showToast(getString(R.string.you_didnt_confirm_any_invoice));
                 }
             }
             break;
@@ -255,7 +256,11 @@ public class DemandActivity extends BaseNoNetworkActivity {
             }
             break;
             case btn_shut_down_early: {
-                setShutDialog(isCanShutDown);
+                if (isCanShutDown) {
+                    showDialog(canShutDownEarlyDialog);
+                } else {
+                    showDialog(canNotShutDownEarlyDialog);
+                }
             }
             break;
             case R.id.fl_change: {
@@ -289,6 +294,34 @@ public class DemandActivity extends BaseNoNetworkActivity {
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         api.registerApp(Constants.APP_ID);
         initSmartRefreshLayout();
+
+        initDialog();
+    }
+
+    private void initDialog() {
+
+        canShutDownEarlyDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_shutdown1_tip, null, new DialogUtil.OnConfirmListener() {
+            @Override
+            public void onConfirm(View view) {
+                canShutDownEarlyDialog.dismiss();
+                if (demandId != null) {
+                    shatDownEarly(demandId);
+                }
+            }
+        }, new DialogUtil.OnCancelListener() {
+            @Override
+            public void onCancel(View view) {
+                canShutDownEarlyDialog.dismiss();
+            }
+        });
+
+
+        canNotShutDownEarlyDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_shutdown2_tip, new DialogUtil.OnKnownListener() {
+            @Override
+            public void onKnown(View view) {
+                canNotShutDownEarlyDialog.dismiss();
+            }
+        }, null, null);
     }
 
     private void initSmartRefreshLayout() {
@@ -298,6 +331,8 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 demandDetails(demandId, true);
             }
         });
+
+        smartRefreshLayout.setDisableContentWhenRefresh(true);
     }
 
     private void setUpData(List<DemandDetails.DataBean.OrderInvoiceListBean> results, boolean isSetList) {
@@ -358,6 +393,10 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 }
             }
 
+            TLog.d(TAG, "images1.size()" + images1.size());
+            TLog.d(TAG, "images2.size()" + images2.size());
+            TLog.d(TAG, "images3.size()" + images3.size());
+
             tv_num_1.setText(String.format(getResources().getString(R.string.paper_normal_receipt_num), images1.size()));
             tv_num_2.setText(String.format(getResources().getString(R.string.paper_special_receipt_num), images2.size()));
             tv_num_3.setText(String.format(getResources().getString(R.string.paper_elec_receipt_num), images3.size()));
@@ -412,7 +451,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
         demandId = getIntent().getStringExtra("demandId");
         Log.d(TAG, "initData:demandDetails demandId" + demandId);
         if (demandId != null) {
-            demandDetails(demandId, true);
+            smartRefreshLayout.autoRefresh(10);
         }
     }
 
@@ -446,7 +485,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
 
                 @Override
                 public void onStart() {
-                    smartRefreshLayout.autoRefresh(10);
+//                    smartRefreshLayout.autoRefresh(10);
                 }
 
                 @Override
@@ -470,7 +509,6 @@ public class DemandActivity extends BaseNoNetworkActivity {
                         mList.addAll(bean.getInvoiceNameList());
                         invoiceNameAdapter.initData(mList);
 
-//                        tvBounsAmount.setText(String.valueOf(new BigDecimal(bean.getDemand().getTotalBonus()).setScale(2,BigDecimal.ROUND_HALF_EVEN)));
                         tvBounsAmount.setText(String.valueOf(getString(R.string.point_two, bean.getDemand().getTotalBonus())));
                         tvAmount.setText(String.valueOf(getString(R.string.point_two, bean.getDemand().getTotalAmount())));
                         tvLeftAmount.setText(String.valueOf(getString(R.string.point_two, bean.getDemand().getLeftBonus())));
@@ -581,8 +619,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
             @Override
             public void setData(NormalBean normalBean) {
                 hideNetWorkErrorLayout();
-                Toast.makeText(DemandActivity.this, getString(R.string.demand_closed), Toast.LENGTH_SHORT).show();
-                demandDetails(id, false);
+                BaseApplication.showToast(getString(R.string.demand_closed));
                 setResult(RESULT_OK);
                 DemandActivity.this.finish();
                 Log.d(TAG, "updateData:shatDownEarly success");
@@ -731,53 +768,6 @@ public class DemandActivity extends BaseNoNetworkActivity {
     }
 
 
-    private void setShutDialog(boolean isCanShutDown) {
-        mDialog = new Dialog(DemandActivity.this, R.style.BottomDialog);
-        LinearLayout root;
-        if (isCanShutDown) {
-            root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
-                    R.layout.layout_shutdown1_tip, null);
-            root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialog.dismiss();
-                }
-            });
-            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (demandId != null) {
-                        shatDownEarly(demandId);
-                    }
-                }
-            });
-        } else {
-            root = (LinearLayout) LayoutInflater.from(DemandActivity.this).inflate(
-                    R.layout.layout_shutdown2_tip, null);
-            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialog.dismiss();
-                }
-            });
-        }
-        mDialog.setContentView(root);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        if (!isFinishing()) {
-            mDialog.show();
-        }
-    }
 
     @Override
     public void initDataInResume() {

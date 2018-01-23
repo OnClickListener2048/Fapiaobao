@@ -14,22 +14,17 @@ import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.UploadReceiptPreviewAdapter;
+import com.pilipa.fapiaobao.adapter.supply.UploadReceiptPreviewAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
 import com.pilipa.fapiaobao.net.bean.invoice.UploadInvoice;
 import com.pilipa.fapiaobao.net.bean.invoice.UploadProcessing;
@@ -37,6 +32,7 @@ import com.pilipa.fapiaobao.ui.PreviewActivity;
 import com.pilipa.fapiaobao.ui.UploadReceiptPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -69,7 +65,6 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
         , UploadReceiptPreviewAdapter.OnPhotoCapture {
 
 
-    private static final String TAG = "UploadPreviewReceiptFragment";
     public static final int REQUEST_CODE_CAPTURE = 10;
     public static final int REQUEST_CODE_CHOOSE = 20;
     public static final String EXTRA_ALL_DATA = "EXTRA_ALL_DATA";
@@ -78,7 +73,8 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
     public static final int REQUEST_CODE_IMAGE_CLICK = 30;
     public static final int RESULT_CODE_BACK = 40;
     public static final String IS_SHOW_SELECT_AND_DELETE = "is_show_select_and_delete";
-
+    private static final String TAG = "UploadPreviewReceiptFragment";
+    public boolean isFinish = true;
     @Bind(R.id.rv_upload_receipt)
     RecyclerView rvUploadReceipt;
     private int mImageResize;
@@ -87,17 +83,17 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
     private int mPreviousPosition = -1;
     private Dialog mCameraDialog;
     private String invoice_variety;
-    public boolean isFinish = true;
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_upload_receipt;
-    }
+    private Dialog mBottomDialog;
 
     public static UploadPreviewReceiptFragment newInstance(Bundle b) {
         UploadPreviewReceiptFragment u = new UploadPreviewReceiptFragment();
         u.setArguments(b);
         return u;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_upload_receipt;
     }
 
     @Override
@@ -196,11 +192,6 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
         rvUploadReceipt.setLayoutManager(grid);
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
         rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, true));
-//        Image image = new Image();
-//        image.isFromNet = false;
-//        image.isCapture = true;
-//        images = new ArrayList<>();
-//        images.add(image);
         mPreviousPosition = images.size();
         UploadReceiptPreviewAdapter uploadReceiptAdapter = new UploadReceiptPreviewAdapter(images, getImageResize(getActivity()));
         uploadReceiptAdapter.setOnImageClickListener(this);
@@ -210,7 +201,6 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
     }
 
     private int getImageResize(Context context) {
-
         if (mImageResize == 0) {
             RecyclerView.LayoutManager lm = rvUploadReceipt.getLayoutManager();
             int spanCount = ((GridLayoutManager) lm).getSpanCount();
@@ -242,16 +232,12 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
 
     @Override
     public void capture() {
-        setDialog();
+        showDialog();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode != RESULT_OK) {
-//            return;
-//        }
-
         if (requestCode == REQUEST_CODE_CAPTURE && resultCode == RESULT_OK) {
             Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
             String path = mediaStoreCompat.getCurrentPhotoPath();
@@ -306,29 +292,55 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
         }
     }
 
-    private void setDialog() {
-        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
-                R.layout.dialog_bottom, null);
-        //初始化视图
-        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
-        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
-        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
-        mCameraDialog.setContentView(root);
-        Window dialogWindow = mCameraDialog.getWindow();
-        dialogWindow.setGravity(Gravity.BOTTOM);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mCameraDialog.show();
+    private void showDialog() {
+        if (mBottomDialog == null) {
+            mBottomDialog = DialogUtil.getInstance().createBottomDialog(mContext, new DialogUtil.OnDialogDismissListener() {
+                @Override
+                public void onDialogDismiss(View view) {
+                    mBottomDialog.dismiss();
+                }
+            }, new DialogUtil.OnMediaOpenListener() {
+                @Override
+                public void onMediaOpen(View view) {
+                    openMedia();
+                    mBottomDialog.dismiss();
+                }
+            }, null, new DialogUtil.OnPhotoTakeListener() {
+                @Override
+                public void onPhotoTake(View view) {
+                    if (MediaStoreCompat.hasCameraFeature(getActivity())) {
+                        mediaStoreCompat.dispatchCaptureIntent(getActivity(), REQUEST_CODE_CAPTURE);
+                    }
+                    mBottomDialog.dismiss();
+                }
+            }, null);
+        }
+        showDialog(mBottomDialog);
     }
+
+//    private void setDialog() {
+//        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
+//                R.layout.dialog_bottom, null);
+//        //初始化视图
+//        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
+//        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
+//        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
+//        mCameraDialog.setContentView(root);
+//        Window dialogWindow = mCameraDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.BOTTOM);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mCameraDialog.show();
+//    }
 
 
     @Override
@@ -357,22 +369,6 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
             return images;
         }
         return null;
-    }
-
-    public int getCurrentImageCount() {
-        Log.d(TAG, "getCurrentImageCount: ");
-        if (images!= null) {
-            Log.d(TAG, "getCurrentImageCount: ");
-            return images.size();
-        }
-
-        return 0;
-    }
-
-    public void uploadInvoice() {
-        if (images != null && images.size() > 0) {
-            uploadReceipt();
-        }
     }
 
     public void uploadReceipt() {

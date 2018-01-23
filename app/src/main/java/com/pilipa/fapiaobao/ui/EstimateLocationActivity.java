@@ -32,7 +32,7 @@ import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.Constants.Config;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
+import com.pilipa.fapiaobao.adapter.supply.ExtimatePagerAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseLocationActivity;
 import com.pilipa.fapiaobao.net.Api;
@@ -435,7 +435,7 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
         }
 
         if (type == 0) {
-            BaseApplication.showToast("请选择发票类型");
+            BaseApplication.showToast("请选择发票种类");
             return;
         }
         filterConditionTop.setText(locate + "\u3000" + arrayListSelectedReceiptKind.get(type - 1));

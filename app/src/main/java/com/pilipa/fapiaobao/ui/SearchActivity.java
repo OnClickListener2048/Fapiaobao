@@ -9,14 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.FeedbackAdapterWrapper;
-import com.pilipa.fapiaobao.adapter.FeedbackMessagesAdapter;
+import com.pilipa.fapiaobao.adapter.me.FeedbackAdapterWrapper;
+import com.pilipa.fapiaobao.adapter.me.FeedbackMessagesAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;

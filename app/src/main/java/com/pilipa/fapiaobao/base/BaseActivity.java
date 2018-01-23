@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.base;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -134,6 +135,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     public void showProgressDialog() {
+        TLog.log("showProgressDialog" + getClass().getSimpleName());
         if (isFinishing()) return;
         if (progressDialog == null) return;
         if (progressDialog.isShowing()) return;
@@ -165,7 +167,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
     public void hideProgressDialog() {
-
+        TLog.log("hideProgressDialog" + getClass().getSimpleName());
         Observable.timer(500,TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -269,7 +271,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         if (fragment != null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(frameLayoutId, fragment).show(fragment);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
     }
 
@@ -369,6 +371,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             e.printStackTrace();
         }
         return BitmapUtils.bitmapToBase64(newbitmap);
+    }
+
+    protected void showDialog(Dialog dialog) {
+        if (isFinishing()) return;
+        dialog.show();
     }
 
 

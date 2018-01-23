@@ -7,16 +7,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.CompanyDetailsAdapter;
+import com.pilipa.fapiaobao.adapter.me.CompanyDetailsAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
@@ -24,6 +19,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.fragment.MyCompanyDetailsPagerFragment;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
@@ -39,12 +35,23 @@ import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
  */
 
 public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDetailsPagerFragment.OnDelClickListener,MyCompanyDetailsPagerFragment.OnNextClickListener {
+    public BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals("remove")) {
+                finish();
+            }
+        }
+    };
+    protected int mPreviousPos = 0;
     @Bind(R.id.vp_verpager)
     ViewPager mViewPager;
     CompanyDetailsAdapter companyDetailsAdapter;
-    private ArrayList<MyCompanyDetailsPagerFragment> FragmentList;
-    protected int mPreviousPos = 0;
     ArrayList<CompaniesBean.DataBean> companyList;
+    private ArrayList<MyCompanyDetailsPagerFragment> FragmentList;
+    private Dialog deleteCompanyDialog;
+    private String deleteId;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_company_details;
@@ -62,14 +69,7 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
             }break;
         }
     }
-    public BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals("remove")) {
-                finish();
-            }
-        }
-    };
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
@@ -108,7 +108,36 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
         intentFilter.addAction("remove");
 
         registerReceiver(mBroadcastReceiver, intentFilter);
+        initDialog();
     }
+
+    private void initDialog() {
+//        deleteCompanyDialog = DialogUtil.getInstance().createDeleteCompanyDialog(this, new DialogUtil.OnConfirmListener() {
+//            @Override
+//            public void onConfirm(View view) {
+//                deleteCompany(deleteId);
+//            }
+//        }, new DialogUtil.OnCancelListener() {
+//            @Override
+//            public void onCancel(View view) {
+//                deleteCompanyDialog.dismiss();
+//            }
+//        });
+
+        deleteCompanyDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_delete_tip, null, new DialogUtil.OnConfirmListener() {
+            @Override
+            public void onConfirm(View view) {
+                deleteCompany(deleteId);
+            }
+        }, new DialogUtil.OnCancelListener() {
+            @Override
+            public void onCancel(View view) {
+                deleteCompanyDialog.dismiss();
+            }
+        });
+
+    }
+
     @Override
     public void initData() {
     }
@@ -128,7 +157,8 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
     @Override
     public void onDelClick(String deleteId) {
         mPreviousPos =  mViewPager.getCurrentItem();
-        setDialog(deleteId);
+        this.deleteId = deleteId;
+        showDialog(deleteCompanyDialog);
     }
     public void deleteCompany(String id) {
             Api.deleteCompany(id, AccountHelper.getToken(), new Api.BaseRawResponse<NormalBean>() {
@@ -156,7 +186,7 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
                 public void setData(NormalBean normalBean) {
                     if (normalBean.getStatus() == REQUEST_SUCCESS) {
                         setResult(RESULT_OK);
-                        mDialog.dismiss();
+                        deleteCompanyDialog.dismiss();
                         companyDetailsAdapter.remove(mPreviousPos);
                         BaseApplication.showToast("删除成功");
 
@@ -169,37 +199,37 @@ public class CompanyDetailsActivity extends BaseActivity implements MyCompanyDet
     public void onNextClick() {
 
     }
-    Dialog mDialog;
-    private void setDialog(final String deleteId) {
-        mDialog = new Dialog(CompanyDetailsActivity.this, R.style.BottomDialog);
-        LinearLayout root;
-        root = (LinearLayout) LayoutInflater.from(CompanyDetailsActivity.this).inflate(
-                R.layout.layout_delete_tip, null);
-        root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog.dismiss();
-            }
-        });
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteCompany(deleteId);
-            }
-        });
-        mDialog.setContentView(root);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDialog.show();
-    }
+//    Dialog mDialog;
+//    private void setDialog(final String deleteId) {
+//        mDialog = new Dialog(CompanyDetailsActivity.this, R.style.BottomDialog);
+//        LinearLayout root;
+//        root = (LinearLayout) LayoutInflater.from(CompanyDetailsActivity.this).inflate(
+//                R.layout.layout_delete_tip, null);
+//        root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDialog.dismiss();
+//            }
+//        });
+//        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                deleteCompany(deleteId);
+//            }
+//        });
+//        mDialog.setContentView(root);
+//        Window dialogWindow = mDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mDialog.show();
+//    }
 }

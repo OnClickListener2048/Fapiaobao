@@ -55,7 +55,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
                 Intent intent = new Intent();
                 intent.setAction(WXPayReceiver.pay_fail);
                 sendBroadcast(intent);
-//                BaseApplication.showToast("用户取消");
                 finish();
             }
         }

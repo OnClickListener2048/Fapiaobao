@@ -16,18 +16,12 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -49,6 +43,7 @@ import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.ButtonUtils;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -82,8 +77,9 @@ import static com.pilipa.fapiaobao.utils.BitmapUtils.rotaingImageView;
  */
 
 public class UserInfoActivity extends BaseActivity {
+    public static final int REQUEST_CODE_CAPTURE = 10;
+    public static final int REQUEST_CODE_CHOOSE = 20;
     private static final String TAG = "UserInfoActivity";
-
     @Bind(R.id.edt_userName)
     EditText edtUserName;
     @Bind(R.id.edt_email)
@@ -108,16 +104,67 @@ public class UserInfoActivity extends BaseActivity {
     EditText tv_birthday;
     @Bind(R.id.bind_phone)
     TextView bindPhone;
+    LoginWithInfoBean.DataBean.CustomerBean customerBean;
     private Dialog mCameraDialog;
     private Dialog mDialog;
     private MediaStoreCompat mediaStoreCompat;
-    public static final int REQUEST_CODE_CAPTURE = 10;
-    public static final int REQUEST_CODE_CHOOSE = 20;
     private int mPreviousPosition = -1;
     private RequestManager requestManager;
     private LoginWithInfoBean loginBean;
     private Image image;
     private TimePickerDialog dialog;
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
+                TLog.d(TAG, WX_LOGIN_ACTION + " success");
+                String deviceToken = BaseApplication.get(com.pilipa.fapiaobao.ui.constants.Constant.DEVICE_TOKEN, "");
+                Bundle bundle = intent.getBundleExtra(com.pilipa.fapiaobao.ui.constants.Constant.EXTRA_BUNDLE);
+                WXmodel wx_info = bundle.getParcelable(com.pilipa.fapiaobao.ui.constants.Constant.WX_INFO);
+                if (wx_info != null) {
+                    Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+                        @Override
+                        public void onStart() {
+                            showProgressDialog();
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+
+                        @Override
+                        public void setData(NormalBean normalBean) {
+                            if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
+//                            tv_wx.setText(getString(R.string.haveBound));
+//                                hightlightPartText(tv_wx,getString(R.string.haveBound),AccountHelper.getUser().getData().getCustomer().getNickname());
+                                tv_wx.setText(getString(R.string.haveBound));
+                                tv_wx.setOnClickListener(null);
+                                BaseApplication.showToast(getString(R.string.WX_bind_success));
+                            } else if (normalBean.getStatus() == 707) {
+                                BaseApplication.showToast(normalBean.getMsg());
+                            }
+                        }
+                    });
+                }
+            } else if (intent.getAction().equals(com.pilipa.fapiaobao.ui.constants.Constant.BIND_PHONE_ACTION)) {
+                boolean isbind = intent.getBooleanExtra("isbind", false);
+                String phone = intent.getStringExtra(com.pilipa.fapiaobao.ui.constants.Constant.PHONE);
+                if (isbind) {
+                    AccountHelper.getUser().getData().getCustomer().setTelephone(phone);
+                    edtPhone.setText(phone);
+                    edtPhone.setVisibility(View.VISIBLE);
+                    bindPhone.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
+    private IWXAPI api;
 
     @Override
     protected int getLayoutId() {
@@ -203,7 +250,8 @@ public class UserInfoActivity extends BaseActivity {
             }
             break;
             case R.id.img_head: {
-                setDialog();
+//                setDialog();
+                showDialog(mCameraDialog);
             }
             break;
             case R.id.btn_choose_img:
@@ -227,65 +275,12 @@ public class UserInfoActivity extends BaseActivity {
 
                 break;
             case R.id.img_logout:
-                setLogoutDialog();
+//                setLogoutDialog();
+                showDialog(mDialog);
                 break;
             default:
         }
     }
-
-    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
-                TLog.d(TAG, WX_LOGIN_ACTION + " success");
-                String deviceToken = BaseApplication.get(com.pilipa.fapiaobao.ui.constants.Constant.DEVICE_TOKEN, "");
-                Bundle bundle = intent.getBundleExtra(com.pilipa.fapiaobao.ui.constants.Constant.EXTRA_BUNDLE);
-                WXmodel wx_info = bundle.getParcelable(com.pilipa.fapiaobao.ui.constants.Constant.WX_INFO);
-                if (wx_info!= null) {
-                    Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, wx_info.getOpenid(), "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
-                        @Override
-                        public void onStart() {
-                            showProgressDialog();
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
-
-                        @Override
-                        public void onError() {
-
-                        }
-
-                        @Override
-                        public void setData(NormalBean normalBean) {
-                            if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
-//                            tv_wx.setText(getString(R.string.haveBound));
-//                                hightlightPartText(tv_wx,getString(R.string.haveBound),AccountHelper.getUser().getData().getCustomer().getNickname());
-                                tv_wx.setText(getString(R.string.haveBound));
-                                tv_wx.setOnClickListener(null);
-                                BaseApplication.showToast(getString(R.string.WX_bind_success));
-                            } else if (normalBean.getStatus() == 707) {
-                                BaseApplication.showToast(normalBean.getMsg());
-                            }
-                        }
-                    });
-                }
-            } else if (intent.getAction().equals(com.pilipa.fapiaobao.ui.constants.Constant.BIND_PHONE_ACTION)) {
-                boolean isbind = intent.getBooleanExtra("isbind", false);
-                String phone = intent.getStringExtra(com.pilipa.fapiaobao.ui.constants.Constant.PHONE);
-                if (isbind) {
-//                    updateUserInfo(AccountHelper.getUserCustormer());
-                    AccountHelper.getUserCustormer().setTelephone(phone);
-                    AccountHelper.getUser().getData().getCustomer().setTelephone(phone);
-                    edtPhone.setText(phone);
-                    edtPhone.setVisibility(View.VISIBLE);
-                    bindPhone.setVisibility(View.GONE);
-                }
-            }
-        }
-    };
 
     @Override
     public void initView() {
@@ -298,7 +293,46 @@ public class UserInfoActivity extends BaseActivity {
         intentFilter.addAction(WX_LOGIN_ACTION);
         intentFilter.addAction(com.pilipa.fapiaobao.ui.constants.Constant.BIND_PHONE_ACTION);
         registerReceiver(mBroadcastReceiver, intentFilter);
+        initDialog();
+        initLogoutDialog();
+    }
 
+    private void initLogoutDialog() {
+        mDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_logout_tip, null, new DialogUtil.OnConfirmListener() {
+            @Override
+            public void onConfirm(View view) {
+                mDialog.dismiss();
+                logoutByToken();
+            }
+        }, new DialogUtil.OnCancelListener() {
+            @Override
+            public void onCancel(View view) {
+                mDialog.dismiss();
+            }
+        });
+    }
+
+    private void initDialog() {
+        mCameraDialog = DialogUtil.getInstance().createBottomDialog(this, new DialogUtil.OnDialogDismissListener() {
+            @Override
+            public void onDialogDismiss(View view) {
+                mCameraDialog.dismiss();
+            }
+        }, new DialogUtil.OnMediaOpenListener() {
+            @Override
+            public void onMediaOpen(View view) {
+                openMedia();
+                mCameraDialog.dismiss();
+            }
+        }, null, new DialogUtil.OnPhotoTakeListener() {
+            @Override
+            public void onPhotoTake(View view) {
+                if (MediaStoreCompat.hasCameraFeature(UserInfoActivity.this)) {
+                    mediaStoreCompat.dispatchCaptureIntent(UserInfoActivity.this, REQUEST_CODE_CAPTURE);
+                }
+                mCameraDialog.dismiss();
+            }
+        }, null);
     }
 
     @Override
@@ -345,8 +379,6 @@ public class UserInfoActivity extends BaseActivity {
             }
         });
     }
-
-    LoginWithInfoBean.DataBean.CustomerBean customerBean;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -511,8 +543,6 @@ public class UserInfoActivity extends BaseActivity {
         }
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -520,86 +550,86 @@ public class UserInfoActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    private void setDialog() {
-        mCameraDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.dialog_bottom, null);
-        //初始化视图
-        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
-        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
-        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
-        mCameraDialog.setContentView(root);
-        Window dialogWindow = mCameraDialog.getWindow();
-        dialogWindow.setGravity(Gravity.BOTTOM);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
+//    private void setDialog() {
+//        mCameraDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.dialog_bottom, null);
+//        //初始化视图
+//        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
+//        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
+//        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
+//        mCameraDialog.setContentView(root);
+//        Window dialogWindow = mCameraDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.BOTTOM);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mCameraDialog.show();
+//    }
 
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mCameraDialog.show();
-    }
+//    private void setUBindDialog() {
+//        mDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.layout_ubind_tip, null);
+//        //初始化视图
+//        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                uBindWX();
+//                mDialog.dismiss();
+//            }
+//        });
+//        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDialog.dismiss();
+//            }
+//        });
+//        mDialog.setContentView(root);
+//        Window dialogWindow = mDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mDialog.show();
+//    }
 
-    private void setUBindDialog() {
-        mDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_ubind_tip, null);
-        //初始化视图
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uBindWX();
-                mDialog.dismiss();
-            }
-        });
-        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog.dismiss();
-            }
-        });
-        mDialog.setContentView(root);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDialog.show();
-    }
-
-    private void setLogoutDialog() {
-        mDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_logout_tip, null);
-        //初始化视图
-        root.findViewById(R.id.btn_confirm).setOnClickListener(this);
-        root.findViewById(R.id.btn_cancel1).setOnClickListener(this);
-        mDialog.setContentView(root);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDialog.show();
-    }
+//    private void setLogoutDialog() {
+//        mDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.layout_logout_tip, null);
+//        //初始化视图
+//        root.findViewById(R.id.btn_confirm).setOnClickListener(this);
+//        root.findViewById(R.id.btn_cancel1).setOnClickListener(this);
+//        mDialog.setContentView(root);
+//        Window dialogWindow = mDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mDialog.show();
+//    }
 
     private void updateUserInfo(final LoginWithInfoBean.DataBean.CustomerBean customer) {
 
@@ -611,7 +641,7 @@ public class UserInfoActivity extends BaseActivity {
 
                     @Override
                     public void setData(UpdateCustomerBean updateCustomerBean) {
-                        Toast.makeText(UserInfoActivity.this, getString(R.string.user_info_save_success), Toast.LENGTH_SHORT).show();
+                        BaseApplication.showToast(getString(R.string.user_info_save_success));
                         AccountHelper.updateCustomer(customer);
                         setUserData(customer);
                         UserInfoActivity.this.finish();
@@ -656,8 +686,7 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
-                    Toast.makeText(UserInfoActivity.this, getString(R.string.logout_success), Toast.LENGTH_SHORT).show();
-                    mDialog.dismiss();
+                    BaseApplication.showToast(getString(R.string.logout_success));
                     AccountHelper.logout();
                     UserInfoActivity.this.finish();
                     set(PUSH_RECEIVE, false);
@@ -700,18 +729,20 @@ public class UserInfoActivity extends BaseActivity {
                 });
     }
 
-    private IWXAPI api;
-
     private void regexToWX() {
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         api.registerApp(Constants.APP_ID);
     }
 
     private void weChatLogin() {
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo_test";
-        api.sendReq(req);
+        if (api.isWXAppInstalled()) {
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_demo_test";
+            api.sendReq(req);
+        } else {
+            BaseApplication.showToast(getString(R.string.please_install_WX));
+        }
     }
 
     @OnClick(R.id.bind_phone)
