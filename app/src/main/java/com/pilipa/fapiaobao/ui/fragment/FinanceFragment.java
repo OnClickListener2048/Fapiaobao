@@ -46,10 +46,10 @@ import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
+import com.pilipa.fapiaobao.ui.zbar.ZbarActivity;
 import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
-import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
@@ -469,7 +469,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
                     TLog.log("REQUEST_CODE_SCAN" + aBoolean);
-                    startActivityForResult(new Intent(mContext, CaptureActivity.class), REQUEST_CODE_SCAN);
+                    startActivityForResult(new Intent(mContext, ZbarActivity.class), REQUEST_CODE_SCAN);
                 }
             }
 

@@ -28,12 +28,14 @@ android {
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
         }
+
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
+
         }
         debug {
             signingConfig signingConfigs.config
@@ -51,6 +53,7 @@ android {
                 output -> output.outputFile = new File(output.outputFile.parent, "fapiaobao.apk");
             }
     }
+
 }
 
 

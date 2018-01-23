@@ -6,6 +6,7 @@ import android.os.PersistableBundle;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -45,6 +46,15 @@ public class ZbarActivity extends AppCompatActivity implements QRCodeView.Delega
         finish();
     }
 
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.start_spot:
+                mQRCodeView.startSpot();
+                break;
+            default:
+        }
+    }
+
     @Override
     public void onScanQRCodeOpenCameraError() {
         BaseApplication.showToast(getString(R.string.open_camera_error));
@@ -55,7 +65,6 @@ public class ZbarActivity extends AppCompatActivity implements QRCodeView.Delega
         super.onStart();
         mQRCodeView.startCamera();
         mQRCodeView.showScanRect();
-        mQRCodeView.startSpotDelay(1000);
     }
 
     @Override
