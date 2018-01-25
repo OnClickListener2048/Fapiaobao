@@ -83,10 +83,10 @@ import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.widget.CashierInputFilter;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
 import com.pilipa.fapiaobao.ui.widget.PreviewPopup;
+import com.pilipa.fapiaobao.ui.zxing.SimpleCaptureActivity;
 import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
-import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -656,7 +656,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 break;
             case R.id.iv_dots_more_company:
                 //TODO 扫码
-                startActivityForResult(new Intent(this, CaptureActivity.class), REQUEST_CODE_SCAN);
+                startActivityForResult(new Intent(this, SimpleCaptureActivity.class), REQUEST_CODE_SCAN);
 
                 break;
             case R.id.et_publish_company_name:

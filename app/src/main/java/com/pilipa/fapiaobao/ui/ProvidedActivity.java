@@ -40,9 +40,9 @@ import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.ui.zxing.SimpleCaptureActivity;
 import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
-import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 import com.pilipa.fapiaobao.zxing.encode.CodeCreator;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -224,7 +224,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
             }
             break;
             case R.id.btn_scan: {
-                startActivityForResult(new Intent(this, CaptureActivity.class), REQUEST_CODE_SCAN);
+                startActivityForResult(new Intent(this, SimpleCaptureActivity.class), REQUEST_CODE_SCAN);
             }
             break;
             case R.id.btn_mailing: {

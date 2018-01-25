@@ -45,10 +45,10 @@ import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean;
 import com.pilipa.fapiaobao.net.callback.JsonConvertor;
 import com.pilipa.fapiaobao.ui.constants.Constant;
+import com.pilipa.fapiaobao.ui.zxing.SimpleCaptureActivity;
 import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.TDevice;
-import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
 import java.util.List;
 
@@ -128,7 +128,7 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_scan: {
-                startActivityForResult(new Intent(this, CaptureActivity.class), REQUEST_CODE_SCAN);
+                startActivityForResult(new Intent(this, SimpleCaptureActivity.class), REQUEST_CODE_SCAN);
             }
             break;
             case R.id.add_back: {
