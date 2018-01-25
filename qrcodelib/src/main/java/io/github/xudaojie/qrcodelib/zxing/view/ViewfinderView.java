@@ -240,7 +240,7 @@ public final class ViewfinderView extends View {
             int middle = frame.height() / 2 + frame.top;
             canvas.drawRect(frame.left + 2, middle - 1, frame.right - 1, middle + 2, paint);
         } else {
-            paint.setColor(Color.parseColor("#e6af7a"));
+            paint.setColor(getResources().getColor(R.color.main_color));
             scannerAlpha = (scannerAlpha + 1) % SCANNER_ALPHA.length;
             canvas.translate(0, translateY);
             canvas.drawRect(frame.left + 10, frame.top, frame.right - 10, frame.top + 10, paint);
