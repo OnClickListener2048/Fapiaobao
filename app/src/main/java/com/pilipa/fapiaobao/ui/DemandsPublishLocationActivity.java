@@ -1427,7 +1427,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             mScanDialog = DialogUtil.getInstance().createDialog(this, 0, R.layout.dialog_scan_tip, new DialogUtil.OnKnownListener() {
                 @Override
                 public void onKnown(View view) {
-
+                    mScanDialog.dismiss();
                 }
             }, null, null);
         }
