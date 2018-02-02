@@ -555,6 +555,8 @@
     <string name="dot">.</string>
     <string name="you_didnt_confirm_any_invoice">您还没有确认过任何发票</string>
     <string name="expressLimited">最低邮寄</string>
+    <string name="confirm_to_upload">确定上传发票</string>
+    <string name="confirm_to_reject">确认驳回</string>
 
     <string-array name="express_array">
         <item>顺丰</item>

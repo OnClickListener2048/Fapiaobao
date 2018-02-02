@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:focusable="true"
-    android:fitsSystemWindows="true"
-    android:focusableInTouchMode="true"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp">
 
+        <View style="@style/layout_title_bottom_line"/>
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:text="@string/myfeedback"
             android:textColor="@color/title"
-            android:text="@string/myfeedback" />
+            android:textSize="@dimen/d18"/>
 
         <ImageView
             android:id="@+id/feedback_back"
@@ -37,10 +39,10 @@
         android:layout_below="@+id/rl_title">
     <LinearLayout
         android:id="@+id/ll_type_area"
+        android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
-        android:layout_width="match_parent"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -84,8 +86,8 @@
 
         <com.pilipa.fapiaobao.ui.widget.EmptyRecyclerView
             android:id="@+id/recyclerView"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:animateLayoutChanges="false"
             android:overScrollMode="never" />
 

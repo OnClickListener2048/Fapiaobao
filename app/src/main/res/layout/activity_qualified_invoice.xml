@@ -9,13 +9,14 @@
             android:layout_width="match_parent"
             android:layout_height="48dp">
 
+            <View style="@style/layout_title_bottom_line"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textSize="@dimen/d18"
+                android:text="@string/quqlified_invoice"
                 android:textColor="@color/title"
-                android:text="@string/quqlified_invoice" />
+                android:textSize="@dimen/d18"/>
 
             <ImageView
                 android:id="@+id/_back"
@@ -28,7 +29,7 @@
         </RelativeLayout>
 
     <include
+        layout="@layout/layout_receipt_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/layout_receipt_list" />
+        android:layout_height="wrap_content"/>
 </LinearLayout>

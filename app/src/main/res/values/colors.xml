@@ -63,4 +63,5 @@
     <color name="agentweb_indicator_color">#e0c553</color>
     <color name="wx_pay_color">#ef5c5c</color>
     <color name="withdraw_color">#13b5b1</color>
+    <color name="rejection_red">#fd8e8e</color>
 </resources>

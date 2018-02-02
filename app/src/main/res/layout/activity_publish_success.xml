@@ -8,20 +8,21 @@
         android:layout_width="match_parent"
         android:layout_height="48dp">
 
+        <View style="@style/layout_title_bottom_line"/>
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/d18"
-            android:textColor="@color/title"
             android:layout_centerInParent="true"
-            android:text="@string/publish_share" />
+            android:text="@string/publish_share"
+            android:textColor="@color/title"
+            android:textSize="@dimen/d18"/>
 
         <ImageView
-            android:background="@drawable/drawable_scan"
             android:id="@+id/publish_success_back"
             android:layout_width="@dimen/d48"
             android:layout_height="@dimen/d48"
+            android:background="@drawable/drawable_scan"
             android:src="@mipmap/estimate_back_brawn" />
 
         <ImageView
@@ -48,18 +49,18 @@
         android:gravity="center_horizontal">
 
         <ImageView
-            android:layout_centerHorizontal="true"
             android:id="@+id/iv_publish_success"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:src="@mipmap/publish_success" />
 
         <LinearLayout
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/iv_publish_success"
             android:id="@+id/ll_publish_success"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_publish_success"
+            android:layout_centerHorizontal="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -119,12 +120,12 @@
         android:orientation="horizontal">
 
         <TextView
-            android:background="@drawable/selector_transparent_to_gray"
             android:id="@+id/WeChat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/selector_transparent_to_gray"
             android:drawableTop="@mipmap/weixinfriend"
             android:gravity="center"
             android:src="@mipmap/weixinfriend"
@@ -133,12 +134,12 @@
 
 
         <TextView
-            android:background="@drawable/selector_transparent_to_gray"
             android:id="@+id/moments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/selector_transparent_to_gray"
             android:drawableTop="@mipmap/moments"
             android:gravity="center"
             android:src="@mipmap/moments"
@@ -147,12 +148,12 @@
 
 
         <TextView
-            android:background="@drawable/selector_transparent_to_gray"
             android:id="@+id/qq"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/selector_transparent_to_gray"
             android:drawableTop="@mipmap/qqfriend"
             android:gravity="center"
             android:src="@mipmap/weixinfriend"
@@ -161,12 +162,12 @@
 
 
         <TextView
-            android:background="@drawable/selector_transparent_to_gray"
             android:id="@+id/qzone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/selector_transparent_to_gray"
             android:drawableTop="@mipmap/qzone"
             android:gravity="center"
             android:src="@mipmap/weixinfriend"
@@ -175,12 +176,12 @@
 
 
         <TextView
-            android:background="@drawable/selector_transparent_to_gray"
             android:id="@+id/weibo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:background="@drawable/selector_transparent_to_gray"
             android:drawableTop="@mipmap/weibo"
             android:gravity="center"
             android:src="@mipmap/weixinfriend"

@@ -48,7 +48,7 @@
         android:id="@+id/ll_type_area"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="@color/white"
+        android:background="@color/No_Action_bar_default_bg"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -63,8 +63,6 @@
             android:background="@drawable/shape_feedback_type_area">
 
             <com.rengwuxian.materialedittext.MaterialEditText
-                app:met_autoValidate="false"
-                app:met_errorColor="@color/red_estimate"
                 android:id="@+id/met_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,8 +72,10 @@
                 android:hint="请输入关键字查询"
                 android:maxLines="5"
                 android:textSize="@dimen/s14"
+                app:met_autoValidate="false"
                 app:met_baseColor="@color/main_style"
                 app:met_clearButton="true"
+                app:met_errorColor="@color/red_estimate"
                 app:met_floatingLabelAlwaysShown="false"
                 app:met_hideUnderline="true" />
         </LinearLayout>

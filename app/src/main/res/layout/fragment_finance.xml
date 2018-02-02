@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,52 +18,48 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:text="@string/app_name"
             android:textColor="@color/title"
-            android:text="@string/app_name" />
+            android:textSize="@dimen/d18"/>
         <FrameLayout
             android:id="@+id/fl_scan"
-            android:layout_centerVertical="true"
-            android:foreground="@drawable/drawable_scan"
             android:layout_width="@dimen/d48"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:foreground="@drawable/drawable_scan">
             <ImageView
-                android:clickable="false"
-                android:layout_gravity="center"
                 android:layout_width="@dimen/d20"
                 android:layout_height="@dimen/d20"
+                android:layout_gravity="center"
+                android:clickable="false"
                 android:src="@mipmap/scan" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/fl_notification"
-            android:foreground="@drawable/drawable_scan"
+            android:layout_width="@dimen/d48"
+            android:layout_height="@dimen/d48"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_width="@dimen/d48"
-            android:layout_height="@dimen/d48">
+            android:foreground="@drawable/drawable_scan">
             <ImageView
-                android:layout_gravity="center"
                 android:layout_width="@dimen/d20"
                 android:layout_height="@dimen/d20"
+                android:layout_gravity="center"
                 android:layout_margin="@dimen/d10"
                 android:src="@mipmap/notification" />
 
             <ImageView
-                android:src="@mipmap/dot_notification"
                 android:id="@+id/new_notification"
                 android:layout_width="@dimen/d10"
                 android:layout_height="@dimen/d10"
                 android:layout_gravity="top|right"
                 android:layout_margin="@dimen/d15"
+                android:src="@mipmap/dot_notification"
                 />
         </FrameLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d2"
-            android:layout_alignParentBottom="true"
-            android:background="@color/gray_line" />
+        <View style="@style/layout_title_bottom_line"/>
     </RelativeLayout>
 
         <FrameLayout
@@ -74,14 +71,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <android.support.v4.widget.Space
                             android:layout_width="match_parent"
@@ -91,20 +88,20 @@
                             android:layout_height="wrap_content">
                             <TextView
                                 android:id="@+id/select_your_receipt_kind"
-                                android:layout_centerHorizontal="true"
-                                android:textSize="@dimen/s11"
-                                android:text="@string/select_your_receipt_kind"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:text="@string/select_your_receipt_kind"
+                                android:textSize="@dimen/s11"/>
                             <TextView
-                                android:layout_marginTop="@dimen/d15"
-                                android:textColor="@color/main_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_below="@+id/select_your_receipt_kind"
                                 android:layout_centerHorizontal="true"
-                                android:textSize="@dimen/s13"
+                                android:layout_marginTop="@dimen/d15"
                                 android:text="@string/normal_kind_receipt"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:textColor="@color/main_style"
+                                android:textSize="@dimen/s13"/>
                         </RelativeLayout>
 
                         <android.support.v4.widget.Space
@@ -124,14 +121,14 @@
                             android:layout_height="wrap_content">
 
                             <TextView
-                                android:textColor="@color/main_style"
                                 android:id="@+id/pull_to_find_more"
-                                android:drawablePadding="@dimen/d5"
-                                android:drawableRight="@mipmap/pull"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
+                                android:drawablePadding="@dimen/d5"
+                                android:drawableRight="@mipmap/pull"
                                 android:text="@string/more_kind_receipt"
+                                android:textColor="@color/main_style"
                                 android:textSize="@dimen/s13" />
                         </RelativeLayout>
 

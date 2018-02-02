@@ -8,14 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="48dp">
 
+        <View style="@style/layout_title_bottom_line"/>
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:text="@string/red_envelope"
             android:textColor="@color/title"
-            android:text="@string/red_envelope" />
+            android:textSize="@dimen/d18"/>
 
         <ImageView
             android:id="@+id/_back"
@@ -37,37 +38,38 @@
             android:id="@+id/bonus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/red"
-            android:textSize="@dimen/s30"
             android:padding="@dimen/d5"
-            android:text="" />
+            android:text=""
+            android:textColor="@color/red"
+            android:textSize="@dimen/s30"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/yuan" />
     </LinearLayout>
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/d6"
         android:layout_marginLeft="@dimen/d15"
         android:layout_marginRight="@dimen/d15"
-        android:layout_marginBottom="@dimen/d6"
-        android:layout_marginTop="@dimen/d6"        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="@dimen/d6"
+        android:orientation="vertical">
         <Button
-            android:text="@string/withdraw"
             android:id="@+id/btn_withdraw"
-            android:textColor="@color/white"
-            android:background="@drawable/selector_mainstyle_to_transparent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_mainstyle_to_transparent"
+            android:text="@string/withdraw"
+            android:textColor="@color/white"/>
         <Button
-            android:text="@string/recharge_balance"
             android:id="@+id/btn_recharge"
-            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/d15"
             android:background="@drawable/selector_mainstyle_to_transparent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:text="@string/recharge_balance"
+            android:textColor="@color/white"/>
     </LinearLayout>
 </RelativeLayout>

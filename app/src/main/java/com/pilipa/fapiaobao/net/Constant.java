@@ -8,6 +8,7 @@ public class Constant {
 
 
     public static final String VERSION_BASE_URL = "https://www.youpiao8.cn";
+    //    public static final String VERSION_BASE_URL = "http://39.107.107.108:8080";
     public static final String BASE_URL = VERSION_BASE_URL + "/fapiaobao/rest/";
 
 
@@ -238,7 +239,7 @@ public class Constant {
     /**
      * 发票宝匹配需求(分享,提供发票分享需要bonus参数)
      */
-    public static final String MATCH = "https://www.youpiao8.cn/fapiaobao/guide/match";
+    public static final String MATCH = VERSION_BASE_URL + "/fapiaobao/guide/match";
     /**
      * 发票宝开票信息
      */
@@ -250,7 +251,7 @@ public class Constant {
     /**
      * 发票宝规则解读
      */
-    public static final String READINGRULES = "https://www.youpiao8.cn/fapiaobao/readingRules";
+    public static final String READINGRULES = VERSION_BASE_URL + "/fapiaobao/readingRules";
     /**
      * 版本更新接口
      */

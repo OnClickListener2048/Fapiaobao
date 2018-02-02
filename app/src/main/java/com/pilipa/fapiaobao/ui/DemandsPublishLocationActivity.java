@@ -1814,11 +1814,15 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         etPublishCompanyName.removeTextChangedListener(textWatcher);
         com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean companiesBean = (com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean) adapter.getItem(position);
         if (companiesBean != null) {
-            etPublishCompanyName.setText(companiesBean.getNsrmc());
-            etPublishTexNumber.setText(companiesBean.getNsrsbh());
+            etPublishCompanyName.setText(companiesBean.getName());
+            etPublishTexNumber.setText(companiesBean.getTaxId());
+            etPublishAddress.setText(companiesBean.getLocation());
+            etPublishBank.setText(companiesBean.getBank());
+            etPublishBankAccount.setText(companiesBean.getBankAccount());
+            etPublishPhoneNumber.setText(companiesBean.getFixedPhone());
         }
         popWnd.dismiss();
-        etPublishAddress.requestFocus();
+        llAddCompanyInfo.requestFocus();
     }
 
     @Override

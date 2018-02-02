@@ -8,49 +8,50 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="48dp">
 
+            <View style="@style/layout_title_bottom_line"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textSize="@dimen/d18"
+                android:text="@string/userinfo"
                 android:textColor="@color/title"
-                android:text="@string/userinfo" />
+                android:textSize="@dimen/d18"/>
 
             <ImageView
                 android:id="@+id/userinfo_back"
-                android:background="@drawable/drawable_scan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:background="@drawable/drawable_scan"
                 android:src="@mipmap/estimate_back_brawn" />
             <ImageView
                 android:id="@+id/img_logout"
-                android:padding="@dimen/d12"
-                android:background="@drawable/drawable_scan"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:background="@drawable/drawable_scan"
+                android:padding="@dimen/d12"
                 android:src="@mipmap/logout"
                 />
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_marginTop="@dimen/d10"
-            android:layout_marginBottom="@dimen/d5"
-            android:paddingLeft="@dimen/d15"
-            android:paddingRight="@dimen/d15"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/d5"
+            android:layout_marginTop="@dimen/d10"
+            android:paddingLeft="@dimen/d15"
+            android:paddingRight="@dimen/d15">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,26 +73,26 @@
             android:layout_marginRight="@dimen/d10"
             android:background="@color/gray_line" />
         <RelativeLayout
-            android:padding="@dimen/d15"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:padding="@dimen/d15">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="昵称"/>
             <EditText
                 android:id="@+id/edt_userName"
-                android:layout_alignParentRight="true"
                 android:layout_width="200dp"
-                android:gravity="right"
-                android:textSize="13sp"
-                android:background="@null"
-                android:maxLength="20"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@null"
+                android:gravity="right"
+                android:maxLength="20"
                 android:paddingRight="@dimen/d5"
-                android:text=""/>
+                android:text=""
+                android:textSize="13sp"/>
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
@@ -114,15 +115,15 @@
             <EditText
                 android:id="@+id/tv_birthday"
                 android:layout_width="200dp"
-                android:gravity="right"
-                android:focusable="false"
-                android:maxLength="10"
-                android:textSize="13sp"
-                android:paddingRight="@dimen/d5"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@null"
-                android:text="" />
+                android:focusable="false"
+                android:gravity="right"
+                android:maxLength="10"
+                android:paddingRight="@dimen/d5"
+                android:text=""
+                android:textSize="13sp"/>
         </RelativeLayout>
 
         <View
@@ -132,10 +133,10 @@
             android:layout_marginRight="@dimen/d10"
             android:background="@color/gray_line" />
         <RelativeLayout
-            android:padding="@dimen/d10"
-            android:layout_marginRight="@dimen/d5"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/d5"
+            android:padding="@dimen/d10">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -144,38 +145,38 @@
                 android:text="性别"/>
             <RadioGroup
                 android:id="@+id/radioGroup"
-                android:orientation="horizontal"
-                android:gravity="right"
-                android:checkedButton="@+id/rb_secrecy"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/rb_secrecy"
+                android:gravity="right"
+                android:orientation="horizontal">
                 <RadioButton
                     android:id="@+id/rb_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/d5"
-                    android:padding="@dimen/d5"
-                    android:textSize="13sp"
                     android:button="@drawable/selector_radiobtn"
-                    android:text="男"/>
+                    android:padding="@dimen/d5"
+                    android:text="男"
+                    android:textSize="13sp"/>
                 <RadioButton
                     android:id="@+id/rb_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/d5"
-                    android:padding="@dimen/d5"
-                    android:textSize="13sp"
                     android:button="@drawable/selector_radiobtn"
-                    android:text="女"/>
+                    android:padding="@dimen/d5"
+                    android:text="女"
+                    android:textSize="13sp"/>
                 <RadioButton
                     android:id="@+id/rb_secrecy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/d5"
-                    android:padding="@dimen/d5"
-                    android:textSize="13sp"
                     android:button="@drawable/selector_radiobtn"
-                    android:text="保密"/>
+                    android:padding="@dimen/d5"
+                    android:text="保密"
+                    android:textSize="13sp"/>
             </RadioGroup>
         </RelativeLayout>
         <View
@@ -185,25 +186,25 @@
             android:layout_marginRight="@dimen/d10"
             android:background="@color/gray_line" />
         <RelativeLayout
-            android:padding="@dimen/d15"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/d15">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="邮箱"/>
             <EditText
                 android:id="@+id/edt_email"
-                android:layout_alignParentEnd="true"
                 android:layout_width="200dp"
-                android:gravity="right"
-                android:background="@null"
-                android:maxLength="20"
-                android:inputType="textEmailAddress"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@null"
+                android:gravity="right"
+                android:inputType="textEmailAddress"
+                android:maxLength="20"
                 android:paddingRight="@dimen/d5"
-                android:textSize="13sp"
-                android:text=""/>
+                android:text=""
+                android:textSize="13sp"/>
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
@@ -212,39 +213,39 @@
             android:layout_marginRight="@dimen/d10"
             android:background="@color/gray_line" />
         <RelativeLayout
-            android:padding="@dimen/d15"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/d15">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="手机"/>
             <FrameLayout
-                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
                 <EditText
                     android:id="@+id/edt_phone"
                     android:layout_width="200dp"
-                    android:gravity="end"
-                    android:background="@null"
-                    android:textColor="@color/main_style"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="@dimen/d5"
+                    android:background="@null"
                     android:focusable="false"
-                    android:textSize="13sp"
-                    android:text=""/>
+                    android:gravity="end"
+                    android:paddingEnd="@dimen/d5"
+                    android:text=""
+                    android:textColor="@color/main_style"
+                    android:textSize="13sp"/>
                 <TextView
                     android:id="@+id/bind_phone"
-                    android:visibility="gone"
-                    android:layout_gravity="end"
-                    android:textSize="13sp"
-                    android:textColor="@drawable/selector_union_main_style_text"
-                    android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="end"
                     android:layout_marginRight="@dimen/d5"
-                    android:text="@string/gobind"/>
+                    android:text="@string/gobind"
+                    android:textColor="@drawable/selector_union_main_style_text"
+                    android:textSize="13sp"
+                    android:visibility="gone"/>
             </FrameLayout>
 
         </RelativeLayout>
@@ -256,22 +257,22 @@
             android:layout_marginRight="@dimen/d10"
             android:background="@color/gray_line" />
         <RelativeLayout
-            android:padding="@dimen/d15"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/d15">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="微信绑定"/>
             <TextView
                 android:id="@+id/tv_wx"
-                android:textSize="13sp"
-                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/d5"
+                android:text="@string/gobind"
                 android:textColor="@drawable/selector_union_main_style_text"
-                android:text="@string/gobind"/>
+                android:textSize="13sp"/>
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
@@ -283,16 +284,16 @@
 
     <Button
         android:id="@+id/btn_save"
-        android:text="@string/save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/d6"
         android:layout_marginLeft="@dimen/d15"
         android:layout_marginRight="@dimen/d15"
-        android:layout_marginBottom="@dimen/d6"
         android:layout_marginTop="@dimen/d6"
         android:background="@drawable/selector_mainstyle_to_transparent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:text="@string/save"
+        android:textColor="@color/white"/>
 
 
 </RelativeLayout>

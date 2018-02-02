@@ -94,7 +94,7 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
 
     @Override
     public void initData() {
-        messageDetails(type);
+
     }
 
     @Override
@@ -190,12 +190,13 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
                     e.printStackTrace();
                 }
                 break;
+            default:
         }
     }
 
     @Override
     public void initDataInResume() {
-        initData();
+        messageDetails(type);
     }
 
     @Override
