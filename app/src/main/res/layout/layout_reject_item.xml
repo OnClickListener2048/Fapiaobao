@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:id="@+id/layout_reject_item"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:id="@+id/layout_reject_item"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
     <TextView
         android:id="@+id/privide_amount_reject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/d10"
         android:layout_marginLeft="@dimen/d13"
         android:layout_marginRight="@dimen/d13"
-        android:layout_marginBottom="@dimen/d10"
         android:layout_marginTop="@dimen/d10"
         android:text="@string/privide_amount" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginRight="@dimen/d15"
-        android:layout_marginLeft="@dimen/d15"
         android:layout_height="150dp"
         android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/d15"
+        android:layout_marginRight="@dimen/d15"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,28 +36,28 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
-                android:gravity="start|center_vertical"
-                android:background="@drawable/bg_express"
-                android:paddingStart="@dimen/d15"
-                android:paddingEnd="@dimen/d15"
                 android:layout_marginStart="@dimen/d15"
+                android:background="@drawable/bg_express"
+                android:gravity="start|center_vertical"
+                android:paddingEnd="@dimen/d15"
+                android:paddingStart="@dimen/d15"
                 >
 
                 <EditText
                     android:id="@+id/edt_amount_reject"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:focusable="false"
                     android:inputType="numberDecimal"
                     android:maxLength="9"
-                    android:focusable="false"
                     android:textColor="#808080"
-                    android:background="@null"
                     android:textSize="@dimen/s14" />
 
                 <TextView
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginEnd="@dimen/d14"
                     android:text="@string/yuan" />
             </RelativeLayout>
@@ -80,7 +80,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/reason" />
+                    android:text="@string/reason"
+                    android:textColor="@color/rejection_red"/>
 
                 <Spinner
                     android:id="@+id/mSpinner"
@@ -94,24 +95,26 @@
             </LinearLayout>
 
             <EditText
-                android:layout_marginTop="@dimen/d5"
                 android:id="@+id/edt_reason_reject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:padding="@dimen/d3"
-                android:hint="@string/hint_reject"
-                android:textSize="@dimen/s12"
+                android:layout_marginTop="@dimen/d5"
                 android:background="@drawable/bg_express"
-                android:lines="3" />
+                android:hint="@string/hint_reject"
+                android:lines="3"
+                android:padding="@dimen/d3"
+                android:textColor="@color/rejection_red"
+                android:textColorHint="@color/rejection_red"
+                android:textSize="@dimen/s12"
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="@dimen/d10"
         android:id="@+id/ll_save_to_media"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d10"
         android:orientation="horizontal">
 
         <android.support.v4.widget.Space
@@ -123,6 +126,7 @@
             android:id="@+id/cancel_reject"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/d10"
             android:layout_weight="1"
             android:background="@drawable/selector_mainstyle_to_transparent"
             android:gravity="center"
@@ -130,23 +134,22 @@
             android:paddingLeft="@dimen/d50"
             android:paddingRight="@dimen/d50"
             android:paddingTop="@dimen/d10"
-            android:layout_marginEnd="@dimen/d10"
             android:text="@string/cancel"
             android:textColor="@color/white" />
 
         <TextView
-           android:id="@+id/tv_Unqualified_reject"
-           android:layout_weight="1"
-           android:gravity="center"
-           android:layout_width="140dp"
+            android:id="@+id/tv_Unqualified_reject"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/d13"
+            android:layout_weight="1"
+            android:background="@drawable/selector_mainstyle_to_transparent"
+            android:gravity="center"
             android:paddingBottom="@dimen/d10"
             android:paddingLeft="@dimen/d10"
             android:paddingRight="@dimen/d10"
             android:paddingTop="@dimen/d10"
-            android:layout_marginEnd="@dimen/d13"
-            android:background="@drawable/selector_mainstyle_to_transparent"
-            android:layout_height="wrap_content"
-           android:textColor="@color/white"
-           android:text="@string/confirm"/>
+            android:text="@string/confirm_to_reject"
+            android:textColor="@color/white"/>
     </LinearLayout>
 </LinearLayout>

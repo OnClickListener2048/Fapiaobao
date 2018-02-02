@@ -115,7 +115,6 @@
         <activity android:name=".ui.SupplyActivity" />
         <activity android:name=".ui.SupplyDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.HistoryActivity2" android:screenOrientation="portrait"/>
-        <activity android:name=".ShareActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.UserInfoActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.CompanyManagerActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.ReceiptFolderActivity" android:screenOrientation="portrait" />
@@ -162,9 +161,7 @@
         <activity
             android:name=".ui.FavCompanyChooseActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.zbar.ZbarActivity"
-            android:screenOrientation="portrait" />
+
         <activity android:name=".ui.PdfPreviewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -204,8 +201,6 @@
 
         <activity android:name=".ui.UploadReceiptPreviewActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.PreviewActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.TestActivity" android:screenOrientation="portrait">
-        </activity>
         <activity
             android:name=".ui.DemandsPublishLocationActivity"
             android:screenOrientation="portrait"

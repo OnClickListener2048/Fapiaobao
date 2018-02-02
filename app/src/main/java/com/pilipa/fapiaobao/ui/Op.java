@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
@@ -445,7 +444,6 @@ public class Op extends BaseActivity implements
     @Override
     public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
         TLog.d(TAG,"agentWeb onDownloadStart");
-        Toast.makeText(this, "start download", Toast.LENGTH_SHORT).show();
     }
 
     @Override

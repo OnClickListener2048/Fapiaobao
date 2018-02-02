@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">发票宝</string>
+    <string name="app_name">票宝</string>
 
 
     <string name="app_picker_name">Applications</string>
@@ -317,7 +317,7 @@
     <string name="recharge_go">去充值</string>
     <string name="recharge_balance">充入余额</string>
     <string name="agreement">点击充值，即表示已阅读并同意 </string>
-    <string name="hint">发票宝不会以任何形式要求您输入银行账户和密码</string>
+    <string name="hint">票宝不会以任何形式要求您输入银行账户和密码</string>
     <string name="red_envelope">我的红包</string>
     <string name="save">保存</string>
     <string name="cancel">取消</string>
@@ -396,10 +396,10 @@
     <string name="share_upload_description">这么有用的APP一定要分享给你，快戳进来看看吧！~</string>
     <string name="please_install_WX">请安装微信客户端后再登录</string>
     <string name="please_open_check">劳驾请按这里的信息开具发票~</string>
-    <string name="tohave_fapiaobao">拥有【发票宝】，发票变得如此简单。</string>
+    <string name="tohave_fapiaobao">拥有【票宝】，发票变得如此简单。</string>
     <string name="demand_publish_quit">退出后，信息将不被保存，确定退出吗？</string>
     <string name="demand_publish_title">提示</string>
-    <string name="click_twice_to_exit">再按一次退出发票宝</string>
+    <string name="click_twice_to_exit">再按一次退出票宝</string>
     <string name="upload_receipt_dialog">正在解析图片%s\u3000</string>
     <string name="uploading">正在上传发票…</string>
     <string name="upload_success">上传成功</string>
@@ -456,7 +456,7 @@
     <string name="know">知道了</string>
     <string name="demand_amount">发票金额</string>
     <string name="reason">驳回原因</string>
-    <string name="withdraw_to_amount">确认将红包余额全部充入发票宝吗？</string>
+    <string name="withdraw_to_amount">确认将红包余额全部充入票宝吗？</string>
     <string name="rule_points">发票正在收集中，提前关闭将会扣除相应积分，确定关闭吗？</string>
     <string name="confirm_close">确定关闭</string>
     <string name="not_close">不关了</string>
@@ -482,7 +482,7 @@
     <string name="flag">¥</string>
     <string name="acquire_short_message">获取验证码</string>
     <string name="please_enter_the_right_phone_number">请输入正确的手机号码</string>
-    <string name="scan_tip">添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描</string>
+    <string name="scan_tip">添加单位信息，目前仅支持票宝生成的单位信息二维码的扫描</string>
     <string name="save_to_invoice_clip">保存到发票夹</string>
     <string name="no_network_phase">网络连接超时，看到了外太空\n点击刷新试试</string>
     <string name="checkout_upload">查看本次提供</string>
@@ -524,7 +524,7 @@
     <string name="demand_closed">需求已关闭</string>
     <string name="add_details">+%1$s</string>
     <string name="download_fail">下载失败</string>
-    <string name="quit_app">退出发票宝</string>
+    <string name="quit_app">退出票宝</string>
     <string name="update_immediately">立即升级</string>
     <string name="donnot_update">还用老版本</string>
     <string name="recharge_fail">充值失败</string>
@@ -552,6 +552,12 @@
     <string name="ensure_to_publish">确认发布</string>
     <string name="back_to_revise">返回修改</string>
     <string name="suffix_yuan">%1$s元</string>
+    <string name="dot">.</string>
+    <string name="you_didnt_confirm_any_invoice">您还没有确认过任何发票</string>
+    <string name="expressLimited">最低邮寄</string>
+    <string name="confirm_to_upload">确定上传发票</string>
+    <string name="confirm_to_reject">确认驳回</string>
+    <string name="end_with_piece">%s张</string>
 
     <string-array name="express_array">
         <item>顺丰</item>

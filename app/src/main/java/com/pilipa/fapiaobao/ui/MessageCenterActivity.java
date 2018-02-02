@@ -18,6 +18,9 @@ import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.TDevice;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,8 @@ public class MessageCenterActivity extends BaseNoNetworkActivity implements Adap
     ListView lvContent;
     @Bind(R.id.tips)
     TextView tips;
+    @Bind(R.id.smartRefreshLayout)
+    SmartRefreshLayout mSmartRefreshLayout;
     private MessageCenterAdapter messageCenterAdapter;
     private List<MessageListBean.DataBean> list = new ArrayList();
 
@@ -49,6 +54,18 @@ public class MessageCenterActivity extends BaseNoNetworkActivity implements Adap
         return R.layout.activity_message_center;
     }
 
+    private void initSmartRefreshLayout() {
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                messageList();
+            }
+        });
+
+        mSmartRefreshLayout.setDisableContentWhenRefresh(true);
+    }
+
+
     @OnClick({R.id._back})
     @Override
     public void onClick(View v) {
@@ -57,6 +74,7 @@ public class MessageCenterActivity extends BaseNoNetworkActivity implements Adap
                 finish();
             }
             break;
+            default:
         }
     }
 
@@ -65,11 +83,12 @@ public class MessageCenterActivity extends BaseNoNetworkActivity implements Adap
         messageCenterAdapter = new MessageCenterAdapter(this);
         lvContent.setAdapter(messageCenterAdapter);
         lvContent.setOnItemClickListener(this);
+        initSmartRefreshLayout();
     }
 
     @Override
     public void initData() {
-        messageList();
+        mSmartRefreshLayout.autoRefresh(10);
     }
 
     @Override
@@ -92,12 +111,11 @@ public class MessageCenterActivity extends BaseNoNetworkActivity implements Adap
             Api.messageList(AccountHelper.getToken(), new Api.BaseRawResponse<MessageListBean>() {
                 @Override
                 public void onStart() {
-                    showProgressDialog();
                 }
 
                 @Override
                 public void onFinish() {
-                    hideProgressDialog();
+                    mSmartRefreshLayout.finishRefresh();
                 }
 
                 @Override
@@ -156,7 +174,7 @@ showNetWorkErrorLayout();
         intent.putExtra("title",list.get(position).getMessageTypeName());
         intent.putExtra("type",list.get(position).getMessageType());
         startActivity(intent);
-        messageRead(list.get(position).getMessageType());
+//        messageRead(list.get(position).getMessageType());
     }
 
     @Override

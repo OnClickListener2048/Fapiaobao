@@ -11,7 +11,7 @@ public class MessageDetailsBean {
     /**
      * status : 200
      * msg : OK
-     * data : [{"id":"uyuyouyyuytg64ghfghgfh2333423","isNewRecord":false,"createDate":"2018-05-17 11:00:33","message":{"id":"382e88db65a94df191b54654564654","isNewRecord":false,"type":"1","content":"新到发票 20张","demand":{"id":"247b44d14a444a9394baa4b322f33fb7","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}},"readFlag":"1"}]
+     * data : [{"isNewRecord":true,"createDate":"2018-02-03 12:40:08","message":{"isNewRecord":true,"remarks":"1","type":"1","content":"02-03  会议费、办公用品费......的需求","orderId":"0e3c22a292a046acbc9f50b8c2ac6b60","companyId":"3755bca04f554116987153433f70e8c1","demand":{"id":"33a3a96e341449b5a52464112be07065","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}}}]
      */
 
     private int status;
@@ -44,26 +44,14 @@ public class MessageDetailsBean {
 
     public static class DataBean {
         /**
-         * id : uyuyouyyuytg64ghfghgfh2333423
-         * isNewRecord : false
-         * createDate : 2018-05-17 11:00:33
-         * message : {"id":"382e88db65a94df191b54654564654","isNewRecord":false,"type":"1","content":"新到发票 20张","demand":{"id":"247b44d14a444a9394baa4b322f33fb7","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}}
-         * readFlag : 1
+         * isNewRecord : true
+         * createDate : 2018-02-03 12:40:08
+         * message : {"isNewRecord":true,"remarks":"1","type":"1","content":"02-03  会议费、办公用品费......的需求","orderId":"0e3c22a292a046acbc9f50b8c2ac6b60","companyId":"3755bca04f554116987153433f70e8c1","demand":{"id":"33a3a96e341449b5a52464112be07065","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}}
          */
 
-        private String id;
         private boolean isNewRecord;
         private String createDate;
         private MessageBean message;
-        private String readFlag;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
 
         public boolean isIsNewRecord() {
             return isNewRecord;
@@ -89,54 +77,24 @@ public class MessageDetailsBean {
             this.message = message;
         }
 
-        public String getReadFlag() {
-            return readFlag;
-        }
-
-        public void setReadFlag(String readFlag) {
-            this.readFlag = readFlag;
-        }
-
         public static class MessageBean {
             /**
-             * id : 382e88db65a94df191b54654564654
-             * isNewRecord : false
+             * isNewRecord : true
+             * remarks : 1
              * type : 1
-             * content : 新到发票 20张
-             * demand : {"id":"247b44d14a444a9394baa4b322f33fb7","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}
+             * content : 02-03  会议费、办公用品费......的需求
+             * orderId : 0e3c22a292a046acbc9f50b8c2ac6b60
+             * companyId : 3755bca04f554116987153433f70e8c1
+             * demand : {"id":"33a3a96e341449b5a52464112be07065","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}
              */
 
-            private String id;
             private boolean isNewRecord;
+            private String remarks;
             private String type;
             private String content;
             private String orderId;
             private String companyId;
             private DemandBean demand;
-
-            public String getOrderId() {
-                return orderId;
-            }
-
-            public void setOrderId(String orderId) {
-                this.orderId = orderId;
-            }
-
-            public String getCompanyId() {
-                return companyId;
-            }
-
-            public void setCompanyId(String companyId) {
-                this.companyId = companyId;
-            }
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
 
             public boolean isIsNewRecord() {
                 return isNewRecord;
@@ -144,6 +102,14 @@ public class MessageDetailsBean {
 
             public void setIsNewRecord(boolean isNewRecord) {
                 this.isNewRecord = isNewRecord;
+            }
+
+            public String getRemarks() {
+                return remarks;
+            }
+
+            public void setRemarks(String remarks) {
+                this.remarks = remarks;
             }
 
             public String getType() {
@@ -162,6 +128,22 @@ public class MessageDetailsBean {
                 this.content = content;
             }
 
+            public String getOrderId() {
+                return orderId;
+            }
+
+            public void setOrderId(String orderId) {
+                this.orderId = orderId;
+            }
+
+            public String getCompanyId() {
+                return companyId;
+            }
+
+            public void setCompanyId(String companyId) {
+                this.companyId = companyId;
+            }
+
             public DemandBean getDemand() {
                 return demand;
             }
@@ -172,7 +154,7 @@ public class MessageDetailsBean {
 
             public static class DemandBean {
                 /**
-                 * id : 247b44d14a444a9394baa4b322f33fb7
+                 * id : 33a3a96e341449b5a52464112be07065
                  * isNewRecord : false
                  * totalAmount : 0
                  * leftAmount : 0

@@ -52,6 +52,9 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class UploadReceiptPreviewActivity extends BaseActivity {
+    public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
+    public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
+    public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
     private static final String TAG = "UploadReceiptPreviewActivity";
     @Bind(R.id.title)
     TextView title;
@@ -71,8 +74,6 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     TextView receiptMoney;
     @Bind(R.id.estimate_money)
     TextView estimateMoney;
-    @Bind(R.id.continue_to_upload)
-    TextView continueToUpload;
     @Bind(R.id.confirm)
     Button confirm;
     int count = 0;
@@ -85,9 +86,6 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     private UploadPreviewReceiptFragment paperNormalReceiptFragment;
     private UploadPreviewReceiptFragment paperSpecialReceiptFragment;
     private UploadPreviewReceiptFragment paperElecReceiptFragment;
-    public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
-    public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
-    public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
     private double amount;
     private double bonus;
     private String demandsId;
@@ -270,18 +268,16 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
         finish();
     }
 
-    @OnClick({R.id.continue_to_upload, R.id.confirm})
+    @OnClick({R.id.confirm})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.continue_to_upload:
-                finish();
-                break;
             case R.id.confirm:
                 showProgressDialog();
                 if (!ButtonUtils.isFastDoubleClick(R.id.confirm)) {
                     upload();
                 }
                 break;
+            default:
         }
     }
 

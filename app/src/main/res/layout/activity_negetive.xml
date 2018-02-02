@@ -9,14 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="48dp">
 
+        <View style="@style/layout_title_bottom_line"/>
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:text="@string/negative"
             android:textColor="@color/title"
-            android:text="@string/negative" />
+            android:textSize="@dimen/d18"/>
 
         <ImageView
             android:id="@+id/_back"
@@ -29,10 +30,10 @@
 
     </RelativeLayout>
     <FrameLayout
-        android:layout_below="@+id/rl_title"
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_title">
         <ListView
             android:id="@+id/listview"
             android:layout_width="match_parent"
@@ -43,11 +44,11 @@
 
     <LinearLayout
         android:id="@+id/ll_no_record"
-        android:visibility="gone"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/d100"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d100"
+        android:orientation="vertical"
+        android:visibility="gone">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,9 +56,9 @@
             android:src="@mipmap/no_record_bg"/>
         <TextView
             android:id="@+id/tv_history"
-            android:layout_marginTop="@dimen/d20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/d20"
             android:gravity="center"
             android:text="@string/no_negetive"/>
     </LinearLayout>

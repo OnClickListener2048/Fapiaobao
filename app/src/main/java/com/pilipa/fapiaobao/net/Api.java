@@ -1822,7 +1822,7 @@ public class Api<T> {
     }
 
     public static void getUpdateInfo(final BaseViewCallbackWithOnStart baseViewCallback) {
-        OkGo.<VersionMode>get(URL_UPDATE)
+        OkGo.<VersionMode>get(String.format(URL_UPDATE, "0"))
                 .execute(new JsonCallBack<VersionMode>(VersionMode.class) {
 
                     @Override

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector android:variablePadding="true" xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:variablePadding="true">
     <item android:state_pressed="true">
         <shape
             android:shape="rectangle">
@@ -7,7 +7,7 @@
         </shape>
 
     </item>
-    <item android:drawable="@android:color/white">
+    <item android:drawable="@color/No_Action_bar_default_bg">
 
     </item>
 </selector>

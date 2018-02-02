@@ -7,19 +7,21 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/d15"
-        android:orientation="vertical">
-        <TextView
+        android:orientation="vertical"
+        android:padding="@dimen/d15">
+
+        <ImageView
             android:id="@+id/tv_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/d30"
-            android:textColor="@color/main_style"
-            android:gravity="center"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/d15"
-            android:text="" />
+            android:layout_marginRight="@dimen/d30"
+            android:gravity="center"
+            android:src="@drawable/notif_red_dot"
+            android:text=""
+            android:textColor="@color/main_style"
+            android:textSize="@dimen/d15"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,9 +38,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/d15"
-                android:textSize="@dimen/d12"
-                android:textColor="@color/title_small"
                 android:gravity="center_vertical"
+                android:text=""
+                android:textColor="@color/title_small"
+                android:textSize="@dimen/d14"
                 />
 
         </RelativeLayout>
@@ -46,16 +49,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_content"
+            android:layout_marginTop="@dimen/d5"
             >
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/s10"
-                android:textColor="@color/text_normal_item"
-                android:text=""
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
+                android:text=""
+                android:textColor="@color/text_normal_item"
+                android:textSize="@dimen/s14"/>
 
 
         </RelativeLayout>

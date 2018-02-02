@@ -62,6 +62,8 @@ public class MessageDetailsAdapter extends BaseAdapter {
             viewHolder.tv_title =(TextView) convertView.findViewById(R.id.tv_title);
             viewHolder.tv_date =(TextView) convertView.findViewById(R.id.tv_date);
             viewHolder.tv_time =(TextView) convertView.findViewById(R.id.tv_time);
+            viewHolder.tv_piece = (TextView) convertView.findViewById(R.id.sum_piece);
+
             convertView.setTag(viewHolder);
         }
         else
@@ -69,6 +71,9 @@ public class MessageDetailsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         MessageDetailsBean.DataBean bean = list.get(position);
+
+        viewHolder.tv_piece.setText(parent.getContext().getString(R.string.end_with_piece, list.get(position).getMessage().getRemarks()));
+
         if(MSG_TYPE_SERVICE_NOTIFICATION.equals(bean.getMessage().getType())){
             JSONObject jsonObject = null;
             try {
@@ -81,6 +86,7 @@ public class MessageDetailsAdapter extends BaseAdapter {
                     case WELCOME_NOTIFICATION:
                         viewHolder.tv_title.setText(jsonObject.getString("4"));
                         break;
+                    default:
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -92,22 +98,25 @@ public class MessageDetailsAdapter extends BaseAdapter {
         SimpleDateFormat dft1=new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat dft2=new SimpleDateFormat("HH:mm");
         Date date = TimeUtils.string2Date(bean.getCreateDate());
-        viewHolder.tv_time.setText(TimeUtils.date2String(date,dft2));
-        if(lastDate == null){
-            lastDate = TimeUtils.date2String(date,dft1);
-        }
-        if(lastDate.equals(TimeUtils.date2String(date,dft1))){
-            if(position == 0){
-                viewHolder.tv_date.setVisibility(View.VISIBLE);
-                viewHolder.tv_date.setText(TimeUtils.date2String(date,dft1));
-            }else{
-                viewHolder.tv_date.setVisibility(View.GONE);
-            }
-        }else{
-            viewHolder.tv_date.setVisibility(View.VISIBLE);
-            viewHolder.tv_date.setText(TimeUtils.date2String(date,dft1));
-            lastDate = TimeUtils.date2String(date,dft1);
-        }
+//        viewHolder.tv_time.setText(TimeUtils.date2String(date,dft2));
+//        lastDate = TimeUtils.date2String(date,dft1);
+        lastDate = TimeUtils.date2String(date);
+        viewHolder.tv_date.setText(lastDate);
+//        if(lastDate == null){
+//            lastDate = TimeUtils.date2String(date,dft1);
+//        }
+//        if(lastDate.equals(TimeUtils.date2String(date,dft1))){
+//            if(position == 0){
+//                viewHolder.tv_date.setVisibility(View.VISIBLE);
+//                viewHolder.tv_date.setText(TimeUtils.date2String(date,dft1));
+//            }else{
+//                viewHolder.tv_date.setVisibility(View.GONE);
+//            }
+//        }else{
+//            viewHolder.tv_date.setVisibility(View.VISIBLE);
+//            viewHolder.tv_date.setText(TimeUtils.date2String(date,dft1));
+//            lastDate = TimeUtils.date2String(date,dft1);
+//        }
 
 
         return convertView;
@@ -119,6 +128,6 @@ public class MessageDetailsAdapter extends BaseAdapter {
     }
     private static class ViewHolder
     {
-        TextView tv_title,tv_date,tv_time;
+        TextView tv_title, tv_date, tv_time, tv_piece;
     }
 }

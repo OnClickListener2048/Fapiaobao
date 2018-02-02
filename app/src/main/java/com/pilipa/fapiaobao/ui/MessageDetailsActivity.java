@@ -20,6 +20,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageDetailsBean;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -55,6 +56,8 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
     TextView tips;
     @Bind(R.id.no_content)
     LinearLayout noContent;
+    @Bind(R.id.smartRefreshLayout)
+    SmartRefreshLayout mSmartRefreshLayout;
     private String type;
     private String bonus;//红包金额
     private MessageDetailsAdapter adapter;
@@ -73,6 +76,7 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
                 finish();
             }
             break;
+            default:
         }
     }
 
@@ -81,9 +85,20 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    private void initSmartRefreshLayout() {
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                messageDetails(type);
+            }
+        });
+
+        mSmartRefreshLayout.setDisableContentWhenRefresh(true);
+    }
+
     @Override
     public void initView() {
-
+        initSmartRefreshLayout();
         String title = getIntent().getStringExtra("title");
         type = getIntent().getStringExtra("type");
         tv_title.setText(title);
@@ -94,7 +109,7 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
 
     @Override
     public void initData() {
-        messageDetails(type);
+
     }
 
     @Override
@@ -106,7 +121,7 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
 
     @Override
     public void onNoNetworkLayoutClicks(View view) {
-        initData();
+        messageDetails(type);
     }
 
     private void messageDetails(final String type) {
@@ -115,12 +130,11 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
         Api.messageDetails(type, AccountHelper.getToken(), new Api.BaseRawResponse<MessageDetailsBean>() {
             @Override
             public void onStart() {
-                showProgressDialog();
             }
 
             @Override
             public void onFinish() {
-                hideProgressDialog();
+                mSmartRefreshLayout.finishRefresh();
             }
 
             @Override
@@ -190,12 +204,13 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
                     e.printStackTrace();
                 }
                 break;
+            default:
         }
     }
 
     @Override
     public void initDataInResume() {
-        initData();
+        mSmartRefreshLayout.autoRefresh(10);
     }
 
     @Override

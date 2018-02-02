@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/d22"
                 android:lineSpacingExtra="@dimen/d5"
-                android:text="添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描"
+                android:text="添加单位信息，目前仅支持票宝生成的单位信息二维码的扫描"
                 android:textColor="@color/title_small"
                 android:textSize="13sp" />
 

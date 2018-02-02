@@ -148,4 +148,13 @@ class JsonCreator {
         map.put("url", url);
         return new JSONObject(map);
     }
+
+
+    public static JSONObject versionInfo() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("status", "0");
+        map.put("data", "");
+        map.put("msg", "");
+        return new JSONObject(map);
+    }
 }

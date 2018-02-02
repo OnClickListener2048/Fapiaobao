@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:id="@+id/layout_unqualified_item"
-    android:layout_height="220dp">
+              android:id="@+id/layout_unqualified_item"
+              android:layout_width="match_parent"
+              android:layout_height="220dp"
+              android:orientation="vertical">
     <TextView
         android:id="@+id/reject_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/d10"
         android:layout_marginLeft="@dimen/d13"
         android:layout_marginRight="@dimen/d13"
+        android:layout_marginTop="@dimen/d10"
         android:text="@string/privide_amount"/>
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/d13"
         android:layout_marginRight="@dimen/d13"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="20dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/reason"/>
+            android:text="@string/reason"
+            android:textColor="@color/rejection_red"/>
 
 
     </RelativeLayout>
@@ -39,9 +40,9 @@
             android:id="@+id/tv_reject_reason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/title"
-            android:textSize="@dimen/s12"
-            android:text="" />
+            android:text=""
+            android:textColor="@color/rejection_red"
+            android:textSize="@dimen/s12"/>
     </LinearLayout>
 
     <FrameLayout
@@ -49,11 +50,11 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_select_qualified"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <android.support.v4.widget.Space
                 android:layout_width="0dp"
@@ -100,14 +101,14 @@
                 android:id="@+id/confirm_back"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/d13"
                 android:background="@drawable/selector_mainstyle_to_transparent"
+                android:gravity="center"
                 android:paddingBottom="@dimen/d10"
                 android:paddingTop="@dimen/d10"
-                android:text="@string/confirm"
+                android:text="@string/confirm_to_reject"
                 android:textColor="@color/white"
-                android:layout_alignParentEnd="true"
                  />
         </RelativeLayout>
     </FrameLayout>

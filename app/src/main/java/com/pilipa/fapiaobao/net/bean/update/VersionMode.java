@@ -7,27 +7,13 @@ import android.os.Parcelable;
  * Created by edz on 2017/11/10.
  */
 
-public class VersionMode implements Parcelable{
+public class VersionMode implements Parcelable {
 
-    /**
-     * status : 200
-     * msg : OK
-     * data : {"id":"1a3d5fbe9b854281b2342d2b714d6f59","isNewRecord":false,"remarks":"hahahahhahaha","createDate":"2017-11-10 09:46:00","updateDate":"2017-11-10 09:46:00","url":"/fapiaobao/userfiles/1/files/version/2017/11/214319884360945.zip","version":"18","forced":"1"}
-     */
 
-    private int status;
-    private String msg;
-    private DataBean data;
-
-    protected VersionMode(Parcel in) {
-        status = in.readInt();
-        msg = in.readString();
-    }
-
-    public static final Creator<VersionMode> CREATOR = new Creator<VersionMode>() {
+    public static final Parcelable.Creator<VersionMode> CREATOR = new Parcelable.Creator<VersionMode>() {
         @Override
-        public VersionMode createFromParcel(Parcel in) {
-            return new VersionMode(in);
+        public VersionMode createFromParcel(Parcel source) {
+            return new VersionMode(source);
         }
 
         @Override
@@ -35,6 +21,24 @@ public class VersionMode implements Parcelable{
             return new VersionMode[size];
         }
     };
+    /**
+     * status : 200
+     * msg : OK
+     * data : {"id":"3a00e98fa670452585df38a574fb01a2","isNewRecord":false,"remarks":"","createDate":"2018-01-30 14:37:15","updateDate":"2018-01-30 14:37:15","url":"/fapiaobao/userfiles/1/files/version/fapiaobao.apk","version":"100","systype":"0","size":8817402,"forced":"0"}
+     */
+
+    private int status;
+    private String msg;
+    private DataBean data;
+
+    public VersionMode() {
+    }
+
+    protected VersionMode(Parcel in) {
+        this.status = in.readInt();
+        this.msg = in.readString();
+        this.data = in.readParcelable(DataBean.class.getClassLoader());
+    }
 
     public int getStatus() {
         return status;
@@ -67,44 +71,16 @@ public class VersionMode implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(status);
-        dest.writeString(msg);
+        dest.writeInt(this.status);
+        dest.writeString(this.msg);
+        dest.writeParcelable(this.data, flags);
     }
 
-    public static class DataBean implements Parcelable{
-        /**
-         * id : 1a3d5fbe9b854281b2342d2b714d6f59
-         * isNewRecord : false
-         * remarks : hahahahhahaha
-         * createDate : 2017-11-10 09:46:00
-         * updateDate : 2017-11-10 09:46:00
-         * url : /fapiaobao/userfiles/1/files/version/2017/11/214319884360945.zip
-         * version : 18
-         * forced : 1
-         */
-
-        private String id;
-        private boolean isNewRecord;
-        private String remarks;
-        private String createDate;
-        private String updateDate;
-
-        protected DataBean(Parcel in) {
-            id = in.readString();
-            isNewRecord = in.readByte() != 0;
-            remarks = in.readString();
-            createDate = in.readString();
-            updateDate = in.readString();
-            url = in.readString();
-            size = in.readInt();
-            version = in.readString();
-            forced = in.readString();
-        }
-
+    public static class DataBean implements Parcelable {
         public static final Creator<DataBean> CREATOR = new Creator<DataBean>() {
             @Override
-            public DataBean createFromParcel(Parcel in) {
-                return new DataBean(in);
+            public DataBean createFromParcel(Parcel source) {
+                return new DataBean(source);
             }
 
             @Override
@@ -112,19 +88,45 @@ public class VersionMode implements Parcelable{
                 return new DataBean[size];
             }
         };
+        /**
+         * id : 3a00e98fa670452585df38a574fb01a2
+         * isNewRecord : false
+         * remarks :
+         * createDate : 2018-01-30 14:37:15
+         * updateDate : 2018-01-30 14:37:15
+         * url : /fapiaobao/userfiles/1/files/version/fapiaobao.apk
+         * version : 100
+         * systype : 0
+         * size : 8817402
+         * forced : 0
+         */
 
-        public int getSize() {
-            return size;
-        }
-
-        public void setSize(int size) {
-            this.size = size;
-        }
-
+        private String id;
+        private boolean isNewRecord;
+        private String remarks;
+        private String createDate;
+        private String updateDate;
         private String url;
-        private int size;
         private String version;
+        private String systype;
+        private int size;
         private String forced;
+
+        public DataBean() {
+        }
+
+        protected DataBean(Parcel in) {
+            this.id = in.readString();
+            this.isNewRecord = in.readByte() != 0;
+            this.remarks = in.readString();
+            this.createDate = in.readString();
+            this.updateDate = in.readString();
+            this.url = in.readString();
+            this.version = in.readString();
+            this.systype = in.readString();
+            this.size = in.readInt();
+            this.forced = in.readString();
+        }
 
         public String getId() {
             return id;
@@ -182,6 +184,22 @@ public class VersionMode implements Parcelable{
             this.version = version;
         }
 
+        public String getSystype() {
+            return systype;
+        }
+
+        public void setSystype(String systype) {
+            this.systype = systype;
+        }
+
+        public int getSize() {
+            return size;
+        }
+
+        public void setSize(int size) {
+            this.size = size;
+        }
+
         public String getForced() {
             return forced;
         }
@@ -197,15 +215,16 @@ public class VersionMode implements Parcelable{
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(id);
-            dest.writeByte((byte) (isNewRecord ? 1 : 0));
-            dest.writeString(remarks);
-            dest.writeString(createDate);
-            dest.writeString(updateDate);
-            dest.writeString(url);
-            dest.writeInt(size);
-            dest.writeString(version);
-            dest.writeString(forced);
+            dest.writeString(this.id);
+            dest.writeByte(this.isNewRecord ? (byte) 1 : (byte) 0);
+            dest.writeString(this.remarks);
+            dest.writeString(this.createDate);
+            dest.writeString(this.updateDate);
+            dest.writeString(this.url);
+            dest.writeString(this.version);
+            dest.writeString(this.systype);
+            dest.writeInt(this.size);
+            dest.writeString(this.forced);
         }
     }
 }

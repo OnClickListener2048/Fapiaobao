@@ -5,18 +5,18 @@
     android:orientation="vertical">
 
     <ImageView
-        android:background="@drawable/selector_pub_quit"
-        android:layout_width="@dimen/d48"
         android:id="@+id/quit"
+        android:layout_width="@dimen/d48"
         android:layout_height="@dimen/d48"
         android:layout_gravity="end|top"
+        android:background="@drawable/selector_pub_quit"
         android:scaleType="center"
         android:src="@mipmap/demands_details_preview_quit" />
 
     <ImageView
-        android:layout_marginTop="@dimen/d30"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d30"
         android:src="@mipmap/pub_bg" />
 
     <LinearLayout
@@ -34,11 +34,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/d30" />
 
             <LinearLayout
+                android:id="@+id/ll_choose_kind"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"

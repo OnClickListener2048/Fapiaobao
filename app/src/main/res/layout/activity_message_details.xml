@@ -8,14 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="48dp">
 
+        <View style="@style/layout_title_bottom_line"/>
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:text="@string/message_details"
             android:textColor="@color/title"
-            android:text="@string/message_details" />
+            android:textSize="@dimen/d18"/>
 
         <ImageView
             android:id="@+id/_back"
@@ -25,43 +26,48 @@
             android:src="@mipmap/estimate_back_brawn" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/container"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <ListView
                 android:id="@+id/lv_content"
-                android:dividerHeight="@dimen/d1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:dividerHeight="@dimen/d1">
             </ListView>
 
 
-
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/no_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/d100"
-            android:orientation="vertical">
-
-            <ImageView
+            <LinearLayout
+                android:id="@+id/no_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/no_list" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/d100"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <TextView
-                android:id="@+id/tips"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/no_list"/>
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""/>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
 </LinearLayout>

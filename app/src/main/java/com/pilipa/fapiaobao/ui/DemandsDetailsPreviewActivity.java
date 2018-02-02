@@ -501,7 +501,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                         return;
                     String extension = BitmapUtils.getExtension(sourceFile.getAbsolutePath());
                     String extDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                            .getAbsolutePath() + File.separator + "发票宝";
+                            .getAbsolutePath() + File.separator + "票宝";
                     File extDirFile = new File(extDir);
                     if (!extDirFile.exists()) {
                         if (!extDirFile.mkdirs()) {

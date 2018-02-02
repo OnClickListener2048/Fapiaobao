@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.TimeUtils;
@@ -50,7 +51,7 @@ public class MessageCenterAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.item_message_center, null);
             viewHolder.tv_title =(TextView) convertView.findViewById(R.id.tv_title);
             viewHolder.tv_date =(TextView) convertView.findViewById(R.id.tv_date);
-            viewHolder.tv_size =(TextView) convertView.findViewById(R.id.tv_size);
+            viewHolder.tv_size = (ImageView) convertView.findViewById(R.id.tv_size);
             convertView.setTag(viewHolder);
         }
         else
@@ -65,9 +66,9 @@ public class MessageCenterAdapter extends BaseAdapter {
             viewHolder.tv_date.setText(TimeUtils.millis2String(System.currentTimeMillis()));
         }
         if(bean.getUnreadMessages() != 0){
-            viewHolder.tv_size.setText(String.valueOf(bean.getUnreadMessages()));
+            viewHolder.tv_size.setVisibility(View.VISIBLE);
         }else{
-            viewHolder.tv_size.setText("");
+            viewHolder.tv_size.setVisibility(View.GONE);
         }
 
         return convertView;
@@ -80,6 +81,7 @@ public class MessageCenterAdapter extends BaseAdapter {
 
     private static class ViewHolder
     {
-        TextView tv_title,tv_date,tv_size;
+        TextView tv_title, tv_date;
+        ImageView tv_size;
     }
 }

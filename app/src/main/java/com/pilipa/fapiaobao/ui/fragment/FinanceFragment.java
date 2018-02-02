@@ -61,6 +61,7 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -320,7 +321,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                         return Observable.fromIterable(dataBean.getInvoiceTypeList());
                     }
                 }).subscribeOn(Schedulers.from(AppOperator.getExecutor()))
-                .observeOn(Schedulers.from(AppOperator.getExecutor()))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AllInvoiceType.DataBean.InvoiceTypeListBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -454,6 +455,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             case R.id.title:
                 srollview.smoothScrollTo(0, 0);
                 break;
+            default:
         }
     }
 
@@ -533,19 +535,21 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                     boolean hasNewMsg = false;
                     if (messageListBean.getStatus() == REQUEST_SUCCESS) {
                         List<MessageListBean.DataBean> data = messageListBean.getData();
-                        for (int i = 0; i < data.size(); i++) {
-                            if (data.get(i).getUnreadMessages() > 0) {
-                                hasNewMsg = true;
-                                TLog.d("MainActivity", "message center had new message");
-                                break;
-                            } else {
-                                TLog.d("MainActivity", "message center no message1");
+                        if (data != null) {
+                            for (int i = 0; i < data.size(); i++) {
+                                if (data.get(i).getUnreadMessages() > 0) {
+                                    hasNewMsg = true;
+                                    TLog.d("MainActivity", "message center had new message");
+                                    break;
+                                } else {
+                                    TLog.d("MainActivity", "message center no message1");
+                                }
                             }
-                        }
-                        if (hasNewMsg) {
-                            set(PUSH_RECEIVE, true);
-                        } else {
-                            set(PUSH_RECEIVE, false);
+                            if (hasNewMsg) {
+                                set(PUSH_RECEIVE, true);
+                            } else {
+                                set(PUSH_RECEIVE, false);
+                            }
                         }
                     }
                 }
@@ -565,33 +569,6 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
         showDialog(mDialog);
     }
 
-
-//    public void setScanDialog() {
-//        scanDialog = new Dialog(getActivity(), R.style.BottomDialog);
-//        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
-//                R.layout.layout_scan_tip, null);
-//        //初始化视图
-//        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                scanDialog.dismiss();
-//            }
-//        });
-//        scanDialog.setContentView(root);
-//        Window dialogWindow = scanDialog.getWindow();
-//        dialogWindow.setGravity(Gravity.CENTER);
-////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-//        lp.x = 0; // 新位置X坐标
-//        lp.y = 0; // 新位置Y坐标
-//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-//        root.measure(0, 0);
-//        lp.height = root.getMeasuredHeight();
-//
-//        lp.alpha = 9f; // 透明度
-//        dialogWindow.setAttributes(lp);
-//        scanDialog.show();
-//    }
 
     @Override
     public void initDataInResume() {

@@ -8,20 +8,21 @@
         android:layout_width="match_parent"
         android:layout_height="48dp">
 
+        <View style="@style/layout_title_bottom_line"/>
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:text="@string/upload_receipt"
             android:textColor="@color/title"
-            android:text="@string/upload_receipt" />
+            android:textSize="@dimen/d18"/>
 
         <ImageView
-            android:background="@drawable/drawable_scan"
             android:id="@+id/upload_back"
             android:layout_width="@dimen/d48"
             android:layout_height="@dimen/d48"
+            android:background="@drawable/drawable_scan"
             android:src="@mipmap/estimate_back_brawn" />
 
         <ImageView
@@ -39,14 +40,14 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <android.support.v4.widget.NestedScrollView
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,8 +56,8 @@
 
                 <LinearLayout
                     android:id="@+id/ll_container_paper_normal_receipt"
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
@@ -72,9 +73,9 @@
 
                     <FrameLayout
                         android:id="@+id/container_paper_normal_receipt"
-                        android:layout_margin="@dimen/d3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/d3"/>
                 </LinearLayout>
 
 
@@ -84,9 +85,9 @@
 
                 <LinearLayout
                     android:id="@+id/ll_container_paper_special_receipt"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -101,9 +102,9 @@
 
                     <FrameLayout
                         android:id="@+id/container_paper_special_receipt"
-                        android:layout_margin="@dimen/d3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/d3">
 
                     </FrameLayout>
                 </LinearLayout>
@@ -132,9 +133,9 @@
 
                     <FrameLayout
                         android:id="@+id/container_paper_elec_receipt"
-                        android:layout_margin="@dimen/d3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/d3">
 
                     </FrameLayout>
 
@@ -159,12 +160,12 @@
                         android:layout_height="@dimen/d20" />
 
                     <TextView
-                        android:textSize="@dimen/s12"
-                        android:textColor="#959595"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/d10"
-                        android:text="@string/my_provide" />
+                        android:text="@string/my_provide"
+                        android:textColor="#959595"
+                        android:textSize="@dimen/s12"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -178,10 +179,10 @@
 
 
                         <LinearLayout
-                            android:layout_marginStart="@dimen/d10"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginStart="@dimen/d10"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:orientation="horizontal">
@@ -230,9 +231,9 @@
                                 android:orientation="horizontal">
 
                                 <TextView
-                                    android:layout_marginStart="@dimen/d10"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/d10"
                                     android:text="@string/receipt_number" />
 
                                 <TextView
@@ -260,9 +261,9 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_marginStart="@dimen/d10"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/d10"
                                 android:text="@string/estimate_money" />
 
                             <TextView
@@ -304,49 +305,44 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/d23" />
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:paddingTop="@dimen/d10"
-                            android:paddingBottom="@dimen/d10"
-                            android:paddingStart="@dimen/d15"
-                            android:paddingEnd="@dimen/d15"
-                            android:id="@+id/continue_to_upload"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/upload_receipt"
-                            android:textColor="@drawable/selector_union_main_style_text"
-                            android:textSize="@dimen/s11" />
-                    </LinearLayout>
+                        android:layout_height="@dimen/d13"/>
+                    <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center_horizontal"-->
+                    <!--android:orientation="horizontal">-->
+                    <!--<TextView-->
+                    <!--android:paddingTop="@dimen/d10"-->
+                    <!--android:paddingBottom="@dimen/d10"-->
+                    <!--android:paddingStart="@dimen/d15"-->
+                    <!--android:paddingEnd="@dimen/d15"-->
+                    <!--android:id="@+id/continue_to_upload"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/upload_receipt"-->
+                    <!--android:textColor="@drawable/selector_union_main_style_text"-->
+                    <!--android:textSize="@dimen/s11" />-->
+                    <!--</LinearLayout>-->
 
                 </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <Button
-                android:layout_marginBottom="@dimen/d5"
-                android:layout_marginLeft="@dimen/d20"
                 android:id="@+id/confirm"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/d40"
+                android:layout_marginBottom="@dimen/d5"
+                android:layout_marginLeft="@dimen/d20"
                 android:layout_marginRight="@dimen/d20"
                 android:layout_marginTop="@dimen/d5"
                 android:background="@drawable/selector_mainstyle_to_transparent"
-                android:text="@string/confirm"
+                android:text="@string/confirm_to_upload"
                 android:textColor="@color/white" />
         </LinearLayout>
-
-
     </LinearLayout>
-
-
-
 </LinearLayout>
