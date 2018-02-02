@@ -8,14 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="48dp">
 
+        <View style="@style/layout_title_bottom_line"/>
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:text="@string/message_center"
             android:textColor="@color/title"
-            android:text="@string/message_center" />
+            android:textSize="@dimen/d18"/>
 
         <ImageView
             android:id="@+id/_back"
@@ -32,19 +33,19 @@
 
         <ListView
             android:id="@+id/lv_content"
-            android:dividerHeight="1dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:dividerHeight="1dp">
         </ListView>
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/no_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/d100"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"

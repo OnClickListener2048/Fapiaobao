@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/llcontent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_popup_tips"
+        android:orientation="vertical"
+        android:padding="@dimen/d10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温馨提示："
+            android:textColor="@color/main_style"
+            android:textSize="@dimen/s16"/>
+
+
+        <TextView
+            android:id="@+id/tv_elec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/d10"
+            android:text="电子发票：只能开具普通发票，可自行打印，用于报销，入账。"
+            android:textColor="@color/main_style"
+            android:textSize="@dimen/s14"/>
+
+        <TextView
+            android:id="@+id/tv_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/d10"
+            android:text="增值税普票：各类纳税人均可使用；若您的企业是小规模纳税人，选择普票即可。"
+            android:textColor="@color/main_style"
+            android:textSize="@dimen/s14"/>
+
+        <TextView
+            android:id="@+id/tv_special"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/d10"
+            android:text="增值税专票：若您的企业是一般纳税人，建议优先选择专票"
+            android:textColor="@color/main_style"
+            android:textSize="@dimen/s14"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_elec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llcontent"
+        android:src="@drawable/triangle_down"
+        android:translationY="-1dp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llcontent"
+        android:src="@drawable/triangle_down"
+        android:translationY="-1dp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_special"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llcontent"
+        android:src="@drawable/triangle_down"
+        android:translationY="-1dp"
+        android:visibility="gone" />
+</RelativeLayout>

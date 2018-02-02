@@ -3,11 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@mipmap/dotted_line"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/d10"
         android:background="@drawable/item_white_selector"
+        android:padding="@dimen/d10"
         >
 
         <ImageView
@@ -23,31 +28,27 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/image"
-            android:textColor="@color/title_small"
-            android:text="" />
-
+            android:text=""
+            android:textColor="@color/title_small"/>
         <TextView
             android:id="@+id/main_tab_unread_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/ic_red_dot"
             android:layout_marginEnd="@dimen/d40"
+            android:background="@drawable/ic_red_dot"
             android:gravity="center"
-            android:layout_alignParentEnd="true"
             android:text=""
-            android:visibility="gone"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/s10"/>
+            android:textSize="@dimen/s10"
+            android:visibility="gone"/>
         <ImageView
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:src="@mipmap/enter_gray" />
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/d0.5"
-        android:background="@color/gray_line" />
+
 </LinearLayout>

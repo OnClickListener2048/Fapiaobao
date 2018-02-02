@@ -5,18 +5,19 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:id="@+id/relativeLayout">
+        android:layout_height="48dp">
 
+        <View style="@style/layout_title_bottom_line"/>
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/s18"
+            android:text="@string/withdraw_wx"
             android:textColor="@color/title"
-            android:text="@string/withdraw_wx" />
+            android:textSize="@dimen/s18"/>
 
         <ImageView
             android:id="@+id/_back"
@@ -28,18 +29,18 @@
             android:src="@mipmap/estimate_back_brawn" />
     </RelativeLayout>
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginTop="102dp"
-        android:layout_marginEnd="@dimen/d10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/linearLayout"
         android:layout_below="@+id/relativeLayout"
-        android:layout_alignStart="@+id/linearLayout">
+        android:layout_marginEnd="@dimen/d10"
+        android:layout_marginTop="102dp"
+        android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/title"
-            android:text="@string/withdraw_amount"/>
+            android:text="@string/withdraw_amount"
+            android:textColor="@color/title"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,23 +50,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/title"
-                android:text="@string/flag" />
+                android:text="@string/flag"
+                android:textColor="@color/title"/>
             <EditText
                 android:id="@+id/amount"
                 android:layout_width="280dp"
-                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:textColor="@color/red"
-                android:textSize="@dimen/s30"
                 android:background="@null"
+                android:gravity="center"
                 android:inputType="numberDecimal|number"
-                android:text="" />
+                android:text=""
+                android:textColor="@color/red"
+                android:textSize="@dimen/s30"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/title"
-                android:text="@string/yuan" />
+                android:text="@string/yuan"
+                android:textColor="@color/title"/>
         </LinearLayout>
         <View
             android:layout_width="match_parent"
@@ -74,63 +75,63 @@
             android:layout_marginRight="@dimen/d10"
             android:background="#cbcacf" />
         <RelativeLayout
-            android:layout_marginTop="@dimen/d15"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/d15">
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:textSize="13sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="最大提现额度为"
                     android:textColor="@color/text_normal_item"
-                    android:text="最大提现额度为"/>
+                    android:textSize="13sp"/>
                 <TextView
                     android:id="@+id/withdraw_max"
-                    android:textSize="15sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="0"
                     android:textColor="@color/bouns_1"
-                    android:text="0"/>
+                    android:textSize="15sp"/>
                 <TextView
-                    android:textSize="13sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/yuan"
                     android:textColor="@color/text_normal_item"
-                    android:text="@string/yuan"/>
+                    android:textSize="13sp"/>
             </LinearLayout>
             <LinearLayout
-                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/d10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal">
                 <TextView
                     android:id="@+id/withdraw_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/d12"
                     android:text="@string/withdraw_all"
-                    android:textSize="@dimen/d10"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@drawable/selector_union_main_style_text" />
+                    android:textColor="@drawable/selector_union_main_style_text"
+                    android:textSize="@dimen/d10"/>
                 <ImageView
                     android:id="@+id/question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/d15"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/d15"
                     android:src="@mipmap/question"/>
             </LinearLayout>
 
         </RelativeLayout>
         <LinearLayout
-            android:layout_marginTop="@dimen/d5"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/d5">
 
             <TextView
                 android:id="@+id/textView8"
@@ -142,37 +143,37 @@
 
             <TextView
                 android:id="@+id/withdraw_current"
-                android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="0"
                 android:textColor="@color/bouns_1"
-                android:text="0"/>
+                android:textSize="15sp"/>
             <TextView
-                android:textSize="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/yuan"
                 android:textColor="@color/text_normal_item"
-                android:text="@string/yuan"/>
+                android:textSize="13sp"/>
         </LinearLayout>
     </LinearLayout>
 
 
     <LinearLayout
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:layout_marginLeft="@dimen/d15"
-        android:layout_marginRight="@dimen/d15"
-        android:layout_marginBottom="@dimen/d6"
-        android:layout_marginTop="@dimen/d6"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/d6"
+        android:layout_marginLeft="@dimen/d15"
+        android:layout_marginRight="@dimen/d15"
+        android:layout_marginTop="@dimen/d6"
+        android:orientation="vertical">
         <Button
-            android:text="@string/withdraw"
             android:id="@+id/btn_withdraw"
-            android:textColor="@color/white"
-            android:background="@drawable/selector_mainstyle_to_transparent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_mainstyle_to_transparent"
+            android:text="@string/withdraw"
+            android:textColor="@color/white"/>
     </LinearLayout>
 </RelativeLayout>

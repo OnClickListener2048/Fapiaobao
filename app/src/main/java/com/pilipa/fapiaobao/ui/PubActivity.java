@@ -3,14 +3,18 @@ package com.pilipa.fapiaobao.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.SizeUtils;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
+import com.pilipa.fapiaobao.ui.widget.TipsPopup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,7 +25,10 @@ import butterknife.OnClick;
  */
 
 public class PubActivity extends BaseActivity {
-
+    public static final String RECEIPTELEC_DATA = "receiptElec";
+    public static final String RECEIPTPAPERNORMAL_DATA = "receiptPaperNormal";
+    public static final String RECEIPTPAPERSPECIAL_DATA = "receiptPaperSpecial";
+    private static final String TAG = PubActivity.class.getSimpleName();
     @Bind(R.id.select_receipt_elec)
     ImageView selectReceiptElec;
     @Bind(R.id.receipt_elec)
@@ -36,11 +43,11 @@ public class PubActivity extends BaseActivity {
     FrameLayout receiptPaperSpecial;
     @Bind(R.id.confirm)
     TextView confirm;
-    public static final String RECEIPTELEC_DATA = "receiptElec";
-    public static final String RECEIPTPAPERNORMAL_DATA = "receiptPaperNormal";
-    public static final String RECEIPTPAPERSPECIAL_DATA = "receiptPaperSpecial";
     @Bind(R.id.quit)
     ImageView quit;
+    @Bind(R.id.ll_choose_kind)
+    LinearLayout mLlChooseKind;
+    private TipsPopup mTipsPopup;
 
     public static void show(Context context) {
         context.startActivity(new Intent(context, PubActivity.class));
@@ -58,10 +65,18 @@ public class PubActivity extends BaseActivity {
 
     @Override
     public void initView() {
+
         receiptElec.setSelected(false);
         receiptPaperNormal.setSelected(false);
         receiptPaperSpecial.setSelected(false);
-        updateSelection();
+        selectReceiptElec.setVisibility(receiptElec.isSelected() ? View.VISIBLE : View.INVISIBLE);
+        selectReceiptPaperNormal.setVisibility(receiptPaperNormal.isSelected() ? View.VISIBLE : View.INVISIBLE);
+        selectReceiptPaperSpecial.setVisibility(receiptPaperSpecial.isSelected() ? View.VISIBLE : View.INVISIBLE);
+        initPopup();
+    }
+
+    private void initPopup() {
+        mTipsPopup = new TipsPopup(this);
     }
 
     @Override
@@ -76,31 +91,47 @@ public class PubActivity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.select_receipt_elec,R.id.quit, R.id.receipt_elec, R.id.select_receipt_paper_normal, R.id.receipt_paper_normal, R.id.select_receipt_paper_special, R.id.receipt_paper_special})
+
+    @OnClick({R.id.select_receipt_elec, R.id.quit, R.id.receipt_elec, R.id.select_receipt_paper_normal, R.id.receipt_paper_normal, R.id.select_receipt_paper_special, R.id.receipt_paper_special})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.receipt_elec:
                 receiptElec.setSelected(!receiptElec.isSelected());
-                updateSelection();
+                updateSelection(receiptElec);
+                moveToPosition(mTipsPopup.getIvElec(), receiptElec);
                 break;
             case R.id.receipt_paper_normal:
                 receiptPaperNormal.setSelected(!receiptPaperNormal.isSelected());
-                updateSelection();
+                updateSelection(receiptPaperNormal);
+                moveToPosition(mTipsPopup.getIvNormal(), receiptPaperNormal);
                 break;
             case R.id.receipt_paper_special:
                 receiptPaperSpecial.setSelected(!receiptPaperSpecial.isSelected());
-                updateSelection();
+                updateSelection(receiptPaperSpecial);
+                moveToPosition(mTipsPopup.getIvSpecial(), receiptPaperSpecial);
                 break;
             case R.id.quit:
                 finish();
                 break;
+            default:
         }
     }
 
-    private void updateSelection() {
-        selectReceiptElec.setVisibility(receiptElec.isSelected() ? View.VISIBLE : View.INVISIBLE);
+    private void moveToPosition(ImageView imageView, FrameLayout frameLayout) {
+        mTipsPopup.moveToPosition(imageView, frameLayout);
+    }
+
+    private void updateSelection(FrameLayout frameLayout) {
+        selectReceiptElec.setVisibility(this.receiptElec.isSelected() ? View.VISIBLE : View.INVISIBLE);
         selectReceiptPaperNormal.setVisibility(receiptPaperNormal.isSelected() ? View.VISIBLE : View.INVISIBLE);
         selectReceiptPaperSpecial.setVisibility(receiptPaperSpecial.isSelected() ? View.VISIBLE : View.INVISIBLE);
+        if (mTipsPopup != null) {
+            if (!mTipsPopup.isShowing()) {
+                mTipsPopup.showAtLocation(mLlChooseKind, Gravity.CENTER, 0, SizeUtils.dp2px(50));
+            }
+            mTipsPopup.updateContent(receiptElec.isSelected(), receiptPaperNormal.isSelected(), receiptPaperSpecial.isSelected());
+
+        }
     }
 
     @OnClick(R.id.confirm)
@@ -119,5 +150,9 @@ public class PubActivity extends BaseActivity {
         finish();
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTipsPopup.dismiss();
+    }
 }

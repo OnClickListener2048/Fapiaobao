@@ -10,7 +10,7 @@
     <!-- 主体背景颜色值 -->
     <item android:bottom="1dp"> <!--设置只有底部有边框-->
         <shape>
-            <solid android:color="#ffffff" />
+            <solid android:color="@color/No_Action_bar_default_bg"/>
         </shape>
     </item>
 

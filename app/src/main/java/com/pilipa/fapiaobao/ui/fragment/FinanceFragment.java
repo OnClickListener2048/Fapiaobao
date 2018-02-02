@@ -61,6 +61,7 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -320,7 +321,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                         return Observable.fromIterable(dataBean.getInvoiceTypeList());
                     }
                 }).subscribeOn(Schedulers.from(AppOperator.getExecutor()))
-                .observeOn(Schedulers.from(AppOperator.getExecutor()))
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AllInvoiceType.DataBean.InvoiceTypeListBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -454,6 +455,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             case R.id.title:
                 srollview.smoothScrollTo(0, 0);
                 break;
+            default:
         }
     }
 
@@ -533,19 +535,21 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                     boolean hasNewMsg = false;
                     if (messageListBean.getStatus() == REQUEST_SUCCESS) {
                         List<MessageListBean.DataBean> data = messageListBean.getData();
-                        for (int i = 0; i < data.size(); i++) {
-                            if (data.get(i).getUnreadMessages() > 0) {
-                                hasNewMsg = true;
-                                TLog.d("MainActivity", "message center had new message");
-                                break;
-                            } else {
-                                TLog.d("MainActivity", "message center no message1");
+                        if (data != null) {
+                            for (int i = 0; i < data.size(); i++) {
+                                if (data.get(i).getUnreadMessages() > 0) {
+                                    hasNewMsg = true;
+                                    TLog.d("MainActivity", "message center had new message");
+                                    break;
+                                } else {
+                                    TLog.d("MainActivity", "message center no message1");
+                                }
                             }
-                        }
-                        if (hasNewMsg) {
-                            set(PUSH_RECEIVE, true);
-                        } else {
-                            set(PUSH_RECEIVE, false);
+                            if (hasNewMsg) {
+                                set(PUSH_RECEIVE, true);
+                            } else {
+                                set(PUSH_RECEIVE, false);
+                            }
                         }
                     }
                 }

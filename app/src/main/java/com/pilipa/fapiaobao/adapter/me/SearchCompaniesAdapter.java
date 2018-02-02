@@ -20,7 +20,7 @@ public class SearchCompaniesAdapter extends BaseQuickAdapter<CompaniesBean, Base
 
     @Override
     protected void convert(BaseViewHolder helper, CompaniesBean item) {
-        helper.setText(R.id.company_name, item.getNsrmc())
-                .setText(R.id.tex_number, item.getNsrsbh());
+        helper.setText(R.id.company_name, item.getName())
+                .setText(R.id.tex_number, item.getTaxId());
     }
 }

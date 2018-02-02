@@ -36,7 +36,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blog.www.guideview.Component;
 import com.blog.www.guideview.Guide;
@@ -269,6 +268,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     private Dialog mDialogTip2;
     private Dialog mScanDialog;
     private PreviewPopup mPreviewPopup;
+    private boolean mIsShowExpressLimited;
     public WXPayReceiver wxPayReceiver = new WXPayReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -316,9 +316,9 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         tvPublishAddressMustFill.setText(paperSpecial ? "必填" : "选填");
         tvPublishBankAccountMustFill.setText(paperSpecial ? "必填" : "选填");
         tvPublishPhoneNumberMustFill.setText(paperSpecial ? "必填" : "选填");
-//        llAreaLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
-        llExpressLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
-        etAmountRedbag.setNextFocusForwardId(elec && !paperNormal && !paperSpecial ? R.id.et_publish_cautions : R.id.et_express_amount_minimum);
+        mIsShowExpressLimited = elec && !paperNormal && !paperSpecial;
+        llExpressLimited.setVisibility(mIsShowExpressLimited ? View.GONE : View.VISIBLE);
+        etAmountRedbag.setNextFocusForwardId(mIsShowExpressLimited ? R.id.et_publish_cautions : R.id.et_express_amount_minimum);
         int fourteenDaysMilliseconds = 14 * 24 * 60 * 60 * 1000;
         etDate.setText(TimeUtils.millis2String(System.currentTimeMillis() + fourteenDaysMilliseconds, TimeUtils.FORMAT));
         dialog = new TimePickerDialog(this);
@@ -799,20 +799,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     }
 
     private boolean isAccountSufficient() {
-
-        TLog.d(TAG, "AccountHelper.getUser().getData().getCustomer().getAmount()" + AccountHelper.getUser().getData().getCustomer().getAmount());
-        TLog.d(TAG, "AccountHelper.getUserCustormer().getBonus()" + AccountHelper.getUserCustormer().getBonus());
-        TLog.d(TAG, "AccountHelper.getUserCustormer().getAvailiableBalance()" + AccountHelper.getUser().getData().getCustomer().getAvailiableBalance());
-
-        if (!Switch.isChecked()) {
-            return true;
-        }
-
-        if (AccountHelper.getUser().getData().getCustomer().getAvailiableBalance() >= Double.valueOf(getTextViewValue(etAmountRedbag))) {
-            return true;
-        } else {
-            return false;
-        }
+        return !Switch.isChecked() || AccountHelper.getUser().getData().getCustomer().getAvailiableBalance() >= Double.valueOf(getTextViewValue(etAmountRedbag));
     }
 
     private void createPopup() {
@@ -828,13 +815,15 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 .setDeadline(getTextViewValue(etDate))
                 .setDemandAmount(getString(R.string.point_two, Double.valueOf(getTextViewValue(etAmount))))
                 .setBonus(Switch.isChecked() ? getString(R.string.point_two, Double.valueOf(getTextViewValue(etAmountRedbag))) : "")
-                .setAvailableBalance(String.valueOf(getString(R.string.point_two, AccountHelper.getUser().getData().getCustomer().getAvailiableBalance())))
+                .setAvailableBalance(getString(R.string.point_two, AccountHelper.getUser().getData().getCustomer().getAvailiableBalance()))
                 .setBalanceSufficient(isAccountSufficient())
                 .setInvoiceArea(switchArea.isChecked() ? getTextViewValue(tvAreaLimited) : "")
                 .setIsShowExpressInfo(paperNormal || paperSpecial)
                 .setReceiption(getTextViewValue(etReceptionName))
-                .setReceiptionAddress(getTextViewValue(etAreaDetails))
+                .setReceiptionAddress(getTextViewValue(tvArea) + "  " + getTextViewValue(etAreaDetails))
                 .setReceiptionPhoneNumber(getTextViewValue(etReceptionNumber))
+                .setShowExpressLimited(!mIsShowExpressLimited)
+                .setExpressLimited(mIsShowExpressLimited ? "" : getString(R.string.point_two, Double.valueOf(getTextViewValue(etExpressAmountMinimum))))
                 .setCautions(getTextViewValue(etPublishCautions))
                 .setOnBalanceInsufficientListener(new PreviewPopup.OnBalanceInsufficientListener() {
                     @Override
@@ -967,7 +956,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
-                    Toast.makeText(DemandsPublishLocationActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT).show();
+                    BaseApplication.showToast(getString(R.string.add_success));
                     setResult(RESULT_OK);
                     Log.d(TAG, "createCompany;success");
                 }
@@ -1285,8 +1274,11 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             if ((Double.valueOf(getTextViewValue(etAmountRedbag))
                     > Double.valueOf(getTextViewValue(etAmount)) * 0.05)) {
                 BaseApplication.showToast("悬赏红包不能超过需求总额的5%");
+                setErrorBackground(etAmountRedbag);
                 sooothScrollToView(etAmountRedbag);
                 return false;
+            } else {
+                etAmountRedbag.setBackgroundResource(R.drawable.shape_rect_demand_info);
             }
         }
 
@@ -1386,6 +1378,13 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     }
 
     private String getTextViewValue(TextView view) {
+//        boolean b = (view == etAmountRedbag
+//                || view == etAmount
+//                || view == etExpressAmountMinimum)
+//                && view.getText().toString().trim().endsWith(getString(R.string.dot));
+//        if (b) {
+//            return view.getText().toString().replace(getString(R.string.dot), "");
+//        }
         return view.getText().toString().trim();
     }
 
@@ -1431,7 +1430,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             mScanDialog = DialogUtil.getInstance().createDialog(this, 0, R.layout.dialog_scan_tip, new DialogUtil.OnKnownListener() {
                 @Override
                 public void onKnown(View view) {
-
+                    mScanDialog.dismiss();
                 }
             }, null, null);
         }
@@ -1716,7 +1715,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     @Override
     public void onBackPressed() {
-        if (mPreviewPopup.isShowing()) {
+        if (mPreviewPopup != null && mPreviewPopup.isShowing()) {
             mPreviewPopup.dismiss();
             return;
         }
@@ -1727,8 +1726,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             TLog.log("alertDialog.hide();");
             alertDialog.hide();
         }
-
-
     }
 
     private void startSearching(String companyName, String tag) {
@@ -1817,11 +1814,15 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         etPublishCompanyName.removeTextChangedListener(textWatcher);
         com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean companiesBean = (com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean) adapter.getItem(position);
         if (companiesBean != null) {
-            etPublishCompanyName.setText(companiesBean.getNsrmc());
-            etPublishTexNumber.setText(companiesBean.getNsrsbh());
+            etPublishCompanyName.setText(companiesBean.getName());
+            etPublishTexNumber.setText(companiesBean.getTaxId());
+            etPublishAddress.setText(companiesBean.getLocation());
+            etPublishBank.setText(companiesBean.getBank());
+            etPublishBankAccount.setText(companiesBean.getBankAccount());
+            etPublishPhoneNumber.setText(companiesBean.getFixedPhone());
         }
         popWnd.dismiss();
-        etPublishAddress.requestFocus();
+        llAddCompanyInfo.requestFocus();
     }
 
     @Override

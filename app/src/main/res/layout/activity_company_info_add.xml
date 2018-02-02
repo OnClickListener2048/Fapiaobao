@@ -52,6 +52,7 @@
         android:elevation="@dimen/d10"
         android:orientation="vertical"
         android:translationZ="@dimen/d10"
+        app:cardBackgroundColor="@color/No_Action_bar_default_bg"
         app:cardCornerRadius="@dimen/d10">
 
         <LinearLayout
@@ -415,5 +416,9 @@
         android:text="@string/save"
         android:textColor="@color/white" />
 
-
+    <EditText
+        android:id="@+id/et_dumb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 </RelativeLayout>

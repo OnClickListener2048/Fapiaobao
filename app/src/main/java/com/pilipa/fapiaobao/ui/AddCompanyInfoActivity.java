@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.mylibrary.utils.KeyboardUtils;
@@ -95,6 +94,8 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
     CardView cardView;
     @Bind(R.id.ll_company_name)
     LinearLayout llCompanyName;
+    @Bind(R.id.et_dumb)
+    EditText mEtDumb;
     private PopupWindow popWnd;
     private SearchCompaniesAdapter adapter;
 
@@ -378,36 +379,6 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
         super.onCreate(savedInstanceState);
     }
 
-//    public void setScanDialog() {
-//        scanDialog = new Dialog(this, R.style.BottomDialog);
-//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-//                R.layout.layout_scan_tip, null);
-//        TextView tv = (TextView) root.findViewById(R.id.scan_tip);
-//        tv.setText("添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描");
-//        //初始化视图
-//        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                scanDialog.dismiss();
-//            }
-//        });
-//        scanDialog.setContentView(root);
-//        Window dialogWindow = scanDialog.getWindow();
-//        dialogWindow.setGravity(Gravity.CENTER);
-////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-//        lp.x = 0; // 新位置X坐标
-//        lp.y = 0; // 新位置Y坐标
-//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-//        root.measure(0, 0);
-//        lp.height = root.getMeasuredHeight();
-//
-//        lp.alpha = 9f; // 透明度
-//        dialogWindow.setAttributes(lp);
-//        scanDialog.show();
-//    }
-
-
     private void createCompany(final Company company) {
 
 
@@ -435,7 +406,7 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
-                    Toast.makeText(AddCompanyInfoActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT).show();
+                    BaseApplication.showToast(getString(R.string.add_success));
                     setResult(RESULT_OK);
                     AddCompanyInfoActivity.this.finish();
                     TLog.d(TAG, "createCompany;success");
@@ -450,12 +421,15 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
         edtCompany_name.removeTextChangedListener(textWatcher);
         CompaniesBean companiesBean = (CompaniesBean) adapter.getItem(position);
         if (companiesBean != null) {
-            edtCompany_name.setText(companiesBean.getNsrmc());
-            edtTaxno.setText(companiesBean.getNsrsbh());
+            edtCompany_name.setText(companiesBean.getName());
+            edtTaxno.setText(companiesBean.getTaxId());
+            edtCompanyAddress.setText(companiesBean.getLocation());
+            edtBankAccount.setText(companiesBean.getBankAccount());
+            edtBankName.setText(companiesBean.getBank());
+            edtCompanyNumber.setText(companiesBean.getFixedPhone());
         }
         popWnd.dismiss();
-        edtCompanyAddress.requestFocus();
-
+        edtBankAccount.requestFocus();
     }
 
 

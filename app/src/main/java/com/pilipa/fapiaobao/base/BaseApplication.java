@@ -89,7 +89,7 @@ public class BaseApplication extends Application {
     private static final String PREF_NAME = "p";
     private static final int RETRY_COUNT = 3;
     private static final int READ_TIMEOUT = 10*1000;
-    private static final int WRITE_TIMEOUT = 7*1000;
+    private static final int WRITE_TIMEOUT = 10 * 1000;
     private static final int CONNECT_TIMEOUT = 10*1000;
     public static ArrayList<BaseActivity> activities = new ArrayList<>();
     static Context _context;
@@ -240,6 +240,10 @@ public class BaseApplication extends Application {
         builder.writeTimeout(WRITE_TIMEOUT, TimeUnit.MILLISECONDS);
         //全局的连接超时时间
         builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS);
+        builder.retryOnConnectionFailure(false);
+
+        OkGo.getInstance().setRetryCount(0);
+
     }
 
     @Override

@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -642,7 +641,7 @@ public class UserInfoActivity extends BaseActivity {
 
                     @Override
                     public void setData(UpdateCustomerBean updateCustomerBean) {
-                        Toast.makeText(UserInfoActivity.this, getString(R.string.user_info_save_success), Toast.LENGTH_SHORT).show();
+                        BaseApplication.showToast(getString(R.string.user_info_save_success));
                         AccountHelper.updateCustomer(customer);
                         setUserData(customer);
                         UserInfoActivity.this.finish();
@@ -687,7 +686,7 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
-                    Toast.makeText(UserInfoActivity.this, getString(R.string.logout_success), Toast.LENGTH_SHORT).show();
+                    BaseApplication.showToast(getString(R.string.logout_success));
                     AccountHelper.logout();
                     UserInfoActivity.this.finish();
                     set(PUSH_RECEIVE, false);
