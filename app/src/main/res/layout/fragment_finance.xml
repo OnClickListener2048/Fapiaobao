@@ -1,157 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/app_name"
-            android:textColor="@color/title"
-            android:textSize="@dimen/d18"/>
-        <FrameLayout
-            android:id="@+id/fl_scan"
-            android:layout_width="@dimen/d48"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:foreground="@drawable/drawable_scan">
-            <ImageView
-                android:layout_width="@dimen/d20"
-                android:layout_height="@dimen/d20"
-                android:layout_gravity="center"
-                android:clickable="false"
-                android:src="@mipmap/scan" />
-        </FrameLayout>
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/app_name"
+                android:textColor="@color/title"
+                android:textSize="@dimen/d18" />
 
-        <FrameLayout
-            android:id="@+id/fl_notification"
-            android:layout_width="@dimen/d48"
-            android:layout_height="@dimen/d48"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:foreground="@drawable/drawable_scan">
-            <ImageView
-                android:layout_width="@dimen/d20"
-                android:layout_height="@dimen/d20"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/d10"
-                android:src="@mipmap/notification" />
+            <FrameLayout
+                android:id="@+id/fl_scan"
+                android:layout_width="@dimen/d48"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:foreground="@drawable/drawable_scan">
 
-            <ImageView
-                android:id="@+id/new_notification"
-                android:layout_width="@dimen/d10"
-                android:layout_height="@dimen/d10"
-                android:layout_gravity="top|right"
-                android:layout_margin="@dimen/d15"
-                android:src="@mipmap/dot_notification"
-                />
-        </FrameLayout>
+                <ImageView
+                    android:layout_width="@dimen/d20"
+                    android:layout_height="@dimen/d20"
+                    android:layout_gravity="center"
+                    android:clickable="false"
+                    android:src="@mipmap/scan" />
+            </FrameLayout>
 
-        <View style="@style/layout_title_bottom_line"/>
-    </RelativeLayout>
+            <FrameLayout
+                android:id="@+id/fl_notification"
+                android:layout_width="@dimen/d48"
+                android:layout_height="@dimen/d48"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:foreground="@drawable/drawable_scan">
+
+                <ImageView
+                    android:layout_width="@dimen/d20"
+                    android:layout_height="@dimen/d20"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/d10"
+                    android:src="@mipmap/notification" />
+
+                <ImageView
+                    android:id="@+id/new_notification"
+                    android:layout_width="@dimen/d10"
+                    android:layout_height="@dimen/d10"
+                    android:layout_gravity="top|right"
+                    android:layout_margin="@dimen/d15"
+                    android:src="@mipmap/dot_notification" />
+            </FrameLayout>
+
+            <View style="@style/layout_title_bottom_line" />
+        </RelativeLayout>
 
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v4.widget.NestedScrollView
-                android:id="@+id/srollview"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/head"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginBottom="@dimen/d5"
+                    android:layout_marginTop="@dimen/d15">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/select_your_receipt_kind"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/select_your_receipt_kind"
+                        android:textSize="@dimen/s11" />
 
-                        <android.support.v4.widget.Space
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d15" />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:id="@+id/select_your_receipt_kind"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:text="@string/select_your_receipt_kind"
-                                android:textSize="@dimen/s11"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/select_your_receipt_kind"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/d15"
-                                android:text="@string/normal_kind_receipt"
-                                android:textColor="@color/main_style"
-                                android:textSize="@dimen/s13"/>
-                        </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/select_your_receipt_kind"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/d15"
+                        android:text="@string/normal_kind_receipt"
+                        android:textColor="@color/main_style"
+                        android:textSize="@dimen/s13" />
+                </RelativeLayout>
 
-                        <android.support.v4.widget.Space
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d3" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/head"
+                    android:overScrollMode="never">
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
 
-                        </android.support.v7.widget.RecyclerView>
+                <SlidingDrawer
+                    android:id="@+id/slidingDrawer"
+                    android:layout_width="match_parent"
+                    android:layout_height="600dp"
+                    android:layout_alignParentBottom="true"
+                    android:content="@+id/content"
+                    android:handle="@+id/handle">
 
-                        <RelativeLayout
-                            android:id="@+id/rl_pull_to_find_more"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:id="@id/handle"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/d40"
+                        android:layout_marginBottom="@dimen/d23"
+                        android:background="@color/gray_line">
 
-                            <TextView
-                                android:id="@+id/pull_to_find_more"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:drawablePadding="@dimen/d5"
-                                android:drawableRight="@mipmap/pull"
-                                android:text="@string/more_kind_receipt"
-                                android:textColor="@color/main_style"
-                                android:textSize="@dimen/s13" />
-                        </RelativeLayout>
+                        <TextView
+                            android:id="@+id/pull_to_find_more"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:drawablePadding="@dimen/d5"
+                            android:drawableRight="@mipmap/pull"
+                            android:text="@string/more_kind_receipt"
+                            android:textColor="@color/main_style"
+                            android:textSize="@dimen/s13" />
+                    </RelativeLayout>
 
-                        <android.support.v4.widget.Space
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d23" />
+                    <FrameLayout
+                        android:id="@id/content"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:background="@color/No_Action_bar_default_bg">
 
-                        <android.support.v7.widget.RecyclerView
+                        <com.pilipa.fapiaobao.ui.widget.DrawerRecyclerView
                             android:id="@+id/recyclerview_more_kind"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/d15"
+                            android:overScrollMode="never">
 
-                        </android.support.v7.widget.RecyclerView>
-
-                    </LinearLayout>
-                </LinearLayout>
-
-            </android.support.v4.widget.NestedScrollView>
+                        </com.pilipa.fapiaobao.ui.widget.DrawerRecyclerView>
+                    </FrameLayout>
+                </SlidingDrawer>
+            </RelativeLayout>
         </FrameLayout>
-
     </LinearLayout>
-
-
-
-
 </FrameLayout>

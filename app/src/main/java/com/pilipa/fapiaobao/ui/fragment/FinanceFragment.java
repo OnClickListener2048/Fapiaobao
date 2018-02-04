@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.RegexUtils;
@@ -46,6 +45,7 @@ import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
+import com.pilipa.fapiaobao.ui.widget.DrawerRecyclerView;
 import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
@@ -80,23 +80,19 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     public static final String DECODED_CONTENT_KEY = "codedContent";
     public static final String DECODED_BITMAP_KEY = "codedBitmap";
     public static final int REQUEST_CODE_SCAN = 0x0234;
-   public static String TAG = "FinanceFragment";
-//    @Bind(R.id.scan)
+    public static String TAG = "FinanceFragment";
+    //    @Bind(R.id.scan)
 //    ImageView scan;
 //    @Bind(R.id.notification)
 //    ImageView notification;
     @Bind(R.id.recyclerview)
     public RecyclerView recyclerview;
     @Bind(R.id.recyclerview_more_kind)
-    RecyclerView recyclerviewMoreKind;
+    DrawerRecyclerView recyclerviewMoreKind;
     @Bind(R.id.pull_to_find_more)
     TextView pullToFindMore;
-    @Bind(R.id.srollview)
-    NestedScrollView srollview;
     @Bind(R.id.new_notification)
     ImageView newNotification;
-    @Bind(R.id.rl_pull_to_find_more)
-    RelativeLayout rlPullToFindMore;
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.select_your_receipt_kind)
@@ -104,6 +100,8 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     @Bind(R.id.fl_notification)
     FrameLayout flNotification;
     FinanceAdapter financeAdapter;
+    @Bind(R.id.slidingDrawer)
+    SlidingDrawer mSlidingDrawer;
     private LoginWithInfoBean loginBean;
     private AllInvoiceAdapter adapter;
     private MainActivity activity;
@@ -148,7 +146,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
                     if (RegexUtils.isURL(content) || content.contains("http")) {
                         checkFavCompanies(content);
-                    }else{
+                    } else {
                         showDialog();
                     }
                 }
@@ -222,7 +220,6 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     @Override
     protected void initWidget(View root) {
         super.initWidget(root);
-        srollview.setSmoothScrollingEnabled(true);
         GridLayoutManager manager = new GridLayoutManager(mContext, 2, LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(manager);
         TLog.d(TAG, "recyclerview.addItemDecoration");
@@ -231,6 +228,38 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
         recyclerviewMoreKind.setNestedScrollingEnabled(false);
         recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext, LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(), 23), R.color.white));
         initBroadcast();
+
+        mSlidingDrawer.setOnDrawerScrollListener(new SlidingDrawer.OnDrawerScrollListener() {
+            @Override
+            public void onScrollStarted() {
+                TLog.d(TAG, "onScrollStarted");
+            }
+
+            @Override
+            public void onScrollEnded() {
+                TLog.d(TAG, "onScrollEnded");
+            }
+        });
+
+        recyclerviewMoreKind.setSlidingDrawer(mSlidingDrawer);
+
+        recyclerviewMoreKind.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                TLog.d(TAG, "newState" + newState);
+                boolean b = recyclerviewMoreKind.canScrollVertically(-1);
+                TLog.d(TAG, "canScrollVertically====" + b);
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                TLog.d(TAG, "dx" + dx);
+                TLog.d(TAG, "dy" + dy);
+            }
+        });
     }
 
     private void initBroadcast() {
@@ -358,7 +387,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             public void onCacheSuccess(DefaultInvoiceBean defaultInvoiceBean) {
                 isCacheSuccess = true;
                 hideNetWorkErrorLayout();
-                fillupData(defaultInvoiceBean,allInvoiceType);
+                fillupData(defaultInvoiceBean, allInvoiceType);
             }
 
             @Override
@@ -387,7 +416,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             @Override
             public void setData(DefaultInvoiceBean defaultInvoiceBean) {
                 hideNetWorkErrorLayout();
-                fillupData(defaultInvoiceBean,allInvoiceType);
+                fillupData(defaultInvoiceBean, allInvoiceType);
             }
         });
     }
@@ -430,7 +459,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     }
 
 
-    @OnClick({ R.id.pull_to_find_more, R.id.rl_pull_to_find_more, R.id.fl_notification, R.id.title,R.id.fl_scan})
+    @OnClick({R.id.pull_to_find_more, R.id.fl_notification, R.id.title, R.id.fl_scan})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fl_scan:
@@ -447,13 +476,9 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
 
                 break;
             case R.id.pull_to_find_more:
-            case R.id.rl_pull_to_find_more:
-                srollview.setSmoothScrollingEnabled(true);
-                pullToFindMore.measure(0, 0);
-                srollview.smoothScrollTo(0, rlPullToFindMore.getTop());
+
                 break;
             case R.id.title:
-                srollview.smoothScrollTo(0, 0);
                 break;
             default:
         }
@@ -477,12 +502,12 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
 
             @Override
             public void onError(Throwable e) {
-                TLog.d(TAG,"Throwable e"+e.getMessage());
+                TLog.d(TAG, "Throwable e" + e.getMessage());
             }
 
             @Override
             public void onComplete() {
-                TLog.d(TAG," rxPermissions.request  onComplete");
+                TLog.d(TAG, " rxPermissions.request  onComplete");
             }
         });
     }
