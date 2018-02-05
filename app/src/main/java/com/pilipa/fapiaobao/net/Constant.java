@@ -137,7 +137,7 @@ public class Constant {
     /*获取消息列表+详情  */
     public static final String MESSAGE_MESSAGES= BASE_URL + "message/messages/%s";
     /*改变消息状态为已读   */
-    public static final String MESSAGE_READ= BASE_URL + "message/read/%s/%s";
+    public static final String MESSAGE_READ = BASE_URL + "message/read/%s/%s/%s";
     /*删除   */
     public static final String MESSAGE_REMOVE= BASE_URL + "message/remove/%s/%s";
 

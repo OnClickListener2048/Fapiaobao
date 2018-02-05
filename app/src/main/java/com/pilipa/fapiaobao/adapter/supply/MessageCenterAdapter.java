@@ -1,6 +1,7 @@
 package com.pilipa.fapiaobao.adapter.supply;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.mylibrary.utils.TimeUtils;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 
 import java.util.ArrayList;
@@ -52,6 +54,8 @@ public class MessageCenterAdapter extends BaseAdapter {
             viewHolder.tv_title =(TextView) convertView.findViewById(R.id.tv_title);
             viewHolder.tv_date =(TextView) convertView.findViewById(R.id.tv_date);
             viewHolder.tv_size = (ImageView) convertView.findViewById(R.id.tv_size);
+            viewHolder.tvRedBagAmount = (TextView) convertView.findViewById(R.id.tv_redbag_amount);
+
             convertView.setTag(viewHolder);
         }
         else
@@ -71,6 +75,14 @@ public class MessageCenterAdapter extends BaseAdapter {
             viewHolder.tv_size.setVisibility(View.GONE);
         }
 
+        if (TextUtils.equals(Constant.MSG_TYPE_GOT_BONUS, bean.getMessageType())) {
+            viewHolder.tvRedBagAmount.setVisibility(View.VISIBLE);
+            viewHolder.tv_size.setVisibility(View.GONE);
+            viewHolder.tvRedBagAmount.setText(String.valueOf(bean.getUnreadMessages()));
+        } else {
+            viewHolder.tvRedBagAmount.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 
@@ -81,7 +93,8 @@ public class MessageCenterAdapter extends BaseAdapter {
 
     private static class ViewHolder
     {
-        TextView tv_title, tv_date;
+        TextView tv_title, tv_date, tvRedBagAmount;
         ImageView tv_size;
+
     }
 }

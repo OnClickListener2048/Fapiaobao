@@ -88,7 +88,7 @@ public class MessageCenterActivity extends BaseNoNetworkActivity implements Adap
 
     @Override
     public void initData() {
-        mSmartRefreshLayout.autoRefresh(10);
+
     }
 
     @Override
@@ -150,35 +150,46 @@ showNetWorkErrorLayout();
         }
     }
 
-    private void messageRead(final String type) {
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String messageType = list.get(position).getMessageType();
+        if (com.pilipa.fapiaobao.net.Constant.MSG_TYPE_GOT_BONUS.equals(messageType)) {
+            if (list.get(position).getUnreadMessages() > 0) {
+                startActivity(new Intent(this, MyRedEnvelopeActivity.class));
+                messageRead(messageType, com.pilipa.fapiaobao.net.Constant.MSG_TYPE_GOT_BONUS);
+            }
+        } else {
+            Intent intent = new Intent(MessageCenterActivity.this, MessageDetailsActivity.class);
+            intent.putExtra("title", list.get(position).getMessageTypeName());
+            intent.putExtra("type", messageType);
+            startActivity(intent);
+        }
+
+
+    }
+
+    private void messageRead(final String id, String type) {
         if (TDevice.hasInternet()) {
             /*修改消息已读状态 （当前类别全部修改）*/
-            Api.messageRead(AccountHelper.getToken(),type, new Api.BaseViewCallback<NormalBean>() {
+            lvContent.setVisibility(View.VISIBLE);
+            Api.messageRead(type, id, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
                 @Override
                 public void setData(NormalBean normalBean) {
-                    TLog.d(" private void messageRead(final String type) {",normalBean.getStatus()+"");
+                    TLog.d(" private void messageRead(final String type) {", normalBean.getStatus() + "");
                 }
             });
 
         } else {
+            lvContent.setVisibility(View.GONE);
             noContent.setVisibility(View.VISIBLE);
             tips.setText("当前没有网络哦~");
         }
 
     }
 
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(MessageCenterActivity.this,MessageDetailsActivity.class);
-        intent.putExtra("title",list.get(position).getMessageTypeName());
-        intent.putExtra("type",list.get(position).getMessageType());
-        startActivity(intent);
-//        messageRead(list.get(position).getMessageType());
-    }
-
     @Override
     public void initDataInResume() {
-
+        mSmartRefreshLayout.autoRefresh(10);
     }
 }

@@ -215,36 +215,39 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     @Override
     public void initData() {
         bonus = getIntent().getStringExtra("bonus");
-        setupViews(bonus);
-        AccountHelper.isTokenValid(new Api.BaseRawResponse<LoginWithInfoBean>() {
-            @Override
-            public void onStart() {
-                showProgressDialog();
-            }
-
-            @Override
-            public void onFinish() {
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onError() {
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onTokenInvalid() {
-
-            }
-
-            @Override
-            public void setData(LoginWithInfoBean loginWithInfoBean) {
-                if(loginWithInfoBean.getStatus() == REQUEST_SUCCESS){
-                    AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
+        if (bonus != null) {
+            setupViews(bonus);
+        } else {
+            AccountHelper.isTokenValid(new Api.BaseRawResponse<LoginWithInfoBean>() {
+                @Override
+                public void onStart() {
+                    showProgressDialog();
                 }
-            }
-        });
 
+                @Override
+                public void onFinish() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onError() {
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onTokenInvalid() {
+
+                }
+
+                @Override
+                public void setData(LoginWithInfoBean loginWithInfoBean) {
+                    if (loginWithInfoBean.getStatus() == REQUEST_SUCCESS) {
+                        AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
+                        setupViews(String.valueOf(loginWithInfoBean.getData().getCustomer().getBonus()));
+                    }
+                }
+            });
+        }
     }
 
     @Override

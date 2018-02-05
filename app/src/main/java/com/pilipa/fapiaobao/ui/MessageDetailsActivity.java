@@ -20,6 +20,8 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageDetailsBean;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.utils.TDevice;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -154,10 +156,13 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
                     noContent.setVisibility(View.GONE);
                     list = messageDetailsBean.getData();
                     adapter.initData(list);
+                    listview.setVisibility(View.VISIBLE);
                 } else if (messageDetailsBean.getStatus() == Constant.REQUEST_NO_CONTENT) {
+                    listview.setVisibility(View.GONE);
                     noContent.setVisibility(View.VISIBLE);
                     tips.setText("暂时还没有消息哦~");
                 } else {
+                    listview.setVisibility(View.GONE);
                     noContent.setVisibility(View.VISIBLE);
                     tips.setText("登陆后才能查看到哦");
                 }
@@ -173,17 +178,20 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
                 Intent intent1 = new Intent(MessageDetailsActivity.this, DemandActivity.class);
                 intent1.putExtra("demandId", bean.getMessage().getDemand().getId());
                 startActivity(intent1);
+                messageRead(bean.getMessage().getId(), Constant.MSG_TYPE_NEWCOME_INVOICE);
                 break;
             case MSG_TYPE_GOT_BONUS:
                 Intent intent2 = new Intent(MessageDetailsActivity.this, MyRedEnvelopeActivity.class);
                 intent2.putExtra("bonus", bonus);
                 startActivity(intent2);
+                messageRead(bean.getMessage().getId(), Constant.MSG_TYPE_GOT_BONUS);
                 break;
             case MSG_TYPE_INCOMPETENT_INVOICE:
                 Intent intent3 = new Intent(MessageDetailsActivity.this, ProvidedActivity.class);
                 intent3.putExtra("OrderId", bean.getMessage().getOrderId());
                 intent3.putExtra("CompanyId", bean.getMessage().getCompanyId());
                 startActivity(intent3);
+                messageRead(bean.getMessage().getId(), Constant.MSG_TYPE_INCOMPETENT_INVOICE);
                 break;
             case MSG_TYPE_SERVICE_NOTIFICATION:
                 JSONObject jsonObject = null;
@@ -203,9 +211,29 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                messageRead(bean.getMessage().getId(), Constant.MSG_TYPE_SERVICE_NOTIFICATION);
                 break;
             default:
         }
+    }
+
+    private void messageRead(final String id, String type) {
+        if (TDevice.hasInternet()) {
+            /*修改消息已读状态 （当前类别全部修改）*/
+            listview.setVisibility(View.VISIBLE);
+            Api.messageRead(type, id, AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+                @Override
+                public void setData(NormalBean normalBean) {
+                    TLog.d(" private void messageRead(final String type) {", normalBean.getStatus() + "");
+                }
+            });
+
+        } else {
+            listview.setVisibility(View.GONE);
+            noContent.setVisibility(View.VISIBLE);
+            tips.setText("当前没有网络哦~");
+        }
+
     }
 
     @Override

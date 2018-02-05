@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,25 +15,39 @@
             android:id="@+id/tv_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/d30"
+            android:layout_marginEnd="@dimen/d20"
+            android:layout_toStartOf="@+id/anchor"
             android:gravity="center"
             android:src="@drawable/notif_red_dot"
             android:text=""
             android:textColor="@color/main_style"
             android:textSize="@dimen/d15"/>
-        <ImageView
+
+        <TextView
+            android:id="@+id/tv_redbag_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/d20"
+            android:layout_toStartOf="@+id/anchor"
+            android:gravity="center"
+            android:textColor="@color/rejection_red"
+            android:textSize="@dimen/s18"
+            tools:text="12元"/>
+        <ImageView
+            android:id="@+id/anchor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:src="@mipmap/enter_gray"/>
         <RelativeLayout
             android:id="@+id/rl_content"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
@@ -41,16 +56,13 @@
                 android:gravity="center_vertical"
                 android:text=""
                 android:textColor="@color/title_small"
-                android:textSize="@dimen/d14"
-                />
-
+                android:textSize="@dimen/d14"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_content"
-            android:layout_marginTop="@dimen/d5"
-            >
+            android:layout_marginTop="@dimen/d5">
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
@@ -60,9 +72,6 @@
                 android:text=""
                 android:textColor="@color/text_normal_item"
                 android:textSize="@dimen/s14"/>
-
-
         </RelativeLayout>
     </RelativeLayout>
-
 </LinearLayout>

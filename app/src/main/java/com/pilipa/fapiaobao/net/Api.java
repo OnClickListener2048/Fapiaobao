@@ -1385,11 +1385,11 @@ public class Api<T> {
     /**
      * 消息已读
      * @param token
-     * @param type
+     * @param id
      * @param baseViewCallback
      */
-    public static void messageRead(String token,String type, final BaseViewCallback baseViewCallback) {
-        OkGo.<NormalBean>get(String.format(MESSAGE_READ,type,token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
+    public static void messageRead(String type, String id, String token, final BaseViewCallback baseViewCallback) {
+        OkGo.<NormalBean>get(String.format(MESSAGE_READ, type, id, token)).execute(new JsonCallBack<NormalBean>(NormalBean.class) {
             @Override
             public void onSuccess(Response<NormalBean> response) {
                     baseViewCallback.setData(response.body());

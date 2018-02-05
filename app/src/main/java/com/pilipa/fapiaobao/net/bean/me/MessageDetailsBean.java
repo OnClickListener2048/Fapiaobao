@@ -8,10 +8,11 @@ import java.util.List;
 
 public class MessageDetailsBean {
 
+
     /**
      * status : 200
      * msg : OK
-     * data : [{"isNewRecord":true,"createDate":"2018-02-03 12:40:08","message":{"isNewRecord":true,"remarks":"1","type":"1","content":"02-03  会议费、办公用品费......的需求","orderId":"0e3c22a292a046acbc9f50b8c2ac6b60","companyId":"3755bca04f554116987153433f70e8c1","demand":{"id":"33a3a96e341449b5a52464112be07065","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}}}]
+     * data : [{"isNewRecord":true,"createDate":"2018-02-06 14:22:58","message":{"id":"b596e34eceff49adb8842c2f50fa72c4","isNewRecord":false,"remarks":"13.0","type":"1","content":"02-06  快递费、装修费......的需求","orderId":"69b119a624c24400b88d6793a9111147","companyId":"0f70ff93bf304f1bb6e36612fd5543d1","demand":{"id":"461e50ae30784a4babc74705e204740e","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}}}]
      */
 
     private int status;
@@ -45,8 +46,8 @@ public class MessageDetailsBean {
     public static class DataBean {
         /**
          * isNewRecord : true
-         * createDate : 2018-02-03 12:40:08
-         * message : {"isNewRecord":true,"remarks":"1","type":"1","content":"02-03  会议费、办公用品费......的需求","orderId":"0e3c22a292a046acbc9f50b8c2ac6b60","companyId":"3755bca04f554116987153433f70e8c1","demand":{"id":"33a3a96e341449b5a52464112be07065","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}}
+         * createDate : 2018-02-06 14:22:58
+         * message : {"id":"b596e34eceff49adb8842c2f50fa72c4","isNewRecord":false,"remarks":"13.0","type":"1","content":"02-06  快递费、装修费......的需求","orderId":"69b119a624c24400b88d6793a9111147","companyId":"0f70ff93bf304f1bb6e36612fd5543d1","demand":{"id":"461e50ae30784a4babc74705e204740e","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}}
          */
 
         private boolean isNewRecord;
@@ -79,15 +80,17 @@ public class MessageDetailsBean {
 
         public static class MessageBean {
             /**
-             * isNewRecord : true
-             * remarks : 1
+             * id : b596e34eceff49adb8842c2f50fa72c4
+             * isNewRecord : false
+             * remarks : 13.0
              * type : 1
-             * content : 02-03  会议费、办公用品费......的需求
-             * orderId : 0e3c22a292a046acbc9f50b8c2ac6b60
-             * companyId : 3755bca04f554116987153433f70e8c1
-             * demand : {"id":"33a3a96e341449b5a52464112be07065","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}
+             * content : 02-06  快递费、装修费......的需求
+             * orderId : 69b119a624c24400b88d6793a9111147
+             * companyId : 0f70ff93bf304f1bb6e36612fd5543d1
+             * demand : {"id":"461e50ae30784a4babc74705e204740e","isNewRecord":false,"totalAmount":0,"leftAmount":0,"totalBonus":0,"leftBonus":0,"mailMinimum":0,"beginTotalAmount":0,"endTotalAmount":0,"beginLeftAmount":0,"endLeftAmount":0,"beginTotalBonus":0,"endTotalBonus":0,"beginLeftBonus":0,"endLeftBonus":0,"beginMailMinimum":0,"endMailMinimum":0}
              */
 
+            private String id;
             private boolean isNewRecord;
             private String remarks;
             private String type;
@@ -95,6 +98,14 @@ public class MessageDetailsBean {
             private String orderId;
             private String companyId;
             private DemandBean demand;
+
+            public String getId() {
+                return id;
+            }
+
+            public void setId(String id) {
+                this.id = id;
+            }
 
             public boolean isIsNewRecord() {
                 return isNewRecord;
@@ -154,7 +165,7 @@ public class MessageDetailsBean {
 
             public static class DemandBean {
                 /**
-                 * id : 33a3a96e341449b5a52464112be07065
+                 * id : 461e50ae30784a4babc74705e204740e
                  * isNewRecord : false
                  * totalAmount : 0
                  * leftAmount : 0

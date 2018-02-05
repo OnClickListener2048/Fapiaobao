@@ -75,6 +75,8 @@ public class MessageDetailsAdapter extends BaseAdapter {
         viewHolder.tv_piece.setText(parent.getContext().getString(R.string.end_with_piece, list.get(position).getMessage().getRemarks()));
 
         if(MSG_TYPE_SERVICE_NOTIFICATION.equals(bean.getMessage().getType())){
+            viewHolder.tv_time.setVisibility(View.GONE);
+            viewHolder.tv_piece.setVisibility(View.GONE);
             JSONObject jsonObject = null;
             try {
                 jsonObject = new JSONObject(bean.getMessage().getContent());
@@ -93,6 +95,8 @@ public class MessageDetailsAdapter extends BaseAdapter {
             }
 
         }else{
+            viewHolder.tv_time.setVisibility(View.VISIBLE);
+            viewHolder.tv_piece.setVisibility(View.VISIBLE);
             viewHolder.tv_title.setText(bean.getMessage().getContent());
         }
         SimpleDateFormat dft1=new SimpleDateFormat("yyyy-MM-dd");

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -219,6 +220,7 @@ public class TipsPopup extends PopupWindow implements PopupWindow.OnDismissListe
         // 设置SelectPicPopupWindow弹出窗体的宽
         // 设置SelectPicPopupWindow弹出窗体的高
         // 设置SelectPicPopupWindow弹出窗体可点击
+        setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         setWidth(w * 11 / 12);
         this.setFocusable(false);
         this.setOutsideTouchable(false);

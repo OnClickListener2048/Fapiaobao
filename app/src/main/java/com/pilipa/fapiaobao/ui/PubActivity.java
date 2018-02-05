@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.SizeUtils;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -127,7 +128,24 @@ public class PubActivity extends BaseActivity {
         selectReceiptPaperSpecial.setVisibility(receiptPaperSpecial.isSelected() ? View.VISIBLE : View.INVISIBLE);
         if (mTipsPopup != null) {
             if (!mTipsPopup.isShowing()) {
+                TLog.d(TAG, " if (!mTipsPopup.isShowing()) {");
                 mTipsPopup.showAtLocation(mLlChooseKind, Gravity.CENTER, 0, SizeUtils.dp2px(50));
+//                mTipsPopup.showAsDropDown(mLlChooseKind);
+            } else {
+                mTipsPopup.getIvElec().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int bottom = mTipsPopup.getIvElec().getBottom();
+                        TLog.d(TAG, "bottom" + bottom);
+                    }
+                });
+                receiptPaperSpecial.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        float top = receiptPaperSpecial.getY();
+                        TLog.d(TAG, "getY" + top);
+                    }
+                });
             }
             mTipsPopup.updateContent(receiptElec.isSelected(), receiptPaperNormal.isSelected(), receiptPaperSpecial.isSelected());
 
