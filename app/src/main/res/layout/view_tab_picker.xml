@@ -13,9 +13,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:text="更多类型"
             android:textColor="@color/title"
-            android:text="更多类型" />
+            android:textSize="@dimen/d18" />
 
         <ImageView
             android:id="@+id/morekind_back"
@@ -76,16 +76,16 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:background="#FFFFFF"
         android:id="@+id/view_wrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFFFFF"
         android:orientation="vertical">
 
 
             <LinearLayout
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
@@ -101,10 +101,10 @@
             </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="1"
             android:id="@+id/layout_wrapper"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
@@ -138,7 +138,7 @@
                 android:id="@+id/view_recycler_inactive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="6dp" />
+                android:overScrollMode="never" />
         </LinearLayout>
     </LinearLayout>
 

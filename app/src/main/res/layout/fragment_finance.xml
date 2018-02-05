@@ -140,7 +140,7 @@
                         android:id="@id/content"
                         android:layout_width="match_parent"
                         android:layout_height="400dp"
-                        android:background="@color/No_Action_bar_default_bg">
+                        android:background="@color/white">
 
                         <com.pilipa.fapiaobao.ui.widget.DrawerRecyclerView
                             android:id="@+id/recyclerview_more_kind"

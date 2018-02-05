@@ -25,7 +25,7 @@
     <color name="btn_reception_end">#f39002</color>
     <color name="sendout_start">#44a8ff</color>
     <color name="sendout_end">#0082e2</color>
-
+    <color name="moretypes_title_bg">#F9F9F9</color>
     <color name="title">#434343</color>
     <color name="title_small">#434343</color>
     <color name="text_normal">#979797</color>
