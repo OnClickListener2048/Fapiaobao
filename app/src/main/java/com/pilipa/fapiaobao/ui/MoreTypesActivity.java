@@ -23,6 +23,7 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.ui.constants.Constant;
+import com.pilipa.fapiaobao.ui.deco.SectionDecoration;
 
 import java.util.ArrayList;
 
@@ -112,11 +113,18 @@ public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.
             }
 
             @Override
-            public void setData(AllInvoiceType allInvoiceType) {
+            public void setData(final AllInvoiceType allInvoiceType) {
                 if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
                     tabAdapterInactive = new TabAdapterInactive(allInvoiceType);
                     tabAdapterInactive.setOnItemClickListener(MoreTypesActivity.this);
                     viewRecyclerInactive.setAdapter(tabAdapterInactive);
+                    viewRecyclerInactive.addItemDecoration(new SectionDecoration(new SectionDecoration.ObtainTextCallback() {
+                        @Override
+                        public String getText(int position) {
+                            String label = allInvoiceType.getData().get(position).getInvoiceCategory().getLabel();
+                            return label;
+                        }
+                    }));
                     updateInvoiceHighlight(bean, allInvoiceType);
                 }
             }

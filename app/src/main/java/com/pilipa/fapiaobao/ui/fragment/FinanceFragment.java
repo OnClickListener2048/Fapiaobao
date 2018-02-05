@@ -43,12 +43,11 @@ import com.pilipa.fapiaobao.ui.FavCompanyChooseActivity;
 import com.pilipa.fapiaobao.ui.MessageCenterActivity;
 import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.constants.Constant;
-import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
+import com.pilipa.fapiaobao.ui.deco.SectionDecoration;
 import com.pilipa.fapiaobao.ui.widget.DrawerRecyclerView;
 import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
-import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -226,7 +225,6 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
         recyclerview.addItemDecoration(new GridInsetFinance(2, 0, true));
         recyclerviewMoreKind.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         recyclerviewMoreKind.setNestedScrollingEnabled(false);
-        recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext, LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(), 23), R.color.white));
         initBroadcast();
 
         mSlidingDrawer.setOnDrawerScrollListener(new SlidingDrawer.OnDrawerScrollListener() {
@@ -441,12 +439,19 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
 
 
             @Override
-            public void setData(AllInvoiceType allInvoiceType) {
+            public void setData(final AllInvoiceType allInvoiceType) {
                 hideNetWorkErrorLayout();
                 if (allInvoiceType.getStatus() == 200) {
                     adapter = new AllInvoiceAdapter(allInvoiceType);
                     adapter.setOnLabelClickListener(FinanceFragment.this);
                     recyclerviewMoreKind.setAdapter(adapter);
+                    recyclerviewMoreKind.addItemDecoration(new SectionDecoration(new SectionDecoration.ObtainTextCallback() {
+                        @Override
+                        public String getText(int position) {
+                            String label = allInvoiceType.getData().get(position).getInvoiceCategory().getLabel();
+                            return label;
+                        }
+                    }));
                     loginBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
                     if (loginBean != null) {
                         findUserInvoiceType(loginBean.getData().getToken(), allInvoiceType);

@@ -53,15 +53,11 @@ public class TabAdapterInactive extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (holder instanceof Holder) {
             Holder viewHolder = (Holder) holder;
             if (allInvoiceType != null) {
-                AllInvoiceType.DataBean.InvoiceCategoryBean invoiceCategory = allInvoiceType.getData().get(position).getInvoiceCategory();
                 final List<AllInvoiceType.DataBean.InvoiceTypeListBean> invoiceTypeList = allInvoiceType.getData().get(position).getInvoiceTypeList();
 
                 if (invoiceTypeList != null) {
                     if (invoiceTypeList.size() > 0) {
 
-                        if (invoiceCategory != null) {
-                            viewHolder.tv_title.setText(invoiceCategory.getLabel());
-                        }
 
                         viewHolder.recyclerView.setLayoutManager(new GridLayoutManager(mContext,3, LinearLayoutManager.VERTICAL,false));
                         viewHolder.recyclerView.setNestedScrollingEnabled(false);
@@ -137,7 +133,6 @@ public class TabAdapterInactive extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public Holder(View itemView) {
             super(itemView);
-            tv_title = (TextView) itemView.findViewById(R.id.invoice_title);
             recyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerView_invoice);
         }
     }
