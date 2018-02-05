@@ -20,6 +20,8 @@ import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageDetailsBean;
+import com.pilipa.fapiaobao.net.bean.me.NormalBean;
+import com.pilipa.fapiaobao.utils.TDevice;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -173,6 +175,7 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
                 Intent intent1 = new Intent(MessageDetailsActivity.this, DemandActivity.class);
                 intent1.putExtra("demandId", bean.getMessage().getDemand().getId());
                 startActivity(intent1);
+                messageRead(bean.getMessage().getDemand().getId());
                 break;
             case MSG_TYPE_GOT_BONUS:
                 Intent intent2 = new Intent(MessageDetailsActivity.this, MyRedEnvelopeActivity.class);
@@ -184,6 +187,7 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
                 intent3.putExtra("OrderId", bean.getMessage().getOrderId());
                 intent3.putExtra("CompanyId", bean.getMessage().getCompanyId());
                 startActivity(intent3);
+                messageRead(bean.getMessage().getOrderId());
                 break;
             case MSG_TYPE_SERVICE_NOTIFICATION:
                 JSONObject jsonObject = null;
@@ -206,6 +210,23 @@ public class MessageDetailsActivity extends BaseNoNetworkActivity implements Ada
                 break;
             default:
         }
+    }
+
+    private void messageRead(final String id) {
+        if (TDevice.hasInternet()) {
+            /*修改消息已读状态 （当前类别全部修改）*/
+            Api.messageRead(AccountHelper.getToken(), id, new Api.BaseViewCallback<NormalBean>() {
+                @Override
+                public void setData(NormalBean normalBean) {
+                    TLog.d(" private void messageRead(final String type) {", normalBean.getStatus() + "");
+                }
+            });
+
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            tips.setText("当前没有网络哦~");
+        }
+
     }
 
     @Override
