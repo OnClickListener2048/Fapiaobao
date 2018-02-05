@@ -1,14 +1,11 @@
 package com.pilipa.fapiaobao.ui.widget;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.SlidingDrawer;
-
-import com.example.mylibrary.utils.TLog;
 
 /**
  * Created by dagou on 2018/2/4.
@@ -46,56 +43,67 @@ public class DrawerRecyclerView extends RecyclerView {
         this.slidingDrawer = slidingDrawer;
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        if (!canScrollVertically(-1)) {
-            int action = e.getAction();
-            switch (action) {
-                case MotionEvent.ACTION_DOWN: {
-                    mDownY = e.getY();
-                    TLog.d(TAG, "downY" + mDownY);
-                    Rect rect = new Rect();
-                    slidingDrawer.getHandle().getHitRect(rect);
-                    mCenterX = rect.centerX();
-                    mCenterY = rect.centerY();
-                    e.setLocation(mCenterX, mCenterY);
-                    slidingDrawer.onInterceptTouchEvent(e);
-                    return false;
-                }
 
 
-                case MotionEvent.ACTION_MOVE: {
-                    mMoveY = e.getY() - mMoveY;
-                    if (mMoveY > 0) {
-                        TLog.d(TAG, "向上滑动" + mMoveY);
-                    } else {
-                        TLog.d(TAG, "向下滑动" + mMoveY);
-                    }
-                    TLog.d(TAG, "moveY" + mMoveY);
-
-                    if (e.getY() > mDownY) {
-                        e.setLocation(e.getX(), e.getY() + mMoveY);
-                        slidingDrawer.getHandle().onTouchEvent(e);
-                        mMoveY = e.getY();
-                        return false;
-                    }
-                    mMoveY = e.getY();
-                }
-                break;
-
-                case MotionEvent.ACTION_UP: {
-                    mUpY = e.getY();
-                    TLog.d(TAG, "upY" + mUpY);
-                }
-                break;
-                default:
-            }
-
-
+        if (canScrollVertically(-1)) {
         }
+
+
         return super.onTouchEvent(e);
+
     }
+
+//        @Override
+//    public boolean onTouchEvent(MotionEvent e) {
+//        if (!canScrollVertically(-1)) {
+//            int action = e.getAction();
+//            switch (action) {
+//                case MotionEvent.ACTION_DOWN: {
+//                    mDownY = e.getY();
+//                    TLog.d(TAG, "downY" + mDownY);
+//                    Rect rect = new Rect();
+//                    slidingDrawer.getHandle().getHitRect(rect);
+//                    mCenterX = rect.centerX();
+//                    mCenterY = rect.centerY();
+//                    e.setLocation(mCenterX, mCenterY);
+//                    slidingDrawer.onInterceptTouchEvent(e);
+//                    return false;
+//                }
+//
+//
+//                case MotionEvent.ACTION_MOVE: {
+//                    mMoveY = e.getY() - mDownY;
+//                    if (mMoveY > 0) {
+//                        TLog.d(TAG, "向下滑动" + mMoveY);
+//
+//                            e.setLocation(mCenterX, mCenterY + mMoveY);
+//                            slidingDrawer.onTouchEvent(e);
+//                            mDownY = e.getY();
+//                            return false;
+//
+//
+//                    } else if (mMoveY < 0) {
+//                        TLog.d(TAG, "向上滑动" + mMoveY);
+//                        e.setLocation(e.getX(), mDownY);
+//                        slidingDrawer.onTouchEvent(e);
+//                        return true;
+//                    }
+//                    mDownY = e.getY();
+//                }
+//                break;
+//
+//                case MotionEvent.ACTION_UP: {
+//                    mUpY = e.getY();
+//                    TLog.d(TAG, "upY" + mUpY);
+//                }
+//                break;
+//                default:
+//            }
+//        }
+//        return super.onTouchEvent(e);
+//    }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent e) {
