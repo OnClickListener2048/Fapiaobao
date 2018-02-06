@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:orientation="vertical"
+                                                 tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_title"
             android:layout_width="match_parent"
             android:layout_height="48dp">
 
@@ -108,50 +113,46 @@
 
                 </android.support.v7.widget.RecyclerView>
 
-                <SlidingDrawer
-                    android:id="@+id/slidingDrawer"
-                    android:layout_width="match_parent"
-                    android:layout_height="600dp"
-                    android:layout_alignParentBottom="true"
-                    android:content="@+id/content"
-                    android:handle="@+id/handle">
 
-                    <RelativeLayout
-                        android:id="@id/handle"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/d40"
-                        android:layout_marginBottom="@dimen/d23"
-                        android:background="@color/gray_line">
-
-                        <TextView
-                            android:id="@+id/pull_to_find_more"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:drawablePadding="@dimen/d5"
-                            android:drawableRight="@mipmap/pull"
-                            android:text="@string/more_kind_receipt"
-                            android:textColor="@color/main_style"
-                            android:textSize="@dimen/s13" />
-                    </RelativeLayout>
-
-                    <FrameLayout
-                        android:id="@id/content"
-                        android:layout_width="match_parent"
-                        android:layout_height="400dp"
-                        android:background="@color/white">
-
-                        <com.pilipa.fapiaobao.ui.widget.DrawerRecyclerView
-                            android:id="@+id/recyclerview_more_kind"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:overScrollMode="never">
-
-                        </com.pilipa.fapiaobao.ui.widget.DrawerRecyclerView>
-                    </FrameLayout>
-                </SlidingDrawer>
             </RelativeLayout>
         </FrameLayout>
     </LinearLayout>
-</FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="40dp"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+        <RelativeLayout
+            android:id="@+id/rl_handle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d40"
+            android:background="@color/gray_line">
+
+            <TextView
+                android:id="@+id/pull_to_find_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:drawablePadding="@dimen/d5"
+                android:drawableRight="@mipmap/pull"
+                android:text="@string/more_kind_receipt"
+                android:textColor="@color/main_style"
+                android:textSize="@dimen/s13"/>
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_more_kind"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.SlidingDrawer;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.RegexUtils;
@@ -45,7 +48,6 @@ import com.pilipa.fapiaobao.ui.Op;
 import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.deco.GridInsetFinance;
 import com.pilipa.fapiaobao.ui.deco.SectionDecoration;
-import com.pilipa.fapiaobao.ui.widget.DrawerRecyclerView;
 import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
@@ -87,7 +89,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     @Bind(R.id.recyclerview)
     public RecyclerView recyclerview;
     @Bind(R.id.recyclerview_more_kind)
-    DrawerRecyclerView recyclerviewMoreKind;
+    RecyclerView recyclerviewMoreKind;
     @Bind(R.id.pull_to_find_more)
     TextView pullToFindMore;
     @Bind(R.id.new_notification)
@@ -99,12 +101,18 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     @Bind(R.id.fl_notification)
     FrameLayout flNotification;
     FinanceAdapter financeAdapter;
-    @Bind(R.id.slidingDrawer)
-    SlidingDrawer mSlidingDrawer;
+    @Bind(R.id.rl_title)
+    RelativeLayout mRlTitle;
+    @Bind(R.id.ll)
+    LinearLayout mLl;
+    @Bind(R.id.ll_content)
+    LinearLayout mLlContent;
+    @Bind(R.id.rl_handle)
+    RelativeLayout mRlHandle;
+
     private LoginWithInfoBean loginBean;
     private AllInvoiceAdapter adapter;
     private MainActivity activity;
-    private Dialog scanDialog;
     private boolean delayIntentRefresh;
     private BroadcastReceiver mBoradcastReceiver = new BroadcastReceiver() {
         @Override
@@ -120,6 +128,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     };
     private boolean isCacheSuccess = false;
     private Dialog mDialog;
+    private int mStatusBarHeight1;
 
 
     @Override
@@ -224,40 +233,34 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
         TLog.d(TAG, "recyclerview.addItemDecoration");
         recyclerview.addItemDecoration(new GridInsetFinance(2, 0, true));
         recyclerviewMoreKind.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        recyclerviewMoreKind.setNestedScrollingEnabled(false);
+        recyclerviewMoreKind.setItemAnimator(new DefaultItemAnimator());
         initBroadcast();
 
-        mSlidingDrawer.setOnDrawerScrollListener(new SlidingDrawer.OnDrawerScrollListener() {
+        final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(findView(R.id.ll));
+        bottomSheetBehavior.setHideable(true);
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            //根据资源ID获取响应的尺寸值
+            mStatusBarHeight1 = getResources().getDimensionPixelSize(resourceId);
+        }
+        mRlTitle.post(new Runnable() {
             @Override
-            public void onScrollStarted() {
-                TLog.d(TAG, "onScrollStarted");
-            }
-
-            @Override
-            public void onScrollEnded() {
-                TLog.d(TAG, "onScrollEnded");
-            }
-        });
-
-        recyclerviewMoreKind.setSlidingDrawer(mSlidingDrawer);
-
-        recyclerviewMoreKind.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                TLog.d(TAG, "newState" + newState);
-                boolean b = recyclerviewMoreKind.canScrollVertically(-1);
-                TLog.d(TAG, "canScrollVertically====" + b);
-
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                TLog.d(TAG, "dx" + dx);
-                TLog.d(TAG, "dy" + dy);
+            public void run() {
+                ViewGroup.LayoutParams layoutParams = mLl.getLayoutParams();
+                layoutParams.height = getView().getMeasuredHeight() - mRlTitle.getHeight() - mStatusBarHeight1;
             }
         });
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        bottomSheetBehavior.setHideable(false);
+
+        final ViewGroup.LayoutParams layoutParams = mLlContent.getLayoutParams();
+        mRlHandle.post(new Runnable() {
+            @Override
+            public void run() {
+                layoutParams.height = getView().getMeasuredHeight() - mRlHandle.getHeight() - mStatusBarHeight1;
+            }
+        });
+        mLlContent.setLayoutParams(layoutParams);
     }
 
     private void initBroadcast() {
