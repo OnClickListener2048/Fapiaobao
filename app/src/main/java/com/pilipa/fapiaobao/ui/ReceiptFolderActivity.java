@@ -23,8 +23,8 @@ import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.fragment.ProvidePagerFragment;
 import com.pilipa.fapiaobao.ui.fragment.UnusedReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
+import com.pilipa.fapiaobao.ui.zxing.SimpleCaptureActivity;
 import com.pilipa.fapiaobao.utils.DialogUtil;
-import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +65,7 @@ public class ReceiptFolderActivity extends BaseActivity implements TabLayout.OnT
                 finish();
             }break;
             case R.id.img_scan:{
-                startActivityForResult(new Intent(this, CaptureActivity.class), REQUEST_CODE_SCAN);
+                startActivityForResult(new Intent(this, SimpleCaptureActivity.class), REQUEST_CODE_SCAN);
             }break;
         }
     }

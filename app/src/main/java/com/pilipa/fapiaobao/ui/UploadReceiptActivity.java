@@ -24,8 +24,8 @@ import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.fragment.UploadNormalReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.ui.zxing.SimpleCaptureActivity;
 import com.pilipa.fapiaobao.utils.DialogUtil;
-import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
@@ -182,7 +182,7 @@ public class UploadReceiptActivity extends BaseActivity {
                         @Override
                         public void onNext(@NonNull Boolean aBoolean) {
                             if (aBoolean) {
-                                Intent intent = new Intent(UploadReceiptActivity.this, CaptureActivity.class);
+                                Intent intent = new Intent(UploadReceiptActivity.this, SimpleCaptureActivity.class);
                                 startActivityForResult(intent, REQUEST_CODE_SCAN);
                             }
                         }
@@ -199,7 +199,7 @@ public class UploadReceiptActivity extends BaseActivity {
                     });
         } else {
 
-        Intent intent = new Intent(this, CaptureActivity.class);
+            Intent intent = new Intent(this, SimpleCaptureActivity.class);
         startActivityForResult(intent, REQUEST_CODE_SCAN);
         }
     }

@@ -18,8 +18,8 @@ android {
         applicationId "com.pilipa.fapiaobao"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 162
-        versionName "1.6.2"
+        versionCode 100
+        versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         defaultConfig {
             multiDexEnabled true
@@ -51,6 +51,7 @@ android {
                 output -> output.outputFile = new File(output.outputFile.parent, "fapiaobao.apk");
             }
     }
+
 }
 
 
@@ -76,5 +77,6 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     compile project(path: ':guideview')
+    compile project(':qrcodelib')
     compile files('libs/tbs_sdk_thirdapp_v3.2.0.1104_43200_sharewithdownload_withfilereader_withoutGame_obfs_20170609_115346.jar')
 }
