@@ -13,6 +13,9 @@
             android:layout_height="wrap_content"
             android:background="@color/No_Action_bar_default_bg"
             android:divider="@drawable/line_divider"
+            android:dividerHeight="@dimen/d1"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
             android:overScrollMode="never">
         </ListView>
     </FrameLayout>

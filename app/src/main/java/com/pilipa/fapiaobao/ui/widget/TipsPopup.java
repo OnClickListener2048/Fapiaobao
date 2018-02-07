@@ -101,7 +101,7 @@ public class TipsPopup extends PopupWindow implements PopupWindow.OnDismissListe
 
     public void moveToPosition(final View view, final float values) {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(view, "translationX", 0, values)
-                .setDuration(600);
+                .setDuration(300);
         objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         objectAnimator.start();
         objectAnimator.addListener(new Animator.AnimatorListener() {

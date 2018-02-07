@@ -119,6 +119,8 @@
                             android:inputType="text"
                             android:maxLines="2"
                             android:nextFocusForward="@+id/et_publish_tex_number"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:textSize="@dimen/s12" />
                     </LinearLayout>
 

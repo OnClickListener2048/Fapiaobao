@@ -364,31 +364,6 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
         showDialog(mTipDialog);
     }
 
-//    private void setTipDialog() {
-//        mTipDialog = new Dialog(this, R.style.BottomDialog);
-//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-//                R.layout.layout_low_tip, null);
-//        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mTipDialog.dismiss();
-//            }
-//        });
-//        mTipDialog.setContentView(root);
-//        Window dialogWindow = mTipDialog.getWindow();
-//        dialogWindow.setGravity(Gravity.CENTER);
-////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-//        lp.x = 0; // 新位置X坐标
-//        lp.y = 0; // 新位置Y坐标
-//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-//        root.measure(0, 0);
-//        lp.height = root.getMeasuredHeight();
-//
-//        lp.alpha = 9f; // 透明度
-//        dialogWindow.setAttributes(lp);
-//        mTipDialog.show();
-//    }
 
     private void setUpData(List<OrderDetailsBean.DataBean.InvoiceListBean> results) {
         Log.d(TAG, "setUpData:   private void setUpData(ArrayList<model.ResultsBean> body) {");

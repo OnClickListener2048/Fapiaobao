@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -82,6 +83,7 @@ public class MyCompanyViewPagerFragment extends BaseNoNetworkFragment implements
         emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         emptyView.setVisibility(View.GONE);
         ((ViewGroup)listView.getParent()).addView(emptyView);
+
 
     }
 
@@ -172,6 +174,8 @@ public class MyCompanyViewPagerFragment extends BaseNoNetworkFragment implements
                         mData=list;
                         mAdapter.initData(mData);
                         listView.setAdapter(mAdapter);
+                        listView.addHeaderView(new ViewStub(mContext));
+                        listView.addFooterView(new ViewStub(mContext));
                         Log.d(TAG, "CompanyList"+list.size());
                     }
 

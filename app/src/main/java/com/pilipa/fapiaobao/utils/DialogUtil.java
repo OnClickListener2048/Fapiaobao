@@ -19,6 +19,7 @@ import com.pilipa.fapiaobao.base.BaseApplication;
 
 public class DialogUtil {
     private static DialogUtil dialogUtil;
+    private LinearLayout mRoot;
 
     private DialogUtil() {
 
@@ -31,12 +32,15 @@ public class DialogUtil {
         return dialogUtil;
     }
 
+    public View getRootView() {
+        return mRoot;
+    }
+
     public Dialog createDialog(Context context, int style, int layoutRes, final OnKnownListener onKnownListener, final OnConfirmListener onConfirmListener, final OnCancelListener onCancelListener) {
         Dialog dialog = new Dialog(context, R.style.BottomDialog);
-        LinearLayout root;
-        root = (LinearLayout) LayoutInflater.from(context).inflate(
+        mRoot = (LinearLayout) LayoutInflater.from(context).inflate(
                 layoutRes, null);
-        View iKnow = root.findViewById(R.id.i_know);
+        View iKnow = mRoot.findViewById(R.id.i_know);
         if (iKnow != null) {
             iKnow.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -48,7 +52,7 @@ public class DialogUtil {
                 }
             });
         }
-        View confirm = root.findViewById(R.id.confirm);
+        View confirm = mRoot.findViewById(R.id.confirm);
         if (confirm != null) {
             confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -60,7 +64,7 @@ public class DialogUtil {
                 }
             });
         }
-        View cancel = root.findViewById(R.id.cancel);
+        View cancel = mRoot.findViewById(R.id.cancel);
         if (cancel != null) {
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -72,7 +76,7 @@ public class DialogUtil {
                 }
             });
         }
-        setContentView(dialog, root);
+        setContentView(dialog, mRoot);
         return dialog;
     }
 

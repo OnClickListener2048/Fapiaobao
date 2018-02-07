@@ -6,39 +6,39 @@
     android:orientation="vertical">
 
     <TextView
-        android:textColor="@color/main_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/publish_cautions" />
+        android:text="@string/publish_cautions"
+        android:textColor="@color/main_style"/>
 
     <LinearLayout
-        android:layout_margin="@dimen/d10"
         android:layout_width="match_parent"
         android:layout_height="@dimen/d200"
+        android:layout_margin="@dimen/d10"
         android:background="@drawable/shape_rect_demand_info">
 
         <EditText
-            android:lineSpacingExtra="@dimen/d6"
-            android:layout_gravity="top"
-            android:inputType="text"
-            android:imeOptions="actionGo"
-            android:gravity="top"
             android:id="@+id/et_publish_cautions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="top"
             android:background="@null"
+            android:gravity="top"
             android:hint="@string/awareness"
+            android:imeOptions="actionGo"
+            android:inputType="textMultiLine"
+            android:lineSpacingExtra="@dimen/d6"
             android:padding="@dimen/d10"
             android:textSize="@dimen/s13" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_publish_now"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/d45"
         android:layout_margin="@dimen/d10"
         android:background="@drawable/selector_mainstyle_to_transparent"
         android:text="@string/publish"
-        android:layout_width="match_parent"
         android:textColor="@color/white" />
 
 </LinearLayout>

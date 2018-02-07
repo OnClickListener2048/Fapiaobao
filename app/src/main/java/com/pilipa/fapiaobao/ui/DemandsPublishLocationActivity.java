@@ -1561,7 +1561,9 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             @Override
             public void onSelected(ProvinceBean province, CityBean city) {
                 super.onSelected(province, city);
-                tvAreaLimited.setText(city.getName() + "市");
+                if (city != null) {
+                    tvAreaLimited.setText(city.getName() + "市");
+                }
                 cityPickerAreaLimited.hide();
             }
 
@@ -1580,10 +1582,18 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 //ProvinceBean 省份信息
                 //CityBean     城市信息
                 //DistrictBean 区县信息
+                if (province != null) {
+                    demandPostageBean.setProvince(province.getName());
+                }
 
-                demandPostageBean.setProvince(province.getName());
-                demandPostageBean.setCity(city.getName());
+                if (city != null) {
+                    demandPostageBean.setCity(city.getName());
+                }
+
+                if (district != null) {
+
                 demandPostageBean.setDistrict(district.getName());
+                }
 
                 BaseApplication.set("province", province.getName());
                 BaseApplication.set("city", city.getName());

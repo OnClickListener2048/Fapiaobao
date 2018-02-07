@@ -559,6 +559,9 @@
     <string name="confirm_to_reject">确认驳回</string>
     <string name="end_with_piece">%s张</string>
     <string name="invoice_justify">发票验真</string>
+    <string name="qr_title_invoice_justify">扫一扫/发票验真</string>
+    <string name="ok">好的</string>
+    <string name="invoice_justify_result">验证结果</string>
 
     <string-array name="express_array">
         <item>顺丰</item>

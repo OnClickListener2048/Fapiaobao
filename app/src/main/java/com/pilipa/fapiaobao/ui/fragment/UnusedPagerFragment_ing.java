@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -108,6 +109,7 @@ public class UnusedPagerFragment_ing extends BaseNoNetworkFragment implements Ad
         emptyView.setVisibility(View.GONE);
         emptyView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         ((ViewGroup) listView.getParent()).addView(emptyView);
+
     }
 
 
@@ -168,6 +170,8 @@ public class UnusedPagerFragment_ing extends BaseNoNetworkFragment implements Ad
                         mAdapter.initData(list);
                         if (listView!= null) {
                         listView.setAdapter(mAdapter);
+                            listView.addHeaderView(new ViewStub(mContext));
+                            listView.addFooterView(new ViewStub(mContext));
                         }
 
                         Log.d(TAG, "demandsList success");

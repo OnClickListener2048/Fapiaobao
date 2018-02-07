@@ -35,14 +35,8 @@ import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.umeng.message.PushAgent;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 import static com.pilipa.fapiaobao.utils.BitmapUtils.readPictureDegree;
 import static com.pilipa.fapiaobao.utils.BitmapUtils.rotaingImageView;
@@ -168,24 +162,25 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     public void hideProgressDialog() {
         TLog.log("hideProgressDialog" + getClass().getSimpleName());
-        Observable.timer(500,TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnError(new Consumer<Throwable>() {
-                    @Override
-                    public void accept(@NonNull Throwable throwable) throws Exception {
-                    }
-                })
-                .subscribe(new Consumer<Object>() {
-                    @Override
-                    public void accept(@NonNull Object o) throws Exception {
-                        if (progressDialog != null) {
-                            if (progressDialog.isShowing()) {
-                                progressDialog.dismiss();
-                            }
-                        }
-                    }
-                });
+        if (progressDialog != null) {
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+        }
+//        Observable.timer(500,TimeUnit.MILLISECONDS)
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doOnError(new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(@NonNull Throwable throwable) throws Exception {
+//                    }
+//                })
+//                .subscribe(new Consumer<Object>() {
+//                    @Override
+//                    public void accept(@NonNull Object o) throws Exception {
+//
+//                    }
+//                });
     }
 
     @Override

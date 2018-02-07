@@ -49,4 +49,7 @@ public class Constant {
     public static final String CODED_CONTENT = "codedContent";
     public static final String WX_LOGIN_CANCEL = "wx_login_cancel";
     public static final String USER_LOGIN = "user_login";
+    public static final String QR_TITLE = "qr_title";
+    public static final int REQUEST_CODE_SCAN = 998;
+    public static final String INVOICE_JUSTIFY = "invoice_justify";
 }

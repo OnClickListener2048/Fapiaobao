@@ -23,8 +23,6 @@
             android:layout_height="wrap_content"
             android:text="@string/reason"
             android:textColor="@color/rejection_red"/>
-
-
     </RelativeLayout>
 
 
@@ -107,7 +105,7 @@
                 android:gravity="center"
                 android:paddingBottom="@dimen/d10"
                 android:paddingTop="@dimen/d10"
-                android:text="@string/confirm_to_reject"
+                android:text="@string/confirm"
                 android:textColor="@color/white"
                  />
         </RelativeLayout>
