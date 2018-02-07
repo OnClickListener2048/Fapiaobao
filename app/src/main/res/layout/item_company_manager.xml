@@ -3,6 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <View
+        android:id="@+id/header_dash_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d1"
+        android:background="@drawable/line_divider"
+        android:layerType="software" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,4 +52,11 @@
             android:layout_centerVertical="true"
             android:src="@mipmap/enter_gray" />
     </RelativeLayout>
+
+    <View
+        android:id="@+id/footer_dash_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d1"
+        android:background="@drawable/line_divider"
+        android:layerType="software" />
 </LinearLayout>

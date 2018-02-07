@@ -4,6 +4,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/header_dash_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d1"
+        android:background="@drawable/line_divider"
+        android:layerType="software" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,6 +20,7 @@
         android:paddingLeft="@dimen/d5"
         android:paddingRight="@dimen/d5"
         android:paddingTop="@dimen/d10">
+
         <ImageView
             android:id="@+id/point"
             android:layout_width="wrap_content"
@@ -24,14 +31,14 @@
             android:layout_marginStart="@dimen/d15"
             android:layout_marginTop="@dimen/d20"
             android:src="@mipmap/point"
-            android:visibility="invisible"
-            />
+            android:visibility="invisible" />
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
+
             <TextView
                 android:id="@+id/tv_amount"
                 android:layout_width="wrap_content"
@@ -39,38 +46,43 @@
                 android:layout_marginEnd="@dimen/d5"
                 android:text=""
                 android:textColor="@color/bouns_1"
-                android:textSize="@dimen/s18"/>
+                android:textSize="@dimen/s18" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/tv_amount"
                 android:layout_toEndOf="@+id/tv_amount"
                 android:text="@string/yuan"
-                android:textColor="@color/text_normal_item"/>
+                android:textColor="@color/text_normal_item" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_amount"
                 android:text="@string/total"
                 android:textColor="@color/text_normal_item"
-                android:textSize="@dimen/s10"/>
+                android:textSize="@dimen/s10" />
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/collected"
                     android:textColor="@color/text_normal_item"
-                    android:textSize="@dimen/s12"/>
+                    android:textSize="@dimen/s12" />
 
                 <TextView
                     android:id="@+id/tv_alreadyCollected"
@@ -80,22 +92,23 @@
                     android:paddingRight="@dimen/d5"
                     android:text=""
                     android:textColor="@color/bouns_1"
-                    android:textSize="@dimen/s12"/>
+                    android:textSize="@dimen/s12" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/yuan"
                     android:textColor="@color/text_normal_item"
-                    android:textSize="@dimen/s12"/>
+                    android:textSize="@dimen/s12" />
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/d5"
                 android:text=""
                 android:textSize="@dimen/s10"
-                android:visibility="invisible"/>
+                android:visibility="invisible" />
         </LinearLayout>
 
         <LinearLayout
@@ -104,17 +117,19 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/wait_collect"
                     android:textColor="@color/text_normal_item"
-                    android:textSize="@dimen/s12"/>
+                    android:textSize="@dimen/s12" />
 
                 <TextView
                     android:id="@+id/tv_to_collected_price"
@@ -124,15 +139,16 @@
                     android:paddingRight="@dimen/d5"
                     android:text=""
                     android:textColor="@color/bouns_1"
-                    android:textSize="@dimen/s12"/>
+                    android:textSize="@dimen/s12" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/yuan"
                     android:textColor="@color/text_normal_item"
-                    android:textSize="@dimen/s12"/>
+                    android:textSize="@dimen/s12" />
             </LinearLayout>
+
             <TextView
                 android:id="@+id/tv_end_of_distance"
                 android:layout_width="wrap_content"
@@ -142,9 +158,14 @@
                 android:text="@string/end_of_distance"
                 android:textColor="@color/text_normal_item"
 
-                android:textSize="@dimen/s10"/>
+                android:textSize="@dimen/s10" />
         </LinearLayout>
     </LinearLayout>
 
-
+    <View
+        android:id="@+id/footer_dash_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d1"
+        android:background="@drawable/line_divider"
+        android:layerType="software" />
 </LinearLayout>

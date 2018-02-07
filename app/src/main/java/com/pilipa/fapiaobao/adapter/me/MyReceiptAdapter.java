@@ -60,12 +60,16 @@ public class MyReceiptAdapter extends BaseAdapter {
             viewHolder.tvReceiveTime =(TextView) convertView.findViewById(R.id.tv_receive_time);
             viewHolder.tvArrivalState =(TextView) convertView.findViewById(R.id.tv_arrival_state);
             viewHolder.bouns_state =(TextView) convertView.findViewById(R.id.bouns_state);
+            viewHolder.footerLine = convertView.findViewById(R.id.footer_dash_line);
+            viewHolder.headerLine = convertView.findViewById(R.id.header_dash_line);
             convertView.setTag(viewHolder);
         }
         else
         {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        viewHolder.headerLine.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+        viewHolder.footerLine.setVisibility(View.VISIBLE);
         OrderListBean.DataBean bean =(OrderListBean.DataBean) mMarkerData.get(position);
         if(bean.getInvoiceType()!=null){
             viewHolder.tvReceipttype.setText(bean.getInvoiceType().getName());
@@ -122,5 +126,6 @@ public class MyReceiptAdapter extends BaseAdapter {
     private static class ViewHolder
     {
         TextView tvAmountOffered,tvReceipttype,tvReceiveBouns,tvReceiveTime,tvArrivalState,bouns_state;
+        View headerLine, footerLine;
     }
 }

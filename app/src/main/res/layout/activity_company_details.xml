@@ -54,7 +54,7 @@
         android:clipToPadding="false"
         android:overScrollMode="never"
         android:paddingEnd="@dimen/d20"
-        android:paddingStart="@dimen/d5"
+        android:paddingStart="@dimen/d20"
          />
     <Button
         android:id="@+id/btn_save"

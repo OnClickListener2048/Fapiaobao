@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -165,8 +164,7 @@ public class MyFavoriteCompanyViewPagerFragment extends BaseNoNetworkFragment im
                     mData=list ;
                     mAdapter.initData(mData);
                     listView.setAdapter(mAdapter);
-                        listView.addHeaderView(new ViewStub(mContext));
-                        listView.addFooterView(new ViewStub(mContext));
+
                         Log.d(TAG, "FavoriteCompany success");
                     }
 

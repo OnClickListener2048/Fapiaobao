@@ -21,10 +21,10 @@ import java.util.List;
 public class MyPublishAdapter extends BaseAdapter {
     private Context mContext = null;
     private List<?> mMarkerData = null;
-    public MyPublishAdapter(Context context)
-    {
+
+    public MyPublishAdapter(Context context) {
         mContext = context;
-        mMarkerData= new ArrayList<>();
+        mMarkerData = new ArrayList<>();
     }
 
     /**
@@ -58,27 +58,28 @@ public class MyPublishAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (null == convertView)
-        {
+        if (null == convertView) {
             viewHolder = new ViewHolder();
             LayoutInflater mInflater = LayoutInflater.from(mContext);
             convertView = mInflater.inflate(R.layout.item_publish, null);
-            viewHolder.tvEndOfDistance =(TextView) convertView.findViewById(R.id.tv_end_of_distance);
-            viewHolder.tvAmount =(TextView) convertView.findViewById(R.id.tv_amount);
-            viewHolder.tvAlreadyCollected =(TextView) convertView.findViewById(R.id.tv_alreadyCollected);
-            viewHolder.tvToCollectedPrice =(TextView) convertView.findViewById(R.id.tv_to_collected_price);
+            viewHolder.tvEndOfDistance = (TextView) convertView.findViewById(R.id.tv_end_of_distance);
+            viewHolder.tvAmount = (TextView) convertView.findViewById(R.id.tv_amount);
+            viewHolder.tvAlreadyCollected = (TextView) convertView.findViewById(R.id.tv_alreadyCollected);
+            viewHolder.tvToCollectedPrice = (TextView) convertView.findViewById(R.id.tv_to_collected_price);
+            viewHolder.footerLine = convertView.findViewById(R.id.footer_dash_line);
+            viewHolder.headerLine = convertView.findViewById(R.id.header_dash_line);
             convertView.setTag(viewHolder);
-        }
-        else
-        {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        viewHolder.headerLine.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+        viewHolder.footerLine.setVisibility(View.VISIBLE);
         DemandsListBean.DataBean bean = (DemandsListBean.DataBean) mMarkerData.get(position);
-        viewHolder.tvAmount.setText( String.format("%.2f",bean.getTotalAmount())+"");
-        double toAmount = sub(bean.getTotalAmount(),bean.getLeftAmount());
-        viewHolder.tvAlreadyCollected.setText(String.format("%.2f",toAmount)+"");
-        viewHolder.tvToCollectedPrice.setText(String.format("%.2f",bean.getLeftAmount())+"");
+        viewHolder.tvAmount.setText(String.format("%.2f", bean.getTotalAmount()) + "");
+        double toAmount = sub(bean.getTotalAmount(), bean.getLeftAmount());
+        viewHolder.tvAlreadyCollected.setText(String.format("%.2f", toAmount) + "");
+        viewHolder.tvToCollectedPrice.setText(String.format("%.2f", bean.getLeftAmount()) + "");
         String endFormat = mContext.getResources().getString(R.string.end_of_distance);
         viewHolder.tvEndOfDistance.setText(String.format(endFormat, bean.getLeftDate()));
 
@@ -86,7 +87,7 @@ public class MyPublishAdapter extends BaseAdapter {
     }
 
     public void addData(List list) {
-        if (list==null) {
+        if (list == null) {
             mMarkerData.addAll(list);
         }
 
@@ -94,7 +95,7 @@ public class MyPublishAdapter extends BaseAdapter {
     }
 
     public void clearData() {
-        if (mMarkerData!= null) {
+        if (mMarkerData != null) {
             mMarkerData.clear();
             notifyDataSetChanged();
         }
@@ -105,8 +106,8 @@ public class MyPublishAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    private static class ViewHolder
-    {
-        TextView tvEndOfDistance ,tvAmount,tvAlreadyCollected,tvToCollectedPrice;
+    private static class ViewHolder {
+        TextView tvEndOfDistance, tvAmount, tvAlreadyCollected, tvToCollectedPrice;
+        View headerLine, footerLine;
     }
 }

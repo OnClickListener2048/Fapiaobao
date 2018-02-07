@@ -50,12 +50,16 @@ public class MyCompanyAdapter extends BaseAdapter {
             LayoutInflater mInflater = LayoutInflater.from(mContext);
             convertView = mInflater.inflate(R.layout.item_company_manager, null);
             viewHolder.name =(TextView) convertView.findViewById(R.id.name);
+            viewHolder.footerLine = convertView.findViewById(R.id.footer_dash_line);
+            viewHolder.headerLine = convertView.findViewById(R.id.header_dash_line);
             convertView.setTag(viewHolder);
         }
         else
         {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        viewHolder.headerLine.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+        viewHolder.footerLine.setVisibility(View.VISIBLE);
         if(mMarkerData.get(position).getClass() .equals(CompaniesBean.DataBean.class)){
             CompaniesBean.DataBean bean =(CompaniesBean.DataBean) mMarkerData.get(position);
             viewHolder.name.setText(bean.getName());
@@ -92,5 +96,6 @@ public class MyCompanyAdapter extends BaseAdapter {
     private static class ViewHolder
     {
         TextView name;
+        View headerLine, footerLine;
     }
 }

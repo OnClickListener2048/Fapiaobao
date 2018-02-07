@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -149,8 +148,7 @@ public class UnusedPagerFragment_finish extends BaseNoNetworkFragment implements
                         dataBeanList = list;
                         mAdapter.initData(list);
                         listView.setAdapter(mAdapter);
-                        listView.addHeaderView(new ViewStub(mContext));
-                        listView.addFooterView(new ViewStub(mContext));
+
                         Log.d(TAG, "demandsList success");
                     }
 
