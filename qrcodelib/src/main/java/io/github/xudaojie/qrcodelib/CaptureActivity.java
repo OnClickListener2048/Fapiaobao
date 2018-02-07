@@ -68,6 +68,7 @@ public class CaptureActivity extends Activity implements Callback {
             mediaPlayer.seekTo(0);
         }
     };
+    public TextView mQrTitle;
     private CaptureActivity mActivity;
     private CaptureActivityHandler handler;
     private ViewfinderView viewfinderView;
@@ -247,7 +248,7 @@ public class CaptureActivity extends Activity implements Callback {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.qr_camera);
-
+        mQrTitle = (TextView) findViewById(R.id.qr_title);
         backIbtn = (ImageView) findViewById(R.id.back_ibtn);
         viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
         flashIbtn = (ImageButton) findViewById(R.id.flash_ibtn);
