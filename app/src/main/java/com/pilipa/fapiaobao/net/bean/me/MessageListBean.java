@@ -54,7 +54,7 @@ public class MessageListBean  {
         private String messageType;
         private String messageTypeName;
         private long newComeDate;
-        private int unreadMessages;
+        private double unreadMessages;
 
         public String getMessageType() {
             return messageType;
@@ -80,7 +80,7 @@ public class MessageListBean  {
             this.newComeDate = newComeDate;
         }
 
-        public int getUnreadMessages() {
+        public double getUnreadMessages() {
             return unreadMessages;
         }
 

@@ -46,7 +46,7 @@ import static com.pilipa.fapiaobao.net.Constant.INSTRUCTION;
  * Created by lyt on 2017/10/13.
  */
 
-public class MeFragment extends BaseFragment{
+public class MeFragment extends BaseFragment {
     @Bind(R.id.img_head_me)
     RoundedImageView imageHead;
     @Bind(R.id.tv_userName)
@@ -60,9 +60,11 @@ public class MeFragment extends BaseFragment{
     @Bind(R.id.red_new_dot)
     ImageView red_new_dot;
 
-    int[] LevelIcon=new int[]{R.mipmap.star0,R.mipmap.star1,R.mipmap.star2,R.mipmap.star3,R.mipmap.star4,R.mipmap.star5
-                              ,R.mipmap.star6,R.mipmap.star7,R.mipmap.star8,R.mipmap.star9,R.mipmap.star10};
+    int[] LevelIcon = new int[]{R.mipmap.star0, R.mipmap.star1, R.mipmap.star2, R.mipmap.star3, R.mipmap.star4, R.mipmap.star5
+            , R.mipmap.star6, R.mipmap.star7, R.mipmap.star8, R.mipmap.star9, R.mipmap.star10};
     RequestManager requestManager;
+    @Bind(R.id.btn_invoice_justify)
+    TextView mBtnInvoiceJustify;
     private BroadcastReceiver mBoradcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -88,7 +90,7 @@ public class MeFragment extends BaseFragment{
     }
 
     @Override
-    public void initData(){
+    public void initData() {
     }
 
     @Override
@@ -121,44 +123,42 @@ public class MeFragment extends BaseFragment{
     }
 
     @OnClick({R.id.tv_userName
-            ,R.id.fl_img_head
-            ,R.id.btn_mPublish
-            ,R.id.btn_manager
-            ,R.id.btn_receipt_folder
-            ,R.id.my_wallet
-            ,R.id.tv_creditRating
-            ,R.id.tv_feedback
-            ,R.id.encyclopedia
-            ,R.id.helpCenter
-            ,R.id.fl_notification})
+            , R.id.fl_img_head
+            , R.id.btn_mPublish
+            , R.id.btn_manager
+            , R.id.btn_receipt_folder
+            , R.id.my_wallet
+            , R.id.tv_creditRating
+            , R.id.tv_feedback
+            , R.id.encyclopedia
+            , R.id.helpCenter
+            , R.id.fl_notification})
     public void onViewClicked(final View view) {
-        switch (view.getId()){
-            case R.id.encyclopedia:
-            {
-                Intent intent  =new Intent(getContext(), Op.class);
+        switch (view.getId()) {
+            case R.id.encyclopedia: {
+                Intent intent = new Intent(getContext(), Op.class);
                 intent.putExtra("url", Constant.WIKI);
                 startActivity(intent);
             }
-                break;
-            case R.id.helpCenter:
-            {
-                Intent intent  =new Intent(getContext(), Op.class);
-                intent.putExtra("url",INSTRUCTION);
+            break;
+            case R.id.helpCenter: {
+                Intent intent = new Intent(getContext(), Op.class);
+                intent.putExtra("url", INSTRUCTION);
                 startActivity(intent);
             }
-                break;
+            break;
 
             case R.id.my_wallet:
-                    startActivity(new Intent(getContext(), MyWalletActivity.class));
+                startActivity(new Intent(getContext(), MyWalletActivity.class));
                 break;
 
 
             default: {
-                if(!"notoken".equals(AccountHelper.getToken())){
+                if (!"notoken".equals(AccountHelper.getToken())) {
                     switch (view.getId()) {
                         case R.id.tv_userName:
                         case R.id.fl_img_head:
-                            if (!ButtonUtils.isFastDoubleClick(R.id.tv_userName)||
+                            if (!ButtonUtils.isFastDoubleClick(R.id.tv_userName) ||
                                     !ButtonUtils.isFastDoubleClick(R.id.fl_img_head)) {
                                 startActivity(new Intent(getContext(), UserInfoActivity.class));
                             }
@@ -193,8 +193,9 @@ public class MeFragment extends BaseFragment{
                                 startActivity(new Intent(getContext(), CreditRatingActivity.class));
                             }
                             break;
+                        default:
                     }
-                }else{
+                } else {
                     login();
                 }
             }
@@ -204,9 +205,10 @@ public class MeFragment extends BaseFragment{
     @Override
     public void onPause() {
         super.onPause();
-        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),"loginByToken");
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), "loginByToken");
     }
-//    private void messageList() {
+
+    //    private void messageList() {
 //        if (TDevice.hasInternet()) {
 //            AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
 //                @Override
@@ -264,7 +266,7 @@ public class MeFragment extends BaseFragment{
     @Override
     public void onResume() {
 //        messageList();
-         requestManager = Glide.with(mContext);
+        requestManager = Glide.with(mContext);
         red_new_dot.setVisibility(BaseApplication.get(BaseApplication.PUSH_RECEIVE, false) ? View.VISIBLE : View.GONE);
 
         AccountHelper.isTokenValid(new Api.BaseRawResponse<LoginWithInfoBean>() {
@@ -286,11 +288,11 @@ public class MeFragment extends BaseFragment{
             @Override
             public void onTokenInvalid() {
                 SharedPreferencesHelper.remove(mContext, LoginWithInfoBean.class);
-                if(tvUserName == null) {
+                if (tvUserName == null) {
                     return;
                 }
                 tvUserName.setText("");
-                tvCreditRating.setText("积分："+"");
+                tvCreditRating.setText("积分：" + "");
                 tvBouns.setText("0 ");//钱包金额
                 imgLevelIcon.setImageResource(LevelIcon[0]);
                 requestManager
@@ -307,12 +309,12 @@ public class MeFragment extends BaseFragment{
                 if (loginWithInfoBean.getStatus() == 200) {
                     SharedPreferencesHelper.save(mContext, loginWithInfoBean);
                     LoginWithInfoBean.DataBean.CustomerBean customer = loginWithInfoBean.getData().getCustomer();
-                    if(tvUserName != null){
+                    if (tvUserName != null) {
                         tvUserName.setText(customer.getNickname());
-                        tvCreditRating.setText("积分："+customer.getCreditScore());
+                        tvCreditRating.setText("积分：" + customer.getCreditScore());
                         tvBouns.setText(String.format("%.2f", customer.getAmount()));//钱包金额
-                        Log.d("IMAGE_HEAD",customer.getHeadimg());
-                        String thumbnail = customer.getHeadimg().replace("invoice","thumbnail");
+                        Log.d("IMAGE_HEAD", customer.getHeadimg());
+                        String thumbnail = customer.getHeadimg().replace("invoice", "thumbnail");
 
                         requestManager
                                 .load(thumbnail)
@@ -327,5 +329,10 @@ public class MeFragment extends BaseFragment{
         });
 
         super.onResume();
+    }
+
+    @OnClick(R.id.btn_invoice_justify)
+    public void onViewClicked() {
+
     }
 }
