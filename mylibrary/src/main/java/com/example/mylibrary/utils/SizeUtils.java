@@ -1,5 +1,6 @@
 package com.example.mylibrary.utils;
 
+import android.content.Context;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -117,11 +118,16 @@ public final class SizeUtils {
         });
     }
 
-    /**
-     * 获取到View尺寸的监听
-     */
-    public interface onGetSizeListener {
-        void onGetSize(View view);
+    public static int getStatusbarHeight(Context context) {
+        int statusBarHeight1 = -1;
+//获取status_bar_height资源的ID
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            //根据资源ID获取响应的尺寸值
+            statusBarHeight1 = context.getResources().getDimensionPixelSize(resourceId);
+            return statusBarHeight1;
+        }
+        return 0;
     }
 
     /**
@@ -168,5 +174,12 @@ public final class SizeUtils {
      */
     public static int getMeasuredHeight(final View view) {
         return measureView(view)[1];
+    }
+
+    /**
+     * 获取到View尺寸的监听
+     */
+    public interface onGetSizeListener {
+        void onGetSize(View view);
     }
 }

@@ -262,4 +262,8 @@ public class Constant {
      */
     public static final String LOG_RECORD = BASE_URL+"log/android";
 
+    /**
+     * 发票验真
+     */
+    public static final String VERIFICATION = VERSION_BASE_URL + "/fapiaobao/verify/%s/%s/%s/%s";
 }

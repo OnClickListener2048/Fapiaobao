@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
@@ -14,14 +13,7 @@
         android:paddingStart="@dimen/d22"
         android:paddingTop="@dimen/d22">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/d22"
-            android:lineSpacingExtra="@dimen/d5"
-            android:text="@string/invoice_justify_result"
-            android:textColor="@color/title_small"
-            android:textSize="13sp"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,9 +27,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/d22"
                 android:lineSpacingExtra="@dimen/d5"
+                android:text="@string/please_scan_right_qrcode"
                 android:textColor="@color/title_small"
-                android:textSize="13sp"
-                tools:text="真票"/>
+                android:textSize="13sp"/>
 
             <TextView
                 android:id="@+id/i_know"
@@ -48,7 +40,7 @@
                 android:background="@null"
                 android:gravity="center"
                 android:padding="@dimen/d22"
-                android:text="@string/ok"
+                android:text="@string/know"
                 android:textColor="@color/main_style"
                 android:textSize="12sp"/>
         </LinearLayout>

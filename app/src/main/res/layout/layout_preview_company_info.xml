@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
@@ -20,6 +21,7 @@
             style="@style/popup_preview_end_textview_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            tools:text="啊我企鹅王群额冷酷无情金额冷酷无情二级冷酷无情冷酷无情耳机孔我清了荔湾区让我请客冷酷无情"
             />
     </LinearLayout>
 

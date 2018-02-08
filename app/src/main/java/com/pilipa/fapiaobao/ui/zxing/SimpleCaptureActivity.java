@@ -28,16 +28,17 @@ public class SimpleCaptureActivity extends CaptureActivity implements DialogInte
     private Dialog mDialog;
     private TextView mTvContent;
     private boolean mIsJustify;
+    private boolean mOnJustify;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mIsJustify = getIntent().getBooleanExtra(Constant.INVOICE_JUSTIFY, false);
+        mOnJustify = getIntent().getBooleanExtra(Constant.ONLY_JUSTIFY, false);
         if (mIsJustify) {
-            mQrTitle.setText(getString(R.string.invoice_justify));
+            mQrTitle.setText(getString(R.string.qr_title_invoice_justify));
         }
-        initProgressDialog();
         initDialog();
     }
 
@@ -45,14 +46,45 @@ public class SimpleCaptureActivity extends CaptureActivity implements DialogInte
     protected void handleResult(String resultString) {
         super.handleResult(resultString);
         if (TextUtils.isEmpty(resultString)) {
-            BaseApplication.showToast(R.string.scan_failed);
+            BaseApplication.showToast(R.string.qrScan_failed);
             restartPreview();
         } else {
-            Intent intent = getIntent();
-            intent.putExtra("codedContent", resultString);
-            intent.putExtra("codedBitmap", resultString);
-            setResult(RESULT_OK, intent);
-            finish();
+
+            if (mOnJustify) {
+                String[] strings = resultString.split(",");
+                TLog.d("SimpleCaptureActivity", "strings.length" + strings.length);
+                if (strings.length > 6) {
+                    Intent intent = new Intent();
+                    intent.putExtra(Constant.RESULTS, strings);
+                    intent.setClass(this, ResultActivity.class);
+                    startActivity(intent);
+                } else {
+                    mDialog.show();
+                }
+            } else {
+                if (mIsJustify) {
+                    String[] strings = resultString.split(",");
+                    TLog.d("SimpleCaptureActivity", "strings.length" + strings.length);
+                    if (strings.length > 6) {
+                        Intent intent = new Intent();
+                        intent.putExtra(Constant.RESULTS, strings);
+                        intent.setClass(this, ResultActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = getIntent();
+                        intent.putExtra("codedContent", resultString);
+                        intent.putExtra("codedBitmap", resultString);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                } else {
+                    Intent intent = getIntent();
+                    intent.putExtra("codedContent", resultString);
+                    intent.putExtra("codedBitmap", resultString);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
         }
     }
 
@@ -105,4 +137,5 @@ public class SimpleCaptureActivity extends CaptureActivity implements DialogInte
     public void onDismiss(DialogInterface dialog) {
 
     }
+
 }

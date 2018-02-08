@@ -19,128 +19,139 @@
         app:cardCornerRadius="6dp"
         app:cardElevation="4dp">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:overScrollMode="never">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="@dimen/d6">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_newNeed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:drawableLeft="@drawable/red_new_dot"
-                    android:drawablePadding="@dimen/d5"
-                    android:text="有新发布的需求~"
-                    android:textColor="@color/amount_red"
-                    android:textSize="@dimen/d13"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/img_details_viewpager_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/img_details_viewpager_share"
-                    android:background="@drawable/drawable_scan"
-                    android:padding="@dimen/d8"
-                    android:src="@mipmap/delete" />
-
-                <ImageView
-                    android:id="@+id/img_details_viewpager_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/drawable_scan"
-                    android:padding="@dimen/d8"
-                    android:src="@mipmap/share" />
-            </RelativeLayout>
-
-            <include
-                layout="@layout/layout_company_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/d10"
-                android:gravity="center">
-                <LinearLayout
-                    android:id="@+id/ll"
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
-                <ImageView
-                    android:id="@+id/img_qr_code1"
-                    android:layout_width="@dimen/d160"
-                    android:layout_height="@dimen/d160"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/d30"
-                    android:visibility="invisible" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_qr_code2"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:padding="@dimen/d6">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_newNeed"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_centerVertical="true"
+                        android:drawableLeft="@drawable/red_new_dot"
+                        android:drawablePadding="@dimen/d5"
+                        android:text="有新发布的需求~"
+                        android:textColor="@color/amount_red"
+                        android:textSize="@dimen/d13"
+                        android:visibility="gone"/>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d1"
-                            android:layout_centerVertical="true"
-                            android:background="@color/gray_line" />
+                    <ImageView
+                        android:id="@+id/img_details_viewpager_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/img_details_viewpager_share"
+                        android:background="@drawable/drawable_scan"
+                        android:padding="@dimen/d8"
+                        android:src="@mipmap/delete"/>
 
-                        <ImageView
-                            android:id="@+id/img_qr_code2"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="@dimen/d30"
-                            />
-                    </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/img_details_viewpager_share"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/drawable_scan"
+                        android:padding="@dimen/d8"
+                        android:src="@mipmap/share"/>
+                </RelativeLayout>
+
+                <include
+                    layout="@layout/layout_company_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/d10"
+                    android:gravity="center">
+
                     <LinearLayout
-                        android:id="@+id/ll_we_need"
+                        android:id="@+id/ll"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/d15"
-                        android:layout_marginRight="@dimen/d15"
+                        android:layout_height="220dp"
+                        android:layout_gravity="center"
                         android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/we_need"
-                            android:textColor="@color/text_normal_item"
-                            android:textSize="13sp"/>
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/view_recycler"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:paddingLeft="6dp"
-                            android:paddingRight="6dp"
-                            android:paddingTop="6dp"/>
+                        <ImageView
+                            android:id="@+id/img_qr_code1"
+                            android:layout_width="@dimen/d160"
+                            android:layout_height="@dimen/d160"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/d30"
+                            android:visibility="invisible"/>
                     </LinearLayout>
 
-                </LinearLayout>
-            </FrameLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_qr_code2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d1"
+                                android:layout_centerVertical="true"
+                                android:background="@color/gray_line"/>
+
+                            <ImageView
+                                android:id="@+id/img_qr_code2"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="@dimen/d30"
+                                />
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_we_need"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/d15"
+                            android:layout_marginRight="@dimen/d15"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/we_need"
+                                android:textColor="@color/text_normal_item"
+                                android:textSize="13sp"/>
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/view_recycler"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:paddingLeft="6dp"
+                                android:paddingRight="6dp"
+                                android:paddingTop="6dp"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </FrameLayout>
 
 
-        </LinearLayout>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
     </android.support.v7.widget.CardView>
 
 

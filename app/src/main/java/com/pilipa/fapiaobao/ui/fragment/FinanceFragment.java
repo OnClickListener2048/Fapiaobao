@@ -472,7 +472,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                 if (aBoolean) {
                     TLog.log("REQUEST_CODE_SCAN" + aBoolean);
                     Intent intent = new Intent(mContext, SimpleCaptureActivity.class);
-                    intent.putExtra(Constant.QR_TITLE, getString(R.string.qr_title_invoice_justify));
+                    intent.putExtra(Constant.INVOICE_JUSTIFY, true);
                     startActivityForResult(intent, REQUEST_CODE_SCAN);
                 }
             }

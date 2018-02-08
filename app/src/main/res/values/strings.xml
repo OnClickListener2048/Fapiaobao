@@ -562,6 +562,12 @@
     <string name="qr_title_invoice_justify">扫一扫/发票验真</string>
     <string name="ok">好的</string>
     <string name="invoice_justify_result">验证结果</string>
+    <string name="invoice_info">发票信息</string>
+    <string name="invoice_code">发票代码</string>
+    <string name="invoice_date">开票日期</string>
+    <string name="invoice_name">购方名称</string>
+    <string name="invoice_value">金额合计</string>
+    <string name="please_scan_right_qrcode">请扫描正确的发票二维码~</string>
 
     <string-array name="express_array">
         <item>顺丰</item>

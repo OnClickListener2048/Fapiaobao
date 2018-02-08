@@ -97,7 +97,8 @@
             <!--android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
 
         <activity android:name=".ui.LaunchActivity"
-            android:screenOrientation="portrait">
+                  android:screenOrientation="portrait"
+                  android:theme="@style/splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -160,6 +161,9 @@
         <activity android:name=".ui.CompanyDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.FavCompanyDetailsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BindPhoneActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.zxing.ResultActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.zxing.SimpleCaptureActivity"
             android:screenOrientation="portrait"/>

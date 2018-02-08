@@ -2,14 +2,15 @@ package com.pilipa.fapiaobao.ui.dialog;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.mylibrary.utils.ScreenUtils;
+import com.example.mylibrary.utils.SizeUtils;
 import com.pilipa.fapiaobao.R;
 
 /**
@@ -18,6 +19,7 @@ import com.pilipa.fapiaobao.R;
 
 public class LoadingDialog extends ProgressDialog {
 
+    private boolean isFullScreen = false;
     private TextView tv_description;
     private AnimationDrawable ad;
 
@@ -29,19 +31,34 @@ public class LoadingDialog extends ProgressDialog {
         super(context, theme);
     }
 
+    public LoadingDialog(Context context, int theme, boolean isFullScreen) {
+        super(context, theme);
+        this.isFullScreen = isFullScreen;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        init(getContext());
+        init();
     }
 
-    private void init(Context context) {
+    private void init() {
         setCancelable(true);
         setCanceledOnTouchOutside(false);
-        setContentView(R.layout.layout_loading);//loading的xml文件
+        if (isFullScreen) {
+            setContentView(R.layout.layout_fullscreen_loading);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.width = WindowManager.LayoutParams.MATCH_PARENT;
+            params.gravity = Gravity.BOTTOM;
+            params.height = ScreenUtils.getScreenHeight() - SizeUtils.dp2px(48) - SizeUtils.getStatusbarHeight(getContext());
+        } else {
+            setContentView(R.layout.layout_loading);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+            params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        }
         WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
         getWindow().setAttributes(params);
         tv_description = (TextView) findViewById(R.id.tv_load_dialog);
         ImageView imageLoading = (ImageView) findViewById(R.id.pb_load);

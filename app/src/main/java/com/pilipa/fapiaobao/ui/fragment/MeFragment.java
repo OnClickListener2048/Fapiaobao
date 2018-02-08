@@ -352,7 +352,7 @@ public class MeFragment extends BaseFragment {
                 if (aBoolean) {
                     TLog.log("REQUEST_CODE_SCAN" + aBoolean);
                     Intent intent = new Intent(mContext, SimpleCaptureActivity.class);
-                    intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.INVOICE_JUSTIFY, true);
+                    intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.ONLY_JUSTIFY, true);
                     startActivityForResult(intent, com.pilipa.fapiaobao.ui.constants.Constant.REQUEST_CODE_SCAN);
                 }
             }

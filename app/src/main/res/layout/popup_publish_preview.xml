@@ -17,8 +17,8 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginEnd="@dimen/d36"
-        android:layout_marginStart="@dimen/d36"
+        android:layout_marginEnd="@dimen/d26"
+        android:layout_marginStart="@dimen/d26"
         android:layout_marginTop="@dimen/d23"
         android:layout_weight="1"
         android:fadeScrollbars="false"

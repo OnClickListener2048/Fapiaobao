@@ -292,11 +292,12 @@ public class MyCompanyDetailsPagerFragment extends BaseFragment implements MyCom
                     onNextClickListener.onNextClick();
                 }
                 break;
+            default:
         }
     }
 
     private void setDialog() {
-        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
+        mCameraDialog = new Dialog(getActivity(), R.style.bottomDialog);
         LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
                 R.layout.layout_share_, null);
         //初始化视图

@@ -52,4 +52,6 @@ public class Constant {
     public static final String QR_TITLE = "qr_title";
     public static final int REQUEST_CODE_SCAN = 998;
     public static final String INVOICE_JUSTIFY = "invoice_justify";
+    public static final String RESULTS = "results";
+    public static final String ONLY_JUSTIFY = "only_justify";
 }

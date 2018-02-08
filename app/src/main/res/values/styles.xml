@@ -20,6 +20,12 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
+    <style name="splash" parent="AppTheme">
+        <!-- 欢迎页背景引用刚才写好的 -->
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="FullscreenTheme" parent="immersivemode">
         <item name="windowNoTitle">true</item>
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
@@ -79,6 +85,7 @@
         <!-- Dialog进入及退出动画 -->
         <item name="android:windowAnimationStyle">@style/bottomDialogAnimation</item>
     </style>
+
 
 
     <!-- ActionSheet进出动画 -->
@@ -169,6 +176,7 @@
     <style name="popup_preview_end_textview_style">
         <item name="android:textSize">@dimen/s12</item>
         <item name="android:textColor">#434343</item>
+        <item name="android:paddingEnd">@dimen/d8</item>
     </style>
 
     <style name="layout_title_bottom_line">
@@ -176,5 +184,9 @@
         <item name="android:layout_height">@dimen/d1</item>
         <item name="android:layout_alignParentBottom">true</item>
         <item name="android:background">@color/gray_line</item>
+    </style>
+
+    <style name="maxlength">
+        <item name="android:maxLength">40</item>
     </style>
 </resources>

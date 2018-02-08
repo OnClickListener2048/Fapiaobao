@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -17,7 +16,6 @@ import com.amap.api.location.AMapLocationListener;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.Constants.Config;
 import com.pilipa.fapiaobao.MainActivity;
-import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -35,35 +33,6 @@ public class LaunchActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 100;
     private static final int APK_INSTALL_CODE = 300;
     private final Handler mHideHandler = new Handler();
-
-    private final Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hide();
-        }
-    };
-    private View mContentView;
-    private Runnable mHidePart2Runnable = new Runnable() {
-        @Override
-        public void run() {
-            mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                   );
-        }
-    };
-
-    private Runnable mRedirectToHandler = new Runnable() {
-        @Override
-        public void run() {
-            if (BaseApplication.get(Config.IS_FIRST_COMING, true)) {
-                startActivity(new Intent(LaunchActivity.this, LeadActivity.class));
-                finish();
-            } else {
-                redirectTo();
-            }
-        }
-    };
-
     public AMapLocationClient mLocationClient = null;
     public AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
@@ -90,16 +59,46 @@ public class LaunchActivity extends AppCompatActivity {
             }
         }
     };
-
+    private View mContentView;
+    private Runnable mHidePart2Runnable = new Runnable() {
+        @Override
+        public void run() {
+//            mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE|
+//                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+//                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+//                            | View.SYSTEM_UI_FLAG_IMMERSIVE
+//            );
+        }
+    };
+    private Runnable mRedirectToHandler = new Runnable() {
+        @Override
+        public void run() {
+            if (BaseApplication.get(Config.IS_FIRST_COMING, true)) {
+                startActivity(new Intent(LaunchActivity.this, LeadActivity.class));
+                finish();
+            } else {
+                redirectTo();
+            }
+        }
+    };
+    private final Runnable mHideRunnable = new Runnable() {
+        @Override
+        public void run() {
+            hide();
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_launch);
+//        setContentView(R.layout.activity_launch);
 
-        mContentView = findViewById(R.id.fullscreen_content);
-        TextView version = (TextView) findViewById(R.id.version);
-        version.setText("v"+TDevice.getVersionName());
+//        mContentView = findViewById(R.id.fullscreen_content);
+//        TextView version = (TextView) findViewById(R.id.version);
+//        version.setText("v"+TDevice.getVersionName());
         initAMap();
     }
 

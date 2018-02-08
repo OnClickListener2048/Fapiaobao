@@ -35,6 +35,7 @@ import com.pilipa.fapiaobao.net.bean.me.FavBean;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.FeedBackBean;
 import com.pilipa.fapiaobao.net.bean.me.FeedbackMessageBean;
+import com.pilipa.fapiaobao.net.bean.me.Invoice_Verify;
 import com.pilipa.fapiaobao.net.bean.me.MessageDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
@@ -114,6 +115,7 @@ import static com.pilipa.fapiaobao.net.Constant.URL_UPDATE;
 import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_DETAILS;
 import static com.pilipa.fapiaobao.net.Constant.USER_ISSUED_LIST;
 import static com.pilipa.fapiaobao.net.Constant.USER_LOGIN;
+import static com.pilipa.fapiaobao.net.Constant.VERIFICATION;
 import static com.pilipa.fapiaobao.net.Constant.WITHDRAW;
 import static com.pilipa.fapiaobao.net.Constant.WX_RECHARGE;
 
@@ -1929,6 +1931,13 @@ public class Api<T> {
     public static void searchCompanies(String companyName, Object tag, final Callback callback) {
         OkGo.<BaseResponseBean<List<com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean>>>get(String.format(COMPANY_SEARCH, companyName))
                 .tag(tag)
+                .cacheMode(CacheMode.NO_CACHE)
+                .execute(callback);
+    }
+
+    public static void invoice_verification(String code, String number, String date, String money, Object o, Callback callback) {
+        OkGo.<Invoice_Verify>get(String.format(VERIFICATION, code, number, date, money))
+                .tag(o)
                 .cacheMode(CacheMode.NO_CACHE)
                 .execute(callback);
     }
