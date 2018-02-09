@@ -187,7 +187,10 @@
                             android:id="@+id/translate_details"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="@dimen/d20"
+                            android:layout_marginBottom="@dimen/d20"
+                            android:layout_marginEnd="@dimen/d20"
+                            android:layout_marginStart="@dimen/d20"
+                            android:layout_marginTop="@dimen/d50"
                             android:orientation="vertical"
                             android:visibility="gone">
 

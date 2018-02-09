@@ -49,16 +49,12 @@ public class MyRejectTypeAdapter extends BaseAdapter {
             LayoutInflater mInflater = LayoutInflater.from(mContext);
             convertView = mInflater.inflate(R.layout.type_spinner_item, null);
             viewHolder.text1 =(TextView) convertView.findViewById(R.id.text1);
-            viewHolder.footerLine = convertView.findViewById(R.id.footer_dash_line);
-            viewHolder.headerLine = convertView.findViewById(R.id.header_dash_line);
             convertView.setTag(viewHolder);
         }
         else
         {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.headerLine.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
-        viewHolder.footerLine.setVisibility(View.VISIBLE);
         RejectTypeBean.DataBean bean=(RejectTypeBean.DataBean) mMarkerData.get(position);
         viewHolder.text1.setText(bean.getLabel());
         return convertView;
@@ -72,6 +68,5 @@ public class MyRejectTypeAdapter extends BaseAdapter {
     private static class ViewHolder
     {
         TextView text1;
-        View headerLine, footerLine;
     }
 }

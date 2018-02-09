@@ -140,7 +140,7 @@ public class Invoice_Verify {
             return 价税合计;
         }
 
-        public void set价税合计(int 价税合计) {
+        public void set价税合计(double 价税合计) {
             this.价税合计 = 价税合计;
         }
 
@@ -148,7 +148,7 @@ public class Invoice_Verify {
             return 税额合计;
         }
 
-        public void set税额合计(int 税额合计) {
+        public void set税额合计(double 税额合计) {
             this.税额合计 = 税额合计;
         }
 
@@ -188,7 +188,7 @@ public class Invoice_Verify {
             return 金额合计;
         }
 
-        public void set金额合计(int 金额合计) {
+        public void set金额合计(double 金额合计) {
             this.金额合计 = 金额合计;
         }
 
@@ -247,7 +247,7 @@ public class Invoice_Verify {
             private String 规定型号;
             private double 税额;
             private String 单位;
-            private int 数量;
+            private double 数量;
             private String 税率;
             private double 单价;
             private String 名称;
@@ -265,7 +265,7 @@ public class Invoice_Verify {
                 return 税额;
             }
 
-            public void set税额(int 税额) {
+            public void set税额(double 税额) {
                 this.税额 = 税额;
             }
 
@@ -277,11 +277,11 @@ public class Invoice_Verify {
                 this.单位 = 单位;
             }
 
-            public int get数量() {
+            public double get数量() {
                 return 数量;
             }
 
-            public void set数量(int 数量) {
+            public void set数量(double 数量) {
                 this.数量 = 数量;
             }
 
@@ -297,7 +297,7 @@ public class Invoice_Verify {
                 return 单价;
             }
 
-            public void set单价(int 单价) {
+            public void set单价(double 单价) {
                 this.单价 = 单价;
             }
 
@@ -313,7 +313,7 @@ public class Invoice_Verify {
                 return 金额;
             }
 
-            public void set金额(int 金额) {
+            public void set金额(double 金额) {
                 this.金额 = 金额;
             }
         }

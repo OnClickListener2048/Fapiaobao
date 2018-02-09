@@ -1582,24 +1582,24 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 //ProvinceBean 省份信息
                 //CityBean     城市信息
                 //DistrictBean 区县信息
+                tvArea.setText("");
                 if (province != null) {
                     demandPostageBean.setProvince(province.getName());
+                    BaseApplication.set("province", province.getName());
+                    tvArea.append(province.getName());
                 }
 
                 if (city != null) {
                     demandPostageBean.setCity(city.getName());
+                    BaseApplication.set("city", city.getName());
+                    tvArea.append("-" + city.getName());
                 }
 
                 if (district != null) {
-
-                demandPostageBean.setDistrict(district.getName());
+                    demandPostageBean.setDistrict(district.getName());
+                    BaseApplication.set("district", district.getName());
+                    tvArea.append("-" + district.getName());
                 }
-
-                BaseApplication.set("province", province.getName());
-                BaseApplication.set("city", city.getName());
-                BaseApplication.set("district", district.getName());
-                tvArea.setText(province.getName() + "-" + city.getName() + "-" + district.getName());
-
                 cityPicker.hide();
             }
 

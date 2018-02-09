@@ -360,7 +360,7 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
             return;
         }
         if (TextUtils.isEmpty(edtTaxno.getText())) {
-            BaseApplication.showToast("请输入税号");
+            BaseApplication.showToast("请输入税号".intern());
             return;
         }
 
@@ -410,6 +410,8 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
                     setResult(RESULT_OK);
                     AddCompanyInfoActivity.this.finish();
                     TLog.d(TAG, "createCompany;success");
+                } else {
+                    BaseApplication.showToast(normalBean.getMsg());
                 }
             }
         });

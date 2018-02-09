@@ -78,7 +78,11 @@ public class MessageCenterAdapter extends BaseAdapter {
         if (TextUtils.equals(Constant.MSG_TYPE_GOT_BONUS, bean.getMessageType())) {
             viewHolder.tvRedBagAmount.setVisibility(View.VISIBLE);
             viewHolder.tv_size.setVisibility(View.GONE);
-            viewHolder.tvRedBagAmount.setText(String.valueOf(bean.getUnreadMessages()));
+            if (0.0 == bean.getUnreadMessages()) {
+                viewHolder.tvRedBagAmount.setVisibility(View.GONE);
+            } else {
+                viewHolder.tvRedBagAmount.setText(String.valueOf(bean.getUnreadMessages()));
+            }
         } else {
             viewHolder.tvRedBagAmount.setVisibility(View.GONE);
         }

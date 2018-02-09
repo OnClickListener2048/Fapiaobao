@@ -93,7 +93,7 @@ public class ResultActivity extends BaseActivity {
                 verify(code, number, date, value);
             }
 
-            if (TextUtils.equals("04", invoice)) {
+            if (TextUtils.equals("04", invoice) || TextUtils.equals("10", invoice)) {
                 TLog.log("TextUtils.equals(\"04,\",invoice");
                 //普票
                 String substring = verification.substring(14);
@@ -230,13 +230,17 @@ public class ResultActivity extends BaseActivity {
                     mTvInvoiceCode.setText(mData.get发票代码());
                     mTvInvoiceDate.setText(mData.get开票日期());
                     mTvInvoiceName.setText(mData.get购买方名称());
-                    mTvInvoiceValue.setText(String.valueOf(mData.get税额合计()));
+                    mTvInvoiceValue.setText(String.valueOf(mData.get价税合计()));
                 }
                 break;
 
             case "-1":
                 BaseApplication.showToast(body.getMsg());
-
+                mIvIcon.setImageResource(R.mipmap.justify_failed);
+                mLlInvoiceInfo.setVisibility(View.GONE);
+                mTvInvoiceContent.setText("发票信息上传失败,请重试~");
+                mBtnScanNext.setText("重新扫描");
+                mTvInvoiceJustify.setText("验证失败");
                 break;
             default:
         }

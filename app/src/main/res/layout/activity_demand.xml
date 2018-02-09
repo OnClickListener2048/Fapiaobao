@@ -359,7 +359,7 @@
                     <!--公司详情-->
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="350dp"
+                        android:layout_height="@dimen/d400"
                         android:layout_margin="@dimen/d20"
                         android:elevation="@dimen/d10"
                         android:orientation="vertical"
@@ -394,7 +394,9 @@
                                 android:id="@+id/translate"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_margin="@dimen/d20"
+                                android:layout_marginEnd="@dimen/d20"
+                                android:layout_marginStart="@dimen/d20"
+                                android:layout_marginTop="@dimen/d20"
                                 android:orientation="vertical">
 
 
@@ -435,7 +437,9 @@
                                 android:id="@+id/translate_details"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_margin="@dimen/d20"
+                                android:layout_marginEnd="@dimen/d20"
+                                android:layout_marginStart="@dimen/d20"
+                                android:layout_marginTop="@dimen/d50"
                                 android:orientation="vertical"
                                 android:visibility="gone">
 

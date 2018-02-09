@@ -154,12 +154,11 @@ public class Withdraw2WXActivity extends BaseActivity {
                             intent.putExtra(Constant.TITLE, getString(R.string.withdraw_success));
                             intent.putExtra(Constant.MESSAGE, getString(R.string.withdraw_message,tv_amount.getText().toString().trim()));
                             setResult(RESULT_OK,intent);
-
                             finish();
                         } else if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.INSUFFICIENT_ACCOUNT) {
                             BaseApplication.showToast(getString(R.string.insufficient_account));//账户余额不足
-                        } else {
-                            BaseApplication.showToast(normalBean.getMsg());
+                        } else if (normalBean.getMsg() == null) {
+                            BaseApplication.showToast("提现异常，请在意见反馈说明情况，票宝客服会及时给您处理~~~");
                         }
                     }
                 });

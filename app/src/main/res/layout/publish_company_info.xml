@@ -111,13 +111,13 @@
 
                         <EditText
                             android:id="@+id/et_publish_company_name"
-                            style="@style/maxlength"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
                             android:imeOptions="actionNext"
                             android:inputType="text"
+                            android:maxLength="60"
                             android:maxLines="2"
                             android:nextFocusForward="@+id/et_publish_tex_number"
                             android:scrollHorizontally="false"
@@ -170,13 +170,13 @@
 
                         <EditText
                             android:id="@+id/et_publish_tex_number"
-                            style="@style/maxlength"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
                             android:imeOptions="actionNext"
                             android:inputType="text"
+                            android:maxLength="30"
                             android:maxLines="2"
                             android:nextFocusForward="@+id/et_publish_address"
                             android:textSize="@dimen/s12" />
@@ -226,13 +226,13 @@
 
                         <EditText
                             android:id="@+id/et_publish_address"
-                            style="@style/maxlength"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
                             android:imeOptions="actionNext"
                             android:inputType="text"
+                            android:maxLength="200"
                             android:maxLines="2"
                             android:nextFocusForward="@+id/et_publish_phone_number"
                             android:textSize="@dimen/s12" />
@@ -285,7 +285,7 @@
                             android:background="@null"
                             android:imeOptions="actionNext"
                             android:inputType="number"
-                            android:maxLength="15"
+                            android:maxLength="20"
                             android:maxLines="2"
                             android:nextFocusForward="@+id/et_publish_bank"
                             android:textSize="@dimen/s12" />
@@ -334,13 +334,13 @@
 
                         <EditText
                             android:id="@+id/et_publish_bank"
-                            style="@style/maxlength"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@null"
                             android:imeOptions="actionNext"
                             android:inputType="text"
+                            android:maxLength="90"
                             android:maxLines="2"
                             android:nextFocusForward="@+id/et_publish_bank_account"
                             android:textSize="@dimen/s12" />
@@ -394,7 +394,7 @@
                             android:background="@null"
                             android:imeOptions="actionNext"
                             android:inputType="number"
-                            android:maxLength="20"
+                            android:maxLength="30"
                             android:maxLines="2"
                             android:nextFocusForward="@+id/et_amount"
                             android:textSize="@dimen/s12" />

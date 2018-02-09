@@ -12,6 +12,7 @@ import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.adapter.supply.MessageCenterAdapter;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseNoNetworkActivity;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
@@ -158,6 +159,8 @@ showNetWorkErrorLayout();
             if (list.get(position).getUnreadMessages() > 0) {
                 startActivity(new Intent(this, MyRedEnvelopeActivity.class));
                 messageRead(messageType, com.pilipa.fapiaobao.net.Constant.MSG_TYPE_GOT_BONUS);
+            } else {
+                BaseApplication.showToast("暂无红包");
             }
         } else {
             Intent intent = new Intent(MessageCenterActivity.this, MessageDetailsActivity.class);
