@@ -71,9 +71,11 @@ public class MessageDetailsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         MessageDetailsBean.DataBean bean = list.get(position);
-        Double aDouble = Double.valueOf(list.get(position).getMessage().getRemarks());
-
-        viewHolder.tv_piece.setText(parent.getContext().getString(R.string.end_with_piece, String.valueOf(aDouble.intValue())));
+        String remarks = bean.getMessage().getRemarks();
+        if (remarks != null) {
+            Double aDouble = Double.valueOf(remarks);
+            viewHolder.tv_piece.setText(parent.getContext().getString(R.string.end_with_piece, String.valueOf(aDouble.intValue())));
+        }
 
         if(MSG_TYPE_SERVICE_NOTIFICATION.equals(bean.getMessage().getType())){
             viewHolder.tv_time.setVisibility(View.GONE);
