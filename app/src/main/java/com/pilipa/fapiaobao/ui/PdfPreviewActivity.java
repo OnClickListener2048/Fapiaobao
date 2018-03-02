@@ -70,7 +70,7 @@ public class PdfPreviewActivity extends BaseActivity {
         isFromUploadReceiptActivity = getIntent().getBooleanExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, false);
         pdfUrl = getIntent().getStringExtra(Constant.PDF_EXTRA);
         tag = getIntent().getStringExtra(Constant.TAG);
-        if (ActivityUtils.isActivityExistsInStack(UploadReceiptActivity.class)) {
+        if (ActivityUtils.isActivityExistsInStack(ConfirmActivity.class)) {
             isFromUploadReceiptActivity = true;
         } else {
             isFromUploadReceiptActivity = false;
@@ -174,7 +174,8 @@ public class PdfPreviewActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(ReceiptActivityToken.RESULT_RECEIPT_FOLDER, singlePdf);
         intent.putExtra(ReceiptActivityToken.EXTRA_DATA_FROM_TOKEN, bundle);
-        intent.setClass(this, UploadReceiptActivity.class);
+        intent.putExtra(Constant.DEMANDS_ID, getIntent().getStringExtra(Constant.DEMANDS_ID));
+        intent.setClass(this, UploadReceiptPreviewActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
 

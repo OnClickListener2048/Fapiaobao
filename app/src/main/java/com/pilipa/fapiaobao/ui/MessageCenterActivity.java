@@ -29,6 +29,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.pilipa.fapiaobao.base.BaseApplication.PUSH_RECEIVE;
+import static com.pilipa.fapiaobao.base.BaseApplication.set;
+import static com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS;
+
 /**
  * Created by wjn on 2017/10/23.
  */
@@ -142,6 +146,28 @@ showNetWorkErrorLayout();
                     } else if (messageListBean.getStatus() == 400) {
                         noContent.setVisibility(View.VISIBLE);
                         tips.setText("暂时还没有消息哦");
+                    }
+
+                    boolean hasNewMsg = false;
+                    if (messageListBean.getStatus() == REQUEST_SUCCESS) {
+                        List<MessageListBean.DataBean> data = messageListBean.getData();
+                        if (data != null) {
+                            for (int i = 0; i < data.size(); i++) {
+                                if (data.get(i).getUnreadMessages() > 0) {
+                                    hasNewMsg = true;
+                                    TLog.d("MainActivity", "message center had new message");
+                                    break;
+                                } else {
+                                    TLog.d("MainActivity", "message center no message1");
+                                }
+                            }
+                            if (hasNewMsg) {
+                                set(PUSH_RECEIVE, true);
+                            } else {
+                                set(PUSH_RECEIVE, false);
+                            }
+
+                        }
                     }
                 }
             });

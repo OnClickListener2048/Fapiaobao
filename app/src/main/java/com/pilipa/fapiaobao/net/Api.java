@@ -821,11 +821,12 @@ public class Api<T> {
     /**
      * @param baseViewCallback
      */
-    public static void findAllInvoice(String token,final BaseViewCallbackWithOnStart baseViewCallback) {
+    public static void findAllInvoice(String token, Object object, final BaseViewCallbackWithOnStart baseViewCallback) {
 
             OkGo.<AllInvoiceType>post(FIND_ALL_INVIICE_TYPE)
                     .upJson(JsonCreator.allInvoice(token))
-                    .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
+                    .tag(object)
+                    .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                     .execute(new JsonCallBack<AllInvoiceType>(AllInvoiceType.class) {
                 @Override
                 public void onSuccess(Response<AllInvoiceType> response) {
@@ -964,9 +965,10 @@ public class Api<T> {
      *
      * @param baseViewCallback
      */
-    public static void findDefaultInvoiceType(final BaseRawResponseWithCache baseViewCallback) {
+    public static void findDefaultInvoiceType(Object object, final BaseRawResponseWithCache baseViewCallback) {
         OkGo.<DefaultInvoiceBean>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE)
                 .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
+                .tag(object)
                 .execute(new JsonCallBack<DefaultInvoiceBean>(DefaultInvoiceBean.class) {
                 @Override
                 public void onSuccess(Response<DefaultInvoiceBean> response) {
@@ -1008,11 +1010,12 @@ public class Api<T> {
      * @param token
      * @param baseViewCallback
      */
-    public static void findUserInvoiceType(String token, final BaseRawResponseWithCache baseViewCallback) {
+    public static void findUserInvoiceType(String token, Object o, final BaseRawResponseWithCache baseViewCallback) {
 
             String url = String.format(FIND_FREQUENTLY_INVOICE_TYPE, token);
         OkGo.<DefaultInvoiceBean>get(url).tag("findUserInvoiceType")
-                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
+                .cacheMode(CacheMode.NO_CACHE)
+                .tag(o)
                 .execute(new JsonCallBack<DefaultInvoiceBean>(DefaultInvoiceBean.class) {
                 @Override
                 public void onSuccess(Response<DefaultInvoiceBean> response) {

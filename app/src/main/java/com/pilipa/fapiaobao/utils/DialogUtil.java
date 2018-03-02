@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
@@ -34,6 +35,13 @@ public class DialogUtil {
 
     public View getRootView() {
         return mRoot;
+    }
+
+    public void setRootContentText(int id, String s) {
+        if (mRoot != null) {
+            TextView textView = (TextView) mRoot.findViewById(id);
+            textView.setText(s);
+        }
     }
 
     public Dialog createDialog(Context context, int style, int layoutRes, final OnKnownListener onKnownListener, final OnConfirmListener onConfirmListener, final OnCancelListener onCancelListener) {

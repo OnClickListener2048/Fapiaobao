@@ -1,52 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:id="@+id/layout_willchecked_item"
-    android:layout_width="match_parent"
-    android:layout_height="240dp">
+              android:id="@+id/layout_willchecked_item"
+              android:layout_width="match_parent"
+              android:layout_height="240dp"
+              android:orientation="vertical">
     <TextView
         android:id="@+id/tv_tip"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:textColor="@color/olive"
         android:gravity="center"
-        android:textSize="12sp"
-        android:text="@string/tip_wait_dowload"/>
+        android:text="@string/tip_wait_dowload"
+        android:textColor="@color/olive"
+        android:textSize="12sp"/>
     <TextView
         android:id="@+id/privide_amount_willcheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/d10"
         android:layout_marginLeft="@dimen/d13"
         android:layout_marginRight="@dimen/d13"
-        android:layout_marginBottom="@dimen/d10"
         android:text="@string/privide_amount" />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/d120">
+
+        <RelativeLayout
+            android:id="@+id/rl_important"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/d10"
+            android:layout_marginStart="@dimen/d10">
+
+            <TextView
+                android:id="@+id/tv_important"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/d5"
+                android:text="重要提示："
+                android:textColor="@color/main_style"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_important"
+                android:text="请确认您已核对过发票抬头信息、发票内容、金额、日期、发票盖章等信息之后再确认合格。"
+                android:textColor="@color/main_style"/>
+        </RelativeLayout>
         <LinearLayout
             android:id="@+id/ll_no_info"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:gravity="center"
-            android:visibility="gone"
             android:background="@color/mailing_bg"
+            android:gravity="center"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="10">
             <TextView
                 android:id="@+id/tv_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:textColor="@color/main_style"
-                android:text="@string/wait_mail" />
+                android:text="@string/wait_mail"
+                android:textColor="@color/main_style"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_express_info"
             android:layout_width="match_parent"
             android:layout_height="115dp"
-            android:gravity="center"
             android:background="@color/mailing_bg"
+            android:gravity="center"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:weightSum="10">
 
             <LinearLayout
@@ -85,9 +109,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/s12"
                         android:gravity="center_horizontal"
-                        android:text="@string/express_company" />
+                        android:text="@string/express_company"
+                        android:textSize="@dimen/s12"/>
 
                     <android.support.v4.widget.Space
                         android:layout_width="@dimen/d15"
@@ -119,8 +143,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:textSize="@dimen/s12"
-                        android:text="@string/express_no" />
+                        android:text="@string/express_no"
+                        android:textSize="@dimen/s12"/>
 
                     <android.support.v4.widget.Space
                         android:layout_width="@dimen/d15"
@@ -128,11 +152,11 @@
 
                     <TextView
                         android:id="@+id/express_no"
-                        android:textSize="@dimen/s12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        android:text="" />
+                        android:text=""
+                        android:textSize="@dimen/s12"/>
                 </LinearLayout>
 
                 <android.support.v4.widget.Space
@@ -168,6 +192,8 @@
 
             </LinearLayout>
         </LinearLayout>
+
+
     </FrameLayout>
 
     <LinearLayout
@@ -186,14 +212,14 @@
             android:id="@+id/tv_qualified"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/d10"
             android:layout_weight="1"
+            android:background="@drawable/selector_mainstyle_to_transparent"
             android:gravity="center"
             android:paddingBottom="@dimen/d10"
             android:paddingLeft="@dimen/d10"
             android:paddingRight="@dimen/d10"
             android:paddingTop="@dimen/d10"
-            android:layout_marginEnd="@dimen/d10"
-            android:background="@drawable/selector_mainstyle_to_transparent"
             android:text="@string/checked_qualified"
             android:textColor="@color/white" />
 
@@ -201,16 +227,16 @@
             android:id="@+id/tv_Unqualified"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/d13"
             android:layout_weight="1"
+            android:background="@drawable/selector_mainstyle_to_transparent"
             android:gravity="center"
             android:paddingBottom="@dimen/d10"
             android:paddingLeft="@dimen/d10"
             android:paddingRight="@dimen/d10"
             android:paddingTop="@dimen/d10"
-            android:layout_marginEnd="@dimen/d13"
-            android:background="@drawable/selector_mainstyle_to_transparent"
-            android:textColor="@color/white"
             android:text="@string/unqualified"
+            android:textColor="@color/white"
             />
     </LinearLayout>
 </LinearLayout>

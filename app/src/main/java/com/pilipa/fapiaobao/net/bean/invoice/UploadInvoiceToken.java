@@ -75,6 +75,15 @@ public class UploadInvoiceToken {
         private String picture;
         private String variety;
         private String url;
+        private boolean isCapture;
+
+        public boolean isCapture() {
+            return isCapture;
+        }
+
+        public void setCapture(boolean capture) {
+            isCapture = capture;
+        }
 
         public String getUrl() {
             return url;

@@ -8,30 +8,35 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.supply.UploadReceiptPreviewAdapter;
+import com.pilipa.fapiaobao.adapter.supply.UploadReceiptAdapter;
+import com.pilipa.fapiaobao.base.BaseActivity;
+import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.invoice.OrderBean;
 import com.pilipa.fapiaobao.net.bean.invoice.UploadInvoice;
 import com.pilipa.fapiaobao.net.bean.invoice.UploadProcessing;
+import com.pilipa.fapiaobao.net.bean.me.MyInvoiceListBean;
+import com.pilipa.fapiaobao.ui.FillUpActivity;
 import com.pilipa.fapiaobao.ui.PreviewActivity;
 import com.pilipa.fapiaobao.ui.UploadReceiptPreviewActivity;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
+import com.pilipa.fapiaobao.ui.receipt_folder_image_select.ReceiptActivityToken;
+import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
@@ -42,7 +47,6 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,11 +64,12 @@ import static android.app.Activity.RESULT_OK;
 
 public class UploadPreviewReceiptFragment extends BaseFragment implements
         View.OnClickListener
-        , UploadReceiptPreviewAdapter.OnImageClickListener
-        , UploadReceiptPreviewAdapter.OnImageSelectListener
-        , UploadReceiptPreviewAdapter.OnPhotoCapture {
+        , UploadReceiptAdapter.OnImageClickListener
+        , UploadReceiptAdapter.OnImageSelectListener
+        , UploadReceiptAdapter.OnPhotoCapture {
 
-
+    public static final int REQUEST_CODE_FROM_ELEC = 50;
+    public static final int REQUEST_CODE_AMOUNT = 60;
     public static final int REQUEST_CODE_CAPTURE = 10;
     public static final int REQUEST_CODE_CHOOSE = 20;
     public static final String EXTRA_ALL_DATA = "EXTRA_ALL_DATA";
@@ -73,6 +78,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
     public static final int REQUEST_CODE_IMAGE_CLICK = 30;
     public static final int RESULT_CODE_BACK = 40;
     public static final String IS_SHOW_SELECT_AND_DELETE = "is_show_select_and_delete";
+    private static final int REQUEST_CODE_SCAN = 0x0002;
     private static final String TAG = "UploadPreviewReceiptFragment";
     public boolean isFinish = true;
     @Bind(R.id.rv_upload_receipt)
@@ -84,6 +90,8 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
     private Dialog mCameraDialog;
     private String invoice_variety;
     private Dialog mBottomDialog;
+    private ArrayList<Image> mArrayList;
+    private Dialog mDialog;
 
     public static UploadPreviewReceiptFragment newInstance(Bundle b) {
         UploadPreviewReceiptFragment u = new UploadPreviewReceiptFragment();
@@ -107,30 +115,39 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
         // TODO: inflate a fragment view
         Bundle arguments = getArguments();
         invoice_variety = arguments.getString("invoice_variety");
-        ArrayList<Image> arrayList;
         if (images == null) {
             images = new ArrayList<>();
         }
-        arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_ELEC_RECEIPT_DATA);
-        if (arrayList == null) {
-            arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_SPECIAL_RECEIPT_DATA);
+        mArrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_ELEC_RECEIPT_DATA);
+        TLog.d(TAG, "mArrayList" + mArrayList);
+        if (mArrayList == null) {
+            mArrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_SPECIAL_RECEIPT_DATA);
         }
 
-        if (arrayList == null) {
-            arrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_NORMAL_RECEIPT_DATA);
+        if (mArrayList == null) {
+            mArrayList = arguments.getParcelableArrayList(UploadReceiptPreviewActivity.PAPER_NORMAL_RECEIPT_DATA);
         }
-        Log.d(TAG, "onCreateView: ");
-        if (arrayList != null) {
-            for (Image image : arrayList) {
-                if (!image.isCapture) {
-                    images.add(image);
-                }
-            }
-        }
+        this.images = mArrayList;
+
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Intent intent = new Intent();
+        intent.putExtra(ReceiptActivityToken.EXTRA_DATA_FROM_TOKEN, getArguments());
+        resultFromElec(intent);
     }
 
     @Override
@@ -193,7 +210,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
         rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, true));
         mPreviousPosition = images.size();
-        UploadReceiptPreviewAdapter uploadReceiptAdapter = new UploadReceiptPreviewAdapter(images, getImageResize(getActivity()));
+        UploadReceiptAdapter uploadReceiptAdapter = new UploadReceiptAdapter(images, getImageResize(getActivity()));
         uploadReceiptAdapter.setOnImageClickListener(this);
         uploadReceiptAdapter.setOnImageSelectListener(this);
         uploadReceiptAdapter.setOnPhotoCapture(this);
@@ -232,31 +249,73 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
 
     @Override
     public void capture() {
+        if ("3".equals(invoice_variety)) {
+            accquireReceiptFolderData();
+        } else {
         showDialog();
+
+        }
+    }
+
+    private void showElecDialog(boolean b) {
+        mDialog = DialogUtil.getInstance().createBottomDialog(mContext, new DialogUtil.OnDialogDismissListener() {
+            @Override
+            public void onDialogDismiss(View view) {
+                mDialog.dismiss();
+            }
+        }, new DialogUtil.OnMediaOpenListener() {
+            @Override
+            public void onMediaOpen(View view) {
+                openMedia();
+                mDialog.dismiss();
+            }
+        }, b ? new DialogUtil.OnReceiptFolderOpenListener() {
+            @Override
+            public void onReceiptFolderOpen(View view) {
+                startActivityForResult(new Intent(mContext, ReceiptActivityToken.class), REQUEST_CODE_FROM_ELEC);
+                mDialog.dismiss();
+            }
+        } : null, null, new DialogUtil.OnShoppingStampOpenListener() {
+            @Override
+            public void onShoppingStampOpen(View view) {
+                UploadReceiptPreviewActivity activity = (UploadReceiptPreviewActivity) getActivity();
+                activity.scan();
+                mDialog.dismiss();
+            }
+        });
+        showDialog(mDialog);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_CODE_CAPTURE && resultCode == RESULT_OK) {
             Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
             String path = mediaStoreCompat.getCurrentPhotoPath();
-            try {
-                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
-                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                TLog.log("path"+path);
+//                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
+//                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,contentUri));
+//            } catch (NullPointerException e) {
+//                e.printStackTrace();
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
             Image image = new Image();
             image.isFromNet = false;
             image.name = new File(path).getName();
             image.isCapture = false;
+            image.path = path;
             image.position = mPreviousPosition;
             image.uri = contentUri;
-            images.add(image);
-            UploadReceiptPreviewAdapter uploadReceiptAdapter = (UploadReceiptPreviewAdapter) rvUploadReceipt.getAdapter();
-            uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
-            mPreviousPosition = images.size();
+            ArrayList<Image> arrayList = new ArrayList<>();
+            arrayList.add(image);
+            Intent intent = new Intent();
+            intent.setClass(mContext, FillUpActivity.class);
+            intent.putParcelableArrayListExtra("images", arrayList);
+            startActivityForResult(intent, REQUEST_CODE_AMOUNT);
+
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 getActivity().revokeUriPermission(contentUri,
@@ -267,7 +326,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
                 case RESULT_CODE_BACK:
                     Bundle bundleExtra = data.getBundleExtra(EXTRA_BUNDLE);
                     ArrayList<Image> images = bundleExtra.getParcelableArrayList(EXTRA_ALL_DATA);
-                    UploadReceiptPreviewAdapter uploadReceiptAdapter = (UploadReceiptPreviewAdapter) rvUploadReceipt.getAdapter();
+                    UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
                     uploadReceiptAdapter.refresh(images);
                     DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
                     diffResult.dispatchUpdatesTo(uploadReceiptAdapter);
@@ -278,19 +337,118 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
             }
         } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<Uri> uris = Matisse.obtainResult(data);
+            ArrayList<Image> arrayList = new ArrayList<>();
             for (Uri uri : uris) {
+                if (uri == null) {
+                    BaseApplication.showToast("图片格式不符，请上传其他的发票~");
+                    return;
+                }
+                String path = BitmapUtils.getRealFilePath(getActivity(), uri);
                 Image image = new Image();
                 image.isCapture = false;
                 image.position = mPreviousPosition;
                 mPreviousPosition++;
                 image.uri = uri;
+                image.path = path;
                 image.isFromNet = false;
-                images.add(image);
-                UploadReceiptPreviewAdapter uploadReceiptAdapter = (UploadReceiptPreviewAdapter) rvUploadReceipt.getAdapter();
-                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
+                arrayList.add(image);
+            }
+
+            Intent intent = new Intent();
+            intent.putParcelableArrayListExtra("images", arrayList);
+            intent.setClass(mContext, FillUpActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_AMOUNT);
+
+        } else if (requestCode == REQUEST_CODE_FROM_ELEC && resultCode == RESULT_OK) {
+            resultFromElec(data);
+        } else if (requestCode == REQUEST_CODE_AMOUNT) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<Image> arrayList = data.getParcelableArrayListExtra("images");
+                mPreviousPosition += arrayList.size();
+                images.addAll(arrayList);
+                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
+                uploadReceiptAdapter.notifyItemRangeInserted(mPreviousPosition, arrayList.size());
             }
         }
     }
+
+    public void resultFromElec(Intent data) {
+        TLog.d(TAG, "resultFromElec");
+        Bundle bundleExtra = data.getBundleExtra(ReceiptActivityToken.EXTRA_DATA_FROM_TOKEN);
+        ArrayList<Image> parcelableArrayList = bundleExtra.getParcelableArrayList(ReceiptActivityToken.RESULT_RECEIPT_FOLDER);
+
+        if (parcelableArrayList == null) return;
+
+        if (parcelableArrayList.size() == 0) return;
+
+        ArrayList<Image> arrayList = new ArrayList<>();
+        for (Image image : parcelableArrayList) {
+            image.position = mPreviousPosition;
+            arrayList.add(image);
+            mPreviousPosition++;
+        }
+        Intent intent = new Intent();
+        intent.setClass(mContext, FillUpActivity.class);
+        intent.putParcelableArrayListExtra("images", arrayList);
+        startActivityForResult(intent, REQUEST_CODE_AMOUNT);
+    }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == REQUEST_CODE_CAPTURE && resultCode == RESULT_OK) {
+//            Uri contentUri = mediaStoreCompat.getCurrentPhotoUri();
+//            String path = mediaStoreCompat.getCurrentPhotoPath();
+//            try {
+//                MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), path, new File(path).getName(), null);
+//                getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri));
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//            Image image = new Image();
+//            image.isFromNet = false;
+//            image.name = new File(path).getName();
+//            image.isCapture = false;
+//            image.position = mPreviousPosition;
+//            image.uri = contentUri;
+//            images.add(image);
+//            UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
+//            uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
+//            mPreviousPosition = images.size();
+//
+//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//                getActivity().revokeUriPermission(contentUri,
+//                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            }
+//        } else if (REQUEST_CODE_IMAGE_CLICK == requestCode) {
+//            switch (resultCode) {
+//                case RESULT_CODE_BACK:
+//                    Bundle bundleExtra = data.getBundleExtra(EXTRA_BUNDLE);
+//                    ArrayList<Image> images = bundleExtra.getParcelableArrayList(EXTRA_ALL_DATA);
+//                    UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
+//                    uploadReceiptAdapter.refresh(images);
+//                    DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
+//                    diffResult.dispatchUpdatesTo(uploadReceiptAdapter);
+//                    this.images = images;
+//                    mPreviousPosition = images.size();
+//                    break;
+//                default:
+//            }
+//        } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+//            List<Uri> uris = Matisse.obtainResult(data);
+//            for (Uri uri : uris) {
+//                Image image = new Image();
+//                image.isCapture = false;
+//                image.position = mPreviousPosition;
+//                mPreviousPosition++;
+//                image.uri = uri;
+//                image.isFromNet = false;
+//                images.add(image);
+//                UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
+//                uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
+//            }
+//        }
+//    }
 
     private void showDialog() {
         if (mBottomDialog == null) {
@@ -318,29 +476,43 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
         showDialog(mBottomDialog);
     }
 
-//    private void setDialog() {
-//        mCameraDialog = new Dialog(getActivity(), R.style.BottomDialog);
-//        LinearLayout root = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
-//                R.layout.dialog_bottom, null);
-//        //初始化视图
-//        root.findViewById(R.id.btn_choose_img).setOnClickListener(this);
-//        root.findViewById(R.id.btn_open_camera).setOnClickListener(this);
-//        root.findViewById(R.id.btn_cancel).setOnClickListener(this);
-//        mCameraDialog.setContentView(root);
-//        Window dialogWindow = mCameraDialog.getWindow();
-//        dialogWindow.setGravity(Gravity.BOTTOM);
-////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-//        lp.x = 0; // 新位置X坐标
-//        lp.y = 0; // 新位置Y坐标
-//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-//        root.measure(0, 0);
-//        lp.height = root.getMeasuredHeight();
-//
-//        lp.alpha = 9f; // 透明度
-//        dialogWindow.setAttributes(lp);
-//        mCameraDialog.show();
-//    }
+    private void accquireReceiptFolderData() {
+        Api.myInvoiceList(AccountHelper.getToken(), this, new Api.BaseRawResponse<MyInvoiceListBean>() {
+            @Override
+            public void onStart() {
+                ((BaseActivity) getActivity()).showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                ((BaseActivity) getActivity()).hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+            }
+
+            @Override
+            public void onTokenInvalid() {
+                login();
+            }
+
+            @Override
+            public void setData(MyInvoiceListBean myInvoiceListBean) {
+                if (myInvoiceListBean.getStatus() == 200) {
+                    List<MyInvoiceListBean.DataBean> list = myInvoiceListBean.getData();
+                    if (list != null && list.size() > 0) {
+                        showElecDialog(true);
+                    } else {
+                        showElecDialog(false);
+                    }
+                } else if (myInvoiceListBean.getStatus() == 400) {
+                    showElecDialog(false);
+                }
+            }
+        });
+    }
+
 
 
     @Override

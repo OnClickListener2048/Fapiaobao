@@ -250,10 +250,7 @@ public class UploadNormalReceiptFragment extends BaseFragment implements UploadR
             intent.setClass(mContext, FillUpActivity.class);
             intent.putParcelableArrayListExtra("images", arrayList);
             startActivityForResult(intent,REQUEST_CODE_AMOUNT);
-//            images.add(image);
-//            UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
-//            uploadReceiptAdapter.notifyItemInserted(mPreviousPosition);
-//            mPreviousPosition = images.size();
+
 
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 getActivity().revokeUriPermission(contentUri,

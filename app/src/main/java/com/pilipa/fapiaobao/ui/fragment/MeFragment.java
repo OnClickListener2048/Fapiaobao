@@ -1,6 +1,5 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.pilipa.fapiaobao.R;
@@ -38,13 +36,10 @@ import com.pilipa.fapiaobao.ui.UserInfoActivity;
 import com.pilipa.fapiaobao.ui.zxing.SimpleCaptureActivity;
 import com.pilipa.fapiaobao.utils.ButtonUtils;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 
 import static com.pilipa.fapiaobao.net.Constant.INSTRUCTION;
 
@@ -340,32 +335,9 @@ public class MeFragment extends BaseFragment {
 
     @OnClick(R.id.btn_invoice_justify)
     public void onViewClicked() {
-        RxPermissions rxPermissions = new RxPermissions(getActivity());
-        rxPermissions.request(Manifest.permission.CAMERA).subscribe(new Observer<Boolean>() {
-            @Override
-            public void onSubscribe(Disposable d) {
+        Intent intent = new Intent(mContext, SimpleCaptureActivity.class);
+        intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.ONLY_JUSTIFY, true);
+        startActivityForResult(intent, com.pilipa.fapiaobao.ui.constants.Constant.REQUEST_CODE_SCAN);
 
-            }
-
-            @Override
-            public void onNext(Boolean aBoolean) {
-                if (aBoolean) {
-                    TLog.log("REQUEST_CODE_SCAN" + aBoolean);
-                    Intent intent = new Intent(mContext, SimpleCaptureActivity.class);
-                    intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.ONLY_JUSTIFY, true);
-                    startActivityForResult(intent, com.pilipa.fapiaobao.ui.constants.Constant.REQUEST_CODE_SCAN);
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                TLog.d(TAG, "Throwable e" + e.getMessage());
-            }
-
-            @Override
-            public void onComplete() {
-                TLog.d(TAG, " rxPermissions.request  onComplete");
-            }
-        });
     }
 }

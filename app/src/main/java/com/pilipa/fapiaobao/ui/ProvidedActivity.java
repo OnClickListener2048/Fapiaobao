@@ -439,6 +439,7 @@ public class ProvidedActivity extends BaseNoNetworkActivity {
             }
         }
         Bundle bundle = new Bundle();
+        bundle.putString("activity", "ProvidedActivity");
         bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
         paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
         addCaptureFragment(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);

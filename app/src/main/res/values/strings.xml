@@ -309,6 +309,7 @@
     <string name="recharge_30">充 ¥30元</string>
     <string name="recharge_100">充 ¥100元</string>
     <string name="recharge_500">充 ¥500元</string>
+    <string name="recharge_other">充 ¥%1$s元</string>
     <string name="wx">微信</string>
     <string name="blog">微博</string>
     <string name="qq">QQ</string>
@@ -390,10 +391,10 @@
     <string name="need">我需要：</string>
     <string name="bind_phone">手机绑定</string>
     <string name="confirm_bind_phone">确认绑定</string>
-    <string name="share_pub_title">伙伴们，快来帮我集发票~~~</string>
-    <string name="share_pub_description">江湖救急，知道你会帮忙的，我的需要已经发布到这里了快戳进来看看吧！</string>
-    <string name="share_upload_title">伙伴们，多余的发票现在有大用处了~~~</string>
-    <string name="share_upload_description">这么有用的APP一定要分享给你，快戳进来看看吧！~</string>
+    <string name="share_pub_title">伙伴们，快来上缴报销凭证啦~</string>
+    <string name="share_pub_description">财务宝宝要做账了，先到的伙伴有奖励呦！~</string>
+    <string name="share_upload_title">伙伴们，提交报销凭证可以领奖励啦~~</string>
+    <string name="share_upload_description">总公司到分公司，快速报销用票宝~</string>
     <string name="please_install_WX">请安装微信客户端后再登录</string>
     <string name="please_open_check">劳驾请按这里的信息开具发票~</string>
     <string name="tohave_fapiaobao">拥有【票宝】，发票变得如此简单。</string>
@@ -568,6 +569,8 @@
     <string name="invoice_name">购方名称</string>
     <string name="invoice_value">金额合计</string>
     <string name="please_scan_right_qrcode">请扫描正确的发票二维码~</string>
+    <string name="other_recharge">其它金额</string>
+    <string name="cannot_parse_this_kind_of_code_from_now_on">暂时无法解析此类型二维码</string>
 
     <string-array name="express_array">
         <item>顺丰</item>

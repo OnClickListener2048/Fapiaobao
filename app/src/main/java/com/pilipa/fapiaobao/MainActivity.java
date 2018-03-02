@@ -328,6 +328,8 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
             public void setData(VersionMode versionMode) {
                 if (versionMode.getStatus() == Constant.REQUEST_SUCCESS) {
                     if (versionMode.getData() != null) {
+                        TLog.d(TAG, "versionMode.getData().getVersion()" + versionMode.getData().getVersion());
+                        TLog.d(TAG, "TDevice.getVersionCode()" + TDevice.getVersionCode());
                         if (Integer.valueOf(versionMode.getData().getVersion()) > TDevice.getVersionCode()) {
                             initPopupData(versionMode.getData());
                             if (BaseApplication.get(IS_FIRST_IN_MAIN, true)) {

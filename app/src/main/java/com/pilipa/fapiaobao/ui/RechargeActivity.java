@@ -1,19 +1,29 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.NetworkUtils;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
+import com.pilipa.fapiaobao.adapter.me.RechargeAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
@@ -22,10 +32,14 @@ import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
 import com.pilipa.fapiaobao.receiver.WXPayReceiver;
+import com.pilipa.fapiaobao.ui.deco.KeyboardDeco;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,9 +53,8 @@ import static com.pilipa.fapiaobao.ui.LoginActivity.WX_LOGIN_ACTION;
  * Created by lyt on 2017/10/24.
  */
 
-public class RechargeActivity extends BaseActivity  {
+public class RechargeActivity extends BaseActivity implements RechargeAdapter.OnValueClickListener {
     private static final String TAG = "RechargeActivity";
-
     @Bind(R.id.tv_recharge_10)
     TextView tvRecharge10;
     @Bind(R.id.tv_recharge_30)
@@ -52,6 +65,9 @@ public class RechargeActivity extends BaseActivity  {
     TextView tvRecharge500;
     @Bind(R.id.go_recharge)
     Button goRecharge;
+    @Bind(R.id.other_recharge)
+    TextView otherRecharge;
+    private String[] keyboardValue = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "space", "0", "delete"};
     private IWXAPI api;
     private double amount;
     public  BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
@@ -87,6 +103,11 @@ public class RechargeActivity extends BaseActivity  {
             }
         }
     };
+    private TextView mTvCancel;
+    private TextView mTvValue;
+    private Button mBtnConfirm;
+    private RecyclerView mKeyboardRecyclerView;
+    private Dialog mMCameraDialog;
 
     private void bind(final String openID){
         Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, openID, "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
@@ -166,7 +187,7 @@ public class RechargeActivity extends BaseActivity  {
         return R.layout.activity_rechange;
     }
 
-    @OnClick({R.id._back, R.id.tv_recharge_10, R.id.tv_recharge_30, R.id.tv_recharge_100, R.id.tv_recharge_500,R.id.recharge})
+    @OnClick({R.id._back, R.id.tv_recharge_10, R.id.tv_recharge_30, R.id.tv_recharge_100, R.id.tv_recharge_500, R.id.recharge, R.id.other_recharge})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -202,6 +223,19 @@ public class RechargeActivity extends BaseActivity  {
                 amount = 500;
             }
             break;
+            case R.id.other_recharge: {
+                selected(5);
+//                BottomSheetBehavior behavior = BottomSheetBehavior.from(findViewById(R.id.scroll));
+//                behavior.setSkipCollapsed(true);
+//                if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+//                    behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//                } else {
+//                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//                }
+                mTvValue.setText("");
+                showDialog(mMCameraDialog);
+                mBtnConfirm.setEnabled(false);
+            }
             default:
                 break;
         }
@@ -218,6 +252,56 @@ public class RechargeActivity extends BaseActivity  {
         registerReceiver(mBroadcastReceiver, intentFilter);
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID);
         api.registerApp(Constants.APP_ID);
+
+
+        initDialog();
+    }
+
+    private void initDialog() {
+
+        mMCameraDialog = new Dialog(this, R.style.bottomDialog);
+        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+                R.layout.bottom_sheet_other_recharge, null);
+        mMCameraDialog.setContentView(root);
+        Window dialogWindow = mMCameraDialog.getWindow();
+        dialogWindow.setGravity(Gravity.BOTTOM);
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.x = 0;
+        lp.y = 0;
+        lp.width = getResources().getDisplayMetrics().widthPixels;
+        root.measure(0, 0);
+        lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+        lp.alpha = 9f;
+        dialogWindow.setAttributes(lp);
+        mTvCancel = (TextView) root.findViewById(R.id.tv_cancel);
+        mTvValue = (TextView) root.findViewById(R.id.tv_value);
+        mBtnConfirm = (Button) root.findViewById(R.id.btn_confirm);
+        mKeyboardRecyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
+        mTvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMCameraDialog.hide();
+            }
+        });
+        mBtnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMCameraDialog.hide();
+                otherRecharge.setText(getString(R.string.recharge_other, getValue(mTvValue)));
+                amount = Double.valueOf(getValue(mTvValue));
+            }
+        });
+        ArrayList<String> values = new ArrayList();
+        for (String s : keyboardValue) {
+            values.add(s);
+        }
+
+        RechargeAdapter rechargeAdapter = new RechargeAdapter(values);
+        rechargeAdapter.setOnValueClickListener(this);
+        mKeyboardRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        mKeyboardRecyclerView.setAdapter(rechargeAdapter);
+        mKeyboardRecyclerView.addItemDecoration(new KeyboardDeco(this));
     }
 
     @Override
@@ -246,6 +330,7 @@ public class RechargeActivity extends BaseActivity  {
         tvRecharge30.setSelected(selectedId == 2);
         tvRecharge100.setSelected(selectedId == 3);
         tvRecharge500.setSelected(selectedId == 4);
+        otherRecharge.setSelected(selectedId == 5);
     }
 
 
@@ -257,7 +342,55 @@ public class RechargeActivity extends BaseActivity  {
         } else {
             BaseApplication.showToast(getString(R.string.please_install_WX_app));
         }
-
     }
 
+    private String getValue(TextView textView) {
+        return textView.getText().toString().trim();
+    }
+
+
+    private void check() {
+        String value = getValue(mTvValue);
+        if ("".equals(value)) {
+            mBtnConfirm.setEnabled(false);
+            return;
+        }
+        int iValue = Integer.valueOf(value);
+        if (iValue > 200) {
+            mBtnConfirm.setEnabled(false);
+        } else {
+            mBtnConfirm.setEnabled(true);
+        }
+    }
+
+
+    @Override
+    public void onValueClick(String value) {
+        switch (value) {
+            case "0":
+                if (Objects.equals(getValue(mTvValue), "")) return;
+                mTvValue.append(value);
+                break;
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+                mTvValue.append(value);
+            case "space":
+                break;
+            case "delete":
+                if (!Objects.equals(getValue(mTvValue), "")) {
+                    mTvValue.setText(getValue(mTvValue).substring(0, getValue(mTvValue).length() - 1));
+                }
+                break;
+
+            default:
+        }
+        check();
+    }
 }

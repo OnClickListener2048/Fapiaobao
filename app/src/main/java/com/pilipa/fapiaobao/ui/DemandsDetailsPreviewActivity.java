@@ -7,12 +7,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -112,15 +114,15 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     @Bind(R.id.ll_no_info)
     LinearLayout llNoInfo;
     @Bind(R.id.tv_tip)//顶部tip
-    TextView tv_tip;
+            TextView tv_tip;
     @Bind(R.id.ll_sure_view)//底部确认
-    LinearLayout ll_sure_view;
+            LinearLayout ll_sure_view;
     @Bind(R.id.tv_msg)//中间的提示信息
-    TextView tv_msg;
+            TextView tv_msg;
     @Bind(R.id.tv_reject_reason)//不合格理由
-    TextView tv_reject_reason;
+            TextView tv_reject_reason;
     @Bind(R.id.reject_amount)//不合格金额
-    TextView rejectAmount;
+            TextView rejectAmount;
     @Bind(R.id.privide_amount_qalified)
     TextView privideAmountQalified;
     @Bind(R.id.privide_amount_reject)
@@ -129,6 +131,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     TextView privideAmountWillcheck;
     @Bind(R.id.privide_amount_privoide)
     TextView privideAmountPrivoide;
+    @Bind(R.id.rl_important)
+    RelativeLayout mRlImportant;
     private MyRejectTypeAdapter mSpinnerAdapter;
     private ArrayList<Image> allList;
     private int currentPosition;
@@ -142,6 +146,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     private Dialog mDialog;
     private Dialog rejectionStart;
     private Dialog rejectionFinish;
+    private String mActivity;
 
     @Override
     protected int getLayoutId() {
@@ -152,6 +157,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     public void initView() {
         Bundle bundleExtra = getIntent().getBundleExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE);
         boolean aBoolean = bundleExtra.getBoolean(UploadPreviewReceiptFragment.IS_SHOW_SELECT_AND_DELETE, true);
+        mActivity = bundleExtra.getString("activity");
         if (aBoolean) {
             delete.setVisibility(View.VISIBLE);
             click.setVisibility(View.VISIBLE);
@@ -178,9 +184,9 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         expressInfo.setText(currentImage.logisticsCompany);
         expressNo.setText(currentImage.logisticsTradeno);
         setLayout(currentImage);
-        if(allList.size() == 1){
+        if (allList.size() == 1) {
             checkPagePos(-1);
-        }else{
+        } else {
             checkPagePos(mPreviousPos);
         }
 
@@ -196,6 +202,11 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     }
 
     public void setLayout(Image image) {
+        if (TextUtils.equals("ProvidedActivity", mActivity)) {
+            mRlImportant.setVisibility(View.GONE);
+        } else {
+            mRlImportant.setVisibility(View.VISIBLE);
+        }
         tv_tip.setText("");
         llExpressInfo.setVisibility(View.GONE);
         llNoInfo.setVisibility(View.GONE);
@@ -227,7 +238,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                 layout_reject_item.setVisibility(View.GONE);
                 if ("provided".equals(image.from)) {
                     layout_qualified_privoide_item.setVisibility(View.VISIBLE);
-                    tv_receive_amount.setText("收到红包"+image.bonus+"元");
+                    tv_receive_amount.setText("收到红包" + image.bonus + "元");
                 }
                 tv_state.setText("合格");
                 break;
@@ -271,7 +282,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
          *    需求详情/提供详情公用 此处用来区分 是否是来自提供详情页
          *     if ("provided".equals(image.from)) {
          */
-            if ("provided".equals(image.from)) {
+        if ("provided".equals(image.from)) {
             //提供详情点击预览界面
             layout_qualified_item.setVisibility(View.GONE);
             layout_reject_item.setVisibility(View.GONE);
@@ -289,15 +300,16 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             R.id.confirm_back,
             R.id.cancel_reject,
             R.id.tv_Unqualified,
-            R.id. tv_Unqualified_reject,
+            R.id.tv_Unqualified_reject,
             R.id.tv_qualified,
             R.id.confirm,
             R.id.save_to_media})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.confirm:{
+            case R.id.confirm: {
                 finish();
-            }break;
+            }
+            break;
             case R.id.confirm_back: {
                 DemandsDetailsPreviewActivity.this.finish();
             }
@@ -420,7 +432,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                         expressNo.setText(currentImage.logisticsTradeno);
                         setLayout(currentImage);
                     }
-                    checkPagePos(pos -1);
+                    checkPagePos(pos - 1);
                 }
                 break;
             case R.id.save_to_media:
@@ -579,85 +591,86 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
 
     /**
      * 发票上一页/下一页
+     *
      * @param postion
      */
-    private void checkPagePos(int postion){
+    private void checkPagePos(int postion) {
 
-        if(postion == - 1 ){
+        if (postion == -1) {
             tolast.setVisibility(View.INVISIBLE);
             tonext.setVisibility(View.INVISIBLE);
-        }else if(postion == 0){
+        } else if (postion == 0) {
             tolast.setVisibility(View.INVISIBLE);
             tonext.setVisibility(View.VISIBLE);
-        }else if(postion == allList.size() - 1 ){
+        } else if (postion == allList.size() - 1) {
             tolast.setVisibility(View.VISIBLE);
             tonext.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             tolast.setVisibility(View.VISIBLE);
             tonext.setVisibility(View.VISIBLE);
         }
     }
 
     private void rejectInvoice() {
-            final RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
+        final RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
             /*驳回理由
             * 类型为（8）其他时 reason 需要填输入框中意见
             * 类型为（1-7） reason 填入 返回的label
             * */
-            if ("8".equals(data.getValue())) {
-                reason = edt_reason_reject.getText().toString().trim();
-            } else {
-                reason = data.getLabel();
-            }
-            if ("8".equals(data.getValue()) && edt_reason_reject.getText().toString().isEmpty()) {
-                BaseApplication.showToast("请认真填写驳回理由");
-            } else {
+        if ("8".equals(data.getValue())) {
+            reason = edt_reason_reject.getText().toString().trim();
+        } else {
+            reason = data.getLabel();
+        }
+        if ("8".equals(data.getValue()) && edt_reason_reject.getText().toString().isEmpty()) {
+            BaseApplication.showToast("请认真填写驳回理由");
+        } else {
 
-                            edt_reason_reject.getText().toString().trim();
-                            Api.rejectInvoice(AccountHelper.getToken()
-                                    , currentImage.name
-                                    , "0"//此金额无实际意义
-                                    , data.getValue()
-                                    , reason
-                                    , new Api.BaseRawResponse<RejectInvoiceBean>() {
-                                        @Override
-                                        public void onStart() {
-                                            showProgressDialog();
-                                        }
+            edt_reason_reject.getText().toString().trim();
+            Api.rejectInvoice(AccountHelper.getToken()
+                    , currentImage.name
+                    , "0"//此金额无实际意义
+                    , data.getValue()
+                    , reason
+                    , new Api.BaseRawResponse<RejectInvoiceBean>() {
+                        @Override
+                        public void onStart() {
+                            showProgressDialog();
+                        }
 
-                                        @Override
-                                        public void onFinish() {
-                                            hideProgressDialog();
-                                        }
+                        @Override
+                        public void onFinish() {
+                            hideProgressDialog();
+                        }
 
-                                        @Override
-                                        public void onError() {
+                        @Override
+                        public void onError() {
 
-                                        }
+                        }
 
-                                        @Override
-                                        public void onTokenInvalid() {
-                                            login();
-                                            finish();
-                                        }
+                        @Override
+                        public void onTokenInvalid() {
+                            login();
+                            finish();
+                        }
 
-                                        @Override
-                                        public void setData(RejectInvoiceBean normalBean) {
-                                            if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
-                                                String reason = normalBean.getData().getReason();
-                                                currentImage.state = Constant.STATE_INCOMPETENT;
-                                                allList.remove(currentImage);
-                                                Intent intent = new Intent();
-                                                Bundle bundle = new Bundle();
-                                                bundle.putParcelableArrayList(DemandsDetailsReceiptFragment.EXTRA_ALL_DATA, allList);
-                                                intent.putExtra(DemandsDetailsReceiptFragment.EXTRA_BUNDLE, bundle);
-                                                setResult(DemandsDetailsReceiptFragment.RESULT_CODE_BACK, intent);
+                        @Override
+                        public void setData(RejectInvoiceBean normalBean) {
+                            if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
+                                String reason = normalBean.getData().getReason();
+                                currentImage.state = Constant.STATE_INCOMPETENT;
+                                allList.remove(currentImage);
+                                Intent intent = new Intent();
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelableArrayList(DemandsDetailsReceiptFragment.EXTRA_ALL_DATA, allList);
+                                intent.putExtra(DemandsDetailsReceiptFragment.EXTRA_BUNDLE, bundle);
+                                setResult(DemandsDetailsReceiptFragment.RESULT_CODE_BACK, intent);
 //                                                setRejectDialog(REJECT_FINISH);
-                                                showDialog(rejectionFinish);
-                                            }
-                                        }
-                                    });
-            }
+                                showDialog(rejectionFinish);
+                            }
+                        }
+                    });
+        }
     }
 
     private void initDialog() {

@@ -131,6 +131,7 @@ public class AddCompanyInfoActivity extends BaseActivity implements BaseQuickAda
         switch (v.getId()) {
             case R.id.img_scan: {
                 startActivityForResult(new Intent(this, SimpleCaptureActivity.class), REQUEST_CODE_SCAN);
+
             }
             break;
             case R.id.add_back: {

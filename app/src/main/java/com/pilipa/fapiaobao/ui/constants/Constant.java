@@ -54,4 +54,5 @@ public class Constant {
     public static final String INVOICE_JUSTIFY = "invoice_justify";
     public static final String RESULTS = "results";
     public static final String ONLY_JUSTIFY = "only_justify";
+    public static final String DEMANDS_ID = "demands_id";
 }

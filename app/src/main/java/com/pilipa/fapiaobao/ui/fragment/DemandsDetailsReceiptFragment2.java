@@ -152,6 +152,7 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
         Image image = allItemList.get(position);
         Intent intent = new Intent(mContext, DemandsDetailsPreviewActivity.class);
         Bundle bundle = new Bundle();
+        bundle.putString("activity", getArguments().getString("activity"));
         bundle.putBoolean(IS_SHOW_SELECT_AND_DELETE,false);
         bundle.putParcelableArrayList(EXTRA_ALL_DATA, allItemList);
         bundle.putInt(EXTRA_CURRENT_POSITION, image.position);

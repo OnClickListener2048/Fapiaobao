@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.mylibrary.utils.RegexUtils;
 import com.pilipa.fapiaobao.R;
@@ -174,6 +175,11 @@ public class ReceiptFolderActivity extends BaseActivity implements TabLayout.OnT
                     mScanDialog.dismiss();
                 }
             }, null, null);
+            View rootView = DialogUtil.getInstance().getRootView();
+            if (rootView != null) {
+                TextView textView = (TextView) rootView.findViewById(R.id.scan_tip);
+                textView.setText(getString(R.string.cannot_parse_this_kind_of_code_from_now_on));
+            }
         }
         showDialog(mScanDialog);
     }

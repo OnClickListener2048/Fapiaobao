@@ -3,21 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/d30"
-        />
+
     <com.pilipa.fapiaobao.ui.widget.NoScrollViewpager
-        android:background="@color/main_style"
         android:id="@+id/preview_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.7">
+        android:layout_marginBottom="@dimen/d10"
+        android:layout_marginTop="@dimen/d10"
+        android:layout_weight="0.7"
+        android:background="@color/main_style">
     </com.pilipa.fapiaobao.ui.widget.NoScrollViewpager>
-
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/d20" />
 
 
     <LinearLayout
@@ -31,6 +26,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/d10"
             android:orientation="horizontal">
 
             <TextView
@@ -39,34 +35,29 @@
                 android:text="发票金额" />
         </LinearLayout>
 
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/d10"
             android:background="@drawable/shape_fillup"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <android.support.v4.widget.Space
-                android:layout_width="@dimen/d10"
-                android:layout_height="match_parent" />
-
             <EditText
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:inputType="numberDecimal"
                 android:id="@+id/et_fillup"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/d30"
                 android:layout_marginBottom="@dimen/d5"
+                android:layout_marginStart="@dimen/d10"
                 android:layout_marginTop="@dimen/d5"
                 android:layout_weight="1"
                 android:background="@null"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:hint="请输入该发票的票面金额"
+                android:inputType="numberDecimal"
                 android:textColorHint="@color/gray_hint"
                 android:textSize="@dimen/s14" />
 
@@ -74,19 +65,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/d10"
                 android:text="@string/yuan"
                 android:textColor="@color/gray_hint"
                 android:textColorHint="@color/gray_hint"
                 android:textSize="@dimen/s14" />
 
-            <android.support.v4.widget.Space
-                android:layout_width="@dimen/d10"
-                android:layout_height="match_parent" />
+
         </LinearLayout>
 
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -151,15 +138,33 @@
 
         </LinearLayout>
 
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/d10" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/d5"
+            android:text="快速过审提示："
+            android:textColor="@color/main_style"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/d5"
+            android:text="1.确认图像清晰"
+            android:textColor="@color/main_style"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/d5"
+            android:text="2.确认核对发票抬头信息、发票内容、金额、日期、发票盖章等信息与需求一致。"
+            android:textColor="@color/main_style"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginBottom="@dimen/d10">
+            android:layout_marginBottom="@dimen/d10"
+            android:gravity="bottom">
 
             <Button
                 android:id="@+id/btn_confirm"

@@ -420,6 +420,7 @@ public class Op extends BaseActivity implements
                             intent.putExtra(Constant.PDF_EXTRA, normalBean.getData());
                             intent.putExtra(Constant.TAG, tag);
                             intent.putExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, isFromUploadReceiptActivity);
+                            intent.putExtra(Constant.DEMANDS_ID, getIntent().getStringExtra(Constant.DEMANDS_ID));
                             intent.setClass(Op.this, PdfPreviewActivity.class);
                             startActivity(intent);
                         }

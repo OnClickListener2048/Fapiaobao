@@ -95,7 +95,7 @@ public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.
         viewRecyclerActive.setAdapter(tabAdapterActive);
 
 
-        Api.findAllInvoice(AccountHelper.getToken(),new Api.BaseViewCallbackWithOnStart<AllInvoiceType>() {
+        Api.findAllInvoice(AccountHelper.getToken(), this, new Api.BaseViewCallbackWithOnStart<AllInvoiceType>() {
             @Override
             public void onStart() {
                 showProgressDialog();

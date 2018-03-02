@@ -1,13 +1,11 @@
 package com.pilipa.fapiaobao.utils;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
 import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,7 +19,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
@@ -40,6 +37,8 @@ import com.pilipa.fapiaobao.compat.MediaStoreCompat;
 import java.io.File;
 import java.util.List;
 
+import static com.umeng.socialize.utils.ContextUtil.getPackageName;
+
 /**
  * Created by lyt on 2017/10/9.
  */
@@ -52,15 +51,15 @@ public class TDevice {
     public static final String FLAVOR = "";
     public static final int VERSION_CODE = 1;
     public static final String VERSION_NAME = "1.0";
-    public static  boolean UPDATE = true;
-    public static  boolean IS_UPDATE = false;
-
     public final static String DEFAULT_SAVE_FILE_PATH = Environment
             .getExternalStorageDirectory()
             + File.separator
             + "fapiaobao"
             + File.separator + "download" + File.separator;
+    public static boolean UPDATE = true;
+    public static boolean IS_UPDATE = false;
     public static boolean showToast =true;
+    private static Boolean mHasWebView;
 
     /**
      * Change SP to PX
@@ -118,8 +117,6 @@ public class TDevice {
                 .orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
-
-
     /**
      * 打开或关闭键盘
      */
@@ -170,7 +167,6 @@ public class TDevice {
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         manager.hideSoftInputFromWindow(mFocusView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
-
 
     public static boolean sdcardExit() {
         boolean sdCardExist = Environment.getExternalStorageState().equals(
@@ -287,7 +283,6 @@ public class TDevice {
         BaseApplication.showToast("success");
     }
 
-
     public static void openFile(Context mContext, File f) {
         // mProgressDialog.dismiss();
         Intent intent = new Intent();
@@ -341,8 +336,6 @@ public class TDevice {
             return resources.getColor(id);
         }
     }
-
-    private static Boolean mHasWebView;
 
     public static boolean hasWebView(Context context) {
         if (mHasWebView != null) {
@@ -502,6 +495,17 @@ public class TDevice {
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri
                 .getAuthority());
+    }
+
+    /**
+     * 跳转到权限设置界面
+     */
+    private Intent getAppDetailSettingIntent(Context context) {
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+        intent.setData(Uri.fromParts("package", getPackageName(), null));
+        return intent;
     }
 }
 

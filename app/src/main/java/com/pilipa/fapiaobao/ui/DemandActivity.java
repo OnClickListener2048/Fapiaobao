@@ -402,6 +402,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
             tv_num_3.setText(String.format(getResources().getString(R.string.paper_elec_receipt_num), images3.size()));
             if (isSetList) {//是否需要刷新发票列表
                 Bundle bundle = new Bundle();
+                bundle.putString("activity", "DemandActivity");
                 bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
                 DemandsDetailsReceiptFragment paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
                 addCaptureFragment2(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
