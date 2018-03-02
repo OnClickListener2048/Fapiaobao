@@ -1,10 +1,8 @@
 package com.pilipa.fapiaobao.ui;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
@@ -26,16 +24,12 @@ import com.pilipa.fapiaobao.ui.fragment.UploadNormalReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.zxing.SimpleCaptureActivity;
 import com.pilipa.fapiaobao.utils.DialogUtil;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observer;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by edz on 2017/10/20.
@@ -168,40 +162,8 @@ public class UploadReceiptActivity extends BaseActivity {
     }
 
     public void scan() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            RxPermissions rxPermissions = new RxPermissions(this);
-            rxPermissions.request(Manifest.permission.CAMERA
-                    ,Manifest.permission.WRITE_EXTERNAL_STORAGE
-   )
-                    .subscribe(new Observer<Boolean>() {
-                        @Override
-                        public void onSubscribe(@NonNull Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(@NonNull Boolean aBoolean) {
-                            if (aBoolean) {
-                                Intent intent = new Intent(UploadReceiptActivity.this, SimpleCaptureActivity.class);
-                                startActivityForResult(intent, REQUEST_CODE_SCAN);
-                            }
-                        }
-
-                        @Override
-                        public void onError(@NonNull Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-        } else {
-
-            Intent intent = new Intent(this, SimpleCaptureActivity.class);
+        Intent intent = new Intent(this, SimpleCaptureActivity.class);
         startActivityForResult(intent, REQUEST_CODE_SCAN);
-        }
     }
 
     @Override

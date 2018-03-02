@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.adapter.supply;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +15,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.ui.widget.AdjustTextView;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.TDevice;
 
 import java.util.ArrayList;
@@ -31,6 +34,8 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private RequestManager with;
     private OnLabelClickListener onLabelClickListener;
     private ArrayList<DefaultInvoiceBean.DataBean> data;
+    private Context mMContext;
+    private Dialog mDialog;
 
     public FinanceAdapter(DefaultInvoiceBean allInvoiceType) {
         this.allInvoiceType = allInvoiceType;
@@ -40,9 +45,9 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context mContext = parent.getContext();
+        mMContext = parent.getContext();
         with = Glide.with(parent.getContext());
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_finance, parent, false);
+        View view = LayoutInflater.from(mMContext).inflate(R.layout.item_finance, parent, false);
         return new Financeholder(view);
     }
 
@@ -56,30 +61,50 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 //                ImageLoader.loadImage(with,financeholder.iv_finance, dataBean.getMiddleSize(),R.mipmap.receipt_012);
 //
                 String middleSize = dataBean.getMiddleSize();
-                if ("https://www.youpiao8.cn".equals(middleSize)) {
-                    with.load(R.mipmap.receipt_014)
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .placeholder(R.mipmap.receipt_012)
-                            .into(financeholder.iv_finance);
-                } else {
-                    with.load(middleSize)
-                            .skipMemoryCache(true)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .placeholder(R.mipmap.receipt_012)
-                            .into(financeholder.iv_finance);
+                if (middleSize != null) {
+                    if (Constant.VERSION_BASE_URL.equals(middleSize)) {
+                        with.load(R.mipmap.receipt_014)
+                                .skipMemoryCache(true)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .placeholder(R.mipmap.receipt_012)
+                                .into(financeholder.iv_finance);
+                    } else {
+                        with.load(middleSize)
+                                .skipMemoryCache(true)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .placeholder(R.mipmap.receipt_012)
+                                .into(financeholder.iv_finance);
+                    }
                 }
+
 
                 financeholder.tv_finance.setText(dataBean.getName());
             }
             financeholder.fl_container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onLabelClickListener.onLabelClick(allInvoiceType.getData().get(holder.getAdapterPosition()).getId());
-                    onLabelClickListener.onLabelNameClick(allInvoiceType.getData().get(holder.getAdapterPosition()).getId(),allInvoiceType.getData().get(holder.getAdapterPosition()).getName());
+                    DefaultInvoiceBean.DataBean dataBean = allInvoiceType.getData().get(holder.getAdapterPosition());
+                    if ("yes".equals(dataBean.getRemarks())) {
+                        onLabelClickListener.onLabelClick(dataBean.getId());
+                        onLabelClickListener.onLabelNameClick(dataBean.getId(), dataBean.getName());
+                    } else {
+                        showDialog();
+                    }
+
                 }
             });
         }
+    }
+
+    private void showDialog() {
+        mDialog = DialogUtil.getInstance().createDialog(mMContext, 0, R.layout.dialog_estimate_tips, new DialogUtil.OnKnownListener() {
+            @Override
+            public void onKnown(View view) {
+                mDialog.dismiss();
+            }
+        }, null, null);
+        DialogUtil.getInstance().setRootContentText(R.id.scan_tip, "暂时没有财务人员需要这类发票哦~");
+        mDialog.show();
     }
 
     public void removeAllItems() {

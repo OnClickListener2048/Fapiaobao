@@ -1,6 +1,5 @@
 package com.pilipa.fapiaobao.ui.fragment;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -13,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.TLog;
+import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
@@ -50,7 +51,9 @@ import com.pilipa.fapiaobao.ui.zxing.SimpleCaptureActivity;
 import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
-import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,8 +83,8 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     public static final String DECODED_CONTENT_KEY = "codedContent";
     public static final String DECODED_BITMAP_KEY = "codedBitmap";
     public static final int REQUEST_CODE_SCAN = 0x0234;
-   public static String TAG = "FinanceFragment";
-//    @Bind(R.id.scan)
+    public static String TAG = "FinanceFragment";
+    //    @Bind(R.id.scan)
 //    ImageView scan;
 //    @Bind(R.id.notification)
 //    ImageView notification;
@@ -104,6 +107,8 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     @Bind(R.id.fl_notification)
     FrameLayout flNotification;
     FinanceAdapter financeAdapter;
+    @Bind(R.id.smartRefreshLayout)
+    SmartRefreshLayout mSmartRefreshLayout;
     private LoginWithInfoBean loginBean;
     private AllInvoiceAdapter adapter;
     private MainActivity activity;
@@ -124,7 +129,16 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     private boolean isCacheSuccess = false;
     private Dialog mDialog;
 
+    private void initSmartRefreshLayout() {
+        mSmartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                accquireData();
+            }
+        });
 
+        mSmartRefreshLayout.setDisableContentWhenRefresh(true);
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_finance;
@@ -148,7 +162,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                     String content = data.getStringExtra(DECODED_CONTENT_KEY);
                     if (RegexUtils.isURL(content) || content.contains("http")) {
                         checkFavCompanies(content);
-                    }else{
+                    } else {
                         showDialog();
                     }
                 }
@@ -231,6 +245,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
         recyclerviewMoreKind.setNestedScrollingEnabled(false);
         recyclerviewMoreKind.addItemDecoration(new FinanceItemDeco(mContext, LinearLayoutManager.VERTICAL, (int) TDevice.dipToPx(getResources(), 23), R.color.white));
         initBroadcast();
+        initSmartRefreshLayout();
     }
 
     private void initBroadcast() {
@@ -250,37 +265,56 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
         }
     }
 
+
     @Override
     protected void initData() {
         super.initData();
         activity = (MainActivity) getActivity();
-        findAllInvoiceTypes("");
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        accquireData();
+    }
 
-    private void findUserInvoiceType(String token, final AllInvoiceType allInvoiceType) {
+    private void accquireData() {
+        findAllInvoiceTypes("");
+        loginBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
+        if (loginBean != null) {
+            findUserInvoiceType(loginBean.getData().getToken());
+        } else {
+            findDefaultInvoiceType();
+        }
+    }
 
-        Api.<DefaultInvoiceBean>findUserInvoiceType(token, new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
+    private void findUserInvoiceType(String token) {
+
+        Api.<DefaultInvoiceBean>findUserInvoiceType(token, this, new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
             @Override
             public void onCacheSuccess(DefaultInvoiceBean defaultInvoiceBean) {
                 isCacheSuccess = true;
-                fillupData(defaultInvoiceBean, allInvoiceType);
+                fillupData(defaultInvoiceBean);
             }
 
             @Override
             public void onTokenInvalid() {
                 TLog.log("onTokenInvalide");
-                findDefaultInvoiceType(allInvoiceType);
+                findDefaultInvoiceType();
             }
 
             @Override
             public void onStart() {
-
+                unenableButtons();
             }
 
             @Override
             public void onFinish() {
+                if (mSmartRefreshLayout != null) {
+                    mSmartRefreshLayout.finishRefresh();
+                }
                 isCacheSuccess = false;
+                enableButtons();
             }
 
             @Override
@@ -293,18 +327,18 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             @Override
             public void setData(DefaultInvoiceBean defaultInvoiceBean) {
                 hideNetWorkErrorLayout();
-                fillupData(defaultInvoiceBean, allInvoiceType);
+                fillupData(defaultInvoiceBean);
             }
         });
     }
 
-    private void fillupData(DefaultInvoiceBean defaultInvoiceBean, AllInvoiceType allInvoiceType) {
+    private void fillupData(DefaultInvoiceBean defaultInvoiceBean) {
         try {
             if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
                 financeAdapter = new FinanceAdapter(defaultInvoiceBean);
                 financeAdapter.setOnLabelClickListener(FinanceFragment.this);
                 recyclerview.setAdapter(financeAdapter);
-                updateInvoiceHighlight(defaultInvoiceBean, allInvoiceType);
+//                updateInvoiceHighlight(defaultInvoiceBean, allInvoiceType);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -345,20 +379,19 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                     @Override
                     public void onComplete() {
                         adapter.notifyDataSetChanged();
-                        activity.showGuideViewFromChildFragment();
                         delayIntentRefresh = false;
                     }
                 });
     }
 
 
-    private void findDefaultInvoiceType(final AllInvoiceType allInvoiceType) {
-        Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
+    private void findDefaultInvoiceType() {
+        Api.<DefaultInvoiceBean>findDefaultInvoiceType(this, new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
             @Override
             public void onCacheSuccess(DefaultInvoiceBean defaultInvoiceBean) {
                 isCacheSuccess = true;
                 hideNetWorkErrorLayout();
-                fillupData(defaultInvoiceBean,allInvoiceType);
+                fillupData(defaultInvoiceBean);
             }
 
             @Override
@@ -369,12 +402,17 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             @Override
             public void onStart() {
                 activity.showProgressDialog();
+                unenableButtons();
             }
 
             @Override
             public void onFinish() {
                 activity.hideProgressDialog();
                 isCacheSuccess = false;
+                if (mSmartRefreshLayout != null) {
+                    mSmartRefreshLayout.finishRefresh();
+                }
+                enableButtons();
             }
 
             @Override
@@ -387,22 +425,38 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             @Override
             public void setData(DefaultInvoiceBean defaultInvoiceBean) {
                 hideNetWorkErrorLayout();
-                fillupData(defaultInvoiceBean,allInvoiceType);
+                fillupData(defaultInvoiceBean);
             }
         });
     }
 
+    private void enableButtons() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.mNavBar.navItemPublish.setEnabled(true);
+        mainActivity.mNavBar.navItemMe.setEnabled(true);
+    }
+
+    private void unenableButtons() {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.mNavBar.navItemPublish.setEnabled(false);
+        mainActivity.mNavBar.navItemMe.setEnabled(false);
+    }
+
     private void findAllInvoiceTypes(String token) {
-        Api.findAllInvoice(token, new Api.BaseViewCallbackWithOnStart<AllInvoiceType>() {
+        Log.d(TAG, "findAllInvoiceTypes: ");
+        Api.findAllInvoice(token, this, new Api.BaseViewCallbackWithOnStart<AllInvoiceType>() {
 
             @Override
             public void onStart() {
                 activity.showProgressDialog();
+                unenableButtons();
             }
 
             @Override
             public void onFinish() {
                 activity.hideProgressDialog();
+                enableButtons();
+                activity.showGuideViewFromChildFragment();
             }
 
             @Override
@@ -417,12 +471,9 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                 if (allInvoiceType.getStatus() == 200) {
                     adapter = new AllInvoiceAdapter(allInvoiceType);
                     adapter.setOnLabelClickListener(FinanceFragment.this);
+                    if (recyclerviewMoreKind != null) {
+
                     recyclerviewMoreKind.setAdapter(adapter);
-                    loginBean = SharedPreferencesHelper.loadFormSource(mContext, LoginWithInfoBean.class);
-                    if (loginBean != null) {
-                        findUserInvoiceType(loginBean.getData().getToken(), allInvoiceType);
-                    } else {
-                        findDefaultInvoiceType(allInvoiceType);
                     }
                 }
             }
@@ -430,7 +481,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     }
 
 
-    @OnClick({ R.id.pull_to_find_more, R.id.rl_pull_to_find_more, R.id.fl_notification, R.id.title,R.id.fl_scan})
+    @OnClick({R.id.pull_to_find_more, R.id.rl_pull_to_find_more, R.id.fl_notification, R.id.title, R.id.fl_scan})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.fl_scan:
@@ -459,34 +510,16 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), this);
+    }
+
     private void quickResponse() {
-        RxPermissions rxPermissions = new RxPermissions(getActivity());
-        rxPermissions.request(Manifest.permission.CAMERA).subscribe(new Observer<Boolean>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(Boolean aBoolean) {
-                if (aBoolean) {
-                    TLog.log("REQUEST_CODE_SCAN" + aBoolean);
-                    Intent intent = new Intent(mContext, SimpleCaptureActivity.class);
-                    intent.putExtra(Constant.INVOICE_JUSTIFY, true);
-                    startActivityForResult(intent, REQUEST_CODE_SCAN);
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                TLog.d(TAG,"Throwable e"+e.getMessage());
-            }
-
-            @Override
-            public void onComplete() {
-                TLog.d(TAG," rxPermissions.request  onComplete");
-            }
-        });
+        Intent intent = new Intent(mContext, SimpleCaptureActivity.class);
+        intent.putExtra(Constant.INVOICE_JUSTIFY, true);
+        startActivityForResult(intent, REQUEST_CODE_SCAN);
     }
 
     @Override
@@ -506,7 +539,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
 
     @Override
     protected void onNoNetworkLayoutClicks(View v) {
-        initData();
+        accquireData();
     }
 
     private void messageList() {
@@ -574,10 +607,12 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
 
     @Override
     public void initDataInResume() {
+
         messageList();
         newNotification.setVisibility(BaseApplication.get(BaseApplication.PUSH_RECEIVE, false) ? View.VISIBLE : View.GONE);
-        if (delayIntentRefresh) {
-            findAllInvoiceTypes("");
-        }
+//        if (delayIntentRefresh) {
+//            TLog.d(TAG, "initDataInResume");
+//            findAllInvoiceTypes("");
+//        }
     }
 }

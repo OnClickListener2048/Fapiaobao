@@ -1,5 +1,7 @@
 package com.pilipa.fapiaobao.adapter.publish;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.ui.widget.AdjustTextView;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 
 import java.util.List;
 
@@ -21,6 +24,8 @@ public class AllInvoiceTypeRecyclerAdapter extends RecyclerView.Adapter<Recycler
 
     private final List<AllInvoiceType.DataBean.InvoiceTypeListBean> invoiceTypeList;
     private OnLabelClickListener onLabelClickListener;
+    private Context mContext;
+    private Dialog mDialog;
 
     public AllInvoiceTypeRecyclerAdapter(List<AllInvoiceType.DataBean.InvoiceTypeListBean> invoiceTypeList) {
         this.invoiceTypeList = invoiceTypeList;
@@ -28,17 +33,18 @@ public class AllInvoiceTypeRecyclerAdapter extends RecyclerView.Adapter<Recycler
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_invoice_type, parent, false);
         return new Holder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Holder itemHolder = (Holder) holder;
-        AllInvoiceType.DataBean.InvoiceTypeListBean invoiceTypeListBean = invoiceTypeList.get(position);
+        final AllInvoiceType.DataBean.InvoiceTypeListBean invoiceTypeListBean = invoiceTypeList.get(position);
         itemHolder.textView.setText(invoiceTypeListBean.getName());
-        TLog.log("invoiceTypeListBean.isSelected()"+invoiceTypeListBean.isSelected());
-        if (invoiceTypeListBean.isSelected()) {
+        TLog.d("s", "invoiceTypeListBean.getremarks" + invoiceTypeListBean.getRemarks());
+        if ("yes".equals(invoiceTypeListBean.getRemarks())) {
             itemHolder.textView.setSelected(true);
         } else {
             itemHolder.textView.setSelected(false);
@@ -47,10 +53,25 @@ public class AllInvoiceTypeRecyclerAdapter extends RecyclerView.Adapter<Recycler
         itemHolder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onLabelClickListener.onLabelClick(invoiceTypeList.get(position).getId());
-                onLabelClickListener.onLabelNameClick(invoiceTypeList.get(position).getId(),invoiceTypeList.get(position).getName());
+                if ("yes".equals(invoiceTypeListBean.getRemarks())) {
+                    onLabelClickListener.onLabelClick(invoiceTypeListBean.getId());
+                    onLabelClickListener.onLabelNameClick(invoiceTypeListBean.getId(), invoiceTypeListBean.getName());
+                } else {
+                    showDialog();
+                }
             }
         });
+    }
+
+    private void showDialog() {
+        mDialog = DialogUtil.getInstance().createDialog(mContext, 0, R.layout.dialog_estimate_tips, new DialogUtil.OnKnownListener() {
+            @Override
+            public void onKnown(View view) {
+                mDialog.dismiss();
+            }
+        }, null, null);
+        DialogUtil.getInstance().setRootContentText(R.id.scan_tip, "暂时没有财务人员需要这类发票哦~");
+        mDialog.show();
     }
 
     public void setOnLabelClickListener(OnLabelClickListener onLabelClickListener) {

@@ -3,6 +3,7 @@ package io.github.xudaojie.qrcodelib;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -94,7 +95,7 @@ public class CaptureActivity extends Activity implements Callback {
         mActivity = this;
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
-        CameraManager.init(getApplication());
+        CameraManager.init(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -102,7 +103,6 @@ public class CaptureActivity extends Activity implements Callback {
                         REQUEST_PERMISSION_CAMERA);
             }
         }
-
         initView();
     }
 
@@ -216,6 +216,17 @@ public class CaptureActivity extends Activity implements Callback {
                 ActionUtils.startActivityForGallery(mActivity, ActionUtils.PHOTO_REQUEST_GALLERY);
             }
         }
+    }
+
+    /**
+     * 跳转到权限设置界面
+     */
+    private Intent getAppDetailSettingIntent(Context context) {
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+        intent.setData(Uri.fromParts("package", getPackageName(), null));
+        return intent;
     }
 
     /**

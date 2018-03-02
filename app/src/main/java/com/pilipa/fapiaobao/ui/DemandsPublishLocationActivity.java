@@ -473,7 +473,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     }
 
     private void hasnLogin() {
-        Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
+        Api.<DefaultInvoiceBean>findDefaultInvoiceType(this, new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
             @Override
             public void onCacheSuccess(DefaultInvoiceBean allInvoiceType) {
                 if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
@@ -521,7 +521,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     }
 
     private void alreadyLogin(final LoginWithInfoBean loginBean) {
-        Api.<DefaultInvoiceBean>findUserInvoiceType(loginBean.getData().getToken(), new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
+        Api.<DefaultInvoiceBean>findUserInvoiceType(loginBean.getData().getToken(), this, new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
             @Override
             public void onCacheSuccess(DefaultInvoiceBean defaultInvoiceBean) {
                 fillupData(defaultInvoiceBean, loginBean);
@@ -565,7 +565,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     }
 
     private void findDefaultInvoiceType() {
-        Api.<DefaultInvoiceBean>findDefaultInvoiceType(new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
+        Api.<DefaultInvoiceBean>findDefaultInvoiceType(this, new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
             @Override
             public void onCacheSuccess(DefaultInvoiceBean allInvoiceType) {
                 if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
@@ -1272,8 +1272,8 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             }
 
             if ((Double.valueOf(getTextViewValue(etAmountRedbag))
-                    > Double.valueOf(getTextViewValue(etAmount)) * 0.05)) {
-                BaseApplication.showToast("悬赏红包不能超过需求总额的5%");
+                    > Double.valueOf(getTextViewValue(etAmount)) * 0.1)) {
+                BaseApplication.showToast("悬赏红包不能超过需求总额的10%");
                 setErrorBackground(etAmountRedbag);
                 sooothScrollToView(etAmountRedbag);
                 return false;

@@ -262,6 +262,7 @@ hideProgressDialog();
                 intent.setClass(this, UploadReceiptActivity.class);
                 startActivity(intent);
                 break;
+            default:
         }
     }
 }

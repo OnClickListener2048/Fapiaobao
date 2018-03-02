@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="314dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_tip_bg"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/d22">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/scan_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginEnd="@dimen/d22"
+                android:layout_marginStart="@dimen/d15"
+                android:lineSpacingExtra="@dimen/d5"
+                android:text="@string/scan_tip"
+                android:textColor="@color/title_small"
+                android:textSize="13sp"/>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/d10"
+                android:padding="@dimen/d17">
+
+                <TextView
+                    android:id="@+id/i_know"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selector_dialog_estimate_tip"
+                    android:gravity="center"
+                    android:padding="@dimen/d8"
+                    android:text="@string/know"
+                    android:textColor="@color/main_style"
+                    android:textSize="12sp"/>
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

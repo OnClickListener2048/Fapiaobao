@@ -92,7 +92,7 @@ public final class ViewfinderView extends View {
             hint = "将二维码/条形码置于框内即自动扫描";
         }
         if (TextUtils.isEmpty(errorHint)) {
-            errorHint = "请允许访问摄像头后重试";
+            errorHint = "票宝的相机权限被禁止";
         }
         if (showPossiblePoint) {
             ANIMATION_DELAY = 100L;
@@ -226,6 +226,7 @@ public final class ViewfinderView extends View {
             paint.setTextSize(36);
             String text = errorHint;
             canvas.drawText(errorHint, frame.centerX() - text.length() * 36 / 2, frame.bottom + 35 + 20, paint);
+            canvas.drawText("请到权限管理中重新授权", frame.centerX() - text.length() * 36 / 2 - 18, frame.bottom + 70 + 20 + 30, paint);
         }
     }
 

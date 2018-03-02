@@ -62,92 +62,105 @@
         <View style="@style/layout_title_bottom_line"/>
     </RelativeLayout>
 
-        <FrameLayout
-            android:id="@+id/container"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/smartRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <android.support.v4.widget.NestedScrollView
-                android:id="@+id/srollview"
+
+            <FrameLayout
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
 
+                <android.support.v4.widget.NestedScrollView
+                    android:id="@+id/srollview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <android.support.v4.widget.Space
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/d15" />
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-                            <TextView
-                                android:id="@+id/select_your_receipt_kind"
-                                android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <android.support.v4.widget.Space
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d15"/>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/select_your_receipt_kind"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:text="@string/select_your_receipt_kind"
+                                    android:textSize="@dimen/s11"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/select_your_receipt_kind"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginTop="@dimen/d15"
+                                    android:text="@string/normal_kind_receipt"
+                                    android:textColor="@color/main_style"
+                                    android:textSize="@dimen/s13"/>
+                            </RelativeLayout>
+
+                            <android.support.v4.widget.Space
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d3"/>
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recyclerview"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:text="@string/select_your_receipt_kind"
-                                android:textSize="@dimen/s11"/>
-                            <TextView
-                                android:layout_width="wrap_content"
+                                android:overScrollMode="never">
+
+                            </android.support.v7.widget.RecyclerView>
+
+                            <RelativeLayout
+                                android:id="@+id/rl_pull_to_find_more"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/pull_to_find_more"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerHorizontal="true"
+                                    android:drawablePadding="@dimen/d5"
+                                    android:drawableRight="@mipmap/pull"
+                                    android:text="@string/more_kind_receipt"
+                                    android:textColor="@color/main_style"
+                                    android:textSize="@dimen/s13"/>
+                            </RelativeLayout>
+
+                            <android.support.v4.widget.Space
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/d23"/>
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recyclerview_more_kind"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/select_your_receipt_kind"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/d15"
-                                android:text="@string/normal_kind_receipt"
-                                android:textColor="@color/main_style"
-                                android:textSize="@dimen/s13"/>
-                        </RelativeLayout>
+                                android:overScrollMode="never">
 
-                        <android.support.v4.widget.Space
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d3" />
+                            </android.support.v7.widget.RecyclerView>
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                        </android.support.v7.widget.RecyclerView>
-
-                        <RelativeLayout
-                            android:id="@+id/rl_pull_to_find_more"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/pull_to_find_more"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:drawablePadding="@dimen/d5"
-                                android:drawableRight="@mipmap/pull"
-                                android:text="@string/more_kind_receipt"
-                                android:textColor="@color/main_style"
-                                android:textSize="@dimen/s13" />
-                        </RelativeLayout>
-
-                        <android.support.v4.widget.Space
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/d23" />
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recyclerview_more_kind"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                        </android.support.v7.widget.RecyclerView>
-
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
 
-            </android.support.v4.widget.NestedScrollView>
-        </FrameLayout>
+                </android.support.v4.widget.NestedScrollView>
+            </FrameLayout>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
     </LinearLayout>
 

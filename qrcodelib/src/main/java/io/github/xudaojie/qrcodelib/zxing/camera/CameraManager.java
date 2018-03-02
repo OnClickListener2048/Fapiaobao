@@ -25,7 +25,7 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.SurfaceHolder;
 
 import java.io.IOException;
@@ -227,25 +227,32 @@ public final class CameraManager {
             if (camera == null) {
                 return null;
             }
-            int width = screenResolution.x * 3 / 4;
-            if (width < MIN_FRAME_WIDTH) {
-                width = MIN_FRAME_WIDTH;
-            } else if (width > MAX_FRAME_WIDTH) {
-                width = MAX_FRAME_WIDTH;
-            }
-            int height = screenResolution.y * 3 / 4;
-            if (height < MIN_FRAME_HEIGHT) {
-                height = MIN_FRAME_HEIGHT;
-            } else if (height > MAX_FRAME_HEIGHT) {
-                height = MAX_FRAME_HEIGHT;
-            }
+//            int width = screenResolution.x * 3 / 4;
+//            if (width < MIN_FRAME_WIDTH) {
+//                width = MIN_FRAME_WIDTH;
+//            } else if (width > MAX_FRAME_WIDTH) {
+//                width = MAX_FRAME_WIDTH;
+//            }
+//            int height = screenResolution.y * 3 / 4;
+//            if (height < MIN_FRAME_HEIGHT) {
+//                height = MIN_FRAME_HEIGHT;
+//            } else if (height > MAX_FRAME_HEIGHT) {
+//                height = MAX_FRAME_HEIGHT;
+//            }
+//            int leftOffset = (screenResolution.x - width) / 2;
+//            int topOffset = (screenResolution.y - height) / 2;
+//            framingRect = new Rect(leftOffset + offsetX,
+//                    topOffset + offsetY,
+//                    leftOffset + width + offsetX,
+//                    topOffset + height + offsetY);
+//            Log.d(TAG, "Calculated framing rect: " + framingRect);
+
+            DisplayMetrics dm = context.getResources().getDisplayMetrics();
+            int width = (int) (dm.widthPixels * 0.6);
+
             int leftOffset = (screenResolution.x - width) / 2;
-            int topOffset = (screenResolution.y - height) / 2;
-            framingRect = new Rect(leftOffset + offsetX,
-                    topOffset + offsetY,
-                    leftOffset + width + offsetX,
-                    topOffset + height + offsetY);
-            Log.d(TAG, "Calculated framing rect: " + framingRect);
+            int topOffset = (screenResolution.y - (width)) / 2;
+            framingRect = new Rect(leftOffset, topOffset - width / 4, leftOffset + width, topOffset + (width) - width / 4);
         }
         return framingRect;
     }

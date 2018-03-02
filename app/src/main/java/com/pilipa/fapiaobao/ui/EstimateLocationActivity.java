@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.ui;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -45,6 +46,7 @@ import com.pilipa.fapiaobao.ui.fragment.EstimatePagerFragment;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.ui.widget.CashierInputFilter;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.tmall.ultraviewpager.UltraViewPager;
 
@@ -142,6 +144,7 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
     private String name = "";
     private String companyId;
     private String demandId;
+    private Dialog mDialog;
 
     @Override
     protected int getLayoutId() {
@@ -409,10 +412,11 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
                 break;
             case R.id.reset_filter:
             case R.id.reset_filter_top:
-                intent.putExtra("location", locate);
-                intent.putExtra("type", type);
-                intent.setClass(this, FilterLocationActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_ESTIMATE);
+//                intent.putExtra("location", locate);
+//                intent.putExtra("type", type);
+//                intent.setClass(this, FilterLocationActivity.class);
+//                startActivityForResult(intent, REQUEST_CODE_ESTIMATE);
+                resetLayout();
                 break;
             case R.id.locating:
                 if (cityPicker.isShow()) cityPicker.hide();
@@ -424,10 +428,12 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
                     }
                 }
                 break;
+            default:
         }
     }
 
     private void estimate() {
+        initDialog();
         if ("定位失败，点击选择地区".equals(locating.getText().toString())) {
             BaseApplication.showToast("定位异常，请开启定位功能或手动选择");
             cityPicker.show();
@@ -481,13 +487,13 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
                     if (matchBean.getStatus() == 200) {
                         go.setVisibility(View.VISIBLE);
                         llhasRedbag.setVisibility(View.VISIBLE);
+                        llFilterConditionTop.setVisibility(View.VISIBLE);
+                        llConfirmCaution.setVisibility(View.VISIBLE);
+                        llBonus.setVisibility(View.VISIBLE);
                         llnoredbag.setVisibility(View.GONE);
                         llEstimateCaution.setVisibility(View.GONE);
-                        llFilterConditionTop.setVisibility(View.VISIBLE);
                         llFilterTypesLocation.setVisibility(View.GONE);
-                        llConfirmCaution.setVisibility(View.VISIBLE);
                         estimatePlease.setVisibility(View.GONE);
-                        llBonus.setVisibility(View.VISIBLE);
                         EstimateLocationActivity.this.matchBean = matchBean;
                         tonext.setEnabled(matchBean.getData().size() != 1);
                         bonus.setText(String.valueOf(matchBean.getData().get(0).getBonus()));
@@ -500,11 +506,44 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
                         llnoredbag.setVisibility(View.VISIBLE);
                         filter.setVisibility(View.GONE);
                         llFilterConditionBottom.setVisibility(View.VISIBLE);
+                    } else if (matchBean.getStatus() == 407) {
+                        DialogUtil.getInstance().setRootContentText(R.id.scan_tip, "您的发票总额过低，试试提供更大金额");
+                        mDialog.show();
+                    } else if (matchBean.getStatus() == 408) {
+                        DialogUtil.getInstance().setRootContentText(R.id.scan_tip, "暂时没有此类需求，试试其它种类吧~");
+                        mDialog.show();
+                    } else if (matchBean.getStatus() == 409) {
+                        DialogUtil.getInstance().setRootContentText(R.id.scan_tip, "该地区暂没有需求哦，试试其它地区吧~");
+                        mDialog.show();
+                    } else if (matchBean.getStatus() == 410) {
+                        DialogUtil.getInstance().setRootContentText(R.id.scan_tip, "您的发票金额、选择的种类与地区暂时没有需求哦~");
+                        mDialog.show();
                     }
                 }
             });
-
         }
+    }
+
+    private void initDialog() {
+        mDialog = DialogUtil.getInstance().createDialog(this, 0, R.layout.dialog_estimate_tips, new DialogUtil.OnKnownListener() {
+            @Override
+            public void onKnown(View view) {
+                mDialog.dismiss();
+            }
+        }, null, null);
+
+    }
+
+    private void resetLayout() {
+        llhasRedbag.setVisibility(View.VISIBLE);
+        llFilterConditionTop.setVisibility(View.GONE);
+        llConfirmCaution.setVisibility(View.GONE);
+        go.setVisibility(View.GONE);
+        llBonus.setVisibility(View.GONE);
+        llnoredbag.setVisibility(View.GONE);
+        llEstimateCaution.setVisibility(View.VISIBLE);
+        llFilterTypesLocation.setVisibility(View.VISIBLE);
+        estimatePlease.setVisibility(View.VISIBLE);
     }
 
     @Override
