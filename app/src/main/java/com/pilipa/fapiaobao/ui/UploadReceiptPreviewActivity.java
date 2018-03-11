@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -64,6 +65,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     private static final String TAG = "UploadReceiptPreviewActivity";
     private static final String DECODED_CONTENT_KEY = "codedContent";
     private static final int REQUEST_CODE_SCAN = 0x0002;
+    public boolean mOnNewIntent = false;
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.upload_back)
@@ -107,7 +109,6 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     private ArrayList<Image> mListPE;
     private MacherBeanToken.DataBean.CompanyBean company_info;
     private Dialog mDialog;
-    private boolean mOnNewIntent = false;
 
     @Override
     public void onClick(View v) {
@@ -139,9 +140,13 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         TLog.d(TAG, "onResume");
-        if (mOnNewIntent) {
-            paperElecReceiptFragment.resultFromElec(getIntent());
+        if (!mOnNewIntent) {
+
         }
+
+    }
+
+    public void cacu() {
         reCaculate();
         estimateRedBag();
     }
@@ -150,13 +155,24 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         TLog.d(TAG, "onNewIntent");
-
+        paperElecReceiptFragment.resultFromElec(intent);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Bundle bundleExtra = getIntent().getBundleExtra(ConfirmActivity.TAG);
+        Log.d(TAG, "onStart: ");
+    }
+
+    @Override
+    public void onAttachFragment(android.support.v4.app.Fragment fragment) {
+        super.onAttachFragment(fragment);
+        Log.d(TAG, "onAttachFragment: ");
+        if (paperElecReceiptFragment != null && !paperElecReceiptFragment.mIsDone) {
+            if (mOnNewIntent) {
+                paperElecReceiptFragment.resultFromElec(getIntent());
+            }
+        }
 
     }
 
@@ -177,6 +193,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                 bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, extra.getParcelableArrayList(ReceiptActivityToken.RESULT_RECEIPT_FOLDER));
                 paperElecReceiptFragment = UploadPreviewReceiptFragment.newInstance(bundle);
                 addCaptureFragment(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+                llContainerPaperElecReceipt.setVisibility(View.VISIBLE);
             }
             return;
         }
@@ -335,7 +352,9 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
         double sum = 0;
         for (Image image : arrayList) {
             if (!image.isCapture()) {
-                sum = sum + Double.valueOf(image.amount);
+                if (image.amount != null) {
+                    sum = sum + Double.valueOf(image.amount);
+                }
             }
         }
         return sum;
@@ -386,7 +405,6 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
         super.onAttachFragment(fragment);
 
     }
-
 
 
     @Override
@@ -457,7 +475,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     }
 
     private void upload() {
-                    makeUpParams();
+        makeUpParams();
     }
 
     private void makeUpParams() {
@@ -519,12 +537,23 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
                     for (Image image : currentImagesPE) {
                         TLog.log("for (Image image : currentImagesPE) {");
                         UploadInvoiceToken.InvoiceListBean invoiceListBean = new UploadInvoiceToken.InvoiceListBean();
+                        if (image.amount == null) {
+                            image.setCapture(true);
+                        }
                         if (image.isCapture) {
+                            TLog.d(TAG, " if (image.isCapture) {");
                             invoiceListBean.setCapture(true);
                             e.onNext(invoiceListBean);
                         } else {
+                            TLog.d(TAG, "invoiceListBean.setAmount(Double.valueOf(image.amount));");
+                            TLog.d(TAG, "image.amount" + image.amount);
+                            TLog.d(TAG, "image.isFromNet" + image.isFromNet());
+                            TLog.d(TAG, "image.isPdf" + image.isPdf);
+                            TLog.d(TAG, "image.path" + image.path);
+                            TLog.d(TAG, "image.id" + image.id);
                             invoiceListBean.setAmount(Double.valueOf(image.amount));
                             invoiceListBean.setVariety("3");
+
                             if (image.isFromNet) {
                                 if (image.isPdf) {
                                     invoiceListBean.setUrl(subStringUrl(image.path));
@@ -586,7 +615,7 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
                                     @Override
                                     public void onNext(String json) {
-                                        Api.createOrder(json,UploadReceiptPreviewActivity.this ,new Api.BaseViewCallbackWithOnStart<OrderBean>() {
+                                        Api.createOrder(json, UploadReceiptPreviewActivity.this, new Api.BaseViewCallbackWithOnStart<OrderBean>() {
                                             @Override
                                             public void onStart() {
                                                 updateDialogWithDescription(getString(R.string.uploading));
@@ -643,14 +672,14 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         TLog.log(" OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);");
-        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         TLog.log(" OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);");
-        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(),this);
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), this);
     }
 
     private String subStringUrl(String originUrl) {

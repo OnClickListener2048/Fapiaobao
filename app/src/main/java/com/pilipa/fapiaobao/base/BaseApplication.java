@@ -47,7 +47,6 @@ import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
@@ -353,34 +352,34 @@ public class BaseApplication extends Application {
             }
         });
 
-        QbSdk.preInit(this, new QbSdk.PreInitCallback() {
-            @Override
-            public void onCoreInitFinished() {
-                Log.d("preInit", " onCoreInitFinished  ");
-            }
-
-            @Override
-            public void onViewInitFinished(boolean b) {
-                Log.d("preInit", " onViewInitFinished is " + b);
-            }
-        });
+//        QbSdk.preInit(this, new QbSdk.PreInitCallback() {
+//            @Override
+//            public void onCoreInitFinished() {
+//                Log.d("preInit", " onCoreInitFinished  ");
+//            }
 //
-        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
-
-            @Override
-            public void onViewInitFinished(boolean arg0) {
-                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
-                Log.d("initX5Environment", " onViewInitFinished is " + arg0);
-            }
-
-            @Override
-            public void onCoreInitFinished() {
-                Log.d("initX5Environment", " onCoreInitFinished  ");
-            }
-        };
-        //x5内核初始化接口
-        QbSdk.initX5Environment(getApplicationContext(),  cb);
-        QbSdk.setDownloadWithoutWifi(true);
+//            @Override
+//            public void onViewInitFinished(boolean b) {
+//                Log.d("preInit", " onViewInitFinished is " + b);
+//            }
+//        });
+////
+//        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
+//
+//            @Override
+//            public void onViewInitFinished(boolean arg0) {
+//                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
+//                Log.d("initX5Environment", " onViewInitFinished is " + arg0);
+//            }
+//
+//            @Override
+//            public void onCoreInitFinished() {
+//                Log.d("initX5Environment", " onCoreInitFinished  ");
+//            }
+//        };
+//        //x5内核初始化接口
+//        QbSdk.initX5Environment(getApplicationContext(),  cb);
+//        QbSdk.setDownloadWithoutWifi(true);
     }
 
     private void notificationClick() {

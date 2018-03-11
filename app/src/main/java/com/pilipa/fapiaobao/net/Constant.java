@@ -7,8 +7,8 @@ package com.pilipa.fapiaobao.net;
 public class Constant {
 
 
-    //    public static final String VERSION_BASE_URL = "https://www.youpiao8.cn";
-    public static final String VERSION_BASE_URL = "http://39.107.107.108:8080";//http://39.107.107.108:8080
+    public static final String VERSION_BASE_URL = "https://www.youpiao8.cn";
+    //    public static final String VERSION_BASE_URL = "http://39.107.107.108:8080";//http://39.107.107.108:8080
     public static final String BASE_URL = VERSION_BASE_URL + "/fapiaobao/rest/";
 
 
