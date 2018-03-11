@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.ui.widget.AdjustTextView;
@@ -43,7 +42,6 @@ public class AllInvoiceTypeRecyclerAdapter extends RecyclerView.Adapter<Recycler
         Holder itemHolder = (Holder) holder;
         final AllInvoiceType.DataBean.InvoiceTypeListBean invoiceTypeListBean = invoiceTypeList.get(position);
         itemHolder.textView.setText(invoiceTypeListBean.getName());
-        TLog.d("s", "invoiceTypeListBean.getremarks" + invoiceTypeListBean.getRemarks());
         if ("yes".equals(invoiceTypeListBean.getRemarks())) {
             itemHolder.textView.setSelected(true);
         } else {

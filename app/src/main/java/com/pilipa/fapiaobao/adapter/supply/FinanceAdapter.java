@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,6 @@ public class FinanceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public FinanceAdapter(DefaultInvoiceBean allInvoiceType) {
         this.allInvoiceType = allInvoiceType;
-        Log.d(TAG, "FinanceAdapter: "+allInvoiceType.toString());
     }
 
 

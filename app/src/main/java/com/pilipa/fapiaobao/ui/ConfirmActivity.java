@@ -414,6 +414,7 @@ public class ConfirmActivity extends BaseActivity {
                     intent.putExtra(Constant.COMPANY_INFO, company_info);
                     intent.putExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, true);
                     intent.putExtra(Constant.DEMANDS_ID, demandsId);
+                    intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
                     intent.setClass(this, Op.class);
                     intent.putExtra("url", content);
                     startActivity(intent);
@@ -450,6 +451,7 @@ public class ConfirmActivity extends BaseActivity {
         intent.putExtra("demandsId", demandsId);
         intent.putExtra("company_id", company_info.getId());
         intent.putExtra("company_info", company_info);
+        intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
         Bundle bundle = new Bundle();
         if (images.size() <= 1) {
             BaseApplication.showToast(getString(R.string.please_upload_invoice_atleast_one));

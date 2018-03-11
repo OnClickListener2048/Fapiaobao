@@ -967,7 +967,7 @@ public class Api<T> {
      */
     public static void findDefaultInvoiceType(Object object, final BaseRawResponseWithCache baseViewCallback) {
         OkGo.<DefaultInvoiceBean>get(FIND_DEFAULT_FREQUENTLY_INVOICE_TYPE)
-                .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
+                .cacheMode(CacheMode.NO_CACHE)
                 .tag(object)
                 .execute(new JsonCallBack<DefaultInvoiceBean>(DefaultInvoiceBean.class) {
                 @Override
@@ -977,13 +977,7 @@ public class Api<T> {
                     }
                 }
 
-                    @Override
-                    public void onCacheSuccess(Response<DefaultInvoiceBean> response) {
-                        super.onCacheSuccess(response);
-                        if (response.isSuccessful()) {
-                            baseViewCallback.onCacheSuccess(response.body());
-                        }
-                    }
+
 
                     @Override
                 public void onStart(Request<DefaultInvoiceBean, ? extends Request> request) {
@@ -1028,17 +1022,7 @@ public class Api<T> {
                     }
                 }
 
-                    @Override
-                    public void onCacheSuccess(Response<DefaultInvoiceBean> response) {
-                        super.onCacheSuccess(response);
-                        DefaultInvoiceBean body = response.body();
 
-                        if (response.isSuccessful() && body.getStatus() == Constant.REQUEST_SUCCESS) {
-                            baseViewCallback.onCacheSuccess(body);
-                        } else if (body.getStatus() == Constant.TOKEN_INVALIDE) {
-                            baseViewCallback.onTokenInvalid();
-                        }
-                    }
 
                     @Override
                 public void onError(Response<DefaultInvoiceBean> response) {
@@ -1791,7 +1775,7 @@ public class Api<T> {
 
     public static void downloadApk(String url ,final BaseViewCallBackWithProgress baseViewCallback) {
         if (TDevice.sdcardExit()) {
-            OkGo.<File>get(url).execute(new FileCallback(TDevice.DEFAULT_SAVE_FILE_PATH, "fapiaobao.apk") {
+            OkGo.<File>get(url).execute(new FileCallback(TDevice.DEFAULT_SAVE_FILE_PATH, "piaobao.apk") {
                 @Override
                 public void onSuccess(Response<File> response) {
                     if (response.body() != null) {
@@ -2009,7 +1993,6 @@ public class Api<T> {
     }
 
     public interface BaseRawResponseWithCache<T> extends BaseRawResponse<T> {
-        void onCacheSuccess(T t);
     }
 
 

@@ -14,6 +14,7 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.MessageListBean;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +82,8 @@ public class MessageCenterAdapter extends BaseAdapter {
             if (0.0 == bean.getUnreadMessages()) {
                 viewHolder.tvRedBagAmount.setVisibility(View.GONE);
             } else {
-                viewHolder.tvRedBagAmount.setText(String.valueOf(bean.getUnreadMessages()));
+                BigDecimal bigDecimal = BigDecimal.valueOf(bean.getUnreadMessages());
+                viewHolder.tvRedBagAmount.setText(String.valueOf(bigDecimal.setScale(2, BigDecimal.ROUND_HALF_EVEN)));
             }
         } else {
             viewHolder.tvRedBagAmount.setVisibility(View.GONE);

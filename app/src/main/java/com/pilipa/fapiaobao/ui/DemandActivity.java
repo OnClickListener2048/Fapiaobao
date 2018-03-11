@@ -383,13 +383,16 @@ public class DemandActivity extends BaseNoNetworkActivity {
                     images_qualified.add(images.get(i));//合格发票集合
                 }
                 if (!STATE_INCOMPETENT.equals(images.get(i).state)) {
-                    if (VARIETY_GENERAL_PAPER.equals(images.get(i).variety)) {
-                        images1.add(images.get(i));
-                    } else if (VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)) {
-                        images2.add(images.get(i));
-                    } else if (VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)) {
-                        images3.add(images.get(i));
+                    if (!STATE_COMPETENT.equals(images.get(i).state)) {
+                        if (VARIETY_GENERAL_PAPER.equals(images.get(i).variety)) {
+                            images1.add(images.get(i));
+                        } else if (VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)) {
+                            images2.add(images.get(i));
+                        } else if (VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)) {
+                            images3.add(images.get(i));
+                        }
                     }
+
                 }
             }
 

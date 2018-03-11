@@ -81,6 +81,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
     private static final int REQUEST_CODE_SCAN = 0x0002;
     private static final String TAG = "UploadPreviewReceiptFragment";
     public boolean isFinish = true;
+    public boolean mIsDone;
     @Bind(R.id.rv_upload_receipt)
     RecyclerView rvUploadReceipt;
     private int mImageResize;
@@ -96,6 +97,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
     public static UploadPreviewReceiptFragment newInstance(Bundle b) {
         UploadPreviewReceiptFragment u = new UploadPreviewReceiptFragment();
         u.setArguments(b);
+
         return u;
     }
 
@@ -145,9 +147,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Intent intent = new Intent();
-        intent.putExtra(ReceiptActivityToken.EXTRA_DATA_FROM_TOKEN, getArguments());
-        resultFromElec(intent);
+
     }
 
     @Override
@@ -366,13 +366,31 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
                 ArrayList<Image> arrayList = data.getParcelableArrayListExtra("images");
                 mPreviousPosition += arrayList.size();
                 images.addAll(arrayList);
+                for (Image image : images) {
+                    TLog.d(TAG, "image.amount" + image.amount);
+                }
                 UploadReceiptAdapter uploadReceiptAdapter = (UploadReceiptAdapter) rvUploadReceipt.getAdapter();
                 uploadReceiptAdapter.notifyItemRangeInserted(mPreviousPosition, arrayList.size());
+
             }
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        UploadReceiptPreviewActivity uploadReceiptPreviewActivity = (UploadReceiptPreviewActivity) getActivity();
+        uploadReceiptPreviewActivity.cacu();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+    }
+
     public void resultFromElec(Intent data) {
+        mIsDone = true;
         TLog.d(TAG, "resultFromElec");
         Bundle bundleExtra = data.getBundleExtra(ReceiptActivityToken.EXTRA_DATA_FROM_TOKEN);
         ArrayList<Image> parcelableArrayList = bundleExtra.getParcelableArrayList(ReceiptActivityToken.RESULT_RECEIPT_FOLDER);
@@ -391,6 +409,7 @@ public class UploadPreviewReceiptFragment extends BaseFragment implements
         intent.setClass(mContext, FillUpActivity.class);
         intent.putParcelableArrayListExtra("images", arrayList);
         startActivityForResult(intent, REQUEST_CODE_AMOUNT);
+
     }
 
 //    @Override

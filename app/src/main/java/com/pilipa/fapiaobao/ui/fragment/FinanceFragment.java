@@ -126,7 +126,6 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             }
         }
     };
-    private boolean isCacheSuccess = false;
     private Dialog mDialog;
 
     private void initSmartRefreshLayout() {
@@ -275,7 +274,12 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     @Override
     public void onResume() {
         super.onResume();
-        accquireData();
+        if (TDevice.hasInternet()) {
+            accquireData();
+        } else {
+            BaseApplication.showToast(R.string.connect_error);
+        }
+
     }
 
     private void accquireData() {
@@ -291,11 +295,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
     private void findUserInvoiceType(String token) {
 
         Api.<DefaultInvoiceBean>findUserInvoiceType(token, this, new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
-            @Override
-            public void onCacheSuccess(DefaultInvoiceBean defaultInvoiceBean) {
-                isCacheSuccess = true;
-                fillupData(defaultInvoiceBean);
-            }
+
 
             @Override
             public void onTokenInvalid() {
@@ -313,26 +313,23 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
                 if (mSmartRefreshLayout != null) {
                     mSmartRefreshLayout.finishRefresh();
                 }
-                isCacheSuccess = false;
                 enableButtons();
             }
 
             @Override
             public void onError() {
-                if (!isCacheSuccess) {
                     showNetWorkErrorLayout();
-                }
             }
 
             @Override
             public void setData(DefaultInvoiceBean defaultInvoiceBean) {
-                hideNetWorkErrorLayout();
                 fillupData(defaultInvoiceBean);
             }
         });
     }
 
     private void fillupData(DefaultInvoiceBean defaultInvoiceBean) {
+        hideNetWorkErrorLayout();
         try {
             if (defaultInvoiceBean.getData() != null && defaultInvoiceBean.getData().size() > 0) {
                 financeAdapter = new FinanceAdapter(defaultInvoiceBean);
@@ -387,12 +384,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
 
     private void findDefaultInvoiceType() {
         Api.<DefaultInvoiceBean>findDefaultInvoiceType(this, new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
-            @Override
-            public void onCacheSuccess(DefaultInvoiceBean defaultInvoiceBean) {
-                isCacheSuccess = true;
-                hideNetWorkErrorLayout();
-                fillupData(defaultInvoiceBean);
-            }
+
 
             @Override
             public void onTokenInvalid() {
@@ -408,7 +400,6 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             @Override
             public void onFinish() {
                 activity.hideProgressDialog();
-                isCacheSuccess = false;
                 if (mSmartRefreshLayout != null) {
                     mSmartRefreshLayout.finishRefresh();
                 }
@@ -417,14 +408,11 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
 
             @Override
             public void onError() {
-                if (!isCacheSuccess) {
                     showNetWorkErrorLayout();
-                }
             }
 
             @Override
             public void setData(DefaultInvoiceBean defaultInvoiceBean) {
-                hideNetWorkErrorLayout();
                 fillupData(defaultInvoiceBean);
             }
         });
@@ -461,7 +449,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
 
             @Override
             public void onError() {
-                showNetWorkErrorLayout();
+//                showNetWorkErrorLayout();
             }
 
 

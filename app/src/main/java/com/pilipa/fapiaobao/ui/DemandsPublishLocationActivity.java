@@ -474,17 +474,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     private void hasnLogin() {
         Api.<DefaultInvoiceBean>findDefaultInvoiceType(this, new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
-            @Override
-            public void onCacheSuccess(DefaultInvoiceBean allInvoiceType) {
-                if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
-                    bean = allInvoiceType.getData();
-                    ArrayList<String> arrayReceipt = new ArrayList<>();
-                    for (DefaultInvoiceBean.DataBean dataBean : bean) {
-                        arrayReceipt.add(dataBean.getName());
-                    }
-                    labelsReceiptKind.setLabels(arrayReceipt);
-                }
-            }
+
 
             @Override
             public void onTokenInvalid() {
@@ -522,10 +512,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     private void alreadyLogin(final LoginWithInfoBean loginBean) {
         Api.<DefaultInvoiceBean>findUserInvoiceType(loginBean.getData().getToken(), this, new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
-            @Override
-            public void onCacheSuccess(DefaultInvoiceBean defaultInvoiceBean) {
-                fillupData(defaultInvoiceBean, loginBean);
-            }
+
 
             @Override
             public void onTokenInvalid() {
@@ -566,17 +553,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
     private void findDefaultInvoiceType() {
         Api.<DefaultInvoiceBean>findDefaultInvoiceType(this, new Api.BaseRawResponseWithCache<DefaultInvoiceBean>() {
-            @Override
-            public void onCacheSuccess(DefaultInvoiceBean allInvoiceType) {
-                if (allInvoiceType.getData() != null && allInvoiceType.getData().size() > 0) {
-                    bean = allInvoiceType.getData();
-                    ArrayList<String> arrayReceipt = new ArrayList<>();
-                    for (DefaultInvoiceBean.DataBean dataBean : bean) {
-                        arrayReceipt.add(dataBean.getName());
-                    }
-                    labelsReceiptKind.setLabels(arrayReceipt);
-                }
-            }
+
 
             @Override
             public void onTokenInvalid() {

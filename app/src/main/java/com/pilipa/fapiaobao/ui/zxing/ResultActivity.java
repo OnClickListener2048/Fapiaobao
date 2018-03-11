@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
+import com.lzy.okgo.exception.HttpException;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.pilipa.fapiaobao.R;
@@ -160,7 +161,7 @@ public class ResultActivity extends BaseActivity {
             public void onError(Response<Invoice_Verify> response) {
                 super.onError(response);
                 Throwable exception = response.getException();
-                if (exception instanceof SocketTimeoutException) {
+                if (exception instanceof SocketTimeoutException || exception instanceof HttpException) {
                     mIvIcon.setImageResource(R.mipmap.justify_failed);
                     mLlInvoiceInfo.setVisibility(View.GONE);
                     mTvInvoiceContent.setText("发票信息上传失败,请重试~");

@@ -30,6 +30,7 @@ import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.FavoriteCompanyBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.ui.constants.Constant;
+import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
 import com.pilipa.fapiaobao.utils.WebViewUtils;
 import com.tencent.smtt.export.external.interfaces.ConsoleMessage;
 import com.tencent.smtt.export.external.interfaces.JsPromptResult;
@@ -231,6 +232,7 @@ public class Op extends BaseActivity implements
     private String tag;
     private AgentWeb go;
     private boolean isFromUploadReceiptActivity;
+    private String label;
 
     private void initPopup() {
         View popupContentView = LayoutInflater.from(this).inflate(R.layout.layout_spinner, null);
@@ -363,6 +365,7 @@ public class Op extends BaseActivity implements
         companyInfo = getIntent().getParcelableExtra(Constant.COMPANY_INFO);
         isFromUploadReceiptActivity = getIntent().getBooleanExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, false);
         tag = getIntent().getStringExtra(Constant.TAG);
+        label = getIntent().getStringExtra(FinanceFragment.EXTRA_DATA_LABEL);
         AgentWeb.PreAgentWeb preAgentWeb = WebViewUtils.init(this, ll, this, webViewClient, webChromeClient, null);
         String url = getIntent().getStringExtra("url");
         go = preAgentWeb.go(url);
@@ -421,6 +424,7 @@ public class Op extends BaseActivity implements
                             intent.putExtra(Constant.TAG, tag);
                             intent.putExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, isFromUploadReceiptActivity);
                             intent.putExtra(Constant.DEMANDS_ID, getIntent().getStringExtra(Constant.DEMANDS_ID));
+                            intent.putExtra(FinanceFragment.EXTRA_DATA_LABEL, label);
                             intent.setClass(Op.this, PdfPreviewActivity.class);
                             startActivity(intent);
                         }
