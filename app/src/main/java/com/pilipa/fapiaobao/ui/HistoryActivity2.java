@@ -10,9 +10,8 @@ import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.adapter.me.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.ui.fragment.UnusedPagerFragment_close;
-import com.pilipa.fapiaobao.ui.fragment.UnusedPagerFragment_finish;
-import com.pilipa.fapiaobao.ui.fragment.UnusedPagerFragment_ing;
+import com.pilipa.fapiaobao.ui.constants.Constant;
+import com.pilipa.fapiaobao.ui.fragment.mypublish.FragmentPublish;
 import com.pilipa.fapiaobao.ui.model.StaticDataCreator;
 
 import java.util.ArrayList;
@@ -54,9 +53,15 @@ public class HistoryActivity2 extends BaseActivity {
     public void initView() {
         List list = StaticDataCreator.initMyPublishTabData(BaseApplication.context());
         fragmentList = new ArrayList<>();
-        fragmentList.add(new UnusedPagerFragment_ing());
-        fragmentList.add(new UnusedPagerFragment_finish());
-        fragmentList.add(new UnusedPagerFragment_close());
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.STATE_DEMAND, com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_ING);
+        fragmentList.add(FragmentPublish.newInstance(bundle));
+        Bundle bundle2 = new Bundle();
+        bundle2.putString(Constant.STATE_DEMAND, com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_FINISH);
+        fragmentList.add(FragmentPublish.newInstance(bundle2));
+        Bundle bundle3 = new Bundle();
+        bundle3.putString(Constant.STATE_DEMAND, com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE);
+        fragmentList.add(FragmentPublish.newInstance(bundle3));
         vpPublishHistory.setAdapter(new TabPageIndicatorAdapter(getSupportFragmentManager(),list,fragmentList));
         tlPublishHistory.setupWithViewPager(vpPublishHistory);
         vpPublishHistory.setOffscreenPageLimit(3);

@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.interf.InitDataInResume;
@@ -64,13 +63,13 @@ public abstract class BaseNoNetworkActivity extends BaseActivity implements Init
 
     public abstract void onNoNetworkLayoutClicks(View view);
 
-    protected void showNetWorkErrorLayout() {
+    public void showNetWorkErrorLayout() {
         if (viewNoNetwork.getParent()== null) {
             container.addView(viewNoNetwork, layoutParams);
         }
     }
 
-    protected void hideNetWorkErrorLayout() {
+    public void hideNetWorkErrorLayout() {
         container.removeView(viewNoNetwork);
     }
 }

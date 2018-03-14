@@ -97,7 +97,7 @@ public abstract class JsonConvertor<T> extends AbsCallback<T> {
             onException(ExceptionReason.PARSE_ERROR);
             intent.setAction(Constant.PARSE_ERROR);
         } else if (e instanceof IllegalStateException) {
-            handleException(response);
+//            handleException(response);
         } else {
             onException(ExceptionReason.UNKNOWN_ERROR);
             intent.setAction(Constant.UNKNOWN_ERROR);

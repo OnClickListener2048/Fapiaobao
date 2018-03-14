@@ -190,4 +190,13 @@
     <style name="maxlength">
         <item name="android:maxLength">40</item>
     </style>
+
+    <style name="demand_item_highlight_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#fd8e8e</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:layout_marginEnd">@dimen/d3</item>
+        <item name="android:layout_marginBottom">@dimen/d3</item>
+    </style>
 </resources>

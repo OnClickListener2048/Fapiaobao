@@ -55,4 +55,5 @@ public class Constant {
     public static final String RESULTS = "results";
     public static final String ONLY_JUSTIFY = "only_justify";
     public static final String DEMANDS_ID = "demands_id";
+    public static java.lang.String STATE_DEMAND = "state_demand";
 }

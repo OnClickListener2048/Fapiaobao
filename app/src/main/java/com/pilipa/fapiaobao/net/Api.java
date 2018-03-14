@@ -12,6 +12,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Progress;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.pilipa.fapiaobao.account.AccountHelper;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
@@ -45,6 +46,7 @@ import com.pilipa.fapiaobao.net.bean.me.OrderDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.OrderListBean;
 import com.pilipa.fapiaobao.net.bean.me.RejectInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.me.UpdateCustomerBean;
+import com.pilipa.fapiaobao.net.bean.me.demandlist.DemandListItem;
 import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.ConfirmInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
@@ -1927,6 +1929,15 @@ public class Api<T> {
                 .tag(o)
                 .cacheMode(CacheMode.NO_CACHE)
                 .execute(callback);
+    }
+
+    public static void demandList(String state, Object o, Callback callback) {
+        String format = String.format(USER_ISSUED_LIST, state, AccountHelper.getToken());
+        OkGo.<BaseResponseBean<List<DemandListItem>>>
+                get(format)
+                .tag(o)
+                .execute(callback);
+
     }
 
     public static void getSuggestions(int pageNo
