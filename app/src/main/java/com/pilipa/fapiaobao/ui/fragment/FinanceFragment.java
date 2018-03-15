@@ -278,6 +278,7 @@ public class FinanceFragment extends BaseFinanceFragment implements AllInvoiceAd
             accquireData();
         } else {
             BaseApplication.showToast(R.string.connect_error);
+            showNetWorkErrorLayout();
         }
 
     }

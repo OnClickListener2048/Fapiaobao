@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/shape_company_name">
+
+    <TextView
+        android:id="@+id/tv_company_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/d11"
+        android:layout_marginStart="@dimen/d24"
+        android:layout_marginTop="@dimen/d14"
+        android:textColor="@color/black"
+        android:textSize="@dimen/s13"
+        tools:text="大正税通财务有限公司"/>
+
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:layout_width="@dimen/d40"
+        android:layout_height="@dimen/d40"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/d22"
+        android:src="@mipmap/expand"
+        tools:src="@mipmap/expand"/>
+
+    <View
+        android:id="@+id/view_dashline"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/d1"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_company_name_line_divider"/>
+</RelativeLayout>

@@ -266,4 +266,6 @@ public class Constant {
      * 发票验真
      */
     public static final String VERIFICATION = VERSION_BASE_URL + "/piaobao/verify/%s/%s/%s/%s";
+    public static final int TYPE_COMPANY_NAME = 0;
+    public static final int TYPE_ITEM_NAME = 1;
 }
