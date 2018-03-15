@@ -55,7 +55,7 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
 
             ImageViewHolder imageHolder = (ImageViewHolder) holder;
         image = images.get(position);
@@ -75,7 +75,7 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
                 @Override
                 public void onClick(View v) {
                     if (onImageClickListener != null) {
-                        onImageClickListener.onImageClick(images, position);
+                        onImageClickListener.onImageClick(images, holder.getAdapterPosition());
                     }
                 }
             });
@@ -123,6 +123,7 @@ public class DemandsDetailsReceiptAdapter extends RecyclerView.Adapter<RecyclerV
                     imageHolder.wait_to_express.setVisibility(View.VISIBLE);
                 }
                 break;
+            default:
         }
         imageHolder.iv_image_item.setLayoutParams(buttonParams);
     }

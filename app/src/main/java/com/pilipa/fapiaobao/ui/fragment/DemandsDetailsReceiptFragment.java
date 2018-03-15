@@ -19,6 +19,7 @@ import com.pilipa.fapiaobao.adapter.supply.DemandsDetailsReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.ui.DemandsDetailsPreviewActivity;
 import com.pilipa.fapiaobao.ui.UploadReceiptPreviewActivity;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
@@ -55,6 +56,7 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
     private int mImageResize;
     private ArrayList<Image> images;
     private int mPreviousPosition = -1;
+    private DemandsDetailsReceiptAdapter mUploadReceiptAdapter;
 
     public static DemandsDetailsReceiptFragment newInstance(Bundle b) {
         DemandsDetailsReceiptFragment u = new DemandsDetailsReceiptFragment();
@@ -135,27 +137,6 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
 
     }
 
-//    private void initDialog() {
-//        bottomDialog = DialogUtil.getInstance().createBottomDialog(getActivity(), R.style.bottomDialog, R.layout.dialog_bottom, new DialogUtil.OnBottonDialogItemClickListener() {
-//            @Override
-//            public void onDialogDismiss(View view) {
-//                bottomDialog.dismiss();
-//            }
-//
-//            @Override
-//            public void onMediaOpen(View view) {
-//                bottomDialog.dismiss();
-//            }
-//
-//            @Override
-//            public void onPhotoTake(View view) {
-//                if (MediaStoreCompat.hasCameraFeature(getActivity())) {
-//                    mediaStoreCompat.dispatchCaptureIntent(getActivity(), REQUEST_CODE_CAPTURE);
-//                }
-//                bottomDialog.dismiss();
-//            }
-//        });
-//    }
 
     private int getImageResize(Context context) {
 
@@ -210,10 +191,10 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
                 case RESULT_CODE_BACK:
                     Bundle bundleExtra = data.getBundleExtra(EXTRA_BUNDLE);
                     ArrayList<Image> images = bundleExtra.getParcelableArrayList(EXTRA_ALL_DATA);
-                    DemandsDetailsReceiptAdapter uploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
-                    uploadReceiptAdapter.refresh(images);
+                    mUploadReceiptAdapter = (DemandsDetailsReceiptAdapter) rvUploadReceipt.getAdapter();
+                    mUploadReceiptAdapter.refresh(images);
                     DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
-                    diffResult.dispatchUpdatesTo(uploadReceiptAdapter);
+                    diffResult.dispatchUpdatesTo(mUploadReceiptAdapter);
                     this.images = images;
                     mPreviousPosition = images.size();
                     break;
@@ -223,5 +204,13 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
 
 
         }
+    }
+
+    public void update(Bundle bundle) {
+        Log.d(TAG, "update: ");
+        ArrayList<Image> images = bundle.getParcelableArrayList(Constant.PAPER_NORMAL_RECEIPT_DATA);
+        mUploadReceiptAdapter = new DemandsDetailsReceiptAdapter(images, getImageResize(getActivity()));
+        rvUploadReceipt.setAdapter(mUploadReceiptAdapter);
+        mPreviousPosition = images.size();
     }
 }

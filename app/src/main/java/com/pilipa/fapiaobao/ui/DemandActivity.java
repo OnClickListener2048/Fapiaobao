@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,8 +30,7 @@ import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandDetails;
 import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment;
-import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment2;
-import com.pilipa.fapiaobao.ui.fragment.DemandsDetailsReceiptFragment3;
+import com.pilipa.fapiaobao.ui.fragment.mypublish.FragmentPublishDetails;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.HorizontalListView;
 import com.pilipa.fapiaobao.utils.DialogUtil;
@@ -74,8 +74,6 @@ import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_ING;
 import static com.pilipa.fapiaobao.net.Constant.STATE_INCOMPETENT;
 import static com.pilipa.fapiaobao.net.Constant.STATE_MAILING;
 import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
-import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_PAPER;
-import static com.pilipa.fapiaobao.net.Constant.VARIETY_SPECIAL_PAPER;
 
 /**
  * Created by lyt on 2017/10/16.
@@ -142,12 +140,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
     LinearLayout ll_receiptlist;
     @Bind(R.id.ll_no_record)
     LinearLayout ll_no_record;
-    @Bind(R.id.tv_num_1)
-    TextView tv_num_1;
-    @Bind(R.id.tv_num_2)
-    TextView tv_num_2;
-    @Bind(R.id.tv_num_3)
-    TextView tv_num_3;
+
     @Bind(R.id.qr)
     ImageView qr;
     @Bind(R.id.tv_low_limit)
@@ -174,6 +167,8 @@ public class DemandActivity extends BaseNoNetworkActivity {
     ArrayList<Image> images_qualified;
     @Bind(R.id.smartRefreshLayout)
     SmartRefreshLayout smartRefreshLayout;
+    @Bind(R.id.textView10)
+    TextView mWaitingConfirm;
     private UMWeb web;
     private boolean isShow = true;//当前详情是否显示
     private String demandId;
@@ -210,6 +205,9 @@ public class DemandActivity extends BaseNoNetworkActivity {
     };
     private Dialog canShutDownEarlyDialog;
     private Dialog canNotShutDownEarlyDialog;
+    private FragmentPublishDetails mInstance1;
+    private FragmentPublishDetails mInstance2;
+    private FragmentPublishDetails mInstance3;
 
     @Override
     protected int getLayoutId() {
@@ -343,9 +341,11 @@ public class DemandActivity extends BaseNoNetworkActivity {
             isCanShutDown = true;
             ll_no_record.setVisibility(View.VISIBLE);
             ll_receiptlist.setVisibility(View.GONE);
+            mWaitingConfirm.setVisibility(View.GONE);
         } else {
             ll_no_record.setVisibility(View.GONE);
             ll_receiptlist.setVisibility(View.VISIBLE);
+            mWaitingConfirm.setVisibility(View.VISIBLE);
 
             ArrayList<Image> images = new ArrayList<>();
             for (DemandDetails.DataBean.OrderInvoiceListBean result : results) {
@@ -373,67 +373,134 @@ public class DemandActivity extends BaseNoNetworkActivity {
             }
             Log.d(TAG, "all receipt is checked  isCanShutDown  " + isCanShutDown);
 
-            ArrayList<Image> images1 = new ArrayList<>();
-            ArrayList<Image> images2 = new ArrayList<>();
-            ArrayList<Image> images3 = new ArrayList<>();
+            ArrayList<Image> imagesWaitingConfirm = new ArrayList<>();
+            ArrayList<Image> imagesWaitingCheck = new ArrayList<>();
+            ArrayList<Image> imagesWaitingExpress = new ArrayList<>();
             images_qualified = new ArrayList<>();
             //拆分发票集合
-            for (int i = 0; i < images.size(); i++) {
-                if (STATE_COMPETENT.equals(images.get(i).state)) {
-                    images_qualified.add(images.get(i));//合格发票集合
-                }
-                if (!STATE_INCOMPETENT.equals(images.get(i).state)) {
-                    if (!STATE_COMPETENT.equals(images.get(i).state)) {
-                        if (VARIETY_GENERAL_PAPER.equals(images.get(i).variety)) {
-                            images1.add(images.get(i));
-                        } else if (VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)) {
-                            images2.add(images.get(i));
-                        } else if (VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)) {
-                            images3.add(images.get(i));
-                        }
+
+            for (Image image : images) {
+                if (!TextUtils.equals(STATE_INCOMPETENT, image.getState())) {
+
+                    if (STATE_COMPETENT.equals(image.getState())) {
+                        images_qualified.add(image);
                     }
 
+                    if (TextUtils.equals(STATE_CONFIRMING, image.getState()))
+                        imagesWaitingConfirm.add(image);
+
+                    if (TextUtils.equals(STATE_MAILING, image.getState())) {
+                        if (image.getLogisticsTradeno() != null) {
+                            //带查验
+                            imagesWaitingCheck.add(image);
+                        } else {
+                            //待邮寄
+                            imagesWaitingExpress.add(image);
+                        }
+                    }
                 }
             }
 
-            TLog.d(TAG, "images1.size()" + images1.size());
-            TLog.d(TAG, "images2.size()" + images2.size());
-            TLog.d(TAG, "images3.size()" + images3.size());
 
-            tv_num_1.setText(String.format(getResources().getString(R.string.paper_normal_receipt_num), images1.size()));
-            tv_num_2.setText(String.format(getResources().getString(R.string.paper_special_receipt_num), images2.size()));
-            tv_num_3.setText(String.format(getResources().getString(R.string.paper_elec_receipt_num), images3.size()));
+//            for (int i = 0; i < images.size(); i++) {
+//                if (STATE_COMPETENT.equals(images.get(i).state)) {
+//                    images_qualified.add(images.get(i));//合格发票集合
+//                }
+//
+//
+//
+////                if (!STATE_INCOMPETENT.equals(images.get(i).state)) {
+////                    if (!STATE_COMPETENT.equals(images.get(i).state)) {
+////                        if (VARIETY_GENERAL_PAPER.equals(images.get(i).variety)) {
+////                            images1.add(images.get(i));
+////                        } else if (VARIETY_SPECIAL_PAPER.equals(images.get(i).variety)) {
+////                            images2.add(images.get(i));
+////                        } else if (VARIETY_GENERAL_ELECTRON.equals(images.get(i).variety)) {
+////                            images3.add(images.get(i));
+////                        }
+////                    }
+////
+////                }
+//
+//            }
+
+            TLog.d(TAG, "imagesWaitingConfirm" + imagesWaitingConfirm.size());
+            TLog.d(TAG, "imagesWaitingCheck" + imagesWaitingCheck.size());
+            TLog.d(TAG, "imagesWaitingExpress" + imagesWaitingExpress.size());
+
             if (isSetList) {//是否需要刷新发票列表
-                Bundle bundle = new Bundle();
-                bundle.putString("activity", "DemandActivity");
-                bundle.putParcelableArrayList(PAPER_NORMAL_RECEIPT_DATA, images1);
-                DemandsDetailsReceiptFragment paperNormalReceiptFragment = DemandsDetailsReceiptFragment.newInstance(bundle);
-                addCaptureFragment2(R.id.container_paper_normal_receipt, paperNormalReceiptFragment);
-                bundle.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, images2);
-                DemandsDetailsReceiptFragment2 paperSpecialReceiptFragment = DemandsDetailsReceiptFragment2.newInstance(bundle);
-                addCaptureFragment2(R.id.container_paper_special_receipt, paperSpecialReceiptFragment);
-                bundle.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, images3);
-                DemandsDetailsReceiptFragment3 paperElecReceiptFragment = DemandsDetailsReceiptFragment3.newInstance(bundle);
-                addCaptureFragment2(R.id.container_paper_elec_receipt, paperElecReceiptFragment);
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("activity", "DemandActivity");
+                bundle1.putParcelableArrayList(com.pilipa.fapiaobao.ui.constants.Constant.DEMANDS_DETAILS_IMAGES, imagesWaitingConfirm);
+                bundle1.putString(com.pilipa.fapiaobao.ui.constants.Constant.INVOICE_STATUS, "待确认");
+                bundle1.putString(com.pilipa.fapiaobao.ui.constants.Constant.TOTAL_PIECES, String.valueOf(imagesWaitingConfirm.size()));
+                TLog.d(TAG, "mInstance1 == null" + String.valueOf(mInstance1 == null));
+                if (mInstance1 == null) {
+                    mInstance1 = FragmentPublishDetails.newInstance(bundle1);
+                }
+                TLog.d(TAG, "mInstance1.isAdded()" + mInstance1.isAdded());
+                if (!mInstance1.isAdded()) {
+                    addCaptureFragment2(R.id.container_paper_normal_receipt, mInstance1);
+                } else {
+                    mInstance1.update(bundle1);
+                }
+
+
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("activity", "DemandActivity");
+                bundle2.putParcelableArrayList(com.pilipa.fapiaobao.ui.constants.Constant.DEMANDS_DETAILS_IMAGES, imagesWaitingCheck);
+                bundle2.putString(com.pilipa.fapiaobao.ui.constants.Constant.INVOICE_STATUS, "待查验");
+                bundle2.putString(com.pilipa.fapiaobao.ui.constants.Constant.TOTAL_PIECES, String.valueOf(imagesWaitingCheck.size()));
+                bundle2.putParcelableArrayList(PAPER_SPECIAL_RECEIPT_DATA, imagesWaitingCheck);
+                TLog.d(TAG, "mInstance2 == null" + String.valueOf(mInstance2 == null));
+                if (mInstance2 == null) {
+                    mInstance2 = FragmentPublishDetails.newInstance(bundle2);
+                }
+                TLog.d(TAG, "mInstance2.isAdded()" + mInstance2.isAdded());
+                if (!mInstance2.isAdded()) {
+                    addCaptureFragment2(R.id.container_paper_special_receipt, mInstance2);
+                } else {
+                    mInstance2.update(bundle2);
+                }
+
+                Bundle bundle3 = new Bundle();
+                bundle3.putString("activity", "DemandActivity");
+                bundle3.putParcelableArrayList(com.pilipa.fapiaobao.ui.constants.Constant.DEMANDS_DETAILS_IMAGES, imagesWaitingExpress);
+                bundle3.putString(com.pilipa.fapiaobao.ui.constants.Constant.INVOICE_STATUS, "待邮寄");
+                bundle3.putString(com.pilipa.fapiaobao.ui.constants.Constant.TOTAL_PIECES, String.valueOf(imagesWaitingExpress.size()));
+                bundle3.putParcelableArrayList(PAPER_ELEC_RECEIPT_DATA, imagesWaitingExpress);
+                TLog.d(TAG, "mInstance3 == null" + String.valueOf(mInstance3 == null));
+                if (mInstance3 == null) {
+                    mInstance3 = FragmentPublishDetails.newInstance(bundle3);
+                } else {
+                    mInstance3.update(bundle3);
+                }
+                TLog.d(TAG, "mInstance3.isAdded()" + mInstance3.isAdded());
+                if (!mInstance3.isAdded()) {
+                    addCaptureFragment2(R.id.container_paper_elec_receipt, mInstance3);
+                }
+
             }
+
+            mWaitingConfirm.setText(getString(R.string.waitingConfirm, String.valueOf(imagesWaitingCheck.size() + imagesWaitingConfirm.size() + imagesWaitingExpress.size())));
             //隐藏空发票的类型
-            if (images1.size() == 0) {
+            if (imagesWaitingConfirm.size() == 0) {
                 container_paper_normal_receipt.setVisibility(View.GONE);
             } else {
                 container_paper_normal_receipt.setVisibility(View.VISIBLE);
             }
-            if (images2.size() == 0) {
+            if (imagesWaitingCheck.size() == 0) {
                 container_paper_special_receipt.setVisibility(View.GONE);
             } else {
                 container_paper_special_receipt.setVisibility(View.VISIBLE);
             }
-            if (images3.size() == 0) {
+            if (imagesWaitingExpress.size() == 0) {
                 container_paper_elec_receipt.setVisibility(View.GONE);
             } else {
                 container_paper_elec_receipt.setVisibility(View.VISIBLE);
             }
 
-            if (images1.size() == 0 && images2.size() == 0 && images3.size() == 0) {
+            if (imagesWaitingConfirm.size() == 0 && imagesWaitingCheck.size() == 0 && imagesWaitingExpress.size() == 0) {
                 ll_no_record.setVisibility(View.VISIBLE);
                 ll_receiptlist.setVisibility(View.GONE);
             } else {
@@ -774,7 +841,6 @@ public class DemandActivity extends BaseNoNetworkActivity {
         dialogWindow.setAttributes(lp);
         mCameraDialog.show();
     }
-
 
 
     @Override

@@ -1,6 +1,9 @@
 package com.pilipa.fapiaobao.net.bean.me.demandlist;
 
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.pilipa.fapiaobao.net.Constant;
+
 import java.util.List;
 
 /**
@@ -33,7 +36,8 @@ public class DemandListItem {
         this.list = list;
     }
 
-    public static class ListBean {
+
+    public static class ListBean implements MultiItemEntity {
         /**
          * id : 0c93cd2754634f718c11379ba8ab8aa4
          * isNewRecord : false
@@ -337,6 +341,12 @@ public class DemandListItem {
         public void setLeftDate(int leftDate) {
             this.leftDate = leftDate;
         }
+
+        @Override
+        public int getItemType() {
+            return Constant.TYPE_ITEM_NAME;
+        }
+
 
         public static class CompanyBean {
             /**

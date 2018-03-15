@@ -590,7 +590,8 @@ public class UploadReceiptPreviewActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        TLog.d(TAG, e.getMessage());
+                        TLog.d(TAG + "onError", e.getMessage());
+                        TLog.d(TAG + "onError", e.getLocalizedMessage());
                     }
 
                     @Override

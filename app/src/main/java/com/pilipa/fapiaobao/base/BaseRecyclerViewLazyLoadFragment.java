@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.pilipa.fapiaobao.R;
 
@@ -21,6 +22,10 @@ public abstract class BaseRecyclerViewLazyLoadFragment extends BaseFragment {
     protected RecyclerView mRecyclerView;
     protected boolean mIsInited;
     protected boolean mIsPrepared;
+    @Bind(R.id.ll_empty_view)
+    LinearLayout mLlEmptyView;
+    @Bind(R.id.ll_no_network)
+    LinearLayout mLlNoNetwork;
 
     @Override
     protected int getLayoutId() {
@@ -32,8 +37,12 @@ public abstract class BaseRecyclerViewLazyLoadFragment extends BaseFragment {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+            mRecyclerView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
         mIsPrepared = true;
         lazyLoad();
+
         return rootView;
     }
 
@@ -41,6 +50,41 @@ public abstract class BaseRecyclerViewLazyLoadFragment extends BaseFragment {
         if (getUserVisibleHint() && mIsPrepared && !mIsInited) {
             fetchData();
         }
+    }
+
+
+    protected void noNetwork() {
+        mRecyclerView.setVisibility(View.GONE);
+        mLlEmptyView.setVisibility(View.GONE);
+        mLlNoNetwork.setVisibility(View.VISIBLE);
+        mLlNoNetwork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onEmptyViewClick(v);
+            }
+        });
+    }
+
+    protected void noContent() {
+        mRecyclerView.setVisibility(View.GONE);
+        mLlEmptyView.setVisibility(View.VISIBLE);
+        mLlNoNetwork.setVisibility(View.GONE);
+        mLlEmptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onNoContentViewClick(v);
+            }
+        });
+    }
+
+    public abstract void onNoContentViewClick(View view);
+
+    public abstract void onEmptyViewClick(View view);
+
+    protected void fetchSuccess() {
+        mRecyclerView.setVisibility(View.VISIBLE);
+        mLlEmptyView.setVisibility(View.GONE);
+        mLlNoNetwork.setVisibility(View.GONE);
     }
 
     @Override

@@ -572,6 +572,7 @@
     <string name="other_recharge">其它金额</string>
     <string name="cannot_parse_this_kind_of_code_from_now_on">暂时无法解析此类型二维码</string>
     <string name="remaining_data">%1$s天\n距收集结束</string>
+    <string name="waitingConfirm">待验发票%1$s张</string>
     <string-array name="express_array">
         <item>顺丰</item>
         <item >圆通</item>

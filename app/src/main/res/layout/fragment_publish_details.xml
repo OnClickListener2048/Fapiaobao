@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_line"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_invoice_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/d15"
+            android:textSize="@dimen/s15"
+            tools:text="待邮寄"/>
+
+        <TextView
+            android:id="@+id/tv_invoice_pieces"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toEndOf="@+id/tv_invoice_status"
+            android:textSize="@dimen/s15"
+            tools:text="15张"/>
+
+        <ImageView
+            android:id="@+id/ic_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/d20"
+            android:src="@mipmap/expand"
+            tools:src="@mipmap/expand"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_elec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_elec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/d10"
+            android:layout_marginEnd="@dimen/d10"
+            android:layout_marginStart="@dimen/d20"
+            android:layout_marginTop="@dimen/d10"
+            android:text="电子发票"
+            android:textSize="@dimen/s12"
+            tools:text="电子发票"/>
+
+        <TextView
+            android:id="@+id/tv_elec_piece"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toEndOf="@id/tv_elec"
+            android:textSize="@dimen/s12"
+            tools:text="15张"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_elec"
+        style="@style/fl_publish_details"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/d10"
+            android:layout_marginEnd="@dimen/d10"
+            android:layout_marginStart="@dimen/d20"
+            android:layout_marginTop="@dimen/d10"
+            android:text="增值税普票"
+            android:textSize="@dimen/s12"
+            tools:text="增值税普票"/>
+
+        <TextView
+            android:id="@+id/tv_normal_piece"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toEndOf="@+id/tv_normal"
+            android:textSize="@dimen/s12"
+            tools:text="15张"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_normal"
+        style="@style/fl_publish_details"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_special"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_special"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/d10"
+            android:layout_marginEnd="@dimen/d10"
+            android:layout_marginStart="@dimen/d20"
+            android:layout_marginTop="@dimen/d10"
+            android:text="增值税专票"
+            android:textSize="@dimen/s12"
+            tools:text="增值税专票"/>
+
+        <TextView
+            android:id="@+id/tv_special_piece"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toEndOf="@+id/tv_special"
+            android:textSize="@dimen/s12"
+            tools:text="15张"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_special"
+        style="@style/fl_publish_details"/>
+
+</LinearLayout>

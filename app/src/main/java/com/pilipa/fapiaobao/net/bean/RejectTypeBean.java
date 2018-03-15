@@ -1,12 +1,13 @@
 package com.pilipa.fapiaobao.net.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by edz on 2017/10/28.
  */
 
-public class RejectTypeBean {
+public class RejectTypeBean implements Serializable {
 
 
     /**
@@ -43,7 +44,7 @@ public class RejectTypeBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * id : 8515c7b0f1b74f9282883a17ae7483b1
          * isNewRecord : false

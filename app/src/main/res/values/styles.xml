@@ -199,4 +199,12 @@
         <item name="android:layout_marginEnd">@dimen/d3</item>
         <item name="android:layout_marginBottom">@dimen/d3</item>
     </style>
+
+    <style name="fl_publish_details">
+        <item name="android:layout_marginStart">@dimen/d10</item>
+        <item name="android:layout_marginEnd">@dimen/d10</item>
+        <item name="android:layout_marginBottom">@dimen/d10</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>

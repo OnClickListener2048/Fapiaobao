@@ -55,5 +55,11 @@ public class Constant {
     public static final String RESULTS = "results";
     public static final String ONLY_JUSTIFY = "only_justify";
     public static final String DEMANDS_ID = "demands_id";
-    public static java.lang.String STATE_DEMAND = "state_demand";
+    public static final String INVOICE_STATUS = "invoice_status";
+    public static final String STATE_DEMAND = "state_demand";
+    public static final String TOTAL_PIECES = "total_pieces";
+    public static final String DEMANDS_DETAILS_IMAGES = "demands_details_images";
+    public static final String PAPER_NORMAL_RECEIPT_DATA = "paper_normal_receipt_data";
+    public static final String PAPER_SPECIAL_RECEIPT_DATA = "paper_special_receipt_data";
+    public static final String PAPER_ELEC_RECEIPT_DATA = "paper_elec_receipt_data";
 }

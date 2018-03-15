@@ -19,6 +19,7 @@ import com.pilipa.fapiaobao.adapter.supply.DemandsDetailsReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseFragment;
 import com.pilipa.fapiaobao.ui.DemandsDetailsPreviewActivity;
 import com.pilipa.fapiaobao.ui.UploadReceiptPreviewActivity;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.ui.deco.GridInset;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.utils.ReceiptDiff;
@@ -196,5 +197,13 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
         } else if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
 
         }
+    }
+
+    public void update(Bundle bundle) {
+        Log.d(TAG, "update: ");
+        ArrayList<Image> images = bundle.getParcelableArrayList(Constant.PAPER_SPECIAL_RECEIPT_DATA);
+        uploadReceiptAdapter = new DemandsDetailsReceiptAdapter(images, getImageResize(getActivity()));
+        rvUploadReceipt.setAdapter(uploadReceiptAdapter);
+        mPreviousPosition = images.size();
     }
 }
