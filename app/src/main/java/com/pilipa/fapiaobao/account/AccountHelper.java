@@ -38,11 +38,12 @@ public class AccountHelper {
 
     public static boolean isLogin() {
         return !TextUtils.equals(getToken(), Constant.NOTOKEN);
+
+
     }
+
     public static void logout(){
         SharedPreferencesHelper.remove(instances.application,LoginWithInfoBean.class);
-//        BaseApplication.finishAllActivites();
-//        ActivityUtils.finishAllActivities();
         getToken();
         Log.d(TAG, "logout: success");
     }

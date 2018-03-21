@@ -57,6 +57,8 @@ import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
 import com.pilipa.fapiaobao.utils.TDevice;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -91,6 +93,7 @@ import static com.pilipa.fapiaobao.net.Constant.FIND_FREQUENTLY_INVOICE_TYPE;
 import static com.pilipa.fapiaobao.net.Constant.LOGIN_BY_TOKEN;
 import static com.pilipa.fapiaobao.net.Constant.LOGOUT_BY_TOKEN;
 import static com.pilipa.fapiaobao.net.Constant.LOG_RECORD;
+import static com.pilipa.fapiaobao.net.Constant.MAIL;
 import static com.pilipa.fapiaobao.net.Constant.MAIL_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.MESSAGE_DETAILS;
 import static com.pilipa.fapiaobao.net.Constant.MESSAGE_MESSAGES;
@@ -1766,12 +1769,20 @@ public class Api<T> {
      * @param baseViewCallback
      */
     public static void findAllRejectType(final BaseViewCallback baseViewCallback) {
-        OkGo.<RejectTypeBean>get(FIND_ALL_REJECT_TYPE).cacheMode(CacheMode.IF_NONE_CACHE_REQUEST).execute(new JsonCallBack<RejectTypeBean>(RejectTypeBean.class) {
+        OkGo.<RejectTypeBean>get(FIND_ALL_REJECT_TYPE)
+                .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
+                .execute(new JsonCallBack<RejectTypeBean>(RejectTypeBean.class) {
             @Override
             public void onSuccess(Response<RejectTypeBean> response) {
                     baseViewCallback.setData(response.body());
             }
-        });
+
+                    @Override
+                    public void onCacheSuccess(Response<RejectTypeBean> response) {
+                        super.onCacheSuccess(response);
+                        baseViewCallback.setData(response.body());
+                    }
+                });
     }
 
 
@@ -1915,6 +1926,15 @@ public class Api<T> {
                         baseViewCallbackWithOnStart.onError();
                     }
                 });
+    }
+
+    public static void mail(Object object, JSONArray jsonArray, String mail, Callback callback) throws JSONException {
+        OkGo.<BaseResponseBean>post(MAIL)
+                .tag(object)
+                .upJson(JsonCreator.mail(jsonArray, mail, AccountHelper.getToken()))
+                .execute(callback);
+
+
     }
 
     public static void searchCompanies(String companyName, Object tag, final Callback callback) {

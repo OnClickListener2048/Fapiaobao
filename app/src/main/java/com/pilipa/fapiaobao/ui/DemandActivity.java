@@ -169,6 +169,8 @@ public class DemandActivity extends BaseNoNetworkActivity {
     SmartRefreshLayout smartRefreshLayout;
     @Bind(R.id.textView10)
     TextView mWaitingConfirm;
+    @Bind(R.id.tv_no_record)
+    TextView mTvNoRecord;
     private UMWeb web;
     private boolean isShow = true;//当前详情是否显示
     private String demandId;
@@ -208,6 +210,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
     private FragmentPublishDetails mInstance1;
     private FragmentPublishDetails mInstance2;
     private FragmentPublishDetails mInstance3;
+    private String mState;
 
     @Override
     protected int getLayoutId() {
@@ -223,7 +226,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
         switch (resultCode) {
             case DemandsDetailsReceiptFragment.RESULT_CODE_BACK:
                 TLog.log(TAG + "onActivityResult3");
-                demandDetails(demandId, false);
+                demandDetails(demandId, true);
                 break;
             default:
         }
@@ -401,6 +404,14 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 }
             }
 
+            if (images_qualified.size() == 0 && results.size() == 0) {
+                mTvNoRecord.setText("暂时还没收到票哦，请耐心等待~");
+            }
+
+            if (imagesWaitingConfirm.size() == 0 && imagesWaitingCheck.size() == 0 && imagesWaitingExpress.size() == 0 && images_qualified.size() != 0) {
+                mTvNoRecord.setText("没有待验发票了哦~");
+            }
+
 
 //            for (int i = 0; i < images.size(); i++) {
 //                if (STATE_COMPETENT.equals(images.get(i).state)) {
@@ -520,6 +531,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
     @Override
     public void initData() {
         demandId = getIntent().getStringExtra("demandId");
+        mState = getIntent().getStringExtra(com.pilipa.fapiaobao.ui.constants.Constant.STATE_DEMAND);
         Log.d(TAG, "initData:demandDetails demandId" + demandId);
         if (demandId != null) {
             smartRefreshLayout.autoRefresh(10);
@@ -557,6 +569,7 @@ public class DemandActivity extends BaseNoNetworkActivity {
                 @Override
                 public void onStart() {
 //                    smartRefreshLayout.autoRefresh(10);
+                    showProgressDialog();
                 }
 
                 @Override

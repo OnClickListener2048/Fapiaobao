@@ -21,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
@@ -399,5 +400,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onDismiss(DialogInterface dialog) {
 
+    }
+
+    protected String getText(TextView textView) {
+        return textView.getText().toString();
     }
 }

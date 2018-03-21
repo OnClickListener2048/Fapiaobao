@@ -87,9 +87,9 @@ public class BaseApplication extends Application {
     public static final String SHARE_SOCORE = "share_socore";
     private static final String PREF_NAME = "p";
     private static final int RETRY_COUNT = 3;
-    private static final int READ_TIMEOUT = 10*1000;
-    private static final int WRITE_TIMEOUT = 10 * 1000;
-    private static final int CONNECT_TIMEOUT = 10*1000;
+    private static final int READ_TIMEOUT = 20 * 1000;
+    private static final int WRITE_TIMEOUT = 20 * 1000;
+    private static final int CONNECT_TIMEOUT = 20 * 1000;
     public static ArrayList<BaseActivity> activities = new ArrayList<>();
     static Context _context;
 

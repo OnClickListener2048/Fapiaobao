@@ -28,8 +28,9 @@
                 android:src="@mipmap/estimate_back_brawn" />
         </RelativeLayout>
 
+
     <include
-        layout="@layout/layout_receipt_list"
+        layout="@layout/layout_quality_receipt_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

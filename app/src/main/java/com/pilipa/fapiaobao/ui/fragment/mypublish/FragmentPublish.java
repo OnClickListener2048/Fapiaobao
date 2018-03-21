@@ -187,18 +187,18 @@ public class FragmentPublish extends BaseRecyclerViewLazyLoadFragment {
 
                     break;
                 case com.pilipa.fapiaobao.net.Constant.TYPE_ITEM_NAME:
-
                     final DemandListItem.ListBean listBean = (DemandListItem.ListBean) item;
                     helper.setText(R.id.tv_total_amount, String.valueOf(listBean.getTotalAmount()))
                             .setText(R.id.tv_wait_collected, String.valueOf(listBean.getLeftAmount()))
                             .setText(R.id.tv_already_collected, String.valueOf(listBean.getTotalAmount() - listBean.getLeftAmount()))
                             .setText(R.id.tv_remaining_time, BaseApplication.context().getString(R.string.remaining_data, String.valueOf(listBean.getLeftDate())))
-                            .setVisible(R.id.iv_incoming_invoice, !TextUtils.equals("无", listBean.getRemarks()));
+                            .setVisible(R.id.iv_incoming_invoice, (!TextUtils.equals("无", listBean.getRemarks()) && TextUtils.equals("0", fragmentPublish.mState)));
                     helper.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, DemandActivity.class);
                             intent.putExtra("demandId", listBean.getId());
+                            intent.putExtra(Constant.STATE_DEMAND, fragmentPublish.mState);
                             fragmentPublish.startActivityForResult(intent, Constant.REQUEST_REFRESH_CODE);
                         }
                     });

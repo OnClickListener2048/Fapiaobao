@@ -1,27 +1,24 @@
 package com.pilipa.fapiaobao.ui.widget;
-  
-import android.text.InputFilter;  
-import android.text.Spanned;  
-import android.text.TextUtils;  
-  
-import java.util.regex.Matcher;  
+
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.text.TextUtils;
+
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;    
     
 /**  
  *
  * 过滤用户输入只能为金额格式  
  */    
-public class CashierInputFilter implements InputFilter {  
-    Pattern mPattern;    
-  
-    //输入的最大金额    
+public class CashierInputFilter implements InputFilter {
+    //输入的最大金额
     private static final int MAX_VALUE = Integer.MAX_VALUE;
-    //小数点后的位数    
-    private static final int POINTER_LENGTH = 2;    
-    
-    private static final String POINTER = ".";    
-    
-    private static final String ZERO = "0";  
+    //小数点后的位数
+    private static final int POINTER_LENGTH = 2;
+    private static final String POINTER = ".";
+    private static final String ZERO = "0";
+    Pattern mPattern;
   
     public CashierInputFilter() {  
         mPattern = Pattern.compile("([0-9]|\\.)*");    
@@ -30,10 +27,10 @@ public class CashierInputFilter implements InputFilter {
     /**  
      * @param source    新输入的字符串  
      * @param start     新输入的字符串起始下标，一般为0  
-     * @param end       新输入的字符串终点下标，一般为source长度-1  
+     * @param end       新输入的字符串终点下标，一般为source长度-1
      * @param dest      输入之前文本框内容  
      * @param dstart    原内容起始坐标，一般为0  
-     * @param dend      原内容终点坐标，一般为dest长度-1  
+     * @param dend      原内容终点坐标，一般为dest长度-1
      * @return          输入内容  
      */    
     @Override    
@@ -68,7 +65,7 @@ public class CashierInputFilter implements InputFilter {
             /** 
              * 没有输入小数点的情况下，只能输入小数点和数字 
              * 1. 首位不能输入小数点 
-             * 2. 如果首位输入0，则接下来只能输入小数点了 
+             * 2. 如果首位输入0，则接下来只能输入小数点了
              */  
             if (!matcher.matches()) {    
                 return "";    

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -66,9 +67,17 @@ public class FragmentPublishDetails extends BaseFragment {
     RelativeLayout mRlNormal;
     @Bind(R.id.rl_special)
     RelativeLayout mRlSpecial;
+    @Bind(R.id.ll_container)
+    LinearLayout mLlContainer;
+    @Bind(R.id.ll_sup_container)
+    LinearLayout mLlSupContainer;
     private DemandsDetailsReceiptFragment3 mInstance3;
     private DemandsDetailsReceiptFragment mInstance1;
     private DemandsDetailsReceiptFragment2 mInstance2;
+    private boolean isOpen = true;
+    private DemandsDetailsReceiptFragment3 mDemandsDetailsReceiptFragment3;
+    private DemandsDetailsReceiptFragment mDemandsDetailsReceiptFragment;
+    private DemandsDetailsReceiptFragment2 mDemandsDetailsReceiptFragment2;
 
     public static FragmentPublishDetails newInstance(Bundle bundle) {
         FragmentPublishDetails fragmentPublishDetails = new FragmentPublishDetails();
@@ -111,6 +120,7 @@ public class FragmentPublishDetails extends BaseFragment {
         if (elecImages.size() > 0) {
             Bundle bundle3 = new Bundle();
             bundle3.putParcelableArrayList(Constant.PAPER_ELEC_RECEIPT_DATA, elecImages);
+            bundle3.putString("activity", TAG);
             TLog.d(TAG, "mInstance3 == null===" + String.valueOf(mInstance3 == null));
             if (mInstance3 == null) {
                 mInstance3 = DemandsDetailsReceiptFragment3.newInstance(bundle3);
@@ -124,13 +134,16 @@ public class FragmentPublishDetails extends BaseFragment {
 
             mTvElecPiece.setText(getString(R.string.end_with_piece, String.valueOf(elecImages.size())));
             mRlElec.setVisibility(View.VISIBLE);
+            mFlElec.setVisibility(View.VISIBLE);
         } else {
             mRlElec.setVisibility(View.GONE);
+            mFlElec.setVisibility(View.GONE);
         }
 
         if (normalImages.size() > 0) {
             Bundle bundle1 = new Bundle();
             bundle1.putParcelableArrayList(Constant.PAPER_NORMAL_RECEIPT_DATA, normalImages);
+            bundle1.putString("activity", TAG);
             TLog.d(TAG, "mInstance1 == null===" + String.valueOf(mInstance1 == null));
             if (mInstance1 == null) {
                 mInstance1 = DemandsDetailsReceiptFragment.newInstance(bundle1);
@@ -144,13 +157,16 @@ public class FragmentPublishDetails extends BaseFragment {
 
             mTvNormalPiece.setText(getString(R.string.end_with_piece, String.valueOf(normalImages.size())));
             mRlNormal.setVisibility(View.VISIBLE);
+            mFlNormal.setVisibility(View.VISIBLE);
         } else {
             mRlNormal.setVisibility(View.GONE);
+            mFlNormal.setVisibility(View.GONE);
         }
 
         if (specialImages.size() > 0) {
             Bundle bundle2 = new Bundle();
             bundle2.putParcelableArrayList(Constant.PAPER_SPECIAL_RECEIPT_DATA, specialImages);
+            bundle2.putString("activity", TAG);
             TLog.d(TAG, "mInstance2 == null===" + String.valueOf(mInstance2 == null));
             if (mInstance2 == null) {
                 mInstance2 = DemandsDetailsReceiptFragment2.newInstance(bundle2);
@@ -163,10 +179,23 @@ public class FragmentPublishDetails extends BaseFragment {
             }
             mTvSpecialPiece.setText(getString(R.string.end_with_piece, String.valueOf(specialImages.size())));
             mRlSpecial.setVisibility(View.VISIBLE);
+            mFlSpecial.setVisibility(View.VISIBLE);
         } else {
             mRlSpecial.setVisibility(View.GONE);
+            mFlSpecial.setVisibility(View.GONE);
         }
     }
+
+    @Override
+    protected void initWidget(View root) {
+        super.initWidget(root);
+
+
+        mLlContainer.setVisibility(isOpen ? View.VISIBLE : View.GONE);
+
+        mIcArrow.setImageResource(isOpen ? R.mipmap.collapse : R.mipmap.expand);
+    }
+
 
 
     @Override
@@ -202,7 +231,17 @@ public class FragmentPublishDetails extends BaseFragment {
         if (elecImages.size() > 0) {
             Bundle bundle3 = new Bundle();
             bundle3.putParcelableArrayList(Constant.PAPER_ELEC_RECEIPT_DATA, elecImages);
-            addDrawerFragment(R.id.fl_elec, DemandsDetailsReceiptFragment3.newInstance(bundle3));
+            if (mInstance3 == null) {
+                mInstance3 = DemandsDetailsReceiptFragment3.newInstance(bundle3);
+            }
+
+            if (mInstance3.isAdded()) {
+                mInstance3.update(bundle3);
+            } else {
+                addDrawerFragment(R.id.fl_elec, mInstance3);
+                TLog.d(TAG, " addDrawerFragment(R.id.fl_elec, mDemandsDetailsReceiptFragment3);");
+            }
+
             mTvElecPiece.setText(getString(R.string.end_with_piece, String.valueOf(elecImages.size())));
         } else {
             mRlElec.setVisibility(View.GONE);
@@ -211,7 +250,16 @@ public class FragmentPublishDetails extends BaseFragment {
         if (normalImages.size() > 0) {
             Bundle bundle1 = new Bundle();
             bundle1.putParcelableArrayList(Constant.PAPER_NORMAL_RECEIPT_DATA, normalImages);
-            addDrawerFragment(R.id.fl_normal, DemandsDetailsReceiptFragment.newInstance(bundle1));
+            if (mInstance1 == null) {
+                mInstance1 = DemandsDetailsReceiptFragment.newInstance(bundle1);
+            }
+            if (mInstance1.isAdded()) {
+                mInstance1.update(bundle1);
+            } else {
+                addDrawerFragment(R.id.fl_normal, mInstance1);
+                TLog.d(TAG, " addDrawerFragment(R.id.fl_elec, mDemandsDetailsReceiptFragment);");
+            }
+
             mTvNormalPiece.setText(getString(R.string.end_with_piece, String.valueOf(normalImages.size())));
         } else {
             mRlNormal.setVisibility(View.GONE);
@@ -220,14 +268,24 @@ public class FragmentPublishDetails extends BaseFragment {
         if (specialImages.size() > 0) {
             Bundle bundle2 = new Bundle();
             bundle2.putParcelableArrayList(Constant.PAPER_SPECIAL_RECEIPT_DATA, specialImages);
-            addDrawerFragment(R.id.fl_special, DemandsDetailsReceiptFragment2.newInstance(bundle2));
+            if (mInstance2 == null) {
+                mInstance2 = DemandsDetailsReceiptFragment2.newInstance(bundle2);
+            }
+
+            if (mInstance2.isAdded()) {
+                mInstance2.update(bundle2);
+            } else {
+                addDrawerFragment(R.id.fl_special, mInstance2);
+                TLog.d(TAG, " addDrawerFragment(R.id.fl_elec, mDemandsDetailsReceiptFragment2);");
+            }
+
             mTvSpecialPiece.setText(getString(R.string.end_with_piece, String.valueOf(specialImages.size())));
         } else {
             mRlSpecial.setVisibility(View.GONE);
         }
-
-
     }
+
+
 
 
     @Override
@@ -246,6 +304,17 @@ public class FragmentPublishDetails extends BaseFragment {
 
     @OnClick(R.id.ic_arrow)
     public void onViewClicked() {
-    }
+        isOpen = !isOpen;
 
+        mLlContainer.setVisibility(isOpen ? View.VISIBLE : View.GONE);
+        if (isOpen) {
+            mLlContainer.setVisibility(View.VISIBLE);
+        } else {
+            mLlContainer.setVisibility(View.GONE);
+        }
+
+
+        mIcArrow.setImageResource(isOpen ? R.mipmap.collapse : R.mipmap.expand);
+
+    }
 }

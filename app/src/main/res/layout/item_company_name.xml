@@ -9,12 +9,13 @@
         android:id="@+id/tv_company_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/d11"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/d24"
-        android:layout_marginTop="@dimen/d14"
+        android:layout_toStartOf="@+id/iv_arrow"
         android:textColor="@color/black"
         android:textSize="@dimen/s13"
-        tools:text="大正税通财务有限公司"/>
+        tools:text="大正税通财务有限有限公司大正税通财务有限有限公司大正税通财务有限有限公司大正税通财务有限有限公司"/>
 
     <ImageView
         android:id="@+id/iv_arrow"

@@ -3,6 +3,8 @@ package com.pilipa.fapiaobao.net;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -156,5 +158,13 @@ class JsonCreator {
         map.put("data", "");
         map.put("msg", "");
         return new JSONObject(map);
+    }
+
+    public static JSONObject mail(JSONArray jsonArray, String mail, String token) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("invoiceAddresses", jsonArray);
+        jsonObject.put("mail", mail);
+        jsonObject.put("token", token);
+        return jsonObject;
     }
 }

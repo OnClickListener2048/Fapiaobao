@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
+import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -364,6 +365,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                                     }
                                 }
                                 BaseApplication.showToast("确认成功");
+                                boolean remove = allList.remove(currentImage);
+                                TLog.d(TAG, "removed?----" + remove);
                                 Intent intent = new Intent();
                                 Bundle bundle = new Bundle();
                                 bundle.putParcelableArrayList(DemandsDetailsReceiptFragment.EXTRA_ALL_DATA, allList);
@@ -459,6 +462,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             layout_reject_item.setVisibility(View.GONE);
             layout_willchecked_item.setVisibility(View.VISIBLE);
         } else {
+            TLog.d(TAG, "findAllRejectType()");
             layout_reject_item.setVisibility(View.VISIBLE);
             layout_willchecked_item.setVisibility(View.GONE);
             findAllRejectType();
@@ -659,7 +663,8 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                             if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
                                 String reason = normalBean.getData().getReason();
                                 currentImage.state = Constant.STATE_INCOMPETENT;
-                                allList.remove(currentImage);
+                                boolean remove = allList.remove(currentImage);
+                                TLog.d(TAG, "removed?----" + remove);
                                 Intent intent = new Intent();
                                 Bundle bundle = new Bundle();
                                 bundle.putParcelableArrayList(DemandsDetailsReceiptFragment.EXTRA_ALL_DATA, allList);

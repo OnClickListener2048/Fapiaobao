@@ -7,9 +7,9 @@ package com.pilipa.fapiaobao.net;
 public class Constant {
 
 
-    //        public static final String VERSION_BASE_URL = "https://www.youpiao8.cn";
-    public static final String VERSION_BASE_URL = "http://39.107.107.108:8080";//http://39.107.107.108:8080
-    public static final String BASE_URL = VERSION_BASE_URL + "/piaobao/rest/";
+    public static final String VERSION_BASE_URL = "https://www.youpiao8.cn";
+    //    public static final String VERSION_BASE_URL = "http://39.107.107.108:8080";//http://39.107.107.108:8080
+    public static final String BASE_URL = VERSION_BASE_URL + "/fapiaobao/rest/";
 
 
     public static final int REQUEST_SUCCESS = 200;
@@ -227,31 +227,31 @@ public class Constant {
     /**
      * 用户注册协议
      */
-    public static final String REGISTRATION = VERSION_BASE_URL + "/piaobao/doc/registration";
+    public static final String REGISTRATION = VERSION_BASE_URL + "/fapiaobao/doc/registration";
     /**
      * 用户充值协议
      */
-    public static final String RECHARGE = VERSION_BASE_URL + "/piaobao/doc/recharge";
+    public static final String RECHARGE = VERSION_BASE_URL + "/fapiaobao/doc/recharge";
     /**
      * 发票百科
      */
-    public static final String WIKI = VERSION_BASE_URL + "/piaobao/wiki";
+    public static final String WIKI = VERSION_BASE_URL + "/fapiaobao/wiki";
     /**
      * 发票宝匹配需求(分享,提供发票分享需要bonus参数)
      */
-    public static final String MATCH = VERSION_BASE_URL + "/piaobao/guide/match";
+    public static final String MATCH = VERSION_BASE_URL + "/fapiaobao/guide/match";
     /**
      * 发票宝开票信息
      */
-    public static final String BILLINGINFO = VERSION_BASE_URL + "/piaobao/share/billingInfo";
+    public static final String BILLINGINFO = VERSION_BASE_URL + "/fapiaobao/share/billingInfo";
     /**
      * 发票宝使用说明
      */
-    public static final String INSTRUCTION = VERSION_BASE_URL + "/piaobao/instruction";
+    public static final String INSTRUCTION = VERSION_BASE_URL + "/fapiaobao/instruction";
     /**
      * 发票宝规则解读
      */
-    public static final String READINGRULES = VERSION_BASE_URL + "/piaobao/readingRules";
+    public static final String READINGRULES = VERSION_BASE_URL + "/fapiaobao/readingRules";
     /**
      * 版本更新接口
      */
@@ -265,7 +265,12 @@ public class Constant {
     /**
      * 发票验真
      */
-    public static final String VERIFICATION = VERSION_BASE_URL + "/piaobao/verify/%s/%s/%s/%s";
+    public static final String VERIFICATION = VERSION_BASE_URL + "/fapiaobao/verify/%s/%s/%s/%s";
+    /**
+     * 发票邮寄邮箱
+     */
+    public static final String MAIL = VERSION_BASE_URL + "/fapiaobao/mail/send";
+
     public static final int TYPE_COMPANY_NAME = 0;
     public static final int TYPE_ITEM_NAME = 1;
 }

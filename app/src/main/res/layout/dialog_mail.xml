@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/transparent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="314dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_mail"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/d30"
+            android:layout_marginTop="@dimen/d40"
+            android:gravity="center_horizontal"
+            android:text="请输入您的邮箱"
+            android:textColor="@color/black"
+            android:textSize="@dimen/s15"/>
+
+        <EditText
+            android:id="@+id/et_mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/d40"
+            android:layout_marginStart="@dimen/d40"
+            android:background="@drawable/bg_mail_edittext"
+            android:hint="请输入接收压缩文件的邮箱地址"
+            android:padding="@dimen/d10"
+            android:textSize="@dimen/d12"/>
+
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/d40"
+            android:layout_marginBottom="@dimen/d50"
+            android:layout_marginEnd="@dimen/d40"
+            android:layout_marginStart="@dimen/d40"
+            android:layout_marginTop="@dimen/d30"
+            android:background="@drawable/selector_mainstyle_to_transparent"
+            android:text="确定"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/d50"
+        android:src="@mipmap/cancel_send_mail"/>
+</LinearLayout>

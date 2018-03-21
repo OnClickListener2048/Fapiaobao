@@ -1,15 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:orientation="vertical">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/ll_receiptlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/d10"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_container_paper_elec_receipt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_num_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/d10"
+                android:layout_marginTop="@dimen/d10"
+                android:text="@string/paper_elec_receipt"
+                android:textColor="@color/text_normal"
+                android:textSize="@dimen/d12"/>
+
+            <FrameLayout
+                android:id="@+id/container_paper_elec_receipt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/d10">
+
+            </FrameLayout>
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_container_paper_normal_receipt"
             android:layout_width="match_parent"
@@ -20,7 +49,10 @@
                 android:id="@+id/tv_num_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/d10"
+                android:layout_marginTop="@dimen/d10"
+                android:gravity="center_horizontal"
                 android:text="@string/paper_normal_receipt"
                 android:textColor="@color/text_normal"
                 android:textSize="@dimen/d12" />
@@ -29,7 +61,7 @@
                 android:id="@+id/container_paper_normal_receipt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/d10" />
+                android:layout_marginTop="@dimen/d10"/>
 
 
         </LinearLayout>
@@ -43,6 +75,7 @@
                 android:id="@+id/tv_num_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/d10"
                 android:layout_marginTop="@dimen/d10"
                 android:text="@string/paper_special_receipt"
@@ -56,30 +89,7 @@
                 android:layout_marginTop="@dimen/d10">
             </FrameLayout>
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/ll_container_paper_elec_receipt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_num_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/d10"
-                android:layout_marginTop="@dimen/d10"
-                android:text="@string/paper_elec_receipt"
-                android:textColor="@color/text_normal"
-                android:textSize="@dimen/d12" />
-
-            <FrameLayout
-                android:id="@+id/container_paper_elec_receipt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/d10">
-
-            </FrameLayout>
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -97,5 +107,7 @@
             android:gravity="center"
             android:text="@string/no_receipt"/>
     </LinearLayout>
-
 </FrameLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

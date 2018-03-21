@@ -55,7 +55,6 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
     RecyclerView rvUploadReceipt;
     private int mImageResize;
     private ArrayList<Image> images;
-    private int mPreviousPosition = -1;
     private DemandsDetailsReceiptAdapter uploadReceiptAdapter;
 
     public static DemandsDetailsReceiptFragment2 newInstance(Bundle b) {
@@ -126,7 +125,6 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
         rvUploadReceipt.setLayoutManager(grid);
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
         rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, false));
-        mPreviousPosition = images.size();
         uploadReceiptAdapter = new DemandsDetailsReceiptAdapter(images, getImageResize(getActivity()));
         uploadReceiptAdapter.setOnImageClickListener(this);
         uploadReceiptAdapter.setOnImageSelectListener(this);
@@ -190,7 +188,6 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
                     DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
                     diffResult.dispatchUpdatesTo(uploadReceiptAdapter);
                     this.images = images;
-                    mPreviousPosition = images.size();
                     break;
                 default:
             }
@@ -203,7 +200,10 @@ public class DemandsDetailsReceiptFragment2 extends BaseFragment implements
         Log.d(TAG, "update: ");
         ArrayList<Image> images = bundle.getParcelableArrayList(Constant.PAPER_SPECIAL_RECEIPT_DATA);
         uploadReceiptAdapter = new DemandsDetailsReceiptAdapter(images, getImageResize(getActivity()));
+        uploadReceiptAdapter.setOnImageClickListener(this);
+        uploadReceiptAdapter.setOnImageSelectListener(this);
+        uploadReceiptAdapter.setOnPhotoCapture(this);
         rvUploadReceipt.setAdapter(uploadReceiptAdapter);
-        mPreviousPosition = images.size();
+        uploadReceiptAdapter.notifyDataSetChanged();
     }
 }

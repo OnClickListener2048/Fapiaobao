@@ -55,7 +55,6 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
     RecyclerView rvUploadReceipt;
     private int mImageResize;
     private ArrayList<Image> images;
-    private int mPreviousPosition = -1;
     private DemandsDetailsReceiptAdapter mUploadReceiptAdapter;
 
     public static DemandsDetailsReceiptFragment newInstance(Bundle b) {
@@ -127,14 +126,11 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
         int spacing = getResources().getDimensionPixelOffset(R.dimen.spacing);
         rvUploadReceipt.addItemDecoration(new GridInset(3, spacing, false));
 
-        mPreviousPosition = images.size();
         DemandsDetailsReceiptAdapter uploadReceiptAdapter = new DemandsDetailsReceiptAdapter(images, getImageResize(getActivity()));
         uploadReceiptAdapter.setOnImageClickListener(this);
         uploadReceiptAdapter.setOnImageSelectListener(this);
         uploadReceiptAdapter.setOnPhotoCapture(this);
         rvUploadReceipt.setAdapter(uploadReceiptAdapter);
-
-
     }
 
 
@@ -196,7 +192,6 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
                     DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new ReceiptDiff(this.images, images), true);
                     diffResult.dispatchUpdatesTo(mUploadReceiptAdapter);
                     this.images = images;
-                    mPreviousPosition = images.size();
                     break;
                 default:
             }
@@ -210,7 +205,10 @@ public class DemandsDetailsReceiptFragment extends BaseFragment implements
         Log.d(TAG, "update: ");
         ArrayList<Image> images = bundle.getParcelableArrayList(Constant.PAPER_NORMAL_RECEIPT_DATA);
         mUploadReceiptAdapter = new DemandsDetailsReceiptAdapter(images, getImageResize(getActivity()));
+        mUploadReceiptAdapter.setOnImageClickListener(this);
+        mUploadReceiptAdapter.setOnImageSelectListener(this);
+        mUploadReceiptAdapter.setOnPhotoCapture(this);
         rvUploadReceipt.setAdapter(mUploadReceiptAdapter);
-        mPreviousPosition = images.size();
+        mUploadReceiptAdapter.notifyDataSetChanged();
     }
 }

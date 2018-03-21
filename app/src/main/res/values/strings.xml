@@ -369,7 +369,7 @@
     <string name="filter_kind">筛选类型</string>
     <string name="receipt_kind">发票种类:</string>
     <string name="low_limit">最低寄送限额</string>
-    <string name="qualified_list">查看已确认合格发票</string>
+    <string name="qualified_list">查看合格发票</string>
     <string name="paper_normal_receipt_num">增值税普票 %1$d 张</string>
     <string name="paper_special_receipt_num">增值税专票 %1$d 张</string>
     <string name="paper_elec_receipt_num">电子发票 %1$d 张</string>
