@@ -1898,6 +1898,12 @@ public class Api<T> {
                 });
     }
 
+    public static void cacu(String name, Object object, Callback callback) {
+        OkGo.<NormalBean>get(String.format(Constant.STATS, name))
+                .tag(object)
+                .execute(callback);
+    }
+
 
     public static void transform_pdf(String pdfUrl, final BaseViewCallbackWithOnStart baseViewCallbackWithOnStart) {
         OkGo.<NormalBean>post(TRANSFORM_PDF)

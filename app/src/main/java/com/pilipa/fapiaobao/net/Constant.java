@@ -8,7 +8,7 @@ public class Constant {
 
 
     public static final String VERSION_BASE_URL = "https://www.youpiao8.cn";
-    //    public static final String VERSION_BASE_URL = "http://39.107.107.108:8080";//http://39.107.107.108:8080
+    //        public static final String VERSION_BASE_URL = "http://39.107.107.108:8080";//http://39.107.107.108:8080
     public static final String BASE_URL = VERSION_BASE_URL + "/fapiaobao/rest/";
 
 
@@ -273,4 +273,10 @@ public class Constant {
 
     public static final int TYPE_COMPANY_NAME = 0;
     public static final int TYPE_ITEM_NAME = 1;
+
+    /**
+     * 统计
+     */
+
+    public static final String STATS = VERSION_BASE_URL + "/fapiaobao/download/statistics/%s";
 }

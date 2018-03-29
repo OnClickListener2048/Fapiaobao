@@ -99,6 +99,8 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
 
     @Override
     public void initView() {
+
+
         initProgressDialog2();
         checkOutVersion();
         FragmentManager manager = getSupportFragmentManager();

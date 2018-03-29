@@ -50,6 +50,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="label,allowBackup">
+        <!--<meta-data android:name="MTA_CHANNEL"-->
+        <!--android:value="${MTA_CHANNEL_VALUE}" />-->
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
