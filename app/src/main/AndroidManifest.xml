@@ -244,6 +244,11 @@
         <service
             android:name=".service.X5CorePreLoadService"
             android:enabled="true"/>
+
+
+        <!--databinding-->
+
+
     </application>
 
 </manifest>
