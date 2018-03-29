@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.mylibrary.utils.TLog;
@@ -23,9 +22,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 
 /**
  * Created by lyt on 2017/10/12.
@@ -41,21 +38,8 @@ public class LeadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lead);
 
-//        getWindow().getDecorView().setSystemUiVisibility(
-//                View.SYSTEM_UI_FLAG_LOW_PROFILE |
-//                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-//                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-//                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
 
-        AppOperator.runOnThread(new Runnable() {
-            @Override
-            public void run() {
-                downloadLeadImage();
-            }
-        });
+        AppOperator.runOnThread(this::downloadLeadImage);
 
         initWidget();
 
@@ -72,8 +56,6 @@ public class LeadActivity extends AppCompatActivity {
             decorView.setSystemUiVisibility(option);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
-
-
     }
 
     private void initWidget() {
@@ -86,23 +68,9 @@ public class LeadActivity extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (position == 2) {
-                    Observable.zip(Observable.just(position), Observable.just(positionOffsetPixels), new BiFunction<Integer, Integer, Boolean>() {
-                        @Override
-                        public Boolean apply(@NonNull Integer integer, @NonNull Integer integer2) throws Exception {
-                            return integer == 2 && integer2 == 0;
-                        }
-                    })
-                            .filter(new Predicate<Boolean>() {
-                                @Override
-                                public boolean test(@NonNull Boolean aBoolean) throws Exception {
-                                    return aBoolean;
-                                }
-                            }).map(new Function<Boolean, Object>() {
-                        @Override
-                        public Object apply(@NonNull Boolean aBoolean) throws Exception {
-                            return aBoolean;
-                        }
-                    }).take(1)
+                    Observable.zip(Observable.just(position), Observable.just(positionOffsetPixels), (integer, integer2) -> integer == 2 && integer2 == 0)
+                            .filter(aBool3ean -> aBool3ean)
+                            .map((Function<Boolean, Object>) aBoolean -> aBoolean).take(1)
                             .throttleFirst(3000, TimeUnit.MILLISECONDS)
                             .subscribeOn(AndroidSchedulers.mainThread())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -181,22 +149,13 @@ public class LeadActivity extends AppCompatActivity {
             }
         });
 
-        ultraViewPager.setOnTouchListener(new View.OnTouchListener() {
+        ultraViewPager.setOnTouchListener((v, event) -> false);
 
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                return false;
-            }
-        });
     }
 
 
 
     private void downloadLeadImage() {
-
-
     }
 
 }

@@ -99,10 +99,7 @@
         <activity android:name=".ui.LaunchActivity"
                   android:screenOrientation="portrait"
                   android:theme="@style/splash">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".ui.LeadActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.LoginActivity" android:screenOrientation="portrait">
@@ -244,6 +241,21 @@
         <service
             android:name=".service.X5CorePreLoadService"
             android:enabled="true"/>
+
+
+        <!--databinding-->
+
+        <activity
+            android:name=".databinding.lanucher.LanucherDatabindingActivity"
+            android:theme="@style/splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".databinding.lanucher.guide.GuideDatabindingActivity"/>
+        <activity android:name=".databinding.main.MainDatabindingActivity"/>
     </application>
 
 </manifest>

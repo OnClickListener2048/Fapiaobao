@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.pilipa.fapiaobao.databinding.base.viewmodel.BaseTitleViewModel"/>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <com.standards.library.widget.ClickImageView
+            android:id="@+id/title_right"
+            android:layout_width="108px"
+            android:layout_height="108px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="32px"
+            android:onClick="() -> viewmodel.onRightIconClick()"
+            android:padding="26px"
+            android:src="@{viewmodel.mResRightIcon}"/>
+
+
+        <TextView
+            android:id="@+id/title_center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:onClick="() -> viewmodel.onTitleClick()"
+            android:text="@{viewmodel.mResTitle}"
+            android:textColor="@color/white"
+            android:textSize="52px"/>
+
+        <com.standards.library.widget.ClickImageView
+            android:id="@+id/title_left"
+            android:layout_width="92px"
+            android:layout_height="108px"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="32px"
+            android:onClick="() -> viewmodel.onLeftIconClick()"
+            android:padding="30px"
+            android:src="@{viewmodel.mResLeftIcon}"/>
+    </RelativeLayout>
+</layout>

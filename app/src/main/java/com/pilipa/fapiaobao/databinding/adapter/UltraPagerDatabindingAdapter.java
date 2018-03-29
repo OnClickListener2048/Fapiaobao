@@ -1,6 +1,6 @@
-package com.pilipa.fapiaobao.adapter;
+package com.pilipa.fapiaobao.databinding.adapter;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -13,26 +13,28 @@ import com.pilipa.fapiaobao.Constants.Config;
 import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.ui.LeadActivity;
+import com.pilipa.fapiaobao.databinding.base.activity.BaseDatabindingActivity;
+
+import java.util.List;
 
 /**
- * Created by lyt on 2017/10/12.
+ * Created by edz on 2018/4/2.
  */
 
-public class UltraPagerAdapter extends PagerAdapter {
-    Activity activity;
-    private boolean isMultiScr;
-    private int[] src;
+public class UltraPagerDatabindingAdapter extends PagerAdapter {
 
-    public UltraPagerAdapter(boolean isMultiScr, int[] src, LeadActivity leadActivity) {
-        this.isMultiScr = isMultiScr;
-        this.src = src;
-        this.activity = leadActivity;
+
+    private final List<Integer> list;
+    private final BaseDatabindingActivity context;
+
+    public UltraPagerDatabindingAdapter(List<Integer> list, Context context) {
+        this.list = list;
+        this.context = (BaseDatabindingActivity) context;
     }
 
     @Override
     public int getCount() {
-        return src.length;
+        return list == null ? 0 : list.size();
     }
 
     @Override
@@ -45,16 +47,16 @@ public class UltraPagerAdapter extends PagerAdapter {
         RelativeLayout relativeLayout = new RelativeLayout(container.getContext());
         ImageView mImageView = new ImageView(container.getContext());
         mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        mImageView.setImageResource(src[position]);
+        mImageView.setImageResource(list.get(position));
         RelativeLayout.LayoutParams layoutParams =
                 new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                         , ViewGroup.LayoutParams.MATCH_PARENT);
-        if (position == src.length - 1) {
+        if (position == list.size() - 1) {
             ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(container.getContext()).inflate(R.layout.activity_launch_pager, null);
             viewGroup.setOnClickListener(v -> {
                 container.getContext().startActivity(new Intent(container.getContext(), MainActivity.class));
                 BaseApplication.set(Config.IS_FIRST_COMING, false);
-                activity.finish();
+                context.finish();
             });
             relativeLayout.addView(viewGroup, layoutParams);
         } else {
@@ -62,13 +64,14 @@ public class UltraPagerAdapter extends PagerAdapter {
         }
         container.addView(relativeLayout);
         return relativeLayout;
+
     }
-
-
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         RelativeLayout view = (RelativeLayout) object;
         container.removeView(view);
     }
+
+
 }

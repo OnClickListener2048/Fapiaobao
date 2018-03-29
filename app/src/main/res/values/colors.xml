@@ -65,4 +65,5 @@
     <color name="wx_pay_color">#ef5c5c</color>
     <color name="withdraw_color">#13b5b1</color>
     <color name="rejection_red">#fd8e8e</color>
+    <color name="filter">#dddddd</color>
 </resources>
