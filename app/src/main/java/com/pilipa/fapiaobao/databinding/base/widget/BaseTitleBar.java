@@ -44,9 +44,7 @@ public class BaseTitleBar {
                 }
             });
 
-            left.setOnClickListener(view -> {
 
-            });
 
 
         }

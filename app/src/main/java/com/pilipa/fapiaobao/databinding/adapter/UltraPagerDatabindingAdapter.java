@@ -1,6 +1,5 @@
 package com.pilipa.fapiaobao.databinding.adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -9,11 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.example.mylibrary.utils.ActivityUtils;
+import com.example.mylibrary.utils.SPUtils;
 import com.pilipa.fapiaobao.Constants.Config;
-import com.pilipa.fapiaobao.MainActivity;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.base.BaseApplication;
-import com.pilipa.fapiaobao.databinding.base.activity.BaseDatabindingActivity;
+import com.pilipa.fapiaobao.databinding.constant.Constant;
+import com.pilipa.fapiaobao.databinding.lanucher.guide.GuideDatabindingActivity;
+import com.pilipa.fapiaobao.databinding.main.MainDatabindingActivity;
 
 import java.util.List;
 
@@ -25,11 +27,9 @@ public class UltraPagerDatabindingAdapter extends PagerAdapter {
 
 
     private final List<Integer> list;
-    private final BaseDatabindingActivity context;
 
-    public UltraPagerDatabindingAdapter(List<Integer> list, Context context) {
+    public UltraPagerDatabindingAdapter(List<Integer> list) {
         this.list = list;
-        this.context = (BaseDatabindingActivity) context;
     }
 
     @Override
@@ -53,10 +53,14 @@ public class UltraPagerDatabindingAdapter extends PagerAdapter {
                         , ViewGroup.LayoutParams.MATCH_PARENT);
         if (position == list.size() - 1) {
             ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(container.getContext()).inflate(R.layout.activity_launch_pager, null);
-            viewGroup.setOnClickListener(v -> {
-                container.getContext().startActivity(new Intent(container.getContext(), MainActivity.class));
-                BaseApplication.set(Config.IS_FIRST_COMING, false);
-                context.finish();
+            viewGroup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    container.getContext().startActivity(new Intent(container.getContext(), MainDatabindingActivity.class));
+                    BaseApplication.set(Config.IS_FIRST_COMING, false);
+                    SPUtils.getInstance().put(Constant.SHOW_GUIDE, true);
+                    ActivityUtils.finishActivity(GuideDatabindingActivity.class);
+                }
             });
             relativeLayout.addView(viewGroup, layoutParams);
         } else {

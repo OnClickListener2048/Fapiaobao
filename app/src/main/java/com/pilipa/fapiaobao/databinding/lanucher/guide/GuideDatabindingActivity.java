@@ -19,7 +19,7 @@ public class GuideDatabindingActivity extends BaseDatabindingActivity {
     @Override
     protected void init() {
         ActivityDatabindingGuideBinding activityDatabindingGuideBinding = (ActivityDatabindingGuideBinding) getBinding();
-        activityDatabindingGuideBinding.setGuideviewmodel(new GuideViewModel(this, activityDatabindingGuideBinding));
+        activityDatabindingGuideBinding.setGuideviewmodel(new GuideViewModel(activityDatabindingGuideBinding));
     }
 
     @Override

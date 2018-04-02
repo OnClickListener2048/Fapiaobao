@@ -30,7 +30,7 @@ public abstract class BaseDatabindingTitleActivity<VB extends ViewDataBinding, V
         LayoutDefaultTitlebarBinding titlebarBinding = DataBindingUtil.inflate(LayoutInflater.from(this), getDefaultTitleBarLayout(), null, false);
         toolbar.addView(titlebarBinding.getRoot(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         initTitleBar(titlebarBinding.getRoot());
-        titlebarBinding.setViewmodel(new BaseTitleViewModel(this, titlebarBinding, this));
+        titlebarBinding.setViewmodel(new BaseTitleViewModel(titlebarBinding, this));
         super.setContentView(superContentView);
     }
 

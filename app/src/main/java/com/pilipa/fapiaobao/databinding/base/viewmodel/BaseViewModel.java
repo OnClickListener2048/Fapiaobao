@@ -1,6 +1,8 @@
 package com.pilipa.fapiaobao.databinding.base.viewmodel;
 
-import android.content.Context;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.databinding.BaseObservable;
 import android.databinding.ViewDataBinding;
 
@@ -8,23 +10,18 @@ import android.databinding.ViewDataBinding;
  * Created by edz on 2018/4/2.
  */
 
-public class BaseViewModel<VB extends ViewDataBinding> extends BaseObservable {
+public class BaseViewModel<VB extends ViewDataBinding> extends BaseObservable implements LifecycleObserver {
 
     private final VB vb;
-    private Context mContext;
 
 
-    public BaseViewModel(Context context, VB vb) {
-        mContext = context;
+    @SuppressWarnings("unchecked")
+    public BaseViewModel(VB vb) {
         this.vb = vb;
     }
 
     public VB getVb() {
         return vb;
-    }
-
-    public Context getContext() {
-        return mContext;
     }
 
     /**
@@ -33,4 +30,10 @@ public class BaseViewModel<VB extends ViewDataBinding> extends BaseObservable {
     protected void locate() {
 
     }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    protected void onStart() {
+    }
+
+
 }

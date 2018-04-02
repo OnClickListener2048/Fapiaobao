@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <com.standards.library.widget.ClickImageView
+        <com.pilipa.fapiaobao.databinding.widget.ClickImageView
             android:id="@+id/title_right"
             android:layout_width="108px"
             android:layout_height="108px"
@@ -39,7 +39,7 @@
             android:textColor="@color/white"
             android:textSize="52px"/>
 
-        <com.standards.library.widget.ClickImageView
+        <com.pilipa.fapiaobao.databinding.widget.ClickImageView
             android:id="@+id/title_left"
             android:layout_width="92px"
             android:layout_height="108px"

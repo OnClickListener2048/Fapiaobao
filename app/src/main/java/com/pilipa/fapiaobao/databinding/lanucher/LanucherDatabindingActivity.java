@@ -14,7 +14,7 @@ public class LanucherDatabindingActivity extends BaseDatabindingActivity {
 
     @Override
     protected void init() {
-        LanucherViewModel lanucherViewModel = (LanucherViewModel) getViewModel();
+        LanucherViewModel lanucherViewModel = new LanucherViewModel(getBinding());
         lanucherViewModel.start();
     }
 

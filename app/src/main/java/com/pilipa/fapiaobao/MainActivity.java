@@ -459,8 +459,6 @@ public class MainActivity extends BaseActivity implements NavFragment.OnNavigati
                 TDevice.openFile(MainActivity.this,file);
                 popUpProgress.dismiss();
             }
-
-
         });
     }
 

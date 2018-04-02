@@ -5,10 +5,10 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.os.Handler;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 
 /**
  * @author xiaolong
@@ -16,7 +16,7 @@ import android.widget.ImageView;
  * @function <描述功能>
  * @date 2016/12/1-16:21
  */
-public class ClickImageView extends ImageView {
+public class ClickImageView extends AppCompatImageView {
     private boolean isTouchOutside;
     private Animator anim1;
     private Animator anim2;
@@ -92,6 +92,7 @@ public class ClickImageView extends ImageView {
                 break;
             case MotionEvent.ACTION_CANCEL:
                 break;
+            default:
         }
         return true;
     }

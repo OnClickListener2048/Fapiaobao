@@ -19,6 +19,6 @@
             android:id="@+id/ultra_viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:data="@{GuideViewModel.mListObservableField}"/>
+            app:data="@{guideviewmodel.mListObservableField}"/>
     </LinearLayout>
 </layout>

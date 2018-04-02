@@ -73,10 +73,6 @@ public class NavFragment extends BaseFragment{
                 R.string.main_tab_name_tex,
                 FinanceFragment.class);
 
-//        navItemPublish.init(R.mipmap.ic_launcher,
-//                R.string.main_tab_name_publish,
-//                PublishFragment.class);
-
         navItemMe.init(R.drawable.selector_me_tab,
                 R.string.main_tab_name_me,
                 MeFragment.class);
@@ -125,14 +121,6 @@ public class NavFragment extends BaseFragment{
     }
 
     private void doSelect(NavigationButton newNavButton) {
-        // If the new navigation is me info fragment, we intercept it
-        /*
-        if (newNavButton == mNavMe) {
-            if (interceptMessageSkip())
-                return;
-        }
-        */
-
         NavigationButton oldNavButton = null;
         if (mCurrentNavButton != null) {
             oldNavButton = mCurrentNavButton;
@@ -185,8 +173,6 @@ public class NavFragment extends BaseFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
-//        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.NavFragmentBackground);
-//        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         getContext().getTheme().applyStyle(R.style.NavFragmentBackground, true);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -206,20 +192,6 @@ public class NavFragment extends BaseFragment{
             NavigationButton nav = (NavigationButton) view;
             doSelect(nav);
         } else {
-//            navItemPublish.setEnabled(false);
-//                AccountHelper.isTokenValid(new Api.BaseViewCallback<LoginWithInfoBean>() {
-//                    @Override
-//                    public void setData(LoginWithInfoBean loginWithInfoBean) {
-//                        navItemPublish.setEnabled(true);
-//                        if (loginWithInfoBean.getStatus()==200) {
-//                            PubActivity.show(mContext);
-//                        } else if (loginWithInfoBean.getStatus()==701) {
-//                            Intent intent = new Intent(mContext, LoginActivity.class);
-//                            intent.setAction(Constant.LOGIN_TO_PUBLISH);
-//                            startActivity(intent);
-//                        }
-//                    }
-//                });
 
             if ("notoken".equals(AccountHelper.getToken())) {
                 Intent intent = new Intent(mContext, LoginActivity.class);

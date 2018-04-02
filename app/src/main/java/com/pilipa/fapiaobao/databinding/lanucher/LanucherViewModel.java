@@ -1,10 +1,10 @@
 package com.pilipa.fapiaobao.databinding.lanucher;
 
-import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.os.Handler;
 import android.os.Message;
 
+import com.example.mylibrary.utils.ActivityUtils;
 import com.example.mylibrary.utils.SPUtils;
 import com.pilipa.fapiaobao.databinding.base.viewmodel.BaseViewModel;
 import com.pilipa.fapiaobao.databinding.constant.Constant;
@@ -24,16 +24,17 @@ public class LanucherViewModel<VB extends ViewDataBinding> extends BaseViewModel
             if (msg.what == 0) {
                 boolean showGuide = SPUtils.getInstance().getBoolean(Constant.SHOW_GUIDE);
                 if (showGuide) {
-                    GuideDatabindingActivity.show(getContext());
+                    ActivityUtils.startActivity(MainDatabindingActivity.class);
                 } else {
-                    MainDatabindingActivity.show(getContext());
+                    ActivityUtils.startActivity(GuideDatabindingActivity.class);
                 }
+                ActivityUtils.finishActivity(LanucherDatabindingActivity.class);
             }
         }
     };
 
-    public LanucherViewModel(Context context, VB vb) {
-        super(context, vb);
+    public LanucherViewModel(VB vb) {
+        super(vb);
     }
 
     public void start() {

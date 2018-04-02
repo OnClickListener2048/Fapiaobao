@@ -51,10 +51,13 @@ public class UltraPagerAdapter extends PagerAdapter {
                         , ViewGroup.LayoutParams.MATCH_PARENT);
         if (position == src.length - 1) {
             ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(container.getContext()).inflate(R.layout.activity_launch_pager, null);
-            viewGroup.setOnClickListener(v -> {
-                container.getContext().startActivity(new Intent(container.getContext(), MainActivity.class));
-                BaseApplication.set(Config.IS_FIRST_COMING, false);
-                activity.finish();
+            viewGroup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    container.getContext().startActivity(new Intent(container.getContext(), MainActivity.class));
+                    BaseApplication.set(Config.IS_FIRST_COMING, false);
+                    activity.finish();
+                }
             });
             relativeLayout.addView(viewGroup, layoutParams);
         } else {

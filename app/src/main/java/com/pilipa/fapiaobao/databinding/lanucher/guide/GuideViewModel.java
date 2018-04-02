@@ -1,17 +1,17 @@
 package com.pilipa.fapiaobao.databinding.lanucher.guide;
 
-import android.content.Context;
 import android.databinding.BindingAdapter;
-import android.databinding.ObservableField;
+import android.databinding.ObservableArrayList;
 import android.databinding.ViewDataBinding;
 import android.support.v4.view.PagerAdapter;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.databinding.adapter.UltraPagerDatabindingAdapter;
 import com.pilipa.fapiaobao.databinding.base.viewmodel.BaseViewModel;
 import com.tmall.ultraviewpager.UltraViewPager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,28 +20,31 @@ import java.util.List;
 
 public class GuideViewModel<VB extends ViewDataBinding> extends BaseViewModel {
 
-    ObservableField<List<Integer>> mListObservableField = new ObservableField<>(getRes());
+    public ObservableArrayList<Integer> mListObservableField = new ObservableArrayList<>();
 
-
-    public GuideViewModel(Context context, VB vb) {
-        super(context, vb);
+    public GuideViewModel(VB vb) {
+        super(vb);
+        getRes();
     }
 
-    @BindingAdapter("data")
+    @BindingAdapter({"data"})
     public static void setData(UltraViewPager ultraViewPager, List<Integer> list) {
         ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
-        PagerAdapter adapter = new UltraPagerDatabindingAdapter(list, ultraViewPager.getContext());
+        PagerAdapter adapter = new UltraPagerDatabindingAdapter(list);
         ultraViewPager.setAdapter(adapter);
         ultraViewPager.disableAutoScroll();
-        ultraViewPager.setOnTouchListener((v, event) -> false);
+        ultraViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
     }
 
-    private <T> List<Integer> getRes() {
-        ArrayList<Integer> arrayList = new ArrayList<>(3);
-        arrayList.add(R.mipmap.lead1);
-        arrayList.add(R.mipmap.lead2);
-        arrayList.add(R.mipmap.lead3);
-        return arrayList;
+    private void getRes() {
+        mListObservableField.add(R.mipmap.lead1);
+        mListObservableField.add(R.mipmap.lead2);
+        mListObservableField.add(R.mipmap.lead3);
     }
 
 

@@ -1,6 +1,5 @@
 package com.pilipa.fapiaobao.databinding.base.viewmodel;
 
-import android.content.Context;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.databinding.ViewDataBinding;
@@ -13,16 +12,16 @@ import android.view.View;
 public class BaseTitleViewModel<VB extends ViewDataBinding> extends BaseViewModel {
 
     private ITitleBar iTitleBar;
-    ObservableInt mResLeftIcon = new ObservableInt(iTitleBar.getLeftIcon());
-    ObservableInt mResRightIcon = new ObservableInt(iTitleBar.getRightIcon());
-    ObservableField<String> mResTitle = new ObservableField<>(iTitleBar.getCenterTitle());
+    public ObservableInt mResLeftIcon = new ObservableInt(iTitleBar.getLeftIcon());
+    public ObservableInt mResRightIcon = new ObservableInt(iTitleBar.getRightIcon());
+    public ObservableField<String> mResTitle = new ObservableField<>(iTitleBar.getCenterTitle());
 
     private View.OnClickListener listener;
     private View.OnClickListener rightListener;
     private View.OnClickListener centerListener;
 
-    public BaseTitleViewModel(Context context, VB vb, ITitleBar iTitleBar) {
-        super(context, vb);
+    public BaseTitleViewModel(VB vb, ITitleBar iTitleBar) {
+        super(vb);
         this.iTitleBar = iTitleBar;
     }
 
