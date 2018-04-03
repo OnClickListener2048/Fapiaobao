@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mylibrary.utils.LogUtils;
 import com.pilipa.fapiaobao.databinding.base.viewmodel.BaseViewModel;
 
 /**
@@ -22,10 +23,21 @@ public abstract class BaseDatabindingFragment<VB extends ViewDataBinding, VM ext
     protected VM mBaseViewModel;
     private View mRoot;
 
+    public VB getVB() {
+        return mVB;
+    }
+
+    public VM getBaseViewModel() {
+        return mBaseViewModel;
+    }
+
+    public View getRoot() {
+        return mRoot;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mRoot != null) {
             ViewGroup parent = (ViewGroup) mRoot.getParent();
             if (parent != null) {
@@ -34,13 +46,24 @@ public abstract class BaseDatabindingFragment<VB extends ViewDataBinding, VM ext
         } else {
             if (getLayoutId() != 0) {
                 mVB = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
-                mRoot = mVB.getRoot();
-                mBaseViewModel = (VM) new BaseViewModel(mVB);
-                getLifecycle().addObserver(mBaseViewModel);
+                LogUtils.d(mVB + "--------------" + getLayoutId() + "-----------" + container);
+                if (mVB != null) {
+                    mRoot = mVB.getRoot();
+                    mBaseViewModel = (VM) new BaseViewModel(mVB);
+                    getLifecycle().addObserver(mBaseViewModel);
+                    initWidget(mRoot);
+                }
             }
         }
         return mRoot;
     }
+
+    /**
+     * initWidget
+     *
+     * @param root
+     */
+    protected abstract void initWidget(View root);
 
     protected abstract int getLayoutId();
 

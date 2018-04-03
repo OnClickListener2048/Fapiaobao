@@ -17,7 +17,7 @@ import com.pilipa.fapiaobao.databinding.base.viewmodel.BaseViewModel;
  * Created by edz on 2018/4/2.
  */
 
-public abstract class BaseDatabindingTitleActivity<VB extends ViewDataBinding, VM extends BaseViewModel> extends BaseDatabindingActivity<VB, VM> implements BaseTitleViewModel.ITitleBar {
+public abstract class BaseDatabindingTitleActivity<VB extends ViewDataBinding, VM extends BaseViewModel> extends BaseDatabindingActivity<VB, VM> {
 
 
     @SuppressWarnings("unchecked")
@@ -29,8 +29,7 @@ public abstract class BaseDatabindingTitleActivity<VB extends ViewDataBinding, V
         content.addView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         LayoutDefaultTitlebarBinding titlebarBinding = DataBindingUtil.inflate(LayoutInflater.from(this), getDefaultTitleBarLayout(), null, false);
         toolbar.addView(titlebarBinding.getRoot(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        initTitleBar(titlebarBinding.getRoot());
-        titlebarBinding.setViewmodel(new BaseTitleViewModel(titlebarBinding, this));
+        titlebarBinding.setViewmodel(new BaseTitleViewModel(titlebarBinding));
         super.setContentView(superContentView);
     }
 
@@ -39,7 +38,6 @@ public abstract class BaseDatabindingTitleActivity<VB extends ViewDataBinding, V
         return R.layout.layout_default_titlebar;
     }
 
-    public abstract void initTitleBar(View titleBar);
 
 
 }

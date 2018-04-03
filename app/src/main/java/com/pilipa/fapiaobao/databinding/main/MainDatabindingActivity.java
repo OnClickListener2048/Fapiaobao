@@ -1,7 +1,5 @@
 package com.pilipa.fapiaobao.databinding.main;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
@@ -19,9 +17,6 @@ public class MainDatabindingActivity extends BaseDatabindingActivity {
 
     private MainViewModel mMainViewModel;
 
-    public static void show(Context context) {
-        context.startActivity(new Intent(context, MainDatabindingActivity.class));
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

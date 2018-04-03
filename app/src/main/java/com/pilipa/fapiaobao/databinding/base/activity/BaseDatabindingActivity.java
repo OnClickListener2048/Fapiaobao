@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.mylibrary.utils.LogUtils;
 import com.pilipa.fapiaobao.databinding.base.viewmodel.BaseViewModel;
 
 /**
@@ -34,11 +33,6 @@ public abstract class BaseDatabindingActivity<VB extends ViewDataBinding, VM ext
 
     protected abstract void init();
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        LogUtils.d("protected void onStart() {");
-    }
 
     /**
      * @return

@@ -6,6 +6,8 @@ import android.arch.lifecycle.OnLifecycleEvent;
 import android.databinding.BaseObservable;
 import android.databinding.ViewDataBinding;
 
+import com.pilipa.fapiaobao.databinding.base.activity.BaseDatabindingActivity;
+
 /**
  * Created by edz on 2018/4/2.
  */
@@ -33,6 +35,10 @@ public class BaseViewModel<VB extends ViewDataBinding> extends BaseObservable im
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     protected void onStart() {
+    }
+
+    protected BaseDatabindingActivity getDatabindingActivity() {
+        return (BaseDatabindingActivity) vb.getRoot().getContext();
     }
 
 

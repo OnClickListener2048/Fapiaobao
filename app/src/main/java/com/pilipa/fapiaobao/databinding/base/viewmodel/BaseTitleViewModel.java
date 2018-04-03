@@ -11,18 +11,16 @@ import android.view.View;
 
 public class BaseTitleViewModel<VB extends ViewDataBinding> extends BaseViewModel {
 
-    private ITitleBar iTitleBar;
-    public ObservableInt mResLeftIcon = new ObservableInt(iTitleBar.getLeftIcon());
-    public ObservableInt mResRightIcon = new ObservableInt(iTitleBar.getRightIcon());
-    public ObservableField<String> mResTitle = new ObservableField<>(iTitleBar.getCenterTitle());
+    public ObservableInt mResLeftIcon = new ObservableInt();
+    public ObservableInt mResRightIcon = new ObservableInt();
+    public ObservableField<String> mResTitle = new ObservableField<>();
 
     private View.OnClickListener listener;
     private View.OnClickListener rightListener;
     private View.OnClickListener centerListener;
 
-    public BaseTitleViewModel(VB vb, ITitleBar iTitleBar) {
+    public BaseTitleViewModel(VB vb) {
         super(vb);
-        this.iTitleBar = iTitleBar;
     }
 
     public void onLeftIconClick(View view) {
@@ -53,14 +51,6 @@ public class BaseTitleViewModel<VB extends ViewDataBinding> extends BaseViewMode
 
     public void setOnCenterClickListener(View.OnClickListener listener) {
         centerListener = listener;
-    }
-
-    public interface ITitleBar {
-        int getLeftIcon();
-
-        int getRightIcon();
-
-        String getCenterTitle();
     }
 
 

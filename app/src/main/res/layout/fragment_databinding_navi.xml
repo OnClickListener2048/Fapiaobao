@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="naviviewmodel"
+            type="com.pilipa.fapiaobao.databinding.main.viewmodel.NaviViewModel"/>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/tab"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.pilipa.fapiaobao.ui.widget.NavigationButton
+            android:id="@+id/nav_item_tex"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:onClick="@{naviviewmodel.onSupplyClick}"
+            android:paddingLeft="@dimen/d12"
+            android:paddingRight="@dimen/d12"
+            android:paddingTop="@dimen/d5"
+            android:tag="nav_item_tex"/>
+
+        <ImageView
+            android:id="@+id/nav_item_publish"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/d2"
+            android:layout_weight="1"
+            android:onClick="@{naviviewmodel.onPublishClick}"
+            android:padding="@dimen/d2"
+            android:scaleType="centerInside"
+            android:src="@drawable/selector_publish"
+            android:tag="nav_item_publish"/>
+
+        <com.pilipa.fapiaobao.ui.widget.NavigationButton
+            android:id="@+id/nav_item_me"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:onClick="@{naviviewmodel.onMeClick}"
+            android:paddingLeft="@dimen/d12"
+            android:paddingRight="@dimen/d12"
+            android:paddingTop="@dimen/d5"
+            android:tag="nav_item_me"/>
+    </LinearLayout>
+</layout>
