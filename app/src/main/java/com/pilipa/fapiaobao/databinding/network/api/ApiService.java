@@ -25,7 +25,7 @@ public interface ApiService {
             , @Path("code") String code
             , @Path("authCode") String authCode);
 
-    @GET("publish/demands/{state}/{token}")
+    @GET("fapiaobao/rest/publish/demands/{state}/{token}")
     Observable<BaseResponseBean<List<DemandListItem>>> getDemandList(@Path("state") String state, @Path("token") String token);
 }
 

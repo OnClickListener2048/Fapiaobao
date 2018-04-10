@@ -10,6 +10,7 @@ import com.pilipa.fapiaobao.databinding.network.NetworkConfig;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -31,12 +32,15 @@ public class RetrofitDao {
             if (NetworkConfig.getBaseUrl() == null || NetworkConfig.getBaseUrl().trim().equals("")) {
                 throw new RuntimeException("网络模块必须设置在Application处调用 请求的地址 调用方法：NetworkConfig.setBaseUrl(String url)");
             }
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(BuildConfig.APPLICATION_ID);
+            loggingInterceptor.setColorLevel(Level.INFO);
+            loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(BuildConfig.CONNECT_TIMEOUT, TimeUnit.SECONDS)
                     .writeTimeout(BuildConfig.WRITE_TIMEOUT, TimeUnit.SECONDS)
                     .readTimeout(BuildConfig.READ_TIMEOUT, TimeUnit.SECONDS)
                     .cookieJar(cookieJar)
-                    .addInterceptor(new HttpLoggingInterceptor(BuildConfig.APPLICATION_ID))
+                    .addInterceptor(loggingInterceptor)
                     .build();
             Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT).create();
             mRetrofit = new Retrofit.Builder()

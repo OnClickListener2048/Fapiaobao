@@ -14,21 +14,6 @@ public interface ReturnCode {
     //失败
     int LOCAL_SERVER_ERROR = 0x10108;
 
-
-    //成功
-    int CODE_SUCCESS = 0;
-
-    //失败
-    int CODE_ERROR = -1;
-
-
-    //数据为空
-    int CODE_EMPTY = 1004;
-
-    int CODE_TOKEN_INVALID = -106;
-    /**
-     * 登录过期
-     */
-    int CODE_LOGIN_INVALID = -1;
-
+    //    解析json失败
+    int LOCAL_PARSE_FAIL = 0x10112;
 }

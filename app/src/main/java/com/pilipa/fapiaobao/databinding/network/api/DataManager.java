@@ -1,7 +1,6 @@
 package com.pilipa.fapiaobao.databinding.network.api;
 
 
-import com.pilipa.fapiaobao.net.bean.base.BaseResponseBean;
 import com.pilipa.fapiaobao.net.bean.me.demandlist.DemandListItem;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import io.reactivex.Observable;
  */
 public class DataManager extends ResponseHandle {
 
-    public static Observable<BaseResponseBean<List<DemandListItem>>> getDemandList(String state, String token) {
+    public static Observable<List<DemandListItem>> getDemandList(String state, String token) {
         return Dao.getApiService().getDemandList(state, token)
                 .flatMap(new ReadData())
                 .compose(ResponseHandle.applySchedulersWithToken());

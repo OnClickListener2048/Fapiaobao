@@ -3,6 +3,7 @@ package com.pilipa.fapiaobao.databinding.supply;
 import android.view.View;
 
 import com.pilipa.fapiaobao.R;
+import com.pilipa.fapiaobao.databinding.FragmentDatabindingSupplyBinding;
 import com.pilipa.fapiaobao.databinding.base.fragment.BaseTitleDatabindingFragment;
 import com.pilipa.fapiaobao.databinding.base.viewmodel.BaseTitleViewModel;
 
@@ -15,7 +16,9 @@ public class SupplyDatabindingFragment extends BaseTitleDatabindingFragment {
 
     @Override
     protected void initWidget(View root) {
-
+        FragmentDatabindingSupplyBinding fragmentDatabindingSupplyBinding = (FragmentDatabindingSupplyBinding) getVB();
+        SupplyViewModel supplyViewModel = new SupplyViewModel(fragmentDatabindingSupplyBinding);
+        fragmentDatabindingSupplyBinding.setSupplyviewmodel(supplyViewModel);
     }
 
     @Override

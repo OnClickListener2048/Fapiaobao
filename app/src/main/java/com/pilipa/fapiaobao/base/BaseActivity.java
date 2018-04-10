@@ -168,20 +168,6 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
                 progressDialog.dismiss();
             }
         }
-//        Observable.timer(500,TimeUnit.MILLISECONDS)
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnError(new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(@NonNull Throwable throwable) throws Exception {
-//                    }
-//                })
-//                .subscribe(new Consumer<Object>() {
-//                    @Override
-//                    public void accept(@NonNull Object o) throws Exception {
-//
-//                    }
-//                });
     }
 
     @Override
