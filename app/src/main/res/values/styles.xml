@@ -6,7 +6,10 @@
         <!--<item name="colorPrimary">@color/colorPrimary</item>-->
         <item name="colorPrimaryDark">@color/main_primary_dark</item>
         <!--<item name="colorAccent">@color/colorAccent</item>-->
-        <!--<item name="android:windowBackground">@color/white</item>-->
+    </style>
+
+    <style name="NavFragmentBackground" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
     <style name="immersivemode" parent="AppTheme">
         <!--透明状态栏-->
@@ -57,10 +60,41 @@
         <!-- Dialog进入及退出动画 -->
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
     </style>
+
+    <style name="bottomDialog" parent="@android:style/Theme.Dialog">
+
+        <!-- 背景透明 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 浮于Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog以外的区域模糊效果 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- Dialog进入及退出动画 -->
+        <item name="android:windowAnimationStyle">@style/bottomDialogAnimation</item>
+    </style>
+
+
     <!-- ActionSheet进出动画 -->
     <style name="DialogAnimation" parent="@android:style/Animation.Dialog">
         <item name="android:windowEnterAnimation">@anim/upload_receipt_dialog_in</item>
         <item name="android:windowExitAnimation">@anim/upload_receipt_dialog_out</item>
+    </style>
+
+    <style name="previewPopupAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_popup_preview_enter</item>
+        <item name="android:windowExitAnimation">@anim/anim_popup_preview_exit</item>
+    </style>
+
+    <style name="bottomDialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/dialog_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_bottom_out</item>
     </style>
     <!-- spinner -->
         <style name="spinner_style">
@@ -124,5 +158,16 @@
 
     <style name="custom_progressbar" parent="Base.Widget.AppCompat.ProgressBar">
 
+    </style>
+
+    <style name="popup_preview_left_textview_style">
+        <item name="android:textColor">#959595</item>
+        <item name="android:textSize">@dimen/s12</item>
+        <item name="android:layout_marginEnd">@dimen/d12</item>
+    </style>
+
+    <style name="popup_preview_end_textview_style">
+        <item name="android:textSize">@dimen/s12</item>
+        <item name="android:textColor">#434343</item>
     </style>
 </resources>

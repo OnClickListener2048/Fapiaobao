@@ -117,6 +117,7 @@ public class FilterLocationActivity extends BaseLocationActivity {
             case R.id.confirm:
                 if ("定位失败，点击选择地区".equals(tvArea.getText().toString())) {
                     BaseApplication.showToast("限制开票区域定位异常，请开启定位功能或手动选择开票地区");
+                    cityPicker.show();
                     return;
                 }
                 intent.putExtra("locate", locate);

@@ -5,11 +5,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Message;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -17,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mylibrary.utils.TLog;
 import com.google.gson.Gson;
@@ -56,8 +53,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.widget.AdapterView.OnItemClickListener;
-
 /**
  * Created by lyt on 2017/10/13.
  */
@@ -73,11 +68,49 @@ public class Op extends BaseActivity implements
     @Bind(R.id.ll)
     FrameLayout ll;
     String TAG = Op.class.getSimpleName();
-    private  MacherBeanToken.DataBean.CompanyBean companyInfo;
+    WebChromeClient webChromeClient = new WebChromeClient() {
+        @Override
+        public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+            return super.onJsAlert(view, url, message, result);
+        }
 
+        @Override
+        public boolean onJsConfirm(WebView webView, String s, String s1, JsResult jsResult) {
+            TLog.d(TAG, s);
+            TLog.d(TAG, s1);
+            TLog.d(TAG, "JsResult" + jsResult.toString());
+            return super.onJsConfirm(webView, s, s1, jsResult);
+        }
 
+        @Override
+        public boolean onJsBeforeUnload(WebView webView, String s, String s1, JsResult jsResult) {
+            TLog.d(TAG, s);
+            TLog.d(TAG, s1);
+            TLog.d(TAG, "JsResult" + jsResult.toString());
+            return super.onJsBeforeUnload(webView, s, s1, jsResult);
+        }
 
+        @Override
+        public boolean onJsPrompt(WebView webView, String s, String s1, String s2, JsPromptResult jsPromptResult) {
+            TLog.d(TAG, s);
+            TLog.d(TAG, s1);
+            TLog.d(TAG, s2);
+            TLog.d(TAG, "JsResult" + jsPromptResult.toString());
+            return super.onJsPrompt(webView, s, s1, s2, jsPromptResult);
+        }
 
+        @Override
+        public boolean onJsTimeout() {
+            return super.onJsTimeout();
+        }
+
+        @Override
+        public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+            TLog.d(TAG, consoleMessage.message());
+            return super.onConsoleMessage(consoleMessage);
+        }
+    };
+    private MacherBeanToken.DataBean.CompanyBean companyInfo;
     WebViewClient webViewClient = new WebViewClient() {
         @Override
         public void onLoadResource(WebView view, String url) {
@@ -192,68 +225,17 @@ public class Op extends BaseActivity implements
                             "        ]);");
                 }
 
-            } else {
-                TLog.d(TAG," if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {");
-                if (url.contains("starbucks") || url.contains("yumchina")) {
-                    if (!Constant.NOTOKEN.equals(AccountHelper.getToken())) {
-                        Api.favoriteCompanyList(AccountHelper.getToken(), this, new Api.BaseRawResponse<FavoriteCompanyBean>() {
-                            @Override
-                            public void onStart() {
-                                showProgressDialog();
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                hideProgressDialog();
-                            }
-
-                            @Override
-                            public void onError() {
-
-                            }
-
-                            @Override
-                            public void onTokenInvalid() {
-
-                            }
-
-                            @Override
-                            public void setData(final FavoriteCompanyBean companiesBean) {
-                                if (companiesBean.getData()!= null && companiesBean.getData().size() == 1) {
-                                    TLog.d(TAG,"companiesBean.getData().size() "+companiesBean.getData().size());
-                                    fillInWithSingleCompany(makeCompany(companiesBean.getData().get(0)), view, url);
-                                }
-
-                                if (companiesBean.getData() != null && companiesBean.getData().size() > 1) {
-                                    if (!popWnd.isShowing()) {
-                                        CompanySpinnerAdapter companySpinnerAdapter = new CompanySpinnerAdapter(companiesBean.getData());
-                                        listView.setAdapter(companySpinnerAdapter);
-
-                                        popWnd.showAtLocation(View.inflate(Op.this, R.layout.activity_web, null), Gravity.CENTER, 0, 0);
-
-                                        listView.setOnItemClickListener(new OnItemClickListener() {
-                                            @Override
-                                            public void onItemClick(AdapterView<?> parent, View view2, int position, long id) {
-                                                fillInWithSingleCompany(makeCompany(companiesBean.getData().get(position)), view, url);
-                                                popWnd.dismiss();
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
             }
         }
     };
-    private ListView listView;
-    private PopupWindow popWnd;
+    private String tag;
+    private AgentWeb go;
+    private boolean isFromUploadReceiptActivity;
 
     private void initPopup() {
         View popupContentView = LayoutInflater.from(this).inflate(R.layout.layout_spinner, null);
-        listView = (ListView) popupContentView.findViewById(R.id.listview);
-        popWnd = new PopupWindow(this);
+        ListView listView = (ListView) popupContentView.findViewById(R.id.listview);
+        PopupWindow popWnd = new PopupWindow(this);
         popWnd.setAnimationStyle(R.style.download_alert_layout_style);
         popWnd.setContentView(popupContentView);
         popWnd.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_rect));
@@ -261,42 +243,6 @@ public class Op extends BaseActivity implements
         popWnd.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         popWnd.setOutsideTouchable(true);
     }
-
-    private static class CompanySpinnerAdapter extends BaseAdapter {
-
-        private final List<FavoriteCompanyBean.DataBean> data;
-
-        public CompanySpinnerAdapter(List<FavoriteCompanyBean.DataBean> data) {
-            this.data = data;
-        }
-
-        @Override
-        public int getCount() {
-            return data.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return data.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return data.get(position).hashCode();
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater _LayoutInflater = LayoutInflater.from(parent.getContext());
-            LinearLayout ll = (LinearLayout) _LayoutInflater.inflate(R.layout.item_simple_text_spinner, null);
-            TextView textView = (TextView) ll.findViewById(R.id.spinner_item);
-            textView.setTextColor(Color.parseColor("#434343"));
-            textView.setText(data.get(position).getName());
-            return ll;
-        }
-    }
-
-    private String tag;
 
     private MacherBeanToken.DataBean.CompanyBean makeCompany(FavoriteCompanyBean.DataBean companiesBean) {
         MacherBeanToken.DataBean.CompanyBean companyBean = new MacherBeanToken.DataBean.CompanyBean();
@@ -385,50 +331,10 @@ public class Op extends BaseActivity implements
         }
     }
 
-    WebChromeClient webChromeClient = new WebChromeClient() {
-        @Override
-        public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-            return super.onJsAlert(view, url, message, result);
-        }
-
-        @Override
-        public boolean onJsConfirm(WebView webView, String s, String s1, JsResult jsResult) {
-            TLog.d(TAG,s);
-            TLog.d(TAG,s1);
-            TLog.d(TAG,"JsResult"+jsResult.toString());
-            return super.onJsConfirm(webView, s, s1, jsResult);
-        }
-
-        @Override
-        public boolean onJsBeforeUnload(WebView webView, String s, String s1, JsResult jsResult) {
-            TLog.d(TAG,s);
-            TLog.d(TAG,s1);
-            TLog.d(TAG,"JsResult"+jsResult.toString());
-            return super.onJsBeforeUnload(webView, s, s1, jsResult);
-        }
-
-        @Override
-        public boolean onJsPrompt(WebView webView, String s, String s1, String s2, JsPromptResult jsPromptResult) {
-            TLog.d(TAG,s);
-            TLog.d(TAG,s1);
-            TLog.d(TAG,s2);
-            TLog.d(TAG,"JsResult"+jsPromptResult.toString());
-            return super.onJsPrompt(webView, s, s1, s2, jsPromptResult);
-        }
-
-        @Override
-        public boolean onJsTimeout() {
-            return super.onJsTimeout();
-        }
-
-        @Override
-        public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-            TLog.d(TAG,consoleMessage.message());
-            return super.onConsoleMessage(consoleMessage);
-        }
-    };
-    private AgentWeb go;
-    private boolean isFromUploadReceiptActivity;
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_web;
+    }
 
 //    public static final Stringjsondata = "{ pkgName:\"com.example.thirdfile\", "
 //            +"className:\"com.example.thirdfile.IntentActivity\","
@@ -448,13 +354,6 @@ public class Op extends BaseActivity implements
 //                + "]"
 //
 //                + " }";
-
-
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_web;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -533,7 +432,6 @@ public class Op extends BaseActivity implements
         });
     }
 
-
     /**
      * 监听下载
      *
@@ -546,7 +444,6 @@ public class Op extends BaseActivity implements
     @Override
     public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
         TLog.d(TAG,"agentWeb onDownloadStart");
-        Toast.makeText(this, "start download", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -610,5 +507,39 @@ public class Op extends BaseActivity implements
             finish();
         }
 
+    }
+
+    private static class CompanySpinnerAdapter extends BaseAdapter {
+
+        private final List<FavoriteCompanyBean.DataBean> data;
+
+        public CompanySpinnerAdapter(List<FavoriteCompanyBean.DataBean> data) {
+            this.data = data;
+        }
+
+        @Override
+        public int getCount() {
+            return data.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return data.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return data.get(position).hashCode();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater layoutinflater = LayoutInflater.from(parent.getContext());
+            LinearLayout ll = (LinearLayout) layoutinflater.inflate(R.layout.item_simple_text_spinner, null);
+            TextView textView = (TextView) ll.findViewById(R.id.spinner_item);
+            textView.setTextColor(Color.parseColor("#434343"));
+            textView.setText(data.get(position).getName());
+            return ll;
+        }
     }
 }

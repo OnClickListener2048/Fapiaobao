@@ -8,26 +8,21 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.MyRejectTypeAdapter;
-import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
+import com.pilipa.fapiaobao.adapter.me.MyRejectTypeAdapter;
+import com.pilipa.fapiaobao.adapter.supply.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
@@ -43,6 +38,7 @@ import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.PreviewViewpager;
 import com.pilipa.fapiaobao.utils.BitmapUtils;
 import com.pilipa.fapiaobao.utils.ButtonUtils;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.StreamUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -70,6 +66,7 @@ import static com.pilipa.fapiaobao.net.Constant.VARIETY_GENERAL_ELECTRON;
 public class DemandsDetailsPreviewActivity extends BaseActivity implements
         ViewPager.OnPageChangeListener, AdapterView.OnItemSelectedListener {
     private static final String TAG = "DemandsDetailsPreviewActivity";
+    protected int mPreviousPos = -1;
     @Bind(R.id.preview_viewpager)
     PreviewViewpager previewViewpager;
     @Bind(R.id.delete)
@@ -96,7 +93,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     TextView tv_Unqualified_reject;
     @Bind(R.id.tv_state)
     TextView tv_state;
-
     @Bind(R.id.layout_qualified_item)
     LinearLayout layout_qualified_item;
     @Bind(R.id.layout_unqualified_item)
@@ -109,7 +105,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     LinearLayout layout_qualified_privoide_item;
     @Bind(R.id.tv_receive_amount)
     TextView tv_receive_amount;
-
     @Bind(R.id.ll_express_info)
     LinearLayout llExpressInfo;
     @Bind(R.id.tv_qualified)
@@ -135,22 +130,23 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
     @Bind(R.id.privide_amount_privoide)
     TextView privideAmountPrivoide;
     private MyRejectTypeAdapter mSpinnerAdapter;
-
-
     private ArrayList<Image> allList;
     private int currentPosition;
-    protected int mPreviousPos = -1;
     private PreviewPagerAdapter previewPagerAdapter;
     private ArrayList<PreviewImageFragment> FragmentList;
     private Image currentImage;
 
     private int REJECT_START = 0;
     private int REJECT_FINISH = 1;
+    private String reason;
+    private Dialog mDialog;
+    private Dialog rejectionStart;
+    private Dialog rejectionFinish;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_demands_details_preview;
     }
-
 
     @Override
     public void initView() {
@@ -187,7 +183,10 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         }else{
             checkPagePos(mPreviousPos);
         }
+
+        initDialog();
     }
+
 
     @Override
     public void initData() {
@@ -195,7 +194,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         mSpinner.setAdapter(mSpinnerAdapter);
         mSpinner.setOnItemSelectedListener(this);
     }
-
 
     public void setLayout(Image image) {
         tv_tip.setText("");
@@ -265,6 +263,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                     tv_state.setText("待邮寄");
                 }
                 break;
+            default:
         }
 
 
@@ -304,7 +303,9 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             }
             break;
             case R.id.tv_Unqualified:
-                setRejectDialog(REJECT_START);
+//                setRejectDialog(REJECT_START);
+                changeLayout();
+                showDialog(rejectionStart);
                 break;
             case R.id.cancel_reject: {
                 changeLayout();
@@ -315,11 +316,13 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                     Api.confirmInvoice(AccountHelper.getToken(), currentImage.name, new Api.BaseRawResponse<ConfirmInvoiceBean>() {
                         @Override
                         public void onStart() {
+                            showProgressDialog();
                             tvQualified.setEnabled(false);
                         }
 
                         @Override
                         public void onFinish() {
+                            hideProgressDialog();
                             tvQualified.setEnabled(true);
                         }
 
@@ -333,7 +336,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                             login();
                             finish();
                             tvQualified.setEnabled(true);
-
                         }
 
                         @Override
@@ -384,11 +386,11 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                 }
                 break;
             case R.id.back:
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA, allList);
-                intent.putExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE, bundle);
-                setResult(UploadNormalReceiptFragment.RESULT_CODE_BACK, intent);
+//                Intent intent = new Intent();
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelableArrayList(UploadNormalReceiptFragment.EXTRA_ALL_DATA, allList);
+//                intent.putExtra(UploadNormalReceiptFragment.EXTRA_BUNDLE, bundle);
+//                setResult(UploadNormalReceiptFragment.RESULT_CODE_BACK, intent);
                 finish();
                 break;
             case R.id.click:
@@ -419,7 +421,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                         setLayout(currentImage);
                     }
                     checkPagePos(pos -1);
-
                 }
                 break;
             case R.id.save_to_media:
@@ -448,7 +449,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         } else {
             layout_reject_item.setVisibility(View.VISIBLE);
             layout_willchecked_item.setVisibility(View.GONE);
-
             findAllRejectType();
         }
     }
@@ -484,7 +484,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         Log.d("saveToFile  next >>>>>>", "saveToFile");
 
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            Toast.makeText(this, R.string.gallery_save_file_not_have_external_storage, Toast.LENGTH_SHORT).show();
+            BaseApplication.showToast(R.string.gallery_save_file_not_have_external_storage);
             return;
         }
 
@@ -531,9 +531,9 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                         return;
                     Uri uri = Uri.fromFile(savePath);
                     sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
-                    Toast.makeText(DemandsDetailsPreviewActivity.this, R.string.gallery_save_file_success, Toast.LENGTH_SHORT).show();
+                    BaseApplication.showToast(R.string.gallery_save_file_success);
                 } else {
-                    Toast.makeText(DemandsDetailsPreviewActivity.this, R.string.gallery_save_file_failed, Toast.LENGTH_SHORT).show();
+                    BaseApplication.showToast(R.string.gallery_save_file_failed);
                 }
             }
         });
@@ -543,7 +543,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
         Api.findAllRejectType(new Api.BaseViewCallback<RejectTypeBean>() {
             @Override
             public void setData(RejectTypeBean rejectTypeBean) {
-                if (rejectTypeBean.getStatus() == 200) {
+                if (rejectTypeBean.getStatus() == Constant.REQUEST_SUCCESS) {
                     mSpinnerAdapter.initData(rejectTypeBean.getData());
                 }
             }
@@ -597,7 +597,6 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
             tonext.setVisibility(View.VISIBLE);
         }
     }
-    private String reason;
 
     private void rejectInvoice() {
             final RejectTypeBean.DataBean data = (RejectTypeBean.DataBean) mSpinner.getSelectedItem();
@@ -623,12 +622,12 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                                     , new Api.BaseRawResponse<RejectInvoiceBean>() {
                                         @Override
                                         public void onStart() {
-
+                                            showProgressDialog();
                                         }
 
                                         @Override
                                         public void onFinish() {
-
+                                            hideProgressDialog();
                                         }
 
                                         @Override
@@ -644,7 +643,7 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
 
                                         @Override
                                         public void setData(RejectInvoiceBean normalBean) {
-                                            if (normalBean.getStatus() == 200) {
+                                            if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
                                                 String reason = normalBean.getData().getReason();
                                                 currentImage.state = Constant.STATE_INCOMPETENT;
                                                 allList.remove(currentImage);
@@ -653,57 +652,32 @@ public class DemandsDetailsPreviewActivity extends BaseActivity implements
                                                 bundle.putParcelableArrayList(DemandsDetailsReceiptFragment.EXTRA_ALL_DATA, allList);
                                                 intent.putExtra(DemandsDetailsReceiptFragment.EXTRA_BUNDLE, bundle);
                                                 setResult(DemandsDetailsReceiptFragment.RESULT_CODE_BACK, intent);
-                                                setRejectDialog(REJECT_FINISH);
-
+//                                                setRejectDialog(REJECT_FINISH);
+                                                showDialog(rejectionFinish);
                                             }
                                         }
                                     });
-
             }
     }
 
-    private Dialog mDialog;
+    private void initDialog() {
+        rejectionStart = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_reject1_tip, new DialogUtil.OnKnownListener() {
+            @Override
+            public void onKnown(View view) {
+                rejectionStart.dismiss();
+            }
+        }, null, null);
 
-    private void setRejectDialog(int step) {
-        mDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = null;
-        if (step == REJECT_START) {
-            changeLayout();
-            root = (LinearLayout) LayoutInflater.from(this).inflate(
-                    R.layout.layout_reject1_tip, null);
-            root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mDialog.dismiss();
-                }
-            });
-        } else if (step == REJECT_FINISH) {
-            root = (LinearLayout) LayoutInflater.from(this).inflate(
-                    R.layout.layout_reject2_tip, null);
-            root.findViewById(R.id.btn_finish).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DemandsDetailsPreviewActivity.this.finish();
-                }
-            });
-        }
-        //初始化视图
-        mDialog.setContentView(root);
-        mDialog.setCanceledOnTouchOutside(false);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
+        rejectionFinish = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.layout_reject2_tip, new DialogUtil.OnKnownListener() {
+            @Override
+            public void onKnown(View view) {
+                rejectionFinish.dismiss();
+                finish();
+            }
+        }, null, null);
 
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDialog.show();//TODO ?
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

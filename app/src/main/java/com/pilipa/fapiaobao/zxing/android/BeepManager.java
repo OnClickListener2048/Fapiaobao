@@ -26,9 +26,6 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-
-import com.pilipa.fapiaobao.R;
-
 import java.io.Closeable;
 import java.io.IOException;
 
@@ -54,6 +51,27 @@ public final class BeepManager implements MediaPlayer.OnCompletionListener,
 		this.mediaPlayer = null;
 		updatePrefs();
 	}
+
+    /**
+     * 判断是否需要响铃
+     *
+     * @param prefs
+     * @param activity
+     * @return
+     */
+    private static boolean shouldBeep(SharedPreferences prefs, Context activity) {
+        boolean shouldPlayBeep = prefs.getBoolean(
+                PreferencesActivity.KEY_PLAY_BEEP, true);
+        if (shouldPlayBeep) {
+            // See if sound settings overrides this
+            AudioManager audioService = (AudioManager) activity
+                    .getSystemService(Context.AUDIO_SERVICE);
+            if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
+                shouldPlayBeep = false;
+            }
+        }
+        return shouldPlayBeep;
+    }
 
 	public synchronized void updatePrefs() {
 		SharedPreferences prefs = PreferenceManager
@@ -85,27 +103,6 @@ public final class BeepManager implements MediaPlayer.OnCompletionListener,
 	}
 
 	/**
-	 * 判断是否需要响铃
-	 * 
-	 * @param prefs
-	 * @param activity
-	 * @return
-	 */
-	private static boolean shouldBeep(SharedPreferences prefs, Context activity) {
-		boolean shouldPlayBeep = prefs.getBoolean(
-				PreferencesActivity.KEY_PLAY_BEEP, true);
-		if (shouldPlayBeep) {
-			// See if sound settings overrides this
-			AudioManager audioService = (AudioManager) activity
-					.getSystemService(Context.AUDIO_SERVICE);
-			if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
-				shouldPlayBeep = false;
-			}
-		}
-		return shouldPlayBeep;
-	}
-
-	/**
 	 * 创建MediaPlayer
 	 * 
 	 * @param activity
@@ -120,8 +117,8 @@ public final class BeepManager implements MediaPlayer.OnCompletionListener,
 		// 配置播放资源
 		try {
 			AssetFileDescriptor file = activity.getResources()
-					.openRawResourceFd(R.raw.beep);
-			try {
+                    .openRawResourceFd(io.github.xudaojie.qrcodelib.R.raw.beep2);
+            try {
 				mediaPlayer.setDataSource(file.getFileDescriptor(),
 						file.getStartOffset(), file.getLength());
 			} finally {
@@ -140,8 +137,8 @@ public final class BeepManager implements MediaPlayer.OnCompletionListener,
 
 	@Override
 	public void onCompletion(MediaPlayer mp) {
-		// When the beep has finished playing, rewind to queue up another one.
-		mp.seekTo(0);
+        // When the beep2 has finished playing, rewind to queue up another one.
+        mp.seekTo(0);
 	}
 
 	@Override

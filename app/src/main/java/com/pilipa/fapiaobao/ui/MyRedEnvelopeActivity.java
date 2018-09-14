@@ -6,12 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.NetworkUtils;
@@ -27,6 +23,7 @@ import com.pilipa.fapiaobao.net.bean.WXmodel;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
 import com.pilipa.fapiaobao.ui.widget.RiseNumberTextView;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.wxapi.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -54,16 +51,11 @@ public class MyRedEnvelopeActivity extends BaseActivity {
     TextView btnWithdraw;
     private Dialog mDialog;
     private String bonus;
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_red_envelope;
-    }
-
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (intent.getAction().equals(WX_LOGIN_ACTION)) {
+            if (TextUtils.equals(WX_LOGIN_ACTION, intent.getAction())) {
                 btnWithdraw.setEnabled(true);
                 hideProgressDialog();
                 TLog.d(TAG,WX_LOGIN_ACTION +" success");
@@ -85,9 +77,19 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                         }
                     }
                 }
+            } else if (com.pilipa.fapiaobao.ui.constants.Constant.WX_LOGIN_CANCEL.equals(intent.getAction())) {
+                hideProgressDialog();
             }
         }
     };
+    private IWXAPI api;
+    private Dialog mWithdrawTipDialog;
+    private Dialog mReloadDialog;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_red_envelope;
+    }
 
     private void bind(final String openID){
         Api.bindWX(AccountHelper.getUser().getData().getCustomer().getId(), LOGIN_PLATFORM_WX, openID, "0", new Api.BaseViewCallbackWithOnStart<NormalBean>() {
@@ -120,6 +122,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
             }
         });
     }
+
     private void withdaw(String openID){
         Api.withdaw(AccountHelper.getToken()
                 ,ACCOUNT_TYPE_RED
@@ -175,7 +178,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
                     if(Double.parseDouble(bonus)<1.0){
                         BaseApplication.showToast("提现金额不能少于1元");
                     }else{
-                        setDialog();
+                        showWithdrawTipDialog();
                     }
                 }else{
                     BaseApplication.showToast("红包余额不足");
@@ -184,12 +187,13 @@ public class MyRedEnvelopeActivity extends BaseActivity {
             break;
             case R.id.btn_recharge: {
                 if(Double.parseDouble(bonus)>0.0){
-                    setReloadDialog();
+                    showReloadDialog();
                 }else{
                     BaseApplication.showToast("红包余额不足");
                 }
             }
             break;
+            default:
         }
     }
 
@@ -198,6 +202,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         regexToWX();
         IntentFilter filter = new IntentFilter();
         filter.addAction(LoginActivity.WX_LOGIN_ACTION);
+        filter.addAction(com.pilipa.fapiaobao.ui.constants.Constant.WX_LOGIN_CANCEL);
         registerReceiver(mBroadcastReceiver, filter);
     }
 
@@ -248,6 +253,7 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
     private void setupViews(String bonus) {
         // 设置数据
         tv_bonus.withNumber(Float.parseFloat(bonus));
@@ -262,103 +268,147 @@ public class MyRedEnvelopeActivity extends BaseActivity {
         });
         tv_bonus.start();
     }
-    private void setDialog() {
-        mDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_withdraw_tip, null);
-       TextView tv_bouns = (TextView)root.findViewById(R.id.tv_bouns);
-        tv_bouns.setText(bonus);
-        //初始化视图
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                weChatLogin();
-                mDialog.dismiss();
-            }
-        });
-        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog.dismiss();
-            }
-        });
-        mDialog.setContentView(root);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
 
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDialog.show();
+    private void showWithdrawTipDialog() {
+        if (mWithdrawTipDialog == null) {
+            mWithdrawTipDialog = DialogUtil.getInstance().createDialog(this, 0, R.layout.layout_withdraw_tip, null, new DialogUtil.OnConfirmListener() {
+                @Override
+                public void onConfirm(View view) {
+                    weChatLogin();
+                    mWithdrawTipDialog.dismiss();
+                }
+            }, new DialogUtil.OnCancelListener() {
+                @Override
+                public void onCancel(View view) {
+                    mWithdrawTipDialog.dismiss();
+                }
+            });
+        }
+        showDialog(mWithdrawTipDialog);
     }
 
-    private void setReloadDialog() {
-        mDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_reload_tip, null);
-        //初始化视图
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Api.reload(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
-                    @Override
-                    public void setData(NormalBean normalBean) {
-                        if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
-                            BaseApplication.showToast(getString(R.string.recharge_success));
-                            Intent intent = new Intent();
-                            intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.TITLE, getString(R.string.recharge_success));
-                            intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.MESSAGE, getString(R.string.recharge_message,bonus));
-                            setResult(RESULT_OK,intent);
-                            finish();
-                        }else {
-                            BaseApplication.showToast(normalBean.getMsg());
-                            setResult(RESULT_CANCELED);
-                            finish();
-                        }
-                    }
-                });
-                mDialog.dismiss();
-            }
-        });
-        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog.dismiss();
-            }
-        });
-        mDialog.setContentView(root);
-        Window dialogWindow = mDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
+//    private void setDialog() {
+//        mDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.layout_withdraw_tip, null);
+//       TextView tv_bouns = (TextView)root.findViewById(R.id.tv_bouns);
+//        tv_bouns.setText(bonus);
+//        //初始化视图
+//        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                mDialog.dismiss();
+//            }
+//        });
+//        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDialog.dismiss();
+//            }
+//        });
+//        mDialog.setContentView(root);
+//        Window dialogWindow = mDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mDialog.show();
+//    }
 
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDialog.show();
+    private void reload() {
+        Api.reload(AccountHelper.getToken(), new Api.BaseViewCallback<NormalBean>() {
+            @Override
+            public void setData(NormalBean normalBean) {
+                if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
+                    Intent intent = new Intent();
+                    intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.TITLE, getString(R.string.recharge_success));
+                    intent.putExtra(com.pilipa.fapiaobao.ui.constants.Constant.MESSAGE, getString(R.string.recharge_message, bonus));
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    BaseApplication.showToast(normalBean.getMsg());
+                    setResult(RESULT_CANCELED);
+                    finish();
+                }
+            }
+        });
     }
-    private IWXAPI api;
+
+    private void showReloadDialog() {
+        if (mReloadDialog == null) {
+            mReloadDialog = DialogUtil.getInstance().createDialog(this, 0, R.layout.layout_reload_tip, null, new DialogUtil.OnConfirmListener() {
+                @Override
+                public void onConfirm(View view) {
+                    reload();
+                    mReloadDialog.dismiss();
+                }
+            }, new DialogUtil.OnCancelListener() {
+                @Override
+                public void onCancel(View view) {
+                    mReloadDialog.dismiss();
+                }
+            });
+        }
+        showDialog(mReloadDialog);
+    }
+
+//    private void setReloadDialog() {
+//        mDialog = new Dialog(this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
+//                R.layout.layout_reload_tip, null);
+//        //初始化视图
+//        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                reload();
+//                mDialog.dismiss();
+//            }
+//        });
+//        root.findViewById(R.id.btn_cancel1).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDialog.dismiss();
+//            }
+//        });
+//        mDialog.setContentView(root);
+//        Window dialogWindow = mDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mDialog.show();
+//    }
+
     private void regexToWX() {
         api = WXAPIFactory.createWXAPI(this, Constants.APP_ID, true);
         api.registerApp(Constants.APP_ID);
     }
     private void weChatLogin() {
-        btnWithdraw.setEnabled(false);
-        showProgressDialog();
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo_test";
-        api.sendReq(req);
+        if (api.isWXAppInstalled()) {
+            showProgressDialog();
+            btnWithdraw.setEnabled(false);
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_demo_test";
+            api.sendReq(req);
+        } else {
+            BaseApplication.showToast(getString(R.string.please_install_WX_app));
+        }
     }
 
 }

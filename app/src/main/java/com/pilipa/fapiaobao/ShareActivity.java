@@ -1,6 +1,5 @@
 package com.pilipa.fapiaobao;
 
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +33,7 @@ public class ShareActivity extends BaseActivity {
             Log.d(TAG, "onStart: ");
             Log.d(TAG, "onStart: ");
             Log.d(TAG, "onStart: ");
+
 
         }
 

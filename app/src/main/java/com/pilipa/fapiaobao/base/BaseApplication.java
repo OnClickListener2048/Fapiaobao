@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.SharedPreferencesCompat;
 import android.util.Log;
@@ -38,8 +39,13 @@ import com.pilipa.fapiaobao.ui.MyQuestionsActivity;
 import com.pilipa.fapiaobao.ui.MyRedEnvelopeActivity;
 import com.pilipa.fapiaobao.ui.ProvidedActivity;
 import com.pilipa.fapiaobao.ui.fragment.FinanceFragment;
+import com.pilipa.fapiaobao.ui.widget.DemandHeader;
 import com.pilipa.fapiaobao.utils.TDevice;
 import com.pilipa.fapiaobao.wxapi.Constants;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.smtt.sdk.QbSdk;
 import com.umeng.commonsdk.UMConfigure;
@@ -77,18 +83,149 @@ import static com.pilipa.fapiaobao.net.Constant.SERVICE_NOTIFICATION;
  */
 
 public class BaseApplication extends Application {
-    private static final String PREF_NAME = "p";
     public static final String DEVICE_TOKEN = "mPushDeviceToken";
-    static Context _context;
+    public static final String PUSH_RECEIVE = "push_receive";
+    public static final String SHARE_SOCORE = "share_socore";
+    private static final String PREF_NAME = "p";
     private static final int RETRY_COUNT = 3;
     private static final int READ_TIMEOUT = 10*1000;
     private static final int WRITE_TIMEOUT = 7*1000;
     private static final int CONNECT_TIMEOUT = 10*1000;
     public static ArrayList<BaseActivity> activities = new ArrayList<>();
+    static Context _context;
+
+    static {
+        SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
+            @NonNull
+            @Override
+            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+                return new DemandHeader(context());
+            }
+        });
+    }
+
     private PushAgent mPushAgent;
-    public static final String PUSH_RECEIVE = "push_receive";
-    public static final String SHARE_SOCORE = "share_socore";
     private int mFinalCount;
+
+    public static void saveActivity(BaseActivity baseActivity) {
+        for (BaseActivity activity : activities) {
+            if (!activities.contains(baseActivity)) {
+                activities.add(baseActivity);
+            }
+        }
+    }
+
+    public static BaseActivity getActivity(Class clazz) {
+        for (BaseActivity activity : activities) {
+            if (activity.getClass() == clazz) {
+                return activity;
+            }
+        }
+
+        return null;
+    }
+
+    public static void finishAllActivites() {
+        for (BaseActivity activity : activities) {
+            activity.finish();
+        }
+    }
+
+    public static synchronized BaseApplication context() {
+        return (BaseApplication) _context;
+    }
+
+    public static void set(String key, int value) {
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putInt(key, value);
+        SharedPreferencesCompat.EditorCompat.getInstance().apply(editor);
+    }
+
+    public static void set(String key, boolean value) {
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putBoolean(key, value);
+        SharedPreferencesCompat.EditorCompat.getInstance().apply(editor);
+    }
+
+    public static void set(String key, String value) {
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.putString(key, value);
+        SharedPreferencesCompat.EditorCompat.getInstance().apply(editor);
+    }
+
+    public static boolean get(String key, boolean defValue) {
+        return getPreferences().getBoolean(key, defValue);
+    }
+
+    public static String get(String key, String defValue) {
+        return getPreferences().getString(key, defValue);
+    }
+
+    public static int get(String key, int defValue) {
+        return getPreferences().getInt(key, defValue);
+    }
+
+    public static long get(String key, long defValue) {
+        return getPreferences().getLong(key, defValue);
+    }
+
+    public static float get(String key, float defValue) {
+        return getPreferences().getFloat(key, defValue);
+    }
+
+    public static SharedPreferences getPreferences() {
+        return context().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+    }
+
+    public static void showToast(int message) {
+        showToast(message, Toast.LENGTH_SHORT, 0);
+    }
+
+    public static void showToast(String message) {
+        showToast(message, Toast.LENGTH_SHORT, 0, Gravity.CENTER);
+    }
+
+    public static void showToast(int message, int icon) {
+        showToast(message, Toast.LENGTH_LONG, icon);
+    }
+
+    public static void showToast(String message, int icon) {
+        showToast(message, Toast.LENGTH_LONG, icon, Gravity.CENTER);
+    }
+
+    public static void showToastShort(int message) {
+        showToast(message, Toast.LENGTH_SHORT, 0);
+    }
+
+    public static void showToastShort(String message) {
+        showToast(message, Toast.LENGTH_SHORT, 0, Gravity.CENTER);
+    }
+
+    public static void showToastShort(int message, Object... args) {
+        showToast(message, Toast.LENGTH_SHORT, 0, Gravity.BOTTOM, args);
+    }
+
+    public static void showToast(int message, int duration, int icon) {
+        showToast(message, duration, icon, Gravity.CENTER);
+    }
+
+    public static void showToast(int message, int duration, int icon,
+                                 int gravity) {
+        showToast(context().getString(message), duration, icon, gravity);
+    }
+
+    public static void showToast(int message, int duration, int icon,
+                                 int gravity, Object... args) {
+        showToast(context().getString(message, args), duration, icon, gravity);
+    }
+
+    public static void showToast(String message, int duration, int icon, int gravity) {
+
+        Context context = _context;
+        if (context != null)
+            if (TDevice.showToast) SimplexToast.show(context, message, Gravity.CENTER, duration);
+    }
+
     public void initOkGo(Application app) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("FAPIAOLOG");
@@ -104,6 +241,7 @@ public class BaseApplication extends Application {
         //全局的连接超时时间
         builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS);
     }
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -141,10 +279,10 @@ public class BaseApplication extends Application {
 
 
         Config.DEBUG = true;
-        PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
+        PlatformConfig.setWeixin(Constants.APP_ID, Constants.APP_SECRET);
         PlatformConfig.setQQZone("1106395149", "gtn8LLR4FxWRvwWb");
         PlatformConfig.setSinaWeibo("3639386105", "63143b3cc202fed0c17baf57030a88a0", "http://sns.whalecloud.com");
-        PlatformConfig.setWeixin(Constants.APP_ID, "7df3fe092b8d88ebc28a94b84b5388c3");
+        PlatformConfig.setWeixin(Constants.APP_ID, Constants.APP_SECRET);
         UMShareAPI.get(this);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
@@ -240,6 +378,7 @@ public class BaseApplication extends Application {
         QbSdk.initX5Environment(getApplicationContext(),  cb);
         QbSdk.setDownloadWithoutWifi(true);
     }
+
     private void notificationClick() {
         UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
             @Override
@@ -316,6 +455,7 @@ public class BaseApplication extends Application {
                             startActivity(intent5);
                             TLog.log("startActivity(intent5);");
                             break;
+                        default:
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -369,126 +509,5 @@ public class BaseApplication extends Application {
             }
         };
         mPushAgent.setMessageHandler(messageHandler);
-    }
-
-    public static void saveActivity(BaseActivity baseActivity) {
-        for (BaseActivity activity : activities) {
-            if (!activities.contains(baseActivity)) {
-                activities.add(baseActivity);
-            }
-        }
-    }
-
-
-
-    public static BaseActivity getActivity(Class clazz) {
-        for (BaseActivity activity : activities) {
-            if (activity.getClass() == clazz) {
-                return activity;
-            }
-        }
-
-        return null;
-    }
-
-    public static void finishAllActivites() {
-        for (BaseActivity activity : activities) {
-            activity.finish();
-        }
-    }
-
-    public static synchronized BaseApplication context() {
-        return (BaseApplication) _context;
-    }
-
-    public static void set(String key, int value) {
-        SharedPreferences.Editor editor = getPreferences().edit();
-        editor.putInt(key, value);
-        SharedPreferencesCompat.EditorCompat.getInstance().apply(editor);
-    }
-
-    public static void set(String key, boolean value) {
-        SharedPreferences.Editor editor = getPreferences().edit();
-        editor.putBoolean(key, value);
-        SharedPreferencesCompat.EditorCompat.getInstance().apply(editor);
-    }
-
-    public static void set(String key, String value) {
-        SharedPreferences.Editor editor = getPreferences().edit();
-        editor.putString(key, value);
-        SharedPreferencesCompat.EditorCompat.getInstance().apply(editor);
-    }
-
-    public static boolean get(String key, boolean defValue) {
-        return getPreferences().getBoolean(key, defValue);
-    }
-
-    public static String get(String key, String defValue) {
-        return getPreferences().getString(key, defValue);
-    }
-
-    public static int get(String key, int defValue) {
-        return getPreferences().getInt(key, defValue);
-    }
-
-    public static long get(String key, long defValue) {
-        return getPreferences().getLong(key, defValue);
-    }
-
-    public static float get(String key, float defValue) {
-        return getPreferences().getFloat(key, defValue);
-    }
-
-    public static SharedPreferences getPreferences() {
-        return context().getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-    }
-
-    public static void showToast(int message) {
-        showToast(message, Toast.LENGTH_LONG, 0);
-    }
-
-    public static void showToast(String message) {
-        showToast(message, Toast.LENGTH_LONG, 0, Gravity.BOTTOM);
-    }
-
-    public static void showToast(int message, int icon) {
-        showToast(message, Toast.LENGTH_LONG, icon);
-    }
-
-    public static void showToast(String message, int icon) {
-        showToast(message, Toast.LENGTH_LONG, icon, Gravity.BOTTOM);
-    }
-
-    public static void showToastShort(int message) {
-        showToast(message, Toast.LENGTH_SHORT, 0);
-    }
-
-    public static void showToastShort(String message) {
-        showToast(message, Toast.LENGTH_SHORT, 0, Gravity.BOTTOM);
-    }
-
-    public static void showToastShort(int message, Object... args) {
-        showToast(message, Toast.LENGTH_SHORT, 0, Gravity.BOTTOM, args);
-    }
-
-    public static void showToast(int message, int duration, int icon) {
-        showToast(message, duration, icon, Gravity.BOTTOM);
-    }
-
-    public static void showToast(int message, int duration, int icon,
-                                 int gravity) {
-        showToast(context().getString(message), duration, icon, gravity);
-    }
-
-    public static void showToast(int message, int duration, int icon,
-                                 int gravity, Object... args) {
-        showToast(context().getString(message, args), duration, icon, gravity);
-    }
-
-    public static void showToast(String message, int duration, int icon, int gravity) {
-
-        Context context = _context;
-        if (context != null)
-            if (TDevice.showToast) SimplexToast.show(context, message, gravity, duration);
     }
 }

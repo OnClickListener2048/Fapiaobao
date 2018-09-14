@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.example.mylibrary.utils.ActivityUtils;
-import com.example.mylibrary.utils.TLog;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
@@ -50,6 +49,7 @@ public class PdfPreviewActivity extends BaseActivity {
     @Bind(R.id.relativeLayout)
     RelativeLayout relativeLayout;
     private String tag;
+    private boolean isFromUploadReceiptActivity;
     private String pdfUrl;
 
     @Override
@@ -67,19 +67,63 @@ public class PdfPreviewActivity extends BaseActivity {
     @Override
     public void initView() {
         super.initView();
-//
-//        String data = getIntent().getData().getPath();
-//        String host = getIntent().getData().getHost();
-//        TLog.d(TAG,"data"+data);
-//        TLog.d(TAG,"host"+host);
+        isFromUploadReceiptActivity = getIntent().getBooleanExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, false);
         pdfUrl = getIntent().getStringExtra(Constant.PDF_EXTRA);
-        boolean isFromUploadReceiptActivity = getIntent().getBooleanExtra(Constant.IS_FROM_UPLOADRECEIPT_ACTIVITY, false);
         tag = getIntent().getStringExtra(Constant.TAG);
-        saveToInvoiceClip.setText(isFromUploadReceiptActivity?getString(R.string.upload_receipt):getString(R.string.save_to_invoice_clip));
+        if (ActivityUtils.isActivityExistsInStack(UploadReceiptActivity.class)) {
+            isFromUploadReceiptActivity = true;
+        } else {
+            isFromUploadReceiptActivity = false;
+        }
+        saveToInvoiceClip.setText(isFromUploadReceiptActivity ? getString(R.string.upload_receipt) : getString(R.string.save_to_invoice_clip));
+        Uri uri = getIntent().getData();
+        if (uri != null) {
+            String data = uri.getPath();
+            String host = uri.getHost();
+            if (data != null && host != null) {
+                transformPdf("https://" + host + data);
+            } else {
+                startNormal();
+            }
+        } else {
+            startNormal();
+        }
+    }
+
+    private void transformPdf(String url) {
+        Api.transform_pdf(url, new Api.BaseViewCallbackWithOnStart<NormalBean>() {
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
+
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
+
+            @Override
+            public void onError() {
+
+            }
+
+            @Override
+            public void setData(NormalBean normalBean) {
+                if (normalBean.getStatus() == com.pilipa.fapiaobao.net.Constant.REQUEST_SUCCESS) {
+                    if (!ActivityUtils.isActivityExistsInStack(UploadReceiptActivity.class)) {
+                        tag = FinanceFragment.TAG;
+                    }
+
+                    pdfUrl = normalBean.getData();
+                    startNormal();
+                }
+            }
+        });
+    }
+
+    private void startNormal() {
         loadPdfImage(pdfUrl);
-
-
-        listenViews(pdfUrl,isFromUploadReceiptActivity);
+        listenViews(pdfUrl, isFromUploadReceiptActivity);
     }
 
     private void loadPdfImage(String pdfUrl) {
@@ -104,11 +148,11 @@ public class PdfPreviewActivity extends BaseActivity {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
 //                        if (isFromUploadReceiptActivity) sendToUpload(pdfUrl);
-//                        else upload_pdf(pdfUrl);
+//                        else uploadPdf(pdfUrl);
                         if (isFromUploadReceiptActivity) {
                             sendToUpload(pdfUrl);
                         } else {
-                            upload_pdf(pdfUrl);
+                            uploadPdf(pdfUrl);
                         }
                     }
                 });
@@ -152,10 +196,11 @@ public class PdfPreviewActivity extends BaseActivity {
             case R.id._back:
                 finish();
                 break;
+            default:
         }
     }
 
-    private void upload_pdf(final String pdfUrl) {
+    private void uploadPdf(final String pdfUrl) {
         Api.upload_pdf(pdfUrl, AccountHelper.getToken(), new Api.BaseRawResponse<NormalBean>() {
             @Override
             public void onStart() {

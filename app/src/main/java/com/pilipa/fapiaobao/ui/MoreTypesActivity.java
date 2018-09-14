@@ -2,7 +2,6 @@ package com.pilipa.fapiaobao.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,13 +16,13 @@ import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.TabAdapterActive;
-import com.pilipa.fapiaobao.adapter.TabAdapterInactive;
+import com.pilipa.fapiaobao.adapter.publish.TabAdapterActive;
+import com.pilipa.fapiaobao.adapter.publish.TabAdapterInactive;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.net.Api;
-import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 
 import java.util.ArrayList;
 
@@ -43,6 +42,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.ItemDeleteListener, TabAdapterInactive.OnItemClickListener {
 
+    public static String EXTRA_BUNDLE = "extra_bundle";
     private static ArrayList<DefaultInvoiceBean.DataBean> data;
     @Bind(R.id.tv_operator)
     TextView tvOperator;
@@ -66,7 +66,6 @@ public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.
     TextView uploadScan;
     private TabAdapterActive tabAdapterActive;
     private TabAdapterInactive tabAdapterInactive;
-    public static String EXTRA_BUNDLE = "extra_bundle";
 
     @Override
     protected int getLayoutId() {
@@ -90,7 +89,7 @@ public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.
     public void initData() {
 
         Bundle bundleExtra = getIntent().getBundleExtra(EXTRA_BUNDLE);
-        final ArrayList<DefaultInvoiceBean.DataBean> bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundleExtra.getSerializable("new_data");
+        final ArrayList<DefaultInvoiceBean.DataBean> bean = (ArrayList<DefaultInvoiceBean.DataBean>) bundleExtra.getSerializable(Constant.MORE_TYPES);
         tabAdapterActive = new TabAdapterActive(bean);
         tabAdapterActive.setOnItemDeleteListener(MoreTypesActivity.this);
         viewRecyclerActive.setAdapter(tabAdapterActive);
@@ -143,6 +142,7 @@ public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.
                     tabAdapterActive.setEditMode(!tabAdapterActive.getEditMode());
                 }
                 break;
+            default:
         }
     }
 
@@ -215,7 +215,7 @@ public class MoreTypesActivity extends BaseActivity implements TabAdapterActive.
     public void onViewClicked() {
         Intent intent = new Intent();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("new_data",tabAdapterActive.getCurrentItemSetData());
+        bundle.putSerializable(Constant.MORE_TYPES, tabAdapterActive.getCurrentItemSetData());
         intent.putExtra(EXTRA_BUNDLE, bundle);
         setResult(RESULT_OK,intent);
         finish();

@@ -9,21 +9,23 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.ReplacementTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -31,13 +33,15 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blog.www.guideview.Component;
 import com.blog.www.guideview.Guide;
 import com.blog.www.guideview.GuideBuilder;
-import com.example.mylibrary.utils.DeviceUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.example.mylibrary.utils.KeyboardUtils;
 import com.example.mylibrary.utils.RegexUtils;
 import com.example.mylibrary.utils.ScreenUtils;
 import com.example.mylibrary.utils.TLog;
@@ -50,16 +54,20 @@ import com.lljjcoder.bean.DistrictBean;
 import com.lljjcoder.bean.ProvinceBean;
 import com.lljjcoder.citywheel.CityConfig;
 import com.lljjcoder.citywheel.CityPickerView;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.CompanyListAdapter;
-import com.pilipa.fapiaobao.adapter.PublishSpinnerAdapter;
+import com.pilipa.fapiaobao.adapter.me.PublishSpinnerAdapter;
+import com.pilipa.fapiaobao.adapter.me.SearchCompaniesAdapter;
+import com.pilipa.fapiaobao.adapter.publish.CompanyListAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseLocationActivity;
 import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.Constant;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.net.bean.base.BaseResponseBean;
 import com.pilipa.fapiaobao.net.bean.invoice.DefaultInvoiceBean;
 import com.pilipa.fapiaobao.net.bean.invoice.MacherBeanToken;
 import com.pilipa.fapiaobao.net.bean.me.CompaniesBean;
@@ -67,16 +75,18 @@ import com.pilipa.fapiaobao.net.bean.me.CompanyDetailsBean;
 import com.pilipa.fapiaobao.net.bean.me.NormalBean;
 import com.pilipa.fapiaobao.net.bean.publish.BalanceBean;
 import com.pilipa.fapiaobao.net.bean.publish.DemandsPublishBean;
-import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
+import com.pilipa.fapiaobao.net.callback.JsonConvertor;
 import com.pilipa.fapiaobao.receiver.WXPayReceiver;
 import com.pilipa.fapiaobao.ui.component.SimpleComponent;
 import com.pilipa.fapiaobao.ui.deco.FinanceItemDeco;
 import com.pilipa.fapiaobao.ui.dialog.TimePickerDialog;
 import com.pilipa.fapiaobao.ui.widget.CashierInputFilter;
 import com.pilipa.fapiaobao.ui.widget.LabelsView;
+import com.pilipa.fapiaobao.ui.widget.PreviewPopup;
+import com.pilipa.fapiaobao.ui.zxing.SimpleCaptureActivity;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 import com.pilipa.fapiaobao.utils.TDevice;
-import com.pilipa.fapiaobao.zxing.android.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,11 +99,23 @@ import butterknife.OnClick;
  * Created by edz on 2017/10/26.
  */
 
-public class DemandsPublishLocationActivity extends BaseLocationActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener, CompanyListAdapter.OnCompanyClickListener {
+public class DemandsPublishLocationActivity extends BaseLocationActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemSelectedListener, LabelsView.OnLabelSelectChangeListener, CompanyListAdapter.OnCompanyClickListener, View.OnFocusChangeListener, PopupWindow.OnDismissListener, View.OnTouchListener, BaseQuickAdapter.OnItemClickListener {
 
+    public static final int REQUEST_CODE = 300;
+    public static final int REQUEST_CODE_FOR_MORE_TYPE = 400;
+    public static final String RECEIPTELEC_DATA = "receiptElec";
+    public static final String RECEIPTPAPERNORMAL_DATA = "receiptPaperNormal";
+    public static final String RECEIPTPAPERSPECIAL_DATA = "receiptPaperSpecial";
     private static final String TAG = "DemandsPublishLocationActivity";
-
-
+    private static final String DECODED_CONTENT_KEY = "codedContent";
+    private static final String DECODED_BITMAP_KEY = "codedBitmap";
+    private static final int REQUEST_ADD_COMPANY_INFO = 971;
+    private static final int REQUEST_ALL_COMPANY_INFO = 321;
+    private static final int REQUEST_CODE_SCAN = 0x0022;
+    private static final double MAX_AMOUNT = 50000;
+    public CompaniesBean companiesBean;
+    @Bind(R.id.bg)
+    public View mBg;
     @Bind(R.id.paper_elec_receipt)
     TextView paperElecReceipt;
     @Bind(R.id.paper_special_receipt)
@@ -137,7 +159,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     @Bind(R.id.et_amount_redbag)
     EditText etAmountRedbag;
     @Bind(R.id.ll_amount)
-    LinearLayout llAmount;
+    RelativeLayout llAmount;
     @Bind(R.id.et_express_amount_minimum)
     EditText etExpressAmountMinimum;
     @Bind(R.id.rb_cod)
@@ -200,32 +222,52 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     LinearLayout llMoreCompanyTypes;
     @Bind(R.id.scrollview)
     NestedScrollView scrollview;
+    @Bind(R.id.ll_publish_company_name)
+    LinearLayout llPublishCompanyName;
+    @Bind(R.id.line)
+    View line;
+    @Bind(R.id.iv_select_area)
+    ImageView ivSelectArea;
+    @Bind(R.id.line_above_popup)
+    View lineAbovePopup;
     private boolean paperNormal;
     private boolean elec;
     private boolean paperSpecial;
-    private Dialog mCameraDialog;
     private TimePickerDialog dialog;
     private CityPickerView cityPicker;
-    public CompaniesBean companiesBean;
     private CompaniesBean.DataBean dataBean;
     private ArrayList<DefaultInvoiceBean.DataBean> bean;
     private DemandsPublishBean.DemandPostageBean demandPostageBean;
-    public static final int REQUEST_CODE = 300;
-    public static final int REQUEST_CODE_FOR_MORE_TYPE = 400;
     private CompanyListAdapter companyListAdapter;
-    private static final String DECODED_CONTENT_KEY = "codedContent";
-    private static final String DECODED_BITMAP_KEY = "codedBitmap";
-    private static final int REQUEST_ADD_COMPANY_INFO = 971;
-    private static final int REQUEST_ALL_COMPANY_INFO = 321;
-    private static final int REQUEST_CODE_SCAN = 0x0022;
-    public static final String RECEIPTELEC_DATA = "receiptElec";
-    public static final String RECEIPTPAPERNORMAL_DATA = "receiptPaperNormal";
-    public static final String RECEIPTPAPERSPECIAL_DATA = "receiptPaperSpecial";
-    private Dialog mTipDialog;
-    private Dialog scanDialog;
+    private View view;
+    private String tempCompanyId;
+    private AlertDialog alertDialog;
+    private CityPickerView cityPickerAreaLimited;
+    private List<DemandsPublishBean.DemandInvoiceTypeListBean> listBeen;
+    private SearchCompaniesAdapter adapter;
+    private PopupWindow popWnd;
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            cancelSearching(s.toString());
+        }
 
-    private static final double MAX_AMOUNT = 50000;
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() >= 3) {
+                startSearching(s.toString(), s.toString());
+            }
+        }
 
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+    private Dialog mDialogTip1;
+    private Dialog mDialogTip2;
+    private Dialog mScanDialog;
+    private PreviewPopup mPreviewPopup;
     public WXPayReceiver wxPayReceiver = new WXPayReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -237,11 +279,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             }
         }
     };
-    private View view;
-    private String tempCompanyId;
-    private AlertDialog alertDialog;
-    private CityPickerView cityPickerAreaLimited;
-    private List<DemandsPublishBean.DemandInvoiceTypeListBean> listBeen;
 
     @Override
     protected int getLayoutId() {
@@ -280,7 +317,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         tvPublishPhoneNumberMustFill.setText(paperSpecial ? "必填" : "选填");
 //        llAreaLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
         llExpressLimited.setVisibility(elec && !paperNormal && !paperSpecial ? View.GONE : View.VISIBLE);
-
+        etAmountRedbag.setNextFocusForwardId(elec && !paperNormal && !paperSpecial ? R.id.et_publish_cautions : R.id.et_express_amount_minimum);
         int fourteenDaysMilliseconds = 14 * 24 * 60 * 60 * 1000;
         etDate.setText(TimeUtils.millis2String(System.currentTimeMillis() + fourteenDaysMilliseconds, TimeUtils.FORMAT));
         dialog = new TimePickerDialog(this);
@@ -294,6 +331,9 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         llToggleSwitch.setVisibility(View.GONE);
         rbCod.setSelected(true);
 
+
+        etPublishCompanyName.setOnFocusChangeListener(this);
+        initPopup();
 
         setUpReceiptParams();
         initDialog();
@@ -344,6 +384,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         tvArea.setText(BaseApplication.get("tvArea", null));
         etReceptionNumber.setText(BaseApplication.get("etReceptionNumber", null));
         etReceptionName.setText(BaseApplication.get("etReceptionName", null));
+
     }
 
 
@@ -410,15 +451,15 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         demandPostageBean.setProvince(BaseApplication.get("province", null));
         demandPostageBean.setCity(BaseApplication.get("city", null));
         demandPostageBean.setDistrict(BaseApplication.get("district", null));
-        Api.findAllLogisticsCompany(new Api.BaseViewCallback<ExpressCompanyBean>() {
-            @Override
-            public void setData(ExpressCompanyBean expressCompanyBean) {
-                spinner.setAdapter(new PublishSpinnerAdapter(expressCompanyBean));
-            }
-        });
 
+        findAllLogisticsCompany();
         setUsusallyReceiptkind();
         requestForCompanies();
+    }
+
+    private void findAllLogisticsCompany() {
+        String[] stringArray = getResources().getStringArray(R.array.express_array);
+        spinner.setAdapter(new PublishSpinnerAdapter(stringArray));
     }
 
     private void setUsusallyReceiptkind() {
@@ -502,7 +543,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
             @Override
             public void onError() {
-                hideProgressDialog();
             }
 
             @Override
@@ -578,7 +618,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         ButterKnife.bind(this);
     }
 
-
     @OnClick({R.id.title, R.id.upload_back, R.id.upload_scan, R.id.paper_elec_receipt
             , R.id.paper_special_receipt, R.id.paper_normal_receipt, R.id.iv_dots_more_company
             , R.id.tv_publish_address_must_fill, R.id.tv_publish_phone_number_must_fill
@@ -599,6 +638,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.title:
+
                 break;
             case R.id.upload_back:
 
@@ -616,7 +656,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 break;
             case R.id.iv_dots_more_company:
                 //TODO 扫码
-                startActivityForResult(new Intent(this, CaptureActivity.class), REQUEST_CODE_SCAN);
+                startActivityForResult(new Intent(this, SimpleCaptureActivity.class), REQUEST_CODE_SCAN);
 
                 break;
             case R.id.et_publish_company_name:
@@ -712,10 +752,10 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 addCompanyInfo();
                 break;
             case R.id.tv_receive_deadline:
-                setTipDialog(R.layout.layout_extimate_tip1);
+                showTip1Dialog();
                 break;
             case R.id.tv_express_limited:
-                setTipDialog(R.layout.layout_extimate_tip2);
+                showTip2Dialog();
                 break;
             default:
         }
@@ -725,60 +765,157 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
 
         if (checkParams()) {
             if (makeParams() != null) {
-                final Gson gson = new GsonBuilder().serializeNulls().create();
-
-                Api.publish(gson.toJson(makeParams()), new Api.BaseRawResponse<BalanceBean>() {
-                    @Override
-                    public void onTokenInvalid() {
-                        login();
-                    }
-
+                AccountHelper.isTokenValid(new Api.BaseRawResponse<LoginWithInfoBean>() {
                     @Override
                     public void onStart() {
-                        btnPublishNow.setEnabled(false);
                         showProgressDialog();
                     }
 
                     @Override
                     public void onFinish() {
                         hideProgressDialog();
-                        btnPublishNow.setEnabled(true);
                     }
 
                     @Override
                     public void onError() {
-                        hideProgressDialog();
-                        btnPublishNow.setEnabled(true);
+
                     }
 
                     @Override
-                    public void setData(BalanceBean balanceBean) {
-                        btnPublishNow.setEnabled(true);
-                        Intent intent = new Intent();
-                        if (balanceBean.getStatus() == Constant.REQUEST_SUCCESS) {
-                            intent.putExtra("demand", balanceBean.getData().getDemand());
-                            intent.setClass(DemandsPublishLocationActivity.this, PubSuccessActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else if (balanceBean.getStatus() == Constant.INSUFFICIENT_ACCOUNT) {
-                            BaseApplication.showToast("账户余额不足，请先充值");
-                            intent.setClass(DemandsPublishLocationActivity.this, RechargeActivity.class);
-                            startActivityForResult(intent, REQUEST_CODE);
-                        } else if (balanceBean.getStatus() == 885) {
-                            BaseApplication.showToast("可用金额不足，已发红包占用中");
-                            intent.setClass(DemandsPublishLocationActivity.this, RechargeActivity.class);
-                            startActivityForResult(intent, REQUEST_CODE);
-                        } else if (balanceBean.getStatus() == 400) {
-                            BaseApplication.showToast("截止日期不能小于当前时间");
-                        } else if (balanceBean.getStatus() == 406) {
-                            BaseApplication.showToast("红包不能超过需求总金额的5%");
-                        }
+                    public void onTokenInvalid() {
+                        login();
+                    }
+
+                    @Override
+                    public void setData(LoginWithInfoBean loginWithInfoBean) {
+                        AccountHelper.updateCustomer(loginWithInfoBean.getData().getCustomer());
+                        createPopup();
+                        mPreviewPopup.showPopupWindow(DemandsPublishLocationActivity.this);
                     }
                 });
             }
         }
-
     }
+
+    private boolean isAccountSufficient() {
+        return !Switch.isChecked() || AccountHelper.getUser().getData().getCustomer().getAvailiableBalance() >= Double.valueOf(getTextViewValue(etAmountRedbag));
+    }
+
+    private void createPopup() {
+        mPreviewPopup = new PreviewPopup.PopupBuilder(this)
+                .setCompanyName(getTextViewValue(etPublishCompanyName))
+                .setTexNumber(getTextViewValue(etPublishTexNumber))
+                .setCompanyAddress(getTextViewValue(etPublishAddress))
+                .setPhoneNumber(getTextViewValue(etPublishPhoneNumber))
+                .setDepositBank(getTextViewValue(etPublishBank))
+                .setDepositBankAccount(getTextViewValue(etPublishBankAccount))
+                .setInvoiceKind(getInvoiceKinds())
+                .setInvoiceType(getInvoiceTypes())
+                .setDeadline(getTextViewValue(etDate))
+                .setDemandAmount(getString(R.string.point_two, Double.valueOf(getTextViewValue(etAmount))))
+                .setBonus(Switch.isChecked() ? getString(R.string.point_two, Double.valueOf(getTextViewValue(etAmountRedbag))) : "")
+                .setAvailableBalance(getString(R.string.point_two, AccountHelper.getUser().getData().getCustomer().getAvailiableBalance()))
+                .setBalanceSufficient(isAccountSufficient())
+                .setInvoiceArea(switchArea.isChecked() ? getTextViewValue(tvAreaLimited) : "")
+                .setIsShowExpressInfo(paperNormal || paperSpecial)
+                .setReceiption(getTextViewValue(etReceptionName))
+                .setReceiptionAddress(getTextViewValue(etAreaDetails))
+                .setReceiptionPhoneNumber(getTextViewValue(etReceptionNumber))
+                .setCautions(getTextViewValue(etPublishCautions))
+                .setOnBalanceInsufficientListener(new PreviewPopup.OnBalanceInsufficientListener() {
+                    @Override
+                    public void onBalanceInsufficient() {
+                        mPreviewPopup.dismiss();
+                        Intent intent = new Intent();
+                        intent.setClass(DemandsPublishLocationActivity.this, RechargeActivity.class);
+                        startActivityForResult(intent, REQUEST_CODE);
+                    }
+                })
+                .setOnPublishListener(new PreviewPopup.OnPublishListener() {
+                    @Override
+                    public void onPublish() {
+                        mPreviewPopup.dismiss();
+                        final Gson gson = new GsonBuilder().serializeNulls().create();
+                        Api.publish(gson.toJson(makeParams()), new Api.BaseRawResponse<BalanceBean>() {
+                            @Override
+                            public void onTokenInvalid() {
+                                login();
+                            }
+
+                            @Override
+                            public void onStart() {
+                                btnPublishNow.setEnabled(false);
+                                showProgressDialog();
+                            }
+
+                            @Override
+                            public void onFinish() {
+                                hideProgressDialog();
+                                btnPublishNow.setEnabled(true);
+                            }
+
+                            @Override
+                            public void onError() {
+                                hideProgressDialog();
+                            }
+
+                            @Override
+                            public void setData(BalanceBean balanceBean) {
+                                Intent intent = new Intent();
+                                if (balanceBean.getStatus() == Constant.REQUEST_SUCCESS) {
+                                    intent.putExtra("demand", balanceBean.getData().getDemand());
+                                    intent.setClass(DemandsPublishLocationActivity.this, PubSuccessActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else if (balanceBean.getStatus() == Constant.INSUFFICIENT_ACCOUNT) {
+                                    BaseApplication.showToast("账户余额不足，请先充值");
+                                    intent.setClass(DemandsPublishLocationActivity.this, RechargeActivity.class);
+                                    startActivityForResult(intent, REQUEST_CODE);
+                                } else if (balanceBean.getStatus() == 885) {
+                                    BaseApplication.showToast("可用金额不足，已发红包占用中");
+                                    intent.setClass(DemandsPublishLocationActivity.this, RechargeActivity.class);
+                                    startActivityForResult(intent, REQUEST_CODE);
+                                } else if (balanceBean.getStatus() == 400) {
+                                    BaseApplication.showToast("截止日期不能小于当前时间");
+                                } else if (balanceBean.getStatus() == 406) {
+                                    BaseApplication.showToast("红包不能超过需求总金额的5%");
+                                }
+                            }
+                        });
+                    }
+                }).setOnBackToReviseListener(new PreviewPopup.OnBackToReviseListener() {
+                    @Override
+                    public void onBackToRevice() {
+                        mPreviewPopup.dismiss();
+                    }
+                }).build();
+    }
+
+    private String getInvoiceTypes() {
+        String type = "";
+        String concat = "";
+        for (DemandsPublishBean.DemandInvoiceTypeListBean demandInvoiceTypeListBean : listBeen) {
+            concat = concat + type.concat(demandInvoiceTypeListBean.getInvoiceType().getName() + " ");
+        }
+        return concat;
+    }
+
+    private String getInvoiceKinds() {
+        String invoiceKinds = "";
+        if (paperNormal) {
+            invoiceKinds = invoiceKinds.concat(getString(R.string.paper_normal_receipt));
+        }
+
+        if (paperSpecial) {
+            invoiceKinds = invoiceKinds.concat(" " + getString(R.string.paper_special_receipt));
+        }
+
+        if (elec) {
+            invoiceKinds = invoiceKinds.concat(" " + getString(R.string.paper_elec_receipt));
+        }
+        return invoiceKinds;
+    }
+
 
     private void addCompanyInfo() {
         Intent intent = new Intent();
@@ -789,7 +926,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         intent.setClass(this, AddCompanyInfoActivity.class);
         startActivityForResult(intent, REQUEST_ADD_COMPANY_INFO);
     }
-
 
     private void createCompany(final Company company) {
 
@@ -817,7 +953,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             @Override
             public void setData(NormalBean normalBean) {
                 if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
-                    Toast.makeText(DemandsPublishLocationActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT).show();
+                    BaseApplication.showToast(getString(R.string.add_success));
                     setResult(RESULT_OK);
                     Log.d(TAG, "createCompany;success");
                 }
@@ -906,17 +1042,17 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                                         companyBean.setTaxno(data.getTaxno());
                                         updateCompanyInfo(companyBean);
                                     } catch (Exception e) {
-                                        setScanDialog();
+                                        showScanDialog();
                                     }
                                 }
                             });
                         } catch (Exception e) {
                             e.printStackTrace();
-                            setScanDialog();
+                            showScanDialog();
                         }
 
                     } else {
-                        setScanDialog();
+                        showScanDialog();
                     }
                 }
                 break;
@@ -963,6 +1099,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         moreCompany.setVisibility(View.GONE);
         uploadScan.setVisibility(View.GONE);
         ivDotsMoreCompany.setVisibility(View.GONE);
+        scrollview.requestFocus();
     }
 
     private DemandsPublishBean makeParams() {
@@ -1040,6 +1177,7 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 DemandsPublishBean.DemandInvoiceTypeListBean demandInvoiceTypeListBean = new DemandsPublishBean.DemandInvoiceTypeListBean();
                 DemandsPublishBean.DemandInvoiceTypeListBean.InvoiceTypeBeanX invoiceTypeBeanX = new DemandsPublishBean.DemandInvoiceTypeListBean.InvoiceTypeBeanX();
                 invoiceTypeBeanX.setId(defaultBean.getId());
+                invoiceTypeBeanX.setName(defaultBean.getName());
                 demandInvoiceTypeListBean.setInvoiceType(invoiceTypeBeanX);
                 listBeen.add(demandInvoiceTypeListBean);
             }
@@ -1133,40 +1271,47 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             if ((Double.valueOf(getTextViewValue(etAmountRedbag))
                     > Double.valueOf(getTextViewValue(etAmount)) * 0.05)) {
                 BaseApplication.showToast("悬赏红包不能超过需求总额的5%");
+                setErrorBackground(etAmountRedbag);
                 sooothScrollToView(etAmountRedbag);
                 return false;
+            } else {
+                etAmountRedbag.setBackgroundResource(R.drawable.shape_rect_demand_info);
             }
         }
 
-
-        if (checkIfIsEmpty(etExpressAmountMinimum)) {
-            BaseApplication.showToast("最少邮寄限额不能为空");
-            return false;
-        }
 
         if (switchArea.isChecked()) {
             tvAreaLimited.requestFocus();
             if ("定位失败，点击选择地区".equals(tvAreaLimited.getText().toString())) {
                 BaseApplication.showToast("限制开票区域定位异常，请开启定位功能或手动选择开票地区");
                 sooothScrollToView(switchArea);
+                cityPickerAreaLimited.show();
                 return false;
             }
         }
 
-        if (!etExpressAmountMinimum.getText().toString().isEmpty()
-                && Double.valueOf(getTextViewValue(etExpressAmountMinimum))
-                > Double.valueOf(getTextViewValue(etAmount))) {
-            BaseApplication.showToast("最少寄送限额必须小于等于需求总额");
-            sooothScrollToView(etExpressAmountMinimum);
-            return false;
+        if (llExpressLimited.getVisibility() == View.VISIBLE) {
+            if (checkIfIsEmpty(etExpressAmountMinimum)) {
+                BaseApplication.showToast("最少邮寄限额不能为空");
+                return false;
+            }
+
+            if (!etExpressAmountMinimum.getText().toString().isEmpty()
+                    && Double.valueOf(getTextViewValue(etExpressAmountMinimum))
+                    > Double.valueOf(getTextViewValue(etAmount))) {
+                BaseApplication.showToast("最少寄送限额必须小于等于需求总额");
+                sooothScrollToView(etExpressAmountMinimum);
+                return false;
+            }
         }
+
 
         if (paperNormal || paperSpecial) {
             if (view.getVisibility() == View.VISIBLE) {
                 if (checkIfIsEmpty(etReceptionName)) {
                     BaseApplication.showToast("收件人姓名不能为空");
                     return false;
-                }else {
+                } else {
                     resetBackground(etReceptionName);
                 }
 
@@ -1174,71 +1319,55 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                     BaseApplication.showToast("收件人手机号不能为空");
                     return false;
                 } else if (!RegexUtils.isTel(getTextViewValue(etReceptionNumber)) && !RegexUtils.isMobileExact(getTextViewValue(etReceptionNumber))) {
-                    BaseApplication.showToast("收票信息-联系电话应为区号+座机号或手机号码~");
+                    BaseApplication.showToast("格式不正确，请填写“区号-座机号”或“手机号码”哦~");
                     setErrorBackground(etReceptionNumber);
                     return false;
                 } else {
                     resetBackground(etReceptionNumber);
                 }
 
-                if (checkIfIsEmpty(etAreaDetails)) {
-                    BaseApplication.showToast("详细地址不能为空");
-                    return false;
-                }else {
-                    resetBackground(etAreaDetails);
-                }
-
 
                 if (checkIfIsEmpty(tvArea)) {
                     BaseApplication.showToast("所在地区不能为空");
+                    cityPicker.show();
                     return false;
-                }else {
+                } else {
                     resetBackground(tvArea);
+                }
+
+                if (checkIfIsEmpty(etAreaDetails)) {
+                    BaseApplication.showToast("详细地址不能为空");
+                    return false;
+                } else {
+                    resetBackground(etAreaDetails);
                 }
             }
         }
-
-
         return true;
     }
 
     private void setErrorBackground(View view) {
-        ViewGroup viewParent = (ViewGroup) view.getParent();
-        if (viewParent != null) {
-            viewParent.setBackgroundResource(R.drawable.bg_error_filling);
-        } else {
-            view.setBackgroundResource(R.drawable.bg_error_filling);
-        }
+        view.setBackgroundResource(R.drawable.bg_error_filling);
     }
 
     private void resetBackground(View view) {
-        ViewGroup viewParent = (ViewGroup) view.getParent();
-        if (viewParent != null) {
-            viewParent.setBackgroundDrawable(null);
-        } else {
-            view.setBackgroundDrawable(null);
-        }
-
+        view.setBackgroundDrawable(null);
     }
-
 
     private boolean checkIfIsEmpty(TextView editText) {
         boolean b = TextUtils.isEmpty(editText.getText());
-        ViewGroup viewGroup = (ViewGroup) editText.getParent();
         scrollview.setSmoothScrollingEnabled(true);
         scrollview.smoothScrollTo(0, getPixelsWithinScrollView(editText) + editText.getHeight() - ScreenUtils.getScreenHeight() / 2);
         if (b) {
             if (editText instanceof EditText) {
                 editText.requestFocus();
             }
-            viewGroup.setBackgroundResource(R.drawable.bg_error_filling);
+            editText.setBackgroundResource(R.drawable.bg_error_filling);
         } else {
-
-            viewGroup.setBackgroundResource(R.drawable.shape_rect_demand_info);
+            editText.setBackgroundResource(R.drawable.shape_rect_demand_info);
         }
         return b;
     }
-
 
     private void sooothScrollToView(View view) {
         scrollview.setSmoothScrollingEnabled(true);
@@ -1246,6 +1375,13 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     }
 
     private String getTextViewValue(TextView view) {
+//        boolean b = (view == etAmountRedbag
+//                || view == etAmount
+//                || view == etExpressAmountMinimum)
+//                && view.getText().toString().trim().endsWith(getString(R.string.dot));
+//        if (b) {
+//            return view.getText().toString().replace(getString(R.string.dot), "");
+//        }
         return view.getText().toString().trim();
     }
 
@@ -1262,32 +1398,41 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     }
 
 
-    private void setTipDialog(int res) {
-        mTipDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                res, null);
-        root.findViewById(R.id.i_know).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTipDialog.dismiss();
-            }
-        });
-        mTipDialog.setContentView(root);
-        Window dialogWindow = mTipDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mTipDialog.show();
+    private void showTip1Dialog() {
+        if (mDialogTip1 == null) {
+            mDialogTip1 = DialogUtil.getInstance().createDialog(this, 0, R.layout.layout_extimate_tip1, new DialogUtil.OnKnownListener() {
+                @Override
+                public void onKnown(View view) {
+                    mDialogTip1.dismiss();
+                }
+            }, null, null);
+        }
+        showDialog(mDialogTip1);
     }
 
+    private void showTip2Dialog() {
+        if (mDialogTip2 == null) {
+            mDialogTip2 = DialogUtil.getInstance().createDialog(this, 0, R.layout.layout_extimate_tip2, new DialogUtil.OnKnownListener() {
+                @Override
+                public void onKnown(View view) {
+                    mDialogTip2.dismiss();
+                }
+            }, null, null);
+        }
+        showDialog(mDialogTip2);
+    }
+
+    private void showScanDialog() {
+        if (mScanDialog == null) {
+            mScanDialog = DialogUtil.getInstance().createDialog(this, 0, R.layout.dialog_scan_tip, new DialogUtil.OnKnownListener() {
+                @Override
+                public void onKnown(View view) {
+                    mScanDialog.dismiss();
+                }
+            }, null, null);
+        }
+        showDialog(mScanDialog);
+    }
 
     private void requestForCompanies() {
 
@@ -1342,74 +1487,8 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
                 }
             }
         });
-
     }
 
-    private void setDialog(final List<CompaniesBean.DataBean> data) {
-        mCameraDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.company_dialog_bottom, null);
-        //初始化视图
-        LinearLayout llContainer = (LinearLayout) root.findViewById(R.id.ll_container);
-        for (int i = 0; i < data.size(); i++) {
-            final TextView textView = new TextView(this);
-            if (data.size() > 0) {
-                dataBean = data.get(i);
-                textView.setText(dataBean.getName());
-                textView.setLayoutParams(new ActionBarOverlayLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                textView.setGravity(Gravity.CENTER_HORIZONTAL);
-                textView.setTextSize(TDevice.spToPx(getResources(), 12));
-                textView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SharedPreferencesHelper.save(DemandsPublishLocationActivity.this, dataBean);
-                        etPublishCompanyName.setText(dataBean.getName());
-                        etPublishAddress.setText(dataBean.getAddress());
-                        etPublishTexNumber.setText(dataBean.getTaxno());
-                        etPublishPhoneNumber.setText(dataBean.getPhone());
-                        etPublishBank.setText(dataBean.getDepositBank());
-                        etPublishBankAccount.setText(dataBean.getAccount());
-                        mCameraDialog.dismiss();
-                    }
-                });
-                llContainer.addView(textView);
-            }
-
-        }
-        root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCameraDialog.dismiss();
-            }
-        });
-        root.findViewById(R.id.btn_clear).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                etPublishCompanyName.setText("");
-                etPublishAddress.setText("");
-                etPublishTexNumber.setText("");
-                etPublishPhoneNumber.setText("");
-                etPublishBank.setText("");
-                etPublishBankAccount.setText("");
-                SharedPreferencesHelper.remove(DemandsPublishLocationActivity.this, CompaniesBean.DataBean.class);
-                mCameraDialog.dismiss();
-            }
-        });
-        mCameraDialog.setContentView(root);
-        Window dialogWindow = mCameraDialog.getWindow();
-        dialogWindow.setGravity(Gravity.BOTTOM);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-//        mCameraDialog.show();
-    }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -1434,7 +1513,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
 
     private void initCityPicker() {
         CityConfig cityConfig = new CityConfig.Builder(DemandsPublishLocationActivity.this)
@@ -1533,7 +1611,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         updateCompanyInfo(dataBean);
     }
 
-
     @OnClick(R.id.tv_area_limited)
     public void onViewClicked() {
         cityPickerAreaLimited.show();
@@ -1589,7 +1666,6 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
         guide.show(DemandsPublishLocationActivity.this);
     }
 
-
     public void showGuideView2() {
 
 
@@ -1634,37 +1710,12 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
     }
 
 
-    public void setScanDialog() {
-        scanDialog = new Dialog(this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(this).inflate(
-                R.layout.layout_scan_tip, null);
-        TextView tv = (TextView) root.findViewById(R.id.scan_tip);
-        tv.setText("添加单位信息，目前仅支持发票宝生成的单位信息二维码的扫描");
-        //初始化视图
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                scanDialog.dismiss();
-            }
-        });
-        scanDialog.setContentView(root);
-        Window dialogWindow = scanDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
-
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        scanDialog.show();
-    }
-
     @Override
     public void onBackPressed() {
+        if (mPreviewPopup.isShowing()) {
+            mPreviewPopup.dismiss();
+            return;
+        }
         if (!alertDialog.isShowing()) {
             TLog.log("alertDialog.show();");
             alertDialog.show();
@@ -1672,5 +1723,108 @@ public class DemandsPublishLocationActivity extends BaseLocationActivity impleme
             TLog.log("alertDialog.hide();");
             alertDialog.hide();
         }
+
+
+    }
+
+    private void startSearching(String companyName, String tag) {
+        Api.searchCompanies(companyName, tag, new JsonConvertor<BaseResponseBean<List<com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean>>>() {
+
+            @Override
+            public void onSuccess(Response<BaseResponseBean<List<com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean>>> response) {
+                adapter.setNewData(response.body().getData());
+                if (response.body().getData().size() > 4) {
+                    popWnd.setHeight((int) TDevice.dp2px(200));
+                } else {
+                    popWnd.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                }
+                popWnd.update();
+
+                popWnd.showAtLocation(llPublishCompanyName
+                        , Gravity.NO_GRAVITY
+                        , llPublishCompanyName.getLeft()
+                        , scrollview.getTop()
+                                + getPixelsWithinScrollView(lineAbovePopup)
+                                + lineAbovePopup.getHeight()
+                                + llPublishCompanyName.getHeight());
+            }
+
+            @Override
+            protected void onNoContent() {
+                super.onNoContent();
+                popWnd.dismiss();
+            }
+        });
+    }
+
+    private void cancelSearching(String tag) {
+        TLog.log("cancelSearching===" + tag);
+        OkGo.cancelTag(OkGo.getInstance().getOkHttpClient(), tag);
+    }
+
+    private void initPopup() {
+        View popupContentView = LayoutInflater.from(this).inflate(R.layout.layout_search_companies, null);
+        RecyclerView recyclerView1 = (RecyclerView) popupContentView.findViewById(R.id.recyclerView);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView1.setItemAnimator(new DefaultItemAnimator());
+        recyclerView1.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        adapter = new SearchCompaniesAdapter(R.layout.item_search_companies);
+        adapter.setOnItemClickListener(this);
+        recyclerView1.setAdapter(adapter);
+        popWnd = new PopupWindow(this);
+        popWnd.setContentView(popupContentView);
+        popWnd.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_search_companies_pop));
+        scrollview.post(new Runnable() {
+            @Override
+            public void run() {
+                TLog.d(TAG, " popWnd.setWidth(viewGroup.getMeasuredWidth());----" + scrollview.getMeasuredWidth());
+                popWnd.setWidth((scrollview.getMeasuredWidth() - (int) TDevice.dp2px(30)));
+            }
+        });
+        popWnd.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        popWnd.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        popWnd.setOutsideTouchable(true);
+        popWnd.setTouchable(true);
+        popWnd.setTouchInterceptor(this);
+        popWnd.setOnDismissListener(this);
+        popWnd.update();
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus) {
+            etPublishCompanyName.addTextChangedListener(textWatcher);
+        }
+    }
+
+    @Override
+    public void onDismiss() {
+
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        KeyboardUtils.hideSoftInput(this);
+        return false;
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        etPublishCompanyName.removeTextChangedListener(textWatcher);
+        com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean companiesBean = (com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean) adapter.getItem(position);
+        if (companiesBean != null) {
+            etPublishCompanyName.setText(companiesBean.getNsrmc());
+            etPublishTexNumber.setText(companiesBean.getNsrsbh());
+        }
+        popWnd.dismiss();
+        etPublishAddress.requestFocus();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (mPreviewPopup != null && mPreviewPopup.isShowing()) {
+            return false;
+        }
+        return super.dispatchTouchEvent(event);
     }
 }

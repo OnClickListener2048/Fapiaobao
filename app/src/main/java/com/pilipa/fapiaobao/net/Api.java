@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.callback.Callback;
 import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Progress;
@@ -16,6 +17,7 @@ import com.pilipa.fapiaobao.entity.Company;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
 import com.pilipa.fapiaobao.net.bean.RejectTypeBean;
 import com.pilipa.fapiaobao.net.bean.ShortMessageBean;
+import com.pilipa.fapiaobao.net.bean.base.BaseResponseBean;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceType;
 import com.pilipa.fapiaobao.net.bean.invoice.AllInvoiceVariety;
 import com.pilipa.fapiaobao.net.bean.invoice.CompanyCollectBean;
@@ -50,18 +52,18 @@ import com.pilipa.fapiaobao.net.bean.publish.ExpressCompanyBean;
 import com.pilipa.fapiaobao.net.bean.update.VersionMode;
 import com.pilipa.fapiaobao.net.bean.wx.PrepayBean;
 import com.pilipa.fapiaobao.net.callback.JsonCallBack;
-import com.pilipa.fapiaobao.utils.PayCommonUtil;
 import com.pilipa.fapiaobao.utils.TDevice;
-import com.pilipa.fapiaobao.wxapi.Constants;
 
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.List;
 
 import static com.pilipa.fapiaobao.net.Constant.AMOUNT_HISTORY;
 import static com.pilipa.fapiaobao.net.Constant.BIND;
 import static com.pilipa.fapiaobao.net.Constant.COMPANIES_LIST;
 import static com.pilipa.fapiaobao.net.Constant.COMPANY_INFO;
+import static com.pilipa.fapiaobao.net.Constant.COMPANY_SEARCH;
 import static com.pilipa.fapiaobao.net.Constant.CONFIRM_DEMAND;
 import static com.pilipa.fapiaobao.net.Constant.CONFIRM_INVOICE;
 import static com.pilipa.fapiaobao.net.Constant.CREATE_COMPANY;
@@ -121,7 +123,7 @@ import static com.pilipa.fapiaobao.net.Constant.WX_RECHARGE;
  * Created by lyt on 2017/10/12.
  */
 
-public class Api {
+public class Api<T> {
 
     private static String TAG = "api";
 
@@ -813,14 +815,6 @@ public class Api {
         });
     }
 
-    public static void wxPay(String total_fee, final BaseViewCallback baseViewCallback) {
-        OkGo.<String>post(Constants.PREPAY_URL).upString(PayCommonUtil.getRequestXml(PayCommonUtil.wxPrePay(total_fee))).execute(new StringCallback() {
-            @Override
-            public void onSuccess(Response<String> response) {
-                baseViewCallback.setData(response.body());
-            }
-        });
-    }
 
     /**
      * @param baseViewCallback
@@ -1318,15 +1312,14 @@ public class Api {
             @Override
             public void onSuccess(Response<MessageListBean> response) {
                 MessageListBean body = response.body();
-                int status = body.getStatus();
-
-
-                if (status == Constant.TOKEN_INVALIDE) {
-                    baseViewCallback.onTokenInvalid();
-                } else {
-                    baseViewCallback.setData(body);
+                if (body != null) {
+                    int status = body.getStatus();
+                    if (status == Constant.TOKEN_INVALIDE) {
+                        baseViewCallback.onTokenInvalid();
+                    } else {
+                        baseViewCallback.setData(body);
+                    }
                 }
-
             }
 
             @Override
@@ -1651,7 +1644,7 @@ public class Api {
         OkGo.<AllInvoiceVariety>get(FIND_ALL_INVOICE_VARIETY).cacheMode(CacheMode.IF_NONE_CACHE_REQUEST).execute(new JsonCallBack<AllInvoiceVariety>(AllInvoiceVariety.class) {
             @Override
             public void onSuccess(Response<AllInvoiceVariety> response) {
-                if (response.isSuccessful()&&response.body().getStatus()==200) {
+                if (response.isSuccessful() && response.body().getStatus() == Constant.REQUEST_SUCCESS) {
                     if (response.body().getData()!= null&& response.body().getData().size()>0) {
                         baseViewCallback.setData(response.body());
                     }
@@ -1675,12 +1668,11 @@ public class Api {
             @Override
             public void onSuccess(Response<UploadProcessing> response) {
                 if (response.isSuccessful()) {
-                    if (response.body().getStatus() == 200) {
+                    if (response.body().getStatus() == Constant.REQUEST_SUCCESS) {
                         BaseApplication.showToast("上传成功");
                         baseViewCallbackWithOnStart.setData(response.body());
                     }
                 }
-
             }
 
             @Override
@@ -1783,7 +1775,7 @@ public class Api {
      * @param baseViewCallback
      */
     public static void findAllRejectType(final BaseViewCallback baseViewCallback) {
-        OkGo.<RejectTypeBean>get(FIND_ALL_REJECT_TYPE).execute(new JsonCallBack<RejectTypeBean>(RejectTypeBean.class) {
+        OkGo.<RejectTypeBean>get(FIND_ALL_REJECT_TYPE).cacheMode(CacheMode.IF_NONE_CACHE_REQUEST).execute(new JsonCallBack<RejectTypeBean>(RejectTypeBean.class) {
             @Override
             public void onSuccess(Response<RejectTypeBean> response) {
                     baseViewCallback.setData(response.body());
@@ -1932,7 +1924,13 @@ public class Api {
                         baseViewCallbackWithOnStart.onError();
                     }
                 });
+    }
 
+    public static void searchCompanies(String companyName, Object tag, final Callback callback) {
+        OkGo.<BaseResponseBean<List<com.pilipa.fapiaobao.net.bean.me.search.CompaniesBean>>>get(String.format(COMPANY_SEARCH, companyName))
+                .tag(tag)
+                .cacheMode(CacheMode.NO_CACHE)
+                .execute(callback);
     }
 
     public static void getSuggestions(int pageNo
@@ -1972,7 +1970,12 @@ public class Api {
                         baseViewCallbackWithOnStart.onError();
                     }
                 });
+    }
 
+    public static void distribute(BaseResponseBean baseResponseBean, BaseViewCallback baseViewCallback) {
+        if (baseResponseBean.getStatus() == Constant.REQUEST_SUCCESS) {
+            baseViewCallback.setData(baseResponseBean.getData());
+        }
     }
 
     public interface BaseViewCallback<T> {

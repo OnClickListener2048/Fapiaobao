@@ -210,4 +210,9 @@ public final class RegexUtils {
         if (input == null) return null;
         return Pattern.compile(regex).matcher(input).replaceAll(replacement);
     }
+
+    public static boolean isAlphaBeta(final String input) {
+        if (input == null) return false;
+        return Pattern.compile(RegexConstants.REGEX_ALPHEBETA).matcher(input).matches();
+    }
 }

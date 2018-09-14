@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
+import com.pilipa.fapiaobao.adapter.me.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.ui.constants.Constant;

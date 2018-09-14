@@ -2,7 +2,6 @@ package com.pilipa.fapiaobao.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +10,11 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.lcodecore.tkrefreshlayout.header.progresslayout.ProgressLayout;
 import com.lzy.okgo.OkGo;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.MyReceiptAdapter;
+import com.pilipa.fapiaobao.adapter.me.MyReceiptAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseNoNetworkFragment;
 import com.pilipa.fapiaobao.net.Api;
@@ -31,8 +28,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static com.pilipa.fapiaobao.net.Constant.STATE_DEMAND_CLOSE;
-
 /**
  * Created by lyt on 2017/10/17.
  */
@@ -42,12 +37,10 @@ public class ProvidePagerFragment extends BaseNoNetworkFragment implements Adapt
 
     @Bind(R.id.recyclerview)
     ListView listView;
-    @Bind(R.id.trl)
-    TwinklingRefreshLayout trl;
+    List<OrderListBean.DataBean> mDataList = new ArrayList<>();
     private MyReceiptAdapter mAdapter;
     private int pageNo=0;
     private int pageSize=100;
-    List<OrderListBean.DataBean> mDataList =new ArrayList<>();
     private boolean mIsInited;
     private boolean mIsPrepared;
     private View emptyView;
@@ -98,12 +91,6 @@ public class ProvidePagerFragment extends BaseNoNetworkFragment implements Adapt
 
         super.initWidget(root);
         ProgressLayout headerView = new ProgressLayout(getContext());
-        trl.setOnRefreshListener(refreshListenerAdapter);
-        trl.setHeaderView(headerView);
-        trl.setOverScrollRefreshShow(false);
-        trl.setOverScrollBottomShow(false);
-        trl.setOverScrollTopShow(false);
-        trl.setEnableOverScroll(false);
         listView.setAdapter(mAdapter = new MyReceiptAdapter(mContext));
         listView.setOnItemClickListener(this);
         emptyView = View.inflate(mContext, R.layout.layout_details_empty_view, null);
@@ -119,71 +106,6 @@ public class ProvidePagerFragment extends BaseNoNetworkFragment implements Adapt
         super.initData();
 
     }
-    private RefreshListenerAdapter refreshListenerAdapter = new RefreshListenerAdapter() {
-        @Override
-        public void onPullingDown(TwinklingRefreshLayout refreshLayout, float fraction) {
-            super.onPullingDown(refreshLayout, fraction);
-        }
-
-        @Override
-        public void onPullingUp(TwinklingRefreshLayout refreshLayout, float fraction) {
-            super.onPullingUp(refreshLayout, fraction);
-        }
-
-        @Override
-        public void onPullDownReleasing(TwinklingRefreshLayout refreshLayout, float fraction) {
-            super.onPullDownReleasing(refreshLayout, fraction);
-        }
-
-        @Override
-        public void onPullUpReleasing(TwinklingRefreshLayout refreshLayout, float fraction) {
-            super.onPullUpReleasing(refreshLayout, fraction);
-        }
-
-        @Override
-        public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-            super.onRefresh(refreshLayout);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(trl != null)
-                    trl.finishRefreshing();
-                }
-            },2000);
-        }
-
-        @Override
-        public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-            super.onLoadMore(refreshLayout);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(trl != null)
-                        trl.finishLoadmore();
-                }
-            },2000);
-        }
-
-        @Override
-        public void onFinishRefresh() {
-            super.onFinishRefresh();
-        }
-
-        @Override
-        public void onFinishLoadMore() {
-            super.onFinishLoadMore();
-        }
-
-        @Override
-        public void onRefreshCanceled() {
-            super.onRefreshCanceled();
-        }
-
-        @Override
-        public void onLoadmoreCanceled() {
-            super.onLoadmoreCanceled();
-        }
-    };
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

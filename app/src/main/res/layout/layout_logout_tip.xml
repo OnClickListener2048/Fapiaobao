@@ -6,53 +6,60 @@
 
     <LinearLayout
         android:layout_width="314dp"
-        android:layout_height="140dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:background="@drawable/shape_tip_bg"
         android:orientation="vertical">
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/d22"
+            android:orientation="vertical">
             <TextView
-                android:layout_marginStart="36dp"
-                android:layout_marginTop="29dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="@string/logout"
                 android:textColor="#959595"
-                android:text="@string/logout"/>
+                android:textSize="18sp" />
             <TextView
-                android:layout_marginTop="@dimen/d13"
-                android:layout_marginStart="36dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/d18"
+                android:text="@string/logout_tip"
                 android:textColor="#434343"
-                android:text="@string/logout_tip"/>
+                android:textSize="@dimen/s13" />
         </LinearLayout>
 
         <LinearLayout
-            android:gravity="end"
-            android:layout_marginEnd="@dimen/d30"
-            android:layout_marginStart="@dimen/d50"
-            android:layout_marginTop="@dimen/d10"
-            android:layout_marginBottom="29dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/d15"
+            android:gravity="end">
 
-            <Button
-                android:id="@+id/btn_cancel1"
+            <TextView
+                android:id="@+id/cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:textColor="@drawable/selector_union_main_style_text"
-                android:text="@string/cancel"/>
-            <Button
-                android:id="@+id/btn_confirm"
-                android:background="@null"
-                android:textColor="@drawable/selector_union_main_style_text"
+                android:paddingBottom="@dimen/d22"
+                android:paddingEnd="@dimen/d17"
+                android:paddingStart="@dimen/d20"
+                android:paddingTop="@dimen/d20"
+                android:text="@string/cancel"
+                android:textColor="@drawable/selector_union_main_style_text" />
+
+            <TextView
+                android:id="@+id/confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/confirm"/>
+                android:background="@null"
+                android:paddingBottom="@dimen/d22"
+                android:paddingEnd="@dimen/d22"
+                android:paddingStart="@dimen/d17"
+                android:paddingTop="@dimen/d20"
+                android:text="@string/confirm"
+                android:textColor="@drawable/selector_union_main_style_text" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

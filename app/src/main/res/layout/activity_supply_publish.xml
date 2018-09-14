@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp">
@@ -13,24 +18,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/d18"
+            android:text="@string/demand_publish"
             android:textColor="@color/title"
-            android:text="@string/demand_publish" />
+            android:textSize="@dimen/d18" />
 
         <ImageView
-            android:background="@drawable/drawable_scan"
             android:id="@+id/upload_back"
             android:layout_width="@dimen/d48"
             android:layout_height="@dimen/d52"
+            android:background="@drawable/drawable_scan"
             android:src="@mipmap/estimate_back_brawn" />
 
         <ImageView
             android:id="@+id/upload_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/d10"
+            android:layout_marginEnd="@dimen/d10"
             android:src="@mipmap/upload_scan"
             android:text="@string/filter"
             android:textColor="@color/main_style"
@@ -76,6 +81,7 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/d2"
         android:layout_marginTop="@dimen/d5"
@@ -118,3 +124,11 @@
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#b0000000"
+        android:visibility="gone"/>
+</FrameLayout>

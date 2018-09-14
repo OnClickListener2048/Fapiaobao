@@ -1,5 +1,6 @@
 package com.pilipa.fapiaobao.base;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,7 +20,6 @@ import com.bumptech.glide.RequestManager;
 import com.example.mylibrary.utils.ImageLoader;
 import com.example.mylibrary.utils.TLog;
 import com.lzy.okgo.OkGo;
-import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.ui.LoginActivity;
 import com.pilipa.fapiaobao.ui.fragment.ProgressDialogFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
@@ -41,8 +41,8 @@ public abstract class BaseFragment extends Fragment {
     protected Context mContext;
     protected View mRoot;
     protected Bundle mBundle;
-    private RequestManager mImgLoader;
     protected LayoutInflater mInflater;
+    private RequestManager mImgLoader;
     private Fragment mFragment;
     private ProgressDialogFragment progressDialogFragment;
 
@@ -110,7 +110,11 @@ public abstract class BaseFragment extends Fragment {
         if (!progressDialogFragment.isInLayout() && !progressDialogFragment.isVisible()) {
             progressDialogFragment.show(getFragmentManager(), tag);
         }
+    }
 
+    protected void showDialog(Dialog dialog) {
+        if (getActivity().isFinishing()) return;
+        dialog.show();
     }
 
     public void hideDialogFragment(String tag) {

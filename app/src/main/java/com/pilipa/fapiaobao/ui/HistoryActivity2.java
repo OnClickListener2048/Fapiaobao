@@ -7,7 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.pilipa.fapiaobao.R;
-import com.pilipa.fapiaobao.adapter.TabPageIndicatorAdapter;
+import com.pilipa.fapiaobao.adapter.me.TabPageIndicatorAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.ui.fragment.UnusedPagerFragment_close;

@@ -113,6 +113,11 @@ public final class RegexConstants {
      */
     public static final String REGEX_NEGATIVE_FLOAT       = "^-[1-9]\\d*\\.\\d*|-0\\.\\d*[1-9]\\d*$";
 
+    /**
+     * 正则：a-z A-Z 0-9
+     */
+    public static final String REGEX_ALPHEBETA = "^[A-Za-z0-9\\-]+$";
+
     ///////////////////////////////////////////////////////////////////////////
     // If u want more please visit http://toutiao.com/i6231678548520731137
     ///////////////////////////////////////////////////////////////////////////

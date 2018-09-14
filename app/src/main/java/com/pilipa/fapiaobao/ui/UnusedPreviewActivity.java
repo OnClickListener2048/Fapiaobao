@@ -5,21 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.PreviewPagerAdapter;
+import com.pilipa.fapiaobao.adapter.supply.PreviewPagerAdapter;
 import com.pilipa.fapiaobao.base.BaseActivity;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.net.Api;
@@ -31,6 +26,7 @@ import com.pilipa.fapiaobao.ui.fragment.UploadNormalReceiptFragment;
 import com.pilipa.fapiaobao.ui.fragment.UploadPreviewReceiptFragment;
 import com.pilipa.fapiaobao.ui.model.Image;
 import com.pilipa.fapiaobao.ui.widget.PreviewViewpager;
+import com.pilipa.fapiaobao.utils.DialogUtil;
 
 import java.util.ArrayList;
 
@@ -44,6 +40,7 @@ import butterknife.OnClick;
 
 public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnPageChangeListener, CompoundButton.OnCheckedChangeListener {
     private static final String TAG = "UnusedPreviewActivity";
+    protected int mPreviousPos = -1;
     @Bind(R.id.preview_viewpager)
     PreviewViewpager previewViewpager;
     @Bind(R.id.delete)
@@ -53,7 +50,6 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
     @Bind(R.id.click)
     CheckBox click;
     private ArrayList<Image> allList;
-    protected int mPreviousPos = -1;
     private PreviewPagerAdapter previewPagerAdapter;
     private Dialog mDelDialog;
     private Image mImage;
@@ -87,7 +83,7 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
         Log.d(TAG, "initView: currentPosition" + currentPosition);
         boolean isFromDemands = bundleExtra.getBoolean(DemandsDetailsReceiptFragment.IS_FROM_DEMANDS, false);
 //        mPreviousPos = isFromDemands ? currentPosition : currentPosition - 1;
-        mPreviousPos = currentPosition -1;
+        mPreviousPos = currentPosition - 1;
         click.setChecked(allList.get(currentPosition).isSelected);
 
         ArrayList<PreviewImageFragment> fragmentList = new ArrayList<>();
@@ -103,6 +99,23 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
         previewViewpager.setCurrentItem(mPreviousPos);
         previewViewpager.setOnPageChangeListener(this);
         click.setOnCheckedChangeListener(this);
+
+        initDialog();
+    }
+
+    private void initDialog() {
+        mDelDialog = DialogUtil.getInstance().createDialog(this, R.style.BottomDialog, R.layout.dialog_delete_receiptfolder_invoice, null, new DialogUtil.OnConfirmListener() {
+            @Override
+            public void onConfirm(View view) {
+                mDelDialog.dismiss();
+                deleteMyInvoice(allList.get(mPreviousPos + 1).name);
+            }
+        }, new DialogUtil.OnCancelListener() {
+            @Override
+            public void onCancel(View view) {
+                mDelDialog.dismiss();
+            }
+        });
     }
 
     @Override
@@ -121,7 +134,7 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.delete:
-                setDelDialog(allList.get(mPreviousPos+1));
+                showDialog(mDelDialog);
                 break;
             case R.id.back:
                 returnResult();
@@ -129,7 +142,7 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
                 break;
             case R.id.click:
                 click.setChecked(click.isChecked());
-                allList.get(mPreviousPos+1).isSelected = !click.isChecked();
+                allList.get(mPreviousPos + 1).isSelected = !click.isChecked();
                 break;
             default:
         }
@@ -163,9 +176,9 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
             ((PreviewImageFragment) adapter.instantiateItem(previewViewpager, mPreviousPos)).resetView();
         }
         mPreviousPos = position;
-        click.setChecked(allList.get(position+1).isSelected);
-        mImage = allList.get(position+1);
-        Log.d(TAG, "onPageSelected:mPreviousPos "+mPreviousPos+" click.setChecked(allList.get(position+1).isSelected);"+allList.get(position+1).isSelected);
+        click.setChecked(allList.get(position + 1).isSelected);
+        mImage = allList.get(position + 1);
+        Log.d(TAG, "onPageSelected:mPreviousPos " + mPreviousPos + " click.setChecked(allList.get(position+1).isSelected);" + allList.get(position + 1).isSelected);
     }
 
     @Override
@@ -178,86 +191,87 @@ public class UnusedPreviewActivity extends BaseActivity implements ViewPager.OnP
         if (buttonView instanceof CheckBox) {
 
             buttonView.setChecked(isChecked);
-            allList.get(mPreviousPos+1).isSelected = isChecked;
+            allList.get(mPreviousPos + 1).isSelected = isChecked;
 
-            Log.d(TAG, "onCheckedChanged:   allList.get(mPreviousPos)."+mPreviousPos);
+            Log.d(TAG, "onCheckedChanged:   allList.get(mPreviousPos)." + mPreviousPos);
         }
     }
 
-    private void setDelDialog(final Image image) {
-        mDelDialog = new Dialog(UnusedPreviewActivity.this, R.style.BottomDialog);
-        LinearLayout root = (LinearLayout) LayoutInflater.from(UnusedPreviewActivity.this).inflate(
-                R.layout.layout_delete_tip, null);
-        TextView tv_title = (TextView) root.findViewById(R.id.tv_title);
-        tv_title.setText(getString(R.string.do_you_real_wanna_delete_this_invoice));
-        //初始化视图
-        root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDelDialog.dismiss();
-            }
-        });
-        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteMyInvoice(image.name);
-            }
-        });
-        mDelDialog.setContentView(root);
-        Window dialogWindow = mDelDialog.getWindow();
-        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
-        lp.x = 0; // 新位置X坐标
-        lp.y = 0; // 新位置Y坐标
-        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
-        root.measure(0, 0);
-        lp.height = root.getMeasuredHeight();
+//    private void setDelDialog(final Image image) {
+//        mDelDialog = new Dialog(UnusedPreviewActivity.this, R.style.BottomDialog);
+//        LinearLayout root = (LinearLayout) LayoutInflater.from(UnusedPreviewActivity.this).inflate(
+//                R.layout.layout_delete_tip, null);
+//        TextView tv_title = (TextView) root.findViewById(R.id.tv_title);
+//        tv_title.setText(getString(R.string.do_you_real_wanna_delete_this_invoice));
+//        //初始化视图
+//        root.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDelDialog.dismiss();
+//            }
+//        });
+//        root.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                deleteMyInvoice(image.name);
+//            }
+//        });
+//        mDelDialog.setContentView(root);
+//        Window dialogWindow = mDelDialog.getWindow();
+//        dialogWindow.setGravity(Gravity.CENTER);
+////        dialogWindow.setWindowAnimations(R.style.dialogstyle); // 添加动画
+//        WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+//        lp.x = 0; // 新位置X坐标
+//        lp.y = 0; // 新位置Y坐标
+//        lp.width = (int) getResources().getDisplayMetrics().widthPixels; // 宽度
+//        root.measure(0, 0);
+//        lp.height = root.getMeasuredHeight();
+//
+//        lp.alpha = 9f; // 透明度
+//        dialogWindow.setAttributes(lp);
+//        mDelDialog.show();
+//    }
 
-        lp.alpha = 9f; // 透明度
-        dialogWindow.setAttributes(lp);
-        mDelDialog.show();
-    }
     private void deleteMyInvoice(final String invoiceId) {
 
-                    Api.deleteMyInvoice(AccountHelper.getToken(), invoiceId, new Api.BaseRawResponse<NormalBean>() {
-                        @Override
-                        public void onTokenInvalid() {
-                            login();
-                        }
+        Api.deleteMyInvoice(AccountHelper.getToken(), invoiceId, new Api.BaseRawResponse<NormalBean>() {
+            @Override
+            public void onTokenInvalid() {
+                login();
+            }
 
-                        @Override
-                        public void onStart() {
-                            showProgressDialog();
-                        }
+            @Override
+            public void onStart() {
+                showProgressDialog();
+            }
 
-                        @Override
-                        public void onFinish() {
-                            hideProgressDialog();
-                        }
+            @Override
+            public void onFinish() {
+                hideProgressDialog();
+            }
 
-                        @Override
-                        public void onError() {
-                            hideProgressDialog();
-                            BaseApplication.showToast(getString(R.string.delete_fail));
-                        }
+            @Override
+            public void onError() {
+                hideProgressDialog();
+                BaseApplication.showToast(getString(R.string.delete_fail));
+            }
 
-                        @Override
-                        public void setData(NormalBean normalBean) {
-                            if(normalBean.getStatus() == Constant.REQUEST_SUCCESS){
-                                mDelDialog.dismiss();
-                                deleteLoc();
-                                BaseApplication.showToast(getString(R.string.delete_success));
-                            }
-                            TLog.d("", "initData:deleteMyInvoice success");
+            @Override
+            public void setData(NormalBean normalBean) {
+                if (normalBean.getStatus() == Constant.REQUEST_SUCCESS) {
+                    deleteLoc();
+                    BaseApplication.showToast(getString(R.string.delete_success));
+                }
+                TLog.d("", "initData:deleteMyInvoice success");
 
-                        }
-                    });
+            }
+        });
 
     }
-    private void deleteLoc(){
+
+    private void deleteLoc() {
         TLog.d(TAG, "before allList.remove(mPreviousPos+1);allList.size()" + allList.size());
-        allList.remove(mPreviousPos+1);
+        allList.remove(mPreviousPos + 1);
         previewPagerAdapter.remove(mPreviousPos);
         TLog.d(TAG, "after---onViewClicked: allList.size()=========" + allList.size());
         TLog.d(TAG, "onViewClicked: previewPagerAdapter.arrayList.size()=========" + previewPagerAdapter.arrayList.size());

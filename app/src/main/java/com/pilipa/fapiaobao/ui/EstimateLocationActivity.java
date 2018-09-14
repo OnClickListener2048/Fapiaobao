@@ -4,17 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -35,7 +32,7 @@ import com.pilipa.fapiaobao.AppOperator;
 import com.pilipa.fapiaobao.Constants.Config;
 import com.pilipa.fapiaobao.R;
 import com.pilipa.fapiaobao.account.AccountHelper;
-import com.pilipa.fapiaobao.adapter.ExtimatePagerAdapter;
+import com.pilipa.fapiaobao.adapter.supply.ExtimatePagerAdapter;
 import com.pilipa.fapiaobao.base.BaseApplication;
 import com.pilipa.fapiaobao.base.BaseLocationActivity;
 import com.pilipa.fapiaobao.net.Api;
@@ -74,8 +71,9 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class EstimateLocationActivity extends BaseLocationActivity implements ViewPager.OnPageChangeListener {
+    public static final int REQUEST_CODE_ESTIMATE = 500;
+    public ExtimatePagerAdapter adapter;
     String TAG = "EstimateLocationActivity";
-
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.estimate_back)
@@ -88,14 +86,12 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
     RelativeLayout estimatePlease;
     @Bind(R.id.test_redbag)
     Button testRedbag;
-
     @Bind(R.id.ultra_viewpager)
     UltraViewPager ultraViewpager;
     @Bind(R.id.go)
     Button go;
     @Bind(R.id.confirm_caution)
     LinearLayout llConfirmCaution;
-
     @Bind(R.id.tolast)
     ImageView tolast;
     @Bind(R.id.tonext)
@@ -134,7 +130,6 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
     LinearLayout llFilterTypesLocation;
     String locate = "";
     int type = 0;
-    public static final int REQUEST_CODE_ESTIMATE = 500;
     @Bind(R.id.tv_label)
     TextView tvLabel;
     private String label = "";
@@ -142,14 +137,11 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
     private int currentItem = 0;
     private MacherBeanToken matchBean;
     private double amount;
-
     private CityPickerView cityPicker;
     private ArrayList<String> arrayListSelectedReceiptKind;
     private String name = "";
     private String companyId;
     private String demandId;
-    public ExtimatePagerAdapter adapter;
-
 
     @Override
     protected int getLayoutId() {
@@ -438,11 +430,12 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
     private void estimate() {
         if ("定位失败，点击选择地区".equals(locating.getText().toString())) {
             BaseApplication.showToast("定位异常，请开启定位功能或手动选择");
+            cityPicker.show();
             return;
         }
 
         if (type == 0) {
-            BaseApplication.showToast("请选择发票类型");
+            BaseApplication.showToast("请选择发票种类");
             return;
         }
         filterConditionTop.setText(locate + "\u3000" + arrayListSelectedReceiptKind.get(type - 1));
@@ -525,6 +518,7 @@ public class EstimateLocationActivity extends BaseLocationActivity implements Vi
                     estimate();
                 }
                 break;
+            default:
         }
     }
 

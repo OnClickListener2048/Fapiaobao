@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.mylibrary.utils.TLog;
 import com.pilipa.fapiaobao.net.Api;
 import com.pilipa.fapiaobao.net.bean.LoginWithInfoBean;
+import com.pilipa.fapiaobao.ui.constants.Constant;
 import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 /**
@@ -16,9 +17,9 @@ import com.pilipa.fapiaobao.utils.SharedPreferencesHelper;
 
 public class AccountHelper {
     private static final String TAG = AccountHelper.class.getSimpleName();
-    private Application application;
     @SuppressLint("StaticFieldLeak")
     private static AccountHelper instances;
+    private Application application;
     private LoginWithInfoBean user;
 
     private AccountHelper(Application application) {
@@ -26,9 +27,9 @@ public class AccountHelper {
     }
 
     public static void init(Application application) {
-        if (instances == null)
+        if (instances == null) {
             instances = new AccountHelper(application);
-        else {
+        } else {
             // reload from source
             instances.user = SharedPreferencesHelper.loadFormSource(instances.application, LoginWithInfoBean.class);
             TLog.d(TAG, "init reload:" + instances.user);
@@ -36,7 +37,7 @@ public class AccountHelper {
     }
 
     public static boolean isLogin() {
-        return !TextUtils.isEmpty(getToken());
+        return !TextUtils.equals(getToken(), Constant.NOTOKEN);
     }
     public static void logout(){
         SharedPreferencesHelper.remove(instances.application,LoginWithInfoBean.class);
@@ -81,7 +82,7 @@ public class AccountHelper {
             instances.user.getData().getCustomer().setNickname(customer.getNickname());
             instances.user.getData().getCustomer().setHeadimg(customer.getHeadimg());
             instances.user.getData().getCustomer().setEmail(customer.getEmail());
-
+            instances.user.getData().getCustomer().setAvailiableBalance(customer.getAmount() - customer.getFrozen());
             if(customer.getOpenid() != null){
                 instances.user.getData().getCustomer().setOpenid(customer.getOpenid());
             }

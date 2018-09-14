@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="314dp"
-        android:layout_height="141dp"
-        android:background="@drawable/shape_tip_bg"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:background="@drawable/shape_tip_bg"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/d22"
+        android:paddingTop="@dimen/d22">
         <LinearLayout
-            android:layout_marginStart="@dimen/d30"
-            android:layout_marginTop="@dimen/d50"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/withdraw_to_amount"
                 android:textColor="@color/title_small"
-                android:textSize="13sp"
-                android:text="@string/withdraw_to_amount"/>
-
+                android:textSize="13sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:gravity="end"
-            android:layout_marginEnd="@dimen/d30"
-            android:layout_marginStart="@dimen/d50"
-            android:layout_marginTop="@dimen/d10"
-            android:layout_marginBottom="@dimen/d20"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="end">
 
-            <Button
-                android:id="@+id/btn_cancel1"
+            <TextView
+                android:id="@+id/cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:textColor="@drawable/selector_union_main_style_text"
-                android:text="@string/cancel"/>
-            <Button
-                android:id="@+id/btn_confirm"
-                android:background="@null"
-                android:textColor="@drawable/selector_union_main_style_text"
+                android:padding="@dimen/d22"
+                android:text="@string/cancel"
+                android:textColor="@drawable/selector_union_main_style_text" />
+
+            <TextView
+                android:id="@+id/confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/confirm"/>
+                android:background="@null"
+                android:padding="@dimen/d22"
+                android:text="@string/confirm"
+                android:textColor="@drawable/selector_union_main_style_text" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

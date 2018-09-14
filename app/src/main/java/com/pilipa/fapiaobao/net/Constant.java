@@ -6,15 +6,15 @@ package com.pilipa.fapiaobao.net;
 
 public class Constant {
 
-//    public static final String BASE_URL = "http://192.168.1.205:8181/fapiaobao/rest/";
-//    public static final String BASE_URL = "http://39.106.18.205/fapiaobao/rest/";
-//    public static final String BASE_URL = "http://39.106.4.193:8080/fapiaobao/rest/";
-    public static final String BASE_URL = "http://p.pilipa.cn/fapiaobao/rest/";
-    public static final String VERSION_BASE_URL = "http://p.pilipa.cn";
-//    public static final String BASE_URL = "http://p.pilipa.cn/fapiaobao_test/rest/";
+
+    public static final String VERSION_BASE_URL = "https://www.youpiao8.cn";
+    public static final String BASE_URL = VERSION_BASE_URL + "/fapiaobao/rest/";
+
+
     public static final int REQUEST_SUCCESS = 200;
     public static final int REQUEST_NO_CONTENT = 400;
     public static final int TOKEN_INVALIDE = 701;
+    public static final int INSUFFICIENT_ACCOUNT = 888;
     /*登陆类型*/
     public static final String LOGIN_PLATFORM_MSG = "0";
     public static final String LOGIN_PLATFORM_WX= "1";
@@ -75,6 +75,8 @@ public class Constant {
     public static final String DELETE_COMPANY = BASE_URL + "company/remove/%s/%s";
     /*根据companyId查询公司*/
     public static final String COMPANY_INFO = BASE_URL + "company/%s";
+    /*根据companyId查询公司*/
+    public static final String COMPANY_SEARCH = BASE_URL + "company/search/%s";
 
     /**
      *customer-rest-controller : 用户登录
@@ -224,15 +226,15 @@ public class Constant {
     /**
      * 用户注册协议
      */
-    public static final String REGISTRATION = "http://p.pilipa.cn/fapiaobao/doc/registration";
+    public static final String REGISTRATION = VERSION_BASE_URL + "/fapiaobao/doc/registration";
     /**
      * 用户充值协议
      */
-    public static final String RECHARGE = "http://p.pilipa.cn/fapiaobao/doc/recharge";
+    public static final String RECHARGE = VERSION_BASE_URL + "/fapiaobao/doc/recharge";
     /**
      * 发票百科
      */
-    public static final String WIKI = "http://p.pilipa.cn/fapiaobao/wiki";
+    public static final String WIKI = VERSION_BASE_URL + "/fapiaobao/wiki";
     /**
      * 发票宝匹配需求(分享,提供发票分享需要bonus参数)
      */
@@ -240,11 +242,11 @@ public class Constant {
     /**
      * 发票宝开票信息
      */
-    public static final String BILLINGINFO = "http://p.pilipa.cn/fapiaobao/share/billingInfo";
+    public static final String BILLINGINFO = VERSION_BASE_URL + "/fapiaobao/share/billingInfo";
     /**
      * 发票宝使用说明
      */
-    public static final String INSTRUCTION = "http://p.pilipa.cn/fapiaobao/instruction";
+    public static final String INSTRUCTION = VERSION_BASE_URL + "/fapiaobao/instruction";
     /**
      * 发票宝规则解读
      */
@@ -258,5 +260,5 @@ public class Constant {
      * 记录log
      */
     public static final String LOG_RECORD = BASE_URL+"log/android";
-    public static final int INSUFFICIENT_ACCOUNT = 888;
+
 }
